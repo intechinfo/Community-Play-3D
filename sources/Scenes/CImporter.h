@@ -10,7 +10,6 @@
 #define __C_UI_IMPORTER_H_INCLUDED__
 
 #include "../Device/CDevices.h"
-#include "../irrXML/irrXML.h"
 
 #include "../User Interfaces/CUIWindowEditNode.h"
 

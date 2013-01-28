@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\sources\Character Edition\CAction.cpp" />
+    <ClCompile Include="..\sources\Character Edition\CUICharacterWindow.cpp" />
+    <ClCompile Include="..\sources\Device\CCollisionManager.cpp" />
+    <ClCompile Include="..\sources\Device\CDevices.cpp" />
+    <ClCompile Include="..\sources\Device\Core\CCore.cpp" />
+    <ClCompile Include="..\sources\Device\Core\CCoreData.cpp" />
+    <ClCompile Include="..\sources\Device\Core\CCoreObjectPlacement.cpp" />
+    <ClCompile Include="..\sources\Device\Core\CCoreUserInterface.cpp" />
+    <ClCompile Include="..\sources\Device\Core\CUITextDialog.cpp" />
+    <ClCompile Include="..\sources\GUI Extension\ViewPort\CGUIViewPort.cpp" />
+    <ClCompile Include="..\sources\main.cpp" />
+    <ClCompile Include="..\sources\Renders\HDR\shadergroup.cpp" />
+    <ClCompile Include="..\sources\Renders\HDR\shadermaterial.cpp" />
+    <ClCompile Include="..\sources\Renders\PostProcessor\CEffectPostProc.cpp" />
+    <ClCompile Include="..\sources\Renders\PostProcessor\CLensFlarePostProc.cpp" />
+    <ClCompile Include="..\sources\Renders\PostProcessor\CRendererPostProc.cpp" />
+    <ClCompile Include="..\sources\Renders\PostProcessor\CSplitPostProc.cpp" />
+    <ClCompile Include="..\sources\Renders\PostProcessor\CTransitionPostProc.cpp" />
+    <ClCompile Include="..\sources\Renders\PostProcessor\CWaterPostProc.cpp" />
+    <ClCompile Include="..\sources\Renders\PostProcessor\IPostProc.cpp" />
+    <ClCompile Include="..\sources\Renders\XEffect\CShaderPre.cpp" />
+    <ClCompile Include="..\sources\Renders\XEffect\EffectHandler.cpp" />
+    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp" />
+    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.cpp" />
+    <ClCompile Include="..\sources\SceneNodes\CGridSceneNode.cpp" />
+    <ClCompile Include="..\sources\SceneNodes\LensFlareSceneNode.cpp" />
+    <ClCompile Include="..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
+    <ClCompile Include="..\sources\SceneNodes\water_d3d\CWaterShader.cpp" />
+    <ClCompile Include="..\sources\SceneNodes\water_d3d\CWaterSurface.cpp" />
+    <ClCompile Include="..\sources\Scenes\CExporter.cpp" />
+    <ClCompile Include="..\sources\Scenes\CImporter.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\CUIRenderingInfos.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\CUISceneView.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\CUIWindowEditGrid.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\CUIWindowEditLight.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\CUIWindowEditNode.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\CUIWindowExportScene.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\CUIWindowOpenScene.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddLight.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddObject.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddTerrain.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddTree.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\Main Window\UIMainWindow.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\UIContextMenu.cpp" />
+    <ClCompile Include="..\sources\User Interfaces\UIWindowRender.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\sources\Character Edition\CAction.h" />
+    <ClInclude Include="..\sources\Character Edition\CUICharacterWindow.h" />
+    <ClInclude Include="..\sources\Device\CCollisionManager.h" />
+    <ClInclude Include="..\sources\Device\CDevices.h" />
+    <ClInclude Include="..\sources\Device\Core\CCore.h" />
+    <ClInclude Include="..\sources\Device\Core\CCoreData.h" />
+    <ClInclude Include="..\sources\Device\Core\CCoreObjectPlacement.h" />
+    <ClInclude Include="..\sources\Device\Core\CCoreUserInterface.h" />
+    <ClInclude Include="..\sources\Device\Core\CUITextDialog.h" />
+    <ClInclude Include="..\sources\GUI Extension\ViewPort\CGUIViewPort.h" />
+    <ClInclude Include="..\sources\GUI Extension\ViewPort\IGUIViewPort.h" />
+    <ClInclude Include="..\sources\Renders\HDR\shadergroup.h" />
+    <ClInclude Include="..\sources\Renders\HDR\shadermaterial.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\CEffectPostProc.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\CLensFlarePostProc.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\CRendererPostProc.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\CShaderCallbacks.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\CSplitPostProc.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\CTransitionPostProc.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\CWaterPostProc.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\IPostProc.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\shaders.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\CScreenQuad.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\CShaderPre.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\EffectCB.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\EffectHandler.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\EffectShaders.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CRenderCallback.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.h" />
+    <ClInclude Include="..\sources\Renders\XEffect\XEffects.h" />
+    <ClInclude Include="..\sources\SceneNodes\CGridSceneNode.h" />
+    <ClInclude Include="..\sources\SceneNodes\LensFlareSceneNode.h" />
+    <ClInclude Include="..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.h" />
+    <ClInclude Include="..\sources\SceneNodes\water_d3d\CWaterShader.h" />
+    <ClInclude Include="..\sources\SceneNodes\water_d3d\CWaterSurface.h" />
+    <ClInclude Include="..\sources\Scenes\CExporter.h" />
+    <ClInclude Include="..\sources\Scenes\CImporter.h" />
+    <ClInclude Include="..\sources\User Interfaces\CUIRenderingInfos.h" />
+    <ClInclude Include="..\sources\User Interfaces\CUISceneView.h" />
+    <ClInclude Include="..\sources\User Interfaces\CUIWindowEditGrid.h" />
+    <ClInclude Include="..\sources\User Interfaces\CUIWindowEditLight.h" />
+    <ClInclude Include="..\sources\User Interfaces\CUIWindowEditNode.h" />
+    <ClInclude Include="..\sources\User Interfaces\CUIWindowExportScene.h" />
+    <ClInclude Include="..\sources\User Interfaces\CUIWindowOpenScene.h" />
+    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddLight.h" />
+    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddObject.h" />
+    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddTerrain.h" />
+    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddTree.h" />
+    <ClInclude Include="..\sources\User Interfaces\Main Window\UIMainWindow.h" />
+    <ClInclude Include="..\sources\User Interfaces\UIContextMenu.h" />
+    <ClInclude Include="..\sources\User Interfaces\UIWindowRender.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>SSWE</ProjectName>
+    <ProjectGuid>{5AD4C95C-BA38-4692-BA4B-8C25A86208F9}</ProjectGuid>
+    <RootNamespace>HelloWorld_vc9</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\..\SSWE</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental />
+    <TargetName>SSWE</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Debug/HelloWorld.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Debug/HelloWorld.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c07</Culture>
+    </ResourceCompile>
+    <Link>
+      <OutputFile>..\..\bin\Win32-VisualStudio\SSWE.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\..\\lib\Win32-visualstudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/HelloWorld.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Release/HelloWorld.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Release/HelloWorld.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c07</Culture>
+    </ResourceCompile>
+    <Link>
+      <OutputFile>..\..\bin\Win32-VisualStudio\01.HelloWorld.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\..\lib\Win32-visualstudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>.\Release/HelloWorld.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
