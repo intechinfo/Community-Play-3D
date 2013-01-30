@@ -5,11 +5,8 @@
 #include <IVideoDriver.h>
 #include <IGUISkin.h>
 
-namespace irr
-{
-    
-    namespace gui
-    {
+namespace irr {
+    namespace gui {
         
         
         //! constructor
@@ -18,27 +15,19 @@ namespace irr
         , SceneManager(0)
         , OverrideColorEnabled(false)
         , OverrideColor(255, 0, 0, 0)
-        , drawEffects(_drawEffects)
-        {
+        , drawEffects(_drawEffects) {
 #ifdef _DEBUG
             setDebugName("CGUIViewport");
 #endif
         }
         
-        
-        
-        //! destructor
-        CGUIViewport::~CGUIViewport()
-        {
-            if (SceneManager)
+        CGUIViewport::~CGUIViewport() {
+            if (SceneManager) {
                 SceneManager->drop();
+            }
         }
         
-        
-        
-        //! called if an event happened.
-        bool CGUIViewport::OnEvent(SEvent event)
-        {
+        bool CGUIViewport::OnEvent(SEvent event) {
             bool absorbed = false;
             
             if (SceneManager)
@@ -54,15 +43,11 @@ namespace irr
             effect = _effect;
         }
         
-        //! draws the element and its children
-        void CGUIViewport::draw()
-        {
+        void CGUIViewport::draw() {
             if (!IsVisible)
                 return;
             
             video::IVideoDriver* driver = Environment->getVideoDriver();
-            
-            // draw the background and frame
             
             core::rect<s32> frameRect(AbsoluteRect);
             if (OverrideColorEnabled)
@@ -86,10 +71,7 @@ namespace irr
             frameRect.LowerRightCorner.Y = AbsoluteRect.LowerRightCorner.Y;
             driver->draw2DRectangle(skin->getColor(EGDC_3D_HIGH_LIGHT), frameRect, &AbsoluteClippingRect);
             
-            //Draw The Scene
-            
-            if (SceneManager)
-            {
+            if (SceneManager) {
                 core::rect<s32> viewPort = AbsoluteRect;
                 viewPort.LowerRightCorner.X -= 1;
                 viewPort.LowerRightCorner.Y -= 1;
@@ -106,12 +88,11 @@ namespace irr
                 
                 viewPort.clipAgainst(screenRect);
                 
-                if ( !(viewPort.getWidth() < 1 || viewPort.getHeight() < 1))
-                {
+                if ( !(viewPort.getWidth() < 1 || viewPort.getHeight() < 1)) {
                     scene::ICameraSceneNode* cam = SceneManager->getActiveCamera();
                     
-                    if (cam)
-                    {
+                    if (cam) {
+                        
                         core::rect<s32> oldViewPort = driver->getViewPort();
                         driver->setViewPort(viewPort);
                         
@@ -142,10 +123,7 @@ namespace irr
             IGUIElement::draw();
         }
         
-        
-        //! sets the scene to be shown
-        void CGUIViewport::setSceneManager(scene::ISceneManager* scene)
-        {
+        void CGUIViewport::setSceneManager(scene::ISceneManager* scene) {
             if (SceneManager)
                 SceneManager->drop();
             
@@ -155,32 +133,20 @@ namespace irr
                 SceneManager->grab();
         }
         
-        
-        
-        //! gets the scene to be shown
-        scene::ISceneManager* CGUIViewport::getSceneManager() const
-        {
+        scene::ISceneManager* CGUIViewport::getSceneManager() const {
             return SceneManager;
         }
         
-        
-        
-        //! sets the viewport fill color
-        void CGUIViewport::setOverrideColor(video::SColor color)
-        {
+        void CGUIViewport::setOverrideColor(video::SColor color) {
             OverrideColor = color;
             enableOverrideColor(true);
         }
         
-        
-        
-        //! enable or disable the viewport fill color
-        void CGUIViewport::enableOverrideColor(bool override)
-        {
+        void CGUIViewport::enableOverrideColor(bool override) {
             OverrideColorEnabled = override;
         }
         
         
         
-    } // end namespace gui
-} // end namespace irr
+    }
+}

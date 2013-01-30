@@ -185,6 +185,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             if (event.GUIEvent.Caller == editCallBack) {
                 if (shadersList->getSelected() != -1) { 
                     editionWindow->setVisible(true);
+                    editionWindow->setDrawBackground(true);
                     pList->clear();
                     for (u32 i=0; i < devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->size(); i++) {
                         stringw name = L"";
@@ -201,6 +202,14 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                         pname->setEnabled(true);
                         pvalue->setEnabled(true);
                         pList->setSelected(0);
+                        
+                        stringw text = L"";
+                        text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->operator[](pList->getSelected());
+                        pname->setText(text.c_str());
+                        
+                        stringw value = L"";
+                        value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValues()->operator[](pList->getSelected());
+                        pvalue->setText(value.c_str());
                     }
                     
                     shadersList->setEnabled(false);

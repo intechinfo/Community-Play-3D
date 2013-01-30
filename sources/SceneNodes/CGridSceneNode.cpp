@@ -12,25 +12,24 @@ namespace irr
 		m_spacing(spacing), m_size(size), 
 		m_gridcolor(gridcolor), m_accentgridcolor(accentgridcolor),
         m_accentlineoffset(accentlineoffset), m_AxisLineState(axislinestate),
-		m_XLineColor(video::SColor(255,255,0,0)), m_ZLineColor(video::SColor(255,0,0,255))
-        {
-            // Set the material
+		m_XLineColor(video::SColor(255,255,0,0)), m_ZLineColor(video::SColor(255,0,0,255)) {
             Buffer.Material.Wireframe = false;
             Buffer.Material.Lighting = false;
             Buffer.Material.Thickness = 1;
             Buffer.Material.FogEnable = false;
             Buffer.Material.ZWriteEnable = false;
             
-            // Set the default culling state to Frustum Box
             AutomaticCullingState = EAC_FRUSTUM_BOX;
             
             RegenerateGrid();
         }
         
-        CGridSceneNode* CGridSceneNode::clone(ISceneNode *newParent, ISceneManager *newSceneManager)
-        {
-            if (!newParent) newParent = Parent;
-            if (!newSceneManager) newSceneManager = SceneManager;
+        CGridSceneNode* CGridSceneNode::clone(ISceneNode *newParent, ISceneManager *newSceneManager) {
+            if (!newParent) 
+                newParent = Parent;
+            
+            if (!newSceneManager) 
+                newSceneManager = SceneManager;
             
             CGridSceneNode* clone = new CGridSceneNode(
                                                        Parent,
@@ -43,7 +42,7 @@ namespace irr
                                                        m_accentgridcolor,
                                                        m_AxisLineState);
             
-            if(!clone)
+            if (!clone)
                 return 0x0;
             
             clone->SetAxisLineXColor(m_XLineColor);
@@ -54,45 +53,36 @@ namespace irr
             return clone;
         }
         
-        void CGridSceneNode::OnRegisterSceneNode()
-        {
+        void CGridSceneNode::OnRegisterSceneNode() {
             if (IsVisible)
                 SceneManager->registerNodeForRendering(this);
             
             ISceneNode::OnRegisterSceneNode();
         }
         
-        void CGridSceneNode::RegenerateGrid()
-        {
-            //Clean up memory
+        void CGridSceneNode::RegenerateGrid() {
             Buffer.Indices.clear();
             Buffer.Vertices.clear();
             
             u32 m_numVertices = ((m_size / m_spacing) + 1) * 2 * 2;
-            if (m_accentlineoffset) m_numVertices += ((m_size / (m_spacing * m_accentlineoffset)) + 1) * 2 * 2;
+            if (m_accentlineoffset)
+                m_numVertices += ((m_size / (m_spacing * m_accentlineoffset)) + 1) * 2 * 2;
             
-            if ( m_numVertices > 65535)
-            {
-                //Too many vertices on 16 bit for for 16bit indices of SMeshBuffer
-                //Returning with a blank buffer to avoid segfaulting the entire application
+            if (m_numVertices > 65535) {
                 return;
             }
             
-            //Set our left corner
             core::vector3df leftMost = core::vector3df(0,0,0);
             leftMost.X -= m_size/2;
             leftMost.Z -= m_size/2;
             
-            //Set our right corner
             core::vector3df rightMost = core::vector3df(0,0,0);
             rightMost.X += m_size/2;
             rightMost.Z += m_size/2;
             
             u32 indexIndex = 0;
             
-            //X-axis lines
-            for(u32 x = 0; x <= m_size; x+= m_spacing)
-            {
+            for (u32 x = 0; x <= m_size; x+= m_spacing) {
                 core::vector3df start = leftMost;
                 start.X += x ;
                 
@@ -106,9 +96,7 @@ namespace irr
                 Buffer.Indices.push_back(indexIndex++);
             }
             
-            //Z-axis lines
-            for(u32 z = 0; z <= m_size; z+= m_spacing)
-            {
+            for (u32 z = 0; z <= m_size; z+= m_spacing) {
                 core::vector3df start = leftMost;
                 start.Z += z ;
                 
@@ -122,12 +110,8 @@ namespace irr
                 Buffer.Indices.push_back(indexIndex++);
             }
             
-            //Accent lines are only drawn if the offset is greater than 0
-            if(m_accentlineoffset > 0)
-            {
-                //X-axis
-                for(u32 x = 0; x <= m_size; x+= m_spacing*m_accentlineoffset)
-                {
+            if (m_accentlineoffset > 0) {
+                for (u32 x = 0; x <= m_size; x+= m_spacing*m_accentlineoffset) {
                     core::vector3df start = leftMost;
                     start.X += x ;
                     
@@ -141,9 +125,7 @@ namespace irr
                     Buffer.Indices.push_back(indexIndex++);
                 }
                 
-                //Z-axis
-                for(u32 z = 0; z <= m_size; z+= m_spacing*m_accentlineoffset)
-                {
+                for (u32 z = 0; z <= m_size; z+= m_spacing*m_accentlineoffset) {
                     core::vector3df start = leftMost;
                     start.Z += z ;
                     
@@ -158,134 +140,107 @@ namespace irr
                 }
             }
             
-            
-            // Create our box, it is the size of the grid exactly, plus 1 in the Y axis
             Buffer.BoundingBox = core::aabbox3df(-(f32)m_size/2,-0.5f,-(f32)m_size/2,(f32)m_size/2,0.5f,(f32)m_size/2);
         }
         
-        void CGridSceneNode::render()
-        {
+        void CGridSceneNode::render() {
             video::IVideoDriver* driver = SceneManager->getVideoDriver();
             
-            //Prep to render
-            if(driver)
-            {
+            if (driver) {
                 driver->setMaterial(Buffer.Material);
                 driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
                 
                 driver->drawVertexPrimitiveList(Buffer.getVertices(), Buffer.getVertexCount(), Buffer.getIndices(), Buffer.getVertexCount()/2, video::EVT_STANDARD, scene::EPT_LINES);
                 
-                // Axis Lines are only drawn if the State is true
-                if(m_AxisLineState)
-                {
+                if (m_AxisLineState) {
                     driver->draw3DLine(core::vector3df((f32)m_size,0,0),core::vector3df(-(f32)m_size,0,0),m_XLineColor);
                     driver->draw3DLine(core::vector3df(0,0,(f32)m_size),core::vector3df(0,0,-(f32)m_size),m_ZLineColor);
                 }
             }
         }
         
-        const core::aabbox3d<f32>& CGridSceneNode::getBoundingBox() const
-        {
+        const core::aabbox3d<f32>& CGridSceneNode::getBoundingBox() const {
             return Buffer.BoundingBox;
         }
         
-        u32 CGridSceneNode::getMaterialCount()
-        {
+        u32 CGridSceneNode::getMaterialCount() {
             return 1;
         }
         
-        video::SMaterial& CGridSceneNode::getMaterial(u32 i)
-        {
+        video::SMaterial& CGridSceneNode::getMaterial(u32 i) {
             return Buffer.Material;
         }
         
-        u32 CGridSceneNode::GetSpacing()
-        {
+        u32 CGridSceneNode::GetSpacing() {
             return m_spacing;
         }
         
-        u32 CGridSceneNode::GetSize()
-        {
+        u32 CGridSceneNode::GetSize() {
             return m_size;
         }
         
-        u32 CGridSceneNode::GetAccentlineOffset()
-        {
+        u32 CGridSceneNode::GetAccentlineOffset() {
             return m_accentlineoffset;
         }
         
-        video::SColor CGridSceneNode::GetAccentlineColor()
-        {
+        video::SColor CGridSceneNode::GetAccentlineColor() {
             return m_accentgridcolor;
         }
         
-        video::SColor CGridSceneNode::GetGridColor()
-        {
+        video::SColor CGridSceneNode::GetGridColor() {
             return m_gridcolor;
         }
         
-        bool CGridSceneNode::AreAxisLineActive()
-        {
+        bool CGridSceneNode::AreAxisLineActive() {
             return m_AxisLineState;
         }
         
-        video::SColor CGridSceneNode::GetAxisLineXColor()
-        {
+        video::SColor CGridSceneNode::GetAxisLineXColor() {
             return m_XLineColor;
         }
         
-        video::SColor CGridSceneNode::GetAxisLineZColor()
-        {
+        video::SColor CGridSceneNode::GetAxisLineZColor() {
             return m_ZLineColor;
         }
         
-        void CGridSceneNode::SetSpacing(u32 newspacing)
-        {
+        void CGridSceneNode::SetSpacing(u32 newspacing) {
             m_spacing = newspacing;
             RegenerateGrid();
         }
         
-        void CGridSceneNode::SetSize(u32 newsize)
-        {
+        void CGridSceneNode::SetSize(u32 newsize) {
             m_size = newsize;
             RegenerateGrid();
         }
         
-        void CGridSceneNode::SetAccentlineColor(video::SColor newcolor)
-        {
+        void CGridSceneNode::SetAccentlineColor(video::SColor newcolor) {
             m_accentgridcolor = newcolor;
             RegenerateGrid();
         }
         
-        void CGridSceneNode::SetAccentlineOffset(u32 newoffset)
-        {
+        void CGridSceneNode::SetAccentlineOffset(u32 newoffset) {
             m_accentlineoffset = newoffset;
             RegenerateGrid();
         }
         
-        void CGridSceneNode::SetGridColor(video::SColor newcolor)
-        {
+        void CGridSceneNode::SetGridColor(video::SColor newcolor) {
             m_gridcolor = newcolor;
             RegenerateGrid();
         }
         
-        void CGridSceneNode::SetAxisLineActive(bool active)
-        {
+        void CGridSceneNode::SetAxisLineActive(bool active) {
             m_AxisLineState = active;
         }
         
-        void CGridSceneNode::SetAxisLineXColor(video::SColor XLine)
-        {
+        void CGridSceneNode::SetAxisLineXColor(video::SColor XLine) {
             m_XLineColor = XLine;
         }
         
-        void CGridSceneNode::SetAxisLineZColor(video::SColor ZLine)
-        {
+        void CGridSceneNode::SetAxisLineZColor(video::SColor ZLine) {
             m_ZLineColor = ZLine;
         }
         
-        void CGridSceneNode::SetMaterial(video::SMaterial newMaterial)
-        {
+        void CGridSceneNode::SetMaterial(video::SMaterial newMaterial) {
             Buffer.Material = newMaterial;
         }
     };

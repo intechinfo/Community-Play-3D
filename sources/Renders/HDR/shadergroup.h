@@ -1,5 +1,5 @@
-#ifndef SHADERGROUP_H
-#define SHADERGROUP_H
+#ifndef __SHADER_GROUP_H_INCLUDED__
+#define __SHADER_GROUP_H_INCLUDED__
 
 #include "shadermaterial.h"
 #include <irrlicht.h>
@@ -40,4 +40,4 @@ private:
     
 };
 
-#endif // SHADERGROUP_H
+#endif

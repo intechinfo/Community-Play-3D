@@ -6,5 +6,3 @@
 #include "EffectHandler.h"
 
 #endif
-
-// Copyright (C) 2007-2009 Ahmed Hilali

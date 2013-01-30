@@ -142,6 +142,7 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
         node->setPosition(pnode->getPosition());
         node->setRotation(pnode->getRotation());
         node->setScale(pnode->getScale());
+        node->setMaterialFlag(EMF_LIGHTING, false);
         
         for (int i=0; i < pnode->getMaterialCount(); i++) {
             for (int a=0; a < 4; a++) {

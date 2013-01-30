@@ -128,7 +128,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->setTime(0);
     
     //CImporter *impoterInstance = new CImporter(devices);
-    //impoterInstance->importScene("Cod.world");
+    //impoterInstance->importScene("project2.world");
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -328,11 +328,26 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_MESSAGEBOX_OK) {
             switch (id) {
                 case CXT_MENU_EVENTS_FILE_CLEAN_SCENE_OK:
+                    //Clear Nodes
                     devices->getCoreData()->clear();
-                    for (int i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
+                    //Clear all the shadows
+                    for (u32 i=0; i < devices->getCoreData()->getAllSceneNodes().size(); i++) {
+                        devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getAllSceneNodes()[i]);
+                    }
+                    //Clear all the shadow lights
+                    for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
                         devices->getXEffect()->removeShadowLight(i);
                     }
+                    //Clear all the PostProcessing effects (shaders)
+                    for (u32 i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
+                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](i));
+                    }
+                    //Clear CoreData
                     devices->getCoreData()->clearAllTheArrays();
+                    //Resetting grid
+                    devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(8);
+                    devices->getObjectPlacement()->getGridSceneNode()->SetSize(1024);
+                    devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(8);
                     break;
                     
                 default:

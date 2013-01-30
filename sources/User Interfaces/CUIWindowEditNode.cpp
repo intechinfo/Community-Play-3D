@@ -40,7 +40,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         
         //WINDOW
         editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
-                                                                       100, devices->getVideoDriver()->getScreenSize().Width/2+200, 670),
+                                                                       100, devices->getVideoDriver()->getScreenSize().Width/2+220, 670),
                                                              false, L"Node Edition Window", 0, -1);
         editWindow->getMaximizeButton()->setVisible(true);
         
@@ -51,7 +51,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
                                                               L"Cancel", L"Close without effect");
         editWindow->getCloseButton()->remove();
         
-        tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(2, 20, 398, 520), editWindow, true, true, -1);
+        tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(2, 20, 418, 520), editWindow, true, true, -1);
         generalTab = tabCtrl->addTab(L"General");
         advancedTab = tabCtrl->addTab(L"Height Map");
         flagsTab = tabCtrl->addTab(L"Flags & Materials");
@@ -165,6 +165,8 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         maxLOD = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(23.f).c_str(), rect<s32>(85, 35, 200, 55), 
                                                           true, advancedTab, -1);
         
+        devices->getGUIEnvironment()->addStaticText(L"*Not implanted yet", rect<s32>(10, 100, 350, 120), false, false, advancedTab, -1, true);
+        
         if (nodeToEdit->getType() != ESNT_TERRAIN) {
             patchSize->setEnabled(false);
             maxLOD->setEnabled(false);
@@ -175,6 +177,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
             animatedTab->setTextColor(SColor(255, 50, 0, 0));
         }
         
+        //FLAGS AND MATERIALS
         //FLAGS LIGHTING
         lighting = devices->getGUIEnvironment()->addCheckBox(nodeToEdit->getMaterial(0).Lighting, rect<s32>(10, 5, 180, 25),
                                                              flagsTab, CXT_EDIT_WINDOW_EVENTS_LIGHTING, L"Set Node Lighting");
@@ -288,6 +291,17 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         zwriteEnable = devices->getGUIEnvironment()->addCheckBox(nodeToEdit->getMaterial(0).getFlag(EMF_ZWRITE_ENABLE), rect<s32>(270, 560, 380, 580),
                                                               flagsTab, CXT_EDIT_WINDOW_EVENTS_ZWRITE_ENABLE, L"ZWrite Enable");
         
+        //SETTING UP SPIN BOX FOR CUSTOM RESOLUTION AND MANAGE FLAGS VIEW
+        ravelSpin = devices->getGUIEnvironment()->addSpinBox(L"", rect<s32>(flagsTab->getRelativePosition().getWidth()-15, 0, 
+                                                                            flagsTab->getRelativePosition().getWidth(),
+                                                                            flagsTab->getRelativePosition().getHeight()), true, flagsTab, -1);
+        core::list<IGUIElement *>::ConstIterator element = flagsTab->getChildren().getLast();
+        *element--;
+        totalSpacing = (*element)->getRelativePosition().UpperLeftCorner.Y - flagsTab->getRelativePosition().getHeight();
+        int numberOfPages = totalSpacing / flagsTab->getRelativePosition().getHeight();
+        ravelSpin->setRange(0, numberOfPages+1);
+        ravelSpin->setValue(ravelSpin->getMax());
+        rsCurrentPos = ravelSpin->getValue();
         
         //APPLY MATERIAL 0 DEFAULT VALUES
         setMaterialTextures();
@@ -496,6 +510,13 @@ E_MATERIAL_TYPE CUIWindowEditNode::getMaterialType(s32 pos) {
 
 bool CUIWindowEditNode::OnEvent(const SEvent &event) {
     
+    if (!nodeToEdit) {
+        flagsTab->setEnabled(false);
+        advancedTab->setEnabled(false);
+        generalTab->setEnabled(false);
+        animatedTab->setEnabled(false);
+    }
+    
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         if (!event.KeyInput.PressedDown) {
             if (event.KeyInput.Key == KEY_LEFT) {
@@ -542,6 +563,14 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     
                     tabCtrl->setRelativePosition(rect<int>(5, 20, 415, editWindow->getRelativePosition().getHeight()-50));
                     
+                    int numberOfPages = totalSpacing / flagsTab->getRelativePosition().getHeight();
+                    ravelSpin->setRange(0, numberOfPages+1);
+                    ravelSpin->setValue(ravelSpin->getMax());
+                    rsCurrentPos = ravelSpin->getValue();
+                    ravelSpin->setRelativePosition(rect<s32>(flagsTab->getRelativePosition().getWidth()-15, 0, 
+                                                             flagsTab->getRelativePosition().getWidth(),
+                                                             flagsTab->getRelativePosition().getHeight()));
+                    
                     applyButton->setRelativePosition(rect<s32>(5, editWindow->getRelativePosition().getHeight()-40, 
                                                                80, editWindow->getRelativePosition().getHeight()-10));
                     closeButton->setRelativePosition(rect<s32>(100, editWindow->getRelativePosition().getHeight()-40, 
@@ -553,7 +582,15 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     editWindow->setRelativePosition(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
                                                               100, devices->getVideoDriver()->getScreenSize().Width/2+200, 670));
                     
-                    tabCtrl->setRelativePosition(rect<int>(2, 20, 398, 520));
+                    tabCtrl->setRelativePosition(rect<int>(2, 20, 418, 520));
+                    
+                    int numberOfPages = totalSpacing / flagsTab->getRelativePosition().getHeight();
+                    ravelSpin->setRange(0, numberOfPages+1);
+                    ravelSpin->setValue(ravelSpin->getMax());
+                    rsCurrentPos = ravelSpin->getValue();
+                    ravelSpin->setRelativePosition(rect<s32>(flagsTab->getRelativePosition().getWidth()-15, 0, 
+                                                             flagsTab->getRelativePosition().getWidth(),
+                                                             flagsTab->getRelativePosition().getHeight()));
                     
                     applyButton->setRelativePosition(rect<s32>(5, 530, 80, 560));
                     closeButton->setRelativePosition(rect<s32>(100, 530, 175, 560));
@@ -862,11 +899,43 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
             }
         }
         
-        //MATERIAL CHANGED
+        if (event.GUIEvent.EventType == EGET_SPINBOX_CHANGED) {
+            if (event.GUIEvent.Caller == ravelSpin) {
+                core::list<IGUIElement *>::ConstIterator elements = flagsTab->getChildren().begin();
+                for (; elements != flagsTab->getChildren().end(); ++elements) {
+                    if ((*elements) != ravelSpin) {
+                        
+                        if (rsCurrentPos > ravelSpin->getValue()) {
+                            int diff = ravelSpin->getValue();
+                            if (diff == 0) {
+                                diff = 1;
+                            }
+                            (*elements)->setRelativePosition(position2di((*elements)->getRelativePosition().UpperLeftCorner.X,
+                                                                         (*elements)->getRelativePosition().UpperLeftCorner.Y-
+                                                                         (diff*flagsTab->getRelativePosition().getHeight())
+                                                                         ));
+                        } else {
+                            int diff = ravelSpin->getValue();
+                            if (diff == ravelSpin->getMax() && rsCurrentPos == ravelSpin->getMax()) {
+                                diff = 0;
+                            }
+                            (*elements)->setRelativePosition(position2di((*elements)->getRelativePosition().UpperLeftCorner.X,
+                                                                         (*elements)->getRelativePosition().UpperLeftCorner.Y+
+                                                                         (diff*flagsTab->getRelativePosition().getHeight())
+                                                                         ));
+                        }
+                    }
+                }
+                rsCurrentPos = ravelSpin->getValue();
+                //std::cout << "Current Position of the cursor : " << rsCurrentPos << std::endl; //OK FOR VERIFYING SPINBOX POSITION
+            }
+        }
+        
         if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
             s32 id = event.GUIEvent.Caller->getID();
             
             switch (id) {
+                //MATERIAL CHANGED
                 case CXT_EDIT_WINDOW_EVENTS_MATERIALS: {
                     stringw material = L"Material Number : ";
                     material += materialsBar->getPos();

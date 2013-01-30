@@ -124,6 +124,9 @@ private:
     IGUIComboBox *patchSize;
     IGUIEditBox *maxLOD;
     
+    IGUISpinBox *ravelSpin;
+    u32 rsCurrentPos, totalSpacing;
+    
     IGUICheckBox *lighting;
     IGUIScrollBar *materialsBar;
     IGUIStaticText *materialNumber;
