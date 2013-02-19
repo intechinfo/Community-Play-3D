@@ -26,6 +26,8 @@
 #include "../../Renders/HDR/shadergroup.h"
 
 #include "../../Renders/XEffect/XEffects.h"
+#include "../../SceneNodes/LensFlareSceneNode.h"
+#include "../../SceneNodes/SceneNodeAnimatorFollowCamera.h"
 
 #include "../../Renders/PostProcessor/CRendererPostProc.h"
 #include "../../Renders/PostProcessor/CEffectPostProc.h"
@@ -33,6 +35,8 @@
 #include "../../Renders/PostProcessor/CSplitPostProc.h"
 #include "../../Renders/PostProcessor/CLensFlarePostProc.h"
 #include "../../Renders/PostProcessor/CWaterPostProc.h"
+
+#include "CLuaBinds.h"
 
 using namespace irr;
 using namespace video;
@@ -42,7 +46,7 @@ using namespace scene;
 using namespace io;
 
 //--------------------------
-//Core Class
+//CORE CLASS
 
 class CCore {
     
@@ -51,7 +55,8 @@ public:
 	CCore();
 	~CCore();
     
-    //CORE FUNCTIONS
+    //--------------------------
+    //CORE METHODS AND FUNCTIONS
 	std::string convertToString(stringw _textToConvert);
     
 	vector3df getVector3df(std::string X, std::string Y, std::string Z);
@@ -70,8 +75,11 @@ public:
 	stringw changeTextWithValue(const wchar_t *text, s32 value);
     
     ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
+    //--------------------------
+    
     
 private:
+
     
 };
 
@@ -86,9 +94,7 @@ public:
     
     virtual bool OnEvent(const SEvent& mainEvent) {
         for (unsigned int i=0; i < mEventReceivers.size(); ++i) {
-            if (mEventReceivers[i]->OnEvent(mainEvent)) {
-                return true;
-            }
+            mEventReceivers[i]->OnEvent(mainEvent);
         }
         return false;
     }
@@ -101,7 +107,6 @@ public:
         for (unsigned int i=0; i < mEventReceivers.size(); ++i) {
             if (mEventReceivers[i] == receiver) {
                 mEventReceivers.erase(i);
-                return true;
             }
         }
         return false;

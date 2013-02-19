@@ -87,6 +87,9 @@ public:
     ISceneNode *getCursor() { return cursorBillBoard; }
     
     void updateDevice();
+    
+    stringw getProjectName() { return projectName; }
+    void setProjectName(stringw _projectName) { projectName = _projectName; }
     //-----------------------------------
     
     //-----------------------------------
@@ -96,6 +99,12 @@ public:
     void addInformationDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
     void addErrorDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
     void addWarningDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
+    //-----------------------------------
+    
+    //-----------------------------------
+    //INPUT METHODS
+    bool isCtrlPushed() { return ctrlWasPushed; }
+    bool isShiftPushed() { return shiftWasPushed; }
     //-----------------------------------
 	
 private:
@@ -109,6 +118,7 @@ private:
     
     EventReceiver receiver;
     bool editBoxEntered;
+    stringw projectName;
     //-----------------------------------
     
     //-----------------------------------
@@ -148,6 +158,12 @@ private:
     IGUIWindow *window;
     IGUIFileOpenDialog *dialog;
     IGUIImage *dialogPreview;
+    //-----------------------------------
+    
+    //-----------------------------------
+    //INPUT ELEMENTS
+    bool ctrlWasPushed;
+    bool shiftWasPushed;
     //-----------------------------------
 };
 

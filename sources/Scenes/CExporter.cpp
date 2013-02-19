@@ -58,9 +58,9 @@ void CExporter::exportScene(stringc file_path) {
         fprintf(export_file, "\t\t\t\t <file_path path=\"%s\" />\n", path.c_str());
         fprintf(export_file, "\t\t\t\t <values>\n");
         for (u32 ei=0; ei < devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->size(); ei++) {
-            fprintf(export_file, "\t\t\t\t\t <value name=\"%s\" val=\"%f\" />\n",
+            fprintf(export_file, "\t\t\t\t\t <value name=\"%s\" val=\"%s\" />\n",
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValuesNames()->operator[](ei).c_str(),
-                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->operator[](ei));
+                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->operator[](ei).c_str());
         }
         fprintf(export_file, "\t\t\t\t </values>\n");
         fprintf(export_file, "\t\t\t </postProcessingEffect>\n\n");
@@ -266,8 +266,8 @@ void CExporter::exportScene(stringc file_path) {
         
         fprintf(export_file, "\t\t\t <radius value=\"%f\" />\n", ((ILightSceneNode *)node)->getRadius()),
         
-        fprintf(export_file, "\n\t\t\t <shadows resol=\"%d\" />\n\n",
-                devices->getCoreData()->getShadowLights()->operator[](i).getShadowMapResolution());
+        fprintf(export_file, "\n\t\t\t <shadows resol=\"%u\" />\n\n",
+                devices->getXEffect()->getShadowLight(i).getShadowMapResolution());
         
         fprintf(export_file, "\t\t </light>\n\n");
     }

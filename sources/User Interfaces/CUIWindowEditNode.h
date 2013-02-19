@@ -19,8 +19,11 @@ enum CXT_EDIT_WINDOW_EVENTS {
     CXT_EDIT_WINDOW_EVENTS_TEXLAYER_3,
     CXT_EDIT_WINDOW_EVENTS_TEXLAYER_4,
     CXT_EDIT_WINDOW_EVENTS_GENERAL_LIGHTING,
+    CXT_EDIT_WINDOW_EVENTS_GENERAL_VISIBLE,
     CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE,
     CXT_EDIT_WINDOW_EVENTS_GENERAL_SHADOWS,
+    CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS,
+    CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC,
     
     CXT_EDIT_WINDOW_EVENTS_PATCH_SIZE,
     
@@ -111,22 +114,24 @@ private:
     
     IGUIButton *applyButton, *closeButton;
     
+    //GENERAL TAB
     IGUIEditBox *ebNodeName;
     IGUIEditBox *ebNodePositionX, *ebNodePositionY, *ebNodePositionZ;
     IGUIEditBox *ebNodeRotationX, *ebNodeRotationY, *ebNodeRotationZ;
     IGUIEditBox *ebNodeScaleX, *ebNodeScaleY, *ebNodeScaleZ;
     IGUIEditBox *ebTextureLayerPath1, *ebTextureLayerPath2, *ebTextureLayerPath3, *ebTextureLayerPath4;
     IGUIButton *browseButton1, *browseButton2, *browseButton3, *browseButton4;
-    IGUICheckBox *generalLighting;
+    IGUICheckBox *generalLighting, *generalVisible;
     IGUIComboBox *generalMaterialCB;
     IGUIComboBox *shadowed;
+    IGUICheckBox *nodeToDepthPass, *excludeLightingCalc;
     
+    //HEIGHT MAPS TAB
     IGUIComboBox *patchSize;
     IGUIEditBox *maxLOD;
     
+    //FLAGS & MATERIALS TAB
     IGUISpinBox *ravelSpin;
-    u32 rsCurrentPos, totalSpacing;
-    
     IGUICheckBox *lighting;
     IGUIScrollBar *materialsBar;
     IGUIStaticText *materialNumber;
@@ -149,6 +154,9 @@ private:
     stringw nodeToEditPrefix;
     u32 currentBrowse;
     bool isWindowed;
+    
+    //FLAGS & Materials
+    u32 rsCurrentPos, totalSpacing;
     //-----------------------------------
     
 };

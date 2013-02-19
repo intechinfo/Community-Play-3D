@@ -15,8 +15,8 @@ CCoreUserInterface::CCoreUserInterface() {
     SIrrlichtCreationParameters params;
     #ifdef _IRR_OSX_PLATFORM_
     params.DriverType=EDT_OPENGL;
-        params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
-        //params.WindowSize = dimension2d<u32>(1920, 1070);
+        //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
+        params.WindowSize = dimension2d<u32>(1920, 1070);
         //params.WindowSize = dimension2d<u32>(1280, 690);
     #else
         params.DriverType=EDT_DIRECT3D9;
@@ -85,24 +85,10 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
             devices->getDevice()->closeDevice();
         }
         
-        if (event.KeyInput.Key == KEY_KEY_M) {
+        if (event.KeyInput.Key == KEY_KEY_M && devices->isCtrlPushed()) {
             if (!devices->isEditBoxEntered()) {
                 devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
             }
-        }
-    }
-    
-    if (event.EventType == EET_GUI_EVENT) {
-        if (event.GUIEvent.EventType == EGET_EDITBOX_MARKING_CHANGED) {
-            devices->setEditBoxEntered(true);
-            devices->getObjectPlacement()->setAllowMoving(false);
-        }
-    }
-    
-    if (event.EventType == EET_MOUSE_INPUT_EVENT) {
-        if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
-            devices->setEditBoxEntered(false);
-            devices->getObjectPlacement()->setAllowMoving(true);
         }
     }
     

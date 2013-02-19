@@ -95,6 +95,17 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     addLightInstance = new CUIWindowAddLight(devices, lightsListBox);
     //-----------------------------------
     
+    light_icon = devices->getSceneManager()->addBillboardSceneNode(0, dimension2d<f32>(20.f, 20.f), 
+                                                                   vector3df(0, 0, 0));
+    light_icon->setMaterialTexture(0, devices->getVideoDriver()->getTexture("GUI/light_icon.jpg"));
+    light_icon->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+    light_icon->setMaterialFlag(EMF_LIGHTING, false);
+    light_icon->setVisible(false);
+    light_icon->setName("editor:Light_Icon");
+    
+    collisionManager = devices->getSceneManager()->getSceneCollisionManager();
+    previousNode = 0;
+    
 }
 
 CUIMainWindow::~CUIMainWindow() {
@@ -137,6 +148,7 @@ void CUIMainWindow::refresh() {
         lightsListBox->addItem(name.c_str());
     }
     lightsListBox->setSelected(selected);
+
 }
 
 IGUIListBox *CUIMainWindow::getActiveListBox() {
@@ -179,6 +191,28 @@ ISceneNode *CUIMainWindow::getSelectedNode() {
     return node;
 }
 
+void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
+    bool founded=false;
+    u32 i=0;
+    while (!founded && i < devices->getCoreData()->getTreeNodes()->size()) {
+        if (devices->getCoreData()->getTreeNodes()->operator[](i) == node) {
+            tabCtrl->setActiveTab(treesTab);
+            treesListBox->setSelected(i);
+            founded = true;
+        }
+        i++;
+    }
+    i=0;
+    while (!founded && i < devices->getCoreData()->getObjectNodes()->size()) {
+        if (devices->getCoreData()->getObjectNodes()->operator[](i) == node) {
+            tabCtrl->setActiveTab(objectsTab);
+            objectsListBox->setSelected(i);
+            founded = true;
+        }
+        i++;
+    }
+}
+
 stringc CUIMainWindow::getSelectedNodePrefix(ISceneNode *node) {
     stringc prefix = "";
     
@@ -201,24 +235,8 @@ void CUIMainWindow::cloneNode() {
     if (getSelectedNode()) {
         node = getSelectedNode()->clone();
         if (node) {
+            //NODE WAS CLONED BY IRRLICHT
             node->setPosition(devices->getCursorPosition());
-            if (getActiveListBox() == terrainsListBox) {
-                index = terrainsListBox->getSelected();
-                
-                devices->getCoreData()->getTerrainNodes()->push_back(node);
-                devices->getCoreData()->getTerrainPaths()->push_back(devices->getCoreData()->getTerrainPaths()->operator[](index));
-                
-                terrainsListBox->addItem(name.c_str());
-            }
-            
-            if (getActiveListBox() == treesListBox) {
-                index = treesListBox->getSelected();
-                
-                devices->getCoreData()->getTreeNodes()->push_back(node);
-                devices->getCoreData()->getTreePaths()->push_back(devices->getCoreData()->getTreePaths()->operator[](index));
-                
-                treesListBox->addItem(name.c_str());
-            }
             
             if (getActiveListBox() == objectsListBox) {
                 index = objectsListBox->getSelected();
@@ -234,12 +252,12 @@ void CUIMainWindow::cloneNode() {
                 
                 devices->getCoreData()->getLightsNodes()->push_back(node);
                 devices->getXEffect()->addShadowLight(devices->getXEffect()->getShadowLight(index));
-                devices->getCoreData()->getShadowLights()->push_back(devices->getCoreData()->getShadowLights()->operator[](index));
                 
                 lightsListBox->addItem(name.c_str());
             }
         } else {
             
+            //CLONING MANUALLY THE NODE
             ISceneNode *clonedNode;
             stringw path;
             
@@ -272,6 +290,25 @@ void CUIMainWindow::cloneNode() {
                 devices->addErrorDialog(L"Error", L"The node wasn't cloned", EMBF_OK);
             }
         }
+        if (node) {
+            //SETTING COLLISIONS
+            if (node->getType() == ESNT_OCTREE) {
+                devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
+            }
+            if (node->getType() == ESNT_ANIMATED_MESH) {
+                devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+            }
+            //SETTING SHADOWS
+            if (devices->getXEffect()->isNodeShadowed(getSelectedNode(), devices->getXEffectFilterType(), ESM_BOTH)) {
+                devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_BOTH);
+            }
+            if (devices->getXEffect()->isNodeShadowed(getSelectedNode(), devices->getXEffectFilterType(), ESM_CAST)) {
+                devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_CAST);
+            }
+            if (devices->getXEffect()->isNodeShadowed(getSelectedNode(), devices->getXEffectFilterType(), ESM_RECEIVE)) {
+                devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_RECEIVE);
+            }
+        }
     } else {
         devices->addInformationDialog(L"Information", L"Please select an item before", EMBF_OK);
     }
@@ -279,10 +316,44 @@ void CUIMainWindow::cloneNode() {
 
 bool CUIMainWindow::OnEvent(const SEvent &event) {
     
+    //-----------------------------------
+    //MOUSE INPUT EVENTS
+    if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+        if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
+            if (previousNode) {
+                previousNode->setMaterialFlag(EMF_WIREFRAME, false);
+            }
+            core::line3d<f32> ray = collisionManager->getRayFromScreenCoordinates(devices->getDevice()->getCursorControl()->getPosition());
+            vector3df intersection;
+            triangle3df hitTriangle;
+            ISceneNode *selectedMouseNode = collisionManager->getSceneNodeAndCollisionPointFromRay(ray, intersection,
+                                                                                                   hitTriangle, 0, 0);
+            if (selectedMouseNode) {
+                devices->getVideoDriver()->setTransform(ETS_WORLD, matrix4());
+                if (devices->getCoreData()->getTerrainNodes()->linear_search(selectedMouseNode)) {
+                    selectedMouseNode->setMaterialFlag(EMF_WIREFRAME, true);
+                }
+                devices->getVideoDriver()->draw3DTriangle(hitTriangle, SColor(0, 255, 0, 0));
+                previousNode = selectedMouseNode;
+            } else {
+                previousNode = 0;
+            }
+        }
+        
+        if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && devices->isShiftPushed()) {
+            if (previousNode) {
+                selectSelectedNode(previousNode);
+            }
+        }
+    }
+    //-----------------------------------
+    
+    //-----------------------------------
+    //KEY INPUT EVENTS
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         if (!event.KeyInput.PressedDown) {
             
-            if (event.KeyInput.Key == KEY_KEY_P) {
+            if (event.KeyInput.Key == KEY_KEY_P && devices->isCtrlPushed()) {
                 if (!devices->isEditBoxEntered()) {
                     if (devices->getObjectPlacement()->isPlacing()) {
                         if (devices->getObjectPlacement()->getNodeToPlace()) {
@@ -295,24 +366,19 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                         }
                     }
                 }
-                
             }
             
-            if (event.KeyInput.Key == KEY_KEY_L) {
-                if (!devices->isEditBoxEntered()) {
-                    ISceneNode *node = getSelectedNode();
-                    if (node) {
-                        node->setMaterialFlag(EMF_LIGHTING, !node->getMaterial(0).Lighting);
-                    } else {
-                        devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-                    }
+            if (event.KeyInput.Key == KEY_KEY_L && devices->isCtrlPushed()) {
+                ISceneNode *node = getSelectedNode();
+                if (node) {
+                    node->setMaterialFlag(EMF_LIGHTING, !node->getMaterial(0).Lighting);
+                } else {
+                    devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
                 }
             }
             
-            if (event.KeyInput.Key == KEY_KEY_C) {
-                if (!devices->isEditBoxEntered()) {
-                    cloneNode();
-                }
+            if (event.KeyInput.Key == KEY_KEY_C && devices->isCtrlPushed()) {
+                cloneNode();
             }
             
             if (event.KeyInput.Key == KEY_RETURN) {
@@ -321,11 +387,17 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     for (int i=0; i < nodes.size(); i++) {
                         nodes[i]->setDebugDataVisible(EDS_OFF);
                     }
+                    light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+                    light_icon->setVisible(false);
+                    devices->getObjectPlacement()->setLightNode(0);
                 }
             }
         }
     }
+    //-----------------------------------
     
+    //-----------------------------------
+    //GUI EVENTS
     if (event.EventType == EET_GUI_EVENT && event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
         array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
         for (int i=0; i < nodes.size(); i++) {
@@ -333,6 +405,20 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
         }
         if (getSelectedNode()) {
             getSelectedNode()->setDebugDataVisible(EDS_BBOX);
+            if (getSelectedNode()->getType() == ESNT_LIGHT) {
+                refresh();
+                light_icon->setParent(getSelectedNode());
+                light_icon->setPosition(vector3df(0, 0, 0));
+                light_icon->setVisible(true);
+                devices->getObjectPlacement()->setLightNode(getSelectedNode());
+            } else {
+                light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+                light_icon->setVisible(false);
+                devices->getObjectPlacement()->setLightNode(0);
+            }
+        } else {
+            light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+            light_icon->setVisible(false);
         }
     }
     
@@ -414,7 +500,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     devices->getCoreData()->getTerrainNodes()->operator[](terrainsListBox->getSelected())->remove();
                     devices->getCoreData()->getTerrainNodes()->erase(terrainsListBox->getSelected());
                     devices->getCoreData()->getTerrainPaths()->erase(terrainsListBox->getSelected());
-                    
+                    devices->getObjectPlacement()->setNodeToPlace(0);
                     terrainsListBox->removeItem(terrainsListBox->getSelected());
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
@@ -434,7 +520,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     devices->getCoreData()->getTreeNodes()->operator[](treesListBox->getSelected())->remove();
                     devices->getCoreData()->getTreeNodes()->erase(treesListBox->getSelected());
                     devices->getCoreData()->getTreePaths()->erase(treesListBox->getSelected());
-                    
+                    devices->getObjectPlacement()->setNodeToPlace(0);
                     treesListBox->removeItem(treesListBox->getSelected());
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
@@ -454,7 +540,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     devices->getCoreData()->getObjectNodes()->operator[](objectsListBox->getSelected())->remove();
                     devices->getCoreData()->getObjectNodes()->erase(objectsListBox->getSelected());
                     devices->getCoreData()->getObjectPaths()->erase(objectsListBox->getSelected());
-                    
+                    devices->getObjectPlacement()->setNodeToPlace(0);
                     objectsListBox->removeItem(objectsListBox->getSelected());
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
@@ -471,20 +557,26 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (lightsListBox->getSelected() != -1) {
                     devices->getXEffect()->removeShadowLight(lightsListBox->getSelected());
                     //devices->getCoreData()->getLightsNodes()->operator[](lightsListBox->getSelected())->removeAll();
+                    light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
                     devices->getCoreData()->getLightsNodes()->operator[](lightsListBox->getSelected())->remove();
                     devices->getCoreData()->getLightsNodes()->erase(lightsListBox->getSelected());
-                    devices->getCoreData()->getShadowLights()->erase(lightsListBox->getSelected());
+                    devices->getObjectPlacement()->setNodeToPlace(0);
+                    devices->getObjectPlacement()->setLightNode(0);
+                    light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+                    light_icon->setVisible(false);
                     
                     lightsListBox->removeItem(lightsListBox->getSelected());
+                    lightsListBox->setSelected(-1);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
                 break;
             //-----------------------------------
             //-----------------------------------
-            //LIGHT
+            //VOLUME LIGHT
             case CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L: {
-                
+                devices->addInformationDialog(L"Information",
+                                              L"Not implanted yes...", EMBF_OK);
             }
                 break;
                 
@@ -501,6 +593,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 break;
         }
     }
+    //-----------------------------------
     
     return false;
 }

@@ -42,7 +42,6 @@ void CCoreData::clearAllTheArrays() {
     objectPaths.clear();
     
     lightNodes.clear();
-    shadowLights.clear();
     
     effectRenders.clear();
     effectRendersPaths.clear();

@@ -28,7 +28,7 @@ void CUIWindowRender::open() {
     if (viewPort) {
         viewPort->setSceneManager(devices->getSceneManager());
     } else {
-        
+        devices->addErrorDialog(L"Error", L"Error when creating the view port", EMBF_OK);
     }
     
     saveAs = devices->getGUIEnvironment()->addEditBox(L"render.jpg", rect<s32>(450, 510, 660, 530), true, 

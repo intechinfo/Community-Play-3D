@@ -41,6 +41,9 @@ void CUIWindowEditEffects::open() {
     submenu = menu->getSubMenu(1);
 	submenu->addItem(L"How to ?", -1);
     
+    enableDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassEnabled(), rect<s32>(10, 50, 160, 70), effectsWindow, 
+                                                                -1, L"Enable Depth Pass");
+    
     viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
                                 rect<s32>(10, 70, 500, 270), false);
     if (viewPort) {
@@ -48,12 +51,17 @@ void CUIWindowEditEffects::open() {
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
     }
     
-    devices->getGUIEnvironment()->addStaticText(L"Shaders : ", rect<s32>(10, 280, 90, 300), true, true, effectsWindow, -1, false);
+    devices->getGUIEnvironment()->addStaticText(L"OGL Shaders", rect<s32>(10, 280, 110, 300), false, true, effectsWindow, -1, false);
+    devices->getGUIEnvironment()->addStaticText(L"D3D Shaders", rect<s32>(170, 280, 270, 300), false, true, effectsWindow, -1, false);
     
-    add = devices->getGUIEnvironment()->addButton(rect<s32>(100, 280, 200, 300), effectsWindow, -1, L"Add", L"Add a shader");
-    remove = devices->getGUIEnvironment()->addButton(rect<s32>(210, 280, 310, 300), effectsWindow, -1, L"Remove", L"Add a shader");
+    oglAdd = devices->getGUIEnvironment()->addButton(rect<s32>(140, 280, 160, 300), effectsWindow, -1, L"+", L"Add a shader");
+    oglRemove = devices->getGUIEnvironment()->addButton(rect<s32>(110, 280, 130, 300), effectsWindow, -1, L"-", L"Add a shader");
     
-    shadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 310, 320, 490), effectsWindow, -1, true);
+    d3dAdd = devices->getGUIEnvironment()->addButton(rect<s32>(300, 280, 320, 300), effectsWindow, -1, L"+", L"Add a shader");
+    d3dRemove = devices->getGUIEnvironment()->addButton(rect<s32>(270, 280, 290, 300), effectsWindow, -1, L"-", L"Add a shader");
+    
+    shadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 310, 160, 490), effectsWindow, -1, true);
+    d3dshadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(170, 310, 320, 490), effectsWindow, -1, true);
     
     active = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(330, 320, 400, 340), effectsWindow, 
                                                        -1, L"Active");
@@ -68,10 +76,19 @@ void CUIWindowEditEffects::open() {
         active->setEnabled(false);
     }
     for (u32 i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
-        stringw name = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
+		stringw name = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
+        #ifdef _IRR_OSX_PLATFORM_
         name.remove(devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str());
-        name.remove('/');
-        shadersList->addItem(name.c_str());
+        #else
+        stringw windowsName = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
+        windowsName.make_lower();
+        name.remove(windowsName);
+        #endif
+        if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL) {
+            shadersList->addItem(name.c_str());
+        } else {
+            d3dshadersList->addItem(name.c_str());
+        }
     }
     //-----------------------------------
     
@@ -83,11 +100,13 @@ void CUIWindowEditEffects::open() {
     editionWindow->setVisible(false);
     
     //PIXEL SHADERS
-    devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Values", rect<s32>(5, 30, 195, 50), false, true, editionWindow, -1, false);
+    pEditWindow = devices->getGUIEnvironment()->addButton(rect<s32>(130, 30, 200, 50), editionWindow, -1, L"Edit", L"Edit Window For complex scripts");
+    devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Values", rect<s32>(5, 30, 130, 50), false, true, editionWindow, -1, false);
     //pApplyButton = devices->getGUIEnvironment()->addButton(rect<s32>(120, 30, 190, 50), editionWindow, -1, L"Apply", L"Apply all pixel constants");
     
     devices->getGUIEnvironment()->addStaticText(L"Value :", rect<s32>(5, 60, 55, 80), false, true, editionWindow, -1, false);
     pvalue = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(45, 60, 195, 80), true, editionWindow, -1);
+    pvalue->setMultiLine(true);
     devices->getGUIEnvironment()->addStaticText(L"Name :", rect<s32>(5, 90, 55, 110), false, true, editionWindow, -1, false);
     pname = devices->getGUIEnvironment()->addEditBox(L"No Name", rect<s32>(45, 90, 195, 110), true, editionWindow, -1);
     
@@ -98,6 +117,8 @@ void CUIWindowEditEffects::open() {
     
     pvalue->setEnabled(false);
     pname->setEnabled(false);
+    
+    complexEditWindow = 0;
     
     //VERTEX SHADERS
     devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Values", rect<s32>(205, 30, 395, 50), false, true, editionWindow, -1, false);
@@ -118,6 +139,7 @@ void CUIWindowEditEffects::open() {
     
     //-----------------------------------
     
+    //POINTER TO viewProj FOR EFFECTS
     matrix4 viewProj;
 }
 
@@ -150,9 +172,11 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
-            if (event.GUIEvent.Caller == remove) {
+            if (event.GUIEvent.Caller == oglRemove) {
                 if (shadersList->getItemCount() > 0) {
-                    devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
+                    if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL) {
+                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
+                    }
                     devices->getCoreData()->getEffectRenders()->erase(shadersList->getSelected());
                     devices->getCoreData()->getEffectRendersPaths()->erase(shadersList->getSelected());
                     devices->getCoreData()->getEffectRenderCallbacks()->erase(shadersList->getSelected());
@@ -171,8 +195,36 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 }
             }
             
-            if (event.GUIEvent.Caller == add) {
-                devices->createFileOpenDialog(L"Select the shader");
+            if (event.GUIEvent.Caller == d3dRemove) {
+                if (d3dshadersList->getItemCount() > 0) {
+                    if (devices->getVideoDriver()->getDriverType() == EDT_DIRECT3D9) {
+                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](d3dshadersList->getSelected()));
+                    }
+                    devices->getCoreData()->getEffectRenders()->erase(d3dshadersList->getSelected());
+                    devices->getCoreData()->getEffectRendersPaths()->erase(d3dshadersList->getSelected());
+                    devices->getCoreData()->getEffectRenderCallbacks()->erase(d3dshadersList->getSelected());
+                    
+                    d3dshadersList->removeItem(d3dshadersList->getSelected());
+                    
+                    if (d3dshadersList->getItemCount() == 0) {
+                        editCallBack->setEnabled(false);
+                        active->setEnabled(false);
+                    }
+                } else {
+                    devices->addInformationDialog(L"Information",
+                                                  L"Please select an item before...",
+                                                  EMBF_OK);
+                    
+                }
+            }
+            
+            if (event.GUIEvent.Caller == oglAdd) {
+                devices->createFileOpenDialog(L"Select the shader (.GLSL)");
+                openingShader = true;
+            }
+            
+            if (event.GUIEvent.Caller == d3dAdd) {
+                devices->createFileOpenDialog(L"Select the shader (.HLSL)");
                 openingShader = true;
             }
             
@@ -183,13 +235,20 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             }
             
             if (event.GUIEvent.Caller == editCallBack) {
-                if (shadersList->getSelected() != -1) { 
+                s32 selected = -1;
+                #ifdef _IRR_OSX_PLATFORM_
+                if (shadersList->getSelected() != -1) {
+					selected = shadersList->getSelected();
+                #else
+                if (d3dshadersList->getSelected() != -1) {
+                    selected = d3dshadersList->getSelected();
+                #endif
                     editionWindow->setVisible(true);
                     editionWindow->setDrawBackground(true);
                     pList->clear();
-                    for (u32 i=0; i < devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->size(); i++) {
+                    for (u32 i=0; i < devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->size(); i++) {
                         stringw name = L"";
-                        name += devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->operator[](i).c_str();
+                        name += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](i).c_str();
                         pList->addItem(name.c_str());
                     }
                     pname->setText(L"No Name");
@@ -204,15 +263,18 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                         pList->setSelected(0);
                         
                         stringw text = L"";
-                        text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->operator[](pList->getSelected());
+                        text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](pList->getSelected());
                         pname->setText(text.c_str());
                         
                         stringw value = L"";
-                        value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValues()->operator[](pList->getSelected());
+                        value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected());
                         pvalue->setText(value.c_str());
                     }
-                    
+                    #ifdef _IRR_OSX_PLATFORM_
                     shadersList->setEnabled(false);
+                    #else
+                    d3dshadersList->setEnabled(false);
+                    #endif
                     editCallBack->setEnabled(false);
                 } else {
                     devices->addInformationDialog(L"Information",
@@ -227,12 +289,36 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             }
             
             //EDIT CALLBACKS
+            if (event.GUIEvent.Caller == pEditWindow) {
+                complexEditWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(230, 80, 930, 555), true, L"Complex Script Window Edition", 0, -1);
+                complexEditWindow->getCloseButton()->remove();
+                complexEditBox = devices->getGUIEnvironment()->addEditBox(L"", rect<s32>(100, 30, 690, 460), true, complexEditWindow, -1);
+                complexEditBox->setMultiLine(true);
+                complexEditBox->setWordWrap(false);
+                complexEditBox->setAutoScroll(true);
+                complexEditBox->setTextAlignment(EGUIA_UPPERLEFT, EGUIA_UPPERLEFT);
+                complexEditBox->setText(pvalue->getText());
+                complexClose = devices->getGUIEnvironment()->addButton(rect<s32>(10, 430, 90, 460), complexEditWindow, -1, L"Close", L"Close and save changes");
+                complexOpen = devices->getGUIEnvironment()->addButton(rect<s32>(10, 40, 90, 70), complexEditWindow, -1, L"Add file", L"Load script from file");
+            }
+            
             if (event.GUIEvent.Caller == pAdd) {
+                #ifdef _IRR_OSX_PLATFORM_
                 if (shadersList->getSelected() != -1) {
+                #else
+                if (d3dshadersList->getSelected() != -1) {
+                #endif
                     pList->addItem(L"No Name");
-                    
-                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValues()->push_back(0.0);
-                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->push_back("No Name");
+                    s32 selected = -1;
+                    #ifdef _IRR_OSX_PLATFORM_
+                    selected = shadersList->getSelected();
+                    #else
+                    selected = d3dshadersList->getSelected();
+                    #endif
+                    stringc returnedValue_c = "returnValue(0.0)";
+                    stringc valueName = "No Name";
+                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->push_back(returnedValue_c);
+                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->push_back(valueName);
                     
                     pname->setEnabled(true);
                     pvalue->setEnabled(true);
@@ -240,10 +326,19 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             }
             
             if (event.GUIEvent.Caller == pRemove) {
+                #ifdef _IRR_OSX_PLATFORM_
                 if (pList->getSelected() != -1 && shadersList->getSelected() != 1) {
-                    
-                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValues()->erase(pList->getSelected());
-                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->erase(pList->getSelected());
+                #else
+                if (pList->getSelected() != -1 && d3dshadersList->getSelected() != 1) {
+                #endif
+                    s32 selected = -1;
+                    #ifdef _IRR_OSX_PLATFORM_
+                    selected = shadersList->getSelected();
+                    #else
+                    selected = d3dshadersList->getSelected();
+                    #endif
+                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->erase(pList->getSelected());
+                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->erase(pList->getSelected());
                     
                     pList->removeItem(pList->getSelected());
                     
@@ -255,26 +350,66 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     devices->addInformationDialog(L"Information", L"Please Select a value before.", EMBF_OK);
                 }
             }
+            
+            if (event.GUIEvent.Caller == complexClose) {
+                complexEditWindow->remove();
+            }
+            
+            if (event.GUIEvent.Caller == complexOpen) {
+                //TODO ADD FROM FILE
+            }
         }
         
         if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
             
             if (event.GUIEvent.Caller == pname) {
+                #ifdef _IRR_OSX_PLATFORM_
                 if (shadersList->getSelected() != -1 && pList->getSelected() != -1) {
+                #else
+                if (d3dshadersList->getSelected() != -1 && pList->getSelected() != -1) {
+                #endif
                     stringc newName = "";
                     newName += pname->getText();
-                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->operator[](pList->getSelected()) = newName.c_str();
+                    s32 selected = -1;
+                    #ifdef _IRR_OSX_PLATFORM_
+                    selected = shadersList->getSelected();
+                    #else
+                    selected = d3dshadersList->getSelected();
+                    #endif
+                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](pList->getSelected()) = newName.c_str();
                     pList->setItem(pList->getSelected(), pname->getText(), 0);
                 }
             }
             
             if (event.GUIEvent.Caller == pvalue) {
+                #ifdef _IRR_OSX_PLATFORM_
                 if (shadersList->getSelected() != -1 && pList->getSelected() != -1) {
+                #else
+                if (d3dshadersList->getSelected() != -1 && pList->getSelected() != -1) {
+                #endif
                     stringc newValue = "";
+                    s32 selected = -1;
+                    #ifdef _IRR_OSX_PLATFORM_
+                    selected = shadersList->getSelected();
+                    #else
+                    selected = d3dshadersList->getSelected();
+                    #endif
                     newValue += pvalue->getText();
-                    float value = devices->getCore()->getF32(newValue.c_str());
-                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValues()->operator[](pList->getSelected()) = value;
+                    devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected()) = newValue;
                 }
+            }
+            
+            if (event.GUIEvent.Caller == complexEditBox) {
+                pvalue->setText(complexEditBox->getText());
+                stringc newValue = "";
+                newValue += pvalue->getText();
+                s32 selected = -1;
+                #ifdef _IRR_OSX_PLATFORM_
+                selected = shadersList->getSelected();
+                #else
+                selected = d3dshadersList->getSelected();
+                #endif
+                devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected()) = newValue;
             }
         }
         
@@ -289,23 +424,39 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 #else
                     stringw windowsName = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
                     windowsName.make_lower();
-                    name.remove(devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str());
+                    name.remove(windowsName);
                 #endif
                 name.remove('/');
                 
                 stringw path = L"";
                 path = dialog->getFileName();
-                s32 render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
+                
+                io::path extension;
+                core::getFileNameExtension(extension, path);
+                extension.make_lower();
+                
+                s32 render;
+                if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL && extension == ".glsl") {
+                    render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
+                }
+                if (devices->getVideoDriver()->getDriverType() == EDT_DIRECT3D9 && extension == ".hlsl") {
+                    render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
+                }
                 devices->getCoreData()->getEffectRenders()->push_back(render);
                 devices->getCoreData()->getEffectRendersPaths()->push_back(path);
                 
-                CEffectRenderCallback *callback = new CEffectRenderCallback(render);
+                CEffectRenderCallback *callback = new CEffectRenderCallback(render, devices->getDevice());
                 callback->clearPixelValues();
                 callback->clearVertexValues();
                 devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
                 devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
                 
-                shadersList->addItem(name.c_str());
+                if (extension == ".hlsl") {
+                    d3dshadersList->addItem(name.c_str());
+                }
+                if (extension == ".glsl") {
+                    shadersList->addItem(name.c_str());
+                }
                 
                 editCallBack->setEnabled(true);
                 active->setEnabled(true);
@@ -321,6 +472,14 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
             if (event.GUIEvent.Caller == shadersList && shadersList->getItemCount() > 0) {
                 if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
+                    active->setChecked(true);
+                } else {
+                    active->setChecked(false);
+                }
+            }
+            
+            if (event.GUIEvent.Caller == d3dshadersList && d3dshadersList->getItemCount() > 0) {
+                if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](d3dshadersList->getSelected()))) {
                     active->setChecked(true);
                 } else {
                     active->setChecked(false);
@@ -351,6 +510,10 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                         devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
                     }
                 }
+            }
+            
+            if (event.GUIEvent.Caller == enableDepthPass) {
+                devices->getXEffect()->enableDepthPass(enableDepthPass->isChecked());
             }
         }
     }

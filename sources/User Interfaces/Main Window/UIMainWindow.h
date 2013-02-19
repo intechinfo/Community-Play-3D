@@ -17,6 +17,8 @@
 #include "CUIWindowAddObject.h"
 #include "CUIWindowAddLight.h"
 
+#include "../CUIWindowEditNode.h"
+
 enum GUI_MAIN_WINDOW_EVENTS {
     CXT_MAIN_WINDOW_EVENTS_ADD_OCTTREE = 0x20000,
     CXT_MAIN_WINDOW_EVENTS_DELETE_OCTTREE, CXT_MAIN_WINDOW_EVENTS_DELETE_OCTTREE_YES,
@@ -46,6 +48,7 @@ public:
     IGUIListBox *getActiveListBox();
     ISceneNode *getSelectedNode();
     stringc getSelectedNodePrefix(ISceneNode *node);
+    void selectSelectedNode(ISceneNode *node);
     
     void cloneNode();
     
@@ -58,6 +61,8 @@ private:
     IGUIWindow *mainWindow;
     bool isWindowed;
     
+    //-----------------------------------
+    //WINDOW GUI ELEMENTS
     IGUITabControl *tabCtrl;
     IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab;
     
@@ -72,6 +77,18 @@ private:
     CUIWindowAddTree *addTreeInstance;
     CUIWindowAddObject *addObjectInstance;
     CUIWindowAddLight *addLightInstance;
+    //-----------------------------------
+    
+    //-----------------------------------
+    //SCENE ELEMENTS
+    //LIGHTS
+    IBillboardSceneNode *light_icon;
+    
+    //MOUSE NODE SELECTION
+    ISceneCollisionManager *collisionManager;
+    ISceneNode *previousNode;
+    //-----------------------------------
+    
 };
 
 #endif

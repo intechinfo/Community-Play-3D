@@ -10,45 +10,42 @@
 #define __C_RENDER_CALLBACK_H_INCLUDED__
 
 #include "../XEffects.h"
+#include "CRenderCallbackScripting.h"
 
 class CEffectRenderCallback : public IPostProcessingRenderCallback {
 public:
     
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------
     //EFFECTS PROPERTIES
-	CEffectRenderCallback(irr::s32 materialTypeIn) : materialType(materialTypeIn) {}
+	CEffectRenderCallback(irr::s32 materialTypeIn, irr::IrrlichtDevice *Device) : materialType(materialTypeIn) {
+        luaScripting = new CRenderCallbackScripting(Device);
+    }
     
-	void OnPreRender(EffectHandler* effect) {
-        //irr::video::IVideoDriver* driver = effect->getIrrlichtDevice()->getVideoDriver();
-		//viewProj = driver->getTransform(irr::video::ETS_PROJECTION) * driver->getTransform(irr::video::ETS_VIEW);
-		//effect->setPostProcessingEffectConstant(materialType, "mViewProj", viewProj.pointer(), 16);
-        for (irr::u32 i=0; i < pixelValues.size(); i++) {
-            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i], reinterpret_cast<irr::f32*>(&pixelValues[i]), 1);
-        }
-	}
+	void OnPreRender(EffectHandler* effect);
     
-	void OnPostRender(EffectHandler* effect) {}
+	void OnPostRender(EffectHandler* effect) {
+        
+    }
     
-    /*virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {
-        irr::video::IVideoDriver* driver = services->getVideoDriver();
+    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {
+        /*irr::video::IVideoDriver* driver = services->getVideoDriver();
         
         for (irr::u32 cbi=0; cbi < vertexValues.size(); cbi++) {
             services->setVertexShaderConstant(vertexValuesNames[cbi].c_str(), reinterpret_cast<irr::f32*>(&vertexValues[cbi]), 1);
         }
         
         for (irr::u32 cbi=0; cbi < pixelValues.size(); cbi++) {
-            services->setPixelShaderConstant(pixelValuesNames[cbi].c_str(), reinterpret_cast<irr::f32*>(&pixelValues[cbi]), 1);
-        }
-	}*/
+            services->setPixelShaderConstant(pixelValuesNames[cbi].c_str(), reinterpret_cast<irr::f32*>(&returnedValue), 1);
+        }*/
+	}
     
-    irr::core::matrix4 viewProj;
     irr::s32 materialType;
     
     //GET METHODS
     irr::core::array<float> *getVertexValues() { return &vertexValues; }
     irr::core::array<irr::core::stringc> *getVertexValuesNames() { return &vertexValuesNames; }
     
-    irr::core::array<float> *getPixelValues() { return &pixelValues; }
+    irr::core::array<irr::core::stringc> *getPixelValues() { return &pixelValues; }
     irr::core::array<irr::core::stringc> *getPixelValuesNames() { return &pixelValuesNames; }
     
     //CLEAR METHODS
@@ -62,8 +59,11 @@ private:
     irr::core::array<float> vertexValues;
     irr::core::array<irr::core::stringc> vertexValuesNames;
     
-    irr::core::array<float> pixelValues;
+    irr::core::array<irr::core::stringc> pixelValues;
     irr::core::array<irr::core::stringc> pixelValuesNames;
+    
+    //SCRIPTING LUA
+    CRenderCallbackScripting *luaScripting;
     
     
 };

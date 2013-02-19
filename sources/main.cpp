@@ -17,7 +17,7 @@ int main() {
     //---------------------------------------------------------------------------------------------
     
     CCoreUserInterface *coreUserInterface = new CCoreUserInterface();
-    coreUserInterface->getDevices()->getDevice()->getLogger()->setLogLevel(ELL_ERROR);
+    coreUserInterface->getDevices()->getDevice()->getLogger()->setLogLevel(ELL_NONE);
     
     //---------------------------------------------------------------------------------------------
     //---------------------------------------TESTS-------------------------------------------------
@@ -829,3 +829,4 @@ int main() {
 }
  
 #endif*/
+

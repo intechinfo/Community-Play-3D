@@ -13,7 +13,7 @@ CImporter::CImporter(CDevices *_devices) {
 }
 
 CImporter::~CImporter() {
-    
+    devices = NULL;
 }
 
 void CImporter::readWithNextElement(std::string node, std::string nextNode) {
@@ -104,7 +104,7 @@ void CImporter::importScene(stringc file_path) {
                     devices->getCoreData()->getEffectRenders()->push_back(render);
                     devices->getCoreData()->getEffectRendersPaths()->push_back(path);
                     
-                    CEffectRenderCallback *callback = new CEffectRenderCallback(render);
+                    CEffectRenderCallback *callback = new CEffectRenderCallback(render, devices->getDevice());
                     callback->clearPixelValues();
                     callback->clearVertexValues();
                     devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
@@ -114,10 +114,10 @@ void CImporter::importScene(stringc file_path) {
                     readWithNextElement("value", "values");
                     while (element == "value") {
                         stringw name = L"";
-                        float value = 0.0;
+                        stringc value = "0.0";
                         
                         name = xmlReader->getAttributeValue("name");
-                        value = devices->getCore()->getF32(xmlReader->getAttributeValue("val"));
+                        value = xmlReader->getAttributeValue("val");
                         
                         callback->getPixelValues()->push_back(value);
                         callback->getPixelValuesNames()->push_back(name);
@@ -244,7 +244,6 @@ void CImporter::importScene(stringc file_path) {
                         octTreeNode->setScale(scale);
                     }
                     
-                    devices->getXEffect()->addNodeToDepthPass(octTreeNode);
                     octTreeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
                     devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType());
                     devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
@@ -357,7 +356,6 @@ void CImporter::importScene(stringc file_path) {
                     octTreeNode->setScale(scale);
                 }
                 
-                devices->getXEffect()->addNodeToDepthPass(octTreeNode);
                 octTreeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
                 devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType());
                 devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
@@ -468,7 +466,6 @@ void CImporter::importScene(stringc file_path) {
                     animatedNode->setScale(scale);
                 }
                 
-                devices->getXEffect()->addNodeToDepthPass(animatedNode);
                 animatedNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
                 devices->getXEffect()->addShadowToNode(animatedNode, devices->getXEffectFilterType());
                 devices->getCollisionManager()->setCollisionToAnAnimatedNode(animatedNode);
@@ -522,7 +519,10 @@ void CImporter::importScene(stringc file_path) {
                 
                 devices->getXEffect()->addShadowLight(shadowLight);
                 devices->getCoreData()->getLightsNodes()->push_back(light);
-                devices->getCoreData()->getShadowLights()->push_back(shadowLight);
+                
+                devices->getCoreData()->getLfMeshNodes()->push_back(0);
+                devices->getCoreData()->getLfBillBoardSceneNodes()->push_back(0);
+                devices->getCoreData()->getLensFlareSceneNodes()->push_back(0);
             }
             
         }

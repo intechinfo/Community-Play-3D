@@ -43,7 +43,7 @@ private:
     IGUIWindow *editWindow;
     IGUITabControl *tabCtrl;
     
-    IGUITab *generalTab, *advancedTab;
+    IGUITab *generalTab, *advancedTab, *lensFlareTab;
     
     IGUIButton *applyButton, *closeButton;
     
@@ -56,12 +56,29 @@ private:
     IGUIEditBox *ebNodeDiffuseColorR, *ebNodeDiffuseColorG, *ebNodeDiffuseColorB, *ebNodeDiffuseColorA;
     IGUIEditBox *ebNodeAmbiantColorR, *ebNodeAmbiantColorG, *ebNodeAmbiantColorB, *ebNodeAmbiantColorA;
     IGUIEditBox *ebNodeSpecularColorR, *ebNodeSpecularColorG, *ebNodeSpecularColorB, *ebNodeSpecularColorA;
+    
+    IGUICheckBox *lensFlare;
+    IGUIEditBox *lfStrength;
+    IGUISpinBox *sphereXYZ;
+    IGUIEditBox *sphereX, *sphereY, *sphereZ;
+    IGUIEditBox *sphereTexture;
+    IGUIButton *sphereTextureBrowse;
+    IGUIEditBox *bbW, *bbH;
+    IGUISpinBox *bbWH;
+    IGUIEditBox *bbTexture;
+    IGUIButton *bbTextureBrowse;
+    IGUIEditBox *lfnTexture;
+    IGUIButton *lfnTextureBrowse;
+    IGUIButton *lfnCursorPosition, *lfn0Position;
+    IGUIButton *lfnArrowMeshPosition;
     //-----------------------------------
     
     //-----------------------------------
     //EDITING NODE INFORMATIONS
     ILightSceneNode *nodeToEdit;
     stringw nodeToEditPrefix;
+    
+    u32 currentBrowse;
     //-----------------------------------
     
 };

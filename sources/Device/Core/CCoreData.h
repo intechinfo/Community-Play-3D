@@ -10,6 +10,7 @@
 #define __C_CORE_DATA_H_INCLUDED__
 
 #include "CCore.h"
+
 #include "../../Renders/XEffect/Interfaces/CRenderCallback.h"
 
 class CCoreData {
@@ -40,9 +41,11 @@ public:
     array<stringw> *getObjectPaths() { return &objectPaths; }
     
     array<ISceneNode *> *getLightsNodes() { return &lightNodes; }
-    array<SShadowLight> *getShadowLights() { return &shadowLights; }
+    array<IMeshSceneNode *> *getLfMeshNodes() { return &lfMeshNodes; }
+    array<IBillboardSceneNode *> *getLfBillBoardSceneNodes() { return &lfBillBoardSceneNodes; }
+    array<CLensFlareSceneNode *> *getLensFlareSceneNodes() {return &lensFlareSceneNodes; }
     
-    array<s32> *getDynamicLights() { return &dynamicLights; }
+    array<IVolumeLightSceneNode *> *getDynamicLights() { return &volumeLightSceneNodes; }
     //-----------------------------------
     
     //-----------------------------------
@@ -67,9 +70,11 @@ private:
     array<stringw> objectPaths;
     
     array<ISceneNode *> lightNodes;
-    array<SShadowLight> shadowLights;
+    array<IMeshSceneNode *> lfMeshNodes;
+    array<IBillboardSceneNode *> lfBillBoardSceneNodes;
+    array<CLensFlareSceneNode *> lensFlareSceneNodes;
     
-    array<s32> dynamicLights;
+    array<IVolumeLightSceneNode *> volumeLightSceneNodes;
     //-----------------------------------
     
     //-----------------------------------

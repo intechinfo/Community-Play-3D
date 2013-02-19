@@ -13,6 +13,7 @@ enum E_SHADOW_MODE
 	ESM_CAST,
 	ESM_BOTH,
 	ESM_EXCLUDE,
+    ESM_NO_SHADOW,
 	ESM_COUNT
 };
 
@@ -40,7 +41,7 @@ struct SShadowLight
 	/// a camera, this would be similar to setting the camera's field of view. The last
 	/// parameter is whether the light is directional or not, if it is, an orthogonal
 	/// projection matrix will be created instead of a perspective one.
-	SShadowLight(	const irr::u32 shadowMapResolution,
+	SShadowLight(	irr::u32 shadowMapResolution,
 					const irr::core::vector3df& position, 
 					const irr::core::vector3df& target,
 					irr::video::SColorf lightColour = irr::video::SColor(0xffffffff), 
@@ -136,13 +137,13 @@ struct SShadowLight
 	}
 
 	/// Sets the shadow map resolution for this light.
-	void setShadowMapResolution(const irr::u32 shadowMapResolution)
+	void setShadowMapResolution(irr::u32 shadowMapResolution)
 	{
 		mapRes = shadowMapResolution;
 	}
 
 	/// Gets the shadow map resolution for this light.
-	const irr::u32 getShadowMapResolution() const
+	irr::u32& getShadowMapResolution()
 	{
 		return mapRes;
 	}
@@ -244,6 +245,9 @@ public:
 	/// This function is now unrelated to shadow mapping. It simply removes a node to the screen space depth map render, for use
 	/// with post processing effects that require screen depth info.
 	void removeNodeFromDepthPass(irr::scene::ISceneNode *node);
+    
+    //Check if depth pass is enabled
+    bool isDepthPassEnabled() { return DepthPass; }
 
 	/// Enables/disables an additional pass before applying post processing effects (If there are any) which records screen depth info
 	/// to the depth buffer for use with post processing effects that require screen depth info, such as SSAO or DOF. For nodes to be
@@ -253,32 +257,104 @@ public:
 	/// Removes shadows from a scene node.
 	void removeShadowFromNode(irr::scene::ISceneNode* node)
 	{
-		SShadowNode tmpShadowNode = {node, ESM_RECEIVE, EFT_NONE};
-		irr::s32 i = ShadowNodeArray.binary_search(tmpShadowNode);
-
-		if(i != -1)
-			ShadowNodeArray.erase(i);
+        bool founded = false;
+        irr::s32 i = 0;
+        
+        while (!founded && i < ShadowNodeArray.size()) {
+            if (ShadowNodeArray[i].node == node) {
+                ShadowNodeArray.erase(i);
+                founded = true;
+            }
+            i++;
+        }
+        
+        if (!founded) {
+            printf("The selected node doesn't have any shadow at the moment...");
+        }
 	}
     
-    bool isNodeShadowed(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType) {
+    //Check if node is shadowed
+    bool isNodeShadowed(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType, E_SHADOW_MODE shadowMode) {
         bool shadowed = false;
+        bool founded = false;
+        irr::s32 i = 0;
         
-        SShadowNode tmpShadowNode = {node, ESM_RECEIVE, filterType};
-        irr::s32 i = ShadowNodeArray.binary_search(tmpShadowNode);
-        
-        if (i != -1) {
-            shadowed = true;
+        while (!founded && i < ShadowNodeArray.size()) {
+            if (ShadowNodeArray[i].node == node) {
+                if (ShadowNodeArray[i].shadowMode == shadowMode && ShadowNodeArray[i].filterType == filterType) {
+                    shadowed = true;
+                    founded = true;
+                }
+            }
+            i++;
         }
         
         return shadowed;
     }
+    
+    //Check is node is depth passed
+    bool isDepthPassed(irr::scene::ISceneNode *node) {
+        bool depthPasses = false;
+        bool founded = false;
+        irr::s32 i = 0;
+        
+        while (!founded && i < DepthPassArray.size()) {
+            if (DepthPassArray[i] == node) {
+                depthPasses = true;
+                founded = true;
+            }
+            i++;
+        }
+        
+        return depthPasses;
+    }
+    
+    //Check if node is excluded from lighting calculation
+    bool isNodeExcludedFromLightingCalculations(irr::scene::ISceneNode *node) {
+        bool excludedFromLightingCalculation = true;
+        
+        bool founded = false;
+        irr::s32 i = 0;
+        while (!founded && i < ShadowNodeArray.size()) {
+            if (ShadowNodeArray[i].node == node) {
+                founded = true;
+                excludedFromLightingCalculation = false;
+                if (ShadowNodeArray[i].shadowMode == ESM_EXCLUDE) {
+                    excludedFromLightingCalculation = true;
+                }
+            }
+            i++;
+        }
+        
+        return excludedFromLightingCalculation;
+    }
+    
+    //Return node shadow mode
+    E_SHADOW_MODE getNodeShadowMode(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType) {
+        E_SHADOW_MODE shadowMode;
+        irr::s32 i = 0;
+        
+        bool founded = false;
+        while (!founded && i < ShadowNodeArray.size()) {
+            if (ShadowNodeArray[i].node == node) {
+                shadowMode = ShadowNodeArray[i].shadowMode;
+                founded = true;
+            }
+            i++;
+        }
+        
+        if (!founded) {
+            printf("Node not found when you tried to find shadow mode");
+        }
+        
+        return shadowMode;
+    }
 
 	// Excludes a scene node from lighting calculations, avoiding any side effects that may
 	// occur from XEffect's light modulation on this particular scene node.
-	void excludeNodeFromLightingCalculations(irr::scene::ISceneNode* node)
+	void excludeNodeFromLightingCalculations(irr::scene::ISceneNode *node)
 	{
-		SShadowNode tmpShadowNode = {node, ESM_EXCLUDE, EFT_NONE};
-		ShadowNodeArray.push_back(tmpShadowNode);
+        removeShadowFromNode(node);
 	}
 
 	/// Updates the effects handler. This must be done between IVideoDriver::beginScene and IVideoDriver::endScene.
@@ -353,12 +429,13 @@ public:
 	{
 		SPostProcessingPair tempPair(MaterialType, 0);
 		irr::s32 i = PostProcessingRoutines.binary_search(tempPair);
-
+        
 		if(i != -1)
 		{
-			if(PostProcessingRoutines[i].renderCallback)
+			if(PostProcessingRoutines[i].renderCallback) {
 				delete PostProcessingRoutines[i].renderCallback;
-
+            }
+            
 			PostProcessingRoutines[i].renderCallback = callback;
 		}
 	}

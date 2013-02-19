@@ -41,19 +41,27 @@ private:
     
     IGUIContextMenu *menu, *submenu;
     
-    IGUIListBox *shadersList;
+    IGUIListBox *shadersList, *d3dshadersList;
     IGUICheckBox *active;
-    IGUIButton *add, *remove, *editCallBack, *close;
+    IGUIButton *oglAdd, *oglRemove;
+    IGUIButton *d3dAdd, *d3dRemove;
+    IGUIButton *editCallBack, *close;
     //-----------------------------------
     
     //-----------------------------------
     //CALLBACKS WINDOW
     IGUIWindow *editionWindow;
     
+    IGUICheckBox *enableDepthPass;
+    
     IGUIButton *pApplyButton;
     IGUIEditBox *pvalue, *pname;
     IGUIButton *pAdd, *pRemove;
     IGUIListBox *pList;
+    IGUIButton *pEditWindow;
+    IGUIWindow *complexEditWindow;
+    IGUIEditBox *complexEditBox;
+    IGUIButton *complexClose, *complexOpen;
     
     IGUIButton *vApplyButton;
     IGUIEditBox *vvalue, *vname;

@@ -220,8 +220,21 @@ void EffectHandler::addShadowToNode(irr::scene::ISceneNode *node, E_FILTER_TYPE 
 
 void EffectHandler::addNodeToDepthPass(irr::scene::ISceneNode *node)
 {
-	if(DepthPassArray.binary_search(node) == -1)
-		DepthPassArray.push_back(node);
+	bool founded = false;
+    irr::s32 i = 0;
+    
+    while (!founded && i < DepthPassArray.size()) {
+        if (DepthPassArray[i] == node) {
+            founded = true;
+        }
+        i++;
+    }
+    
+    if (!founded) {
+        DepthPassArray.push_back(node);
+    } else {
+        printf("Node already depth passed\n");
+    }
 }
 
 

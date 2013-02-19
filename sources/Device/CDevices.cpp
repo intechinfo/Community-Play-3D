@@ -27,6 +27,11 @@ CDevices::CDevices() {
     editBoxEntered = false;
     
     window = 0;
+    
+    projectName = L"";
+    
+    ctrlWasPushed = false;
+    shiftWasPushed = false;
 }
 
 CDevices::~CDevices() {
@@ -48,9 +53,10 @@ void CDevices::updateDevice() {
         cursorBillBoard->setSize(dimension2d<f32>((ray.getLength()*1.0f)/300.f, (ray.getLength()*1.0f)/300.f));
 	}
     
-    objPlacement->refresh(cursorBillBoard->getPosition());
+    objPlacement->refresh(cursorBillBoard);
     
-    for (int i=0; i < worldCoreData->getLightsNodes()->size(); i++) {
+    //UPDATE EFFECT LIGHTS
+    for (u32 i=0; i < worldCoreData->getLightsNodes()->size(); i++) {
         effect->getShadowLight(i).setPosition(worldCoreData->getLightsNodes()->operator[](i)->getPosition());
         effect->getShadowLight(i).setTarget(worldCoreData->getLightsNodes()->operator[](i)->getRotation());
         
@@ -62,10 +68,41 @@ void CDevices::updateDevice() {
         effect->getShadowLight(i).setFarValue(((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getRadius());
     }
     
+    //UPDATE LENS FLARE STRENGTHS
+    for (u32 i=0; i < worldCoreData->getLensFlareSceneNodes()->size(); i++) {
+        if (worldCoreData->getLensFlareSceneNodes()->operator[](i) != 0) {
+            if (worldCoreData->getLensFlareSceneNodes()->operator[](i)->getFalseOcclusion()) {
+                //GET CURRENT LANS FLARE ABOSLUTE POSITION
+                line3d<f32> lfLine;
+                lfLine.start = smgr->getActiveCamera()->getAbsolutePosition();
+                matrix4 matr = worldCoreData->getLensFlareSceneNodes()->operator[](i)->getAbsoluteTransformation();
+                const matrix4 w2n(worldCoreData->getLensFlareSceneNodes()->operator[](i)->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
+                matr = (w2n*matr);
+                lfLine.end = matr.getTranslation();
+                if (lfLine.getLength() < ((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getRadius()) {
+                    worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(1.f - (lfLine.getLength()/((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getRadius()));
+                }
+                if (lfLine.getLength() == 0.f) {
+                    worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(1.f);
+                }
+                if (lfLine.getLength() >= ((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getRadius()) {
+                    worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(0.f);
+                }
+                ray.start = smgr->getActiveCamera()->getPosition();
+                ray.end = lfLine.end;
+                selectedSceneNode = collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 1, 0);
+                if(selectedSceneNode) {
+                        //worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(0.f);
+                }
+                worldCoreData->getLensFlareSceneNodes()->operator[](i)->updateAbsolutePosition();
+            }
+        }
+    }
+    
     //RENDERS
     if (renderHDR) {
         hdr->render();
-        //hdr->getPostProcessorNode()->setVisible(true);
+        hdr->getPostProcessorNode()->setVisible(true);
     } else {
         hdr->getPostProcessorNode()->setVisible(false);
     }
@@ -82,10 +119,6 @@ void CDevices::updateDevice() {
     if (renderGUI) {
         gui->drawAll();
     }
-    
-    stringw text = L"Soganatsu Studios World Editor V1.  FPS : ";
-    text += driver->getFPS();
-    Device->setWindowCaption(text.c_str());
     
     camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 }
@@ -153,8 +186,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	hdr->range = 2.0f;
     hdr->focus = 0.26f;
     
-    effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
-    //effect = new EffectHandler(Device, dimension2du(800, 600), false, true, true);
+    //effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
+    effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));
@@ -197,6 +230,41 @@ void CDevices::addWarningDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG f
 
 bool CDevices::OnEvent(const SEvent &event) {
     
+    if (event.EventType == EET_KEY_INPUT_EVENT) {
+        if (!event.KeyInput.PressedDown) {
+            #ifdef _IRR_OSX_PLATFORM_
+            if (event.KeyInput.Key == KEY_SHIFT) {
+            #else
+            if (event.KeyInput.Key == KEY_LCONTROL) {
+            #endif
+                ctrlWasPushed = false;
+            }
+            #ifdef _IRR_OSX_PLATFORM_
+            if (event.KeyInput.Key == KEY_SHIFT) {
+            #else
+            if (event.KeyInput.Key == KEY_LSHIFT) {
+            #endif
+                shiftWasPushed = false;
+            }
+        }
+        if (event.KeyInput.PressedDown) {
+            #ifdef _IRR_OSX_PLATFORM_
+            if (event.KeyInput.Key == KEY_SHIFT) {
+            #else
+            if (event.KeyInput.Key == KEY_LCONTROL) {
+            #endif
+                ctrlWasPushed = true;
+            }
+            #ifdef _IRR_OSX_PLATFORM_
+            if (event.KeyInput.Key == KEY_SHIFT) {
+            #else
+            if (event.KeyInput.Key == KEY_LSHIFT) {
+            #endif
+                shiftWasPushed = true;
+            }
+        }
+    }
+    
     if (event.EventType == EET_GUI_EVENT) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             s32 id = event.GUIEvent.Caller->getID();
@@ -231,6 +299,20 @@ bool CDevices::OnEvent(const SEvent &event) {
                 window->remove();
                 window = 0;
             }
+        }
+        
+        if (event.EventType == EET_GUI_EVENT) {
+            if (event.GUIEvent.EventType == EGET_EDITBOX_MARKING_CHANGED) {
+                setEditBoxEntered(true);
+                getObjectPlacement()->setAllowMoving(false);
+            }
+        }
+    }
+    
+    if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+        if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
+            setEditBoxEntered(false);
+            getObjectPlacement()->setAllowMoving(true);
         }
     }
     

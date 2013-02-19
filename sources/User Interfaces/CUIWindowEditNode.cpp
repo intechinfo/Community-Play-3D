@@ -40,18 +40,18 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         
         //WINDOW
         editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
-                                                                       100, devices->getVideoDriver()->getScreenSize().Width/2+220, 670),
+                                                                       100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
                                                              false, L"Node Edition Window", 0, -1);
         editWindow->getMaximizeButton()->setVisible(true);
         
         //WINDOW BUTTONS
-        applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 530, 80, 560), editWindow, CXT_EDIT_WINDOW_EVENTS_APPLY_BUTTON, 
+        applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 560, 80, 590), editWindow, CXT_EDIT_WINDOW_EVENTS_APPLY_BUTTON, 
                                                               L"Apply", L"Apply the settings");
-        closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 530, 175, 560), editWindow, CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON, 
+        closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 560, 175, 590), editWindow, CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON, 
                                                               L"Cancel", L"Close without effect");
         editWindow->getCloseButton()->remove();
         
-        tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(2, 20, 418, 520), editWindow, true, true, -1);
+        tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(2, 20, 418, 550), editWindow, true, true, -1);
         generalTab = tabCtrl->addTab(L"General");
         advancedTab = tabCtrl->addTab(L"Height Map");
         flagsTab = tabCtrl->addTab(L"Flags & Materials");
@@ -127,8 +127,11 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         browseButton4 = devices->getGUIEnvironment()->addButton(rect<s32>(305, 340, 360, 360), generalTab, 
                                                                 CXT_EDIT_WINDOW_EVENTS_TEXLAYER_4, L"Browse...", L"Browse for file");
         
-        generalLighting = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(10, 370, 300, 390), generalTab, 
+        generalLighting = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(10, 370, 250, 390), generalTab, 
                                                                     CXT_EDIT_WINDOW_EVENTS_GENERAL_LIGHTING, L"Set All The Materials Lighting");
+        
+        generalVisible = devices->getGUIEnvironment()->addCheckBox(nodeToEdit->isVisible(), rect<s32>(260, 370, 350, 390), generalTab, 
+                                                                    CXT_EDIT_WINDOW_EVENTS_GENERAL_VISIBLE, L"Visible");
         
         devices->getGUIEnvironment()->addStaticText(L"Mat Type :", rect<s32>(10, 400, 80, 420), false, true, generalTab, -1, false);
         generalMaterialCB = devices->getGUIEnvironment()->addComboBox(rect<s32>(90, 400, 390, 420), generalTab, CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE);
@@ -140,18 +143,32 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         shadowed->addItem(L"RECEIVE");
         shadowed->addItem(L"BOTH (CAST & RECEIVE)");
         shadowed->addItem(L"EXCLUDE");
+        E_SHADOW_MODE shadowMode = devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType());
+        switch (shadowMode) {
+            case ESM_CAST:
+                shadowed->setSelected(0);
+                break;
+            case ESM_RECEIVE:
+                shadowed->setSelected(1);
+                break;
+            case ESM_BOTH:
+                shadowed->setSelected(2);
+                break;
+            case ESM_EXCLUDE:
+                shadowed->setSelected(3);
+                break;
+                
+            default:
+                break;
+        }
+        
+        nodeToDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassed(nodeToEdit), rect<s32>(10, 470, 150, 490), generalTab, 
+                                                                    CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS, L"Depth pass...");
+        excludeLightingCalc = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isNodeExcludedFromLightingCalculations(nodeToEdit), 
+                                                                        rect<s32>(160, 470, 420, 490), generalTab, 
+                                                                        CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC, L"Exclude Lighting Calculation");
         
         //ADVANCED TERRAIN
-        /*virtual ITerrainSceneNode* addTerrainSceneNode(
-                                                       const io::path& heightMapFileName,
-                                                       ISceneNode* parent=0, s32 id=-1,
-                                                       const core::vector3df& position = core::vector3df(0.0f,0.0f,0.0f),
-                                                       const core::vector3df& rotation = core::vector3df(0.0f,0.0f,0.0f),
-                                                       const core::vector3df& scale = core::vector3df(1.0f,1.0f,1.0f),
-                                                       video::SColor vertexColor = video::SColor(255,255,255,255),
-                                                       s32 maxLOD=5, E_TERRAIN_PATCH_SIZE patchSize=ETPS_17, s32 smoothFactor=0,
-                                                       bool addAlsoIfHeightmapEmpty = false) = 0;*/
-        
         devices->getGUIEnvironment()->addStaticText(L"Patch Size : ", rect<s32>(10, 5, 90, 25), true, true, advancedTab, -1, true);
         patchSize = devices->getGUIEnvironment()->addComboBox(rect<s32>(95, 5, 200, 25), advancedTab, CXT_EDIT_WINDOW_EVENTS_PATCH_SIZE);
         patchSize->addItem(L"ETPS_9");
@@ -832,19 +849,35 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
             
             switch (id) {
                     
-                //GENERAL
+                //SET NODE LIGHTING OR NOT
                 case CXT_EDIT_WINDOW_EVENTS_GENERAL_LIGHTING:
                     nodeToEdit->setMaterialFlag(EMF_LIGHTING, generalLighting->isChecked());
-                    lighting->setChecked(generalLighting->isChecked());
+                    generalLighting->setChecked(generalLighting->isChecked());
                     break;
-                /*case CXT_EDIT_WINDOW_EVENTS_GENERAL_SHADOWED:
-                    if (shadowed->isChecked()) {
-                        devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_BOTH);
+                    
+                //SET NODE VISIBLE OR UNVISIBLE
+                case CXT_EDIT_WINDOW_EVENTS_GENERAL_VISIBLE:
+                    nodeToEdit->setVisible(generalVisible->isChecked());
+                    generalVisible->setChecked(nodeToEdit->isVisible());
+                    break;
+                    
+                //ADD OR REMOVE NODE FROM DEPTH PASS
+                case CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS:
+                    if (nodeToDepthPass->isChecked()) {
+                        devices->getXEffect()->addNodeToDepthPass(nodeToEdit);
                     } else {
-                        devices->getXEffect()->removeShadowFromNode(nodeToEdit);
-                        devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_EXCLUDE);
+                        devices->getXEffect()->removeNodeFromDepthPass(nodeToEdit);
                     }
-                    break;*/
+                    break;
+                    
+                //EXCLUDE NODE FROM LIGHTING CALCULATION
+                case CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC:
+                    if (excludeLightingCalc->isChecked()) {
+                        devices->getXEffect()->excludeNodeFromLightingCalculations(nodeToEdit);
+                    } else {
+                        devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_RECEIVE);
+                    }
+                    break;
                     
                 //LIGHTING
                 case CXT_EDIT_WINDOW_EVENTS_LIGHTING:

@@ -15,6 +15,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
     
     isMoving = false;
     nodeToPlace = 0;
+    lightNode = 0;
     
     allowMoving = true;
     
@@ -27,6 +28,12 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowVerticalLineNode->setMaterialFlag(EMF_LIGHTING, false);
 	arrowVerticalLineNode->setScale(vector3df(10, 100, 10));
     
+    coneMesh = smgr->getGeometryCreator()->createConeMesh(50, 50, 50);
+    lightCone = smgr->addMeshSceneNode(coneMesh);
+    lightCone->setMaterialFlag(EMF_WIREFRAME, true);
+    lightCone->setMaterialFlag(EMF_LIGHTING, false);
+    lightCone->setVisible(false);
+    
     gridSceneNode = new CGridSceneNode(smgr->getRootSceneNode(), smgr);
     gridSceneNode->setName("editor:grid");
     gridSceneNode->setMaterialFlag(EMF_ANTI_ALIASING, true);
@@ -37,14 +44,45 @@ CCoreObjectPlacement::~CCoreObjectPlacement() {
     
 }
 
-void CCoreObjectPlacement::refresh(vector3df cursorPosition) {
+void CCoreObjectPlacement::refresh(ISceneNode *cursorPosition) {
     if (isMoving) {
-        arrowVerticalLineNode->setPosition(cursorPosition);
+        arrowVerticalLineNode->setPosition(cursorPosition->getPosition());
         if (nodeToPlace) {
-            nodeToPlace->setPosition(vector3df(arrowVerticalLineNode->getPosition().X,
-                                               arrowVerticalLineNode->getPosition().Y+arrowVerticalLineNode->getScale().Y,
-                                               arrowVerticalLineNode->getPosition().Z));
+            if (nodeToPlace->getParent() == smgr->getRootSceneNode()) {
+                nodeToPlace->setPosition(vector3df(arrowVerticalLineNode->getPosition().X,
+                                                   arrowVerticalLineNode->getPosition().Y+arrowVerticalLineNode->getScale().Y,
+                                                   arrowVerticalLineNode->getPosition().Z));
+            } else {
+                matrix4 matr = cursorPosition->getAbsoluteTransformation();
+                const matrix4 w2n(nodeToPlace->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
+                matr = (w2n*matr);
+                nodeToPlace->setPosition(vector3df(matr.getTranslation().X, 
+                                                   matr.getTranslation().Y+arrowVerticalLineNode->getScale().Y, 
+                                                   matr.getTranslation().Z));
+                nodeToPlace->setRotation(matr.getRotationDegrees());
+                nodeToPlace->updateAbsolutePosition();
+            }
         }
+    }
+    if (lightNode) {
+        coneMesh->drop();
+        line3d<f32> distanceLight(lightNode->getPosition(), lightNode->getRotation());
+        coneMesh = smgr->getGeometryCreator()->createConeMesh(((ILightSceneNode *)lightNode)->getRadius(), distanceLight.getLength(), 50);
+        lightCone->remove();
+        lightCone = smgr->addMeshSceneNode(coneMesh);
+        lightCone->setMaterialFlag(EMF_WIREFRAME, true);
+        lightCone->setMaterialFlag(EMF_LIGHTING, false);
+        lightCone->setPosition(lightNode->getPosition());
+        lightCone->setRotation(lightNode->getRotation());
+    }
+}
+
+void CCoreObjectPlacement::setLightNode(ISceneNode *node) {
+    lightNode = node;
+    if (lightNode) {
+        lightCone->setVisible(true);
+    } else {
+        lightCone->setVisible(false);
     }
 }
 
@@ -77,6 +115,7 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
                                     colMgr->setCollisionToAnAnimatedNode(nodeToPlace);
                                 }
                             }
+                            //RELEASE NODE
                             setNodeToPlace(0);
                             isMoving = false;
                         } else {
@@ -94,7 +133,7 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
         }
     }
     
-    if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+    if (event.EventType == EET_MOUSE_INPUT_EVENT && isMoving) {
         if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
             vector3df wheel = arrowVerticalLineNode->getScale();
             #ifdef _IRR_OSX_PLATFORM_

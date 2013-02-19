@@ -23,8 +23,9 @@ public:
     
     void setNodeToPlace(ISceneNode *node);
     ISceneNode *getNodeToPlace() { return nodeToPlace; }
+    void setLightNode(ISceneNode *node);
     
-    void refresh(vector3df cursorPosition);
+    void refresh(ISceneNode *cursorPosition);
     
     IAnimatedMeshSceneNode *getArrowVerticalLine() { return arrowVerticalLineNode; }
     CGridSceneNode *getGridSceneNode() { return gridSceneNode; }
@@ -44,6 +45,9 @@ private:
     
     IAnimatedMesh *arrowVerticalLine;
     IAnimatedMeshSceneNode *arrowVerticalLineNode;
+    
+    ISceneNode *lightCone, *lightNode;
+    IMesh *coneMesh;
     
     CGridSceneNode *gridSceneNode;
     

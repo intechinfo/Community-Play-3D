@@ -14,7 +14,7 @@ CCore::CCore() {
 }
 
 CCore::~CCore() {
-	
+    
 }
 
 ISceneNode *CCore::clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr) {
@@ -32,34 +32,8 @@ ISceneNode *CCore::clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr
         clonedNode->setName(clonedNodeName.c_str());
         
         for (int i=0; i < clonedNode->getMaterialCount(); i++) {
-            
-            for (int texturei=0; texturei < 4; texturei++) {
-                clonedNode->getMaterial(i).setTexture(texturei, node->getMaterial(i).getTexture(texturei));
-            }
-            
-            clonedNode->getMaterial(i).AmbientColor = node->getMaterial(i).AmbientColor;
-            clonedNode->getMaterial(i).DiffuseColor = node->getMaterial(i).DiffuseColor;
-            clonedNode->getMaterial(i).EmissiveColor = node->getMaterial(i).EmissiveColor;
-            clonedNode->getMaterial(i).SpecularColor = node->getMaterial(i).SpecularColor;
-            
-            clonedNode->getMaterial(i).Lighting = node->getMaterial(i).Lighting;
-            
-            clonedNode->getMaterial(i).MaterialType = node->getMaterial(i).MaterialType;
-            
-            clonedNode->getMaterial(i).setFlag(EMF_ANISOTROPIC_FILTER, node->getMaterial(i).getFlag(EMF_ANISOTROPIC_FILTER));
-            clonedNode->getMaterial(i).setFlag(EMF_BILINEAR_FILTER, node->getMaterial(i).getFlag(EMF_BILINEAR_FILTER));
-            clonedNode->getMaterial(i).setFlag(EMF_TRILINEAR_FILTER, node->getMaterial(i).getFlag(EMF_TRILINEAR_FILTER));
-            
-            clonedNode->getMaterial(i).setFlag(EMF_BACK_FACE_CULLING, node->getMaterial(i).getFlag(EMF_BACK_FACE_CULLING));
-            clonedNode->getMaterial(i).setFlag(EMF_FRONT_FACE_CULLING, node->getMaterial(i).getFlag(EMF_FRONT_FACE_CULLING));
-            
-            clonedNode->getMaterial(i).setFlag(EMF_COLOR_MASK, node->getMaterial(i).getFlag(EMF_COLOR_MASK));
-            clonedNode->getMaterial(i).setFlag(EMF_COLOR_MATERIAL, node->getMaterial(i).getFlag(EMF_COLOR_MATERIAL));
-            
-            clonedNode->getMaterial(i).setFlag(EMF_TEXTURE_WRAP, node->getMaterial(i).getFlag(EMF_TEXTURE_WRAP));
-            clonedNode->getMaterial(i).setFlag(EMF_ZBUFFER, node->getMaterial(i).getFlag(EMF_ZBUFFER));
-            clonedNode->getMaterial(i).setFlag(EMF_ZWRITE_ENABLE, node->getMaterial(i).getFlag(EMF_ZWRITE_ENABLE));
-            
+            SMaterial material = node->getMaterial(i);
+            clonedNode->getMaterial(i) = material;
         }
     }
     
