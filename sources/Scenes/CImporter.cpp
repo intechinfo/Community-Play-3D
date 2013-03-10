@@ -42,13 +42,14 @@ void CImporter::importScene(stringc file_path) {
     stringc wd = devices->getWorkingDirectory().c_str();
     wd += "/";
     devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(wd.c_str());
-    //printf("\n\nDirectory : %s \n\n", devices->getWorkingDirectory().c_str());
     
     xmlReader = createIrrXMLReader(file_path.c_str());
     
     devices->getCoreData()->clearAllTheArrays();
     
-    read("rootScene");
+    if (xmlReader) {
+        read("rootScene");
+    }
     
     while (xmlReader && xmlReader->read()) {
         
@@ -128,6 +129,34 @@ void CImporter::importScene(stringc file_path) {
                     readWithNextElement("postProcessingEffect", "effect");
                 }
 
+                //IF MATERIAL TYPES
+                read("materialTypes");
+                readWithNextElement("materialType", "materialTypes");
+                while (element == "materialType") {
+                    stringc name = "";
+                    read("name");
+                    name = xmlReader->getAttributeValue("cname");
+                    
+                    stringc vertex = "", pixel = "", constants = "";
+                    read("vertex");
+                    vertex = xmlReader->getAttributeValue("shader");
+                    read("pixel");
+                    pixel = xmlReader->getAttributeValue("shader");
+                    read("constants");
+                    constants = xmlReader->getAttributeValue("value");
+                    
+                    CShaderCallback *callback = new CShaderCallback();
+                    callback->setName(name.c_str());
+                    callback->setVertexShader(vertex.c_str());
+                    callback->setPixelShader(pixel.c_str());
+                    callback->setConstants(constants.c_str());
+                    callback->setDevice(devices->getDevice());
+                    callback->buildMaterial(devices->getVideoDriver());
+                    devices->getCoreData()->getShaderCallbacks()->push_back(callback);
+                    
+                    read("materialType");
+                    readWithNextElement("materialType", "materialTypes");
+                }
                 
                 //IF OTHER TO COME
                 
@@ -149,14 +178,21 @@ void CImporter::importScene(stringc file_path) {
                 IMesh *octTreeMesh;
                 ISceneNode *octTreeNode;
                 
+                read("type");
+                stringc esnt = xmlReader->getAttributeValue("esnt");
+                
                 if (extension == ".jpg" || extension == ".png" || extension == ".bmp") {
                     octTreeNode = devices->getSceneManager()->addTerrainSceneNode(path.c_str(), 0, -1, vector3df(0.f, 0.f, 0.f),
                                                                                   vector3df(0.f, 0.f, 0.f), vector3df(1.f, 0.1f, 1.f),
                                                                                   SColor (255, 255, 255, 255), 5, ETPS_17, 4);
-                } else {
+                } else if (esnt == "octtree") {
                     octTreeMesh = devices->getSceneManager()->getMesh(path.c_str());
                     octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, 1024);
+                } else if (esnt == "mesh") {
+                    octTreeMesh = devices->getSceneManager()->getMesh(path.c_str());
+                    octTreeNode = devices->getSceneManager()->addMeshSceneNode(octTreeMesh, 0, -1);
                 }
+                
                 //NAME
                 if (octTreeNode) {
                     read("name");
@@ -209,10 +245,16 @@ void CImporter::importScene(stringc file_path) {
                         }
                         octTreeNode->getMaterial(id).Lighting = lighting;
                         
-                        CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-                        E_MATERIAL_TYPE mt = editNode->getMaterialType((s32)devices->getCore()->getU32(xmlReader->getAttributeValue("materialType")));
-                        delete editNode;
-                        octTreeNode->getMaterial(id).MaterialType = mt;
+                        if (devices->getCore()->getS32(xmlReader->getAttributeValue("materialType")) < 0) {
+                            s32 mts32 = (s32)devices->getCore()->getS32(xmlReader->getAttributeValue("materialType"));
+                            octTreeNode->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](-(mts32+1))->getMaterial();
+                        } else {
+                            CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+                            E_MATERIAL_TYPE mt;
+                            mt = editNode->getMaterialType((s32)devices->getCore()->getU32(xmlReader->getAttributeValue("materialType")));
+                            octTreeNode->getMaterial(id).MaterialType = mt;
+                            delete editNode;
+                        }
                         
                         readWithNextElement("material", "materials");
                     }
@@ -431,9 +473,25 @@ void CImporter::importScene(stringc file_path) {
                     }
                     animatedNode->getMaterial(id).Lighting = lighting;
                     
-                    CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-                    E_MATERIAL_TYPE mt = editNode->getMaterialType((s32)devices->getCore()->getU32(xmlReader->getAttributeValue("materialType")));
-                    delete editNode;
+                    E_MATERIAL_TYPE mt;
+                    
+                    if (devices->getCore()->getU32(xmlReader->getAttributeValue("materialType")) > 24) {
+                        s32 mts32 = (s32)devices->getCore()->getU32(xmlReader->getAttributeValue("materialType"));
+                        bool founded = false;
+                        int i=0;
+                        while (!founded && i < devices->getCoreData()->getShaderCallbacks()->size()) {
+                            if (devices->getCoreData()->getShaderCallbacks()->operator[](i)->getMaterial() == mts32) {
+                                mt = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](i)->getMaterial();
+                                founded = true;
+                            }
+                            i++;
+                        }
+                    } else {
+                        CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+                        mt = editNode->getMaterialType((s32)devices->getCore()->getU32(xmlReader->getAttributeValue("materialType")));
+                        delete editNode;
+                    }
+                    
                     animatedNode->getMaterial(id).MaterialType = mt;
                     
                     readWithNextElement("material", "materials");
@@ -528,7 +586,9 @@ void CImporter::importScene(stringc file_path) {
         }
     }
     
-    read("rootScene");
+    if (xmlReader) {
+        read("rootScene");
+    }
     
     delete xmlReader;
 

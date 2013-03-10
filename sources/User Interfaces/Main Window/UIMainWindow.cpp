@@ -30,6 +30,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     objectsTab = tabCtrl->addTab(L"Objects");
     lightsTab = tabCtrl->addTab(L"Lights");
     dynamicLightsTab = tabCtrl->addTab(L"Volume Lights");
+    waterSurfacesTab = tabCtrl->addTab(L"Waters");
     //-----------------------------------
     
     //-----------------------------------
@@ -44,44 +45,53 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
                                                               lightsTab, -1, true);
     dynamicListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
                                                              dynamicLightsTab, -1, true);
+    waterSurfacesListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
+                                                              waterSurfacesTab, -1, true);
     //-----------------------------------
     
     //-----------------------------------
     //BUTTONS
     addTerrain = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
-                                                         terrainsTab, CXT_MAIN_WINDOW_EVENTS_ADD_OCTTREE, L"Add a terrain", 
-                                                         L"Add a terrain mesh.");
+                                                         terrainsTab, CXT_MAIN_WINDOW_EVENTS_ADD_OCTTREE, L"Add a Terrain", 
+                                                         L"Add a Terrain Mesh.");
     removeTerrain = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
                                                             terrainsTab, CXT_MAIN_WINDOW_EVENTS_DELETE_OCTTREE, 
-                                                            L"Delete this terrain", L"Delete the selected terrain mesh.");
+                                                            L"Delete This Terrain", L"Delete the selected terrain mesh.");
     
     addTree = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
-                                                      treesTab, CXT_MAIN_WINDOW_EVENTS_ADD_TREE, L"Add a tree", 
-                                                      L"Add a tree mesh.");
+                                                      treesTab, CXT_MAIN_WINDOW_EVENTS_ADD_TREE, L"Add a Tree", 
+                                                      L"Add a Tree Mesh.");
     removeTree = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
                                                          treesTab, CXT_MAIN_WINDOW_EVENTS_DELETE_TREE, 
-                                                         L"Delete this tree", L"Delete the selected tree mesh.");
+                                                         L"Delete This Tree", L"Delete the selected tree mesh.");
     
     addObject = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
-                                                        objectsTab, CXT_MAIN_WINDOW_EVENTS_ADD_OBJECT, L"Add an object", 
+                                                        objectsTab, CXT_MAIN_WINDOW_EVENTS_ADD_OBJECT, L"Add An Object", 
                                                         L"Add an object mesh.");
     removeObject = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
                                                            objectsTab, CXT_MAIN_WINDOW_EVENTS_DELETE_OBJECT, 
-                                                           L"Delete this object", L"Delete the selected object mesh.");
+                                                           L"Delete This Object", L"Delete the selected object mesh.");
     
     addLight = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
-                                                       lightsTab, CXT_MAIN_WINDOW_EVENTS_ADD_LIGHT, L"Add a light", 
-                                                       L"Add a light.");
+                                                       lightsTab, CXT_MAIN_WINDOW_EVENTS_ADD_LIGHT, L"Add a Light", 
+                                                       L"Add a Light.");
     removeLight = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
                                                           lightsTab, CXT_MAIN_WINDOW_EVENTS_DELETE_LIGHT, 
-                                                          L"Delete this light", L"Delete the selected light.");
+                                                          L"Delete This Light", L"Delete the selected light.");
     
     addDynamicL = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
-                                                         dynamicLightsTab, CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L, L"Add a dynamic light", 
-                                                         L"Add a dynamic light.");
+                                                         dynamicLightsTab, CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L, L"Add a Volume Light", 
+                                                         L"Add a Volume Light.");
     removeDynamicL = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
                                                             dynamicLightsTab, CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L, 
-                                                            L"Delete Dynamic Light", L"Delete the selected dynamic light.");
+                                                            L"Delete Volume Light", L"Delete the selected volume light.");
+    
+    addWaterSurface = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
+                                                          waterSurfacesTab, CXT_MAIN_WINDOW_EVENTS_ADD_WATER_SURFACE, L"Add a Water Surface", 
+                                                          L"Add a water surface.");
+    removeWaterSurface = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
+                                                             waterSurfacesTab, CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE, 
+                                                             L"Delete Water Surface", L"Delete the selected water surface.");
     //-----------------------------------
     
     //-----------------------------------
@@ -322,6 +332,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
         if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
             if (previousNode) {
                 previousNode->setMaterialFlag(EMF_WIREFRAME, false);
+                //previousNode->setDebugDataVisible(EDS_OFF);
             }
             core::line3d<f32> ray = collisionManager->getRayFromScreenCoordinates(devices->getDevice()->getCursorControl()->getPosition());
             vector3df intersection;
@@ -331,9 +342,12 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             if (selectedMouseNode) {
                 devices->getVideoDriver()->setTransform(ETS_WORLD, matrix4());
                 if (devices->getCoreData()->getTerrainNodes()->linear_search(selectedMouseNode)) {
-                    selectedMouseNode->setMaterialFlag(EMF_WIREFRAME, true);
+                    if (selectedMouseNode->getType() != ESNT_OCTREE && selectedMouseNode->getType() != ESNT_MESH) {
+                        selectedMouseNode->setMaterialFlag(EMF_WIREFRAME, true);
+                        //selectedMouseNode->setDebugDataVisible(EDS_BBOX);
+                    }
                 }
-                devices->getVideoDriver()->draw3DTriangle(hitTriangle, SColor(0, 255, 0, 0));
+                devices->getVideoDriver()->draw3DTriangle(hitTriangle, SColor(255, 255, 0, 255));
                 previousNode = selectedMouseNode;
             } else {
                 previousNode = 0;

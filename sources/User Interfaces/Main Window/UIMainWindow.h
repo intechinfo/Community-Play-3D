@@ -33,7 +33,10 @@ enum GUI_MAIN_WINDOW_EVENTS {
     CXT_MAIN_WINDOW_EVENTS_DELETE_LIGHT, CXT_MAIN_WINDOW_EVENTS_DELETE_LIGHT_LIGHT_YES,
     
     CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L,
-    CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L, CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L_YES
+    CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L, CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L_YES,
+    
+    CXT_MAIN_WINDOW_EVENTS_ADD_WATER_SURFACE,
+    CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE, CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE_YES
 };
 
 class CUIMainWindow : public IEventReceiver {
@@ -64,14 +67,15 @@ private:
     //-----------------------------------
     //WINDOW GUI ELEMENTS
     IGUITabControl *tabCtrl;
-    IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab;
+    IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab, *waterSurfacesTab;
     
-    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *dynamicListBox;
+    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *dynamicListBox, *waterSurfacesListBox;
     IGUIButton *addTerrain, *removeTerrain;
     IGUIButton *addTree, *removeTree;
     IGUIButton *addObject, *removeObject;
     IGUIButton *addLight, *removeLight;
     IGUIButton *addDynamicL, *removeDynamicL;
+    IGUIButton *addWaterSurface, *removeWaterSurface;
     
     CUIWindowAddOctTree *addOctTreeInstance;
     CUIWindowAddTree *addTreeInstance;

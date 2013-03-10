@@ -58,7 +58,12 @@ struct SShadowLight
 			projMat.buildProjectionMatrixOrthoLH(fov, fov, nearValue, farValue);
 		else
 			projMat.buildProjectionMatrixPerspectiveFovLH(fov, 1.0f, nearValue, farValue);
+        
+        lastPos = irr::core::vector3df(0, 0, 0);
+        lastTar = irr::core::vector3df(0, 0, 0);
 	}
+    
+    irr::core::vector3df lastPos, lastTar;
 
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position)
@@ -159,6 +164,7 @@ private:
 
 	irr::video::SColorf diffuseColour;
 	irr::core::vector3df pos, tar;
+    //irr::core::vector3df lastPos, lastTar;
 	irr::f32 farPlane;
 	irr::core::matrix4 viewMat, projMat;
 	irr::u32 mapRes;
@@ -590,6 +596,9 @@ private:
 
 	irr::video::ITexture* ScreenRTT;
 	irr::video::ITexture* DepthRTT;
+            
+    irr::video::ITexture* currentShadowMapTexture;
+    irr::video::ITexture* currentSecondaryShadowMap;
 
 	irr::core::array<SPostProcessingPair> PostProcessingRoutines;
 	irr::core::array<SShadowLight> LightList;
@@ -608,5 +617,3 @@ private:
 };
 
 #endif
-
-// Copyright (C) 2007-2009 Ahmed Hilali 

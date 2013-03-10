@@ -86,6 +86,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
     i++;
     
+    submenu = menu->getSubMenu(i);
+    submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
+    submenu->addItem(L"Edit Selected Water Shader", -1);
     i++;//TO CHANGE
     
     submenu = menu->getSubMenu(i++);
@@ -109,9 +112,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	bar->addButton(CXT_MENU_EVENTS_EXPORT_SCENE, 0, L"Export this scene", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/edit_ao.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_AO, 0, L"Edit Animated Object", image, 0, false, true);
+    image = devices->getVideoDriver()->getTexture("GUI/shaders.png");
+    bar->addButton(CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS, 0, L"Edit Material Shaders", image, 0, false, true);
+    image = devices->getVideoDriver()->getTexture("GUI/animators.png");
+    bar->addButton(-1, 0, L"Edit animators of selected node", image, 0, false, true);
     
-    image = devices->getVideoDriver()->getTexture("GUI/help.png");
-	bar->addButton(CXT_MENU_EVENTS_HELP, 0, L"Open Help", image, 0, false, true);
     //-----------------------------------
     
     //-----------------------------------
@@ -121,23 +126,31 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
                                                   menu->getRelativePosition().getHeight()));
     image = devices->getVideoDriver()->getTexture("GUI/Render.png");
     infosBar->addButton(CXT_BAR_EVENTS_RENDER, 0, L"Render Current View", image, 0, false, true);
+    image = devices->getVideoDriver()->getTexture("GUI/console.png");
+    consoleButton = infosBar->addButton(CXT_BAR_EVENTS_LOG_WINDOW, 0, L"Show/Hide Console", image, 0, false, false);
+    image = devices->getVideoDriver()->getTexture("GUI/help.png");
+	infosBar->addButton(CXT_MENU_EVENTS_HELP, 0, L"Open Help", image, 0, false, true);
     //-----------------------------------
     
     timer = devices->getDevice()->getTimer();
     timer->start();
-    timer->setTime(0);
+    //timer->setTime(0);
     
     CImporter *impoterInstance = new CImporter(devices);
-    impoterInstance->importScene("project.world");
+    //impoterInstance->importScene("project.world");
     delete impoterInstance;
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
     
     //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
     //editEffects->open();
+    //devices->setXEffectDrawable(true);
     
-    CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, 0);
-    editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
+    //CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, 0);
+    //editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
+    
+    //CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
+    //editMaterials->open();
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -145,10 +158,10 @@ CUIContextMenu::~CUIContextMenu() {
 }
 
 void CUIContextMenu::update() {
-    if (timer->getTime() > 3000 ) {
-        timer->setTime(0);
+    //if (timer->getTime() / 3000 == 0 ) {
+        //timer->setTime(0);
         mainWindowInstance->refresh();
-    }
+    //}
 }
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
@@ -292,7 +305,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //-----------------------------------
                 //CONTEXT MENU RENDERS EVENT
                 case CXT_MENU_EVENTS_RENDERS_HDR_DRAW:
-                    devices->setHDRDrawable(!devices->isHDRDrawable());
+                    
                     break;
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
@@ -302,6 +315,15 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT: {
                     CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
                     editEffects->open();
+                }
+                    break;
+                //-----------------------------------
+                
+                //-----------------------------------
+                //CONTEXT MENU SHADERS EVENT
+                case CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER: {
+                    CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
+                    editMaterials->open();
                 }
                     break;
                 //-----------------------------------
@@ -426,6 +448,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
                     break;
                     
+                case CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS: {
+                    CUIWindowEditMaterials *editMat = new CUIWindowEditMaterials(devices);
+                    editMat->open();
+                }
+                    break;
+                    
                 case CXT_MENU_EVENTS_HELP:
                     devices->getGUIEnvironment()->addMessageBox(L"How to ?",
                                                                 L"KEY CODES : \n"
@@ -448,6 +476,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     CUIWindowRender *render = new CUIWindowRender(devices);
                     render->open();
                 }
+                    break;
+                    
+                case CXT_BAR_EVENTS_LOG_WINDOW:
+                    
                     break;
                     
                 //-----------------------------------
@@ -495,7 +527,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case KEY_KEY_H:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
-                        devices->setHDRDrawable(!devices->isHDRDrawable());
+                        devices->setPostProcessManagerDrawable(!devices->isPostProcessManagerDrawable());
                     }
                     break;
                     
@@ -513,6 +545,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case KEY_KEY_O:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
                         openSceneInstance->open();
+                    }
+                    break;
+                    
+                case KEY_KEY_S:
+                    if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
+                        exportSceneInstance->open();
                     }
                     break;
                     

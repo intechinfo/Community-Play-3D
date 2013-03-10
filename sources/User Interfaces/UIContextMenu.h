@@ -21,9 +21,11 @@ enum GUI_CXT_MENU_EVENTS {
     CXT_MENU_EVENTS_EDIT_NODE,
     CXT_MENU_EVENTS_EXPORT_SCENE,
     CXT_MENU_EVENTS_EDIT_AO,
+    CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS,
     CXT_MENU_EVENTS_HELP,
     
     CXT_BAR_EVENTS_RENDER,
+    CXT_BAR_EVENTS_LOG_WINDOW,
     
     CXT_MENU_EVENTS_FILE_OPEN_SCRIPT,
     CXT_MENU_EVENTS_FILE_EXPORT_SCENE,
@@ -47,6 +49,8 @@ enum GUI_CXT_MENU_EVENTS {
     CXT_MENU_EVENTS_RENDERS_HDR_EDIT,
     CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW,
     CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT,
+    
+    CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER,
     
     CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION,
     CXT_MENU_EVENTS_SIMPLE_EDITION,
@@ -72,8 +76,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "UIWindowRender.h"
 
 #include "../Renders/XEffect/Interfaces/CUIWindowEditEffects.h"
-
-class CCoreUserInterface;
+#include "../Renders/XEffect/Interfaces/CUIWindowEditMaterials.h"
 
 class CUIContextMenu : public IEventReceiver {
     
@@ -84,6 +87,8 @@ public:
     
     void update();
     
+    IGUIButton *getConsoleButton() { return consoleButton; }
+    
     bool OnEvent(const SEvent &event);
     
 private:
@@ -91,6 +96,8 @@ private:
     //-----------------------------------
     //DEVICE
     CDevices *devices;
+    
+    IGUIButton *consoleButton;
     //-----------------------------------
     
     //-----------------------------------

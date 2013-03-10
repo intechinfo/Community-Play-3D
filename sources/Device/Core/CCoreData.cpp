@@ -46,6 +46,8 @@ void CCoreData::clearAllTheArrays() {
     effectRenders.clear();
     effectRendersPaths.clear();
     effectRenderCallbacks.clear();
+    
+    shaderCallbacks.clear();
 }
 
 array<ISceneNode *> CCoreData::getAllSceneNodes() {

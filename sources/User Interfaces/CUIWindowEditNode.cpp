@@ -24,6 +24,23 @@ CUIWindowEditNode::~CUIWindowEditNode() {
 
 }
 
+void CUIWindowEditNode::open(ISceneNode *node, stringw prefix, bool modal) {
+    
+    nodeToEdit = node;
+    
+    if (nodeToEdit == 0) {
+        devices->addErrorDialog(L"Error", L"No node to edit, maybe an intern error or your node is out \n"
+                                L"Please try again", EMBF_OK);
+        devices->getEventReceiver()->RemoveEventReceiver(this);
+        delete this;
+    } else {
+        editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
+                                                                   100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
+                                                             modal, L"Node Edition Window", 0, -1);
+        open(node, prefix);
+    }
+}
+
 void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
     
     devices->getEventReceiver()->AddEventReceiver(this);
@@ -31,17 +48,20 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
     nodeToEdit = node;
     
     if (nodeToEdit == 0) {
-        devices->getGUIEnvironment()->addMessageBox(L"Warning", 
-                                                    L"No node to edit, maybe an intern error or your node is out \n"
-                                                    L"Please try again");
+        devices->addErrorDialog(L"Error", L"No node to edit, maybe an intern error or your node is out \n"
+                                L"Please try again", EMBF_OK);
+        devices->getEventReceiver()->RemoveEventReceiver(this);
+        delete this;
     } else {
         nodeToEditPrefix.append(prefix);
         nodeToEdit->setDebugDataVisible(EDS_BBOX_ALL);
         
         //WINDOW
-        editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
-                                                                       100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
-                                                             false, L"Node Edition Window", 0, -1);
+        if (!editWindow) {
+            editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
+                                                                           100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
+                                                                 false, L"Node Edition Window", 0, -1);
+        }
         editWindow->getMaximizeButton()->setVisible(true);
         
         //WINDOW BUTTONS
@@ -53,8 +73,9 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         
         tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(2, 20, 418, 550), editWindow, true, true, -1);
         generalTab = tabCtrl->addTab(L"General");
-        advancedTab = tabCtrl->addTab(L"Height Map");
         flagsTab = tabCtrl->addTab(L"Flags & Materials");
+        generalFlagsTab = tabCtrl->addTab(L"Global Flags");
+        advancedTab = tabCtrl->addTab(L"Height Map");
         animatedTab = tabCtrl->addTab(L"Animated");
         
         tabCtrl->setActiveTab(generalTab);
@@ -320,6 +341,23 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         ravelSpin->setValue(ravelSpin->getMax());
         rsCurrentPos = ravelSpin->getValue();
         
+        //SETTING UP GLOBAL FLAGS
+        gAnisotropicFilter = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(9, 16, 149, 36), generalFlagsTab, -1, L"Anisotropic Filter");
+        gBilinearFilter = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(149, 16, 259, 36), generalFlagsTab, -1, L"Bilinear Filter");
+        gTrilinearFilter = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(259, 16, 379, 36), generalFlagsTab, -1, L"Trilinear Filter");
+        
+        gAntiAliasing = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(9, 46, 129, 66), generalFlagsTab, -1, L"Anti Aliasing");
+        
+        gBFCulling = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(9, 76, 149, 96), generalFlagsTab, -1, L"Back Face Culling");
+        gFFCulling = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(149, 76, 289, 96), generalFlagsTab, -1, L"Front Face Culling");
+        
+        gColorMask = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(9, 106, 149, 126), generalFlagsTab, -1, L"Color Mask");
+        gColorMaterial = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(149, 106, 289, 126), generalFlagsTab, -1, L"Color Material");
+        
+        gTextureWrap = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(9, 136, 149, 156), generalFlagsTab, -1, L"Texture Wrap");
+        gZBuffer = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(149, 136, 259, 156), generalFlagsTab, -1, L"ZBuffer");
+        gZWriteEnable = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(259, 136, 399, 156), generalFlagsTab, -1, L"ZWrite Enable");
+        
         //APPLY MATERIAL 0 DEFAULT VALUES
         setMaterialTextures();
         
@@ -445,6 +483,12 @@ void CUIWindowEditNode::createMaterialTypesComboBox(IGUIElement *element) {
     comboBox->addItem(L"PARALLAX_MAP_TRANSPARENT_VERTEX_ALPHA");
     comboBox->addItem(L"ONETEXTURE_BLEND");
     comboBox->addItem(L"FORCE_32BIT");
+    
+    // > 25
+    for (u32 i=0; i < devices->getCoreData()->getShaderCallbacks()->size(); i++) {
+        stringw name = devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName().c_str();
+        comboBox->addItem(name.c_str());
+    }
 }
 
 s32 CUIWindowEditNode::getMaterialTypeCB(E_MATERIAL_TYPE type) {
@@ -526,13 +570,6 @@ E_MATERIAL_TYPE CUIWindowEditNode::getMaterialType(s32 pos) {
 }
 
 bool CUIWindowEditNode::OnEvent(const SEvent &event) {
-    
-    if (!nodeToEdit) {
-        flagsTab->setEnabled(false);
-        advancedTab->setEnabled(false);
-        generalTab->setEnabled(false);
-        animatedTab->setEnabled(false);
-    }
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         if (!event.KeyInput.PressedDown) {
@@ -930,6 +967,49 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 default:
                     break;
             }
+            
+            //GLOBAL FILTERS
+            if (event.GUIEvent.Caller == gAnisotropicFilter) {
+                nodeToEdit->setMaterialFlag(EMF_ANISOTROPIC_FILTER, gAnisotropicFilter->isChecked());
+            }
+            if (event.GUIEvent.Caller == gBilinearFilter) {
+                nodeToEdit->setMaterialFlag(EMF_BILINEAR_FILTER, gBilinearFilter->isChecked());
+            }
+            if (event.GUIEvent.Caller == gTrilinearFilter) {
+                nodeToEdit->setMaterialFlag(EMF_TRILINEAR_FILTER, gTrilinearFilter->isChecked());
+            }
+            
+            //GLOBAL ANTIALIASING
+            if (event.GUIEvent.Caller == gAntiAliasing) {
+                nodeToEdit->setMaterialFlag(EMF_ANTI_ALIASING, gAntiAliasing->isChecked());
+            }
+            
+            //CLOBAL CULLING
+            if (event.GUIEvent.Caller == gBFCulling) {
+                nodeToEdit->setMaterialFlag(EMF_BACK_FACE_CULLING, gBFCulling->isChecked());
+            }
+            if (event.GUIEvent.Caller == gFFCulling) {
+                nodeToEdit->setMaterialFlag(EMF_FRONT_FACE_CULLING, gFFCulling->isChecked());
+            }
+            
+            //GLOBAL COLOR
+            if (event.GUIEvent.Caller == gColorMask) {
+                nodeToEdit->setMaterialFlag(EMF_COLOR_MASK, gColorMask->isChecked());
+            }
+            if (event.GUIEvent.Caller == gColorMaterial) {
+                nodeToEdit->setMaterialFlag(EMF_COLOR_MATERIAL, gColorMaterial->isChecked());
+            }
+            
+            //GLOBAL TEXTURE
+            if (event.GUIEvent.Caller == gTextureWrap) {
+                nodeToEdit->setMaterialFlag(EMF_TEXTURE_WRAP, gTextureWrap->isChecked());
+            }
+            if (event.GUIEvent.Caller == gZBuffer) {
+                nodeToEdit->setMaterialFlag(EMF_ZBUFFER, gZBuffer->isChecked());
+            }
+            if (event.GUIEvent.Caller == gZWriteEnable) {
+                nodeToEdit->setMaterialFlag(EMF_ZWRITE_ENABLE, gZWriteEnable->isChecked());
+            }
         }
         
         if (event.GUIEvent.EventType == EGET_SPINBOX_CHANGED) {
@@ -993,11 +1073,21 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
-                    nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
+                    if (generalMaterialCB->getSelected() <= 24) {
+                        nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
+                    } else {
+                        nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - 25)->getMaterial());
+                    }
+                    
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_MATERIAL_TYPE:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
+                    //nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
+                    if (materialType->getSelected() < 25) {
+                        nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
+                    } else {
+                        nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](materialType->getSelected() - 25)->getMaterial();
+                    }
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_GENERAL_SHADOWS:

@@ -37,6 +37,9 @@ private:
     IGUIWindow *addOctTreeWindow;
     IGUIEditBox *addOctTreeEditBox;
     
+    IGUICheckBox *asMeshSceneNode;
+    IGUIEditBox *minPolysPerNode;
+    
     stringw path_file;
     bool isOpenFileDialogOpened;
     

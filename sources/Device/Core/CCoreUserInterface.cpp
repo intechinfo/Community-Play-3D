@@ -36,17 +36,17 @@ CCoreUserInterface::CCoreUserInterface() {
 	
 	devices = new CDevices();
 	devices->createDevice(params);
-    devices->getEventReceiver()->AddEventReceiver(this);
     
     driver = devices->getVideoDriver();
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
+    
+    windowSize = devices->getVideoDriver()->getScreenSize();
     //-----------------------------------
     
     //-----------------------------------
     //USER INTERFACE OBJECTS
     contextMenuInstance = new CUIContextMenu(devices);
-    devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
     //-----------------------------------
     
     //-----------------------------------
@@ -64,6 +64,27 @@ CCoreUserInterface::CCoreUserInterface() {
 	skin_window_classic->setColor(EGDC_WINDOW, SColor(255,0x66,0x66,0x66));
     //-----------------------------------
     
+    //-----------------------------------
+    //LOG CONSOLE
+    logWindow =  gui->addWindow(rect<s32>(0, 0, 320, 520), false, L"Log Window", 0, -1);
+    logWindow->getMaximizeButton()->setVisible(true);
+    logWindow->getCloseButton()->remove();
+    logListBox = gui->addListBox(rect<s32>(0, 20, 320, 470), logWindow, -1, true);
+    logListBox->setAutoScrollEnabled(true);
+    
+    logLevel = gui->addComboBox(rect<s32>(10, 480, 200, 510), logWindow, -1);
+    logLevel->addItem(L"ELL_INFORMATION");
+    logLevel->addItem(L"ELL_WARNING");
+    logLevel->addItem(L"ELL_ERROR");
+    logLevel->addItem(L"ELL_NONE");
+    
+    clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
+    
+    logVisible = true;
+    //-----------------------------------
+    
+    devices->getEventReceiver()->AddEventReceiver(this);
+    devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
 }
 
 CCoreUserInterface::~CCoreUserInterface() {
@@ -76,9 +97,60 @@ void CCoreUserInterface::update() {
     contextMenuInstance->update();
     
     programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-16));
+    
+    if (logWindow) {
+        if (logWindow->getRelativePosition().getHeight() == 520) {
+            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-320, driver->getScreenSize().Height-520));
+        } else {
+            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-1000, driver->getScreenSize().Height-600));
+        }
+    }
 }
 
 bool CCoreUserInterface::OnEvent(const SEvent &event) {
+    
+    if (devices->getVideoDriver()->getScreenSize() != windowSize) {
+        //devices->rebuildXEffect();
+        windowSize = devices->getVideoDriver()->getScreenSize();
+    }
+    
+    if (event.EventType == EET_GUI_EVENT) {
+        if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+            if (event.GUIEvent.Caller == contextMenuInstance->getConsoleButton()) {
+                logVisible = !logVisible;
+                logWindow->setVisible(logVisible);
+            }
+            
+            if (event.GUIEvent.Caller == clear) {
+                logListBox->clear();
+            }
+            
+            if (event.GUIEvent.Caller == logWindow->getMaximizeButton()) {
+                if (logWindow->getRelativePosition().getHeight() == 520) {
+                    logWindow->setRelativePosition(rect<s32>(0, 0, 1000, 600));
+                    logListBox->setRelativePosition(rect<s32>(0, 20, 980, 560));
+                    clear->setRelativePosition(rect<s32>(880, 570, 980, 590));
+                } else {
+                    logWindow->setRelativePosition(rect<s32>(0, 0, 320, 520));
+                    logListBox->setRelativePosition(rect<s32>(0, 20, 320, 470));
+                    clear->setRelativePosition(rect<s32>(207, 480, 307, 510));
+                }
+            }
+        }
+        
+        if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
+            if (event.GUIEvent.Caller == logLevel) {
+                devices->getDevice()->getLogger()->setLogLevel((ELOG_LEVEL)logLevel->getSelected());
+            }
+        }
+    }
+    
+    if (event.EventType == EET_LOG_TEXT_EVENT && logListBox) {
+        stringw text = event.LogEvent.Text;
+        logListBox->addItem(text.c_str());
+        logListBox->setSelected(logListBox->getItemCount());
+        gui->drawAll();
+    }
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         if (event.KeyInput.Key == KEY_ESCAPE) {

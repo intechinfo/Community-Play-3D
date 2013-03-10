@@ -1,9 +1,6 @@
 #ifndef H_XEFFECTS_SQ
 #define H_XEFFECTS_SQ
 
-// Based on "CBaseFilter" by ItIsFree.
-// Original thread: http://irrlicht.sourceforge.net/phpBB2/viewtopic.php?t=9857
-
 #include <irrlicht.h>
 
 class CScreenQuad

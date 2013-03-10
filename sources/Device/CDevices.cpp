@@ -17,12 +17,11 @@ CDevices::CDevices() {
     worldCoreData = new CCoreData();
     
     //RENDERS
-    hdr = 0;
     effect = 0;
     
-    renderHDR = false;
     renderXEffect = false;
     renderGUI = true;
+    renderProcessManager = false;
     
     editBoxEntered = false;
     
@@ -92,7 +91,7 @@ void CDevices::updateDevice() {
                 ray.end = lfLine.end;
                 selectedSceneNode = collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 1, 0);
                 if(selectedSceneNode) {
-                        //worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(0.f);
+                    
                 }
                 worldCoreData->getLensFlareSceneNodes()->operator[](i)->updateAbsolutePosition();
             }
@@ -100,11 +99,11 @@ void CDevices::updateDevice() {
     }
     
     //RENDERS
-    if (renderHDR) {
-        hdr->render();
-        hdr->getPostProcessorNode()->setVisible(true);
-    } else {
-        hdr->getPostProcessorNode()->setVisible(false);
+    if (renderProcessManager) {
+        postProcessManager->renderDepth();
+        postProcessManager->prepare();
+        
+        postProcessManager->render(EPPE_NIGHT_VISION);
     }
     
     if (renderXEffect) {
@@ -118,6 +117,10 @@ void CDevices::updateDevice() {
     
     if (renderGUI) {
         gui->drawAll();
+    }
+    
+    if (renderProcessManager) {
+        postProcessManager->update();
     }
     
     camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
@@ -138,6 +141,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     receiver.AddEventReceiver(this);
     
     workingDirectory = Device->getFileSystem()->getWorkingDirectory().c_str();
+    workingDirectory.append('/');
     
     //-----------------------------------
     //CAMERAS
@@ -178,27 +182,27 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	cursorBillBoard->setID(-1);
     //-----------------------------------
     
+    //3D INTERACTION
+    collisionManager = new CCollisionManager(smgr);
+    objPlacement = new CCoreObjectPlacement(smgr, Device->getCursorControl(), collisionManager);
+    
     //RENDERS
-    hdr = new ShaderGroup(Device, smgr);
-	hdr->sampleDist0 = 0.0118f;
-    hdr->sampleDist1 = 0.125f;
-	hdr->distanceScale = 0.006f;
-	hdr->range = 2.0f;
-    hdr->focus = 0.26f;
+    postProcessManager= new CPostProcessManager(Device);
+    postProcessManager->addNodeToDepthPass(objPlacement->getGridSceneNode());
     
     //effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
-    effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
+    effect = new EffectHandler(Device, dimension2du(800, 600), false, true, false);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
     
-    //3D INTERACTION
-    collisionManager = new CCollisionManager(smgr);
-    objPlacement = new CCoreObjectPlacement(smgr, Device->getCursorControl(), collisionManager);
-    
     receiver.AddEventReceiver(objPlacement);
+}
+
+void CDevices::rebuildXEffect() {
+    effect->setScreenRenderTargetResolution(driver->getScreenSize());
 }
 
 void CDevices::createFileOpenDialog(stringw title) {
@@ -211,6 +215,26 @@ void CDevices::createFileOpenDialog(stringw title) {
     gui->addButton(rect<s32>(320, 450, 430, 480), window, DEVICES_FILE_OPEN_DIALOG_EVENTS_OK, L"Ok", L"Accept");
     gui->addButton(rect<s32>(440, 450, 550, 480), window, DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE, L"Close", L"Close this window");
     dialogPreview = gui->addImage(rect<s32>(570, 20, 1260-410, 440), window, -1, L"Image Preview (Double Click To View)");
+}
+
+CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type) {
+    CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, gui->getRootGUIElement(), 1, type);
+    selector->setRelativePosition(rect<s32>(0, 20, 560, 440));
+    
+    selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
+    selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
+    
+    return selector;
+}
+
+CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent) {
+    CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, parent, 1, type);
+    selector->setRelativePosition(rect<s32>(0, 20, 560, 440));
+    
+    selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
+    selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
+    
+    return selector;
 }
 
 void CDevices::addInformationDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag) {

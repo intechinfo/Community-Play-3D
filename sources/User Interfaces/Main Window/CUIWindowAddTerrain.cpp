@@ -24,24 +24,20 @@ CUIWindowAddOctTree::~CUIWindowAddOctTree() {
 
 void CUIWindowAddOctTree::open() {
     
-    addOctTreeWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(450, 100, 750, 240), 
-                                                               true, L"Add a terrain mesh", 0, -1);
+    addOctTreeWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(450, 100, 750, 270), true, L"Add a terrain mesh", 0, -1);
     
-    devices->getGUIEnvironment()->addStaticText(L"Name : (#map: will be added automatically)", 
-                                                rect<s32>(5, 25, 250, 85), false, false, addOctTreeWindow, -1, false);
+    devices->getGUIEnvironment()->addStaticText(L"Name : (#map: will be added automatically)", rect<s32>(10, 20, 295, 40), false, false, addOctTreeWindow, -1, false);
+    addOctTreeEditBox = devices->getGUIEnvironment()->addEditBox(L"myName", rect<s32>(5, 50, 210, 70), true, addOctTreeWindow, -1);
+    devices->getGUIEnvironment()->addButton(rect<s32>(220, 50, 290, 70), addOctTreeWindow, CXT_WINDOW_ADD_OCT_TREE_EVENTS_SELECT, L"Select", L"Select the mesh");
     
-    addOctTreeEditBox = devices->getGUIEnvironment()->addEditBox(L"myName", rect<s32>(5, 50, 210, 80), true, 
-                                                                 addOctTreeWindow, -1);
+    devices->getGUIEnvironment()->addStaticText(L"Minimal Polys Per Node :", rect<s32>(10, 80, 170, 100), false, false, addOctTreeWindow, -1, false);
+    minPolysPerNode = devices->getGUIEnvironment()->addEditBox(L"256", rect<s32>(170, 80, 290, 100), true, addOctTreeWindow, -1);
+    asMeshSceneNode = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(10, 100, 290, 120), addOctTreeWindow, -1, L"Load as MeshSceneNode");
     
-    devices->getGUIEnvironment()->addButton(rect<s32>(220, 50, 290, 80), addOctTreeWindow, 
-                                            CXT_WINDOW_ADD_OCT_TREE_EVENTS_SELECT, L"Select", L"Select the mesh");
-    
-    devices->getGUIEnvironment()->addButton(rect<s32>(5, 110, 70, 135), addOctTreeWindow, 
-                                            CXT_WINDOW_ADD_OCT_TREE_EVENTS_ACCEPT, L"Accept", 
+    devices->getGUIEnvironment()->addButton(rect<s32>(10, 130, 75, 155), addOctTreeWindow, CXT_WINDOW_ADD_OCT_TREE_EVENTS_ACCEPT, L"Accept", 
                                             L"Accept and add the selected mesh");
-    
-    devices->getGUIEnvironment()->addButton(rect<s32>(80, 110, 145, 135), addOctTreeWindow, 
-                                            CXT_WINDOW_ADD_OCT_TREE_EVENTS_CLOSE, L"Cancel", L"Close this window");
+    devices->getGUIEnvironment()->addButton(rect<s32>(80, 130, 145, 155), addOctTreeWindow, CXT_WINDOW_ADD_OCT_TREE_EVENTS_CLOSE, L"Cancel", 
+                                            L"Close this window");
     
 }
 
@@ -71,7 +67,14 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         ((ITerrainSceneNode *)octTreeNode)->setDynamicSelectorUpdate(true);
                     } else {
                         octTreeMesh = devices->getSceneManager()->getMesh(path_file.c_str());
-                        octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, 1024);
+                        
+                        if (asMeshSceneNode->isChecked()) {
+                            octTreeNode = devices->getSceneManager()->addMeshSceneNode(octTreeMesh, 0, -1);
+                        } else {
+                            stringc minppn_w = minPolysPerNode->getText();
+                            u32 minppn = devices->getCore()->getU32(minppn_w.c_str());
+                            octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, minppn);
+                        }
                     }
                     if (octTreeNode) {
                         octTreeNode->setMaterialFlag(EMF_LIGHTING, false);

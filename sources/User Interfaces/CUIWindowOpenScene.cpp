@@ -36,7 +36,8 @@ void CUIWindowOpenScene::open() {
     dialog->setNotClipped(false);
     dialog->setRelativePositionProportional(rect<f32>(0.3, 0.3, 0.3, 0.6));*/
     
-    devices->createFileOpenDialog(L"Open saved world");
+    devices->createFileOpenDialog(L"Open saved world", CGUIFileSelector::EFST_OPEN_DIALOG)->addFileFilter(L"WORLD", L"world", 0);
+    //devices->createFileOpenDialog(L"Open Scene");
     
     isOpenFileDialogOpened = true;
 }
@@ -72,9 +73,21 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
                     devices->updateDevice();
                     devices->getVideoDriver()->endScene();
                     
+                    devices->getDevice()->getLogger()->log(path_file.c_str());
+                    if (devices->getDevice()->getFileSystem()->existFile(path_file.c_str())) {
+                        devices->getDevice()->getLogger()->log("The file exists !");
+                    } else {
+                        devices->getDevice()->getLogger()->log("The file Doesn't exist !");
+                    }
+                    
                     CImporter *importer = new CImporter(devices);
                     importer->importScene(path_file.c_str());
                     delete importer;
+                    
+                    array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
+                    for (u32 i=0; i < nodes.size(); i++) {
+                        devices->getPostProcessManager()->addNodeToDepthPass(nodes[i]);
+                    }
                     
                     window->remove();
                 } else {

@@ -11,11 +11,18 @@
 irr::f32 currentTime;
 
 irr::video::IVideoDriver *driverScripting;
+irr::scene::ISceneManager *smgrScripting;
+
+irr::f32 dimension_f[2];
+irr::f32 vector2d_f[2];
+irr::f32 vector3d_f[3];
 irr::core::matrix4 worldViewProj;
 
 irr::core::stringc returnedValueType;
 irr::f32 returnedValue;
 irr::f32 returnedValueCount;
+
+irr::video::ITexture *rt;
 
 CRenderCallbackScripting::CRenderCallbackScripting(irr::IrrlichtDevice *_Device) {
     device = _Device;
@@ -43,12 +50,21 @@ CRenderCallbackScripting::CRenderCallbackScripting(irr::IrrlichtDevice *_Device)
     
     //SET RETURNED VALUE TYPE
     lua_pushcfunction(luaState, setReturnedValueAsInteger);
-    lua_setglobal(luaState, "setReturnedValueAsInteger");
+    lua_setglobal(luaState, "setReturnedValueAsFloat");
+    
+    lua_pushcfunction(luaState, setReturnedValueAsDimension2D);
+    lua_setglobal(luaState, "setReturnedValueAsDimension2D");
+    
+    lua_pushcfunction(luaState, setReturnedValueAsVector2D);
+    lua_setglobal(luaState, "setReturnedValueAsVector2D");
+    
+    lua_pushcfunction(luaState, setReturnedValueAsVector3D);
+    lua_setglobal(luaState, "setReturnedValueAsVector3D");
     
     lua_pushcfunction(luaState, setReturnedValueAsMatrix4);
     lua_setglobal(luaState, "setReturnedValueAsMatrix4");
     
-    //SME FUNCTIONS
+    //SOME FUNCTIONS
     lua_pushcfunction(luaState, current_time);
     lua_setglobal(luaState, "current_time");
     
@@ -62,6 +78,16 @@ CRenderCallbackScripting::CRenderCallbackScripting(irr::IrrlichtDevice *_Device)
     lua_pushcfunction(luaState, getTransformEtsWorld);
     lua_setglobal(luaState, "getTransformEtsWorld");
     
+    //PIXELS FUNCTIONS
+    lua_pushcfunction(luaState, getColorPixel);
+    lua_setglobal(luaState, "getColorPixel");
+    
+    lua_pushcfunction(luaState, getCurrentRenderTargetSizeX);
+    lua_setglobal(luaState, "getCurrentRenderTargetSizeX");
+    
+    lua_pushcfunction(luaState, getCurrentRenderTargetSizeY);
+    lua_setglobal(luaState, "getCurrentRenderTargetSizeY");
+    
     //TESTING PART ------------------------------------------------------------------------------------------
     /*int status = luaL_loadfile(luaState, "/test.lua");
     int result = 0;
@@ -73,6 +99,8 @@ CRenderCallbackScripting::CRenderCallbackScripting(irr::IrrlichtDevice *_Device)
     luaL_dostring(luaState, "io.write(\"J'exécute la commande qui est de type const char* :-) \\n\")");*/
     //TESTING PART ------------------------------------------------------------------------------------------
     driverScripting = device->getVideoDriver();
+    smgrScripting = device->getSceneManager();
+    rt = driverScripting->addRenderTargetTexture(irr::core::dimension2d<irr::u32>(256,256), "RENDER TARGET FOR GETTING PIXELS AVERAGE");
 }
 
 CRenderCallbackScripting::~CRenderCallbackScripting() {
@@ -80,7 +108,7 @@ CRenderCallbackScripting::~CRenderCallbackScripting() {
 }
 
 void CRenderCallbackScripting::update() {
-    currentTime = device->getTimer()->getTime();
+    currentTime = device->getTimer()->getRealTime();
     worldViewProj = 0;
     returnedValue = 0;
     returnedValueCount = 0;
@@ -98,7 +126,22 @@ int setReturnedValueAsInteger(lua_State *L) {
 }
 
 int setReturnedValueAsMatrix4(lua_State *L) {
-    returnedValueType = "worldViewProj";
+    returnedValueType = "mat4";
+    return 0;
+}
+
+int setReturnedValueAsDimension2D(lua_State *L) {
+    returnedValueType = "sampler2D";
+    return 0;
+}
+
+int setReturnedValueAsVector2D(lua_State *L) {
+    returnedValueType = "vec2";
+    return 0;
+}
+
+int setReturnedValueAsVector3D(lua_State *L) {
+    returnedValueType = "vec3";
     return 0;
 }
 
@@ -134,10 +177,73 @@ int current_time(lua_State *L) {
     return 1;
 }
 
+int getCurrentRenderTargetSizeX(lua_State *L) {
+    
+    lua_pushnumber(L, driverScripting->getCurrentRenderTargetSize().Width);
+    
+    return 1;
+}
+
+int getCurrentRenderTargetSizeY(lua_State *L) {
+    
+    lua_pushnumber(L, driverScripting->getCurrentRenderTargetSize().Height);
+    
+    return 1;
+}
+
+int getColorPixel(lua_State *L) {
+    driverScripting->setRenderTarget(rt, true, true, irr::video::SColor(0,0,0,0));
+    irr::video::IImage *irt = driverScripting->createImageFromData(irr::video::ECF_R8G8B8, irr::core::dimension2du(256, 256), rt);
+    
+    irr::u32 x, y;
+    
+    //FIRST ARGUMENT : PIXEL POSITION X
+    irr::core::stringc pixelPosition_c = lua_tostring(L, 1);
+    std::istringstream issXCount(pixelPosition_c.c_str());
+    issXCount >> x;
+    
+    //SECOND ARGUMENT : PIXEL POSITION Y
+    pixelPosition_c = lua_tostring(L, 2);
+    std::istringstream issYCount(pixelPosition_c.c_str());
+    issYCount >> y;
+    
+    //THIRD ARGUMENT : COLOR
+    irr::core::stringc theColor = lua_tostring(L, 3);
+    
+    //PUSH NUMBER
+    irr::video::SColor color = irt->getPixel(x, y);
+    irr::u32 colorPixel;
+    
+    if (theColor == "r") {
+        colorPixel = color.getRed();
+    } else if (theColor == "g") {
+        colorPixel = color.getGreen();
+    } else if (theColor == "b") {
+        colorPixel = color.getBlue();
+    } else {
+        colorPixel = -1;
+    }
+    
+    lua_pushnumber(L, colorPixel);
+    
+    return 1;
+}
+
+int getGreenColorPixel(lua_State *L) {
+    
+    return 1;
+}
+
+int getBlueColorPixel(lua_State *L) {
+    
+    return 1;
+}
+
 int getTransformEtsWorld(lua_State *L) {
     worldViewProj *= driverScripting->getTransform(irr::video::ETS_VIEW);
     return 0;
 }
+
 int getTransformEtsView(lua_State *L) {
     worldViewProj *= driverScripting->getTransform(irr::video::ETS_WORLD);
     return 0;

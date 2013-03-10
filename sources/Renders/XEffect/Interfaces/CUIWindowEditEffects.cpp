@@ -173,7 +173,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
             if (event.GUIEvent.Caller == oglRemove) {
-                if (shadersList->getItemCount() > 0) {
+                if (shadersList->getItemCount() > 0 && shadersList->getSelected() != -1) {
                     if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL) {
                         devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
                     }
@@ -292,12 +292,17 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             if (event.GUIEvent.Caller == pEditWindow) {
                 complexEditWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(230, 80, 930, 555), true, L"Complex Script Window Edition", 0, -1);
                 complexEditWindow->getCloseButton()->remove();
-                complexEditBox = devices->getGUIEnvironment()->addEditBox(L"", rect<s32>(100, 30, 690, 460), true, complexEditWindow, -1);
-                complexEditBox->setMultiLine(true);
-                complexEditBox->setWordWrap(false);
-                complexEditBox->setAutoScroll(true);
-                complexEditBox->setTextAlignment(EGUIA_UPPERLEFT, EGUIA_UPPERLEFT);
-                complexEditBox->setText(pvalue->getText());
+                codeEditor = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), complexEditWindow, -1, rect<s32>(100, 30, 690, 460), devices->getDevice());
+                codeEditor->setText(pvalue->getText());
+                codeEditor->setOverrideColor(SColor(255, 32, 32, 32));
+                codeEditor->setBackgroundColor(SColor(255, 200, 200, 200));
+                codeEditor->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
+                codeEditor->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
+                codeEditor->addKeyword("returnValue", SColor(255,200,100,0));
+                codeEditor->addKeyword("setReturnedValueAsMatrix4", SColor(255,200,100,0));
+                codeEditor->addKeyword("setReturnedValueAsFloat", SColor(255,0,150,150));
+                codeEditor->addLUAKeywords();
+                
                 complexClose = devices->getGUIEnvironment()->addButton(rect<s32>(10, 430, 90, 460), complexEditWindow, -1, L"Close", L"Close and save changes");
                 complexOpen = devices->getGUIEnvironment()->addButton(rect<s32>(10, 40, 90, 70), complexEditWindow, -1, L"Add file", L"Load script from file");
             }
@@ -315,7 +320,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     #else
                     selected = d3dshadersList->getSelected();
                     #endif
-                    stringc returnedValue_c = "returnValue(0.0)";
+                    stringc returnedValue_c = "setReturnedValueAsFloat()\n\nvalue =  1\n\nreturnValue(value, 1)";
                     stringc valueName = "No Name";
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->push_back(returnedValue_c);
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->push_back(valueName);
@@ -399,8 +404,8 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 }
             }
             
-            if (event.GUIEvent.Caller == complexEditBox) {
-                pvalue->setText(complexEditBox->getText());
+            if (event.GUIEvent.Caller == codeEditor) {
+                pvalue->setText(codeEditor->getText());
                 stringc newValue = "";
                 newValue += pvalue->getText();
                 s32 selected = -1;
@@ -470,6 +475,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         }
         
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
+            #ifdef _IRR_OSX_PLATFORM_
             if (event.GUIEvent.Caller == shadersList && shadersList->getItemCount() > 0) {
                 if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
                     active->setChecked(true);
@@ -477,7 +483,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     active->setChecked(false);
                 }
             }
-            
+            #else
             if (event.GUIEvent.Caller == d3dshadersList && d3dshadersList->getItemCount() > 0) {
                 if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](d3dshadersList->getSelected()))) {
                     active->setChecked(true);
@@ -485,15 +491,23 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     active->setChecked(false);
                 }
             }
+            #endif
             
             if (event.GUIEvent.Caller == pList) {
+                s32 selected;
+                #ifdef _IRR_OSX_PLATFORM_
                 if (pList->getSelected() != -1 && shadersList->getSelected() != -1) {
+                    selected = shadersList->getSelected();
+                #else
+                if (pList->getSelected() != -1 && d3dshadersList->getSelected() != -1) {
+                    selected = d3dshadersList->getSelected();
+                #endif
                     stringw text = L"";
-                    text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValuesNames()->operator[](pList->getSelected());
+                    text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](pList->getSelected());
                     pname->setText(text.c_str());
                     
                     stringw value = L"";
-                    value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](shadersList->getSelected())->getPixelValues()->operator[](pList->getSelected());
+                    value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected());
                     pvalue->setText(value.c_str());
                 }
             }

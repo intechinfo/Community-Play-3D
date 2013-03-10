@@ -22,6 +22,7 @@ public:
     //METHODS
     void setCollisionToAnOctTreeNode(ISceneNode *node);
     void setCollisionToAnAnimatedNode(ISceneNode *node);
+    void setCollisionFromBoundingBox(ISceneNode *node);
     
     void createAnimatorCollisionCamera(ISceneNode *camera);
     

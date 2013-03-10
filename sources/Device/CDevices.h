@@ -14,6 +14,8 @@
 
 #include "Core/CCoreObjectPlacement.h"
 
+#include "../GUI Extension/OpenFileDialog/CGUIFileSelector.h"
+
 #ifdef _IRR_OSX_PLATFORM_
     //Plateforms compatibility
 #else
@@ -50,15 +52,16 @@ public:
     
     //-----------------------------------
     //RENDERS
-    ShaderGroup *getHDR() { return hdr; }
-    void setHDRDrawable(bool draw) { renderHDR = draw; }
-    bool isHDRDrawable() { return renderHDR; }
-    
     EffectHandler *getXEffect() { return effect; }
     E_FILTER_TYPE getXEffectFilterType() { return filterType; }
     void setXEffectDrawable(bool draw) { renderXEffect = draw; }
     bool isXEffectDrawable() { return renderXEffect; }
     stringc getShaderExt() { return shaderExt; }
+    void rebuildXEffect();
+    
+    CPostProcessManager *getPostProcessManager() { return postProcessManager; }
+    bool isPostProcessManagerDrawable() { return renderProcessManager; }
+    void setPostProcessManagerDrawable(bool _renderProcessManager) { renderProcessManager = _renderProcessManager; }
     
     void setRenderGUI(bool _renderGUI) { renderGUI = _renderGUI; }
     bool isRenderingGUI() { return renderGUI; }
@@ -95,6 +98,8 @@ public:
     //-----------------------------------
     //UI ADVANCED DIALOG METHODS
 	void createFileOpenDialog(stringw title);
+    CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type);
+    CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent);
     
     void addInformationDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
     void addErrorDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
@@ -123,13 +128,13 @@ private:
     
     //-----------------------------------
     //RENDERS
-    ShaderGroup* hdr;
-    
     EffectHandler *effect;
 	E_FILTER_TYPE filterType;
     stringc shaderExt;
     
-    bool renderHDR, renderXEffect, renderGUI;
+    CPostProcessManager* postProcessManager;
+    
+    bool renderXEffect, renderGUI, renderProcessManager;
     //-----------------------------------
     
     //-----------------------------------

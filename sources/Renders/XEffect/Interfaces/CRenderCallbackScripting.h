@@ -45,6 +45,9 @@ private:
 typedef int (*lua_CFunction) (lua_State *L);
 
 int setReturnedValueAsInteger(lua_State *L);
+int setReturnedValueAsDimension2D(lua_State *L);
+int setReturnedValueAsVector2D(lua_State *L);
+int setReturnedValueAsVector3D(lua_State *L);
 int setReturnedValueAsMatrix4(lua_State *L);
 
 //CURRENT TIME (OS OR DEVICE TIMER ?)
@@ -54,11 +57,11 @@ int current_time(lua_State *L);
 int getTransformEtsWorld(lua_State *L);
 int getTransformEtsView(lua_State *L);
 int getTransformEtsProjection(lua_State *L);
-/*value = 0
-getTransformEtsProjection()
-getTransformEtsView()
 
-returnValue(nil, 16)*/
+//SCREEN
+int getCurrentRenderTargetSizeX(lua_State *L);
+int getCurrentRenderTargetSizeY(lua_State *L);
+int getColorPixel(lua_State *L);
 
 //FINAL RETURNED VALUE BY SCRIPT
 int returned_value(lua_State *L);
@@ -68,6 +71,11 @@ extern irr::core::stringc returnedValueType;
 extern irr::f32 currentTime;
 
 extern irr::video::IVideoDriver *driverScripting;
+extern irr::scene::ISceneManager *smgrScripting;
+
+extern irr::f32 dimension_f[2];
+extern irr::f32 vector2d_f[2];
+extern irr::f32 vector3d_f[3];
 extern irr::core::matrix4 worldViewProj;
 
 extern irr::f32 returnedValue;

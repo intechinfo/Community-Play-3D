@@ -22,19 +22,12 @@
 
 #include <irrlicht.h>
 
-#include "../../Renders/HDR/shadermaterial.h"
-#include "../../Renders/HDR/shadergroup.h"
-
+#include "../../Renders/HDR/PostProcessManager.h"
+#include "../../Renders/HDR/ShaderPostProcess.h"
 #include "../../Renders/XEffect/XEffects.h"
+
 #include "../../SceneNodes/LensFlareSceneNode.h"
 #include "../../SceneNodes/SceneNodeAnimatorFollowCamera.h"
-
-#include "../../Renders/PostProcessor/CRendererPostProc.h"
-#include "../../Renders/PostProcessor/CEffectPostProc.h"
-#include "../../Renders/PostProcessor/CTransitionPostProc.h"
-#include "../../Renders/PostProcessor/CSplitPostProc.h"
-#include "../../Renders/PostProcessor/CLensFlarePostProc.h"
-#include "../../Renders/PostProcessor/CWaterPostProc.h"
 
 #include "CLuaBinds.h"
 

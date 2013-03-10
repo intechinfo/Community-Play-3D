@@ -89,9 +89,12 @@ public:
     ~CUIWindowEditNode();
     
     void open(ISceneNode *node, stringw prefix);
+    void open(ISceneNode *node, stringw prefix, bool modal);
     
     bool isVisible() { return editWindow->isVisible(); }
     void setVisible() { editWindow->setVisible(!editWindow->isVisible()); }
+    
+    void createMaterialTypesComboBox(IGUIElement *element);
     
     E_MATERIAL_TYPE getMaterialType(s32 pos);
     
@@ -102,7 +105,6 @@ private:
     CDevices *devices;
     
     void setMaterialTextures();
-    void createMaterialTypesComboBox(IGUIElement *element);
     s32 getMaterialTypeCB(E_MATERIAL_TYPE type);
     
     //-----------------------------------
@@ -110,7 +112,7 @@ private:
     IGUIWindow *editWindow;
     IGUITabControl *tabCtrl;
     
-    IGUITab *generalTab, *advancedTab, *flagsTab, *animatedTab;
+    IGUITab *generalTab, *advancedTab, *flagsTab, *generalFlagsTab, *animatedTab;
     
     IGUIButton *applyButton, *closeButton;
     
@@ -146,6 +148,13 @@ private:
     IGUICheckBox *backFaceCulling, *frontFaceCulling;
     IGUICheckBox *colorMask, *colorMaterial;
     IGUICheckBox *textureWrap, *zbuffer, *zwriteEnable;
+    
+    //GLOBAL FLAGS
+    IGUICheckBox *gAnisotropicFilter, *gBilinearFilter, *gTrilinearFilter;
+    IGUICheckBox *gAntiAliasing;
+    IGUICheckBox *gBFCulling, *gFFCulling;
+    IGUICheckBox *gColorMask, *gColorMaterial;
+    IGUICheckBox *gTextureWrap, *gZBuffer, *gZWriteEnable;
     //-----------------------------------
     
     //-----------------------------------

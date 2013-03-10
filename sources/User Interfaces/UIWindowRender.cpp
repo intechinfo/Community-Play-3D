@@ -67,10 +67,8 @@ bool CUIWindowRender::OnEvent(const SEvent &event) {
                     
                     bool shadows, hdr, shaders;
                     shadows = devices->isXEffectDrawable();
-                    hdr = devices->isHDRDrawable();
                     
                     devices->setXEffectDrawable(shadowsE->isChecked());
-                    devices->setHDRDrawable(hdrE->isChecked());
                     devices->setRenderGUI(false);
                     //devices->getCursor()->setVisible(false);
                     
@@ -96,7 +94,6 @@ bool CUIWindowRender::OnEvent(const SEvent &event) {
                     }
                     
                     devices->setXEffectDrawable(shadows);
-                    devices->setHDRDrawable(hdr);
                     devices->setRenderGUI(true);
                     devices->getCursor()->setVisible(true);
                     

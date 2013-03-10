@@ -33,6 +33,9 @@ public:
     bool OnEvent(const SEvent &event);
     
     void update();
+    
+    void setLogEventWindowVisible(bool visible) { logVisible = visible; }
+    bool isLogEventWindowVisible() { return logVisible; }
     //-----------------------------------
     
 private:
@@ -45,6 +48,14 @@ private:
     
     IGUIEnvironment *gui;
     IGUIImage *programmersImage;
+    
+    IGUIWindow *logWindow;
+    IGUIListBox *logListBox;
+    IGUIComboBox *logLevel;
+    IGUIButton *clear;
+    bool logVisible;
+    
+    dimension2d<u32> windowSize;
     //-----------------------------------
     
     //-----------------------------------

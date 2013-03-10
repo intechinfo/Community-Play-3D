@@ -37,7 +37,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
     gridSceneNode = new CGridSceneNode(smgr->getRootSceneNode(), smgr);
     gridSceneNode->setName("editor:grid");
     gridSceneNode->setMaterialFlag(EMF_ANTI_ALIASING, true);
-    colMgr->setCollisionToAnAnimatedNode(gridSceneNode);
+    colMgr->setCollisionFromBoundingBox(gridSceneNode);
 }
 
 CCoreObjectPlacement::~CCoreObjectPlacement() {

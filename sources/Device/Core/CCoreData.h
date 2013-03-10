@@ -12,6 +12,9 @@
 #include "CCore.h"
 
 #include "../../Renders/XEffect/Interfaces/CRenderCallback.h"
+#include "../../Renders/XEffect//Interfaces/CShaderCallback.h"
+
+#include "../../SceneNodes/Water Surface/CWaterSurface.h"
 
 class CCoreData {
     
@@ -45,7 +48,9 @@ public:
     array<IBillboardSceneNode *> *getLfBillBoardSceneNodes() { return &lfBillBoardSceneNodes; }
     array<CLensFlareSceneNode *> *getLensFlareSceneNodes() {return &lensFlareSceneNodes; }
     
-    array<IVolumeLightSceneNode *> *getDynamicLights() { return &volumeLightSceneNodes; }
+    array<IVolumeLightSceneNode *> *getVolumeLights() { return &volumeLightSceneNodes; }
+    
+    array<CWaterSurface *> *getWaterSurfaces() { return &waterSurfaceNodes; }
     //-----------------------------------
     
     //-----------------------------------
@@ -53,7 +58,14 @@ public:
     array<s32> *getEffectRenders() { return &effectRenders; }
     array<stringw> *getEffectRendersPaths() { return &effectRendersPaths; }
     
+    array<s32> *getMaterialRenders() { return &materialRenders; }
+    array<stringw> *getMaterialRenderspaths() { return &materialRendersPaths; }
+    
+    //GET EFFECT CALLBACKS
     array<CEffectRenderCallback *> *getEffectRenderCallbacks() { return &effectRenderCallbacks; }
+    array<CEffectRenderCallback *> *getMaterialRenderCallbacks() { return &materialRenderCallbacks; }
+    
+    array<CShaderCallback *> *getShaderCallbacks() { return &shaderCallbacks; }
     //-----------------------------------
     
 private:
@@ -75,6 +87,8 @@ private:
     array<CLensFlareSceneNode *> lensFlareSceneNodes;
     
     array<IVolumeLightSceneNode *> volumeLightSceneNodes;
+    
+    array<CWaterSurface *> waterSurfaceNodes;
     //-----------------------------------
     
     //-----------------------------------
@@ -82,7 +96,14 @@ private:
     array<s32> effectRenders;
     array<stringw> effectRendersPaths;
     
+    array<s32> materialRenders;
+    array<stringw> materialRendersPaths;
+    
+    //CALLBACKS
     array<CEffectRenderCallback *> effectRenderCallbacks;
+    array<CEffectRenderCallback *> materialRenderCallbacks;
+    
+    array<CShaderCallback *> shaderCallbacks;
     //-----------------------------------
     
 };

@@ -25,7 +25,16 @@ void CEffectRenderCallback::OnPreRender(EffectHandler* effect) {
         if (returnedValueType == "integer")
             effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), &returnedValue, returnedValueCount);
         
-        if (returnedValueType == "worldViewProj")
+        if (returnedValueType == "sampler2D")
+            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), dimension_f, returnedValueCount);
+        
+        if (returnedValueType == "vec2")
+            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), vector2d_f, returnedValueCount);
+        
+        if (returnedValueType == "vec3")
+            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), vector3d_f, returnedValueCount);
+        
+        if (returnedValueType == "mat4")
             effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), worldViewProj.pointer(), returnedValueCount);
     }
 }
