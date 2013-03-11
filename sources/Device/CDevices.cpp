@@ -21,7 +21,6 @@ CDevices::CDevices() {
     
     renderXEffect = false;
     renderGUI = true;
-    renderProcessManager = false;
     
     editBoxEntered = false;
     
@@ -98,14 +97,6 @@ void CDevices::updateDevice() {
         }
     }
     
-    //RENDERS
-    if (renderProcessManager) {
-        postProcessManager->renderDepth();
-        postProcessManager->prepare();
-        
-        postProcessManager->render(EPPE_NIGHT_VISION);
-    }
-    
     if (renderXEffect) {
         effect->setActiveSceneManager(smgr);
         effect->update();
@@ -117,10 +108,6 @@ void CDevices::updateDevice() {
     
     if (renderGUI) {
         gui->drawAll();
-    }
-    
-    if (renderProcessManager) {
-        postProcessManager->update();
     }
     
     camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
@@ -185,10 +172,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //3D INTERACTION
     collisionManager = new CCollisionManager(smgr);
     objPlacement = new CCoreObjectPlacement(smgr, Device->getCursorControl(), collisionManager);
-    
-    //RENDERS
-    postProcessManager= new CPostProcessManager(Device);
-    postProcessManager->addNodeToDepthPass(objPlacement->getGridSceneNode());
     
     //effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
     effect = new EffectHandler(Device, dimension2du(800, 600), false, true, false);

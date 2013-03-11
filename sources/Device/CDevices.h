@@ -59,10 +59,6 @@ public:
     stringc getShaderExt() { return shaderExt; }
     void rebuildXEffect();
     
-    CPostProcessManager *getPostProcessManager() { return postProcessManager; }
-    bool isPostProcessManagerDrawable() { return renderProcessManager; }
-    void setPostProcessManagerDrawable(bool _renderProcessManager) { renderProcessManager = _renderProcessManager; }
-    
     void setRenderGUI(bool _renderGUI) { renderGUI = _renderGUI; }
     bool isRenderingGUI() { return renderGUI; }
     //-----------------------------------
@@ -132,9 +128,7 @@ private:
 	E_FILTER_TYPE filterType;
     stringc shaderExt;
     
-    CPostProcessManager* postProcessManager;
-    
-    bool renderXEffect, renderGUI, renderProcessManager;
+    bool renderXEffect, renderGUI;
     //-----------------------------------
     
     //-----------------------------------

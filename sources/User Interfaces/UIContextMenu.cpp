@@ -525,12 +525,6 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
                     break;
                     
-                case KEY_KEY_H:
-                    if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
-                        devices->setPostProcessManagerDrawable(!devices->isPostProcessManagerDrawable());
-                    }
-                    break;
-                    
                 case KEY_KEY_A:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
                         if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()) == "#object") {

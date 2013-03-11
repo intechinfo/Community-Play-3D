@@ -21,7 +21,7 @@ int main() {
     //---------------------------------------------------------------------------------------------
     
     CCoreUserInterface *coreUserInterface = new CCoreUserInterface();
-    coreUserInterface->getDevices()->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+    coreUserInterface->getDevices()->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
     
     //---------------------------------------------------------------------------------------------
     //---------------------------------------TESTS-------------------------------------------------
@@ -29,15 +29,6 @@ int main() {
     
     IVideoDriver *driver = coreUserInterface->getVideoDriver();
     ISceneManager *smgr = coreUserInterface->getSceneManager();
-    
-    /*ISceneNode *skybox= smgr->addSkyBoxSceneNode(driver->getTexture("sb/space_up.jpg"),
-                                                 driver->getTexture("sb/space_dn.jpg"),
-                                                 driver->getTexture("sb/space_lf.jpg"),
-                                                 driver->getTexture("sb/space_rt.jpg"),
-                                                 driver->getTexture("sb/space_ft.jpg"),
-                                                 driver->getTexture("sb/space_bk.jpg"));
-    
-	skybox->setName("editor:skybox");*/
     
     //---------------------------------------------------------------------------------------------
     //-----------------------------------RUNNING DEVICE--------------------------------------------

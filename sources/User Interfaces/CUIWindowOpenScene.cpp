@@ -84,11 +84,6 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
                     importer->importScene(path_file.c_str());
                     delete importer;
                     
-                    array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
-                    for (u32 i=0; i < nodes.size(); i++) {
-                        devices->getPostProcessManager()->addNodeToDepthPass(nodes[i]);
-                    }
-                    
                     window->remove();
                 } else {
                     devices->addWarningDialog(L"Warning", L"Cannot load the world\n Dialog didn't give the file name", EMBF_OK);

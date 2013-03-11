@@ -22,6 +22,7 @@ CUIWindowExportScene::~CUIWindowExportScene() {
 void CUIWindowExportScene::open() {
     exportSceneWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(450, 100, 750, 240), 
                                                                 true, L"Export the scene", 0, -1);
+    
     devices->getGUIEnvironment()->addStaticText(L"Name : (#scene exportation)", 
                                                 rect<s32>(5, 25, 250, 85), false, false, exportSceneWindow, -1, false);
     exportSceneEditBox = devices->getGUIEnvironment()->addEditBox(path_file.c_str(), rect<s32>(5, 50, 210, 80), true, 
