@@ -15,31 +15,31 @@
 #include <sstream>
 
 #ifdef _IRR_OSX_PLATFORM_
-    #include "../../../../Frameworks/Lua/lua.hpp"
+	#include "../../../../Frameworks/Lua/lua.hpp"
 #else
-    #include "../../../../../libs/include/lua.hpp"
+#include "../../../lua/lua.hpp"
 #endif
 
 class CRenderCallbackScripting {
-    
+
 public:
-    
-    CRenderCallbackScripting(irr::IrrlichtDevice *_Device);
-    ~CRenderCallbackScripting();
-    
-    void update();
-    void runStringScript(irr::core::stringc script);
-    
-    static float value;
-    
+
+	CRenderCallbackScripting(irr::IrrlichtDevice *_Device);
+	~CRenderCallbackScripting();
+
+	void update();
+	void runStringScript(irr::core::stringc script);
+
+	static float value;
+
 private:
-    
-    //IRRLICHT DEVICE
-    irr::IrrlichtDevice *device;
-    
-    //LUA SCRIPTING
-    lua_State *luaState;
-    
+
+	//IRRLICHT DEVICE
+	irr::IrrlichtDevice *device;
+
+	//LUA SCRIPTING
+	lua_State *luaState;
+
 };
 
 typedef int (*lua_CFunction) (lua_State *L);

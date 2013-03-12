@@ -11,26 +11,26 @@
 
 #include "../Device/CDevices.h"
 
-#include "../User Interfaces/CUIWindowEditNode.h"
+#include "../UserInterfaces/CUIWindowEditNode.h"
 
 class CImporter {
-  
+
 public:
-    
-    CImporter(CDevices *_devices);
-    ~CImporter();
-    
-    void importScene(stringc file_path);
+
+	CImporter(CDevices *_devices);
+	~CImporter();
+
+	void importScene(stringc file_path);
 
 private:
 
-    CDevices *devices;
-    
-    IrrXMLReader *xmlReader;
-    std::string element;
-    
-    void read(std::string node);
-    void readWithNextElement(std::string node, std::string nextNode);
+	CDevices *devices;
+
+	IrrXMLReader *xmlReader;
+	std::string element;
+
+	void read(std::string node);
+	void readWithNextElement(std::string node, std::string nextNode);
 };
 
 #endif

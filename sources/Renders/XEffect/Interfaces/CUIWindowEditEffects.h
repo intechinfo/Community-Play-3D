@@ -10,70 +10,70 @@
 #define __C_UI_WINDOW_EDIT_EFFECTS_H_INCLUDED__
 
 enum CXT_EDIT_WINDOW_EFFECTS_EVENTS {
-    CXT_EDIT_WINDOW_EFFECTS_EVENTS_OPEN = 0x17000,
-    CXT_EDIT_WINDOW_EFFECTS_EVENTS_CLOSE,
+	CXT_EDIT_WINDOW_EFFECTS_EVENTS_OPEN = 0x17000,
+	CXT_EDIT_WINDOW_EFFECTS_EVENTS_CLOSE,
 };
 
 #include "../../../Device/CDevices.h"
-#include "../../../GUI Extension/ViewPort/CGUIViewPort.h"
-#include "../../../GUI Extension/CodeEditor/CGUICodeEditor.h"
+#include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
+#include "../../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 
 class CUIWindowEditEffects : public IEventReceiver {
-   
+
 public:
-    
-    CUIWindowEditEffects(CDevices *_devices);
-    ~CUIWindowEditEffects();
-    
-    void open();
-    
-    bool OnEvent(const SEvent &event);
-    
+
+	CUIWindowEditEffects(CDevices *_devices);
+	~CUIWindowEditEffects();
+
+	void open();
+
+	bool OnEvent(const SEvent &event);
+
 private:
-    
-    CDevices *devices;
-    
-    //-----------------------------------
-    //MAIN WINDOW
-    IGUIViewport *viewPort;
-    ISceneManager *smgr;
-    
-    IGUIWindow *effectsWindow;
-    
-    IGUIContextMenu *menu, *submenu;
-    
-    IGUIListBox *shadersList, *d3dshadersList;
-    IGUICheckBox *active;
-    IGUIButton *oglAdd, *oglRemove;
-    IGUIButton *d3dAdd, *d3dRemove;
-    IGUIButton *editCallBack, *close;
-    //-----------------------------------
-    
-    //-----------------------------------
-    //CALLBACKS WINDOW
-    IGUIWindow *editionWindow;
-    
-    IGUICheckBox *enableDepthPass;
-    
-    IGUIButton *pApplyButton;
-    IGUIEditBox *pvalue, *pname;
-    IGUIButton *pAdd, *pRemove;
-    IGUIListBox *pList;
-    IGUIButton *pEditWindow;
-    IGUIWindow *complexEditWindow;
-    CGUIEditBoxIRB *codeEditor;
-    IGUIButton *complexClose, *complexOpen;
-    
-    IGUIButton *vApplyButton;
-    IGUIEditBox *vvalue, *vname;
-    IGUIButton *vAdd, *vRemove;
-    IGUIListBox *vList;
-    
-    IGUIButton *closeButton;
-    //-----------------------------------
-    
-    bool openingShader;
-    
+
+	CDevices *devices;
+
+	//-----------------------------------
+	//MAIN WINDOW
+	IGUIViewport *viewPort;
+	ISceneManager *smgr;
+
+	IGUIWindow *effectsWindow;
+
+	IGUIContextMenu *menu, *submenu;
+
+	IGUIListBox *shadersList, *d3dshadersList;
+	IGUICheckBox *active;
+	IGUIButton *oglAdd, *oglRemove;
+	IGUIButton *d3dAdd, *d3dRemove;
+	IGUIButton *editCallBack, *close;
+	//-----------------------------------
+
+	//-----------------------------------
+	//CALLBACKS WINDOW
+	IGUIWindow *editionWindow;
+
+	IGUICheckBox *enableDepthPass;
+
+	IGUIButton *pApplyButton;
+	IGUIEditBox *pvalue, *pname;
+	IGUIButton *pAdd, *pRemove;
+	IGUIListBox *pList;
+	IGUIButton *pEditWindow;
+	IGUIWindow *complexEditWindow;
+	CGUIEditBoxIRB *codeEditor;
+	IGUIButton *complexClose, *complexOpen;
+
+	IGUIButton *vApplyButton;
+	IGUIEditBox *vvalue, *vname;
+	IGUIButton *vAdd, *vRemove;
+	IGUIListBox *vList;
+
+	IGUIButton *closeButton;
+	//-----------------------------------
+
+	bool openingShader;
+
 };
 
 #endif
