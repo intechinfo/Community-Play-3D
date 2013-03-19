@@ -130,9 +130,16 @@ void CImporter::importScene(stringc file_path) {
                 }
 
                 //IF MATERIAL TYPES
+                devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
                 read("materialTypes");
                 readWithNextElement("materialType", "materialTypes");
                 while (element == "materialType") {
+                    
+                    read("pixelShaderType");
+                    E_PIXEL_SHADER_TYPE pixelShaderType = (E_PIXEL_SHADER_TYPE)xmlReader->getAttributeValueAsInt("type");
+                    read("vertexShaderType");
+                    E_VERTEX_SHADER_TYPE vertexShaderType = (E_VERTEX_SHADER_TYPE)xmlReader->getAttributeValueAsInt("type");
+                    
                     stringc name = "";
                     read("name");
                     name = xmlReader->getAttributeValue("cname");
@@ -150,6 +157,8 @@ void CImporter::importScene(stringc file_path) {
                     callback->setVertexShader(vertex.c_str());
                     callback->setPixelShader(pixel.c_str());
                     callback->setConstants(constants.c_str());
+                    callback->setPixelShaderType(pixelShaderType);
+                    callback->setVertexShaderType(vertexShaderType);
                     callback->setDevice(devices->getDevice());
                     callback->buildMaterial(devices->getVideoDriver());
                     devices->getCoreData()->getShaderCallbacks()->push_back(callback);
@@ -157,6 +166,7 @@ void CImporter::importScene(stringc file_path) {
                     read("materialType");
                     readWithNextElement("materialType", "materialTypes");
                 }
+                devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
                 
                 //IF OTHER TO COME
                 
@@ -187,6 +197,7 @@ void CImporter::importScene(stringc file_path) {
                                                                                   SColor (255, 255, 255, 255), 5, ETPS_17, 4);
                 } else if (esnt == "octtree") {
                     octTreeMesh = devices->getSceneManager()->getMesh(path.c_str());
+                    devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(octTreeMesh, 0.02f);
                     octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, 1024);
                 } else if (esnt == "mesh") {
                     octTreeMesh = devices->getSceneManager()->getMesh(path.c_str());

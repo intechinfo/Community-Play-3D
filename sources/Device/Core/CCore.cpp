@@ -17,6 +17,17 @@ CCore::~CCore() {
     
 }
 
+stringw CCore::getTexturePath(ITexture *texture) {
+    stringw texturew = L"";
+    if (texture) {
+        texturew += texture->getName().getPath().c_str();
+    } else {
+        texturew += "Empty";
+    }
+    
+    return texturew;
+}
+
 ISceneNode *CCore::clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr) {
     ISceneNode *clonedNode;
     IMesh *clonedMesh;

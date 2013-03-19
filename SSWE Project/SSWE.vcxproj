@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sources\Character Edition\CAction.cpp" />
-    <ClCompile Include="..\sources\Character Edition\CUICharacterWindow.cpp" />
+    <ClCompile Include="..\sources\CharacterEdition\CAction.cpp" />
+    <ClCompile Include="..\sources\CharacterEdition\CUICharacterWindow.cpp" />
     <ClCompile Include="..\sources\Device\CCollisionManager.cpp" />
     <ClCompile Include="..\sources\Device\CDevices.cpp" />
     <ClCompile Include="..\sources\Device\Core\CCore.cpp" />
@@ -21,13 +21,10 @@
     <ClCompile Include="..\sources\Device\Core\CCoreUserInterface.cpp" />
     <ClCompile Include="..\sources\Device\Core\CLuaBinds.cpp" />
     <ClCompile Include="..\sources\Device\Core\CUITextDialog.cpp" />
-    <ClCompile Include="..\sources\GUI Extension\CodeEditor\CGUICodeEditor.cpp" />
-    <ClCompile Include="..\sources\GUI Extension\OpenFileDialog\CGUIFileSelector.cpp" />
-    <ClCompile Include="..\sources\GUI Extension\ViewPort\CGUIViewPort.cpp" />
+    <ClCompile Include="..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
+    <ClCompile Include="..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
+    <ClCompile Include="..\sources\GUIExtension\ViewPort\CGUIViewPort.cpp" />
     <ClCompile Include="..\sources\main.cpp" />
-    <ClCompile Include="..\sources\Renders\HDR\PostProcessManager.cpp" />
-    <ClCompile Include="..\sources\Renders\HDR\ShaderMaterial.cpp" />
-    <ClCompile Include="..\sources\Renders\HDR\ShaderPostProcess.cpp" />
     <ClCompile Include="..\sources\Renders\XEffect\CShaderPre.cpp" />
     <ClCompile Include="..\sources\Renders\XEffect\EffectHandler.cpp" />
     <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp" />
@@ -38,27 +35,30 @@
     <ClCompile Include="..\sources\SceneNodes\CGridSceneNode.cpp" />
     <ClCompile Include="..\sources\SceneNodes\LensFlareSceneNode.cpp" />
     <ClCompile Include="..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
-    <ClCompile Include="..\sources\SceneNodes\Water Surface\CWaterSurface.cpp" />
+    <ClCompile Include="..\sources\SceneNodes\WaterSurface\CWaterSurface.cpp" />
     <ClCompile Include="..\sources\Scenes\CExporter.cpp" />
     <ClCompile Include="..\sources\Scenes\CImporter.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\CUIRenderingInfos.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\CUISceneView.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\CUIWindowEditGrid.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\CUIWindowEditLight.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\CUIWindowEditNode.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\CUIWindowExportScene.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\CUIWindowOpenScene.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddLight.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddObject.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddTerrain.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\Main Window\CUIWindowAddTree.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\Main Window\UIMainWindow.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\UIContextMenu.cpp" />
-    <ClCompile Include="..\sources\User Interfaces\UIWindowRender.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUIRenderingInfos.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUISceneView.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditGrid.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditLight.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditNode.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUIWindowExportScene.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUIWindowOpenScene.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\UIContextMenu.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\UIWindowRender.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sources\Character Edition\CAction.h" />
-    <ClInclude Include="..\sources\Character Edition\CUICharacterWindow.h" />
+    <ClInclude Include="..\sources\CharacterEdition\CAction.h" />
+    <ClInclude Include="..\sources\CharacterEdition\CUICharacterWindow.h" />
     <ClInclude Include="..\sources\Device\CCollisionManager.h" />
     <ClInclude Include="..\sources\Device\CDevices.h" />
     <ClInclude Include="..\sources\Device\Core\CCore.h" />
@@ -67,14 +67,10 @@
     <ClInclude Include="..\sources\Device\Core\CCoreUserInterface.h" />
     <ClInclude Include="..\sources\Device\Core\CLuaBinds.h" />
     <ClInclude Include="..\sources\Device\Core\CUITextDialog.h" />
-    <ClInclude Include="..\sources\GUI Extension\CodeEditor\CGUICodeEditor.h" />
-    <ClInclude Include="..\sources\GUI Extension\OpenFileDialog\CGUIFileSelector.h" />
-    <ClInclude Include="..\sources\GUI Extension\ViewPort\CGUIViewPort.h" />
-    <ClInclude Include="..\sources\GUI Extension\ViewPort\IGUIViewPort.h" />
-    <ClInclude Include="..\sources\Renders\HDR\IPostProcess.h" />
-    <ClInclude Include="..\sources\Renders\HDR\PostProcessManager.h" />
-    <ClInclude Include="..\sources\Renders\HDR\ShaderMaterial.h" />
-    <ClInclude Include="..\sources\Renders\HDR\ShaderPostProcess.h" />
+    <ClInclude Include="..\sources\GUIExtension\CodeEditor\CGUICodeEditor.h" />
+    <ClInclude Include="..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
+    <ClInclude Include="..\sources\GUIExtension\ViewPort\CGUIViewPort.h" />
+    <ClInclude Include="..\sources\GUIExtension\ViewPort\IGUIViewPort.h" />
     <ClInclude Include="..\sources\Renders\XEffect\CScreenQuad.h" />
     <ClInclude Include="..\sources\Renders\XEffect\CShaderPre.h" />
     <ClInclude Include="..\sources\Renders\XEffect\EffectCB.h" />
@@ -90,28 +86,31 @@
     <ClInclude Include="..\sources\SceneNodes\CGridSceneNode.h" />
     <ClInclude Include="..\sources\SceneNodes\LensFlareSceneNode.h" />
     <ClInclude Include="..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.h" />
-    <ClInclude Include="..\sources\SceneNodes\Water Surface\CWaterSurface.h" />
+    <ClInclude Include="..\sources\SceneNodes\WaterSurface\CWaterSurface.h" />
     <ClInclude Include="..\sources\Scenes\CExporter.h" />
     <ClInclude Include="..\sources\Scenes\CImporter.h" />
-    <ClInclude Include="..\sources\User Interfaces\CUIRenderingInfos.h" />
-    <ClInclude Include="..\sources\User Interfaces\CUISceneView.h" />
-    <ClInclude Include="..\sources\User Interfaces\CUIWindowEditGrid.h" />
-    <ClInclude Include="..\sources\User Interfaces\CUIWindowEditLight.h" />
-    <ClInclude Include="..\sources\User Interfaces\CUIWindowEditNode.h" />
-    <ClInclude Include="..\sources\User Interfaces\CUIWindowExportScene.h" />
-    <ClInclude Include="..\sources\User Interfaces\CUIWindowOpenScene.h" />
-    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddLight.h" />
-    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddObject.h" />
-    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddTerrain.h" />
-    <ClInclude Include="..\sources\User Interfaces\Main Window\CUIWindowAddTree.h" />
-    <ClInclude Include="..\sources\User Interfaces\Main Window\UIMainWindow.h" />
-    <ClInclude Include="..\sources\User Interfaces\UIContextMenu.h" />
-    <ClInclude Include="..\sources\User Interfaces\UIWindowRender.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUIRenderingInfos.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUISceneView.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditGrid.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditLight.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditNode.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUIWindowExportScene.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUIWindowOpenScene.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h" />
+    <ClInclude Include="..\sources\UserInterfaces\UIContextMenu.h" />
+    <ClInclude Include="..\sources\UserInterfaces\UIWindowRender.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>SSWE</ProjectName>
     <ProjectGuid>{5AD4C95C-BA38-4692-BA4B-8C25A86208F9}</ProjectGuid>
-    <RootNamespace>HelloWorld_vc9</RootNamespace>
+    <RootNamespace>SSWE</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -146,6 +145,7 @@
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental />
     <TargetName>SSWE</TargetName>
+    <SourcePath>C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\Soganatsu\sources;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\Release\</OutDir>
@@ -172,10 +172,11 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0c07</Culture>
+      <Culture>0x000c</Culture>
     </ResourceCompile>
     <Link>
       <OutputFile>..\..\bin\Win32-VisualStudio\SSWE.exe</OutputFile>

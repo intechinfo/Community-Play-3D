@@ -62,7 +62,7 @@ private:
     CDevices *devices;
     
     IGUIWindow *mainWindow;
-    bool isWindowed;
+    bool isWindowed, isMinimized;
     
     //-----------------------------------
     //WINDOW GUI ELEMENTS

@@ -21,7 +21,7 @@ int main() {
     //---------------------------------------------------------------------------------------------
     
     CCoreUserInterface *coreUserInterface = new CCoreUserInterface();
-    coreUserInterface->getDevices()->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+    coreUserInterface->getDevices()->getDevice()->getLogger()->setLogLevel(ELL_NONE);
     
     //---------------------------------------------------------------------------------------------
     //---------------------------------------TESTS-------------------------------------------------

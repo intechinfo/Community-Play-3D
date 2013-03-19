@@ -175,8 +175,10 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 
                 devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Type", rect<s32>(10, 90, 150, 110), false, true, editMaterialWindow, -1, false);
                 vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 370, 110), editMaterialWindow, -1);
+                vShaderType->setSelected((E_VERTEX_SHADER_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getVertexShaderType());
                 devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Type", rect<s32>(10, 110, 150, 130), false, true, editMaterialWindow, -1, false);
                 pShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 110, 370, 130), editMaterialWindow, -1);
+                pShaderType->setSelected((E_PIXEL_SHADER_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getPixelShaderType());
                 devices->getGUIEnvironment()->addStaticText(L"Base Material", rect<s32>(10, 130, 150, 150), false, true, editMaterialWindow, -1, false);
                 bShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 130, 370, 150), editMaterialWindow, -1);
                 

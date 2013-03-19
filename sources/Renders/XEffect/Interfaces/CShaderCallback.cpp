@@ -14,6 +14,8 @@ CShaderCallback::CShaderCallback() {
     
     vertexShader = "";
     pixelShader = "";
+    
+    nullMatrix *= 0;
 }
 
 CShaderCallback::~CShaderCallback() {
@@ -57,7 +59,12 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             iss >> sub;
             if (sub == "camPos") {
                 vectors3D.push_back(device->getSceneManager()->getActiveCamera()->getPosition());
+                vectors3DAs4Values.push_back(false);
+            } else if (sub == "camPos4") {
+                vectors3D.push_back(device->getSceneManager()->getActiveCamera()->getPosition());
+                vectors3DAs4Values.push_back(true);
             } else {
+                vectors3DAs4Values.push_back(false);
                 float values[3];
                 values[0] = std::atof(sub.c_str());
                 for (int i=1; i < 3; i++) {
@@ -71,6 +78,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
         
         if (sub == "vmatrix4" || sub == "pmatrix4") {
             irr::core::matrix4 myMatrix;
+            //myMatrix *= 0;
             if (sub.c_str()[0] == 'v') {
                 matrixes4_st.push_back(EST_VERTEX);
             } else {
@@ -93,6 +101,12 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             iss >> sub;
             if (sub == "makeInverse") {
                 myMatrix.makeInverse();
+            } else if (sub != "dontMakeInverse") {
+                for (irr::u32 i=0; i < matrixes4_c.size(); i++) {
+                    if (matrixes4_c[i].c_str() == sub) {
+                        myMatrix *= matrixes4[i];
+                    }
+                }
             }
             matrixes4.push_back(myMatrix);
         }
@@ -182,9 +196,17 @@ void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
         
         buildConstants(driver);
         
-        material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "main", vertexShaderType,
-                                                   pixelShader.c_str(), "main", pixelShaderType,
-                                                   this, baseMaterial);
+        if (driver->getDriverType() == irr::video::EDT_OPENGL) {
+            material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "main", vertexShaderType,
+                                                       pixelShader.c_str(), "main", pixelShaderType,
+                                                       this, baseMaterial);
+        } else {
+            material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "vertexMain", vertexShaderType,
+                                                       pixelShader.c_str(), "pixelMain", pixelShaderType,
+                                                       this, baseMaterial);
+        }
+        
+        driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
     } else {
         material =  baseMaterial;
     }
@@ -212,7 +234,13 @@ void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *serv
     
     for (int i=0; i < vectors3D.size(); i++) {
         if (vectors3D_st[i] == EST_VERTEX) {
-            services->setVertexShaderConstant(vectors3D_c[i].c_str(), (float*)(&vectors3D[i]), 3);
+            if (vectors3DAs4Values[i] == false) {
+                services->setVertexShaderConstant(vectors3D_c[i].c_str(), (float*)(&vectors3D[i]), 3);
+            } else {
+                irr::f32 camPos[4];
+                device->getSceneManager()->getActiveCamera()->getAbsolutePosition().getAs4Values(&camPos[0]);
+                services->setVertexShaderConstant(vectors3D_c[i].c_str(), &camPos[0], 4);
+            }
         } else {
             services->setPixelShaderConstant(vectors3D_c[i].c_str(), (float*)(&vectors3D[i]), 3);
         }

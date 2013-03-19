@@ -142,6 +142,8 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		device->getLogger()->log("XEffects: Shader effects not supported on this system.");
 		shadowsUnsupported = true;
 	}
+    
+    currentShadowMapTexture = 0;
 }
 
 
@@ -279,7 +281,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
             driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
             driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
             
-            if (recalculate) {
+            if (recalculate && !currentShadowMapTexture) {
                 currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution());
             }
 			driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));

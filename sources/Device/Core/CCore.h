@@ -67,6 +67,8 @@ public:
 	
 	stringw changeTextWithValue(const wchar_t *text, s32 value);
     
+    stringw getTexturePath(ITexture *texture);
+    
     ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
     //--------------------------
     

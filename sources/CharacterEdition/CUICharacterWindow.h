@@ -85,9 +85,9 @@ private:
 	//-----------------------------------
 	//USED VALUES
 	int currentLoad;
-
+    
 	array<CAction *> actions;
-
+    
 	ILightSceneNode* light;
 	IAnimatedMeshSceneNode *node;
 	//-----------------------------------

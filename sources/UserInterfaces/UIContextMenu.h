@@ -34,6 +34,7 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_FILE_QUIT,
 
 	CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE,
+    CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE,
 	CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_LIGHTING,
 	CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_NOT_LIGHTING,
 	CXT_MENU_EVENTS_EDIT_GRID_SCENE_NODE,
@@ -66,9 +67,11 @@ enum GUI_CXT_MENU_EVENTS {
 #include "../UserInterfaces/CUIWindowExportScene.h"
 
 #include "CUIWindowEditNode.h"
+#include "MaterialEditor/CUIMaterialEditor.h"
 #include "CUIWindowEditLight.h"
-#include "CUISceneView.h"
 #include "CUIWindowEditGrid.h"
+
+#include "CUISceneView.h"
 
 #include "CUIRenderingInfos.h"
 

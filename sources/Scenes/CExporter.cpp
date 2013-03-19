@@ -72,6 +72,8 @@ void CExporter::exportScene(stringc file_path) {
     for (int i=0; i < devices->getCoreData()->getShaderCallbacks()->size(); i++) {
         fprintf(export_file, "\t\t\t <materialType>\n");
         
+        fprintf(export_file, "\t\t\t\t <pixelShaderType type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShaderType());
+        fprintf(export_file, "\t\t\t\t <vertexShaderType type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShaderType());
         fprintf(export_file, "\t\t\t\t <name cname=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName().c_str());
         fprintf(export_file, "\t\t\t\t <vertex shader=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader().c_str());
         fprintf(export_file, "\t\t\t\t <pixel shader=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader().c_str());

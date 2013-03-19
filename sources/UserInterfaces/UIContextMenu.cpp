@@ -53,6 +53,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Edit Selected Node (CTRL+E)", CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE);
+    submenu->addItem(L"Edit Materials", CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE);
     submenu->addSeparator();
 	submenu->addItem(L"Set all the nodes lighting", CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_LIGHTING);
 	submenu->addItem(L"Set all the nodes not lighting", CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_NOT_LIGHTING);
@@ -104,12 +105,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //TOOLBAR
     bar = devices->getGUIEnvironment()->addToolBar(0, -1);
     bar->setRelativePosition(position2d<int>(0, menu->getRelativePosition().getHeight()+5));
-	ITexture* image = devices->getVideoDriver()->getTexture("GUI/open.png");
+	ITexture* image = devices->getVideoDriver()->getTexture("GUI/folder.png");
 	bar->addButton(CXT_MENU_EVENTS_OPEN_SCRIPT, 0, L"Open a scene", image, 0, false, true);
-	image = devices->getVideoDriver()->getTexture("GUI/tools.png");
+	image = devices->getVideoDriver()->getTexture("GUI/edit.png");
 	bar->addButton(CXT_MENU_EVENTS_EDIT_NODE, 0, L"Edit Selected Node", image, 0, false, true);
-	image = devices->getVideoDriver()->getTexture("GUI/zip.png");
+	image = devices->getVideoDriver()->getTexture("GUI/save.png");
 	bar->addButton(CXT_MENU_EVENTS_EXPORT_SCENE, 0, L"Export this scene", image, 0, false, true);
+    
+    bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+    
     image = devices->getVideoDriver()->getTexture("GUI/edit_ao.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_AO, 0, L"Edit Animated Object", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/shaders.png");
@@ -127,9 +131,20 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     image = devices->getVideoDriver()->getTexture("GUI/Render.png");
     infosBar->addButton(CXT_BAR_EVENTS_RENDER, 0, L"Render Current View", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/console.png");
-    consoleButton = infosBar->addButton(CXT_BAR_EVENTS_LOG_WINDOW, 0, L"Show/Hide Console", image, 0, false, false);
+    consoleButton = infosBar->addButton(CXT_BAR_EVENTS_LOG_WINDOW, 0, L"Show/Hide Console", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/help.png");
 	infosBar->addButton(CXT_MENU_EVENTS_HELP, 0, L"Open Help", image, 0, false, true);
+    
+    infosBar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+    
+    //PLACE POSITION, ROTATION, SCALE HERE
+    image = devices->getVideoDriver()->getTexture("GUI/position.png");
+	infosBar->addButton(-1, 0, L"Change Object Position", image, 0, false, true)->setIsPushButton();
+    image = devices->getVideoDriver()->getTexture("GUI/rotation.png");
+	infosBar->addButton(-1, 0, L"Change Object Rotation", image, 0, false, true)->setIsPushButton();
+    image = devices->getVideoDriver()->getTexture("GUI/scale.png");
+	infosBar->addButton(-1, 0, L"Change Object Scale", image, 0, false, true)->setIsPushButton();
+    
     //-----------------------------------
     
     timer = devices->getDevice()->getTimer();
@@ -137,7 +152,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //timer->setTime(0);
     
     CImporter *impoterInstance = new CImporter(devices);
-    //impoterInstance->importScene("project.world");
+    //impoterInstance->importScene("dano.world");
     delete impoterInstance;
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
@@ -151,6 +166,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     //CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
     //editMaterials->open();
+    
+    //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+    //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -221,6 +239,17 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                                         mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));
                     }
                 }
+                    break;
+                    
+                case CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE: {
+                    stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode());
+                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                        CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+                        matEditor->open(mainWindowInstance->getSelectedNode());
+                    }
+
+                }
+                    
                     break;
                     
                 case CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_LIGHTING: {
@@ -421,7 +450,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_EDIT_NODE: {
                     stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode());
-                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object" || prefix == "#water") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
                         editNode->open(mainWindowInstance->getSelectedNode(), 
                                        mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));

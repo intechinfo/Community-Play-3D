@@ -28,6 +28,8 @@ public:
     void open();
     void setPathFile(stringw _path_file) { path_file = _path_file.c_str(); }
     
+    void exportScene(stringw filename);
+    
     bool OnEvent(const SEvent &event);
     
 private:

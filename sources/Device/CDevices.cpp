@@ -173,8 +173,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     collisionManager = new CCollisionManager(smgr);
     objPlacement = new CCoreObjectPlacement(smgr, Device->getCursorControl(), collisionManager);
     
-    //effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
-    effect = new EffectHandler(Device, dimension2du(800, 600), false, true, false);
+    effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, false);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));

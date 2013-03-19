@@ -62,11 +62,11 @@ void CUICharacterWindow::open() {
     bar->setRelativePosition(position2di(0, 40));
     bar->setRelativePosition(rect<s32>(0, 43, 795, 70));
     
-	ITexture* image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/open.png"));
+	ITexture* image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/folder.png"));
 	bar->addButton(CXT_EDIT_WINDOW_CHARACTER_EVENTS_OPEN, 0, L"Open Saved Animation Configuration", image, 0, false, true);
-	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/tools.png"));
+	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/edit.png"));
 	bar->addButton(CXT_EDIT_WINDOW_CHARACTER_EVENTS_EDIT, 0, L"Edit The Node", image, 0, false, true);
-	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/zip.png"));
+	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/save.png"));
 	bar->addButton(0, 0, L"Export this scene", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/help.png"));
 	bar->addButton(0, 0, L"Open Help", image, 0, false, true);

@@ -17,7 +17,7 @@
 #ifdef _IRR_OSX_PLATFORM_
 	#include "../../../../Frameworks/Lua/lua.hpp"
 #else
-#include "../../../lua/lua.hpp"
+    #include "../../../../../libs/include/lua.hpp"
 #endif
 
 class CRenderCallbackScripting {

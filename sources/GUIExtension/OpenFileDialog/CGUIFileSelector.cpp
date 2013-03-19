@@ -184,7 +184,7 @@ bool CGUIFileSelector::OnEvent(const SEvent& event)
 			if (event.GUIEvent.Caller == OKButton && (IsDirectoryChoosable || matchesFileFilter(FileNameText->getText())))
 			{
 				if (FileSystem) {
-				  FileSystem->changeWorkingDirectoryTo(prev_working_dir.c_str());
+				  //FileSystem->changeWorkingDirectoryTo(prev_working_dir.c_str());
 				  //printf("working directory reset to: %s\n", prev_working_dir.c_str());
 				}
 				sendSelectedEvent();

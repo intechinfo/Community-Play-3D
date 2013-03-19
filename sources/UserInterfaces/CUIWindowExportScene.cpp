@@ -34,6 +34,32 @@ void CUIWindowExportScene::open() {
                                             CXT_WINDOW_EXPORT_SCENE_EVENTS_CLOSE, L"Cancel", L"Close this window");
 }
 
+void CUIWindowExportScene::exportScene(stringw filename) {
+    IGUIWindow *window = devices->getGUIEnvironment()->addMessageBox(L"Exporting", 
+                                                                     L"Please wait while exporting \n\n"
+                                                                     L"This action can take a while",
+                                                                     true, 0x0, 0);
+    window->getCloseButton()->remove();
+    window->getMinimizeButton()->setVisible(true);
+    
+    devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
+    devices->updateDevice();
+    devices->getVideoDriver()->endScene();
+    
+    setPathFile(exportSceneEditBox->getText());
+    CExporter *exporter = new CExporter(devices);
+    stringc pathExport = devices->getWorkingDirectory().c_str();
+    pathExport += "/";
+    pathExport += path_file.c_str();
+    pathExport += ".world";
+    exporter->exportScene(pathExport.c_str());
+    delete exporter;
+    
+    window->remove();
+    
+    exportSceneWindow->remove();
+}
+
 bool CUIWindowExportScene::OnEvent(const SEvent &event) {
     
     if (event.EventType == EET_GUI_EVENT) {

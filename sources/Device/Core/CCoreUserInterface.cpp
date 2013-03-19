@@ -16,8 +16,8 @@ CCoreUserInterface::CCoreUserInterface() {
     #ifdef _IRR_OSX_PLATFORM_
     params.DriverType=EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
-        //params.WindowSize = dimension2d<u32>(1920, 1070);
-        params.WindowSize = dimension2d<u32>(1280, 690);
+        params.WindowSize = dimension2d<u32>(1920, 1070);
+        //params.WindowSize = dimension2d<u32>(1280, 690);
     #else
         params.DriverType=EDT_DIRECT3D9;
         params.WindowSize = dimension2d<u32>(800, 600);
@@ -77,10 +77,12 @@ CCoreUserInterface::CCoreUserInterface() {
     logLevel->addItem(L"ELL_WARNING");
     logLevel->addItem(L"ELL_ERROR");
     logLevel->addItem(L"ELL_NONE");
+    logLevel->setSelected(3);
     
     clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
     
-    logVisible = true;
+    logVisible = false;
+    logWindow->setVisible(logVisible);
     //-----------------------------------
     
     devices->getEventReceiver()->AddEventReceiver(this);
@@ -110,7 +112,6 @@ void CCoreUserInterface::update() {
 bool CCoreUserInterface::OnEvent(const SEvent &event) {
     
     if (devices->getVideoDriver()->getScreenSize() != windowSize) {
-        //devices->rebuildXEffect();
         windowSize = devices->getVideoDriver()->getScreenSize();
     }
     
@@ -129,10 +130,12 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
                 if (logWindow->getRelativePosition().getHeight() == 520) {
                     logWindow->setRelativePosition(rect<s32>(0, 0, 1000, 600));
                     logListBox->setRelativePosition(rect<s32>(0, 20, 980, 560));
+                    logLevel->setRelativePosition(rect<s32>(10, 570, 200, 590));
                     clear->setRelativePosition(rect<s32>(880, 570, 980, 590));
                 } else {
                     logWindow->setRelativePosition(rect<s32>(0, 0, 320, 520));
                     logListBox->setRelativePosition(rect<s32>(0, 20, 320, 470));
+                    logLevel->setRelativePosition(rect<s32>(10, 480, 200, 510));
                     clear->setRelativePosition(rect<s32>(207, 480, 307, 510));
                 }
             }
