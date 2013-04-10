@@ -11,6 +11,8 @@
 
 #include "../Device/CDevices.h"
 
+#include "CUIWindowEditNode.h"
+
 enum CXT_EDIT_LIGHT_WINDOW_EVENTS {
     CXT_EDIT_LIGHT_WINDOW_EVENTS_GENERAL_POSITION = 0x80000,
     CXT_EDIT_LIGHT_WINDOW_EVENTS_GENERAL_TARGET,
@@ -43,7 +45,7 @@ private:
     IGUIWindow *editWindow;
     IGUITabControl *tabCtrl;
     
-    IGUITab *generalTab, *advancedTab, *lensFlareTab;
+    IGUITab *generalTab, *advancedTab, *lensFlareTab, *shadowLightTab;
     
     IGUIButton *applyButton, *closeButton;
     
@@ -62,6 +64,7 @@ private:
     IGUISpinBox *sphereXYZ;
     IGUIEditBox *sphereX, *sphereY, *sphereZ;
     IGUIEditBox *sphereTexture;
+	IGUIButton *editBillBoardLensFlare;
     IGUIButton *sphereTextureBrowse;
     IGUIEditBox *bbW, *bbH;
     IGUISpinBox *bbWH;
@@ -71,6 +74,8 @@ private:
     IGUIButton *lfnTextureBrowse;
     IGUIButton *lfnCursorPosition, *lfn0Position;
     IGUIButton *lfnArrowMeshPosition;
+
+	IGUIEditBox *farValueSL;
     //-----------------------------------
     
     //-----------------------------------

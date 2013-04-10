@@ -53,6 +53,10 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
                     break;
             }
         }
+
+		if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
+			isOpenFileDialogOpened = false;
+		}
         
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
             if (isOpenFileDialogOpened == true) {

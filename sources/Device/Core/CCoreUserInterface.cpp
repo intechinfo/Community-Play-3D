@@ -19,7 +19,7 @@ CCoreUserInterface::CCoreUserInterface() {
         params.WindowSize = dimension2d<u32>(1920, 1070);
         //params.WindowSize = dimension2d<u32>(1280, 690);
     #else
-        params.DriverType=EDT_DIRECT3D9;
+	params.DriverType=EDT_DIRECT3D9;
         params.WindowSize = dimension2d<u32>(800, 600);
     #endif
         params.Bits=32;
@@ -43,11 +43,14 @@ CCoreUserInterface::CCoreUserInterface() {
     gui = devices->getGUIEnvironment();
     
     windowSize = devices->getVideoDriver()->getScreenSize();
+
+	devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
     //-----------------------------------
     
     //-----------------------------------
     //USER INTERFACE OBJECTS
     contextMenuInstance = new CUIContextMenu(devices);
+	rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices);
     //-----------------------------------
     
     //-----------------------------------
@@ -78,7 +81,7 @@ CCoreUserInterface::CCoreUserInterface() {
     logLevel->addItem(L"ELL_WARNING");
     logLevel->addItem(L"ELL_ERROR");
     logLevel->addItem(L"ELL_NONE");
-    logLevel->setSelected(3);
+	logLevel->setSelected(3);
     
     clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
     
@@ -88,6 +91,8 @@ CCoreUserInterface::CCoreUserInterface() {
     
     devices->getEventReceiver()->AddEventReceiver(this);
     devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
+	//devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
+
 }
 
 CCoreUserInterface::~CCoreUserInterface() {
@@ -157,15 +162,31 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
     }
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
-        if (event.KeyInput.Key == KEY_ESCAPE) {
-            devices->getDevice()->closeDevice();
-        }
+		if (!event.KeyInput.PressedDown) {
+			if (event.KeyInput.Key == KEY_ESCAPE) {
+				devices->getDevice()->closeDevice();
+			}
+
+			if (event.KeyInput.Key == KEY_KEY_F && devices->isCtrlPushed() && devices->isShiftPushed()) {
+				if (!devices->isEditBoxEntered()) {
+					devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
+					devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
+					devices->getFPSCamera()->setPosition(devices->getMayaCamera()->getPosition());
+					devices->getDevice()->getCursorControl()->setVisible(false);
+				}
+			}
         
-        if (event.KeyInput.Key == KEY_KEY_M && devices->isCtrlPushed()) {
-            if (!devices->isEditBoxEntered()) {
-                devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
-            }
-        }
+			if (event.KeyInput.Key == KEY_KEY_M && devices->isCtrlPushed() && devices->isShiftPushed()) {
+				if (!devices->isEditBoxEntered()) {
+					devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
+					devices->getDevice()->getCursorControl()->setVisible(true);
+				}
+			}
+
+			if (event.KeyInput.Key == KEY_KEY_G && devices->isCtrlPushed() && devices->isShiftPushed()) {
+				devices->setRenderGUI(!devices->isRenderingGUI());
+			}
+		}
     }
     
     return false;

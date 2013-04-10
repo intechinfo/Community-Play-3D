@@ -40,6 +40,29 @@ enum GUI_MAIN_WINDOW_EVENTS {
     CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE, CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE_YES
 };
 
+struct SSelectedNode {
+
+	SSelectedNode(ISceneNode *node, IMesh *mesh, u32 minPolysPerNode, stringc path) {
+		selectedNode = node;
+		selectedMesh = mesh;
+		selectedNodeMinPolysPerNode = minPolysPerNode;
+		selectedNodePath = path.c_str();
+	}
+
+	ISceneNode *getNode() { return selectedNode; }
+	IMesh *getMesh() { return selectedMesh; }
+	u32 getMinPolysPerNode() { return selectedNodeMinPolysPerNode; }
+	stringc getPath() { return selectedNodePath; }
+
+private:
+
+	ISceneNode *selectedNode;
+	IMesh *selectedMesh;
+	u32 selectedNodeMinPolysPerNode;
+	stringc selectedNodePath;
+
+};
+
 class CUIMainWindow : public IEventReceiver {
     
 public:
@@ -50,7 +73,7 @@ public:
     void refresh();
     
     IGUIListBox *getActiveListBox();
-    ISceneNode *getSelectedNode();
+    SSelectedNode getSelectedNode();
     stringc getSelectedNodePrefix(ISceneNode *node);
     void selectSelectedNode(ISceneNode *node);
     
@@ -67,6 +90,7 @@ private:
     
     //-----------------------------------
     //WINDOW GUI ELEMENTS
+
     IGUITabControl *tabCtrl;
     IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab, *waterSurfacesTab;
     

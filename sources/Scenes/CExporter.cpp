@@ -19,10 +19,10 @@ CExporter::~CExporter() {
 void CExporter::exportScene(stringc file_path) {
     
     stringc wd = devices->getWorkingDirectory().c_str();
-    wd+= "/";
+    //wd+= "/";
     
     FILE *export_file;
-	export_file = fopen(file_path.c_str(), "w");
+	export_file = fopen(stringc(stringc(file_path.c_str()) + stringc("_temp")).c_str(), "w");
     
     //HEADER
 	fprintf(export_file, "<?xml version=\"1.0\"?>\n\n");
@@ -74,9 +74,10 @@ void CExporter::exportScene(stringc file_path) {
         
         fprintf(export_file, "\t\t\t\t <pixelShaderType type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShaderType());
         fprintf(export_file, "\t\t\t\t <vertexShaderType type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShaderType());
+		fprintf(export_file, "\t\t\t\t <baseMaterial type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getBaseMaterial());
         fprintf(export_file, "\t\t\t\t <name cname=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName().c_str());
-        fprintf(export_file, "\t\t\t\t <vertex shader=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader().c_str());
-        fprintf(export_file, "\t\t\t\t <pixel shader=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader().c_str());
+        fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader().c_str());
+        fprintf(export_file, "\t\t\t\t <pixel shader=\n\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader().c_str());
         fprintf(export_file, "\t\t\t\t <constants value=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getConstants().c_str());
         
         fprintf(export_file, "\t\t\t </materialType>\n\n");
@@ -98,11 +99,31 @@ void CExporter::exportScene(stringc file_path) {
         fprintf(export_file, "\t\t <terrain>\n\n");
         fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getTerrainPaths()->operator[](i).c_str());
         if (node->getType() == ESNT_OCTREE) {
-            fprintf(export_file, "\t\t\t <type esnt=\"octtree\" mppn=\"%u\" />\n\n", 256);
+			fprintf(export_file, "\t\t\t <type esnt=\"octtree\" mppn=\"%u\" />\n\n", devices->getCoreData()->getTerrainMinPolysPerNode()->operator[](i));
         } else {
             fprintf(export_file, "\t\t\t <type esnt=\"mesh\" />\n\n");
         }
         
+		fprintf(export_file, "\t\t\t <factory> \n\n");
+		s32 planaredIndice = devices->getCoreData()->isMeshPlanared(node);
+		if (planaredIndice != -1) {
+			SPlanarTextureMapping sptm = devices->getCoreData()->getPlanarTextureMappingValues()->operator[](planaredIndice);
+			if (sptm.isGeneralPlanarTextureMapping()) {
+				fprintf(export_file, "\t\t\t\t <primitive type=\"planar\" options=\"general\" /> \n");
+				fprintf(export_file, "\t\t\t\t\t <resolutionS value=\"%f\" /> \n", sptm.getResolutionS());
+				fprintf(export_file, "\t\t\t\t </primitive> \n");
+			} else {
+				fprintf(export_file, "\t\t\t\t <primitive type=\"planar\" /> \n");
+				fprintf(export_file, "\t\t\t\t\t <resolutionS value=\"%f\" /> \n", sptm.getResolutionS());
+				fprintf(export_file, "\t\t\t\t\t <resolutionT value=\"%f\" /> \n", sptm.getResolutionT());
+				fprintf(export_file, "\t\t\t\t\t <axis value=\"%u\" /> \n", sptm.getAxis());
+				fprintf(export_file, "\t\t\t\t\t <offset X=\"%f\" Y=\"%f\" Z=\"%f\" /> \n", sptm.getOffset().X, sptm.getOffset().Y, sptm.getOffset().Z);
+				fprintf(export_file, "\t\t\t\t\t <general value=\"%u\" />\n", sptm.isGeneralPlanarTextureMapping());
+				fprintf(export_file, "\t\t\t\t </primitive> \n");
+			}
+		}
+		fprintf(export_file, "\n\t\t\t </factory> \n\n");
+
         fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
         
         //MATERIALS
@@ -158,6 +179,21 @@ void CExporter::exportScene(stringc file_path) {
                 node->getRotation().Z);
         fprintf(export_file, "\t\t\t <scale X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", node->getScale().X, node->getScale().Y,
                 node->getScale().Z);
+
+		E_SHADOW_MODE shadowMode;
+		if (devices->getXEffect()->isNodeShadowed(node, devices->getXEffectFilterType(), ESM_BOTH)) {
+			shadowMode = ESM_BOTH;
+		} else if (devices->getXEffect()->isNodeShadowed(node, devices->getXEffectFilterType(), ESM_EXCLUDE)) {
+			shadowMode = ESM_EXCLUDE;
+		} else if (devices->getXEffect()->isNodeShadowed(node, devices->getXEffectFilterType(), ESM_CAST)) {
+			shadowMode = ESM_CAST;
+		} else if (devices->getXEffect()->isNodeShadowed(node, devices->getXEffectFilterType(), ESM_RECEIVE)) {
+			shadowMode = ESM_RECEIVE;
+		}
+
+		fprintf(export_file, "\t\t\t <visible bool=\"%d\" />\n", node->isVisible());
+		fprintf(export_file, "\t\t\t <shadowMode mode=\"%d\" />\n", shadowMode);
+
         
         //END TERRAIN
         fprintf(export_file, "\n\t\t </terrain>\n\n");
@@ -313,4 +349,24 @@ void CExporter::exportScene(stringc file_path) {
     fprintf(export_file, "</rootScene>");
     
     fclose(export_file);
+
+	//COPY FILES
+	std::ifstream exported_file(stringc(stringc(file_path.c_str()) + stringc("_temp")).c_str(), std::ios::in);
+	std::ofstream file_to_copy(file_path.c_str(), std::ios::out | std::ios::trunc);
+
+	std::string line;
+	while (std::getline(exported_file, line)) {
+		//std::cout << line;
+		if (line.c_str() != "\n")
+			file_to_copy << line.c_str() << std::endl;
+	}
+
+	exported_file.close();
+	file_to_copy.close();
+
+	//REMOVE THE TEMP FILE
+	if (remove(stringc(stringc(file_path.c_str()) + stringc("_temp")).c_str()) != 0) {
+		devices->addInformationDialog(L"Error", L"Error when deleting the temp file... \n Not a problem.", EMBF_OK);
+	}
+
 }

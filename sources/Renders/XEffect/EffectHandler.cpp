@@ -144,8 +144,12 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	}
     
     currentShadowMapTexture = 0;
-}
+	currentSecondaryShadowMap = 0;
 
+	motionBlur = new IPostProcessMotionBlur(smgr->getActiveCamera(), smgr, -2);
+    motionBlur->initiate(1280, 800, 0.6);
+	useMotionBlur = false;
+}
 
 EffectHandler::~EffectHandler()
 {
@@ -253,12 +257,14 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 	if(shadowsUnsupported || smgr->getActiveCamera() == 0)
 		return;
     
-    bool recalculate = false;
+    bool recalculate = true;
     for (irr::u32 i=0; i < LightList.size(); i++) {
-        if (LightList[i].getPosition() != LightList[i].lastPos || LightList[i].getTarget() != LightList[i].lastTar) {
+        if (LightList[i].getPosition() != LightList[i].lastPos || LightList[i].getTarget() != LightList[i].lastTar
+			|| LightList[i].getShadowMapResolution() != LightList[i].lastMapRes) {
             LightList[i].lastPos = LightList[i].getPosition();
             LightList[i].lastTar = LightList[i].getTarget();
             recalculate = true;
+			break;
         }
     }
 	
@@ -273,15 +279,18 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
         
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
 		const u32 LightListSize = LightList.size();
-		for(u32 l = 0;l < LightListSize;++l)
+		for(u32 l = 0; l < LightListSize; l++)
 		{
+			if (LightList[l].getFarValue() == 0) {
+				continue;
+			}
 			// Set max distance constant for depth shader.
 			depthMC->FarLink = LightList[l].getFarValue();
             
             driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
             driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
             
-            if (recalculate && !currentShadowMapTexture) {
+            if (recalculate || !currentShadowMapTexture) {
                 currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution());
             }
 			driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
@@ -290,6 +299,10 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
                 if(ShadowNodeArray[i].shadowMode == ESM_RECEIVE || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
                     continue;
                 
+				if (!ShadowNodeArray[i].node->isVisible()) {
+					continue;
+				}
+
                 const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
                 core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
                 BufferMaterialList.set_used(0);
@@ -312,7 +325,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 			// Blur the shadow map texture if we're using VSM filtering.
 			if(useVSM)
 			{
-                if (recalculate) {
+                if (recalculate || !currentSecondaryShadowMap) {
                     currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true);
                 }
                 
@@ -345,6 +358,10 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
             {
                 if(ShadowNodeArray[i].shadowMode == ESM_CAST || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
                     continue;
+
+				if (!ShadowNodeArray[i].node->isVisible()) {
+					continue;
+				}
                 
                 const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
                 core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
@@ -381,6 +398,10 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
         {
             if(ShadowNodeArray[i].shadowMode != ESM_CAST && ShadowNodeArray[i].shadowMode != ESM_EXCLUDE)
                 continue;
+
+			if (!ShadowNodeArray[i].node->isVisible()) {
+				continue;
+			}
             
             const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
             core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
@@ -419,8 +440,16 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 		driver->setRenderTarget(ScreenQuad.rt[0], true, true, SColor(0xffffffff));
 	}
 	
-	driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
-	smgr->drawAll();
+	//driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
+	//smgr->drawAll();
+	if (useMotionBlur) {
+		motionBlur->render();
+		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
+		motionBlur->renderFinal();
+	} else {
+		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
+		smgr->drawAll();
+	}
     
 	const u32 PostProcessingRoutinesSize = PostProcessingRoutines.size();
     

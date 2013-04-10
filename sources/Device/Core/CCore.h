@@ -22,8 +22,10 @@
 
 #include <irrlicht.h>
 
-#include "../../Renders/HDR/PostProcessManager.h"
-#include "../../Renders/HDR/ShaderPostProcess.h"
+#ifndef _IRR_OSX_PLATFORM_
+	#include <thread>
+#endif
+
 #include "../../Renders/XEffect/XEffects.h"
 
 #include "../../SceneNodes/LensFlareSceneNode.h"
@@ -70,6 +72,10 @@ public:
     stringw getTexturePath(ITexture *texture);
     
     ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
+
+	s32 textureAlreadyExists(stringc name, IVideoDriver *driver);
+	s32 nodeExistsInArray(array<ISceneNode *> nodes, ISceneNode *node);
+	array<ISceneNode *> *getArrayOfAListOfNodeChildren(ISceneNode *node);
     //--------------------------
     
     

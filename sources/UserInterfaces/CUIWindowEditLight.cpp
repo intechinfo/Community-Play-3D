@@ -43,6 +43,7 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		generalTab = tabCtrl->addTab(L"General");
 		advancedTab = tabCtrl->addTab(L"Advanced");
 		lensFlareTab = tabCtrl->addTab(L"Lens Flare");
+		shadowLightTab = tabCtrl->addTab(L"Shadow Light");
 		tabCtrl->setActiveTab(generalTab);
 
 		//NAME
@@ -181,7 +182,8 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		sphereText = devices->getGUIEnvironment()->addStaticText(L"BillBoard", rect<s32>(400, 160, 480, 230), true, true, lensFlareTab, -1, true);
 		sphereText->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
 
-		devices->getGUIEnvironment()->addStaticText(L"Dimensions : ", rect<s32>(10, 160, 90, 180), true, true, lensFlareTab, -1, true);
+		devices->getGUIEnvironment()->addStaticText(L"Dimensions : ", rect<s32>(10, 160, 100, 180), true, true, lensFlareTab, -1, true);
+		editBillBoardLensFlare = devices->getGUIEnvironment()->addButton(rect<s32>(100, 160, 210, 180), lensFlareTab, -1, L"Edit...", L"Edit the billboard node...");
 		devices->getGUIEnvironment()->addStaticText(L"W : ", rect<s32>(10, 180, 30, 200), true, true, lensFlareTab, -1, true);
 		bbW = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(30, 180, 130, 200), true, lensFlareTab, -1);
 		devices->getGUIEnvironment()->addStaticText(L"H : ", rect<s32>(140, 180, 160, 200), true, true, lensFlareTab, -1, true);
@@ -215,6 +217,10 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 				(*element)->setEnabled(false);
 			}
 		}
+
+		//SHADOW LIGHT TAB
+		devices->getGUIEnvironment()->addStaticText(L"Far Value : ", rect<s32>(10, 20, 90, 40), true, true, shadowLightTab, -1, true);
+		farValueSL = devices->getGUIEnvironment()->addEditBox(stringw(devices->getXEffect()->getShadowLight(index).getFarValue()).c_str(), rect<s32>(90, 20, 190, 40), true, shadowLightTab, -1);
 
 		//WINDOW BUTTONS
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
@@ -314,15 +320,15 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 
 			if (event.GUIEvent.Caller == sphereTextureBrowse) {
 				currentBrowse = 1;
-				devices->createFileOpenDialog(L"Choose sphere texture");
+				devices->createFileOpenDialog(L"Choose sphere texture", 0);
 			}
 			if (event.GUIEvent.Caller == bbTextureBrowse) {
 				currentBrowse = 2;
-				devices->createFileOpenDialog(L"Choose billboard texture");
+				devices->createFileOpenDialog(L"Choose billboard texture", 0);
 			}
 			if (event.GUIEvent.Caller == lfnTextureBrowse) {
 				currentBrowse = 3;
-				devices->createFileOpenDialog(L"Choose Lens Flare texture");
+				devices->createFileOpenDialog(L"Choose Lens Flare texture", 0);
 			}
 
 			if (event.GUIEvent.Caller == lfnCursorPosition) {
@@ -343,6 +349,11 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 
 			if (event.GUIEvent.Caller == lfnArrowMeshPosition) {
 				devices->getObjectPlacement()->setNodeToPlace(devices->getCoreData()->getLfMeshNodes()->operator[](index));
+			}
+
+			if (event.GUIEvent.Caller == editBillBoardLensFlare) {
+				CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+				editNode->open(devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index), "#object", true);
 			}
 		}
 
@@ -381,7 +392,6 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index) = bill;
 
 					CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
-					lensFlareNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture("shaders/Textures/LF/flare.png"));
 					lensFlareNode->setFalseOcclusion(true);
 					lensFlareNode->setParent(meshNode);
 					devices->getCoreData()->getLensFlareSceneNodes()->operator[](index) = lensFlareNode;
@@ -393,14 +403,14 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					}
 
 				} else {
-					devices->getCoreData()->getLfMeshNodes()->operator[](index)->remove();
-					devices->getCoreData()->getLfMeshNodes()->operator[](index) = 0;
-
 					devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index)->remove();
 					devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index) = 0;
 
 					devices->getCoreData()->getLensFlareSceneNodes()->operator[](index)->remove();
 					devices->getCoreData()->getLensFlareSceneNodes()->operator[](index) = 0;
+
+					devices->getCoreData()->getLfMeshNodes()->operator[](index)->remove();
+					devices->getCoreData()->getLfMeshNodes()->operator[](index) = 0;
 
 					core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();
 					element++;
@@ -454,6 +464,12 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 				f32 heightBB = devices->getCore()->getF32(heightBB_c.c_str());
 				IBillboardSceneNode *node = devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index);
 				node->setSize(dimension2d<f32>(node->getSize().Width, heightBB));
+			}
+
+			//SHADOW LIGHT FAR VALUE
+			if (event.GUIEvent.Caller == farValueSL) {
+				s32 farValue = devices->getCore()->getF32(stringc(farValueSL->getText()).c_str());
+				devices->getXEffect()->getShadowLight(index).setFarValue(farValue);
 			}
 		}
 
