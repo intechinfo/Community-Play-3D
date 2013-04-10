@@ -38,6 +38,7 @@ CCoreUserInterface::CCoreUserInterface() {
 	devices->createDevice(params);
     
     driver = devices->getVideoDriver();
+
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
     

@@ -16,6 +16,7 @@
 #include "CUIWindowAddTree.h"
 #include "CUIWindowAddObject.h"
 #include "CUIWindowAddLight.h"
+#include "CUIWindowAddWatersSurface.h"
 
 #include "../CUIWindowEditNode.h"
 
@@ -81,6 +82,7 @@ private:
     CUIWindowAddTree *addTreeInstance;
     CUIWindowAddObject *addObjectInstance;
     CUIWindowAddLight *addLightInstance;
+    CUIWindowAddWaterSurface *addWaterSurfaceInstance;
     //-----------------------------------
     
     //-----------------------------------

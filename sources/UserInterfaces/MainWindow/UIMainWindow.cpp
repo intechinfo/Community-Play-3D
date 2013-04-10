@@ -105,6 +105,8 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     addObjectInstance = new CUIWindowAddObject(devices, objectsListBox);
     
     addLightInstance = new CUIWindowAddLight(devices, lightsListBox);
+
+    addWaterSurfaceInstance = new CUIWindowAddWaterSurface(devices, waterSurfacesListBox);
     //-----------------------------------
     
     light_icon = devices->getSceneManager()->addBillboardSceneNode(0, dimension2d<f32>(20.f, 20.f), 
@@ -626,10 +628,9 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             //-----------------------------------
             //-----------------------------------
             //VOLUME LIGHT
-            case CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L: {
+            case CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L:
                 devices->addInformationDialog(L"Information",
                                               L"Not implanted yes...", EMBF_OK);
-            }
                 break;
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L:
@@ -641,6 +642,20 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 }
                 break;
             //-----------------------------------
+            //-----------------------------------
+            //WATER SURFACE
+            case CXT_MAIN_WINDOW_EVENTS_ADD_WATER_SURFACE:
+                addWaterSurfaceInstance->openWindow();
+            case CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE:
+                if(waterSurfacesListBox->getSelected() != -1)
+                {
+
+                }
+                else
+                {
+                    devices->addInformationDialog(L"Information", L"Please Select a node before you create a water Surface", EMBF_OK);
+                }
+                break;
             default:
                 break;
         }
