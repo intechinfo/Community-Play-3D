@@ -42,10 +42,9 @@ private:
 
 	IGUIContextMenu *menu, *submenu;
 
-	IGUIListBox *shadersList, *d3dshadersList;
+	IGUIListBox *shadersList;
 	IGUICheckBox *active;
 	IGUIButton *oglAdd, *oglRemove;
-	IGUIButton *d3dAdd, *d3dRemove;
 	IGUIButton *editCallBack, *close;
 	//-----------------------------------
 

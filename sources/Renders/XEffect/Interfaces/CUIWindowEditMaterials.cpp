@@ -50,17 +50,11 @@ void CUIWindowEditMaterials::open() {
     submenu = menu->getSubMenu(1);
 	submenu->addItem(L"How to ?", -1);
     
-    devices->getGUIEnvironment()->addStaticText(L"OpenGL Shaders", rect<s32>(10, 60, 180, 80), false, true, materialsWindow, -1, false);
-    editOGLMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(180, 60, 240, 80), materialsWindow, -1, L"Edit", L"Edit shader");
-    addOGLMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(260, 60, 280, 80), materialsWindow, -1, L"+", L"Add a shader");
-    removeOGLMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(240, 60, 260, 80), materialsWindow, -1, L"-", L"Remove a shader");
-    openGLMaterialsList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 80, 280, 380), materialsWindow, -1, true);
-    
-    devices->getGUIEnvironment()->addStaticText(L"Direct3D Shaders", rect<s32>(290, 60, 520, 80), false, true, materialsWindow, -1, false);
-    editD3DMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(460, 60, 520, 80), materialsWindow, -1, L"Edit", L"Edit shader");
-    addD3DMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(540, 60, 560, 80), materialsWindow, -1, L"+", L"Add a shader");
-    removeD3DMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(520, 60, 540, 80), materialsWindow, -1, L"-", L"Remove a shader");
-    direct3DMaterialsList = devices->getGUIEnvironment()->addListBox(rect<s32>(290, 80, 560, 380), materialsWindow, -1, true);
+    devices->getGUIEnvironment()->addStaticText(L"Material Shaders :", rect<s32>(10, 60, 520, 80), false, true, materialsWindow, -1, false);
+    editOGLMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(460, 60, 520, 80), materialsWindow, -1, L"Edit", L"Edit shader");
+    addOGLMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(540, 60, 560, 80), materialsWindow, -1, L"+", L"Add a shader");
+    removeOGLMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(520, 60, 540, 80), materialsWindow, -1, L"-", L"Remove a shader");
+    openGLMaterialsList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 80, 560, 380), materialsWindow, -1, true);
     
     devices->getGUIEnvironment()->addStaticText(L"Name :", rect<s32>(10, 390, 70, 410), false, true, materialsWindow, -1, false);
     materialName = devices->getGUIEnvironment()->addEditBox(L"", rect<s32>(70, 390, 280, 410), true, materialsWindow, -1);
@@ -69,17 +63,12 @@ void CUIWindowEditMaterials::open() {
     
     for (u32 i=0; i < devices->getCoreData()->getShaderCallbacks()->size(); i++) {
         stringw name = devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName().c_str();
-        #ifdef _IRR_OSX_PLATFORM_
         openGLMaterialsList->addItem(name.c_str());
-        #else
-        direct3DMaterialsList->addItem(name.c_str());
-        #endif
     }
     
     if (devices->getCoreData()->getShaderCallbacks()->size() == 0) {
         materialName->setEnabled(false);
         editOGLMaterialShader->setEnabled(false);
-        editD3DMaterialShader->setEnabled(false);
     }
 }
 
@@ -103,34 +92,24 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 delete this;
             }
             
-            if (element == addOGLMaterialShader || element == addD3DMaterialShader) {
+            if (element == addOGLMaterialShader) {
                 CShaderCallback *callback = new CShaderCallback();
                 callback->setName("New Material Type");
                 callback->setDevice(devices->getDevice());
                 devices->getCoreData()->getShaderCallbacks()->push_back(callback);
                 
                 stringw name = callback->getName().c_str();
-                
-                #ifdef _IRR_OSX_PLATFORM_
+
                 openGLMaterialsList->addItem(name.c_str());
-                #else
-                direct3DMaterialsList->addItem(name.c_str());
-                #endif
                 
                 materialName->setEnabled(true);
                 editOGLMaterialShader->setEnabled(true);
-                editD3DMaterialShader->setEnabled(true);
             }
             
-            if (element == removeOGLMaterialShader || element == removeD3DMaterialShader) {
+            if (element == removeOGLMaterialShader) {
                 s32 selected;
-                #ifdef _IRR_OSX_PLATFORM_
                 selected = openGLMaterialsList->getSelected();
                 openGLMaterialsList->removeItem(selected);
-                #else
-                selected = direct3DMaterialsList->getSelected();
-                direct3DMaterialsList->removeItem(selected);
-                #endif
                 if (selected != -1) {
                     delete devices->getCoreData()->getShaderCallbacks()->operator[](selected);
                     devices->getCoreData()->getShaderCallbacks()->erase(selected);
@@ -139,27 +118,18 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 }
                 
                 bool empty;
-                #ifdef _IRR_OSX_PLATFORM_
                 empty = (openGLMaterialsList->getItemCount() == 0);
-                #else
-                empty = (direct3DMaterialsList->getItemCount() == 0);
-                #endif
                 if (empty) {
                     materialName->setEnabled(false);
                     editOGLMaterialShader->setEnabled(false);
-                    editD3DMaterialShader->setEnabled(false);
                     
                 }
             }
             
             //EDIT MATERIAL
-            if (element == editOGLMaterialShader || element == editD3DMaterialShader) {
+            if (element == editOGLMaterialShader) {
                 s32 selected;
-                #ifdef _IRR_OSX_PLATFORM_
                 selected = openGLMaterialsList->getSelected();
-                #else
-                selected = direct3DMaterialsList->getSelected();
-                #endif
                 
                 editingMat = (E_MATERIAL_TYPE)0;
                 editingMat = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getMaterial();
@@ -250,12 +220,12 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                                                                                   L"Close Window");
                 
                 //FILL VERTEX AND PIXEL SHADER TYPES COMBO BOXES
-                for (u32 i=0; i < 12; i++) {
+                for (u32 i=0; i < 7; i++) {
                     stringw name = VERTEX_SHADER_TYPE_NAMES[i];
                     name.make_upper();
                     vShaderType->addItem(name.c_str());
                 }
-                for (u32 i=0; i < 12; i++) {
+                for (u32 i=0; i < 11; i++) {
                     stringw name = PIXEL_SHADER_TYPE_NAMES[i];
                     name.make_upper();
                     pShaderType->addItem(name.c_str());
@@ -284,14 +254,10 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             
             if (element == buildMaterial) {
                 s32 selected;
-                #ifdef _IRR_OSX_PLATFORM_
                 selected = openGLMaterialsList->getSelected();
-                #else
-                selected = direct3DMaterialsList->getSelected();
-                #endif
                 devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setVertexShaderType((E_VERTEX_SHADER_TYPE)vShaderType->getSelected());
                 devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setPixelShaderType((E_PIXEL_SHADER_TYPE)pShaderType->getSelected());
-                devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setBaseMaterial((E_MATERIAL_TYPE)vShaderType->getSelected());
+                devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setBaseMaterial((E_MATERIAL_TYPE)bShaderType->getSelected());
                 
                 devices->getCoreData()->getShaderCallbacks()->operator[](selected)->buildMaterial(devices->getVideoDriver());
                 
@@ -311,11 +277,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
         }
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
             s32 selected;
-            #ifdef _IRR_OSX_PLATFORM_
             selected = openGLMaterialsList->getSelected();
-            #else
-            selected = direct3DMaterialsList->getSelected();
-            #endif
             
             IGUIFileOpenDialog *dialog = (IGUIFileOpenDialog *)event.GUIEvent.Caller;
             stringc path = dialog->getFileName();
@@ -342,7 +304,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
         }
         
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
-            if (event.GUIEvent.Caller == openGLMaterialsList || event.GUIEvent.Caller == direct3DMaterialsList) {
+            if (event.GUIEvent.Caller == openGLMaterialsList) {
                 IGUIListBox *listbox = (IGUIListBox *)event.GUIEvent.Caller;
                 if (listbox->getItemCount() > 0) {
                     stringw name = devices->getCoreData()->getShaderCallbacks()->operator[](listbox->getSelected())->getName().c_str();
@@ -412,11 +374,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             
             if (event.GUIEvent.Caller == editorChoice) {
                 s32 selected;
-                #ifdef _IRR_OSX_PLATFORM_
                 selected = openGLMaterialsList->getSelected();
-                #else
-                selected = direct3DMaterialsList->getSelected();
-                #endif
                 editingConstants = false;
                 editingVertexShader = false;
                 editingPixelShader = false;
@@ -461,23 +419,14 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             if (event.GUIEvent.Caller == materialName) {
                 stringw name = materialName->getText();
                 s32 selected;
-                #ifdef _IRR_OSX_PLATFORM_
                 selected = openGLMaterialsList->getSelected();
                 openGLMaterialsList->setItem(openGLMaterialsList->getSelected(), name.c_str(), 0);
-                #else
-                selected = direct3DMaterialsList->getSelected();
-                direct3DMaterialsList->setItem(direct3DMaterialsList->getSelected(), name.c_str(), 0);
-                #endif
                 devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setName(name.c_str());
             }
             
             if (event.GUIEvent.Caller == constantsCodeBox) {
                 s32 selected;
-                #ifdef _IRR_OSX_PLATFORM_
                 selected = openGLMaterialsList->getSelected();
-                #else
-                selected = direct3DMaterialsList->getSelected();
-                #endif
                 if (editingConstants) {
                     devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setConstants(constantsCodeBox->getText());
                 } else if (editingVertexShader) {

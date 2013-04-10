@@ -173,7 +173,7 @@ bool CGUIFileSelector::OnEvent(const SEvent& event)
 				event.GUIEvent.Caller == CancelButton)
 			{
                 if (FileSystem) {
-				  FileSystem->changeWorkingDirectoryTo(prev_working_dir.c_str());
+				  //FileSystem->changeWorkingDirectoryTo(prev_working_dir.c_str());
 				  //printf("working directory reset to: %s\n", prev_working_dir.c_str());
 				}
 				sendCancelEvent();

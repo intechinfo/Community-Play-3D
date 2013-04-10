@@ -49,7 +49,7 @@ void CUIWindowExportScene::exportScene(stringw filename) {
     setPathFile(exportSceneEditBox->getText());
     CExporter *exporter = new CExporter(devices);
     stringc pathExport = devices->getWorkingDirectory().c_str();
-    pathExport += "/";
+    //pathExport += "/";
     pathExport += path_file.c_str();
     pathExport += ".world";
     exporter->exportScene(pathExport.c_str());

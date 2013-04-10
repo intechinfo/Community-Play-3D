@@ -86,18 +86,16 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             }
             iss >> sub;
             matrixes4_c.push_back(sub.c_str());
-            iss >> sub;
+			for (irr::u32 matrix_i = 0; matrix_i < 3; matrix_i++) {
+			iss >> sub;
             if (sub == "world[1]") {
                 myMatrix *= _driver->getTransform(irr::video::ETS_WORLD);
-            }
-            iss >> sub;
-            if (sub == "view[1]") {
-                myMatrix *= _driver->getTransform(irr::video::ETS_VIEW);
-            }
-            iss >> sub;
-            if (sub == "proj[1]") {
-                myMatrix *= _driver->getTransform(irr::video::ETS_PROJECTION);
-            }
+            } else if (sub == "view[1]") {
+				myMatrix *= _driver->getTransform(irr::video::ETS_VIEW);
+			} else if (sub == "proj[1]") {
+				myMatrix *= _driver->getTransform(irr::video::ETS_PROJECTION);
+			}
+			}
             iss >> sub;
             if (sub == "makeInverse") {
                 myMatrix.makeInverse();

@@ -27,8 +27,8 @@ void CUIWindowAddOctTree::open() {
     addOctTreeWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(450, 100, 750, 270), true, L"Add a terrain mesh", 0, -1);
     
     devices->getGUIEnvironment()->addStaticText(L"Name : (#map: will be added automatically)", rect<s32>(10, 20, 295, 40), false, false, addOctTreeWindow, -1, false);
-    addOctTreeEditBox = devices->getGUIEnvironment()->addEditBox(L"myName", rect<s32>(5, 50, 210, 70), true, addOctTreeWindow, -1);
-    devices->getGUIEnvironment()->addButton(rect<s32>(220, 50, 290, 70), addOctTreeWindow, CXT_WINDOW_ADD_OCT_TREE_EVENTS_SELECT, L"Select", L"Select the mesh");
+    addOctTreeEditBox = devices->getGUIEnvironment()->addEditBox(L"myName", rect<s32>(5, 40, 210, 70), true, addOctTreeWindow, -1);
+    devices->getGUIEnvironment()->addButton(rect<s32>(220, 40, 290, 70), addOctTreeWindow, CXT_WINDOW_ADD_OCT_TREE_EVENTS_SELECT, L"Select", L"Select the mesh");
     
     devices->getGUIEnvironment()->addStaticText(L"Minimal Polys Per Node :", rect<s32>(10, 80, 170, 100), false, false, addOctTreeWindow, -1, false);
     minPolysPerNode = devices->getGUIEnvironment()->addEditBox(L"256", rect<s32>(170, 80, 290, 100), true, addOctTreeWindow, -1);
@@ -47,9 +47,12 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             s32 id = event.GUIEvent.Caller->getID();
             switch (id) {
-                case CXT_WINDOW_ADD_OCT_TREE_EVENTS_SELECT:
-                    devices->createFileOpenDialog(L"Select the mesh");
+                case CXT_WINDOW_ADD_OCT_TREE_EVENTS_SELECT: {
+					addOctTreeWindow->setRelativePosition(rect<s32>(450, 100, 1050, 570));
+					IGUIFileOpenDialog *dialog = devices->createFileOpenDialog(L"Select the mesh", CGUIFileSelector::EFST_OPEN_DIALOG, addOctTreeWindow);
+					dialog->setMaxSize(dimension2du(1280, 800));
                     isOpenFileDialogOpened = true;
+				}
                     break;
                     
                 case CXT_WINDOW_ADD_OCT_TREE_EVENTS_ACCEPT: {
@@ -59,7 +62,11 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                     io::path extension;
                     core::getFileNameExtension(extension, path_file);
                     extension.make_lower();
+
+					stringc minppn_w = minPolysPerNode->getText();
+                    u32 minppn = devices->getCore()->getU32(minppn_w.c_str());
                     
+					//LOAD MESH AND ADD NODE
                     if (extension == ".jpg" || extension == ".png") {
                         octTreeNode = devices->getSceneManager()->addTerrainSceneNode(path_file, 0, -1, vector3df(0.f, 0.f, 0.f),
                                                                                       vector3df(0.f, 0.f, 0.f), vector3df(1.f, 0.1f, 1.f),
@@ -71,11 +78,25 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         if (asMeshSceneNode->isChecked()) {
                             octTreeNode = devices->getSceneManager()->addMeshSceneNode(octTreeMesh, 0, -1);
                         } else {
-                            stringc minppn_w = minPolysPerNode->getText();
-                            u32 minppn = devices->getCore()->getU32(minppn_w.c_str());
                             octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, minppn);
                         }
                     }
+					//IF NODE SET VALUES
+					if (octTreeNode) {
+						if (octTreeNode->getType() != ESNT_TERRAIN) {
+							devices->getCoreData()->getTerrainMeshes()->push_back(octTreeMesh);
+						} else {
+							devices->getCoreData()->getTerrainMeshes()->push_back(0);
+						}
+						if (octTreeNode->getType() == ESNT_TERRAIN) {
+							devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
+						} else if (octTreeNode->getType() == ESNT_OCTREE) {
+							devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(minppn);
+						} else {
+							devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
+						}
+					}
+					//INITIALIZE NODE
                     if (octTreeNode) {
                         octTreeNode->setMaterialFlag(EMF_LIGHTING, false);
                         octTreeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
@@ -84,7 +105,7 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         octTreeNodeName += addOctTreeEditBox->getText();
                         octTreeNode->setName(octTreeNodeName.c_str());
                         
-                        devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType());
+                        devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType(), ESM_BOTH);
                         devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
                         
                         devices->getCoreData()->getTerrainNodes()->push_back(octTreeNode);
@@ -116,6 +137,7 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                 path_file = L"";
                 path_file.append(dialog->getFileName());
                 isOpenFileDialogOpened = false;
+				addOctTreeWindow->setRelativePosition(rect<s32>(450, 100, 750, 270));
             }
         }
     }

@@ -32,6 +32,8 @@ void CCoreData::clear() {
 }
 
 void CCoreData::clearAllTheArrays() {
+	terrainMeshes.clear();
+	terrainMinPolysPerNode.clear();
     terrainNodes.clear();
     terrainPaths.clear();
     
@@ -42,6 +44,9 @@ void CCoreData::clearAllTheArrays() {
     objectPaths.clear();
     
     lightNodes.clear();
+
+	waterSurfaceNodes.clear();
+	planarMeshes.clear();
     
     effectRenders.clear();
     effectRendersPaths.clear();
@@ -85,4 +90,17 @@ array<ISceneNode *> CCoreData::getAllMeshes() {
     }
     
     return nodes;
+}
+
+s32 CCoreData::isMeshPlanared(ISceneNode *node) {
+	s32 planared = -1;
+
+	for (u32 i=0; i < planarMeshes.size(); i++) {
+		if (planarMeshes[i] == node) {
+			planared = i;
+			break;
+		}
+	}
+
+	return planared;
 }

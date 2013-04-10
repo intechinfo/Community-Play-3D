@@ -80,6 +80,8 @@ private:
 	IGUIEditBox *speedAction;
 
 	IGUITab *jointNodesTab;
+
+	IGUIFileOpenDialog *saveDialog;
 	//-----------------------------------
 
 	//-----------------------------------

@@ -86,6 +86,7 @@ public:
 	ISceneNode *getCursor() { return cursorBillBoard; }
 
 	void updateDevice();
+	void reupdate();
 
 	stringw getProjectName() { return projectName; }
 	void setProjectName(stringw _projectName) { projectName = _projectName; }
@@ -93,13 +94,13 @@ public:
 
 	//-----------------------------------
 	//UI ADVANCED DIALOG METHODS
-	void createFileOpenDialog(stringw title);
+	IGUIFileOpenDialog *createFileOpenDialog(stringw title, IGUIElement *parent);
 	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type);
 	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent);
 
-	void addInformationDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
-	void addErrorDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
-	void addWarningDialog(stringw title, stringw text, EMESSAGE_BOX_FLAG flag);
+	IGUIWindow *addInformationDialog(stringw title, stringw text, s32 flag, bool modal=true, IGUIElement *parent=0);
+	IGUIWindow *addErrorDialog(stringw title, stringw text, s32 flag);
+	IGUIWindow *addWarningDialog(stringw title, stringw text, s32 flag);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -108,7 +109,21 @@ public:
 	bool isShiftPushed() { return shiftWasPushed; }
 	//-----------------------------------
 
+	//-----------------------------------
+	//SHARED NODES
+	ISceneNode *getSkydome() { return skydome; }
+	void setSkydome(ISceneNode *node) { skydome = node; }
+	ISceneNode *getSkyBox() { return skybox; }
+	void setSkyBox(ISceneNode *node) { skybox = node; }
+	//-----------------------------------
+
 private:
+
+	//-----------------------------------
+	//PRIVATE METHODS
+	void drawGUI();
+	void drawScene();
+	//-----------------------------------
 
 	//-----------------------------------
 	//DEVICE
@@ -128,6 +143,8 @@ private:
 	E_FILTER_TYPE filterType;
 	stringc shaderExt;
 
+	IPostProcessMotionBlur* motionBlur;
+
 	bool renderXEffect, renderGUI;
 	//-----------------------------------
 
@@ -142,10 +159,7 @@ private:
 	//CORE
 	CCore *wolrdCore;
 	CCoreData *worldCoreData;
-	//-----------------------------------
 
-	//-----------------------------------
-	//CORE
 	CCollisionManager *collisionManager;
 	CCoreObjectPlacement *objPlacement;
 
@@ -163,6 +177,11 @@ private:
 	//INPUT ELEMENTS
 	bool ctrlWasPushed;
 	bool shiftWasPushed;
+	//-----------------------------------
+
+	//-----------------------------------
+	//SHARED NODES
+	ISceneNode *skydome, *skybox;
 	//-----------------------------------
 };
 

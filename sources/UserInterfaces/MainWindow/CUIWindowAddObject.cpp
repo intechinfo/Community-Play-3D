@@ -52,7 +52,7 @@ bool CUIWindowAddObject::OnEvent(const SEvent &event) {
             s32 id = event.GUIEvent.Caller->getID();
             switch (id) {
                 case CXT_WINDOW_ADD_OBJECT_EVENTS_SELECT:
-                    devices->createFileOpenDialog(L"Select the mesh");
+                    devices->createFileOpenDialog(L"Select the mesh", 0);
                     isOpenFileDialogOpened = true;
                     break;
                     
@@ -70,9 +70,10 @@ bool CUIWindowAddObject::OnEvent(const SEvent &event) {
                         objectNodeName += addObjectEditBox->getText();
                         objectNode->setName(objectNodeName.c_str());
                         
-                        devices->getXEffect()->addShadowToNode(objectNode, devices->getXEffectFilterType());
+                        devices->getXEffect()->addShadowToNode(objectNode, devices->getXEffectFilterType(), ESM_BOTH);
                         devices->getCollisionManager()->setCollisionToAnAnimatedNode(objectNode);
                         
+						devices->getCoreData()->getObjectMeshes()->push_back(objectMesh);
                         devices->getCoreData()->getObjectNodes()->push_back(objectNode);
                         devices->getCoreData()->getObjectPaths()->push_back(path_file);
                         

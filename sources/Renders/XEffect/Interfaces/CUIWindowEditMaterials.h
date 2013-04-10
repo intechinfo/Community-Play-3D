@@ -43,9 +43,6 @@ private:
 	IGUIButton *removeOGLMaterialShader, *addOGLMaterialShader, *editOGLMaterialShader;
 	IGUIListBox *openGLMaterialsList;
 
-	IGUIButton *removeD3DMaterialShader, *addD3DMaterialShader, *editD3DMaterialShader;
-	IGUIListBox *direct3DMaterialsList;
-
 	IGUIEditBox *materialName;
 
 	IGUIButton *close;

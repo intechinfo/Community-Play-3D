@@ -9,7 +9,7 @@
 #include "CUIMaterialEditorTextures.h"
 
 CUIMaterialEditorTextures::CUIMaterialEditorTextures(CDevices *_devices, IGUIElement *_parent, ISceneNode *node) {
-    //---------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------
 	//DEVICES DATAS
     devices = _devices;
     
@@ -42,24 +42,28 @@ CUIMaterialEditorTextures::CUIMaterialEditorTextures(CDevices *_devices, IGUIEle
                             rect<s32>(109, 36, 289, 56), true, parent, -1);
     gltex1 = gui->addButton(rect<s32>(289, 36, 329, 56), parent, -1, L"...", L"Browse Texture...");
     gdtex1 = gui->addButton(rect<s32>(329, 36, 399, 56), parent, -1, L"Remove", L"Remove Texture From Material");
-    
+	gmntex1 = gui->addButton(rect<s32>(399, 36, 499, 56), parent, -1, L"Make Normal", L"Create a normal map texture from this");
+
     gui->addStaticText(L"Texture 2 :", rect<s32>(29, 66, 109, 86), true, true, parent, -1, false);
     gtex2 = gui->addEditBox(devices->getCore()->getTexturePath(node->getMaterial(0).TextureLayer[1].Texture).c_str(), 
                             rect<s32>(109, 66, 289, 86), true, parent, -1);
     gltex2 = gui->addButton(rect<s32>(289, 66, 329, 86), parent, -1, L"...", L"Browse Texture...");
     gdtex2 = gui->addButton(rect<s32>(329, 66, 399, 86), parent, -1, L"Remove", L"Remove Texture From Material");
+	gmntex2 = gui->addButton(rect<s32>(399, 66, 499, 86), parent, -1, L"Make Normal", L"Create a normal map texture from this");
     
     gui->addStaticText(L"Texture 3 :", rect<s32>(29, 96, 109, 116), true, true, parent, -1, false);
     gtex3 = gui->addEditBox(devices->getCore()->getTexturePath(node->getMaterial(0).TextureLayer[2].Texture).c_str(), 
                             rect<s32>(109, 96, 289, 116), true, parent, -1);
     gltex3 = gui->addButton(rect<s32>(289, 96, 329, 116), parent, -1, L"...", L"Browse Texture...");
     gdtex3 = gui->addButton(rect<s32>(329, 96, 399, 116), parent, -1, L"Remove", L"Remove Texture From Material");
+	gmntex3 = gui->addButton(rect<s32>(399, 96, 499, 116), parent, -1, L"Make Normal", L"Create a normal map texture from this");
     
     gui->addStaticText(L"Texture 4 :", rect<s32>(29, 126, 109, 146), true, true, parent, -1, false);
     gtex4 = gui->addEditBox(devices->getCore()->getTexturePath(node->getMaterial(0).TextureLayer[3].Texture).c_str(), 
                             rect<s32>(109, 126, 289, 146), true, parent, -1);
     gltex4 = gui->addButton(rect<s32>(289, 126, 329, 146), parent, -1, L"...", L"Browse Texture...");
     gdtex4 = gui->addButton(rect<s32>(329, 126, 399, 146), parent, -1, L"Remove", L"Remove Texture From Material");
+	gmntex4 = gui->addButton(rect<s32>(399, 126, 499, 146), parent, -1, L"Make Normal", L"Create a normal map texture from this");
     
     gui->addStaticText(L"", rect<s32>(779, 26, 789, 296), true, true, parent, -1, false);
     
@@ -141,7 +145,10 @@ CUIMaterialEditorTextures::CUIMaterialEditorTextures(CDevices *_devices, IGUIEle
     regenerateBipMapsLevels = gui->addButton(rect<s32>(559, 616, 769, 636), parent, -1, L"Regenerate Mip Map Levels", L"");
     //---------------------------------------------------------------------------------------------------------
     
-    
+	editBoxValue = 0;
+	enterValueWindow = 0;
+    okEnterValue = 0;
+	cancelEnterValue = 0;
 }
 
 CUIMaterialEditorTextures::~CUIMaterialEditorTextures() {
@@ -172,6 +179,17 @@ void CUIMaterialEditorTextures::update(SMaterial *material) {
     }
     materialToEdit = material;
     materialToEdit->Wireframe = true;
+}
+
+void CUIMaterialEditorTextures::addEnterValue(stringw title) {
+	enterValueWindow = gui->addWindow(rect<s32>(120, 150, 370, 240), true, title.c_str(), parent, -1);
+	enterValueWindow->getCloseButton()->remove();
+
+	gui->addStaticText(L"Value :", rect<s32>(10, 30, 60, 50), true, true, enterValueWindow, -1, false);
+    editBoxValue = gui->addEditBox(L"9.0", rect<s32>(60, 30, 240, 50), true, enterValueWindow, -1);
+
+	okEnterValue = gui->addButton(rect<s32>(70, 60, 150, 80), enterValueWindow, -1, L"Ok", L"");
+	cancelEnterValue = gui->addButton(rect<s32>(160, 60, 240, 80), enterValueWindow, -1, L"Cancel", L"");
 }
 
 void CUIMaterialEditorTextures::setTexture(u32 id, stringw file_path, IGUIImage *image, IGUIEditBox *editBox) {
@@ -215,23 +233,27 @@ bool CUIMaterialEditorTextures::OnEvent(const SEvent &event) {
             if (button == gdtex1) {
                 materialToEdit->setTexture(0, 0);
                 gitex1->setImage(0);
+				gtex1->setText(L"");
             }
             if (button == gdtex2) {
                 materialToEdit->setTexture(1, 0);
                 gitex2->setImage(0);
+				gtex2->setText(L"");
             }
             if (button == gdtex3) {
                 materialToEdit->setTexture(2, 0);
                 gitex3->setImage(0);
+				gtex3->setText(L"");
             }
             if (button == gdtex4) {
                 materialToEdit->setTexture(3, 0);
                 gitex4->setImage(0);
+				gtex4->setText(L"");
             }
             
             //LOAD TEXTURE
             if (button == gltex1) {
-                gfodtex1 = devices->createFileOpenDialog(L"Choose your texture", CGUIFileSelector::EFST_OPEN_DIALOG, parent);
+				gfodtex1 = devices->createFileOpenDialog(L"Choose your texture", CGUIFileSelector::EFST_OPEN_DIALOG, parent);
             }
             if (button == gltex2) {
                 gfodtex2 = devices->createFileOpenDialog(L"Choose your texture", CGUIFileSelector::EFST_OPEN_DIALOG, parent);
@@ -242,8 +264,48 @@ bool CUIMaterialEditorTextures::OnEvent(const SEvent &event) {
             if (button == gltex4) {
                 gfodtex4 = devices->createFileOpenDialog(L"Choose your texture", CGUIFileSelector::EFST_OPEN_DIALOG, parent);
             }
-            
+            //MAKE NORMAL
+			if (button == gmntex1) {
+				addEnterValue(L"Enter Value For Normal Map 1");
+				currentNormalMap = 1;
+			}
+			if (button == gmntex2) {
+				addEnterValue(L"Enter Value For Normal Map 2");
+				currentNormalMap = 2;
+			}
+			if (button == gmntex3) {
+				addEnterValue(L"Enter Value For Normal Map 3");
+				currentNormalMap = 3;
+			}
+			if (button == gmntex4) {
+				addEnterValue(L"Enter Value For Normal Map 4");
+				currentNormalMap = 4;
+			}
             //ADVANCED
+			//ADD 
+			if (button == okEnterValue) {
+				ITexture *textureToNormalMap;
+				if (currentNormalMap == 1) {
+					textureToNormalMap = materialToEdit->TextureLayer[0].Texture;
+				}
+				if (currentNormalMap == 2) {
+					textureToNormalMap = materialToEdit->TextureLayer[1].Texture;
+				}
+				if (currentNormalMap == 3) {
+					textureToNormalMap = materialToEdit->TextureLayer[2].Texture;
+				}
+				if (currentNormalMap == 4) {
+					textureToNormalMap = materialToEdit->TextureLayer[3].Texture;
+				}
+				driver->makeNormalMapTexture(textureToNormalMap, devices->getCore()->getF32(stringc(editBoxValue->getText()).c_str()));
+				enterValueWindow->remove();
+				enterValueWindow = 0;
+			}
+			if (button == cancelEnterValue) {
+				enterValueWindow->remove();
+				enterValueWindow = 0;
+			}
+			
             //LAYERS
             if (button == layer1 || button == layer2 || button == layer3 || button == layer4) {
                 layer1->setPressed(false);
