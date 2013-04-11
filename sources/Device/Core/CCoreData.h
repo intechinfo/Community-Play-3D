@@ -79,7 +79,8 @@ public:
 
 	array<IVolumeLightSceneNode *> *getVolumeLights() { return &volumeLightSceneNodes; }
 
-	array<CWaterSurface *> *getWaterSurfaces() { return &waterSurfaceNodes; }
+	array<ISceneNode *> *getWaterSurfaces() { return &waterSurfaceNodes; }
+	array<stringw> *getWaterSurfacesPath() { return &waterSurfacePath; }
 
 	array<SPlanarTextureMapping> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
 	array<ISceneNode *> *getPlanarMeshes() { return &planarMeshes; }
@@ -123,7 +124,8 @@ private:
 
 	array<IVolumeLightSceneNode *> volumeLightSceneNodes;
 
-	array<CWaterSurface *> waterSurfaceNodes;
+	array<ISceneNode *> waterSurfaceNodes;
+	array<stringw> waterSurfacePath;
 
 	array<SPlanarTextureMapping> planarTextureMappingValues;
 	array<ISceneNode *> planarMeshes;

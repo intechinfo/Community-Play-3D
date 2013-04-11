@@ -676,14 +676,18 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             //WATER SURFACE
             case CXT_MAIN_WINDOW_EVENTS_ADD_WATER_SURFACE:
                 addWaterSurfaceInstance->openWindow();
+				break;
             case CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE:
                 if(waterSurfacesListBox->getSelected() != -1)
                 {
-
+					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
+					devices->getCoreData()->getWaterSurfaces()->operator [](waterSurfaceId)->remove();
+					devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
+					devices->getCoreData()->getWaterSurfacesPath()->erase(waterSurfaceId);
                 }
                 else
                 {
-                    devices->addInformationDialog(L"Information", L"Please Select a node before you create a water Surface", EMBF_OK);
+					devices->addInformationDialog(L"Information", L"Please Select a water surface node before you delete it", EMBF_OK);
                 }
                 break;
             default:

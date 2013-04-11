@@ -7,13 +7,6 @@
 
 #include "../../Device/CDevices.h"
 
-enum GUI_WINDOW_EVENTS_ADD_WATER
-{
-    CXT_WINDOW_ADD_WATER_EVENTS_CLOSE = 0x60000,
-    CXT_WINDOW_ADD_WATER_EVENTS_SELECT,
-    CXT_WINDOW_ADD_WATER_EVENTS_ACCEPT
-};
-
 class CUIWindowAddWaterSurface : public IEventReceiver
 {
 public:
@@ -35,8 +28,8 @@ private:
     IGUIButton *m_acceptButton;
     IGUIButton *m_cancelButton;
 
-    stringw m_filePath;
-    bool m_isFileDialogOpen;
+	stringw m_filePath;
+	bool m_isFileDialogOpen;
 };
 
 #endif // CUIWINDOWADDWATERSSURFACE_H
