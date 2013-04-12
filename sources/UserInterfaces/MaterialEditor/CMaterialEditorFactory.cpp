@@ -22,6 +22,9 @@ CMaterialEditorFactory::~CMaterialEditorFactory() {
 }
 
 void CMaterialEditorFactory::reupdateTreeView(ISceneNode *node, IGUITreeView *materialsList, IGUITreeViewNode *rootTreeViewNode, IGUIImageList *imageList) {
+	
+	materialsList->getRoot()->clearChilds();
+	
 	if (imageList) {
 		materialsList->setImageList(imageList);
 	}
@@ -41,6 +44,9 @@ void CMaterialEditorFactory::reupdateTreeView(ISceneNode *node, IGUITreeView *ma
 void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped(ISceneNode *node) {
 	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Creating Textures...\nMapping Normal Textures...", EMBF_CANCEL, false, guiParent);
 	processingWindow->getCloseButton()->remove();
+
+	((IGUIWindow *)guiParent)->getMinimizeButton()->setVisible(false);
+	((IGUIWindow *)guiParent)->getMaximizeButton()->setVisible(false);
 
 	for (u32 i=0; i < node->getMaterialCount(); i++) {
 		processingWindow->setText(stringw(stringw("Material ") + stringw(i) + stringw(" / ") + stringw(node->getMaterialCount())).c_str());
@@ -62,11 +68,16 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped(ISceneNode *n
 		}
 	}
 	processingWindow->remove();
+	((IGUIWindow *)guiParent)->getMinimizeButton()->setVisible(true);
+	((IGUIWindow *)guiParent)->getMaximizeButton()->setVisible(true);
 }
 
 void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(ISceneNode *node, f32 factor) {
 	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Mapping Normal Textures...", EMBF_CANCEL, false, guiParent);
 	processingWindow->getCloseButton()->remove();
+
+	((IGUIWindow *)guiParent)->getMinimizeButton()->setVisible(false);
+	((IGUIWindow *)guiParent)->getMaximizeButton()->setVisible(false);
 
 	for (u32 i=0; i < node->getMaterialCount(); i++) {
 		processingWindow->setText(stringw(stringw("Material ") + stringw(i) + stringw(" / ") + stringw(node->getMaterialCount())).c_str());
@@ -76,8 +87,9 @@ void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(ISceneNode *node, f
 			devices->getVideoDriver()->makeNormalMapTexture(node->getMaterial(i).TextureLayer[1].Texture, factor);
 		}
 	}
-
 	processingWindow->remove();
+	((IGUIWindow *)guiParent)->getMinimizeButton()->setVisible(true);
+	((IGUIWindow *)guiParent)->getMaximizeButton()->setVisible(true);
 }
 
 ITexture *CMaterialEditorFactory::copyTexture(stringc nameOfTexture, ITexture *texture) {

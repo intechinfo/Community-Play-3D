@@ -50,6 +50,7 @@
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.h" />
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.h" />
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h" />
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.h" />
     <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.h" />
     <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.h" />

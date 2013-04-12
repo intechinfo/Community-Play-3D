@@ -106,6 +106,7 @@ public:
 	void update();
 
 	IGUIButton *getConsoleButton() { return consoleButton; }
+	CUIMainWindow *getMainWindow() { return mainWindowInstance; }
 
 	bool OnEvent(const SEvent &event);
 

@@ -15,7 +15,7 @@ class CUIRightSceneTreeView : public IEventReceiver {
     
 public:
     
-    CUIRightSceneTreeView(CDevices *_devices);
+    CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu *_cxtMenu);
     ~CUIRightSceneTreeView();
     
     bool OnEvent(const SEvent &event);
@@ -24,6 +24,8 @@ private:
     
     CDevices *devices;
 	CCoreData *worldCore;
+	CCore *core;
+	CUIContextMenu *cxtMenu;
 
 	IVideoDriver *driver;
     
@@ -35,7 +37,15 @@ private:
 	IGUITreeViewNode *rootNode;
 	IGUITreeViewNode *terrainsNode, *treesNode;
 	IGUITreeViewNode *objectsNode, *lightsNode;
+	IGUITreeViewNode *volumeLightsNode, *waterSurfacesNode;
+
+	IGUIContextMenu *rightClickCxtMenu;
     //-----------------------------------
+
+	//-----------------------------------
+    //DATAS
+	ISceneNode *whoIstreeNodeSelected;
+	//-----------------------------------
     
 	//-----------------------------------
     //METHODS

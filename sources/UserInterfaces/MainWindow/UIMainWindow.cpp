@@ -234,6 +234,15 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
     bool founded=false;
     u32 i=0;
+	while (!founded && i < devices->getCoreData()->getTerrainNodes()->size()) {
+		if (devices->getCoreData()->getTerrainNodes()->operator[](i) == node) {
+			tabCtrl->setActiveTab(terrainsTab);
+			terrainsListBox->setSelected(i);
+			founded = true;
+		}
+		i++;
+	}
+	i=0;
     while (!founded && i < devices->getCoreData()->getTreeNodes()->size()) {
         if (devices->getCoreData()->getTreeNodes()->operator[](i) == node) {
             tabCtrl->setActiveTab(treesTab);

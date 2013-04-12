@@ -382,6 +382,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					meshNode->setMaterialFlag(EMF_LIGHTING, false);
 					meshNode->setScale(vector3d<f32>(0, 0, 0));
 					meshNode->setParent(nodeToEdit);
+					meshNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_mesh")).c_str());
 					devices->getCoreData()->getLfMeshNodes()->operator[](index) = meshNode;
 
 					IBillboardSceneNode* bill = devices->getSceneManager()->addBillboardSceneNode(meshNode);
@@ -389,11 +390,13 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					bill->setMaterialFlag(EMF_LIGHTING, false);
 					bill->setSize(dimension2d<f32>(0, 0));
 					bill->setParent(meshNode);
+					bill->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_bill")).c_str());
 					devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index) = bill;
 
 					CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
 					lensFlareNode->setFalseOcclusion(true);
 					lensFlareNode->setParent(meshNode);
+					lensFlareNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_node")).c_str());
 					devices->getCoreData()->getLensFlareSceneNodes()->operator[](index) = lensFlareNode;
 
 					core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();

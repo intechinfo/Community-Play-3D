@@ -239,7 +239,7 @@ void CDevices::rebuildXEffect() {
     effect->setScreenRenderTargetResolution(driver->getScreenSize());
 }
 
-IGUIFileOpenDialog	*CDevices::createFileOpenDialog(stringw title, IGUIElement *parent) {
+IGUIFileOpenDialog *CDevices::createFileOpenDialog(stringw title, IGUIElement *parent) {
     window = gui->addWindow(rect<s32>(100, 100, 960, 590), true, 
                             L"Open File Dialog", parent, -1);
     

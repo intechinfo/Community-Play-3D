@@ -50,7 +50,7 @@ CCoreUserInterface::CCoreUserInterface() {
     //-----------------------------------
     //USER INTERFACE OBJECTS
     contextMenuInstance = new CUIContextMenu(devices);
-	rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices);
+	rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices, contextMenuInstance);
     //-----------------------------------
     
     //-----------------------------------
@@ -91,7 +91,7 @@ CCoreUserInterface::CCoreUserInterface() {
     
     devices->getEventReceiver()->AddEventReceiver(this);
     devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
-	//devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
+	devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
 
 }
 
