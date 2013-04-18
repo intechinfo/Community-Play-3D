@@ -606,6 +606,28 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
             }
         }
+
+		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN || event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
+			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
+			bool isAListBoxOfMainWindow = (parent == mainWindowInstance->getActiveListBox());
+			if (isAListBoxOfMainWindow) {
+				CCoreObjectPlacement *cobj = devices->getObjectPlacement();
+				if (cobj->isPlacing() && cobj->getArrowType() == movementType) {
+					cobj->setCollisionToNormal();
+					cobj->setNodeToPlace(0);
+					cobj->setArrowType(CCoreObjectPlacement::Undefined);
+					cobj->setArrowVisible(false);
+				} else {
+					cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
+					if (!cobj->getNodeToPlace()) {
+						devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
+					} else {
+						cobj->setArrowType(movementType);
+						cobj->setArrowVisible(true);
+					}
+				}
+			}
+		}
         
         //-----------------------------------
         
@@ -616,21 +638,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			//POSITION
 			if (event.GUIEvent.Caller == ibposition) {
 				if (ibposition->isPressed()) {
-					CCoreObjectPlacement *cobj = devices->getObjectPlacement();
-					if (cobj->isPlacing() && cobj->getArrowType() == CCoreObjectPlacement::Position) {
-						cobj->setCollisionToNormal();
-						cobj->setNodeToPlace(0);
-						cobj->setArrowType(CCoreObjectPlacement::Undefined);
-						cobj->setArrowVisible(false);
-					} else {
-						cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
-						if (!cobj->getNodeToPlace()) {
-							devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-						} else {
-							cobj->setArrowType(CCoreObjectPlacement::Position);
-							cobj->setArrowVisible(true);
-						}
-                    }
+					movementType = CCoreObjectPlacement::Position;
 				}
 				ibrotation->setPressed(false);
 				ibscale->setPressed(false);
@@ -639,21 +647,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			//ROTATION
 			if (event.GUIEvent.Caller == ibrotation) {
 				if (ibrotation->isPressed()) {
-					CCoreObjectPlacement *cobj = devices->getObjectPlacement();
-					if (cobj->isPlacing() && cobj->getArrowType() == CCoreObjectPlacement::Rotation) {
-						cobj->setCollisionToNormal();
-						cobj->setNodeToPlace(0);
-						cobj->setArrowType(CCoreObjectPlacement::Undefined);
-						cobj->setArrowVisible(false);
-					} else {
-						cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
-						if (!cobj->getNodeToPlace()) {
-							devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-						} else {
-							cobj->setArrowType(CCoreObjectPlacement::Rotation);
-							cobj->setArrowVisible(true);
-						}
-                    }
+					movementType = CCoreObjectPlacement::Rotation;
 				}
 				ibposition->setPressed(false);
 				ibscale->setPressed(false);
@@ -662,24 +656,16 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			//SCALE
 			if (event.GUIEvent.Caller == ibscale) {
 				if (ibscale->isPressed()) {
-					CCoreObjectPlacement *cobj = devices->getObjectPlacement();
-					if (cobj->isPlacing() && cobj->getArrowType() == CCoreObjectPlacement::Scale) {
-						cobj->setCollisionToNormal();
-						cobj->setNodeToPlace(0);
-						cobj->setArrowType(CCoreObjectPlacement::Undefined);
-						cobj->setArrowVisible(false);
-					} else {
-						cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
-						if (!cobj->getNodeToPlace()) {
-							devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-						} else {
-							cobj->setArrowType(CCoreObjectPlacement::Scale);
-							cobj->setArrowVisible(true);
-						}
-                    }
+					movementType = CCoreObjectPlacement::Scale;
 				}
 				ibposition->setPressed(false);
 				ibrotation->setPressed(false);
+			}
+
+			//IF NO BUTTON PRESSED
+			if (!ibposition->isPressed() && !ibrotation->isPressed() && !ibscale->isPressed()) {
+				devices->getObjectPlacement()->setArrowType(CCoreObjectPlacement::Undefined);
+				devices->getObjectPlacement()->setArrowVisible(false);
 			}
 
             switch (id) {

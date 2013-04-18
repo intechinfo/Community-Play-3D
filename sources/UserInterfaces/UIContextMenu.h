@@ -138,6 +138,7 @@ private:
 	IGUIToolBar *bar, *infosBar;
 
 	IGUIButton *ibposition, *ibrotation, *ibscale;
+	CCoreObjectPlacement::ArrowType movementType;
 
 	IGUIContextMenu *skydomeMenu, *skyboxMenu;
 	//-----------------------------------
