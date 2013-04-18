@@ -26,6 +26,7 @@ private:
     
     //-----------------------------------
 	//METHODS
+	void addEnterValue(stringw title);
     void setTexture(u32 id, stringw file_path, IGUIImage *image, IGUIEditBox *editBox);
     u32 getSelectedLayer();
     //-----------------------------------
@@ -50,6 +51,7 @@ private:
     IGUIEditBox *gtex1, *gtex2, *gtex3, *gtex4;
     IGUIButton *gltex1, *gltex2, *gltex3, *gltex4;
     IGUIButton *gdtex1, *gdtex2, *gdtex3, *gdtex4;
+	IGUIButton *gmntex1, *gmntex2, *gmntex3, *gmntex4;
     IGUIFileOpenDialog *gbtex1, *gbtex2, *gbtex3, *gbtex4;
     IGUIImage *gitex1, *gitex2, *gitex3, *gitex4;
     
@@ -66,6 +68,11 @@ private:
     
     //DIALOGS
     IGUIFileOpenDialog *gfodtex1, *gfodtex2, *gfodtex3, *gfodtex4;
+
+	u8 currentNormalMap;
+	IGUIWindow *enterValueWindow;
+	IGUIEditBox *editBoxValue;
+	IGUIButton *okEnterValue, *cancelEnterValue;
     //-----------------------------------
     
 };

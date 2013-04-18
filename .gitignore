@@ -118,3 +118,7 @@ sources.pro.user
 mingw
 msvc
 Lua
+SSWE/libs/lua52.dll
+SSWE/libs/lua52.lib
+Documentation/exemple cas d'ut.jpg
+sources/Device/Core/CCoreUserInterface.cpp

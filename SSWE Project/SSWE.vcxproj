@@ -39,6 +39,7 @@
     <ClCompile Include="..\sources\Scenes\CExporter.cpp" />
     <ClCompile Include="..\sources\Scenes\CImporter.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\CUIRenderingInfos.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\CUIRightSceneTreeView.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\CUISceneView.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditGrid.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditLight.cpp" />
@@ -49,10 +50,19 @@
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\sources\UserInterfaces\UIContextMenu.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\UIWindowRender.cpp" />
   </ItemGroup>
@@ -71,6 +81,7 @@
     <ClInclude Include="..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
     <ClInclude Include="..\sources\GUIExtension\ViewPort\CGUIViewPort.h" />
     <ClInclude Include="..\sources\GUIExtension\ViewPort\IGUIViewPort.h" />
+    <ClInclude Include="..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h" />
     <ClInclude Include="..\sources\Renders\XEffect\CScreenQuad.h" />
     <ClInclude Include="..\sources\Renders\XEffect\CShaderPre.h" />
     <ClInclude Include="..\sources\Renders\XEffect\EffectCB.h" />
@@ -90,6 +101,7 @@
     <ClInclude Include="..\sources\Scenes\CExporter.h" />
     <ClInclude Include="..\sources\Scenes\CImporter.h" />
     <ClInclude Include="..\sources\UserInterfaces\CUIRenderingInfos.h" />
+    <ClInclude Include="..\sources\UserInterfaces\CUIRightSceneTreeView.h" />
     <ClInclude Include="..\sources\UserInterfaces\CUISceneView.h" />
     <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditGrid.h" />
     <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditLight.h" />
@@ -100,10 +112,19 @@
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.h" />
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.h" />
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h" />
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.h" />
     <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.h" />
     <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.h" />
+    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.h" />
     <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h" />
+    <ClInclude Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\sources\UserInterfaces\UIContextMenu.h" />
     <ClInclude Include="..\sources\UserInterfaces\UIWindowRender.h" />
   </ItemGroup>

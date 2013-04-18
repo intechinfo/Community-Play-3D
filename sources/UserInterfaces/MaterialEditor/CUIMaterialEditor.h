@@ -10,9 +10,13 @@
 #define __C_UI_MATERIAL_EDITOR_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
-#include "General/CUIMaterialEditorTextures.h"
-
 #include "../../GUIExtension/ViewPort/CGUIViewPort.h"
+
+#include "CMaterialEditorFactory.h"
+
+#include "General/CUIMaterialEditorTextures.h"
+#include "General/CUIMaterialEditorColors.h"
+#include "General/CUIMaterialEditorFlags.h"
 
 class CUIMaterialEditor : public IEventReceiver {
   
@@ -22,6 +26,8 @@ public:
     ~CUIMaterialEditor();
     
     void open(ISceneNode *node);
+
+	void setViewPortSceneManager(ISceneManager *_smgr) { viewPort->setSceneManager(_smgr); }
     
     bool OnEvent(const SEvent &event);
     
@@ -39,10 +45,14 @@ private:
     
     SMaterial *selectedMaterial, *restoreMaterial;
     
+	CMaterialEditorFactory *mtFactory;
+
     CUIMaterialEditorTextures *matEditorTextures;
+	CUIMaterialEditorColors *matEditorColors;
+	CUIMaterialEditorFlags *matEditorFlags;
     
     array<IGUIScrollBar *> scbars;
-    s32 lastScrollBarPos;
+	array< array<position2di> > initialElementsPosition;
     //-----------------------------------
     
     //-----------------------------------
@@ -58,20 +68,31 @@ private:
     IGUIButton *toolBarOpen, *toolBarSave, *toolBarRestore;
     
     //TREE VIEW
+	IGUIImageList* imageList;
     IGUITreeView *materialsView;
     IGUITreeViewNode *rootTreeViewNode;
     
     //VIEW PORT
     IGUIViewport *viewPort;
+
+	//SEPARATOR
+	IGUIStaticText *separatorText;
     
     //TABS
     IGUITabControl *tabctrl;
-    IGUITab *texturesTab;
+    IGUITab *texturesTab, *colorsTab, *flagsTab;
     
     //BUTTONS
     IGUIButton *close;
     //-----------------------------------
     
+	//-----------------------------------
+	//METHODS
+	void updateElementsPositionsI(IGUIScrollBar *scroolbar);
+
+	void maximize();
+	void minimize();
+	//-----------------------------------
 };
 
 #endif

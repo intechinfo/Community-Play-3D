@@ -85,7 +85,7 @@ void CImporter::importScene(stringc file_path) {
                 vector3df position = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
                                                devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
                                                devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
-                devices->getSceneManager()->getActiveCamera()->setPosition(position);
+                devices->getMayaCamera()->setPosition(position);
                 
                 read("rotation");
                 vector3df rotation = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
@@ -130,7 +130,6 @@ void CImporter::importScene(stringc file_path) {
                 }
 
                 //IF MATERIAL TYPES
-                devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
                 read("materialTypes");
                 readWithNextElement("materialType", "materialTypes");
                 while (element == "materialType") {
@@ -166,7 +165,6 @@ void CImporter::importScene(stringc file_path) {
                     read("materialType");
                     readWithNextElement("materialType", "materialTypes");
                 }
-                devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
                 
                 //IF OTHER TO COME
                 
@@ -195,15 +193,36 @@ void CImporter::importScene(stringc file_path) {
                     octTreeNode = devices->getSceneManager()->addTerrainSceneNode(path.c_str(), 0, -1, vector3df(0.f, 0.f, 0.f),
                                                                                   vector3df(0.f, 0.f, 0.f), vector3df(1.f, 0.1f, 1.f),
                                                                                   SColor (255, 255, 255, 255), 5, ETPS_17, 4);
+					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
                 } else if (esnt == "octtree") {
                     octTreeMesh = devices->getSceneManager()->getMesh(path.c_str());
-                    devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(octTreeMesh, 0.02f);
-                    octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, 1024);
+					devices->getCoreData()->getTerrainMeshes()->push_back(octTreeMesh);
+					octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, xmlReader->getAttributeValueAsInt("mppn"));
+					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(xmlReader->getAttributeValueAsInt("mppn"));
                 } else if (esnt == "mesh") {
                     octTreeMesh = devices->getSceneManager()->getMesh(path.c_str());
-                    octTreeNode = devices->getSceneManager()->addMeshSceneNode(octTreeMesh, 0, -1);
-                }
-                
+					if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
+						octTreeMesh = devices->getSceneManager()->getMeshManipulator()->createMeshWithTangents(octTreeMesh, false, true, false, true);
+					}
+					devices->getCoreData()->getTerrainMeshes()->push_back(octTreeMesh);
+					octTreeNode = devices->getSceneManager()->addMeshSceneNode(octTreeMesh, 0, -1);
+					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
+				}
+
+				/*read("factory");
+				if (element == "factory") {
+					readWithNextElement("primitive", "factory");
+					while (element == "primitive") {
+						stringc primitiveType = xmlReader->getAttributeValue("type");
+						if (primitiveType == "planar") {
+							//devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(octTreeMesh, xmlReader->getAttributeValueAsFloat("value"));
+							
+							//devices->getCoreData()->getPlanarMeshes()->push_back(octTreeNode);
+						}
+						readWithNextElement("primitive", "factory");
+					}
+				}*/
+
                 //NAME
                 if (octTreeNode) {
                     read("name");
@@ -296,12 +315,30 @@ void CImporter::importScene(stringc file_path) {
                                                     devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
                         octTreeNode->setScale(scale);
                     }
+
+					//IS VISIBLE
+					read("visible");
+					if (element == "visible") {
+						octTreeNode->setVisible(xmlReader->getAttributeValueAsInt("bool"));
+					}
+
+					//SHADOW MODE
+					read("shadowMode");
+					E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
+					if (element == "shadowMode") {
+						shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
+					}
                     
-                    octTreeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
-                    devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType());
+                    //octTreeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
+                    devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType(), shadowMode);
                     devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
                     devices->getCoreData()->getTerrainNodes()->push_back(octTreeNode);
                     devices->getCoreData()->getTerrainPaths()->push_back(path.c_str());
+
+					//ONLY FOR RE5 VILLAGE MESH
+					for (u32 mtli=0; mtli < octTreeNode->getMaterialCount(); mtli++) {
+						octTreeNode->getMaterial(mtli).EmissiveColor = SColor(255, 255, 255, 255);
+					}
                 }
             }
             //END IF TERRAIN
@@ -427,11 +464,34 @@ void CImporter::importScene(stringc file_path) {
                 
                 IAnimatedMesh *animatedMesh;
                 IAnimatedMeshSceneNode *animatedNode;
+				bool isFromNodesFactory = true;
                 
-                animatedMesh = devices->getSceneManager()->getMesh(path.c_str());
-                animatedNode = devices->getSceneManager()->addAnimatedMeshSceneNode(animatedMesh);
-                animatedNode->setAnimationSpeed(0);
-                animatedNode->setFrameLoop(0, 0);
+				if (path == "cube") {
+					IMeshSceneNode *animatedNodeNode = devices->getSceneManager()->addCubeSceneNode();
+					animatedNode = (IAnimatedMeshSceneNode *)animatedNodeNode;
+					IMesh *animatedMeshMesh = animatedNodeNode->getMesh();
+					animatedMesh = (IAnimatedMesh *)animatedMeshMesh;
+				} else if (path == "sphere") {
+					ISceneNode *animatedNodeNode = devices->getSceneManager()->addSphereSceneNode();
+					animatedNode = (IAnimatedMeshSceneNode *)animatedNodeNode;
+				} else if (path == "hillPlaneMesh") {
+					IAnimatedMesh *animatedMeshMesh = devices->getSceneManager()->addHillPlaneMesh("#new_hille_plane_mesh", 
+																				dimension2df(25, 25), dimension2du(25, 25),
+																				0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
+					IAnimatedMeshSceneNode *animatedNodeNode = devices->getSceneManager()->addAnimatedMeshSceneNode(animatedMeshMesh);
+					animatedNode = animatedNodeNode;
+					animatedMesh = animatedMeshMesh;
+				} else if (path == "billboard") {
+					IBillboardSceneNode *animatedNodeNode = devices->getSceneManager()->addBillboardSceneNode();
+					animatedNode = (IAnimatedMeshSceneNode *)animatedNodeNode;
+					animatedMesh = 0;
+				} else {
+					animatedMesh = devices->getSceneManager()->getMesh(path.c_str());
+					animatedNode = devices->getSceneManager()->addAnimatedMeshSceneNode(animatedMesh);
+					animatedNode->setAnimationSpeed(0);
+					animatedNode->setFrameLoop(0, 0);
+					isFromNodesFactory = false;
+				}
                 
                 //NAME
                 read("name");
@@ -532,12 +592,22 @@ void CImporter::importScene(stringc file_path) {
                     vector3df scale = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
                                                 devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
                                                 devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
-                    animatedNode->setScale(scale);
+					if (animatedNode->getType() != ESNT_BILLBOARD) {
+						animatedNode->setScale(scale);
+					} else {
+						((IBillboardSceneNode *)animatedNode)->setSize(dimension2d<f32>(scale.X, scale.Y));
+						animatedNode->setScale(scale);
+					}
                 }
                 
                 animatedNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
                 devices->getXEffect()->addShadowToNode(animatedNode, devices->getXEffectFilterType());
-                devices->getCollisionManager()->setCollisionToAnAnimatedNode(animatedNode);
+				if (!isFromNodesFactory) {
+					devices->getCollisionManager()->setCollisionToAnAnimatedNode(animatedNode);
+				} else {
+					devices->getCollisionManager()->setCollisionFromBoundingBox(animatedNode);
+				}
+				devices->getCoreData()->getObjectMeshes()->push_back(animatedMesh);
                 devices->getCoreData()->getObjectNodes()->push_back(animatedNode);
                 devices->getCoreData()->getObjectPaths()->push_back(path.c_str());
             }
@@ -585,7 +655,7 @@ void CImporter::importScene(stringc file_path) {
                     u32 resol = devices->getCore()->getU32(xmlReader->getAttributeValue("resol"));
                     shadowLight.setShadowMapResolution(resol);
                 }
-                
+
                 devices->getXEffect()->addShadowLight(shadowLight);
                 devices->getCoreData()->getLightsNodes()->push_back(light);
                 

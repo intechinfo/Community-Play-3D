@@ -5,11 +5,13 @@
 #include "CShaderPre.h"
 #include "CScreenQuad.h"
 
+#include "../../Renders/PostProcessor/PostProcessMotionBlurhlsl.h"
+
 /// Shadow mode enums, sets whether a node recieves shadows, casts shadows, or both.
 /// If the mode is ESM_CAST, it will not be affected by shadows or lighting.
 enum E_SHADOW_MODE
 {
-	ESM_RECEIVE,
+	ESM_RECEIVE = 0,
 	ESM_CAST,
 	ESM_BOTH,
 	ESM_EXCLUDE,
@@ -20,7 +22,7 @@ enum E_SHADOW_MODE
 /// Various filter types, up to 16 samples PCF.
 enum E_FILTER_TYPE
 {
-	EFT_NONE,
+	EFT_NONE = 0,
 	EFT_4PCF,
 	EFT_8PCF,
 	EFT_12PCF,
@@ -61,9 +63,11 @@ struct SShadowLight
         
         lastPos = irr::core::vector3df(0, 0, 0);
         lastTar = irr::core::vector3df(0, 0, 0);
+		lastMapRes = 0;
 	}
     
     irr::core::vector3df lastPos, lastTar;
+	irr::u32 lastMapRes;
 
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position)
@@ -337,7 +341,7 @@ public:
     
     //Return node shadow mode
     E_SHADOW_MODE getNodeShadowMode(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType) {
-        E_SHADOW_MODE shadowMode;
+        E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
         irr::s32 i = 0;
         
         bool founded = false;
@@ -539,6 +543,13 @@ public:
 	/// Returns the device that this EffectHandler was initialized with.
 	irr::IrrlichtDevice* getIrrlichtDevice() {return device;}
 
+	/// Set if use Motion Blur Render
+	void setUseMotionBlur(bool use) { useMotionBlur = use; }
+	bool isUsingMotionBlur() { return useMotionBlur; }
+
+	/// Set if use VSM shadows
+	void setUseVSMShadows(bool use) { useVSM = use; }
+
 private:
 
 	struct SShadowNode
@@ -614,6 +625,9 @@ private:
 	bool use32BitDepth;
 	bool useVSM;
 	bool DepthPass;
+
+	IPostProcessMotionBlur *motionBlur;
+	bool useMotionBlur;
 };
 
 #endif

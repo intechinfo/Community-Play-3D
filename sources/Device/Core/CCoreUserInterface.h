@@ -12,6 +12,7 @@
 #include "../CDevices.h"
 
 #include "../../UserInterfaces/UIContextMenu.h"
+#include "../../UserInterfaces/CUIRightSceneTreeView.h"
 
 class CCoreUserInterface : public IEventReceiver {
 
@@ -61,6 +62,7 @@ private:
 	//-----------------------------------
 	//PROPERTIES
 	CUIContextMenu *contextMenuInstance;
+	CUIRightSceneTreeView *rightSceneTreeViewInstance;
 	//-----------------------------------
 
 	//-----------------------------------

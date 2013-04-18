@@ -16,6 +16,30 @@
 
 #include "../../SceneNodes/WaterSurface/CWaterSurface.h"
 
+struct SPlanarTextureMapping {
+
+	SPlanarTextureMapping(f32 _resolutionS, f32 _resolutionT, u8 _axis, vector3df _offset, bool _general=false) {
+		resolutionS = _resolutionS;
+		resolutionT = _resolutionT;
+		axis = _axis;
+		offset = _offset;
+		general = _general;
+	}
+
+	f32 getResolutionS() { return resolutionS; }
+	f32 getResolutionT() { return resolutionT; }
+	u8 getAxis() { return axis; }
+	vector3df getOffset() { return offset; }
+	bool isGeneralPlanarTextureMapping() { return general; }
+
+private:
+	f32 resolutionS;
+	f32 resolutionT;
+	u8 axis;
+	vector3df offset;
+	bool general;
+};
+
 class CCoreData {
 
 public:
@@ -30,16 +54,21 @@ public:
 
 	array<ISceneNode *> getAllSceneNodes();
 	array<ISceneNode *> getAllMeshes();
+
+	s32 isMeshPlanared(ISceneNode *node);
 	//-----------------------------------
 
 	//-----------------------------------
 	//GET IRRLICHT NODES
+	array<IMesh *> *getTerrainMeshes() { return &terrainMeshes; }
+	array<u32> *getTerrainMinPolysPerNode() { return &terrainMinPolysPerNode; }
 	array<ISceneNode *> *getTerrainNodes() { return &terrainNodes; }
 	array<stringw> *getTerrainPaths() { return &terrainPaths; }
 
 	array<ISceneNode *> *getTreeNodes() { return &treeNodes; }
 	array<stringw> *getTreePaths() { return &treePaths; }
 
+	array<IMesh *> *getObjectMeshes() { return &objectMeshes; }
 	array<ISceneNode *> *getObjectNodes() { return &objectNodes; }
 	array<stringw> *getObjectPaths() { return &objectPaths; }
 
@@ -50,7 +79,11 @@ public:
 
 	array<IVolumeLightSceneNode *> *getVolumeLights() { return &volumeLightSceneNodes; }
 
-	array<CWaterSurface *> *getWaterSurfaces() { return &waterSurfaceNodes; }
+	array<ISceneNode *> *getWaterSurfaces() { return &waterSurfaceNodes; }
+	array<stringw> *getWaterSurfacesPath() { return &waterSurfacePath; }
+
+	array<SPlanarTextureMapping> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
+	array<ISceneNode *> *getPlanarMeshes() { return &planarMeshes; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -72,12 +105,15 @@ private:
 
 	//-----------------------------------
 	//IRRLICHT NODES
+	array<IMesh *> terrainMeshes;
+	array<u32> terrainMinPolysPerNode;
 	array<ISceneNode *> terrainNodes;
 	array<stringw> terrainPaths;
 
 	array<ISceneNode *> treeNodes;
 	array<stringw> treePaths;
 
+	array<IMesh *> objectMeshes;
 	array<ISceneNode *> objectNodes;
 	array<stringw> objectPaths;
 
@@ -88,7 +124,11 @@ private:
 
 	array<IVolumeLightSceneNode *> volumeLightSceneNodes;
 
-	array<CWaterSurface *> waterSurfaceNodes;
+	array<ISceneNode *> waterSurfaceNodes;
+	array<stringw> waterSurfacePath;
+
+	array<SPlanarTextureMapping> planarTextureMappingValues;
+	array<ISceneNode *> planarMeshes;
 	//-----------------------------------
 
 	//-----------------------------------

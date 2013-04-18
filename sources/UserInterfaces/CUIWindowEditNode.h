@@ -11,6 +11,8 @@
 
 #include "../Device/CDevices.h"
 
+#include "../CharacterEdition/CAction.h"
+
 enum CXT_EDIT_WINDOW_EVENTS {
     CXT_EDIT_WINDOW_EVENTS_GENERAL_POSITION = 0x50000,
     
@@ -76,6 +78,8 @@ enum CXT_EDIT_WINDOW_EVENTS {
     CXT_EDIT_WINDOW_EVENTS_TEXTURE_WRAP,
     CXT_EDIT_WINDOW_EVENTS_ZBUFFER,
     CXT_EDIT_WINDOW_EVENTS_ZWRITE_ENABLE,
+
+	CXT_EDIT_WINDOW_EVENTS_DRAW_ANIMATIONS,
     
     CXT_EDIT_WINDOW_EVENTS_APPLY_BUTTON,
     CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON
@@ -155,6 +159,14 @@ private:
     IGUICheckBox *gBFCulling, *gFFCulling;
     IGUICheckBox *gColorMask, *gColorMaterial;
     IGUICheckBox *gTextureWrap, *gZBuffer, *gZWriteEnable;
+
+	//ANIMATED
+	IGUICheckBox *drawAnimations;
+	IGUIEditBox *savedAnimationsPath;
+	IGUIButton *browseSavedAnimations;
+	IGUIComboBox *chooseSavedAnimation;
+	IGUIFileOpenDialog *browseSavedAnimationDialog;
+
     //-----------------------------------
     
     //-----------------------------------
@@ -163,6 +175,8 @@ private:
     stringw nodeToEditPrefix;
     u32 currentBrowse;
     bool isWindowed;
+
+	array<CAction *> actions;
     
     //FLAGS & Materials
     u32 rsCurrentPos, totalSpacing;

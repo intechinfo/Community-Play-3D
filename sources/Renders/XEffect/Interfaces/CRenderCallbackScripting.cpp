@@ -22,8 +22,6 @@ irr::core::stringc returnedValueType;
 irr::f32 returnedValue;
 irr::f32 returnedValueCount;
 
-irr::video::ITexture *rt;
-
 CRenderCallbackScripting::CRenderCallbackScripting(irr::IrrlichtDevice *_Device) {
     device = _Device;
     
@@ -100,7 +98,6 @@ CRenderCallbackScripting::CRenderCallbackScripting(irr::IrrlichtDevice *_Device)
     //TESTING PART ------------------------------------------------------------------------------------------
     driverScripting = device->getVideoDriver();
     smgrScripting = device->getSceneManager();
-    rt = driverScripting->addRenderTargetTexture(irr::core::dimension2d<irr::u32>(256,256), "RENDER TARGET FOR GETTING PIXELS AVERAGE");
 }
 
 CRenderCallbackScripting::~CRenderCallbackScripting() {
@@ -192,39 +189,8 @@ int getCurrentRenderTargetSizeY(lua_State *L) {
 }
 
 int getColorPixel(lua_State *L) {
-    driverScripting->setRenderTarget(rt, true, true, irr::video::SColor(0,0,0,0));
-    irr::video::IImage *irt = driverScripting->createImageFromData(irr::video::ECF_R8G8B8, irr::core::dimension2du(256, 256), rt);
     
-    irr::u32 x, y;
-    
-    //FIRST ARGUMENT : PIXEL POSITION X
-    irr::core::stringc pixelPosition_c = lua_tostring(L, 1);
-    std::istringstream issXCount(pixelPosition_c.c_str());
-    issXCount >> x;
-    
-    //SECOND ARGUMENT : PIXEL POSITION Y
-    pixelPosition_c = lua_tostring(L, 2);
-    std::istringstream issYCount(pixelPosition_c.c_str());
-    issYCount >> y;
-    
-    //THIRD ARGUMENT : COLOR
-    irr::core::stringc theColor = lua_tostring(L, 3);
-    
-    //PUSH NUMBER
-    irr::video::SColor color = irt->getPixel(x, y);
-    irr::u32 colorPixel;
-    
-    if (theColor == "r") {
-        colorPixel = color.getRed();
-    } else if (theColor == "g") {
-        colorPixel = color.getGreen();
-    } else if (theColor == "b") {
-        colorPixel = color.getBlue();
-    } else {
-        colorPixel = -1;
-    }
-    
-    lua_pushnumber(L, colorPixel);
+    lua_pushnumber(L, 1);
     
     return 1;
 }

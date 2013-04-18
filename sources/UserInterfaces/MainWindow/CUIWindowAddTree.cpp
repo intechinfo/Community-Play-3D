@@ -52,13 +52,13 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
             s32 id = event.GUIEvent.Caller->getID();
             switch (id) {
                 case CXT_WINDOW_ADD_TREE_EVENTS_SELECT:
-                    devices->createFileOpenDialog(L"Select the mesh");
+                    devices->createFileOpenDialog(L"Select the mesh", 0);
                     isOpenFileDialogOpened = true;
                     break;
                     
                 case CXT_WINDOW_ADD_TREE_EVENTS_ACCEPT: {
                     IMesh *octTreeMesh = devices->getSceneManager()->getMesh(path_file.c_str());
-                    IMeshSceneNode *treeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, 1024);
+                    IMeshSceneNode *treeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, 256);
                     if (treeNode) {
                         treeNode->setMaterialFlag(EMF_LIGHTING, false);
                         treeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
@@ -67,7 +67,7 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
                         treeNodeName += addTreeEditBox->getText();
                         treeNode->setName(treeNodeName.c_str());
                         
-                        devices->getXEffect()->addShadowToNode(treeNode, devices->getXEffectFilterType());
+                        devices->getXEffect()->addShadowToNode(treeNode, devices->getXEffectFilterType(), ESM_BOTH);
                         devices->getCollisionManager()->setCollisionToAnOctTreeNode(treeNode);
                         
                         devices->getCoreData()->getTreeNodes()->push_back(treeNode);

@@ -51,17 +51,12 @@ void CUIWindowEditEffects::open() {
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
     }
     
-    devices->getGUIEnvironment()->addStaticText(L"OGL Shaders", rect<s32>(10, 280, 110, 300), false, true, effectsWindow, -1, false);
-    devices->getGUIEnvironment()->addStaticText(L"D3D Shaders", rect<s32>(170, 280, 270, 300), false, true, effectsWindow, -1, false);
+    devices->getGUIEnvironment()->addStaticText(L"Shaders :", rect<s32>(10, 280, 110, 300), false, true, effectsWindow, -1, false);
     
-    oglAdd = devices->getGUIEnvironment()->addButton(rect<s32>(140, 280, 160, 300), effectsWindow, -1, L"+", L"Add a shader");
-    oglRemove = devices->getGUIEnvironment()->addButton(rect<s32>(110, 280, 130, 300), effectsWindow, -1, L"-", L"Add a shader");
+    oglAdd = devices->getGUIEnvironment()->addButton(rect<s32>(300, 280, 320, 300), effectsWindow, -1, L"+", L"Add a shader");
+    oglRemove = devices->getGUIEnvironment()->addButton(rect<s32>(270, 280, 290, 300), effectsWindow, -1, L"-", L"Add a shader");
     
-    d3dAdd = devices->getGUIEnvironment()->addButton(rect<s32>(300, 280, 320, 300), effectsWindow, -1, L"+", L"Add a shader");
-    d3dRemove = devices->getGUIEnvironment()->addButton(rect<s32>(270, 280, 290, 300), effectsWindow, -1, L"-", L"Add a shader");
-    
-    shadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 310, 160, 490), effectsWindow, -1, true);
-    d3dshadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(170, 310, 320, 490), effectsWindow, -1, true);
+    shadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 310, 320, 490), effectsWindow, -1, true);
     
     active = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(330, 320, 400, 340), effectsWindow, 
                                                        -1, L"Active");
@@ -77,18 +72,11 @@ void CUIWindowEditEffects::open() {
     }
     for (u32 i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
 		stringw name = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
-        #ifdef _IRR_OSX_PLATFORM_
-        name.remove(devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str());
-        #else
         stringw windowsName = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
-        windowsName.make_lower();
+        name.make_lower();
+		windowsName.make_lower();
         name.remove(windowsName);
-        #endif
-        if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL) {
-            shadersList->addItem(name.c_str());
-        } else {
-            d3dshadersList->addItem(name.c_str());
-        }
+        shadersList->addItem(name.c_str());
     }
     //-----------------------------------
     
@@ -155,7 +143,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 //-----------------------------------
                 //CONTEXT MENU FILE EVENT
                 case CXT_EDIT_WINDOW_EFFECTS_EVENTS_OPEN:
-                    devices->createFileOpenDialog(L"Select the shader");
+                    devices->createFileOpenDialog(L"Select the shader", 0);
                     openingShader = true;
                     break;
                     
@@ -174,9 +162,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             
             if (event.GUIEvent.Caller == oglRemove) {
                 if (shadersList->getItemCount() > 0 && shadersList->getSelected() != -1) {
-                    if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL) {
-                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
-                    }
+                    devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
                     devices->getCoreData()->getEffectRenders()->erase(shadersList->getSelected());
                     devices->getCoreData()->getEffectRendersPaths()->erase(shadersList->getSelected());
                     devices->getCoreData()->getEffectRenderCallbacks()->erase(shadersList->getSelected());
@@ -195,36 +181,8 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 }
             }
             
-            if (event.GUIEvent.Caller == d3dRemove) {
-                if (d3dshadersList->getItemCount() > 0) {
-                    if (devices->getVideoDriver()->getDriverType() == EDT_DIRECT3D9) {
-                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](d3dshadersList->getSelected()));
-                    }
-                    devices->getCoreData()->getEffectRenders()->erase(d3dshadersList->getSelected());
-                    devices->getCoreData()->getEffectRendersPaths()->erase(d3dshadersList->getSelected());
-                    devices->getCoreData()->getEffectRenderCallbacks()->erase(d3dshadersList->getSelected());
-                    
-                    d3dshadersList->removeItem(d3dshadersList->getSelected());
-                    
-                    if (d3dshadersList->getItemCount() == 0) {
-                        editCallBack->setEnabled(false);
-                        active->setEnabled(false);
-                    }
-                } else {
-                    devices->addInformationDialog(L"Information",
-                                                  L"Please select an item before...",
-                                                  EMBF_OK);
-                    
-                }
-            }
-            
             if (event.GUIEvent.Caller == oglAdd) {
-                devices->createFileOpenDialog(L"Select the shader (.GLSL)");
-                openingShader = true;
-            }
-            
-            if (event.GUIEvent.Caller == d3dAdd) {
-                devices->createFileOpenDialog(L"Select the shader (.HLSL)");
+				devices->createFileOpenDialog(L"Select the shader (.GLSL)", CGUIFileSelector::EFST_OPEN_DIALOG, effectsWindow);
                 openingShader = true;
             }
             
@@ -233,16 +191,11 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 devices->getEventReceiver()->RemoveEventReceiver(this);
                 delete this;
             }
-            
+
             if (event.GUIEvent.Caller == editCallBack) {
                 s32 selected = -1;
-                #ifdef _IRR_OSX_PLATFORM_
                 if (shadersList->getSelected() != -1) {
 					selected = shadersList->getSelected();
-                #else
-                if (d3dshadersList->getSelected() != -1) {
-                    selected = d3dshadersList->getSelected();
-                #endif
                     editionWindow->setVisible(true);
                     editionWindow->setDrawBackground(true);
                     pList->clear();
@@ -270,11 +223,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                         value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected());
                         pvalue->setText(value.c_str());
                     }
-                    #ifdef _IRR_OSX_PLATFORM_
                     shadersList->setEnabled(false);
-                    #else
-                    d3dshadersList->setEnabled(false);
-                    #endif
                     editCallBack->setEnabled(false);
                 } else {
                     devices->addInformationDialog(L"Information",
@@ -308,18 +257,10 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             }
             
             if (event.GUIEvent.Caller == pAdd) {
-                #ifdef _IRR_OSX_PLATFORM_
                 if (shadersList->getSelected() != -1) {
-                #else
-                if (d3dshadersList->getSelected() != -1) {
-                #endif
                     pList->addItem(L"No Name");
                     s32 selected = -1;
-                    #ifdef _IRR_OSX_PLATFORM_
                     selected = shadersList->getSelected();
-                    #else
-                    selected = d3dshadersList->getSelected();
-                    #endif
                     stringc returnedValue_c = "setReturnedValueAsFloat()\n\nvalue =  1\n\nreturnValue(value, 1)";
                     stringc valueName = "No Name";
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->push_back(returnedValue_c);
@@ -331,17 +272,9 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             }
             
             if (event.GUIEvent.Caller == pRemove) {
-                #ifdef _IRR_OSX_PLATFORM_
                 if (pList->getSelected() != -1 && shadersList->getSelected() != 1) {
-                #else
-                if (pList->getSelected() != -1 && d3dshadersList->getSelected() != 1) {
-                #endif
                     s32 selected = -1;
-                    #ifdef _IRR_OSX_PLATFORM_
                     selected = shadersList->getSelected();
-                    #else
-                    selected = d3dshadersList->getSelected();
-                    #endif
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->erase(pList->getSelected());
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->erase(pList->getSelected());
                     
@@ -368,37 +301,21 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
             
             if (event.GUIEvent.Caller == pname) {
-                #ifdef _IRR_OSX_PLATFORM_
                 if (shadersList->getSelected() != -1 && pList->getSelected() != -1) {
-                #else
-                if (d3dshadersList->getSelected() != -1 && pList->getSelected() != -1) {
-                #endif
                     stringc newName = "";
                     newName += pname->getText();
                     s32 selected = -1;
-                    #ifdef _IRR_OSX_PLATFORM_
                     selected = shadersList->getSelected();
-                    #else
-                    selected = d3dshadersList->getSelected();
-                    #endif
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](pList->getSelected()) = newName.c_str();
                     pList->setItem(pList->getSelected(), pname->getText(), 0);
                 }
             }
             
             if (event.GUIEvent.Caller == pvalue) {
-                #ifdef _IRR_OSX_PLATFORM_
                 if (shadersList->getSelected() != -1 && pList->getSelected() != -1) {
-                #else
-                if (d3dshadersList->getSelected() != -1 && pList->getSelected() != -1) {
-                #endif
                     stringc newValue = "";
                     s32 selected = -1;
-                    #ifdef _IRR_OSX_PLATFORM_
                     selected = shadersList->getSelected();
-                    #else
-                    selected = d3dshadersList->getSelected();
-                    #endif
                     newValue += pvalue->getText();
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected()) = newValue;
                 }
@@ -409,11 +326,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 stringc newValue = "";
                 newValue += pvalue->getText();
                 s32 selected = -1;
-                #ifdef _IRR_OSX_PLATFORM_
                 selected = shadersList->getSelected();
-                #else
-                selected = d3dshadersList->getSelected();
-                #endif
                 devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected()) = newValue;
             }
         }
@@ -441,12 +354,8 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 extension.make_lower();
                 
                 s32 render;
-                if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL && extension == ".glsl") {
-                    render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
-                }
-                if (devices->getVideoDriver()->getDriverType() == EDT_DIRECT3D9 && extension == ".hlsl") {
-                    render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
-                }
+                render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
+
                 devices->getCoreData()->getEffectRenders()->push_back(render);
                 devices->getCoreData()->getEffectRendersPaths()->push_back(path);
                 
@@ -455,13 +364,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 callback->clearVertexValues();
                 devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
                 devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
-                
-                if (extension == ".hlsl") {
-                    d3dshadersList->addItem(name.c_str());
-                }
-                if (extension == ".glsl") {
-                    shadersList->addItem(name.c_str());
-                }
+                shadersList->addItem(name.c_str());
                 
                 editCallBack->setEnabled(true);
                 active->setEnabled(true);
@@ -475,7 +378,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         }
         
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
-            #ifdef _IRR_OSX_PLATFORM_
             if (event.GUIEvent.Caller == shadersList && shadersList->getItemCount() > 0) {
                 if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
                     active->setChecked(true);
@@ -483,25 +385,11 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     active->setChecked(false);
                 }
             }
-            #else
-            if (event.GUIEvent.Caller == d3dshadersList && d3dshadersList->getItemCount() > 0) {
-                if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](d3dshadersList->getSelected()))) {
-                    active->setChecked(true);
-                } else {
-                    active->setChecked(false);
-                }
-            }
-            #endif
             
             if (event.GUIEvent.Caller == pList) {
                 s32 selected;
-                #ifdef _IRR_OSX_PLATFORM_
                 if (pList->getSelected() != -1 && shadersList->getSelected() != -1) {
                     selected = shadersList->getSelected();
-                #else
-                if (pList->getSelected() != -1 && d3dshadersList->getSelected() != -1) {
-                    selected = d3dshadersList->getSelected();
-                #endif
                     stringw text = L"";
                     text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](pList->getSelected());
                     pname->setText(text.c_str());
@@ -528,6 +416,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             
             if (event.GUIEvent.Caller == enableDepthPass) {
                 devices->getXEffect()->enableDepthPass(enableDepthPass->isChecked());
+				devices->getXEffect()->setUseVSMShadows(enableDepthPass->isChecked());
             }
         }
     }

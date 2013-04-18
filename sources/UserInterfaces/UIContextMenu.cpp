@@ -35,6 +35,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	menu->addItem(L"Renders", -1, true, true);
     menu->addItem(L"Shaders", -1, true, true);
     menu->addItem(L"Animated Objects", -1, true, true);
+	menu->addItem(L"Nodes Factory", -1, true, true);
     menu->addItem(L"Window", -1, true, true);
 	menu->addItem(L"Help", -1, true, true);
     
@@ -53,33 +54,34 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Edit Selected Node (CTRL+E)", CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE);
-    submenu->addItem(L"Edit Materials", CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE);
+    submenu->addItem(L"Edit Materials (CTRL+SHIFT+E)", CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE);
     submenu->addSeparator();
 	submenu->addItem(L"Set all the nodes lighting", CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_LIGHTING);
 	submenu->addItem(L"Set all the nodes not lighting", CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_NOT_LIGHTING);
     submenu->addSeparator();
     submenu->addItem(L"Edit Grid", CXT_MENU_EVENTS_EDIT_GRID_SCENE_NODE);
     submenu->addSeparator();
-    submenu->addItem(L"Clone", CXT_MENU_EVENTS_EDIT_CLONE);
+    submenu->addItem(L"Clone (CTRL+SHIFT+C)", CXT_MENU_EVENTS_EDIT_CLONE);
     
     submenu = menu->getSubMenu(i++);
-	submenu->addItem(L"Maya Camera", CXT_MENU_EVENTS_VIEW_MAYA_CAMERA);
-	submenu->addItem(L"FPS Camera", CXT_MENU_EVENTS_VIEW_FPS_CAMERA);
+	submenu->addItem(L"Maya Camera (CTRL+SHIFT+M)", CXT_MENU_EVENTS_VIEW_MAYA_CAMERA);
+	submenu->addItem(L"FPS Camera (CTRL+SHIFT+F)", CXT_MENU_EVENTS_VIEW_FPS_CAMERA);
     submenu->addSeparator();
 	submenu->addItem(L"View Tree Node Window", CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW);
     submenu->addSeparator();
-	submenu->addItem(L"Wire Frame", CXT_MENU_EVENTS_VIEW_WIREFRAME, true, false, false, false);
+	submenu->addItem(L"Wire Frame (CTRL+W)", CXT_MENU_EVENTS_VIEW_WIREFRAME, true, false, false, false);
     submenu->addItem(L"Point Cloud", CXT_MENU_EVENTS_VIEW_POINTCLOUD, true, false, false, false);
     
     i++;//TO CHANGE
     
     submenu = menu->getSubMenu(i);
-    submenu->addItem(L"HDR", -1, true, true);
+    submenu->addItem(L"Post Processes", -1, true, true);
 	submenu->addItem(L"Effects", -1, true, true);
     submenu = submenu->getSubMenu(0);
-    submenu->addItem(L"Draw HDR", CXT_MENU_EVENTS_RENDERS_HDR_DRAW);
+    submenu->addItem(L"Draw Motion Blur", CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW, true, false,
+					devices->getXEffect()->isUsingMotionBlur(), true);
     submenu->addSeparator();
-    submenu->addItem(L"Edit HDR", CXT_MENU_EVENTS_RENDERS_HDR_EDIT);
+    submenu->addItem(L"...", CXT_MENU_EVENTS_RENDERS_HDR_EDIT);
     submenu = menu->getSubMenu(i);
 	submenu = submenu->getSubMenu(1);
     submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW);
@@ -90,11 +92,35 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu = menu->getSubMenu(i);
     submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
     submenu->addItem(L"Edit Selected Water Shader", -1);
-    i++;//TO CHANGE
+    i++;
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Animated Models Window Edition (CTRL+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
 	submenu->addItem(L"Simple Edition", CXT_MENU_EVENTS_SIMPLE_EDITION);
+
+	submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"Add Cube Scene Node", CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE);
+	submenu->addItem(L"Add Sphere Scene Node", CXT_MENU_EVENTS_ADD_SPHERE_SCENE_NODE);
+	submenu->addItem(L"Add Hill Plane Mesh", CXT_MENU_EVENTS_ADD_HILL_PLANE_MESH);
+	submenu->addItem(L"Add a billboard", CXT_MENU_EVENTS_ADD_BILL_BOARD);
+	submenu->addItem(L"Edit Skybox", -1, true, true);
+	skyboxMenu = submenu->getSubMenu(4);
+	skyboxMenu->addItem(L"Enable", CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYBOX, true, false, false, false);
+	skyboxMenu->addItem(L"Edit...", -1);
+	skyboxMenu->addItem(L"Edit Materials...", -1);
+	submenu = menu->getSubMenu(i-1);
+	submenu->addItem(L"Edit Skydome", -1, true, true);
+	skydomeMenu = submenu->getSubMenu(5);
+	skydomeMenu->addItem(L"Enable", CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYDOME, true, false, true, false);
+	skydomeMenu->addItem(L"Edit...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME);
+	skydomeMenu->addItem(L"Edit Materials...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME);
+	submenu = menu->getSubMenu(i-1);
+	submenu->addItem(L"Mesh Manipulator", -1, true, true);
+	submenu = submenu->getSubMenu(6);
+	submenu->addItem(L"Make Planar Texture Mapping...", CXT_MENU_EVENTS_NODE_FACTORY_PLANAR_TEXTURE_MAPPING);
+	submenu->addItem(L"Create Mesh WIth Tangents...", CXT_MENU_EVENTS_NODE_FACTORY_CREATE_MESH_WITH_TANGENTS);
+	submenu->addItem(L"Scale Mesh...", -1);
+	submenu = menu->getSubMenu(i-1);
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Current Rendering Infos", CXT_MENU_EVENTS_RENDERING_INFOS);
@@ -116,10 +142,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     image = devices->getVideoDriver()->getTexture("GUI/edit_ao.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_AO, 0, L"Edit Animated Object", image, 0, false, true);
-    image = devices->getVideoDriver()->getTexture("GUI/shaders.png");
-    bar->addButton(CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS, 0, L"Edit Material Shaders", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/animators.png");
     bar->addButton(-1, 0, L"Edit animators of selected node", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/shaders.png");
+    bar->addButton(CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS, 0, L"Edit Material Shaders", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/effects.png");
+    bar->addButton(CXT_MENU_EVENTS_EDIT_EFFECTS, 0, L"Edit Effects", image, 0, false, true);
     
     //-----------------------------------
     
@@ -149,10 +177,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     timer = devices->getDevice()->getTimer();
     timer->start();
-    //timer->setTime(0);
+    timer->setTime(0);
     
+	stringw scene_to_import = L"";
     CImporter *impoterInstance = new CImporter(devices);
-    //impoterInstance->importScene("dano.world");
+	impoterInstance->importScene(scene_to_import.c_str());
+	scene_to_import.remove(L".world");
+	exportSceneInstance->setPathFile(scene_to_import.c_str());
     delete impoterInstance;
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
@@ -165,7 +196,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
     
     //CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
-    //editMaterials->open();
+	//editMaterials->open();
     
     //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
     //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
@@ -228,24 +259,24 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //-----------------------------------
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE: {
-                    stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode());
+					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
                     if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-                        editNode->open(mainWindowInstance->getSelectedNode(), 
-                                       mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));
+						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+									   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                     } else if (prefix == "#light") {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
-                        editLight->open(mainWindowInstance->getSelectedNode(),
-                                        mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));
+						editLight->open(mainWindowInstance->getSelectedNode().getNode(),
+										mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                     }
                 }
                     break;
                     
                 case CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE: {
-                    stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode());
+					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
                     if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
                         CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
-                        matEditor->open(mainWindowInstance->getSelectedNode());
+						matEditor->open(mainWindowInstance->getSelectedNode().getNode());
                     }
 
                 }
@@ -284,10 +315,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_MENU_EVENTS_VIEW_FPS_CAMERA:
-                    devices->getFPSCamera()->setPosition(devices->getMayaCamera()->getPosition());
-                    devices->getFPSCamera()->setRotation(vector3df(0, -1, 0));
                     devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
                     devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
+					devices->getDevice()->getCursorControl()->setVisible(false);
                     break;
                     
                 case CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW:
@@ -295,7 +325,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_MENU_EVENTS_VIEW_WIREFRAME: {
-                    ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode();
+					ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode().getNode();
                     if (nodeWireFrame) {
                         if (nodeWireFrame->getType() == ESNT_TERRAIN || nodeWireFrame->getType() == ESNT_OCTREE) {
                             nodeWireFrame->setMaterialFlag(EMF_WIREFRAME, !nodeWireFrame->getMaterial(0).Wireframe);
@@ -313,7 +343,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_MENU_EVENTS_VIEW_POINTCLOUD: {
-                    ISceneNode *nodePointCloud = mainWindowInstance->getSelectedNode();
+					ISceneNode *nodePointCloud = mainWindowInstance->getSelectedNode().getNode();
                     if (nodePointCloud) {
                         if (nodePointCloud->getType() == ESNT_TERRAIN || nodePointCloud->getType() == ESNT_OCTREE) {
                             nodePointCloud->setMaterialFlag(EMF_POINTCLOUD, !nodePointCloud->getMaterial(0).PointCloud);
@@ -333,8 +363,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 
                 //-----------------------------------
                 //CONTEXT MENU RENDERS EVENT
-                case CXT_MENU_EVENTS_RENDERS_HDR_DRAW:
-                    
+                case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
+					devices->getXEffect()->setUseMotionBlur(!devices->getXEffect()->isUsingMotionBlur());
                     break;
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
@@ -356,20 +386,164 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
                     break;
                 //-----------------------------------
-                    
+                
                 //-----------------------------------
                 //CONTEXT MENU ANIMATED OBJECTS EVENT
                 case CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION: {
-                    if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()) == "#object") {
+					if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
                         if (!characterWindowInstance->isWindowActive()) {
                             characterWindowInstance->open();
-                            characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode(), mainWindowInstance->getActiveListBox()->getSelected());
+							characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getActiveListBox()->getSelected());
                         }
                     }
                 }
                     break;
                 //-----------------------------------
                 
+				//-----------------------------------
+                //CONTEXT MENU MESH FACTORY EVENT
+				case CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE: {
+					IMeshSceneNode *cube = devices->getSceneManager()->addCubeSceneNode();
+					cube->setName("#object:new_cube");
+					cube->setMaterialFlag(EMF_LIGHTING, false);
+					devices->getXEffect()->addShadowToNode(cube);
+					devices->getCoreData()->getObjectMeshes()->push_back(cube->getMesh());
+					devices->getCoreData()->getObjectNodes()->push_back(cube);
+					devices->getCoreData()->getObjectPaths()->push_back("cube");
+					devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_ADD_SPHERE_SCENE_NODE: {
+					IMeshSceneNode *sphere = devices->getSceneManager()->addSphereSceneNode();
+					sphere->setName("#object:new_sphere");
+					sphere->setMaterialFlag(EMF_LIGHTING, false);
+					devices->getXEffect()->addShadowToNode(sphere);
+					devices->getCoreData()->getObjectMeshes()->push_back(sphere->getMesh());
+					devices->getCoreData()->getObjectNodes()->push_back(sphere);
+					devices->getCoreData()->getObjectPaths()->push_back("sphere");
+					devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_ADD_HILL_PLANE_MESH: {
+					IAnimatedMesh *planeMesh = devices->getSceneManager()->addHillPlaneMesh("#object:new_hille_plane_mesh", 
+																					dimension2df(25, 25), 
+																					dimension2du(25, 25));
+					ISceneNode *planeNode = devices->getSceneManager()->addMeshSceneNode(planeMesh->getMesh(0), 0, -1, vector3df(0, 0, 0));
+					planeNode->setName("#object:new_hille_plane_mesh");
+					planeNode->setMaterialFlag(EMF_LIGHTING, false);
+					devices->getXEffect()->addShadowToNode(planeNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
+					devices->getCoreData()->getObjectMeshes()->push_back(planeMesh);
+					devices->getCoreData()->getObjectNodes()->push_back(planeNode);
+					devices->getCoreData()->getObjectPaths()->push_back("hillPlaneMesh");
+					devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_ADD_BILL_BOARD: {
+					IBillboardSceneNode *billboard = devices->getSceneManager()->addBillboardSceneNode();
+					billboard->setName("#object:new_bill_board");
+					billboard->setMaterialFlag(EMF_LIGHTING, false);
+					devices->getXEffect()->addShadowToNode(billboard, devices->getXEffectFilterType(), ESM_EXCLUDE);
+					devices->getCoreData()->getObjectMeshes()->push_back(0);
+					devices->getCoreData()->getObjectNodes()->push_back(billboard);
+					devices->getCoreData()->getObjectPaths()->push_back("billboard");
+				}
+					break;
+
+				case CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYDOME: {
+					if (skydomeMenu->isItemChecked(0)) {
+						if (devices->getSkydome()) {
+							devices->getSkydome()->setVisible(false);
+						}
+						skydomeMenu->setItemChecked(0, false);
+					} else {
+						if (devices->getSkydome()) {
+							devices->getSkydome()->setVisible(true);
+							if (devices->getSkyBox()) {
+								devices->getSkyBox()->setVisible(false);
+							}
+						}
+						skyboxMenu->setItemChecked(0, false);
+						skydomeMenu->setItemChecked(0, true);
+					}
+				}
+					break;
+
+				case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME: {
+					if (devices->getSkydome()) {
+						CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+						editNode->open(devices->getSkydome(), "#object", false);
+					} else {
+
+					}
+				}
+
+					break;
+
+				case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME: {
+					CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+					matEditor->open(devices->getSkydome());
+				}
+					break;
+
+				case CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYBOX: {
+					if (skyboxMenu->isItemChecked(0)) {
+						if (devices->getSkyBox()) {
+							devices->getSkyBox()->setVisible(false);
+						}
+						skyboxMenu->setItemChecked(0, false);
+					} else {
+						if (devices->getSkyBox()) {
+							devices->getSkyBox()->setVisible(true);
+							if (devices->getSkydome()) {
+								devices->getSkydome()->setVisible(false);
+							}
+						}
+						skydomeMenu->setItemChecked(0, false);
+						skyboxMenu->setItemChecked(0, true);
+					}
+				}
+					break;
+
+				case CXT_MENU_EVENTS_NODE_FACTORY_PLANAR_TEXTURE_MAPPING: {
+					SSelectedNode ssn = mainWindowInstance->getSelectedNode();
+					if (ssn.getNode() && ssn.getMesh()) {
+						CUINodeFactoryPlanarMapping *nfpm = new CUINodeFactoryPlanarMapping(devices);
+						nfpm->open(ssn.getNode(), ssn.getMesh());
+					} else if (ssn.getNode() && !ssn.getMesh()) {
+						devices->addInformationDialog(L"Information", L"You cannot modify this kind of node...", EMBF_OK);
+					} else if (!ssn.getNode() && ssn.getMesh()) {
+						devices->addInformationDialog(L"Information", L"I don't know what the fuck is going on...\n"
+														L"You have the mesh but not the node...", EMBF_OK);
+					} else {
+						devices->addWarningDialog(L"Warning", L"Please select a node before...", EMBF_OK);
+					}
+				}
+					break;
+
+				case CXT_MENU_EVENTS_NODE_FACTORY_CREATE_MESH_WITH_TANGENTS: {
+					SSelectedNode ssn = mainWindowInstance->getSelectedNode();
+					if (ssn.getNode() && ssn.getMesh()) {
+						CUINodeFactoryCreateMeshWithTangents *createTangents = new CUINodeFactoryCreateMeshWithTangents(devices);
+						createTangents->open(ssn.getNode(), ssn.getMesh());
+						createTangents->setType(ssn.getNode()->getType());
+						createTangents->setMinPolysPerNode(ssn.getMinPolysPerNode());
+						createTangents->setMeshPath(ssn.getPath());
+					} else if (ssn.getNode() && !ssn.getMesh()) {
+						devices->addInformationDialog(L"Information", L"You cannot modify this kind of node...", EMBF_OK);
+					} else if (!ssn.getNode() && ssn.getMesh()) {
+						devices->addInformationDialog(L"Information", L"I don't know what the fuck is going on...\n"
+														L"You have the mesh but not the node...", EMBF_OK);
+					} else {
+						devices->addWarningDialog(L"Warning", L"Please select a node before...", EMBF_OK);
+					}
+				}
+					break;
+
+				//-----------------------------------
+
                 //-----------------------------------
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_RENDERING_INFOS: {
@@ -419,7 +593,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
             submenu = menu->getSubMenu(2);
-            ISceneNode *node = mainWindowInstance->getSelectedNode();
+			ISceneNode *node = mainWindowInstance->getSelectedNode().getNode();
             if (node) {
                 if (node->getMaterial(0).Wireframe) {
                     submenu->setItemChecked(5, true);
@@ -449,15 +623,15 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_MENU_EVENTS_EDIT_NODE: {
-                    stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode());
+					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
                     if (prefix == "#map" || prefix == "#tree" || prefix == "#object" || prefix == "#water") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-                        editNode->open(mainWindowInstance->getSelectedNode(), 
-                                       mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));
+						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+									  mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                     } else if (prefix == "#light") {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
-                        editLight->open(mainWindowInstance->getSelectedNode(),
-                                        mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));
+						editLight->open(mainWindowInstance->getSelectedNode().getNode(),
+										mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                     }
                 }
                     break;
@@ -468,10 +642,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_MENU_EVENTS_EDIT_AO: {
-                    if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()) == "#object") {
+					if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
                         if (!characterWindowInstance->isWindowActive()) {
                             characterWindowInstance->open();
-                            characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode(), mainWindowInstance->getActiveListBox()->getSelected());
+							characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getActiveListBox()->getSelected());
                         }
                     }
                 }
@@ -480,6 +654,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS: {
                     CUIWindowEditMaterials *editMat = new CUIWindowEditMaterials(devices);
                     editMat->open();
+                }
+                    break;
+
+				case CXT_MENU_EVENTS_EDIT_EFFECTS: {
+                    CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
+					editEffects->open();
                 }
                     break;
                     
@@ -525,18 +705,14 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			switch (event.KeyInput.Key) {
                     
                 case KEY_KEY_X:
-                    if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && !devices->isShiftPushed()) {
-                        devices->setXEffectDrawable(!devices->isXEffectDrawable());
-                    }
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
-                        CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
-                        editEffects->open();
+                        devices->setXEffectDrawable(!devices->isXEffectDrawable());
                     }
                     break;
                     
                 case KEY_KEY_W: {
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
-                        ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode();
+						ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode().getNode();
                         if (nodeWireFrame) {
                             if (nodeWireFrame->getType() == ESNT_TERRAIN || nodeWireFrame->getType() == ESNT_OCTREE) {
                                 nodeWireFrame->setMaterialFlag(EMF_WIREFRAME, !nodeWireFrame->getMaterial(0).Wireframe);
@@ -556,10 +732,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case KEY_KEY_A:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
-                        if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()) == "#object") {
+						if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
                             if (!characterWindowInstance->isWindowActive()) {
                                 characterWindowInstance->open();
-                                characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode(), mainWindowInstance->getActiveListBox()->getSelected());
+								characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getActiveListBox()->getSelected());
                             }
                         }
                     }
@@ -578,18 +754,28 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case KEY_KEY_E: {
-                    if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
-                        stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode());
+					if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && !devices->isShiftPushed()) {
+						stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
                         if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
                             CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-                            editNode->open(mainWindowInstance->getSelectedNode(), 
-                                           mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));
+							editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+										   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                         } else if (prefix == "#light") {
                             CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
-                            editLight->open(mainWindowInstance->getSelectedNode(),
-                                            mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode()));
+							editLight->open(mainWindowInstance->getSelectedNode().getNode(),
+											mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                         }
                     }
+					if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
+						ISceneNode *node = mainWindowInstance->getSelectedNode().getNode();
+						bool canEdit = (node->getType() == ESNT_MESH || node->getType() == ESNT_OCTREE || node->getType() == ESNT_ANIMATED_MESH
+							|| node->getType() == ESNT_BILLBOARD || node->getType() == ESNT_SKY_BOX || node->getType() == ESNT_SKY_DOME
+							|| node->getType() == ESNT_TERRAIN || node->getType() == ESNT_CUBE || node->getType() == ESNT_SPHERE);
+						if (canEdit) {
+							CUIMaterialEditor *editMat = new CUIMaterialEditor(devices);
+							editMat->open(node);
+						}
+					}
                 }
                     break;
                     

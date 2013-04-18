@@ -19,3 +19,21 @@ CAction::CAction() {
 CAction::~CAction() {
     
 }
+
+stringc CAction::getXMLValues() {
+	stringc toReturn = "";
+
+	toReturn += "<action start=\"";
+	toReturn += start;
+	toReturn += "\" ";
+	toReturn += "end=\"";
+	toReturn += end;
+	toReturn += "\" name=\"";
+	toReturn += name.c_str();
+	toReturn += "\" ";
+	toReturn += "speed=\"";
+	toReturn += animSpeed;
+	toReturn += "\" /> \n";
+
+	return toReturn;
+}

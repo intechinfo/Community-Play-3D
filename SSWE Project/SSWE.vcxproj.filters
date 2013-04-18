@@ -61,6 +61,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{41525eed-f40c-4eb5-8f8b-5e4fd2294764}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserInterfaces\NodeFactory">
+      <UniqueIdentifier>{91b0913f-396b-4232-b290-852e5135d480}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\CharacterEdition\CAction.cpp">
@@ -193,6 +196,24 @@
       <Filter>Renders\XEffect\Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="..\sources\main.cpp" />
+    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.cpp">
+      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp">
+      <Filter>UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp">
+      <Filter>UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.cpp">
+      <Filter>UserInterfaces\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\CUIRightSceneTreeView.cpp">
+      <Filter>UserInterfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp">
+      <Filter>UserInterfaces\MainWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\sources\CharacterEdition\CAction.h">
@@ -341,6 +362,27 @@
     </ClInclude>
     <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h">
       <Filter>Renders\XEffect\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h">
+      <Filter>Renders\PostProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.h">
+      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h">
+      <Filter>UserInterfaces\NodeFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h">
+      <Filter>UserInterfaces\NodeFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.h">
+      <Filter>UserInterfaces\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\CUIRightSceneTreeView.h">
+      <Filter>UserInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h">
+      <Filter>UserInterfaces\MainWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,6 +17,9 @@ public:
     
     CAction();
     ~CAction();
+
+	//METHODS
+	stringc getXMLValues();
     
     //GET METHODS
     s32 getStart() { return start; }

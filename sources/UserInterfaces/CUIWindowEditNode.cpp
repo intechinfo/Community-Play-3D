@@ -112,16 +112,27 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
                                                                    rect<s32>(270, 110, 370, 130), true, generalTab, -10);
         
         //SCALE
-        devices->getGUIEnvironment()->addStaticText(L"Scale : ", rect<s32>(10, 150, 70, 170), true, true, generalTab, -1, true);
-        devices->getGUIEnvironment()->addStaticText(L"X : ", rect<s32>(10, 170, 30, 190), true, true, generalTab, -1, true);
-        ebNodeScaleX = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(nodeToEdit->getScale().X).c_str(), 
-                                                                rect<s32>(30, 170, 130, 190), true, generalTab, -1);
-        devices->getGUIEnvironment()->addStaticText(L"Y : ", rect<s32>(130, 170, 150, 190), true, true, generalTab, -1, true);
-        ebNodeScaleY = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(nodeToEdit->getScale().Y).c_str(), 
-                                                                rect<s32>(150, 170, 250, 190), true, generalTab, -1);
-        devices->getGUIEnvironment()->addStaticText(L"Z : ", rect<s32>(250, 170, 270, 130), true, true, generalTab, -1, true);
-        ebNodeScaleZ = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(nodeToEdit->getScale().Z).c_str(), 
-                                                                rect<s32>(270, 170, 370, 190), true, generalTab, -1);
+		if (nodeToEdit->getType() != ESNT_BILLBOARD) {
+			devices->getGUIEnvironment()->addStaticText(L"Scale : ", rect<s32>(10, 150, 70, 170), true, true, generalTab, -1, true);
+			devices->getGUIEnvironment()->addStaticText(L"X : ", rect<s32>(10, 170, 30, 190), true, true, generalTab, -1, true);
+			ebNodeScaleX = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(nodeToEdit->getScale().X).c_str(), 
+																	rect<s32>(30, 170, 130, 190), true, generalTab, -1);
+			devices->getGUIEnvironment()->addStaticText(L"Y : ", rect<s32>(130, 170, 150, 190), true, true, generalTab, -1, true);
+			ebNodeScaleY = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(nodeToEdit->getScale().Y).c_str(), 
+																	rect<s32>(150, 170, 250, 190), true, generalTab, -1);
+			devices->getGUIEnvironment()->addStaticText(L"Z : ", rect<s32>(250, 170, 270, 130), true, true, generalTab, -1, true);
+			ebNodeScaleZ = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(nodeToEdit->getScale().Z).c_str(), 
+																	rect<s32>(270, 170, 370, 190), true, generalTab, -1);
+		} else {
+			IBillboardSceneNode *billNode = (IBillboardSceneNode *)nodeToEdit;
+			devices->getGUIEnvironment()->addStaticText(L"Size : ", rect<s32>(10, 150, 70, 170), true, true, generalTab, -1, true);
+			devices->getGUIEnvironment()->addStaticText(L"W : ", rect<s32>(10, 170, 30, 190), true, true, generalTab, -1, true);
+			ebNodeScaleX = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(billNode->getSize().Width).c_str(), 
+																	rect<s32>(30, 170, 130, 190), true, generalTab, -1);
+			devices->getGUIEnvironment()->addStaticText(L"H : ", rect<s32>(130, 170, 150, 190), true, true, generalTab, -1, true);
+			ebNodeScaleY = devices->getGUIEnvironment()->addEditBox(devices->getCore()->getStrNumber(billNode->getSize().Height).c_str(), 
+																	rect<s32>(150, 170, 250, 190), true, generalTab, -1);
+		}
         
         //TEXTURE LAYERS
         devices->getGUIEnvironment()->addStaticText(L"Index 1 : ", rect<s32>(10, 200, 70, 220), false, true, generalTab, -1, false);
@@ -358,6 +369,25 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         gZBuffer = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(149, 136, 259, 156), generalFlagsTab, -1, L"ZBuffer");
         gZWriteEnable = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(259, 136, 399, 156), generalFlagsTab, -1, L"ZWrite Enable");
         
+		//SETTING UP ANIMATED
+		drawAnimations = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(19, 16, 159, 36), animatedTab, -1, L"Draw Animations");
+		
+		devices->getGUIEnvironment()->addStaticText(L"Saved Animations :", rect<s32>(19, 46, 149, 66), true, true, animatedTab, -1, true);
+		savedAnimationsPath = devices->getGUIEnvironment()->addEditBox(L"", rect<s32>(149, 46, 309, 66), true, animatedTab, -1);
+		browseSavedAnimations = devices->getGUIEnvironment()->addButton(rect<s32>(309, 46, 409, 66), animatedTab, -1, 
+																		L"Browse...", L"Browse...");
+
+		devices->getGUIEnvironment()->addStaticText(L"Choose Animation :", rect<s32>(19, 76, 149, 96), true, true, animatedTab, -1, true);
+		chooseSavedAnimation = devices->getGUIEnvironment()->addComboBox(rect<s32>(149, 76, 409, 96), animatedTab, -1);
+
+		if (nodeToEdit->getType() != ESNT_ANIMATED_MESH) {
+			core::list<IGUIElement *>::ConstIterator animatedElements = animatedTab->getChildren().begin();
+			for (; animatedElements != animatedTab->getChildren().end(); ++animatedElements) {
+				IGUIElement *element = (IGUIElement *)*animatedElements;
+				element->setEnabled(false);
+			}
+		}
+
         //APPLY MATERIAL 0 DEFAULT VALUES
         setMaterialTextures();
         
@@ -674,9 +704,18 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     nodeToEdit->setRotation(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeRotationX->getText()), 
                                                                              devices->getCore()->convertToString(ebNodeRotationY->getText()), 
                                                                              devices->getCore()->convertToString(ebNodeRotationZ->getText())));
-                    nodeToEdit->setScale(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeScaleX->getText()), 
-                                                                          devices->getCore()->convertToString(ebNodeScaleY->getText()), 
-                                                                          devices->getCore()->convertToString(ebNodeScaleZ->getText())));
+					if (nodeToEdit->getType() != ESNT_BILLBOARD) {
+						nodeToEdit->setScale(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeScaleX->getText()), 
+																			  devices->getCore()->convertToString(ebNodeScaleY->getText()), 
+																			  devices->getCore()->convertToString(ebNodeScaleZ->getText())));
+					} else {
+						IBillboardSceneNode *billNode = (IBillboardSceneNode *)nodeToEdit;
+						billNode->setSize(devices->getCore()->getDimensionF32(devices->getCore()->convertToString(ebNodeScaleX->getText()), 
+																			  devices->getCore()->convertToString(ebNodeScaleY->getText())));
+						nodeToEdit->setScale(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeScaleX->getText()), 
+																			  devices->getCore()->convertToString(ebNodeScaleY->getText()), 
+																			  devices->getCore()->convertToString("1")));
+					}
                     if (!stringw(ebTextureLayerPath1->getText()).equals_ignore_case(L"Empty")) {
                     nodeToEdit->setMaterialTexture(0, 
                                 devices->getVideoDriver()->getTexture(devices->getCore()->convertToString(ebTextureLayerPath1->getText()).c_str()));
@@ -701,8 +740,10 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON:
-                    nodeToEdit->setDebugDataVisible(EDS_OFF);
-                    nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
+					if (nodeToEdit) {
+						nodeToEdit->setDebugDataVisible(EDS_OFF);
+						nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
+					}
                     editWindow->remove();
                     devices->getEventReceiver()->RemoveEventReceiver(this);
                     delete this;
@@ -710,17 +751,17 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     
                 case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_1:
                     //devices->getGUIEnvironment()->addFileOpenDialog(L"Choose the fist texture layer");
-                    devices->createFileOpenDialog(L"Choose the first texture layer");
+                    devices->createFileOpenDialog(L"Choose the first texture layer", 0);
                     currentBrowse = 1;
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_2:
-                    devices->createFileOpenDialog(L"Choose the second texture layer");
+                    devices->createFileOpenDialog(L"Choose the second texture layer", 0);
                     currentBrowse = 2;
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_3:
-                    devices->createFileOpenDialog(L"Choose the third texture layer");
+                    devices->createFileOpenDialog(L"Choose the third texture layer", 0);
                     currentBrowse = 3;
                     break;
                     
@@ -730,28 +771,33 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_SELECT_1:
-                    devices->createFileOpenDialog(L"Choose Texture 1 for this material");
+                    devices->createFileOpenDialog(L"Choose Texture 1 for this material", 0);
                     currentBrowse = 11;
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_SELECT_2:
-                    devices->createFileOpenDialog(L"Choose Texture 2 for this material");
+                    devices->createFileOpenDialog(L"Choose Texture 2 for this material", 0);
                     currentBrowse = 12;
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_SELECT_3:
-                    devices->createFileOpenDialog(L"Choose Texture 3 for this material");
+                    devices->createFileOpenDialog(L"Choose Texture 3 for this material", 0);
                     currentBrowse = 13;
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_SELECT_4:
-                    devices->createFileOpenDialog(L"Choose Texture 4 for this material");
+                    devices->createFileOpenDialog(L"Choose Texture 4 for this material", 0);
                     currentBrowse = 14;
                     break;
                     
                 default:
                     break;
             }
+			if (event.GUIEvent.Caller == browseSavedAnimations) {
+				browseSavedAnimationDialog = devices->createFileOpenDialog(L"Choose the animation file",
+																		   CGUIFileSelector::EFST_OPEN_DIALOG,
+																		   devices->getGUIEnvironment()->getRootGUIElement());
+			}
         }
         
         //EDIT BOXES
@@ -967,6 +1013,17 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 default:
                     break;
             }
+
+			//DRAW ANIMATIONS
+			if (event.GUIEvent.Caller == drawAnimations) {
+				IAnimatedMeshSceneNode *animatedNode = reinterpret_cast<IAnimatedMeshSceneNode *>(nodeToEdit);
+				if (drawAnimations->isChecked()) {
+					animatedNode->setFrameLoop(animatedNode->getStartFrame(), animatedNode->getEndFrame());
+					animatedNode->setAnimationSpeed(25.f);
+				} else {
+					animatedNode->setFrameLoop(0, 0);
+				}
+			}
             
             //GLOBAL FILTERS
             if (event.GUIEvent.Caller == gAnisotropicFilter) {
@@ -1114,11 +1171,51 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 default:
                     break;
             }
+			if (event.GUIEvent.Caller == chooseSavedAnimation) {
+				if (actions.size() > 0 && drawAnimations->isChecked()) {
+					IAnimatedMeshSceneNode *animatedNode = (IAnimatedMeshSceneNode *)nodeToEdit;
+					animatedNode->setFrameLoop(actions[chooseSavedAnimation->getSelected()]->getStart(),
+											   actions[chooseSavedAnimation->getSelected()]->getEnd());
+					animatedNode->setAnimationSpeed(actions[chooseSavedAnimation->getSelected()]->getAnimSpeed());
+				}
+			}
         }
         
         //TEXTURE LAYER SELECTED
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
             IGUIFileOpenDialog* dialog = (IGUIFileOpenDialog*)event.GUIEvent.Caller;
+			if (dialog == browseSavedAnimationDialog) {
+				for (u32 i=0; i < actions.size(); i++) {
+					delete actions[i];
+				}
+				actions.clear();
+				chooseSavedAnimation->clear();
+				IrrXMLReader *xmlReader = createIrrXMLReader(stringc(dialog->getFileName()).c_str());
+				if (xmlReader) {
+					xmlReader->read();
+					stringc element = xmlReader->getNodeName();
+					if (element != "rootAnim") {
+						do {
+							xmlReader->read();
+							element = xmlReader->getNodeName();
+						} while (element != "rootAnim");
+						do {
+							xmlReader->read();
+							element = xmlReader->getNodeName();
+							if (element == "action") {
+								CAction *action = new CAction();
+								action->setStart(xmlReader->getAttributeValueAsInt("start"));
+								action->setEnd(xmlReader->getAttributeValueAsInt("end"));
+								action->setName(xmlReader->getAttributeValue("name"));
+								action->setAnimSpeed(xmlReader->getAttributeValueAsFloat("speed"));
+								actions.push_back(action);
+								chooseSavedAnimation->addItem(stringw(action->getName().c_str()).c_str());
+							}
+						} while (element != "rootAnim");
+					}
+				}
+				delete xmlReader;
+			}
             
             switch (currentBrowse) {
                 case 1:

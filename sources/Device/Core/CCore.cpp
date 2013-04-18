@@ -17,6 +17,46 @@ CCore::~CCore() {
     
 }
 
+array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
+	array<ISceneNode *> nodes;
+
+	core::list<ISceneNode *>::ConstIterator it = node->getChildren().begin();
+	for (; it != node->getChildren().end(); ++it) {
+		nodes.push_back(*it);
+	}
+
+	return &nodes;
+}
+
+s32 CCore::nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node) {
+	s32 exists = -1;
+
+	if (nodes->size() == 0) {
+		return exists;
+	}
+
+	for (u32 i=0; i < nodes->size(); i++) {
+		if (nodes->operator[](i) == node) {
+			exists = i;
+			break;
+		}
+	}
+
+	return exists;
+}
+
+s32 CCore::textureAlreadyExists(stringc name, IVideoDriver *driver) {
+	s32 exists = -1;
+	for (u32 i=0; i < driver->getTextureCount(); i++) {
+		if (driver->getTextureByIndex(i)->getName().getPath() == name) {
+			exists = i;
+			break;
+		}
+	}
+
+	return exists;
+}
+
 stringw CCore::getTexturePath(ITexture *texture) {
     stringw texturew = L"";
     if (texture) {

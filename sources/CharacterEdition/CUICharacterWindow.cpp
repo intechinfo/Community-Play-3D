@@ -138,7 +138,7 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
             node = 0;
         }
         IAnimatedMesh *mesh = smgr->getMesh(devices->getCoreData()->getObjectPaths()->operator[](index));
-        node = smgr->addAnimatedMeshSceneNode(pnode->getMesh());
+		node = smgr->addAnimatedMeshSceneNode(mesh);
         node->setPosition(pnode->getPosition());
         node->setRotation(pnode->getRotation());
         node->setScale(pnode->getScale());
@@ -166,7 +166,7 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
         startFrame += node->getStartFrame();
         devices->getGUIEnvironment()->addStaticText(startFrame.c_str(), rect<s32>(5, 65, 200, 85), false, true, detailsTab, -1, true);
         stringw endFrame = L"End Frame : ";
-        endFrame += node->getStartFrame();
+        endFrame += node->getEndFrame();
         devices->getGUIEnvironment()->addStaticText(endFrame.c_str(), rect<s32>(5, 90, 200, 110), false, true, detailsTab, -1, true);
         stringw jointCount = L"Joint Count : ";
         jointCount += node->getJointCount();
@@ -209,6 +209,10 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                     characterWindow = 0;
                     actions.clear();
                     break;
+
+				case CXT_EDIT_WINDOW_CHARACTER_EVENTS_SAVE:
+					saveDialog = devices->createFileOpenDialog(L"Select the directory", CGUIFileSelector::EFST_SAVE_DIALOG, characterWindow);
+					break;
                     
                 default:
                     break;
@@ -231,7 +235,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                 }
                     break;
                     
-                //LIST BOX BUTTONS    
+                //LIST BOX BUTTONS
                 case CXT_EDIT_WINDOW_CHARACTER_EVENTS_ADD:
                     animationList->addItem(L"New Action");
                     actions.push_back(new CAction());
@@ -323,17 +327,19 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
             IGUIFileOpenDialog* dialog = (IGUIFileOpenDialog*)event.GUIEvent.Caller;
-            
-            switch (currentLoad) {
-                case 1:
-                    
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            currentLoad = 0;
+			//SAVE
+			if (dialog == saveDialog) {
+				FILE *export_file;
+				export_file = fopen("test.anc", "w");
+				fprintf(export_file, "<?xml version=\"1.0\"?>\n\n");
+				fprintf(export_file, "<rootAnim>\n\n");
+				for (u32 i=0; i < actions.size(); i++) {
+					fprintf(export_file, "\t");
+					fprintf(export_file, actions[i]->getXMLValues().c_str());
+				}
+				fprintf(export_file, "\n</rootAnim>\n");
+				fclose(export_file);
+			}
         }
         
         if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
