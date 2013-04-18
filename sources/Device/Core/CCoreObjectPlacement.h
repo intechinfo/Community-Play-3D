@@ -16,7 +16,14 @@ class CCoreObjectPlacement : public IEventReceiver {
   
 public:
     
-    CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cusorCtrl, CCollisionManager *_colMgr);
+	typedef enum {
+		Undefined,
+		Position,
+		Rotation,
+		Scale
+	}ArrowType;
+
+    CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cursorCtrl, CCollisionManager *_colMgr);
     ~CCoreObjectPlacement();
     
     bool OnEvent(const SEvent &event);
@@ -24,13 +31,18 @@ public:
     void setNodeToPlace(ISceneNode *node);
     ISceneNode *getNodeToPlace() { return nodeToPlace; }
     void setLightNode(ISceneNode *node);
+	void setCollisionToNormal();
+	void setArrowVisible(bool set);
+	bool findAndSetMousePositionInPlane();
+	void setArrowType(ArrowType AT);
     
     void refresh(ISceneNode *cursorPosition);
     
-    IAnimatedMeshSceneNode *getArrowVerticalLine() { return arrowVerticalLineNode; }
+    IAnimatedMeshSceneNode *getArrowVerticalLine() { return arrowYLineNode; }
     CGridSceneNode *getGridSceneNode() { return gridSceneNode; }
     
     bool isPlacing() { return isMoving; }
+	ArrowType getArrowType() { return arrowType; }
     void setAllowMoving(bool _allowMoving) { allowMoving = _allowMoving; }
     
 private:
@@ -38,17 +50,36 @@ private:
     ISceneManager *smgr;
     ICursorControl *cursorCtrl;
     CCollisionManager *colMgr;
+
+	ArrowType arrowType;
     
-    vector3df position;
+    /*vector3df cameraPosition;
+	vector3df cameraRotation;*/
+	vector3df mousePosition;
+	vector3df mousePositionInPlane;
+	vector3df scaleArrow;
+
+	plane3df plane;
+
+	line3d<f32> ray;
     
     ISceneNode *nodeToPlace;
+	ISceneNode *selectedArrow;
     
-    IAnimatedMesh *arrowVerticalLine;
-    IAnimatedMeshSceneNode *arrowVerticalLineNode;
-    
+    IAnimatedMesh *arrowYLine;
+    IAnimatedMeshSceneNode *arrowYLineNode;
+	IAnimatedMesh *arrowXLine;
+    IAnimatedMeshSceneNode *arrowXLineNode;
+	IAnimatedMesh *arrowZLine;
+    IAnimatedMeshSceneNode *arrowZLineNode;
+	IAnimatedMesh *arrowYXZLine;
+    IAnimatedMeshSceneNode *arrowYXZLineNode;
+
     ISceneNode *lightCone, *lightNode;
     IMesh *coneMesh;
     
+	ISceneCollisionManager *collisionManager;
+
     CGridSceneNode *gridSceneNode;
     
     bool isMoving;
