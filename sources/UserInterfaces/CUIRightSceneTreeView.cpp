@@ -26,10 +26,13 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 
 	rightClickCxtMenu = 0;
 
+	alwaysVisible = false;
+
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 	//SET UP WINDOW
 	window = gui->addWindow(rect<s32>(0, 0, 0, 0), false, L"Scene View", 0, -1);
 	window->getCloseButton()->remove();
+	window->getMaximizeButton()->setVisible(true);
 	window->setDraggable(false);
 	window->setVisible(false);
 
@@ -67,7 +70,7 @@ void CUIRightSceneTreeView::addChildrenBackWithArray(IGUITreeViewNode *treeNode,
 	treeNode->clearChilds();
 	for (u32 i=0; i < nodes->size(); i++) {
 		IGUITreeViewNode *newTreeNode = treeNode->addChildBack(stringw(nodes->operator[](i)->getName()).c_str(), L"", 
-																getImageListIndexForNodeType(nodes->operator[](i)->getType()), -1);
+															   getImageListIndexForNodeType(nodes->operator[](i)->getType()), -1);
 		newTreeNode->setData(nodes->operator[](i));
 		newTreeNode->setExpanded(true);
 		if (whoIstreeNodeSelected == nodes->operator[](i)) {
@@ -141,14 +144,14 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 												 window->getRelativePosition().getWidth()-10, 
 												 window->getRelativePosition().getHeight()-10));
 		addChildrenBackWithArray(terrainsNode, worldCore->getTerrainNodes());
-		addChildrenBackWithArray(treesNode, worldCore->getTreeNodes());
+		addChildrenBackWithArray(treesNode, &worldCore->getArrayOfTreeNodes());
 		addChildrenBackWithArray(objectsNode, worldCore->getObjectNodes());
-		addChildrenBackWithArray(lightsNode, worldCore->getLightsNodes());
+		addChildrenBackWithArray(lightsNode, &worldCore->getArrayOfLightNodes());
 	}
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
-		if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
-			if (window->isVisible()) {
+		if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP && devices->getGUIEnvironment()->getFocus() == 0) {
+			if (window->isVisible() && window->isPointInside(devices->getDevice()->getCursorControl()->getPosition())) {
 				IGUIEnvironment *gui = devices->getGUIEnvironment();
 				ICursorControl *cursor = devices->getDevice()->getCursorControl();
 
@@ -160,8 +163,8 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				rightClickCxtMenu->addSeparator();
 				rightClickCxtMenu->addItem(L"Clone", 2, true, false, false, false);
 				rightClickCxtMenu->addSeparator();
-				rightClickCxtMenu->addItem(L"Create Mesh With Tangents...", 3, true, false, false, false);
-				rightClickCxtMenu->addItem(L"Make Planar Texture Mapping...", 4, true, false, false, false);
+				rightClickCxtMenu->addItem(L"Make Planar Texture Mapping...", 3, true, false, false, false);
+				rightClickCxtMenu->addItem(L"Create Mesh With Tangents...", 4, true, false, false, false);
 				rightClickCxtMenu->addItem(L"Scale Mesh", 5, true, false, false, false);
 			}
 		}
@@ -169,7 +172,9 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 		if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
 			if (window->isVisible()) {
 				if (devices->getDevice()->getCursorControl()->getPosition().X < driver->getScreenSize().Width-window->getRelativePosition().getWidth()) {
-					window->setVisible(false);
+					if (!alwaysVisible) {
+						window->setVisible(false);
+					}
 				}
 			} else {
 				if (devices->getDevice()->getCursorControl()->getPosition().Y > 75) {
@@ -183,10 +188,23 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGET_TREEVIEW_NODE_SELECT) {
-			ISceneNode *node = (ISceneNode *)sceneView->getSelected()->getData();
-			if (node) {
-				cxtMenu->getMainWindow()->selectSelectedNode(node);
+			if (event.GUIEvent.Caller == sceneView) {
+				ISceneNode *node = (ISceneNode *)sceneView->getSelected()->getData();
+				if (node) {
+					cxtMenu->getMainWindow()->selectSelectedNode(node);
+				}
 			}
+		}
+
+		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+			if (event.GUIEvent.Caller == window->getMaximizeButton()) {
+				alwaysVisible = true;
+			}
+			if (event.GUIEvent.Caller == window->getMinimizeButton()) {
+				alwaysVisible = false;
+			}
+			window->getMaximizeButton()->setVisible(!alwaysVisible);
+			window->getMinimizeButton()->setVisible(alwaysVisible);
 		}
 
 		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
@@ -196,7 +214,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 					if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 0) {
 						stringc prefix = cxtMenu->getMainWindow()->getSelectedNodePrefix(node);
 						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {
-							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(worldCore->getLightsNodes(), node));
+							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&worldCore->getArrayOfLightNodes(), node));
 							editLight->open(node, prefix.c_str());
 						} else {
 							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
@@ -225,8 +243,8 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 						if (node->getType() != ESNT_LIGHT) {
 							SSelectedNode ssn = cxtMenu->getMainWindow()->getSelectedNode();
 							if (ssn.getMesh() && ssn.getNode()) {
-								CUINodeFactoryCreateMeshWithTangents *cmwt = new CUINodeFactoryCreateMeshWithTangents(devices);
-								cmwt->open(ssn.getNode(), ssn.getMesh());
+								CUINodeFactoryPlanarMapping *cfpm = new CUINodeFactoryPlanarMapping(devices);
+								cfpm->open(ssn.getNode(), ssn.getMesh());
 							} else {
 								devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);
 							}
@@ -239,8 +257,8 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 						if (node->getType() != ESNT_LIGHT) {
 							SSelectedNode ssn = cxtMenu->getMainWindow()->getSelectedNode();
 							if (ssn.getMesh() && ssn.getNode()) {
-								CUINodeFactoryPlanarMapping *cfpm = new CUINodeFactoryPlanarMapping(devices);
-								cfpm->open(ssn.getNode(), ssn.getMesh());
+								CUINodeFactoryCreateMeshWithTangents *cmwt = new CUINodeFactoryCreateMeshWithTangents(devices);
+								cmwt->open(ssn.getNode(), ssn.getMesh());
 							} else {
 								devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);
 							}
@@ -255,6 +273,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				} else {
 					devices->addInformationDialog(L"Informations", L"You cannot use this node", EMBF_OK, 0);
 				}
+				rightClickCxtMenu = 0;
 			}
 		}
 	}

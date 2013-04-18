@@ -57,11 +57,8 @@ bool CUIWindowAddLight::OnEvent(const SEvent &event) {
                                                    SColor(255, 255, 255, 255), 20.0f, 5000.f, 90.f * DEGTORAD);
                         devices->getXEffect()->addShadowLight(shadowLight);
                         
-                        devices->getCoreData()->getLightsNodes()->push_back(light);
-                        
-                        devices->getCoreData()->getLfMeshNodes()->push_back(0);
-                        devices->getCoreData()->getLfBillBoardSceneNodes()->push_back(0);
-                        devices->getCoreData()->getLensFlareSceneNodes()->push_back(0);
+						SLightsData ldata(light);
+						devices->getCoreData()->getLightsData()->push_back(ldata);
                         
                         lightsListBox->addItem(lightNodeName.c_str());
                         

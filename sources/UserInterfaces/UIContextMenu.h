@@ -137,6 +137,8 @@ private:
 	IGUIContextMenu *menu, *submenu;
 	IGUIToolBar *bar, *infosBar;
 
+	IGUIButton *ibposition, *ibrotation, *ibscale;
+
 	IGUIContextMenu *skydomeMenu, *skyboxMenu;
 	//-----------------------------------
 

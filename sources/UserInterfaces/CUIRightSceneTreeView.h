@@ -45,6 +45,8 @@ private:
 	//-----------------------------------
     //DATAS
 	ISceneNode *whoIstreeNodeSelected;
+
+	bool alwaysVisible;
 	//-----------------------------------
     
 	//-----------------------------------

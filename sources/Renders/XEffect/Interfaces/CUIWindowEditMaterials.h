@@ -62,10 +62,15 @@ private:
 	CGUIEditBoxIRB *constantsCodeBox;
 	IGUIComboBox *editorChoice;
 
+	IGUIStaticText *separator, *previewText, *previewObjectText, *editText;
+
 	IGUIViewport *viewPort;
 	ISceneManager *smgr;
 	IGUIButton *buildMaterial, *editPreviewNode;
 	IGUIComboBox *previewNodeChoice;
+
+	IGUIListBox *console;
+	ELOG_LEVEL logLevel;
 
 	IGUIButton *closeEditMaterialWindow;
 	//-----------------------------------

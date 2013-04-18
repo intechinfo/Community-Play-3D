@@ -17,6 +17,19 @@ CCore::~CCore() {
     
 }
 
+bool CCore::elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements) {
+	bool exists = false;
+
+	for (u32 i=0; i < elements.size(); i++) {
+		if (element = elements[i]) {
+			exists = true;
+			break;
+		}
+	}
+
+	return exists;
+}
+
 array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
 	array<ISceneNode *> nodes;
 

@@ -9,7 +9,14 @@
 #ifndef __C_ACTION_H_INCLUDED__
 #define __C_ACTION_H_INCLUDED__
 
-#include "../Device/CDevices.h"
+#include <irrlicht.h>
+
+using namespace irr;
+using namespace video;
+using namespace gui;
+using namespace core;
+using namespace scene;
+using namespace io;
 
 class CAction {
     

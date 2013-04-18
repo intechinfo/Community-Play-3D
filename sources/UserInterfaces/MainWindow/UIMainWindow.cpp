@@ -131,16 +131,18 @@ void CUIMainWindow::refresh() {
     int selected = terrainsListBox->getSelected();
     terrainsListBox->clear();
     for (int i=0; i < devices->getCoreData()->getTerrainNodes()->size(); i++) {
-        stringw name = devices->getCoreData()->getTerrainNodes()->operator[](i)->getName();
-        terrainsListBox->addItem(name.c_str());
+		if (devices->getCoreData()->getTerrainNodes()->operator[](i)) {
+			stringw name = devices->getCoreData()->getTerrainNodes()->operator[](i)->getName();
+			terrainsListBox->addItem(name.c_str());
+		}
     }
     terrainsListBox->setSelected(selected);
     
     //TREES
     selected = treesListBox->getSelected();
     treesListBox->clear();
-    for (int i=0; i < devices->getCoreData()->getTreeNodes()->size(); i++) {
-        stringw name = devices->getCoreData()->getTreeNodes()->operator[](i)->getName();
+    for (int i=0; i < devices->getCoreData()->getTreesData()->size(); i++) {
+		stringw name = devices->getCoreData()->getTreesData()->operator[](i).getNode()->getName();
         treesListBox->addItem(name.c_str());
     }
     treesListBox->setSelected(selected);
@@ -157,8 +159,8 @@ void CUIMainWindow::refresh() {
     //LIGHTS
     selected = lightsListBox->getSelected();
     lightsListBox->clear();
-    for (int i=0; i < devices->getCoreData()->getLightsNodes()->size(); i++) {
-        stringw name = devices->getCoreData()->getLightsNodes()->operator[](i)->getName();
+    for (int i=0; i < devices->getCoreData()->getLightsData()->size(); i++) {
+		stringw name = devices->getCoreData()->getLightsData()->operator[](i).getNode()->getName();
         lightsListBox->addItem(name.c_str());
     }
     lightsListBox->setSelected(selected);
@@ -207,20 +209,17 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
         }
     } else if (tabCtrl->getActiveTab() == treesTab->getNumber()) {
         if (treesListBox->getSelected() != -1) {
-            node = devices->getCoreData()->getTreeNodes()->operator[](treesListBox->getSelected());
+			node = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode();
         }
     } else if (tabCtrl->getActiveTab() == objectsTab->getNumber()) {
         if (objectsListBox->getSelected() != -1) {
 			mesh = devices->getCoreData()->getObjectMeshes()->operator[](objectsListBox->getSelected());
             node = devices->getCoreData()->getObjectNodes()->operator[](objectsListBox->getSelected());
 			path = devices->getCoreData()->getObjectPaths()->operator[](objectsListBox->getSelected()).c_str();
-			if (devices->getCoreData()->getObjectPaths()->operator[](objectsListBox->getSelected()) == "hillPlaneMesh") {
-				mesh = ((IAnimatedMeshSceneNode *)node)->getMesh();
-			}
         }
     } else if (tabCtrl->getActiveTab() == lightsTab->getNumber()) {
         if (lightsListBox->getSelected() != -1) {
-            node = devices->getCoreData()->getLightsNodes()->operator[](lightsListBox->getSelected());
+			node = devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected()).getNode();
         }
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         if (waterSurfacesListBox->getSelected() != -1) {
@@ -243,8 +242,8 @@ void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
 		i++;
 	}
 	i=0;
-    while (!founded && i < devices->getCoreData()->getTreeNodes()->size()) {
-        if (devices->getCoreData()->getTreeNodes()->operator[](i) == node) {
+    while (!founded && i < devices->getCoreData()->getTreesData()->size()) {
+		if (devices->getCoreData()->getTreesData()->operator[](i).getNode() == node) {
             tabCtrl->setActiveTab(treesTab);
             treesListBox->setSelected(i);
             founded = true;
@@ -294,8 +293,8 @@ void CUIMainWindow::cloneNode() {
 				devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(getSelectedNode().getMinPolysPerNode());
             }
             if (getActiveListBox() == treesListBox) {
-                devices->getCoreData()->getTreeNodes()->push_back(node);
-				devices->getCoreData()->getTreePaths()->push_back(getSelectedNode().getPath());
+				STreesData tdata(getSelectedNode().getMesh(), node, getSelectedNode().getPath());
+                devices->getCoreData()->getTreesData()->push_back(tdata);
             }
 
             if (getActiveListBox() == objectsListBox) {
@@ -309,7 +308,8 @@ void CUIMainWindow::cloneNode() {
             if (getActiveListBox() == lightsListBox) {
                 index = lightsListBox->getSelected();
                 
-                devices->getCoreData()->getLightsNodes()->push_back(node);
+				SLightsData ldata(node);
+                devices->getCoreData()->getLightsData()->push_back(ldata);
                 devices->getXEffect()->addShadowLight(devices->getXEffect()->getShadowLight(index));
                 
                 lightsListBox->addItem(name.c_str());
@@ -323,7 +323,7 @@ void CUIMainWindow::cloneNode() {
                 path = devices->getCoreData()->getTerrainPaths()->operator[](terrainsListBox->getSelected()).c_str();
             }
             if (getActiveListBox() == treesListBox) {
-                path = devices->getCoreData()->getTreePaths()->operator[](treesListBox->getSelected()).c_str();
+				path = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getPath().c_str();
             }
             
 			clonedNode = devices->getCore()->clone(getSelectedNode().getNode(), path.c_str(), devices->getSceneManager());
@@ -338,9 +338,8 @@ void CUIMainWindow::cloneNode() {
 					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(getSelectedNode().getMinPolysPerNode());
                 }
                 if (getActiveListBox() == treesListBox) {
-
-                    devices->getCoreData()->getTreeNodes()->push_back(clonedNode);
-                    devices->getCoreData()->getTreePaths()->push_back(path.c_str());
+					STreesData tdata(0, clonedNode, path.c_str());
+                    devices->getCoreData()->getTreesData()->push_back(tdata);
                 }
                 
                 devices->addInformationDialog(L"Information", L"The node was cloned\n"
@@ -376,7 +375,7 @@ void CUIMainWindow::cloneNode() {
 }
 
 bool CUIMainWindow::OnEvent(const SEvent &event) {
-    
+
     //-----------------------------------
     //MOUSE INPUT EVENTS
     if (event.EventType == EET_MOUSE_INPUT_EVENT) {
@@ -410,6 +409,30 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 selectSelectedNode(previousNode);
             }
         }
+
+		if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
+			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
+			bool isAListBoxOfMainWindow = (parent == terrainsListBox || parent == treesListBox || parent == objectsListBox
+										   || parent == lightsListBox);
+			if (isAListBoxOfMainWindow) {
+				if (mainWindow->isVisible() && mainWindow->isPointInside(devices->getDevice()->getCursorControl()->getPosition())) {
+					IGUIEnvironment *gui = devices->getGUIEnvironment();
+					ICursorControl *cursor = devices->getDevice()->getCursorControl();
+
+					rect<s32> rectMenu = rect<s32>(cursor->getPosition().X, cursor->getPosition().Y, 
+													cursor->getPosition().X+300, cursor->getPosition().Y+200);
+					rightClickCxtMenum = gui->addContextMenu(rectMenu, 0, -1);
+					rightClickCxtMenum->addItem(L"Edit...", 0, true, false, false, false);
+					rightClickCxtMenum->addItem(L"Edit Materials...", 1, true, false, false, false);
+					rightClickCxtMenum->addSeparator();
+					rightClickCxtMenum->addItem(L"Clone", 2, true, false, false, false);
+					rightClickCxtMenum->addSeparator();
+					rightClickCxtMenum->addItem(L"Make Planar Texture Mapping...", 3, true, false, false, false);
+					rightClickCxtMenum->addItem(L"Create Mesh With Tangents...", 4, true, false, false, false);
+					rightClickCxtMenum->addItem(L"Scale Mesh", 5, true, false, false, false);
+				}
+			}
+		}
     }
     //-----------------------------------
     
@@ -420,16 +443,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             
             if (event.KeyInput.Key == KEY_KEY_P && devices->isCtrlPushed()) {
                 if (!devices->isEditBoxEntered()) {
-                    if (devices->getObjectPlacement()->isPlacing()) {
-                        if (devices->getObjectPlacement()->getNodeToPlace()) {
-                            devices->getObjectPlacement()->setNodeToPlace(0);
-                        } else {
-							devices->getObjectPlacement()->setNodeToPlace(getSelectedNode().getNode());
-                            if (!devices->getObjectPlacement()->getNodeToPlace()) {
-                                devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-                            }
-                        }
-                    }
+
                 }
             }
             
@@ -464,6 +478,75 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
     //-----------------------------------
     //GUI EVENTS
     if (event.EventType == EET_GUI_EVENT) {
+
+		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
+			if (event.GUIEvent.Caller == rightClickCxtMenum) {
+				ISceneNode *node = getSelectedNode().getNode();
+				if (node) {
+					CCore *core = devices->getCore();
+					CCoreData *worldCore = devices->getCoreData();
+					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 0) {
+						stringc prefix = getSelectedNodePrefix(node);
+						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {
+							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&worldCore->getArrayOfLightNodes(), node));
+							editLight->open(node, prefix.c_str());
+						} else {
+							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+							editNode->open(node, prefix.c_str(), false);
+						}
+					}
+
+					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 1) {
+						if (node->getType() != ESNT_LIGHT) {
+							CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+							matEditor->open(node);
+						} else {
+							devices->addInformationDialog(L"Informations", L"You cannot edit materials of a light", EMBF_OK, 0);
+						}
+					}
+
+					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 2) {
+						if (getSelectedNode().getNode() == node) {
+							cloneNode();
+						} else {
+							devices->addInformationDialog(L"Informations", L"Clone is forbidden...", EMBF_OK, 0);
+						}
+					}
+
+					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 3) {
+						if (node->getType() != ESNT_LIGHT) {
+							SSelectedNode ssn = getSelectedNode();
+							if (ssn.getMesh() && ssn.getNode()) {
+								CUINodeFactoryPlanarMapping *cfpm = new CUINodeFactoryPlanarMapping(devices);
+								cfpm->open(ssn.getNode(), ssn.getMesh());
+							} else {
+								devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);
+							}
+						} else {
+							devices->addInformationDialog(L"Informations", L"You cannot use a light", EMBF_OK, 0);
+						}
+					}
+
+					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 4) {
+						if (node->getType() != ESNT_LIGHT) {
+							SSelectedNode ssn = getSelectedNode();
+							if (ssn.getMesh() && ssn.getNode()) {
+								CUINodeFactoryCreateMeshWithTangents *cmwt = new CUINodeFactoryCreateMeshWithTangents(devices);
+								cmwt->open(ssn.getNode(), ssn.getMesh());
+							} else {
+								devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);
+							}
+						} else {
+							devices->addInformationDialog(L"Informations", L"You cannot use a light", EMBF_OK, 0);
+						}
+					}
+				} else {
+					devices->addInformationDialog(L"Informations", L"Please select a node before...", EMBF_OK, true, mainWindow);
+				}
+				rightClickCxtMenum = 0;
+			}
+		}
+
 		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
 			array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
 			for (int i=0; i < nodes.size(); i++) {
@@ -606,12 +689,11 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_TREE:
                 if (treesListBox->getSelected() != -1) {
-                    devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getTreeNodes()->operator[](treesListBox->getSelected()));
+					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode());
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
-                    devices->getCoreData()->getTreeNodes()->operator[](treesListBox->getSelected())->remove();
-                    devices->getCoreData()->getTreeNodes()->erase(treesListBox->getSelected());
-                    devices->getCoreData()->getTreePaths()->erase(treesListBox->getSelected());
+					devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode()->remove();
+                    devices->getCoreData()->getTreesData()->erase(treesListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     treesListBox->removeItem(treesListBox->getSelected());
                 } else {
@@ -651,8 +733,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (lightsListBox->getSelected() != -1) {
                     devices->getXEffect()->removeShadowLight(lightsListBox->getSelected());
                     light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
-                    devices->getCoreData()->getLightsNodes()->operator[](lightsListBox->getSelected())->remove();
-                    devices->getCoreData()->getLightsNodes()->erase(lightsListBox->getSelected());
+					devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected()).getNode()->remove();
+                    devices->getCoreData()->getLightsData()->erase(lightsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     devices->getObjectPlacement()->setLightNode(0);
                     light_icon->setParent(devices->getSceneManager()->getRootSceneNode());

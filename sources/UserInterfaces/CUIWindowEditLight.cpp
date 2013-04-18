@@ -94,6 +94,7 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		resolutionComboBox->addItem(L"1024");
 		resolutionComboBox->addItem(L"2048");
 		resolutionComboBox->addItem(L"4096");
+		resolutionComboBox->addItem(L"8192");
 
 		//ADVANCED DIFFUSE COLOR
 		devices->getGUIEnvironment()->addStaticText(L"Diffuse :", rect<s32>(10, 30, 70, 50), true, true, advancedTab, -1, true);
@@ -146,7 +147,7 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 
 		//LENS FLARE TAB
 		lensFlare = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(10, 10, 110, 30), lensFlareTab, -1, L"Lens Flare");
-		if (devices->getCoreData()->getLensFlareSceneNodes()->operator[](index)) {
+		if (devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()) {
 			lensFlare->setChecked(true);
 		} else {
 			lensFlare->setChecked(false);
@@ -234,14 +235,14 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 
 	if (lensFlare->isChecked()) {
-		if (devices->getCoreData()->getLfMeshNodes()->operator[](index)) {
-			sphereX->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLfMeshNodes()->operator[](index)->getScale().X).c_str());
-			sphereY->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLfMeshNodes()->operator[](index)->getScale().Y).c_str());
-			sphereZ->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLfMeshNodes()->operator[](index)->getScale().Z).c_str());
+		if (devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()) {
+			sphereX->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->getScale().X).c_str());
+			sphereY->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->getScale().Y).c_str());
+			sphereZ->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->getScale().Z).c_str());
 		}
-		if (devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index)) {
-			bbW->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index)->getSize().Width).c_str());
-			bbH->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index)->getSize().Height).c_str());
+		if (devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()) {
+			bbW->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->getSize().Width).c_str());
+			bbH->setText(devices->getCore()->getStrNumber(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->getSize().Height).c_str());
 		}
 	}
 
@@ -332,7 +333,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 			}
 
 			if (event.GUIEvent.Caller == lfnCursorPosition) {
-				IMeshSceneNode *lfNode = devices->getCoreData()->getLfMeshNodes()->operator[](index);
+				IMeshSceneNode *lfNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
 				//SET LENS FLARE NODE TO THE ABSOLUTE CURSOR POSITION
 				matrix4 matr = devices->getCursor()->getAbsoluteTransformation();
 				const matrix4 w2n(lfNode->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
@@ -343,17 +344,17 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 			}
 
 			if (event.GUIEvent.Caller == lfn0Position) {
-				IMeshSceneNode *lfNode = devices->getCoreData()->getLfMeshNodes()->operator[](index);
+				IMeshSceneNode *lfNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
 				lfNode->setPosition(vector3df(0));
 			}
 
 			if (event.GUIEvent.Caller == lfnArrowMeshPosition) {
-				devices->getObjectPlacement()->setNodeToPlace(devices->getCoreData()->getLfMeshNodes()->operator[](index));
+				devices->getObjectPlacement()->setNodeToPlace(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
 			}
 
 			if (event.GUIEvent.Caller == editBillBoardLensFlare) {
 				CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-				editNode->open(devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index), "#object", true);
+				editNode->open(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode(), "#object", true);
 			}
 		}
 
@@ -364,7 +365,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 				u32 resolution = devices->getCore()->getU32(resolutionw.c_str());
 				devices->getXEffect()->getShadowLight(index).setShadowMapResolution(resolution);
 
-				if (resolutionw == "4096") {
+				if (resolutionw == "8192") {
 					devices->addWarningDialog(L"Warning",
 											  L"This quality of shadows can make the World Editor CRASHING !\n\n"
 											  L"I cannot make sure the render will be successful...",
@@ -383,7 +384,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					meshNode->setScale(vector3d<f32>(0, 0, 0));
 					meshNode->setParent(nodeToEdit);
 					meshNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_mesh")).c_str());
-					devices->getCoreData()->getLfMeshNodes()->operator[](index) = meshNode;
+					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareMeshSceneNode(meshNode);
 
 					IBillboardSceneNode* bill = devices->getSceneManager()->addBillboardSceneNode(meshNode);
 					bill->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
@@ -391,13 +392,13 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					bill->setSize(dimension2d<f32>(0, 0));
 					bill->setParent(meshNode);
 					bill->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_bill")).c_str());
-					devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index) = bill;
+					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(bill);
 
 					CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
 					lensFlareNode->setFalseOcclusion(true);
 					lensFlareNode->setParent(meshNode);
 					lensFlareNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_node")).c_str());
-					devices->getCoreData()->getLensFlareSceneNodes()->operator[](index) = lensFlareNode;
+					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(lensFlareNode);
 
 					core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();
 					element++;
@@ -406,14 +407,14 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					}
 
 				} else {
-					devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index)->remove();
-					devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index) = 0;
+					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->remove();
+					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(0);
 
-					devices->getCoreData()->getLensFlareSceneNodes()->operator[](index)->remove();
-					devices->getCoreData()->getLensFlareSceneNodes()->operator[](index) = 0;
+					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->remove();
+					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(0);
 
-					devices->getCoreData()->getLfMeshNodes()->operator[](index)->remove();
-					devices->getCoreData()->getLfMeshNodes()->operator[](index) = 0;
+					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->remove();
+					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareMeshSceneNode(0);
 
 					core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();
 					element++;
@@ -429,28 +430,28 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == lfStrength) {
 				stringc strength_c = lfStrength->getText();
 				f32 strength = devices->getCore()->getF32(strength_c.c_str());
-				devices->getCoreData()->getLensFlareSceneNodes()->operator[](index)->setStrength(strength);
+				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->setStrength(strength);
 			}
 
 			//LENS FLARE SPHERE SCALE
 			if (event.GUIEvent.Caller == sphereX) {
 				stringc scalex_c = sphereX->getText();
 				f32 scalex = devices->getCore()->getF32(scalex_c.c_str());
-				IMeshSceneNode *node = devices->getCoreData()->getLfMeshNodes()->operator[](index);
+				IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
 				node->setScale(vector3df(scalex, node->getScale().Y, node->getScale().Z));
 			}
 
 			if (event.GUIEvent.Caller == sphereY) {
 				stringc scaley_c = sphereY->getText();
 				f32 scaley = devices->getCore()->getF32(scaley_c.c_str());
-				IMeshSceneNode *node = devices->getCoreData()->getLfMeshNodes()->operator[](index);
+				IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
 				node->setScale(vector3df(node->getScale().X, scaley, node->getScale().Z));
 			}
 
 			if (event.GUIEvent.Caller == sphereZ) {
 				stringc scalez_c = sphereZ->getText();
 				f32 scalez = devices->getCore()->getF32(scalez_c.c_str());
-				IMeshSceneNode *node = devices->getCoreData()->getLfMeshNodes()->operator[](index);
+				IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
 				node->setScale(vector3df(node->getScale().X, node->getScale().Y, scalez));
 			}
 
@@ -458,14 +459,14 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == bbW) {
 				stringc widthBB_c = bbW->getText();
 				f32 widthBB = devices->getCore()->getF32(widthBB_c.c_str());
-				IBillboardSceneNode *node = devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index);
+				IBillboardSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
 				node->setSize(dimension2d<f32>(widthBB, node->getSize().Height));
 			}
 
 			if (event.GUIEvent.Caller == bbH) {
 				stringc heightBB_c = bbH->getText();
 				f32 heightBB = devices->getCore()->getF32(heightBB_c.c_str());
-				IBillboardSceneNode *node = devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index);
+				IBillboardSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
 				node->setSize(dimension2d<f32>(node->getSize().Width, heightBB));
 			}
 
@@ -478,13 +479,13 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGET_SPINBOX_CHANGED) {
 			if (event.GUIEvent.Caller == bbWH) {
-				IBillboardSceneNode *bbNode = devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index);
+				IBillboardSceneNode *bbNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
 				bbNode->setSize(dimension2d<f32>(bbNode->getSize().Width+bbWH->getValue(), bbNode->getSize().Height+bbWH->getValue()));
 				bbWH->setValue(0);
 			}
 
 			if (event.GUIEvent.Caller == sphereXYZ) {
-				IMeshSceneNode *sphereNode = devices->getCoreData()->getLfMeshNodes()->operator[](index);
+				IMeshSceneNode *sphereNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
 				sphereNode->setScale(vector3df(sphereNode->getScale().X+sphereXYZ->getValue(), sphereNode->getScale().Y+sphereXYZ->getValue(),
 											   sphereNode->getScale().Z+sphereXYZ->getValue()));
 				sphereXYZ->setValue(0);
@@ -497,19 +498,19 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 			//LENS FLARE NODE
 			if (currentBrowse == 1) {
 				stringw path = dialog->getFileName();
-				devices->getCoreData()->getLfMeshNodes()->operator[](index)->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
 				sphereTexture->setText(path.c_str());
 			}
 
 			if (currentBrowse == 2) {
 				stringw path = dialog->getFileName();
-				devices->getCoreData()->getLfBillBoardSceneNodes()->operator[](index)->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
 				bbTexture->setText(path.c_str());
 			}
 
 			if (currentBrowse == 3) {
 				stringw path = dialog->getFileName();
-				devices->getCoreData()->getLensFlareSceneNodes()->operator[](index)->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
 				lfnTexture->setText(path.c_str());
 			}
 		}

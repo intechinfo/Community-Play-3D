@@ -77,7 +77,7 @@ bool CUINodeFactoryPlanarMapping::OnEvent(const SEvent &event) {
 					}
 				}
 
-				SPlanarTextureMapping sptm(hr, vr, a, offset, general);
+				SPlanarTextureMappingData sptm(hr, vr, a, offset, general);
 				s32 i = devices->getCoreData()->isMeshPlanared(nodeToEdit);
 				if (i != -1) {
 					devices->getCoreData()->getPlanarTextureMappingValues()->operator[](i) = sptm;

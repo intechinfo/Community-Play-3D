@@ -449,8 +449,8 @@ void CImporter::importScene(stringc file_path) {
                 octTreeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
                 devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType());
                 devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
-                devices->getCoreData()->getTreeNodes()->push_back(octTreeNode);
-                devices->getCoreData()->getTreePaths()->push_back(path.c_str());
+				STreesData tdata(octTreeMesh, octTreeNode, path.c_str());
+                devices->getCoreData()->getTreesData()->push_back(tdata);
             }
             //END IF TREE
             //------------------------------------------------------------------------------------------------------------------------------
@@ -650,18 +650,20 @@ void CImporter::importScene(stringc file_path) {
                     f32 radius = devices->getCore()->getF32(xmlReader->getAttributeValue("value"));
                     ((ILightSceneNode *)light)->setRadius(radius);
                 }
+				read("farValue");
+				if (element == "farValue") {
+					f32 farValue = devices->getCore()->getF32(xmlReader->getAttributeValue("value"));
+					shadowLight.setFarValue(farValue);
+				}
                 read("shadows");
                 if (element == "shadows") {
                     u32 resol = devices->getCore()->getU32(xmlReader->getAttributeValue("resol"));
                     shadowLight.setShadowMapResolution(resol);
                 }
 
+				SLightsData ldata(light);
                 devices->getXEffect()->addShadowLight(shadowLight);
-                devices->getCoreData()->getLightsNodes()->push_back(light);
-                
-                devices->getCoreData()->getLfMeshNodes()->push_back(0);
-                devices->getCoreData()->getLfBillBoardSceneNodes()->push_back(0);
-                devices->getCoreData()->getLensFlareSceneNodes()->push_back(0);
+                devices->getCoreData()->getLightsData()->push_back(ldata);
             }
             
         }

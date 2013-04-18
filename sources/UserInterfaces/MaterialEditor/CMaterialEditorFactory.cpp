@@ -97,7 +97,7 @@ ITexture *CMaterialEditorFactory::copyTexture(stringc nameOfTexture, ITexture *t
 														  nameOfTexture.c_str());
 	u8* pixelsTex = (u8 *)tex->lock();
 	u8 *pixelsTexm = (u8 *)texture->lock();
-	for(u32 ui=0;ui<tex->getOriginalSize().Width * tex->getOriginalSize().Height;ui++) {
+	for(u32 ui = 0; ui < tex->getOriginalSize().Width * tex->getOriginalSize().Height; ui++) {
 		for (u32 uj=0; uj < 3; uj++) {
 			*pixelsTex = *pixelsTexm;
 			pixelsTex++; pixelsTexm++;

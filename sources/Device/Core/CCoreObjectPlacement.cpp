@@ -137,9 +137,9 @@ void CCoreObjectPlacement::setArrowVisible(bool set) {
 			arrowYLineNode->setVisible(true);
 			arrowXLineNode->setVisible(true);
 			arrowZLineNode->setVisible(true);
-			//if(arrowType == Scale) {
+			if(arrowType == Scale) {
 				arrowYXZLineNode->setVisible(true);
-			//}
+			}
 			isMoving = true;
 		}
 		else {

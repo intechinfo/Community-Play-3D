@@ -59,6 +59,9 @@ public:
 	stringc getShaderExt() { return shaderExt; }
 	void rebuildXEffect();
 
+	bool isRenderScene() { return renderScene; }
+	void setRenderScene(bool _renderScene) { renderScene = _renderScene; }
+
 	void setRenderGUI(bool _renderGUI) { renderGUI = _renderGUI; }
 	bool isRenderingGUI() { return renderGUI; }
 	//-----------------------------------
@@ -145,6 +148,7 @@ private:
 
 	IPostProcessMotionBlur* motionBlur;
 
+	bool renderScene;
 	bool renderXEffect, renderGUI;
 	//-----------------------------------
 

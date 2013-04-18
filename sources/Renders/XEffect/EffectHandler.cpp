@@ -293,7 +293,9 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
             if (recalculate || !currentShadowMapTexture) {
                 currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution());
             }
+
 			driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
+
             for(u32 i = 0;i < ShadowNodeArraySize;++i)
             {
                 if(ShadowNodeArray[i].shadowMode == ESM_RECEIVE || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
