@@ -21,6 +21,7 @@ CUIWindowEditMaterials::CUIWindowEditMaterials(CDevices *_devices) {
     editingPixelShader = false;
     
     editMaterialWindow = 0;
+	console = 0;
     
     previewNode = 0;
     
@@ -30,12 +31,13 @@ CUIWindowEditMaterials::CUIWindowEditMaterials(CDevices *_devices) {
 }
 
 CUIWindowEditMaterials::~CUIWindowEditMaterials() {
-    planeMesh->grab();
+	planeMesh->grab();
     planeMesh->drop();
 }
 
 void CUIWindowEditMaterials::open() {
     materialsWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(130, 110, 700, 540), false, L"Material Renderers", 0, -1);
+	materialsWindow->getCloseButton()->remove();
     
     menu = devices->getGUIEnvironment()->addMenu(materialsWindow);
     
@@ -74,24 +76,20 @@ void CUIWindowEditMaterials::open() {
 
 bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
     
+	if (event.EventType == EET_LOG_TEXT_EVENT) {
+		if (console) {
+			console->addItem(stringw(event.LogEvent.Text).c_str());
+			console->setSelected(console->getItemCount()-1);
+			console->setToolTipText(stringw(console->getListItem(console->getSelected())).c_str());
+		}
+	}
+
     if (event.EventType == EET_GUI_EVENT) {
         
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             IGUIElement *element = event.GUIEvent.Caller;
             
             //WINDOW PART
-            if (element == materialsWindow->getCloseButton()) {
-                materialsWindow->remove();
-                devices->getEventReceiver()->RemoveEventReceiver(this);
-                delete this;
-            }
-            
-            if (element == close) {
-                materialsWindow->remove();
-                devices->getEventReceiver()->RemoveEventReceiver(this);
-                delete this;
-            }
-            
             if (element == addOGLMaterialShader) {
                 CShaderCallback *callback = new CShaderCallback();
                 callback->setName("New Material Type");
@@ -135,6 +133,8 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 editingMat = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getMaterial();
                 
                 editMaterialWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(180, 140, 1090, 660), true, L"Edit Material Renderers", 0, -1);
+				editMaterialWindow->getCloseButton()->remove();
+				editMaterialWindow->getMaximizeButton()->setVisible(true);
                 
                 devices->getGUIEnvironment()->addStaticText(L"Vertex Shader", rect<s32>(10, 30, 150, 50), false, true, editMaterialWindow, -1, false);
                 vLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 30, 260, 50), editMaterialWindow, -1, L"Load From File", L"Load From File");
@@ -144,48 +144,50 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 pEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 50, 370, 70), editMaterialWindow, -1, L"Edit", L"Edit shader");
                 
                 devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Type", rect<s32>(10, 90, 150, 110), false, true, editMaterialWindow, -1, false);
-                vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 370, 110), editMaterialWindow, -1);
+                vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 470, 110), editMaterialWindow, -1);
                 vShaderType->setSelected((E_VERTEX_SHADER_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getVertexShaderType());
                 devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Type", rect<s32>(10, 110, 150, 130), false, true, editMaterialWindow, -1, false);
-                pShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 110, 370, 130), editMaterialWindow, -1);
+                pShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 110, 470, 130), editMaterialWindow, -1);
                 pShaderType->setSelected((E_PIXEL_SHADER_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getPixelShaderType());
                 devices->getGUIEnvironment()->addStaticText(L"Base Material", rect<s32>(10, 130, 150, 150), false, true, editMaterialWindow, -1, false);
-                bShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 130, 370, 150), editMaterialWindow, -1);
+                bShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 130, 470, 150), editMaterialWindow, -1);
+				bShaderType->setSelected((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getBaseMaterial());
                 
                 devices->getGUIEnvironment()->addStaticText(L"On Set Constants", rect<s32>(10, 150, 440, 170), false, true, editMaterialWindow, -1, false);
                 constantsCodeBox = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), editMaterialWindow, -1, rect<s32>(10, 170, 440, 380), devices->getDevice());
-                constantsCodeBox->setWordWrap(false);
+                //constantsCodeBox->setWordWrap(false);
                 stringw text = devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getConstants();
                 constantsCodeBox->setText(text.c_str());
+				constantsCodeBox->clearKeywords();
                 constantsCodeBox->setOverrideColor(SColor(180, 32, 32, 32));
                 constantsCodeBox->setBackgroundColor(SColor(255, 200, 200, 200));
                 constantsCodeBox->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
                 constantsCodeBox->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
-                constantsCodeBox->addKeyword("vint", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("pint", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("vfloat", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("pfloat", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("vvector3df", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("pvector3df", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("vmatrix4", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("pmatrix4", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("vSColor", SColor(180, 180, 180, 64));
-                constantsCodeBox->addKeyword("pSColor", SColor(180, 180, 180, 64));
+                constantsCodeBox->addKeyword("vint", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("pint", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("vfloat", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("pfloat", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("vvector3df", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("pvector3df", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("vmatrix4", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("pmatrix4", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("vSColor", SColor(180, 180, 180, 64), true);
+                constantsCodeBox->addKeyword("pSColor", SColor(180, 180, 180, 64), true);
                 
-                devices->getGUIEnvironment()->addStaticText(L"Edit :", rect<s32>(10, 390, 50, 410), false, true, editMaterialWindow, -1, false);
+                editText = devices->getGUIEnvironment()->addStaticText(L"Edit :", rect<s32>(10, 390, 50, 410), false, true, editMaterialWindow, -1, false);
                 editorChoice = devices->getGUIEnvironment()->addComboBox(rect<s32>(50, 390, 440, 410), editMaterialWindow, -1);
                 editorChoice->addItem(L"Constants");
                 editorChoice->addItem(L"Vertex Shader");
                 editorChoice->addItem(L"Pixel Shader");
                 
-                devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(445, 40, 455, 500), true, true, editMaterialWindow, -1, false);
+                separator = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(445, 40, 455, 500), true, true, editMaterialWindow, -1, false);
                 
-                devices->getGUIEnvironment()->addStaticText(L"Preview :", rect<s32>(460, 40, 560, 62), false, true, editMaterialWindow, -1, false);
+                previewText = devices->getGUIEnvironment()->addStaticText(L"Preview :", rect<s32>(460, 40, 560, 62), false, true, editMaterialWindow, -1, false);
                 viewPort = new CGUIViewport(devices->getGUIEnvironment(), editMaterialWindow, 1, rect<s32>(460, 60, 890, 330), false); 
                 if (viewPort) {
                     viewPort->setSceneManager(smgr);
                     smgr->setAmbientLight(SColorf(0.9f, 0.9f, 0.9f));
-                    viewPort->setOverrideColor(SColor(255, 0, 0, 0));
+                    viewPort->setOverrideColor(SColor(255, 0, 200, 0));
                     
                     previewNode = smgr->addCubeSceneNode();
                     previewNode->setMaterialFlag(EMF_LIGHTING, false);
@@ -210,7 +212,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                                                                         L"Build Material with selected settings");
                 editPreviewNode = devices->getGUIEnvironment()->addButton(rect<s32>(460, 360, 590, 380), editMaterialWindow, -1, L"Edit Preview Node", 
                                                                           L"Edit the selected preview node");
-                devices->getGUIEnvironment()->addStaticText(L"Preview Object :", rect<s32>(610, 340, 720, 360), false, true, editMaterialWindow, -1, false);
+                previewObjectText = devices->getGUIEnvironment()->addStaticText(L"Preview Object :", rect<s32>(610, 340, 720, 360), false, true, editMaterialWindow, -1, false);
                 previewNodeChoice = devices->getGUIEnvironment()->addComboBox(rect<s32>(720, 340, 890, 360), editMaterialWindow, -1);
                 previewNodeChoice->addItem(L"Cube");
                 previewNodeChoice->addItem(L"Plane");
@@ -268,6 +270,80 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 smgr->clear();
                 editMaterialWindow->remove();
                 editMaterialWindow = 0;
+				console = 0;
+				devices->setRenderScene(true);
+            }
+
+			if (editMaterialWindow) {
+				if (element == editMaterialWindow->getMaximizeButton()) {
+					if (editMaterialWindow->getRelativePosition().getWidth() != devices->getVideoDriver()->getScreenSize().Width) {
+						editMaterialWindow->setRelativePosition(rect<s32>(0, 75, devices->getVideoDriver()->getScreenSize().Width,
+																		  devices->getVideoDriver()->getScreenSize().Height));
+						editMaterialWindow->setDraggable(false);
+
+						viewPort->setRelativePosition(rect<s32>(editMaterialWindow->getRelativePosition().getWidth()-500,
+																40, editMaterialWindow->getRelativePosition().getWidth()-10, 450));
+						previewText->setRelativePosition(position2di(viewPort->getRelativePosition().UpperLeftCorner.X, 25));
+						separator->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X - 20, 25,
+																 viewPort->getRelativePosition().UpperLeftCorner.X - 10, 
+																 editMaterialWindow->getRelativePosition().getHeight()-10));
+						buildMaterial->setRelativePosition(position2di(viewPort->getRelativePosition().UpperLeftCorner.X,
+																	   viewPort->getRelativePosition().UpperLeftCorner.Y
+																	   + viewPort->getRelativePosition().getHeight()+10));
+						editPreviewNode->setRelativePosition(position2di(buildMaterial->getRelativePosition().UpperLeftCorner.X,
+																		 buildMaterial->getRelativePosition().UpperLeftCorner.Y+30));
+						previewObjectText->setRelativePosition(position2di(buildMaterial->getRelativePosition().UpperLeftCorner.X
+																		   + buildMaterial->getRelativePosition().getWidth()+20,
+																		   buildMaterial->getRelativePosition().UpperLeftCorner.Y));
+						previewNodeChoice->setRelativePosition(position2di(previewObjectText->getRelativePosition().UpperLeftCorner.X
+																		   + previewObjectText->getRelativePosition().getWidth(),
+																		   previewObjectText->getRelativePosition().UpperLeftCorner.Y));
+						closeEditMaterialWindow->setRelativePosition(position2di(editMaterialWindow->getRelativePosition().getWidth()-110,
+																				 editMaterialWindow->getRelativePosition().getHeight()-40));
+						constantsCodeBox->setRelativePosition(rect<s32>(10, 175, separator->getRelativePosition().UpperLeftCorner.X-10,
+																		editMaterialWindow->getRelativePosition().getHeight()-50));
+						editText->setRelativePosition(position2di(editText->getRelativePosition().UpperLeftCorner.X,
+																  editMaterialWindow->getRelativePosition().getHeight()-40));
+						editorChoice->setRelativePosition(position2di(editText->getRelativePosition().getWidth(), 
+																	  editText->getRelativePosition().UpperLeftCorner.Y));
+						console = devices->getGUIEnvironment()->addListBox(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X,
+																					editPreviewNode->getRelativePosition().UpperLeftCorner.Y+40, 
+																					editMaterialWindow->getRelativePosition().getWidth()-15,
+																					closeEditMaterialWindow->getRelativePosition().UpperLeftCorner.Y-10),
+																					editMaterialWindow, -1, true);
+						console->setAutoScrollEnabled(true);
+						devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+						devices->setRenderScene(false);
+					} else {
+						editMaterialWindow->setRelativePosition(rect<s32>(180, 140, 1090, 660));
+						editMaterialWindow->setDraggable(true);
+
+						viewPort->setRelativePosition(rect<s32>(460, 60, 890, 330));
+						previewText->setRelativePosition(rect<s32>(460, 40, 560, 62));
+						separator->setRelativePosition(rect<s32>(445, 40, 455, 500));
+						buildMaterial->setRelativePosition(rect<s32>(460, 340, 590, 360));
+						editPreviewNode->setRelativePosition(rect<s32>(460, 360, 590, 380));
+						previewObjectText->setRelativePosition(rect<s32>(610, 340, 720, 360));
+						previewNodeChoice->setRelativePosition(rect<s32>(720, 340, 890, 360));
+						closeEditMaterialWindow->setRelativePosition(rect<s32>(800, 480, 900, 510));
+						constantsCodeBox->setRelativePosition(rect<s32>(10, 170, 440, 380));
+						editText->setRelativePosition(rect<s32>(10, 390, 50, 410));
+						editorChoice->setRelativePosition(rect<s32>(50, 390, 440, 410));
+						if (console) {
+							console->remove();
+							console = 0;
+						}
+						devices->setRenderScene(true);
+					}
+				}
+			}
+
+			if (element == close) {
+                materialsWindow->remove();
+				editMaterialWindow = 0;
+				materialsWindow = 0;
+                devices->getEventReceiver()->RemoveEventReceiver(this);
+                delete this;
             }
         }
             
@@ -378,6 +454,8 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 editingConstants = false;
                 editingVertexShader = false;
                 editingPixelShader = false;
+				constantsCodeBox->restartScrollBar();
+				constantsCodeBox->recalculateTextRect();
                 switch (editorChoice->getSelected()) {
                     case 0:
                         editingConstants = true;

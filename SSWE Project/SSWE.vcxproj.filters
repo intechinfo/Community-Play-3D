@@ -211,6 +211,9 @@
     <ClCompile Include="..\sources\UserInterfaces\CUIRightSceneTreeView.cpp">
       <Filter>UserInterfaces</Filter>
     </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp">
+      <Filter>UserInterfaces\MainWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\sources\CharacterEdition\CAction.h">
@@ -377,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="..\sources\UserInterfaces\CUIRightSceneTreeView.h">
       <Filter>UserInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h">
+      <Filter>UserInterfaces\MainWindow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -19,6 +19,12 @@
 #include "CUIWindowAddWatersSurface.h"
 
 #include "../CUIWindowEditNode.h"
+#include "../MaterialEditor/CUIMaterialEditor.h"
+#include "../CUIWindowEditLight.h"
+#include "../NodeFactory/CUINodeFactoryPlanarMapping.h"
+#include "../NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
+
+#include "../CUIWindowEditNode.h"
 
 enum GUI_MAIN_WINDOW_EVENTS {
     CXT_MAIN_WINDOW_EVENTS_ADD_OCTTREE = 0x20000,
@@ -117,6 +123,8 @@ private:
     //MOUSE NODE SELECTION
     ISceneCollisionManager *collisionManager;
     ISceneNode *previousNode;
+
+	IGUIContextMenu *rightClickCxtMenum;
     //-----------------------------------
     
 };

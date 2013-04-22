@@ -124,7 +124,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Current Rendering Infos", CXT_MENU_EVENTS_RENDERING_INFOS);
-	submenu->addItem(L"Simple Edition", -1);
+	submenu->addItem(L"Draw/Hide Main Window", -1);
     //-----------------------------------
     
     //-----------------------------------
@@ -167,11 +167,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     //PLACE POSITION, ROTATION, SCALE HERE
     image = devices->getVideoDriver()->getTexture("GUI/position.png");
-	infosBar->addButton(-1, 0, L"Change Object Position", image, 0, false, true)->setIsPushButton();
+	(ibposition = infosBar->addButton(-1, 0, L"Change Object Position", image, 0, false, true))->setIsPushButton();
     image = devices->getVideoDriver()->getTexture("GUI/rotation.png");
-	infosBar->addButton(-1, 0, L"Change Object Rotation", image, 0, false, true)->setIsPushButton();
+	(ibrotation = infosBar->addButton(-1, 0, L"Change Object Rotation", image, 0, false, true))->setIsPushButton();
     image = devices->getVideoDriver()->getTexture("GUI/scale.png");
-	infosBar->addButton(-1, 0, L"Change Object Scale", image, 0, false, true)->setIsPushButton();
+	(ibscale = infosBar->addButton(-1, 0, L"Change Object Scale", image, 0, false, true))->setIsPushButton();
     
     //-----------------------------------
     
@@ -179,7 +179,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
     
-	stringw scene_to_import = L"";
+	stringw scene_to_import = L"house.world";
     CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importScene(scene_to_import.c_str());
 	scene_to_import.remove(L".world");
@@ -219,7 +219,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         s32 id = event.GUIEvent.Caller->getID();
         //-----------------------------------
         //CONTEXT MENU EVENT
-        if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
+		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
             
             IGUIContextMenu *tempMenu = (IGUIContextMenu *)event.GUIEvent.Caller;
                         
@@ -475,8 +475,6 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					if (devices->getSkydome()) {
 						CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 						editNode->open(devices->getSkydome(), "#object", false);
-					} else {
-
 					}
 				}
 
@@ -608,6 +606,28 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
             }
         }
+
+		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN || event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
+			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
+			bool isAListBoxOfMainWindow = (parent == mainWindowInstance->getActiveListBox());
+			if (isAListBoxOfMainWindow) {
+				CCoreObjectPlacement *cobj = devices->getObjectPlacement();
+				if (cobj->isPlacing() && cobj->getArrowType() == movementType) {
+					cobj->setCollisionToNormal();
+					cobj->setNodeToPlace(0);
+					cobj->setArrowType(CCoreObjectPlacement::Undefined);
+					cobj->setArrowVisible(false);
+				} else {
+					cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
+					if (!cobj->getNodeToPlace()) {
+						devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
+					} else {
+						cobj->setArrowType(movementType);
+						cobj->setArrowVisible(true);
+					}
+				}
+			}
+		}
         
         //-----------------------------------
         
@@ -615,6 +635,39 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         //BUTTON GUI EVENT
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
+			//POSITION
+			if (event.GUIEvent.Caller == ibposition) {
+				if (ibposition->isPressed()) {
+					movementType = CCoreObjectPlacement::Position;
+				}
+				ibrotation->setPressed(false);
+				ibscale->setPressed(false);
+			}
+
+			//ROTATION
+			if (event.GUIEvent.Caller == ibrotation) {
+				if (ibrotation->isPressed()) {
+					movementType = CCoreObjectPlacement::Rotation;
+				}
+				ibposition->setPressed(false);
+				ibscale->setPressed(false);
+			}
+
+			//SCALE
+			if (event.GUIEvent.Caller == ibscale) {
+				if (ibscale->isPressed()) {
+					movementType = CCoreObjectPlacement::Scale;
+				}
+				ibposition->setPressed(false);
+				ibrotation->setPressed(false);
+			}
+
+			//IF NO BUTTON PRESSED
+			if (!ibposition->isPressed() && !ibrotation->isPressed() && !ibscale->isPressed()) {
+				devices->getObjectPlacement()->setArrowType(CCoreObjectPlacement::Undefined);
+				devices->getObjectPlacement()->setArrowVisible(false);
+			}
+
             switch (id) {
                 //-----------------------------------
                 //TOOLBAR

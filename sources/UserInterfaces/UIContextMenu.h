@@ -106,6 +106,7 @@ public:
 	void update();
 
 	IGUIButton *getConsoleButton() { return consoleButton; }
+	CUIMainWindow *getMainWindow() { return mainWindowInstance; }
 
 	bool OnEvent(const SEvent &event);
 
@@ -135,6 +136,9 @@ private:
 	//GUI ELEMENTS
 	IGUIContextMenu *menu, *submenu;
 	IGUIToolBar *bar, *infosBar;
+
+	IGUIButton *ibposition, *ibrotation, *ibscale;
+	CCoreObjectPlacement::ArrowType movementType;
 
 	IGUIContextMenu *skydomeMenu, *skyboxMenu;
 	//-----------------------------------

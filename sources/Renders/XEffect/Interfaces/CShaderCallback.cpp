@@ -176,37 +176,17 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
 void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
     irr::video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices();
     material = baseMaterial;
-    
-    bool bCanDoGLSL_1_1 = true;
-    if (gpu && (driver->getDriverType() == irr::video::EDT_OPENGL)) {
-        bCanDoGLSL_1_1 = true;
-        if (!driver->queryFeature(irr::video::EVDF_ARB_FRAGMENT_PROGRAM_1)) {
-            printf("queryFeature(video::EVDF_ARB_FRAGMENT_PROGRAM_1) failed\n");
-            bCanDoGLSL_1_1 = false;
-        }
-        if (!driver->queryFeature(irr::video::EVDF_ARB_VERTEX_PROGRAM_1)) {
-            printf("queryFeature(video::EVDF_ARB_VERTEX_PROGRAM_1) failed\n");
-            bCanDoGLSL_1_1 = false;
-        }
-    }
-    
-    if (bCanDoGLSL_1_1) {
         
-        buildConstants(driver);
-        
-        if (driver->getDriverType() == irr::video::EDT_OPENGL) {
-            material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "main", vertexShaderType,
-                                                       pixelShader.c_str(), "main", pixelShaderType,
-                                                       this, baseMaterial);
-        } else {
-            material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "vertexMain", vertexShaderType,
-                                                       pixelShader.c_str(), "pixelMain", pixelShaderType,
-                                                       this, baseMaterial);
-        }
-        
-        driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
+    buildConstants(driver);
+
+    if (driver->getDriverType() == irr::video::EDT_OPENGL) {
+        material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "main", vertexShaderType,
+                                                    pixelShader.c_str(), "main", pixelShaderType,
+                                                    this, baseMaterial);
     } else {
-        material =  baseMaterial;
+        material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "vertexMain", vertexShaderType,
+                                                    pixelShader.c_str(), "pixelMain", pixelShaderType,
+                                                    this, baseMaterial);
     }
 }
 

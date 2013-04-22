@@ -50,7 +50,7 @@ CCoreUserInterface::CCoreUserInterface() {
     //-----------------------------------
     //USER INTERFACE OBJECTS
     contextMenuInstance = new CUIContextMenu(devices);
-	rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices);
+	rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices, contextMenuInstance);
     //-----------------------------------
     
     //-----------------------------------
@@ -66,6 +66,10 @@ CCoreUserInterface::CCoreUserInterface() {
 	skin_window_classic->setColor(EGDC_3D_HIGH_LIGHT, SColor(255,0x22,0x22,0x22));
 	skin_window_classic->setColor(EGDC_3D_FACE, SColor(255,0x44,0x44,0x44));
 	skin_window_classic->setColor(EGDC_WINDOW, SColor(255,0x66,0x66,0x66));
+
+	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/error.png"));
+	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/warning.png"));
+	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/info.png"));
     //-----------------------------------
     
     //-----------------------------------
@@ -91,7 +95,7 @@ CCoreUserInterface::CCoreUserInterface() {
     
     devices->getEventReceiver()->AddEventReceiver(this);
     devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
-	//devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
+	devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
 
 }
 
@@ -158,7 +162,6 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
         stringw text = event.LogEvent.Text;
         logListBox->addItem(text.c_str());
         logListBox->setSelected(logListBox->getItemCount());
-        gui->drawAll();
     }
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {

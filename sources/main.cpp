@@ -41,9 +41,36 @@ int main(int argc, char *argv[]) {
 	//CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
 	//water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
 
-	//ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 16, 8, 0.95f, 2.0f);
-	//coreUserInterface->getDevices()->setSkydome(skydome);
+	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
+	coreUserInterface->getDevices()->setSkydome(skydome);
 	//coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skydome, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_NO_SHADOW);
+
+	/*ICameraSceneNode *camera = smgr->addCameraSceneNode();
+	camera->setInputReceiverEnabled(false);
+	camera->setParent(coreUserInterface->getDevices()->getMayaCamera());
+	camera->setPosition(vector3df(10, 0, 0));
+	smgr->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
+
+	while (device->run()) {
+
+		driver->setViewPort(rect<s32>(0, 0, driver->getScreenSize().Width, driver->getScreenSize().Height));
+
+		driver->beginScene(true, true, SColor(0x0));
+
+		smgr->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
+		driver->setViewPort(rect<s32>(0,0,driver->getScreenSize().Width/2,driver->getScreenSize().Height));
+		smgr->drawAll();
+		camera->setTarget(coreUserInterface->getDevices()->getMayaCamera()->getTarget());
+
+		smgr->setActiveCamera(camera);
+		driver->setViewPort(rect<s32>(driver->getScreenSize().Width/2,0,driver->getScreenSize().Width,driver->getScreenSize().Height));
+		smgr->drawAll();
+
+		smgr->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
+
+		driver->endScene();
+
+	}*/
 
     //---------------------------------------------------------------------------------------------
     //-----------------------------------RUNNING DEVICE--------------------------------------------

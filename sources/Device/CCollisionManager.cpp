@@ -56,6 +56,6 @@ void CCollisionManager::createAnimatorCollisionCamera(ISceneNode *camera) {
     }
     animCollisions = smgr->createCollisionResponseAnimator(meta, camera, 
 														   vector3df(2.f, 2.5f, 2.f),
-                                                           vector3df(0.f, -0.981f, 0.f), vector3df(0.f, 4.4f, 0.f));
+                                                           vector3df(0.f, -0.981f, 0.f), vector3df(0.f, 54.4f, 0.f));
     camera->addAnimator(animCollisions);
 }

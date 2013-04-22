@@ -107,7 +107,7 @@ void CExporter::exportScene(stringc file_path) {
 		fprintf(export_file, "\t\t\t <factory> \n\n");
 		s32 planaredIndice = devices->getCoreData()->isMeshPlanared(node);
 		if (planaredIndice != -1) {
-			SPlanarTextureMapping sptm = devices->getCoreData()->getPlanarTextureMappingValues()->operator[](planaredIndice);
+			SPlanarTextureMappingData sptm = devices->getCoreData()->getPlanarTextureMappingValues()->operator[](planaredIndice);
 			if (sptm.isGeneralPlanarTextureMapping()) {
 				fprintf(export_file, "\t\t\t\t <primitive type=\"planar\" options=\"general\" /> \n");
 				fprintf(export_file, "\t\t\t\t\t <resolutionS value=\"%f\" /> \n", sptm.getResolutionS());
@@ -257,14 +257,14 @@ void CExporter::exportScene(stringc file_path) {
     }
     
     //TREES
-    for (int i=0; i < devices->getCoreData()->getTreeNodes()->size(); i++) {
-        ISceneNode *node = devices->getCoreData()->getTreeNodes()->operator[](i);
+    for (int i=0; i < devices->getCoreData()->getTreesData()->size(); i++) {
+		ISceneNode *node = devices->getCoreData()->getTreesData()->operator[](i).getNode();
         
-        devices->getCoreData()->getTreePaths()->operator[](i).remove(wd.c_str());
+		devices->getCoreData()->getTreesData()->operator[](i).getPath().remove(wd.c_str());
         
         fprintf(export_file, "\t\t <tree>\n\n");
         
-        fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getTreePaths()->operator[](i).c_str());
+		fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getTreesData()->operator[](i).getPath().c_str());
         fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
         
         //MATERIALS
@@ -311,8 +311,8 @@ void CExporter::exportScene(stringc file_path) {
         fprintf(export_file, "\t\t </tree>\n\n");
     }
     
-    for (int i=0; i < devices->getCoreData()->getLightsNodes()->size(); i++) {
-        ISceneNode *node = devices->getCoreData()->getLightsNodes()->operator[](i);
+    for (int i=0; i < devices->getCoreData()->getLightsData()->size(); i++) {
+		ISceneNode *node = devices->getCoreData()->getLightsData()->operator[](i).getNode();
         
         fprintf(export_file, "\t\t <light>\n\n");
         fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
@@ -334,10 +334,10 @@ void CExporter::exportScene(stringc file_path) {
                 ((ILightSceneNode *)node)->getLightData().SpecularColor.g,
                 ((ILightSceneNode *)node)->getLightData().SpecularColor.b);
         
-        fprintf(export_file, "\t\t\t <radius value=\"%f\" />\n", ((ILightSceneNode *)node)->getRadius()),
+        fprintf(export_file, "\t\t\t <radius value=\"%f\" />\n", ((ILightSceneNode *)node)->getRadius());
+		fprintf(export_file, "\t\t\t <farValue value=\"%f\" />\n", devices->getXEffect()->getShadowLight(i).getFarValue());
         
-        fprintf(export_file, "\n\t\t\t <shadows resol=\"%u\" />\n\n",
-                devices->getXEffect()->getShadowLight(i).getShadowMapResolution());
+        fprintf(export_file, "\n\t\t\t <shadows resol=\"%u\" />\n\n", devices->getXEffect()->getShadowLight(i).getShadowMapResolution());
         
         fprintf(export_file, "\t\t </light>\n\n");
     }

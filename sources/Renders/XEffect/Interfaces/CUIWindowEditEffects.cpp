@@ -24,7 +24,7 @@ void CUIWindowEditEffects::open() {
     
     //-----------------------------------
     //MAIN WINDOW
-    effectsWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(400, 50, 920, 550),
+    effectsWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(400, 50, 1000, 550),
                                                             false, L"Shaders Edition Window", 0, -1);
     effectsWindow->getCloseButton()->remove();
     
@@ -45,7 +45,7 @@ void CUIWindowEditEffects::open() {
                                                                 -1, L"Enable Depth Pass");
     
     viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
-                                rect<s32>(10, 70, 500, 270), false);
+                                rect<s32>(10, 70, 580, 270), false);
     if (viewPort) {
         viewPort->setSceneManager(devices->getSceneManager());
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
@@ -64,7 +64,7 @@ void CUIWindowEditEffects::open() {
     editCallBack = devices->getGUIEnvironment()->addButton(rect<s32>(410, 320, 510, 340), effectsWindow, -1, L"Edit CallBack", 
                                                            L"Edit The CallBack Of The Shader");
     
-    close = devices->getGUIEnvironment()->addButton(rect<s32>(414, 463, 514, 493), effectsWindow, -1, L"Close", L"Close the window");
+    close = devices->getGUIEnvironment()->addButton(rect<s32>(484, 463, 584, 493), effectsWindow, -1, L"Close", L"Close the window");
     
     if (devices->getCoreData()->getEffectRenders()->size() == 0) {
         editCallBack->setEnabled(false);

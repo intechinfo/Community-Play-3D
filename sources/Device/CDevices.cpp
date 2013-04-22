@@ -14,19 +14,21 @@ CDevices::CDevices() {
 	Device = 0;
 	wolrdCore = new CCore();
     worldCoreData = new CCoreData();
-    
+
     //RENDERS
     effect = 0;
-    
+
+	renderScene = true;
+
     renderXEffect = false;
     renderGUI = true;
-    
+
     editBoxEntered = false;
-    
+
     window = 0;
-    
+
     projectName = L"";
-    
+
     ctrlWasPushed = false;
     shiftWasPushed = false;
 
@@ -65,36 +67,36 @@ void CDevices::updateDevice() {
     objPlacement->refresh(cursorBillBoard);
     
     //UPDATE EFFECT LIGHTS
-    for (u32 i=0; i < worldCoreData->getLightsNodes()->size(); i++) {
-        effect->getShadowLight(i).setPosition(worldCoreData->getLightsNodes()->operator[](i)->getPosition());
-        effect->getShadowLight(i).setTarget(worldCoreData->getLightsNodes()->operator[](i)->getRotation());
+    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
+        effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
         
         effect->getShadowLight(i).setLightColor(SColorf
-                                                (((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getLightData().DiffuseColor.r,
-                                                 ((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getLightData().DiffuseColor.g,
-                                                 ((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getLightData().DiffuseColor.b,
+												 (((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.r,
+                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
+                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
                                                  255));
     }
     
     //UPDATE LENS FLARE STRENGTHS
-    for (u32 i=0; i < worldCoreData->getLensFlareSceneNodes()->size(); i++) {
-        if (worldCoreData->getLensFlareSceneNodes()->operator[](i) != 0) {
-            if (worldCoreData->getLensFlareSceneNodes()->operator[](i)->getFalseOcclusion()) {
+    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
+			if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getFalseOcclusion()) {
                 //GET CURRENT LANS FLARE ABOSLUTE POSITION
                 line3d<f32> lfLine;
                 lfLine.start = smgr->getActiveCamera()->getAbsolutePosition();
-                matrix4 matr = worldCoreData->getLensFlareSceneNodes()->operator[](i)->getAbsoluteTransformation();
-                const matrix4 w2n(worldCoreData->getLensFlareSceneNodes()->operator[](i)->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
+				matrix4 matr = worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getAbsoluteTransformation();
+				const matrix4 w2n(worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
                 matr = (w2n*matr);
                 lfLine.end = matr.getTranslation();
-                if (lfLine.getLength() < ((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getRadius()) {
-                    worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(1.f - (lfLine.getLength()/((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getRadius()));
+				if (lfLine.getLength() < ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
+					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f - (lfLine.getLength()/((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()));
                 }
                 if (lfLine.getLength() == 0.f) {
-                    worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(1.f);
+					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f);
                 }
-                if (lfLine.getLength() >= ((ILightSceneNode *)worldCoreData->getLightsNodes()->operator[](i))->getRadius()) {
-                    worldCoreData->getLensFlareSceneNodes()->operator[](i)->setStrength(0.f);
+				if (lfLine.getLength() >= ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
+					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(0.f);
                 }
                 ray.start = smgr->getActiveCamera()->getPosition();
                 ray.end = lfLine.end;
@@ -102,24 +104,27 @@ void CDevices::updateDevice() {
                 if(selectedSceneNode) {
                     
                 }
-                worldCoreData->getLensFlareSceneNodes()->operator[](i)->updateAbsolutePosition();
+				worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->updateAbsolutePosition();
             }
         }
     }
     
 	#ifndef _IRR_OSX_PLATFORM_
-		std::thread scene_t(&CDevices::drawScene, *this);
-		scene_t.join();
+		if (renderScene) {
+			std::thread scene_t(&CDevices::drawScene, *this);
+			scene_t.join();
+		}
 		std::thread gui_t(&CDevices::drawGUI, *this);
 		gui_t.join();
 	#else
-		if (renderXEffect) {
-			effect->setActiveSceneManager(smgr);
-			effect->update();
-		} else {
-			smgr->drawAll();
+		if (renderScene) {
+			if (renderXEffect) {
+				effect->setActiveSceneManager(smgr);
+				effect->update();
+			} else {
+				smgr->drawAll();
+			}
 		}
-    
 		effectSmgr->drawAll();
     
 		if (renderGUI) {
@@ -192,7 +197,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	keyMap[4].Action = EKA_JUMP_UP;
 	keyMap[4].KeyCode = KEY_SPACE;
     
-    camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.009f, -1, keyMap, 5, true, 0.3f, false, true);
+    camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.09f, -1, keyMap, 5, true, 0.3f, false, true);
 	camera_fps->setTarget(vector3df(0.f, 5.f, 0.f));
 	camera_fps->setFarValue(42000.0f);
 	camera_fps->setName("editor:FPScamera");
@@ -222,7 +227,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     objPlacement = new CCoreObjectPlacement(smgr, Device->getCursorControl(), collisionManager);
     
 	//INIT EFFECTS
-    effect = new EffectHandler(Device, dimension2du(1280, 800), true, true, false);
+    effect = new EffectHandler(Device, dimension2du(1280, 800), true, true, true);
 	effect->setUseVSMShadows(false);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
@@ -230,6 +235,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(true);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
+
+	effect->addShadowToNode(objPlacement->getGridSceneNode(), EFT_NONE, ESM_EXCLUDE);
 
 	//FINISH WITH EVENTS
     receiver.AddEventReceiver(objPlacement);
@@ -239,7 +246,7 @@ void CDevices::rebuildXEffect() {
     effect->setScreenRenderTargetResolution(driver->getScreenSize());
 }
 
-IGUIFileOpenDialog	*CDevices::createFileOpenDialog(stringw title, IGUIElement *parent) {
+IGUIFileOpenDialog *CDevices::createFileOpenDialog(stringw title, IGUIElement *parent) {
     window = gui->addWindow(rect<s32>(100, 100, 960, 590), true, 
                             L"Open File Dialog", parent, -1);
     

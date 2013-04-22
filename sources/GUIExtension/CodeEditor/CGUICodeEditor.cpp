@@ -1057,9 +1057,11 @@ void CGUIEditBoxIRB::draw()
 						// Find the end of this current word
 						u32 end = u;
 						for (u32 v = u; v < lineCStr.size(); v++) {
-							if (!isalnum(lineCStr.c_str()[v])) {
-								end = v;
-								break;
+							if (lineCStr.c_str()[v] >= 0) {
+								if (!isalnum(lineCStr.c_str()[v])) {
+									end = v;
+									break;
+								}
 							}
 							if (v == lineCStr.size()-1)
 								end = v+1;
@@ -2329,58 +2331,75 @@ void CGUIEditBoxIRB::clearKeywords() {
 
 //! adds HLSL and GLSL style keywords
 void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::video::SColor stringColor, irr::video::SColor commentColor) {
-    addKeyword("if",keywordColor,true);
-    addKeyword("else",keywordColor,true);
-    addKeyword("void",keywordColor,true);
-    addKeyword("while",keywordColor,true);
-	addKeyword("for",keywordColor,true);
-	addKeyword("do",keywordColor,true);
-    addKeyword("struct",keywordColor,true);
-	addKeyword("true",keywordColor,true);
-	addKeyword("false",keywordColor,true);
+    addCppKeywords();
     
-    addKeyword("vec2",stringColor,true);
-    addKeyword("vec3",stringColor,true);
-    addKeyword("vec4",stringColor,true);
-    addKeyword("float",stringColor,true);
-    addKeyword("mat4",stringColor,true);
+    addKeyword("vec2",keywordColor,true);
+    addKeyword("vec3",keywordColor,true);
+    addKeyword("vec4",keywordColor,true);
+    addKeyword("float",keywordColor,true);
+    addKeyword("mat4",keywordColor,true);
+
+	addKeyword("float2",keywordColor,true);
+	addKeyword("float3",keywordColor,true);
+	addKeyword("float4",keywordColor,true);
+
+	addKeyword("float2x2",keywordColor,true);
+	addKeyword("float3x3",keywordColor,true);
+	addKeyword("float4x4",keywordColor,true);
+
+	addKeyword("Texture",keywordColor,true);
+	addKeyword("sampler",keywordColor,true);
+
+	irr::video::SColor vscolor = irr::video::SColor(255, 20, 50, 180);
+	addKeyword("VS", vscolor, false);
+	addKeyword("OUTPUT", vscolor, false);
+	addKeyword("OUT", vscolor, false);
+	addKeyword("Out", vscolor, false);
+	addKeyword("out", vscolor, false);
+
+	addKeyword("xyz", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword(".x", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword(".y", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword(".z", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword("Pos", irr::video::SColor(255, 0, 0, 0), false);
+
+	addKeyword("main", irr::video::SColor(255, 180, 0, 50), false);
+	addKeyword("pixelMain", irr::video::SColor(255, 180, 0, 50), false);
+	addKeyword("vertexMain", irr::video::SColor(255, 180, 0, 50), false);
+
+	irr::video::SColor prctColor = irr::video::SColor(255, 179, 89, 0);
+	addKeyword("POSITION", prctColor, false);
+	addKeyword("POSITION0", prctColor, false);
+	addKeyword("ROTATION0", prctColor, false);
+	addKeyword("COLOR0", prctColor, false);
+	addKeyword("COLOR1", prctColor, false);
+	addKeyword("COLOR2", prctColor, false);
+	addKeyword("COLOR3", prctColor, false);
+	addKeyword("TEXCOORD0", prctColor, false);
+	addKeyword("TEXCOORD1", prctColor, false);
+	addKeyword("TEXCOORD2", prctColor, false);
+	addKeyword("TEXCOORD3", prctColor, false);
+
+    addKeyword("texture2D",keywordColor,true);
+    addKeyword("dot",keywordColor,true);
+    addKeyword("cross",keywordColor,true);
+    addKeyword("normalize",keywordColor,true);
+	addKeyword("mul",keywordColor,true);
+	addKeyword("abs",keywordColor,true);
+	addKeyword("max",keywordColor,true);
+	addKeyword("min",keywordColor,true);
+	addKeyword("tex2D",keywordColor,true);
+
+    addKeyword("sampler2D",keywordColor,true);
+    addKeyword("matrix",keywordColor,true);
     
-    addKeyword("texture2D",irr::video::SColor(180, 180, 255, 64),true);
-    addKeyword("dot",irr::video::SColor(180, 180, 255, 64),true);
-    addKeyword("cross",irr::video::SColor(180, 180, 255, 64),true);
-    addKeyword("normalize",irr::video::SColor(180, 180, 255, 64),true);
+    addKeyword("uniform",keywordColor,true);
+    addKeyword("varying",keywordColor,true);
+    addKeyword("cos",keywordColor,true);
+    addKeyword("sin",keywordColor,true);
+    addKeyword("tan",keywordColor,true);
     
-    addKeyword("sampler2D",irr::video::SColor(180, 180, 255, 64),true);
-    addKeyword("matrix",irr::video::SColor(180, 180, 255, 64),true);
-    
-    addKeyword("uniform",irr::video::SColor(180, 180, 180, 64),true);
-    addKeyword("varying",irr::video::SColor(180, 180, 180, 64),true);
-    addKeyword("cos",irr::video::SColor(180, 180, 180, 64),true);
-    addKeyword("sin",irr::video::SColor(180, 180, 180, 64),true);
-    addKeyword("tan",irr::video::SColor(180, 180, 180, 64),true);
-    
-    addKeyword(".x",irr::video::SColor(180, 180, 180, 64),true);
-    addKeyword(".y",irr::video::SColor(180, 180, 180, 64),true);
-    addKeyword(".z",irr::video::SColor(180, 180, 180, 64),true);
-    
-    addKeyword("(",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword(")",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword("[",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword("]",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword("=",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword("+=",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword("-=",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword("*=",irr::video::SColor(255, 0, 0, 0),true);
-    addKeyword("==",irr::video::SColor(255, 0, 0, 0),true);
-    
-    addKeyword("gl_FragColor",irr::video::SColor(180, 200, 0, 0),true);
-    
-	addLineKeyword("//",commentColor,true);
-	addGroupKeyword("#"," ",keywordColor,true);
-	addGroupKeyword("\"","\"",stringColor,true);
-	addGroupKeyword("\'","\'",stringColor,true);
-	addGroupKeyword("/*","*/",commentColor,true,true);
-    
+    addKeyword("gl_FragColor",keywordColor,true);
 }
 
 //! adds C++ style keywords

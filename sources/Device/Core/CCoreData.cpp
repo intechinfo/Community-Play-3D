@@ -13,21 +13,22 @@ CCoreData::CCoreData() {
 }
 
 CCoreData::~CCoreData() {
-    
+
 }
 
 void CCoreData::clear() {
     for (int i=0; i < terrainNodes.size(); i++) {
         terrainNodes[i]->remove();
     }
-    for (int i=0; i < treeNodes.size(); i++) {
-        treeNodes[i]->remove();
+    for (int i=0; i < treesData.size(); i++) {
+        treesData[i].getNode()->remove();
     }
     for (int i=0; i < objectNodes.size(); i++) {
         objectNodes[i]->remove();
     }
-    for (int i=0; i < lightNodes.size(); i++) {
-        lightNodes[i]->remove();
+    for (int i=0; i < lightsData.size(); i++) {
+		lightsData[i].getNode()->removeAll();
+		lightsData[i].getNode()->remove();
     }
 }
 
@@ -37,13 +38,12 @@ void CCoreData::clearAllTheArrays() {
     terrainNodes.clear();
     terrainPaths.clear();
     
-    treeNodes.clear();
-    treePaths.clear();
+    treesData.clear();
     
     objectNodes.clear();
     objectPaths.clear();
     
-    lightNodes.clear();
+    lightsData.clear();
 
 	waterSurfaceNodes.clear();
 	planarMeshes.clear();
@@ -62,14 +62,14 @@ array<ISceneNode *> CCoreData::getAllSceneNodes() {
     for (int i=0; i < terrainNodes.size(); i++) {
         nodes.push_back(terrainNodes[i]);
     }
-    for (int i=0; i < treeNodes.size(); i++) {
-        nodes.push_back(treeNodes[i]);
+    for (int i=0; i < treesData.size(); i++) {
+		nodes.push_back(treesData[i].getNode());
     }
     for (int i=0; i < objectNodes.size(); i++) {
         nodes.push_back(objectNodes[i]);
     }
-    for (int i=0; i < lightNodes.size(); i++) {
-        nodes.push_back(lightNodes[i]);
+    for (int i=0; i < lightsData.size(); i++) {
+		nodes.push_back(lightsData[i].getNode());
     }
     
     return nodes;
@@ -82,13 +82,13 @@ array<ISceneNode *> CCoreData::getAllMeshes() {
     for (int i=0; i < terrainNodes.size(); i++) {
         nodes.push_back(terrainNodes[i]);
     }
-    for (int i=0; i < treeNodes.size(); i++) {
-        nodes.push_back(treeNodes[i]);
+    for (int i=0; i < treesData.size(); i++) {
+		nodes.push_back(treesData[i].getNode());
     }
     for (int i=0; i < objectNodes.size(); i++) {
         nodes.push_back(objectNodes[i]);
     }
-    
+
     return nodes;
 }
 
@@ -103,4 +103,24 @@ s32 CCoreData::isMeshPlanared(ISceneNode *node) {
 	}
 
 	return planared;
+}
+
+array<ISceneNode *> CCoreData::getArrayOfTreeNodes() {
+	array<ISceneNode *> nodes;
+
+	for (u32 i=0 ; i < treesData.size(); i++) {
+		nodes.push_back(treesData[i].getNode());
+	}
+
+	return nodes;
+}
+
+array<ISceneNode *> CCoreData::getArrayOfLightNodes() {
+	array<ISceneNode *> nodes;
+
+	for (u32 i=0; i < lightsData.size(); i++) {
+		nodes.push_back(lightsData[i].getNode());
+	}
+
+	return nodes;
 }

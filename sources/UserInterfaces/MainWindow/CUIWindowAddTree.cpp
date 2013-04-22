@@ -69,9 +69,9 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
                         
                         devices->getXEffect()->addShadowToNode(treeNode, devices->getXEffectFilterType(), ESM_BOTH);
                         devices->getCollisionManager()->setCollisionToAnOctTreeNode(treeNode);
-                        
-                        devices->getCoreData()->getTreeNodes()->push_back(treeNode);
-                        devices->getCoreData()->getTreePaths()->push_back(path_file);
+                        STreesData tdata(octTreeMesh, treeNode, path_file.c_str());
+
+                        devices->getCoreData()->getTreesData()->push_back(tdata);
                         
                         treesListBox->addItem(treeNodeName.c_str());
                         

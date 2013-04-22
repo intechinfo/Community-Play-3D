@@ -17,6 +17,19 @@ CCore::~CCore() {
     
 }
 
+bool CCore::elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements) {
+	bool exists = false;
+
+	for (u32 i=0; i < elements.size(); i++) {
+		if (element = elements[i]) {
+			exists = true;
+			break;
+		}
+	}
+
+	return exists;
+}
+
 array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
 	array<ISceneNode *> nodes;
 
@@ -28,11 +41,15 @@ array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
 	return &nodes;
 }
 
-s32 CCore::nodeExistsInArray(array<ISceneNode *> nodes, ISceneNode *node) {
+s32 CCore::nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node) {
 	s32 exists = -1;
 
-	for (u32 i=0; i < nodes.size(); i++) {
-		if (nodes[i] == node) {
+	if (nodes->size() == 0) {
+		return exists;
+	}
+
+	for (u32 i=0; i < nodes->size(); i++) {
+		if (nodes->operator[](i) == node) {
 			exists = i;
 			break;
 		}

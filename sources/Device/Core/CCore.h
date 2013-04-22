@@ -74,8 +74,10 @@ public:
     ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
 
 	s32 textureAlreadyExists(stringc name, IVideoDriver *driver);
-	s32 nodeExistsInArray(array<ISceneNode *> nodes, ISceneNode *node);
+	s32 nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node);
 	array<ISceneNode *> *getArrayOfAListOfNodeChildren(ISceneNode *node);
+
+	bool elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements);
     //--------------------------
     
     
