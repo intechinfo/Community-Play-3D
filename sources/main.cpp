@@ -14,8 +14,12 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-int main() {
-
+#ifdef _WIN32
+#include <Windows.h>
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+#else
+int main(int argc, char *argv[]) {
+#endif
     //---------------------------------------------------------------------------------------------
     //----------------------------------GUI DEVICE CREATION----------------------------------------
     //---------------------------------------------------------------------------------------------
@@ -45,6 +49,7 @@ int main() {
     //-----------------------------------RUNNING DEVICE--------------------------------------------
     //---------------------------------------------------------------------------------------------
 
+	int lastFPS = -1;
 	while (device->run()) {
         
         if (device->isWindowActive()) {
@@ -53,6 +58,14 @@ int main() {
             coreUserInterface->update();
             
             driver->endScene();
+
+			if (driver->getFPS() != lastFPS)
+			{
+				lastFPS = driver->getFPS();
+				core::stringw tmp = L"Soganatsu Studios World Editor - FPS: ";
+				tmp += lastFPS;
+				device->setWindowCaption(tmp.c_str());
+			}
         }
         
     }
