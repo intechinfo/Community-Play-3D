@@ -145,7 +145,7 @@ struct STreesData {
 	void setMinPolysPerNode(u32 _minPolysPerNode) { minPolysPerNode = _minPolysPerNode; }
 	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
 
-	IMesh *getMesh();
+	IMesh *getMesh() { return mesh; }
 	ISceneNode *getNode() { return node; }
 	u32 getMinPolysPerNode() { return minPolysPerNode; }
 	stringw getPath() { return path; }
@@ -230,8 +230,12 @@ struct SVolumeLightsData {
 		node = _node;
 	}
 
+	ISceneNode *getNode() { return node; }
+	
+	void setNode(ISceneNode *_node) { node = _node; }
+
 private:
-	IVolumeLightSceneNode *node;
+	ISceneNode *node;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -251,12 +255,13 @@ public:
 	void clear();
 
 	array<ISceneNode *> getAllSceneNodes();
-	array<ISceneNode *> getAllMeshes();
+	array<IMesh *> getAllMeshes();
 
 	s32 isMeshPlanared(ISceneNode *node);
 
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfTreeNodes();
+	array<ISceneNode *> getArrayOfObjectNodes();
 	//-----------------------------------
 
 	//-----------------------------------
@@ -270,9 +275,6 @@ public:
 	array<STreesData> *getTreesData() { return &treesData; }
 
 	array<SObjectsData> *getObjectsData() { return &objectsData; }
-	array<IMesh *> *getObjectMeshes() { return &objectMeshes; }
-	array<ISceneNode *> *getObjectNodes() { return &objectNodes; }
-	array<stringw> *getObjectPaths() { return &objectPaths; }
 
 	array<SLightsData> *getLightsData() { return &lightsData; }
 
@@ -313,9 +315,6 @@ private:
 	array<STreesData> treesData;
 
 	array<SObjectsData> objectsData;
-	array<IMesh *> objectMeshes;
-	array<ISceneNode *> objectNodes;
-	array<stringw> objectPaths;
 
 	array<SLightsData> lightsData;
 

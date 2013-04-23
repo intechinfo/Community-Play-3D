@@ -108,7 +108,7 @@ void CDevices::updateDevice() {
             }
         }
     }
-    
+
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
 			std::thread scene_t(&CDevices::drawScene, *this);
@@ -126,13 +126,14 @@ void CDevices::updateDevice() {
 			}
 		}
 		effectSmgr->drawAll();
-    
+
 		if (renderGUI) {
 			gui->drawAll();
 		}
 	#endif
-    
+
     camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
 }
 
@@ -176,6 +177,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     Device->setEventReceiver(&receiver);
     receiver.AddEventReceiver(this);
     
+	wolrdCore->setDevice(Device);
     workingDirectory = Device->getFileSystem()->getWorkingDirectory().c_str();
     
 	#ifdef _IRR_OSX_PLATFORM_
@@ -210,6 +212,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
     
     smgr->setActiveCamera(camera_maya);
+	effectSmgr->setActiveCamera(camera_maya);
     
     cursorBillBoard = smgr->addBillboardSceneNode();
     cursorBillBoard->setName("editor:cursor");
@@ -224,10 +227,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     
     //3D INTERACTION
     collisionManager = new CCollisionManager(smgr);
-    objPlacement = new CCoreObjectPlacement(smgr, Device->getCursorControl(), collisionManager);
+	objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);
     
 	//INIT EFFECTS
-    effect = new EffectHandler(Device, dimension2du(1280, 800), true, true, true);
+    effect = new EffectHandler(Device, dimension2du(1440, 838), true, true, true);
 	effect->setUseVSMShadows(false);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;

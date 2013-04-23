@@ -40,6 +40,10 @@ using namespace core;
 using namespace scene;
 using namespace io;
 
+enum E_CORE_USER_EVENTS {
+	ECUE_REACTIVE_MINIMIZED_WINDOW = 0
+};
+
 //--------------------------
 //CORE CLASS
 
@@ -49,6 +53,10 @@ public:
 	
 	CCore();
 	~CCore();
+
+	void setDevice(IrrlichtDevice *_device) { device = _device; }
+
+	array<IEventReceiver *> getWindows() { return windows; }
     
     //--------------------------
     //CORE METHODS AND FUNCTIONS
@@ -66,11 +74,14 @@ public:
 	
 	stringw getStrNumber(f32 value);
     stringw getStrNumberU32(u32 value);
+
+	stringc getStringcFromFile(stringc pathFile);
+	stringc getStringcFromIReadFile(stringc pathFile);
 	
 	stringw changeTextWithValue(const wchar_t *text, s32 value);
     
     stringw getTexturePath(ITexture *texture);
-    
+
     ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
 
 	s32 textureAlreadyExists(stringc name, IVideoDriver *driver);
@@ -78,21 +89,32 @@ public:
 	array<ISceneNode *> *getArrayOfAListOfNodeChildren(ISceneNode *node);
 
 	bool elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements);
+	array<IGUIElement *> getArrayOfAListOfGUIElementChildren(IGUIElement *element);
     //--------------------------
     
     
 private:
+	//--------------------------
+    //DATAS
+	IrrlichtDevice *device;
+	array<IEventReceiver *> windows;
+	//--------------------------
 
-    
+	//--------------------------
+    //CORE PRIVATE METHODS AND FUNCTIONS
+	bool readtoken(IReadFile* f, stringc* str);
+	bool readline(IReadFile* f, stringc* str);
+	//--------------------------
+
 };
 
 //--------------------------
 
 //--------------------------
-//Multiple Event Receivers Class
+//MULTIPLE EVENT RECEIVERS CLASS
 
 class EventReceiver : public IEventReceiver {
-    
+
 public:
     
     virtual bool OnEvent(const SEvent& mainEvent) {
@@ -101,6 +123,16 @@ public:
         }
         return false;
     }
+
+	void reactiveWindow(s32 referenceCounted) {
+		SEvent rcEvent;
+		rcEvent.EventType = EET_USER_EVENT;
+		rcEvent.UserEvent.UserData1 = ECUE_REACTIVE_MINIMIZED_WINDOW;
+		rcEvent.UserEvent.UserData2 = referenceCounted;
+		for (unsigned int i=0; i < mEventReceivers.size(); ++i) {
+            mEventReceivers[i]->OnEvent(rcEvent);
+        }
+	}
     
     void AddEventReceiver(IEventReceiver * receiver) {
         mEventReceivers.push_back(receiver);

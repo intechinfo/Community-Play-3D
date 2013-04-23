@@ -37,8 +37,9 @@ int main() {
 	//CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
 	//water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
 
-	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
-	coreUserInterface->getDevices()->setSkydome(skydome);
+	//ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
+	//coreUserInterface->getDevices()->setSkydome(skydome);
+
 	//coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skydome, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_NO_SHADOW);
 
 	/*ICameraSceneNode *camera = smgr->addCameraSceneNode();
@@ -73,7 +74,7 @@ int main() {
     //---------------------------------------------------------------------------------------------
 
 	while (device->run()) {
-        
+
         if (device->isWindowActive()) {
             driver->beginScene(true, true, SColor(0x0));
 

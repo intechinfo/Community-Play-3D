@@ -73,9 +73,8 @@ bool CUIWindowAddObject::OnEvent(const SEvent &event) {
                         devices->getXEffect()->addShadowToNode(objectNode, devices->getXEffectFilterType(), ESM_BOTH);
                         devices->getCollisionManager()->setCollisionToAnAnimatedNode(objectNode);
                         
-						devices->getCoreData()->getObjectMeshes()->push_back(objectMesh);
-                        devices->getCoreData()->getObjectNodes()->push_back(objectNode);
-                        devices->getCoreData()->getObjectPaths()->push_back(path_file);
+						SObjectsData odata(objectMesh, objectNode, path_file.c_str());
+						devices->getCoreData()->getObjectsData()->push_back(odata);
                         
                         objectsListBox->addItem(objectNodeName.c_str());
                         

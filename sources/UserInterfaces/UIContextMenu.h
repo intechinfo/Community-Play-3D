@@ -124,7 +124,6 @@ private:
 	CUIMainWindow *mainWindowInstance;
 	CUISceneView *sceneViewInstance;
 	CUIWindowEditGrid *editGridInstance;
-	CUICharacterWindow *characterWindowInstance;
 
 	CUIWindowOpenScene *openSceneInstance;
 	CUIWindowExportScene *exportSceneInstance;

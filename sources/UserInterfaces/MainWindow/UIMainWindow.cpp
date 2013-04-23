@@ -150,8 +150,8 @@ void CUIMainWindow::refresh() {
     //OBJECTS
     selected = objectsListBox->getSelected();
     objectsListBox->clear();
-    for (int i=0; i < devices->getCoreData()->getObjectNodes()->size(); i++) {
-        stringw name = devices->getCoreData()->getObjectNodes()->operator[](i)->getName();
+    for (int i=0; i < devices->getCoreData()->getObjectsData()->size(); i++) {
+		stringw name = devices->getCoreData()->getObjectsData()->operator[](i).getNode()->getName();
         objectsListBox->addItem(name.c_str());
     }
     objectsListBox->setSelected(selected);
@@ -173,7 +173,6 @@ void CUIMainWindow::refresh() {
         waterSurfacesListBox->addItem(name.c_str());
     }
     waterSurfacesListBox->setSelected(selected);
-
 }
 
 IGUIListBox *CUIMainWindow::getActiveListBox() {
@@ -187,6 +186,8 @@ IGUIListBox *CUIMainWindow::getActiveListBox() {
         listBox = objectsListBox;
     } else if (tabCtrl->getActiveTab() == lightsTab->getNumber()) {
         listBox = lightsListBox;
+	} else if (tabCtrl->getActiveTab() == dynamicLightsTab->getNumber()) {
+		listBox = dynamicListBox;
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         listBox = waterSurfacesListBox;
     }
@@ -213,14 +214,18 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
         }
     } else if (tabCtrl->getActiveTab() == objectsTab->getNumber()) {
         if (objectsListBox->getSelected() != -1) {
-			mesh = devices->getCoreData()->getObjectMeshes()->operator[](objectsListBox->getSelected());
-            node = devices->getCoreData()->getObjectNodes()->operator[](objectsListBox->getSelected());
-			path = devices->getCoreData()->getObjectPaths()->operator[](objectsListBox->getSelected()).c_str();
+			mesh = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getMesh();
+			node = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode();
+			path = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getPath().c_str();
         }
     } else if (tabCtrl->getActiveTab() == lightsTab->getNumber()) {
         if (lightsListBox->getSelected() != -1) {
 			node = devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected()).getNode();
         }
+	} else if (tabCtrl->getActiveTab() == dynamicLightsTab->getNumber()) {
+		if (dynamicListBox->getSelected() != -1) {
+			node = devices->getCoreData()->getVolumeLightsData()->operator[](dynamicListBox->getSelected()).getNode();
+		}
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         if (waterSurfacesListBox->getSelected() != -1) {
             node = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected());
@@ -251,14 +256,23 @@ void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
         i++;
     }
     i=0;
-    while (!founded && i < devices->getCoreData()->getObjectNodes()->size()) {
-        if (devices->getCoreData()->getObjectNodes()->operator[](i) == node) {
+    while (!founded && i < devices->getCoreData()->getObjectsData()->size()) {
+		if (devices->getCoreData()->getObjectsData()->operator[](i).getNode() == node) {
             tabCtrl->setActiveTab(objectsTab);
             objectsListBox->setSelected(i);
             founded = true;
         }
         i++;
     }
+	i=0;
+	while (!founded && i < devices->getCoreData()->getLightsData()->size()) {
+		if (devices->getCoreData()->getLightsData()->operator[](i).getNode() == node) {
+			tabCtrl->setActiveTab(lightsTab);
+			lightsListBox->setSelected(i);
+			founded = true;
+		}
+		i++;
+	}
 }
 
 stringc CUIMainWindow::getSelectedNodePrefix(ISceneNode *node) {
@@ -299,9 +313,8 @@ void CUIMainWindow::cloneNode() {
 
             if (getActiveListBox() == objectsListBox) {
                 index = objectsListBox->getSelected();
-				devices->getCoreData()->getObjectMeshes()->push_back(getSelectedNode().getMesh());
-                devices->getCoreData()->getObjectNodes()->push_back(node);
-                devices->getCoreData()->getObjectPaths()->push_back(devices->getCoreData()->getObjectPaths()->operator[](index));
+				SObjectsData odata(getSelectedNode().getMesh(), getSelectedNode().getNode(), devices->getCoreData()->getObjectsData()->operator[](index).getPath());
+				devices->getCoreData()->getObjectsData()->push_back(odata);
                 objectsListBox->addItem(name.c_str());
             }
             
@@ -412,8 +425,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 
 		if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
 			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
-			bool isAListBoxOfMainWindow = (parent == terrainsListBox || parent == treesListBox || parent == objectsListBox
-										   || parent == lightsListBox);
+			bool isAListBoxOfMainWindow = (parent == getActiveListBox());
 			if (isAListBoxOfMainWindow) {
 				if (mainWindow->isVisible() && mainWindow->isPointInside(devices->getDevice()->getCursorControl()->getPosition())) {
 					IGUIEnvironment *gui = devices->getGUIEnvironment();
@@ -435,7 +447,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 		}
     }
     //-----------------------------------
-    
+
     //-----------------------------------
     //KEY INPUT EVENTS
     if (event.EventType == EET_KEY_INPUT_EVENT) {
@@ -640,6 +652,15 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             }
             isWindowed = !isWindowed;
         }
+
+		if (event.GUIEvent.Caller->getParent() == tabCtrl->getTab(tabCtrl->getActiveTab())) {
+			array<IGUIElement *> elementsTab = devices->getCore()->getArrayOfAListOfGUIElementChildren(event.GUIEvent.Caller);
+			if (devices->getCore()->elementIsInArrayOfElements(event.GUIEvent.Caller, elementsTab)) {
+				devices->getObjectPlacement()->setNodeToPlace(0);
+				devices->getObjectPlacement()->setArrowType(CCoreObjectPlacement::Undefined);
+				devices->getObjectPlacement()->setArrowVisible(false);
+			}
+		}
         
         if (event.GUIEvent.Caller == mainWindow->getMinimizeButton()) {
             if (isMinimized) {
@@ -709,13 +730,11 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_OBJECT:
                 if (objectsListBox->getSelected() != -1) {
-                    devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getObjectNodes()->operator[](objectsListBox->getSelected()));
+					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode());
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
-                    devices->getCoreData()->getObjectNodes()->operator[](objectsListBox->getSelected())->remove();
-					devices->getCoreData()->getObjectMeshes()->erase(objectsListBox->getSelected());
-                    devices->getCoreData()->getObjectNodes()->erase(objectsListBox->getSelected());
-                    devices->getCoreData()->getObjectPaths()->erase(objectsListBox->getSelected());
+					devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode()->remove();
+					devices->getCoreData()->getObjectsData()->erase(objectsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     objectsListBox->removeItem(objectsListBox->getSelected());
                 } else {

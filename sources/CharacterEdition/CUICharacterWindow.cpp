@@ -25,16 +25,13 @@ CUICharacterWindow::~CUICharacterWindow() {
     
 }
 
-IGUIWindow *CUICharacterWindow::isWindowActive() {
-    return characterWindow;
-}
-
 void CUICharacterWindow::open() {
     
     characterWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-400, 
                                                                         100, devices->getVideoDriver()->getScreenSize().Width/2+400, 700),
                                                               false, L"Animated Node Edition Window", 0, -1);
     characterWindow->getCloseButton()->remove();
+	characterWindow->getMaximizeButton()->setVisible(true);
     
     
     //-----------------------------------
@@ -42,6 +39,7 @@ void CUICharacterWindow::open() {
     menu = devices->getGUIEnvironment()->addMenu(characterWindow);
     
     menu->addItem(L"File", -1, true, true);
+	menu->addItem(L"View", -1, true, true);
 	menu->addItem(L"Help", -1, true, true);
     
     submenu = menu->getSubMenu(0);
@@ -100,7 +98,7 @@ void CUICharacterWindow::open() {
     
     //-----------------------------------
     //BUTTONS AND LISTBOX
-    devices->getGUIEnvironment()->addStaticText(L"Actions : ", rect<s32>(5, 375, 190, 395), true, true, characterWindow, -1, false);
+    actionsText = devices->getGUIEnvironment()->addStaticText(L"Actions : ", rect<s32>(5, 375, 190, 395), true, true, characterWindow, -1, false);
     add = devices->getGUIEnvironment()->addButton(rect<s32>(195, 375, 295, 395), characterWindow, CXT_EDIT_WINDOW_CHARACTER_EVENTS_ADD, L"Add", L"Add an animation");
     remove = devices->getGUIEnvironment()->addButton(rect<s32>(300, 375, 400, 395), characterWindow, CXT_EDIT_WINDOW_CHARACTER_EVENTS_DELETE, L"Delete", L"Delete this animation");
     
@@ -111,7 +109,7 @@ void CUICharacterWindow::open() {
     //TABS
     tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(405, 75, 795, 595), characterWindow, true, true, 0);
     actionsTab = tabCtrl->addTab(L"Action");
-    jointNodesTab = tabCtrl->addTab(L"Joint Nodes");
+    framesTab = tabCtrl->addTab(L"Frames");
     detailsTab = tabCtrl->addTab(L"Details");
     //-----------------------------------
     
@@ -129,15 +127,29 @@ void CUICharacterWindow::open() {
     devices->getGUIEnvironment()->addStaticText(L"Anim Speed : ", rect<s32>(10, 180, 110, 200), false, true, actionsTab, -1, false);
     speedAction =  devices->getGUIEnvironment()->addEditBox(L"", rect<s32>(120, 180, 320, 200), true, actionsTab, -1);
     //-----------------------------------
+
+	//-----------------------------------
+    //FRAMES TAB
+	framesListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(5, 5, tabCtrl->getRelativePosition().getWidth()-5, 
+																	   framesTab->getRelativePosition().getHeight()-5), 
+																	   framesTab, -1, true);
+	//-----------------------------------
 }
 
 void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
+	if (pnode->getType() != ESNT_ANIMATED_MESH) {
+		add->setEnabled(false);
+		remove->setEnabled(false);
+		previewAction->setEnabled(false);
+		return;
+	}
+
     if (pnode) {
         if (node) {
             node->remove();
             node = 0;
         }
-        IAnimatedMesh *mesh = smgr->getMesh(devices->getCoreData()->getObjectPaths()->operator[](index));
+		IAnimatedMesh *mesh = smgr->getMesh(devices->getCoreData()->getObjectsData()->operator[](index).getPath());
 		node = smgr->addAnimatedMeshSceneNode(mesh);
         node->setPosition(pnode->getPosition());
         node->setRotation(pnode->getRotation());
@@ -149,10 +161,13 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
                 node->getMaterial(i).TextureLayer[a] = pnode->getMaterial(i).TextureLayer[a];
             }
         }
+
+		for (u32 i=0; i < node->getEndFrame(); i++) {
+			framesListBox->addItem(stringw(stringc("Frame ") + stringc(i+1)).c_str());
+		}
         
         node->setName(pnode->getName());
-        node->setDebugDataVisible(EDS_SKELETON);
-        node->setMaterialFlag(EMF_WIREFRAME, true);
+        //node->setDebugDataVisible(EDS_SKELETON);
         
         devices->getGUIEnvironment()->addStaticText(L"Animation Speed (frames/s) : ", rect<s32>(5, 15, 200, 35), false, true, detailsTab, -1, true);
         animationSpeed = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(210, 15, 280, 35), true, detailsTab, -10);
@@ -184,19 +199,25 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
 }
 
 void CUICharacterWindow::exportAnimatedModel() {
-    
+	FILE *export_file;
+	export_file = fopen("test.anc", "w");
+	fprintf(export_file, "<?xml version=\"1.0\"?>\n\n");
+	fprintf(export_file, "<rootAnim>\n\n");
+	for (u32 i=0; i < actions.size(); i++) {
+		fprintf(export_file, "\t");
+		fprintf(export_file, actions[i]->getXMLValues().c_str());
+	}
+	fprintf(export_file, "\n</rootAnim>\n");
+	fclose(export_file);
 }
 
 bool CUICharacterWindow::OnEvent(const SEvent &event) {
-    
+
     if (event.EventType == EET_GUI_EVENT) {
         
         if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
-            
             IGUIContextMenu *tempMenu = (IGUIContextMenu *)event.GUIEvent.Caller;
-            
             switch (tempMenu->getItemCommandId(tempMenu->getSelectedItem())) {
-             
                 //FILE
                 case CXT_EDIT_WINDOW_CHARACTER_EVENTS_CLOSE:
                     characterWindow->remove();
@@ -205,9 +226,13 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                         node->removeAll();
                         node->remove();
                         node = 0;
+						smgr->clear();
                     }
                     characterWindow = 0;
                     actions.clear();
+					devices->getEventReceiver()->RemoveEventReceiver(this);
+					devices->setRenderScene(true);
+					delete this;
                     break;
 
 				case CXT_EDIT_WINDOW_CHARACTER_EVENTS_SAVE:
@@ -218,8 +243,69 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                     break;
             }
         }
-        
+
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+			if (event.GUIEvent.Caller == characterWindow->getMaximizeButton()) {
+				if (characterWindow->getRelativePosition().getWidth() != devices->getVideoDriver()->getScreenSize().Width+2) {
+					characterWindow->setRelativePosition(rect<s32>(0, 75, devices->getVideoDriver()->getScreenSize().Width+2,
+																   devices->getVideoDriver()->getScreenSize().Height));
+					characterWindow->setDraggable(false);
+					viewPort->setRelativePosition(rect<s32>(5, 75, 600, 550));
+					tabCtrl->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X+viewPort->getRelativePosition().getWidth()+5,
+					75, characterWindow->getRelativePosition().getWidth()-10, 350));
+					bgJointNodes = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(tabCtrl->getRelativePosition().UpperLeftCorner.X,
+						tabCtrl->getRelativePosition().UpperLeftCorner.Y+tabCtrl->getRelativePosition().getHeight()+10,
+						characterWindow->getRelativePosition().getWidth()-5, characterWindow->getRelativePosition().getHeight()-10), 
+						true, true, characterWindow, -1, true);
+					bgJointNodes->setBackgroundColor(SColor(255, 50, 50, 50));
+					jointNodesListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(5, 5,bgJointNodes->getRelativePosition().getWidth(), 
+																						   bgJointNodes->getRelativePosition().getHeight()-5), 
+																				 bgJointNodes, -1, true);
+					if (node) {
+						for (u32 i=0; i < node->getJointCount(); i++) {
+							stringc name = "Name : ";
+							name += node->getJointNode(i)->getName();
+							stringc boneName = "Bone Name = ";
+							boneName += node->getJointNode(i)->getBoneName();
+							jointNodesListBox->addItem(stringw(name + stringc(" -/- ") + boneName).c_str());
+						}
+					}
+					boneNode = 0;
+					devices->setRenderScene(false);
+				} else {
+					characterWindow->setRelativePosition(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-400, 
+                                                                   100, devices->getVideoDriver()->getScreenSize().Width/2+400, 700));
+					characterWindow->setDraggable(true);
+					viewPort->setRelativePosition(rect<s32>(5, 75, 400, 350));
+					tabCtrl->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X+viewPort->getRelativePosition().getWidth()+5,
+						75, characterWindow->getRelativePosition().getWidth()-10, characterWindow->getRelativePosition().getHeight()-5));
+					bgJointNodes->remove();
+					devices->setRenderScene(true);
+				}
+				rotationScrollBar->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X,
+					viewPort->getRelativePosition().UpperLeftCorner.Y+viewPort->getRelativePosition().getHeight()+5,
+					viewPort->getRelativePosition().getWidth(),
+					viewPort->getRelativePosition().UpperLeftCorner.Y+viewPort->getRelativePosition().getHeight()+20));
+				actionsText->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X,
+					viewPort->getRelativePosition().UpperLeftCorner.Y+viewPort->getRelativePosition().getHeight()+25,
+					viewPort->getRelativePosition().getWidth()-205,
+					viewPort->getRelativePosition().UpperLeftCorner.Y+viewPort->getRelativePosition().getHeight()+45));
+				add->setRelativePosition(rect<s32>(actionsText->getRelativePosition().UpperLeftCorner.X+actionsText->getRelativePosition().getWidth()+5,
+					actionsText->getRelativePosition().UpperLeftCorner.Y,
+					actionsText->getRelativePosition().UpperLeftCorner.X+actionsText->getRelativePosition().getWidth()+105,
+					actionsText->getRelativePosition().UpperLeftCorner.Y+20));
+				remove->setRelativePosition(rect<s32>(add->getRelativePosition().UpperLeftCorner.X+add->getRelativePosition().getWidth()+5,
+					actionsText->getRelativePosition().UpperLeftCorner.Y,
+					viewPort->getRelativePosition().getWidth(),
+					actionsText->getRelativePosition().UpperLeftCorner.Y+20));
+				animationList->setRelativePosition(rect<s32>(actionsText->getRelativePosition().UpperLeftCorner.X,
+					actionsText->getRelativePosition().UpperLeftCorner.Y+25,
+					viewPort->getRelativePosition().getWidth(),
+					characterWindow->getRelativePosition().getHeight()-2));
+				framesListBox->setRelativePosition(rect<s32>(5, 5, framesTab->getRelativePosition().getWidth(), 
+															 framesTab->getRelativePosition().getHeight()-5));
+			}
+
             s32 id = event.GUIEvent.Caller->getID();
             
             switch (id) {
@@ -231,7 +317,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                     
                 case CXT_EDIT_WINDOW_CHARACTER_EVENTS_EDIT: {
                     CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-                    editNode->open(node, "#object:");
+                    editNode->open(node, "#object:", true);
                 }
                     break;
                     
@@ -276,9 +362,12 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_EDIT_WINDOW_CHARACTER_EVENTS_PREVIEW:
-                    node->setAnimationSpeed(actions[animationList->getSelected()]->getAnimSpeed());
-                    node->setFrameLoop(actions[animationList->getSelected()]->getStart(),
-                                       actions[animationList->getSelected()]->getEnd());
+					if (animationList->getSelected() != -1) {
+						node->setAnimationSpeed(actions[animationList->getSelected()]->getAnimSpeed());
+						node->setFrameLoop(actions[animationList->getSelected()]->getStart(),
+										   actions[animationList->getSelected()]->getEnd());
+						node->setLoopMode(true);
+					}
                     break;
                     
                 default:
@@ -290,15 +379,33 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
             currentLoad = 0;
         }
         
-        if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
+		if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
             IGUIListBox *listBox = (IGUIListBox *)event.GUIEvent.Caller;
             
-            if (listBox == animationList) {
+			if (listBox == animationList && listBox->getSelected() != -1) {
                 startAction->setText(devices->getCore()->getStrNumber(actions[animationList->getSelected()]->getStart()).c_str());
                 endAction->setText(devices->getCore()->getStrNumber(actions[animationList->getSelected()]->getEnd()).c_str());
                 nameAction->setText(actions[animationList->getSelected()]->getName().c_str());
                 speedAction->setText(devices->getCore()->getStrNumber(actions[animationList->getSelected()]->getAnimSpeed()).c_str());
             }
+
+			if (listBox == framesListBox) {
+				node->setAnimationSpeed(0);
+				node->setLoopMode(false);
+				node->setFrameLoop(node->getStartFrame() + framesListBox->getSelected(), node->getStartFrame() + framesListBox->getSelected());
+			}
+
+			if (listBox == jointNodesListBox && listBox->getSelected() != -1) {
+				node->setJointMode(EJUOR_CONTROL);
+				if (boneNode) {
+					boneNode->setDebugDataVisible(EDS_OFF);
+				}
+				boneNode = node->getJointNode(jointNodesListBox->getSelected());
+				boneNode->setDebugDataVisible(EDS_FULL);
+				ISceneNodeAnimator *anim = devices->getSceneManager()->createRotationAnimator(vector3df(0, 1, 0));
+				boneNode->addAnimator(anim);
+				anim->drop();
+			}
         }
         
         if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
@@ -329,16 +436,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
             IGUIFileOpenDialog* dialog = (IGUIFileOpenDialog*)event.GUIEvent.Caller;
 			//SAVE
 			if (dialog == saveDialog) {
-				FILE *export_file;
-				export_file = fopen("test.anc", "w");
-				fprintf(export_file, "<?xml version=\"1.0\"?>\n\n");
-				fprintf(export_file, "<rootAnim>\n\n");
-				for (u32 i=0; i < actions.size(); i++) {
-					fprintf(export_file, "\t");
-					fprintf(export_file, actions[i]->getXMLValues().c_str());
-				}
-				fprintf(export_file, "\n</rootAnim>\n");
-				fclose(export_file);
+				exportAnimatedModel();
 			}
         }
         

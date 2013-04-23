@@ -8,7 +8,7 @@
 
 #include "CCoreObjectPlacement.h"
 
-CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cursorCtrl, CCollisionManager *_colMgr) {
+CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cursorCtrl, CCollisionManager *_colMgr, ISceneManager *otherSmgr) {
     smgr = _smgr;
     cursorCtrl = _cursorCtrl;
     colMgr = _colMgr;
@@ -31,8 +31,9 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowYLineNode = smgr->addAnimatedMeshSceneNode(arrowYLine);
 	arrowYLineNode->setVisible(false);
 	arrowYLineNode->setName("editor:arrowY");
-	arrowYLineNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+	arrowYLineNode->setMaterialType(EMT_SOLID);
 	arrowYLineNode->setMaterialFlag(EMF_LIGHTING, false);
+	arrowYLineNode->setMaterialFlag(EMF_ZBUFFER, false);
 	arrowYLineNode->setScale(vector3df(10, 40, 10));
 	colMgr->setCollisionFromBoundingBox(arrowYLineNode);
     
@@ -40,8 +41,9 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowXLineNode = smgr->addAnimatedMeshSceneNode(arrowXLine);
 	arrowXLineNode->setVisible(false);
 	arrowXLineNode->setName("editor:arrowX");
-	arrowXLineNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+	arrowXLineNode->setMaterialType(EMT_SOLID);
 	arrowXLineNode->setMaterialFlag(EMF_LIGHTING, false);
+	arrowXLineNode->setMaterialFlag(EMF_ZBUFFER, false);
 	arrowXLineNode->setScale(vector3df(10, 40, 10));
 	arrowXLineNode->setRotation(vector3df(0, 0, -90));
 	colMgr->setCollisionFromBoundingBox(arrowXLineNode);
@@ -50,8 +52,9 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowZLineNode = smgr->addAnimatedMeshSceneNode(arrowZLine);
 	arrowZLineNode->setVisible(false);
 	arrowZLineNode->setName("editor:arrowZ");
-	arrowZLineNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+	arrowZLineNode->setMaterialType(EMT_SOLID);
 	arrowZLineNode->setMaterialFlag(EMF_LIGHTING, false);
+	arrowZLineNode->setMaterialFlag(EMF_ZBUFFER, false);
 	arrowZLineNode->setScale(vector3df(10, 40, 10));
 	arrowZLineNode->setRotation(vector3df(90, 0, 0));
 	colMgr->setCollisionFromBoundingBox(arrowZLineNode);
@@ -60,7 +63,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowYXZLineNode = smgr->addAnimatedMeshSceneNode(arrowYXZLine);
 	arrowYXZLineNode->setVisible(false);
 	arrowYXZLineNode->setName("editor:arrowYXZ");
-	arrowYXZLineNode->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+	arrowYXZLineNode->setMaterialType(EMT_SOLID);
 	arrowYXZLineNode->setMaterialFlag(EMF_LIGHTING, false);
 	arrowYXZLineNode->setScale(vector3df(10, 40, 10));
 	arrowYXZLineNode->setRotation(vector3df(45, 0, -45));
@@ -72,7 +75,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
     lightCone->setMaterialFlag(EMF_LIGHTING, false);
     lightCone->setVisible(false);
     
-    gridSceneNode = new CGridSceneNode(smgr->getRootSceneNode(), smgr);
+    gridSceneNode = new CGridSceneNode(otherSmgr->getRootSceneNode(), otherSmgr);
     gridSceneNode->setName("editor:grid");
     gridSceneNode->setMaterialFlag(EMF_ANTI_ALIASING, true);
     colMgr->setCollisionFromBoundingBox(gridSceneNode);
@@ -125,7 +128,8 @@ void CCoreObjectPlacement::setCollisionToNormal() {
 void CCoreObjectPlacement::setNodeToPlace(ISceneNode *node) {
     nodeToPlace = node;
     if (nodeToPlace) {
-        if (nodeToPlace->getType() == ESNT_OCTREE || nodeToPlace->getType() == ESNT_ANIMATED_MESH) {
+        if (nodeToPlace->getType() == ESNT_OCTREE || nodeToPlace->getType() == ESNT_ANIMATED_MESH
+			|| nodeToPlace->getType() == ESNT_MESH) {
             nodeToPlace->setTriangleSelector(0);
         }
     }
@@ -133,7 +137,7 @@ void CCoreObjectPlacement::setNodeToPlace(ISceneNode *node) {
 
 void CCoreObjectPlacement::setArrowVisible(bool set) {
 	if (allowMoving) {
-		if(set) {
+		if(set && nodeToPlace) {
 			arrowYLineNode->setVisible(true);
 			arrowXLineNode->setVisible(true);
 			arrowZLineNode->setVisible(true);

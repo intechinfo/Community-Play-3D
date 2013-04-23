@@ -10,7 +10,7 @@
 #include "CCore.h"
 
 CCore::CCore() {
-    
+
 }
 
 CCore::~CCore() {
@@ -19,15 +19,29 @@ CCore::~CCore() {
 
 bool CCore::elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements) {
 	bool exists = false;
+	if (elements.size() == 0) {
+		return exists;
+	}
 
 	for (u32 i=0; i < elements.size(); i++) {
-		if (element = elements[i]) {
+		if (elements[i] == element) {
 			exists = true;
 			break;
 		}
 	}
 
 	return exists;
+}
+
+array<IGUIElement *> CCore::getArrayOfAListOfGUIElementChildren(IGUIElement *element) {
+	array<IGUIElement *> elements;
+
+	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
+	for (; it != element->getChildren().end(); ++it) {
+		elements.push_back(*it);
+	}
+
+	return elements;
 }
 
 array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
@@ -246,4 +260,73 @@ u32 CCore::getU32(std::string valueu32) {
 	issX >> value_u32;
 	
 	return value_u32;
+}
+
+stringc CCore::getStringcFromFile(stringc pathFile) {
+	stringc lines = "";
+
+	std::ifstream file(pathFile.c_str());
+	if (file.is_open()) {
+		while (file.good()) {
+			std::string line;
+			std::getline(file, line);
+			lines += line.c_str();
+			lines += "\n";
+		}
+		file.close();
+	}
+
+	return lines;
+}
+
+stringc CCore::getStringcFromIReadFile(stringc pathFile) {
+	stringc lines = "";
+	IFileSystem* filesys = device->getFileSystem();
+
+	if (!filesys->existFile(pathFile.c_str()))
+		return lines;
+
+	IReadFile* textfile = filesys->createAndOpenFile(pathFile);
+
+	if (!textfile)
+		return lines;
+
+	stringc s;
+	while(this->readline(textfile, &s)) {
+		lines += s.c_str();
+	}
+
+	textfile->drop();
+
+	return lines;
+}
+
+bool CCore::readtoken(IReadFile* f, stringc* str) {
+	char ch;
+	*str = "";
+	while (0 != f->read(&ch, 1)) {
+		if ((ch == ' ') || (ch == '\t')) {
+			*str += ch;
+			return true;
+		} else {
+			*str += ch;
+		}
+	}
+
+	return false; 
+}
+
+bool CCore::readline(IReadFile* f, stringc* str) {
+	char ch;
+	*str = "";
+	while (0 != f->read(&ch, 1)) {
+		if (ch == '\n') {
+			*str += ch;
+			return true;
+		} else {
+			*str += ch;
+		}
+	}
+
+	return false;
 }

@@ -30,9 +30,8 @@ enum CXT_EDIT_WINDOW_CHARACTER_EVENTS {
 #include "../UserInterfaces/CUIWindowEditNode.h"
 
 #include "../GUIExtension/ViewPort/CGUIViewPort.h"
-#include "CAction.h"
 
-class CUICharacterWindow : IEventReceiver {
+class CUICharacterWindow : public IEventReceiver {
 
 public:
 
@@ -43,8 +42,6 @@ public:
 	void setModel(IAnimatedMeshSceneNode *pnode, s32 index);
 
 	bool OnEvent(const SEvent &event);
-
-	IGUIWindow *isWindowActive();
 
 private:
 
@@ -65,6 +62,7 @@ private:
 
 	IGUIScrollBar *rotationScrollBar;
 
+	IGUIStaticText *actionsText;
 	IGUIListBox *animationList;
 	IGUIButton *add, *remove;
 
@@ -79,9 +77,14 @@ private:
 	IGUIEditBox *endAction, *startAction, *nameAction;
 	IGUIEditBox *speedAction;
 
-	IGUITab *jointNodesTab;
+	IGUITab *framesTab;
+	IGUIListBox *framesListBox;
 
 	IGUIFileOpenDialog *saveDialog;
+
+	ISceneNode *boneNode;
+	IGUIStaticText *bgJointNodes;
+	IGUIListBox *jointNodesListBox;
 	//-----------------------------------
 
 	//-----------------------------------

@@ -607,9 +607,8 @@ void CImporter::importScene(stringc file_path) {
 				} else {
 					devices->getCollisionManager()->setCollisionFromBoundingBox(animatedNode);
 				}
-				devices->getCoreData()->getObjectMeshes()->push_back(animatedMesh);
-                devices->getCoreData()->getObjectNodes()->push_back(animatedNode);
-                devices->getCoreData()->getObjectPaths()->push_back(path.c_str());
+				SObjectsData odata(animatedMesh, animatedNode, path.c_str());
+				devices->getCoreData()->getObjectsData()->push_back(odata);
             }
             //END IF OBJECT
             //------------------------------------------------------------------------------------------------------------------------------
