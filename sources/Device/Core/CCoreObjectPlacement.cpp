@@ -169,6 +169,9 @@ bool CCoreObjectPlacement::findAndSetMousePositionInPlane() {
 
 void CCoreObjectPlacement::setArrowType(ArrowType AT) {
 	arrowType = AT;
+	if (!nodeToPlace)
+		return;
+
 	switch (arrowType) {
 		case Position:
 			arrowYLineNode->setScale(vector3df(10, 40, 10));

@@ -176,6 +176,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     
     Device->setEventReceiver(&receiver);
     receiver.AddEventReceiver(this);
+	receiver.setDriver(driver);
+	receiver.setGUI(gui);
     
 	wolrdCore->setDevice(Device);
     workingDirectory = Device->getFileSystem()->getWorkingDirectory().c_str();
@@ -224,7 +226,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	cursorBillBoard->setID(-1);
 
     //-----------------------------------
-    
+
     //3D INTERACTION
     collisionManager = new CCollisionManager(smgr);
 	objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);

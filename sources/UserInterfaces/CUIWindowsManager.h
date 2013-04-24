@@ -21,6 +21,8 @@ public:
 
 	bool OnEvent(const SEvent &event);
 
+	void update();
+
 private:
 
 	//-----------------------------------
@@ -31,6 +33,12 @@ private:
 	//-----------------------------------
 	//GUI ELEMENTS
 	IGUIWindow *window;
+	ITexture *textureImage;
+	//-----------------------------------
+
+	//-----------------------------------
+	//ANIMATIONS
+
 	//-----------------------------------
 
 };

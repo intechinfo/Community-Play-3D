@@ -666,11 +666,13 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             if (isMinimized) {
                 if (isWindowed) {
                     mainWindow->setRelativePosition(rect<s32>(10, 80, 430, 580));
+					mainWindow->setDraggable(true);
                 } else {
                     mainWindow->setRelativePosition(rect<s32>(0, 74, 420, devices->getVideoDriver()->getScreenSize().Height - 16));
                 }
             } else {
                 mainWindow->setRelativePosition(rect<s32>(0, 74, 420, 94));
+				mainWindow->setDraggable(false);
             }
             isMinimized = !isMinimized;
         }

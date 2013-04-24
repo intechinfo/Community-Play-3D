@@ -32,6 +32,7 @@ void CUICharacterWindow::open() {
                                                               false, L"Animated Node Edition Window", 0, -1);
     characterWindow->getCloseButton()->remove();
 	characterWindow->getMaximizeButton()->setVisible(true);
+	characterWindow->getMinimizeButton()->setVisible(true);
     
     
     //-----------------------------------
@@ -213,6 +214,14 @@ void CUICharacterWindow::exportAnimatedModel() {
 
 bool CUICharacterWindow::OnEvent(const SEvent &event) {
 
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
+			if (event.UserEvent.UserData2 == characterWindow->getReferenceCount()) {
+				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+			}
+		}
+	}
+
     if (event.EventType == EET_GUI_EVENT) {
         
         if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
@@ -245,6 +254,10 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
         }
 
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+			if (event.GUIEvent.Caller == characterWindow->getMinimizeButton()) {
+				devices->getEventReceiver()->AddMinimizedWindow(this, characterWindow);
+			}
+
 			if (event.GUIEvent.Caller == characterWindow->getMaximizeButton()) {
 				if (characterWindow->getRelativePosition().getWidth() != devices->getVideoDriver()->getScreenSize().Width+2) {
 					characterWindow->setRelativePosition(rect<s32>(0, 75, devices->getVideoDriver()->getScreenSize().Width+2,

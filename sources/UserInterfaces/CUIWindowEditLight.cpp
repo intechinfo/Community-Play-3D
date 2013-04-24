@@ -39,6 +39,9 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200,
 																	   100, devices->getVideoDriver()->getScreenSize().Width/2+300, 570),
 															 false, L"Light Edition Window", 0, -1);
+		editWindow->getMaximizeButton()->remove();
+		editWindow->getMinimizeButton()->setVisible(true);
+
 		tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(5, 20, 495, 420), editWindow, true, true, -1);
 		generalTab = tabCtrl->addTab(L"General");
 		advancedTab = tabCtrl->addTab(L"Advanced");
@@ -246,8 +249,20 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 		}
 	}
 
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
+			if (event.UserEvent.UserData2 == editWindow->getReferenceCount()) {
+				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+			}
+		}
+	}
+
 	if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
+				devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
+			}
+
 			s32 id = event.GUIEvent.Caller->getID();
 			switch (id) {
 

@@ -122,7 +122,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Current Rendering Infos", CXT_MENU_EVENTS_RENDERING_INFOS);
-	submenu->addItem(L"Draw/Hide Main Window", -1);
+	submenu->addItem(L"Draw/Hide Main Window", CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW);
+
+	submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"About...", CXT_MENU_EVENTS_HELP_ABOUT);
     //-----------------------------------
     
     //-----------------------------------
@@ -177,7 +180,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
     
-	stringw scene_to_import = L"zombie.world";
+	stringw scene_to_import = L".world";
     CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importScene(scene_to_import.c_str());
 	scene_to_import.remove(L".world");
@@ -199,9 +202,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
     //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
 
-	CUICharacterWindow *editChar = new CUICharacterWindow(devices);
-	editChar->open();
-	editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](0).getNode(), 0);
+	//CUICharacterWindow *editChar = new CUICharacterWindow(devices);
+	//editChar->open();
+	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](0).getNode(), 0);
 
 	movementType = CCoreObjectPlacement::Undefined;
 	devices->getObjectPlacement()->setArrowType(movementType);
@@ -265,11 +268,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE: {
 					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                    if (prefix != "#light") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
 									   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
-                    } else if (prefix == "#light") {
+                    } else {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
 						editLight->open(mainWindowInstance->getSelectedNode().getNode(),
 										mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
@@ -279,7 +282,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE: {
 					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                    if (prefix == "#light") {
                         CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
 						matEditor->open(mainWindowInstance->getSelectedNode().getNode());
                     }
@@ -483,8 +486,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					break;
 
 				case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME: {
-					CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
-					matEditor->open(devices->getSkydome());
+					if (devices->getSkydome()) {
+						CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+						matEditor->open(devices->getSkydome());
+					}
 				}
 					break;
 
@@ -550,8 +555,20 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     CUIRenderingInfos *renderInfos = new CUIRenderingInfos(devices);
                 }
                     break; 
+
+				case CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW:
+					mainWindowInstance->getMainWindow()->setVisible(!mainWindowInstance->getMainWindow()->isVisible());
+					break;
                 //-----------------------------------
                     
+				//-----------------------------------
+                //HELP MENU EVENT
+				case CXT_MENU_EVENTS_HELP_ABOUT:
+					devices->addInformationDialog(L"About...", L"Created by Julien Moreau-Mathis\n"
+															   L"All rights reserved", 
+												  EMBF_OK);
+					break;
+				//-----------------------------------
                 default:
                     break;
             }
@@ -686,11 +703,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_EDIT_NODE: {
 					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object" || prefix == "#water") {
+                    if (prefix != "#light") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
 									  mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
-                    } else if (prefix == "#light") {
+                    } else {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
 						editLight->open(mainWindowInstance->getSelectedNode().getNode(),
 										mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
@@ -820,11 +837,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case KEY_KEY_E: {
 					if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && !devices->isShiftPushed()) {
 						stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                        if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                        if (prefix != "#light") {
                             CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 							editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
 										   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
-                        } else if (prefix == "#light") {
+                        } else {
                             CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
 							editLight->open(mainWindowInstance->getSelectedNode().getNode(),
 											mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
@@ -832,12 +849,14 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
 					if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
 						ISceneNode *node = mainWindowInstance->getSelectedNode().getNode();
-						bool canEdit = (node->getType() == ESNT_MESH || node->getType() == ESNT_OCTREE || node->getType() == ESNT_ANIMATED_MESH
-							|| node->getType() == ESNT_BILLBOARD || node->getType() == ESNT_SKY_BOX || node->getType() == ESNT_SKY_DOME
-							|| node->getType() == ESNT_TERRAIN || node->getType() == ESNT_CUBE || node->getType() == ESNT_SPHERE);
-						if (canEdit) {
-							CUIMaterialEditor *editMat = new CUIMaterialEditor(devices);
-							editMat->open(node);
+						if (mainWindowInstance->getSelectedNode().getNode()) {
+							bool canEdit = (node->getType() == ESNT_MESH || node->getType() == ESNT_OCTREE || node->getType() == ESNT_ANIMATED_MESH
+								|| node->getType() == ESNT_BILLBOARD || node->getType() == ESNT_SKY_BOX || node->getType() == ESNT_SKY_DOME
+								|| node->getType() == ESNT_TERRAIN || node->getType() == ESNT_CUBE || node->getType() == ESNT_SPHERE);
+							if (canEdit) {
+								CUIMaterialEditor *editMat = new CUIMaterialEditor(devices);
+								editMat->open(node);
+							}
 						}
 					}
                 }

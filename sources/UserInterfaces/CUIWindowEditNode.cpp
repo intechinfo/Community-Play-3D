@@ -37,6 +37,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix, bool modal) {
         editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
                                                                    100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
                                                              modal, L"Node Edition Window", 0, -1);
+		editWindow->getMinimizeButton()->setVisible(!modal);
         open(node, prefix);
     }
 }
@@ -61,6 +62,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
             editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
                                                                            100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
                                                                  false, L"Node Edition Window", 0, -1);
+			editWindow->getMinimizeButton()->setVisible(true);
         }
         editWindow->getMaximizeButton()->setVisible(true);
         
@@ -601,6 +603,14 @@ E_MATERIAL_TYPE CUIWindowEditNode::getMaterialType(s32 pos) {
 
 bool CUIWindowEditNode::OnEvent(const SEvent &event) {
     
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
+			if (event.UserEvent.UserData2 == editWindow->getReferenceCount()) {
+				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+			}
+		}
+	}
+
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         if (!event.KeyInput.PressedDown) {
             if (event.KeyInput.Key == KEY_LEFT) {
@@ -638,6 +648,10 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
     if (event.EventType == EET_GUI_EVENT) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
+			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
+				devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
+			}
+
             if (event.GUIEvent.Caller == editWindow->getMaximizeButton()) {
                 
                 if (isWindowed) {

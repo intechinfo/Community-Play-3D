@@ -46,7 +46,7 @@ CCoreUserInterface::CCoreUserInterface() {
 
 	devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
     //-----------------------------------
-    
+
     //-----------------------------------
     //USER INTERFACE OBJECTS
     contextMenuInstance = new CUIContextMenu(devices);
@@ -61,7 +61,7 @@ CCoreUserInterface::CCoreUserInterface() {
     skin_window_classic->setFont(FontM);
     gui->setSkin(skin_window_classic);
     
-	programmersImage = gui->addImage(driver->getTexture("GUI/programmer.png"), position2d<s32>(0, driver->getScreenSize().Height-16));
+	programmersImage = gui->addImage(driver->getTexture("GUI/ss_logo.png"), position2d<s32>(0, driver->getScreenSize().Height-16));
     
     skin_window_classic->setColor(EGDC_BUTTON_TEXT, SColor(255,0xAA,0xAA,0xAA));
 	skin_window_classic->setColor(EGDC_3D_HIGH_LIGHT, SColor(255,0x22,0x22,0x22));
@@ -109,9 +109,10 @@ void CCoreUserInterface::update() {
     devices->updateDevice();
     
     contextMenuInstance->update();
+	windowsManagerInstance->update();
     
-    programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-16));
-    
+    programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-97));
+
     if (logWindow) {
         if (logWindow->getRelativePosition().getHeight() == 520) {
             logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-320, driver->getScreenSize().Height-520));
