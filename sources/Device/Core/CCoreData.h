@@ -118,7 +118,7 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------OBJECTS---------------------------------------------------
+//----------------------------------TREES---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
 struct STreesData {
@@ -232,6 +232,41 @@ struct SVolumeLightsData {
 
 private:
 	IVolumeLightSceneNode *node;
+};
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------WATER SURFACES--------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SWaterSurfacesData
+{
+public:
+    SWaterSurfacesData(IMesh *_mesh, ISceneNode *_node, stringw _path, stringw shaderPath = "") {
+        mesh = _mesh;
+        node = _node;
+        path = _path;
+        psPath = shaderPath;
+        vsPath = shaderPath;
+    }
+
+    void setMesh(IMesh *_mesh) { mesh = _mesh; }
+    void setNode(ISceneNode *_node) { node = _node; }
+    void setPath(stringw _path) { path = _path; }
+
+    IMesh *getMesh() { return mesh; }
+    ISceneNode *getNode() { return node; }
+    stringw getPath() { return path; }
+
+    array<CAction *> *getActions() { return &actions; }
+
+private:
+    IMesh *mesh;
+    ISceneNode *node;
+    stringw path;
+    stringw psPath;
+    stringw vsPath;
+
+    array<CAction *> actions;
 };
 
 //---------------------------------------------------------------------------------------------
