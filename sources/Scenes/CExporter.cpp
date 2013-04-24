@@ -200,14 +200,14 @@ void CExporter::exportScene(stringc file_path) {
     }
     
     //OBJECTS
-    for (int i=0; i < devices->getCoreData()->getObjectNodes()->size(); i++) {
-        ISceneNode *node = devices->getCoreData()->getObjectNodes()->operator[](i);
+    for (int i=0; i < devices->getCoreData()->getObjectsData()->size(); i++) {
+		ISceneNode *node = devices->getCoreData()->getObjectsData()->operator[](i).getNode();
         
-        devices->getCoreData()->getObjectPaths()->operator[](i).remove(wd.c_str());
+		devices->getCoreData()->getObjectsData()->operator[](i).getPath().remove(wd.c_str());
         
         fprintf(export_file, "\t\t <object>\n\n");
         
-        fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getObjectPaths()->operator[](i).c_str());
+		fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getObjectsData()->operator[](i).getPath().c_str());
         fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
         
         //MATERIALS

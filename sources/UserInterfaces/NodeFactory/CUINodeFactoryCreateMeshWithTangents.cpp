@@ -58,7 +58,7 @@ bool CUINodeFactoryCreateMeshWithTangents::OnEvent(const SEvent &event) {
                 devices->updateDevice();
                 devices->getVideoDriver()->endScene();
 				IMesh *tangentsMesh = mm->createMeshWithTangents(meshToEdit, recalculateNormals->isChecked(), smooth->isChecked(), angleWeighted->isChecked(), recalculateTangents->isChecked());
-				IMeshSceneNode *newNode;
+				ISceneNode *newNode;
 				if (nodeType == ESNT_OCTREE) {
 					newNode = devices->getSceneManager()->addOctreeSceneNode(tangentsMesh);
 				} else {

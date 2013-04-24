@@ -23,8 +23,8 @@ void CCoreData::clear() {
     for (int i=0; i < treesData.size(); i++) {
         treesData[i].getNode()->remove();
     }
-    for (int i=0; i < objectNodes.size(); i++) {
-        objectNodes[i]->remove();
+    for (int i=0; i < objectsData.size(); i++) {
+		objectsData[i].getNode()->remove();
     }
     for (int i=0; i < lightsData.size(); i++) {
 		lightsData[i].getNode()->removeAll();
@@ -40,8 +40,7 @@ void CCoreData::clearAllTheArrays() {
     
     treesData.clear();
     
-    objectNodes.clear();
-    objectPaths.clear();
+	objectsData.clear();
     
     lightsData.clear();
 
@@ -65,8 +64,8 @@ array<ISceneNode *> CCoreData::getAllSceneNodes() {
     for (int i=0; i < treesData.size(); i++) {
 		nodes.push_back(treesData[i].getNode());
     }
-    for (int i=0; i < objectNodes.size(); i++) {
-        nodes.push_back(objectNodes[i]);
+    for (int i=0; i < objectsData.size(); i++) {
+		nodes.push_back(objectsData[i].getNode());
     }
     for (int i=0; i < lightsData.size(); i++) {
 		nodes.push_back(lightsData[i].getNode());
@@ -75,21 +74,21 @@ array<ISceneNode *> CCoreData::getAllSceneNodes() {
     return nodes;
 }
 
-array<ISceneNode *> CCoreData::getAllMeshes() {
-    array<ISceneNode *> nodes;
-    nodes.clear();
+array<IMesh *> CCoreData::getAllMeshes() {
+    array<IMesh *> meshes;
+    meshes.clear();
     
     for (int i=0; i < terrainNodes.size(); i++) {
-        nodes.push_back(terrainNodes[i]);
+        meshes.push_back(terrainMeshes[i]);
     }
     for (int i=0; i < treesData.size(); i++) {
-		nodes.push_back(treesData[i].getNode());
+		meshes.push_back(treesData[i].getMesh());
     }
-    for (int i=0; i < objectNodes.size(); i++) {
-        nodes.push_back(objectNodes[i]);
+    for (int i=0; i < objectsData.size(); i++) {
+		meshes.push_back(objectsData[i].getMesh());
     }
 
-    return nodes;
+    return meshes;
 }
 
 s32 CCoreData::isMeshPlanared(ISceneNode *node) {
@@ -110,6 +109,16 @@ array<ISceneNode *> CCoreData::getArrayOfTreeNodes() {
 
 	for (u32 i=0 ; i < treesData.size(); i++) {
 		nodes.push_back(treesData[i].getNode());
+	}
+
+	return nodes;
+}
+
+array<ISceneNode *> CCoreData::getArrayOfObjectNodes() {
+	array<ISceneNode *> nodes;
+
+	for (u32 i=0; i < objectsData.size(); i++) {
+		nodes.push_back(objectsData[i].getNode());
 	}
 
 	return nodes;

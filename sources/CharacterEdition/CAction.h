@@ -11,13 +11,6 @@
 
 #include <irrlicht.h>
 
-using namespace irr;
-using namespace video;
-using namespace gui;
-using namespace core;
-using namespace scene;
-using namespace io;
-
 class CAction {
     
 public:
@@ -26,28 +19,28 @@ public:
     ~CAction();
 
 	//METHODS
-	stringc getXMLValues();
+	irr::core::stringc getXMLValues();
     
     //GET METHODS
-    s32 getStart() { return start; }
-    s32 getEnd() { return end; }
-    stringw getName() { return name; }
+    irr::s32 getStart() { return start; }
+    irr::s32 getEnd() { return end; }
+    irr::core::stringw getName() { return name; }
     
-    f32 getAnimSpeed() { return animSpeed; }
+    irr::f32 getAnimSpeed() { return animSpeed; }
     
     //SET METHODS
-    void setStart(s32 _start) { start = _start; }
-    void setEnd(s32 _end) { end = _end; }
-    void setName(stringw _name) { name = _name; }
+    void setStart(irr::s32 _start) { start = _start; }
+    void setEnd(irr::s32 _end) { end = _end; }
+    void setName(irr::core::stringw _name) { name = _name; }
     
-    void setAnimSpeed(f32 _animSpeed) { animSpeed = _animSpeed; }
+    void setAnimSpeed(irr::f32 _animSpeed) { animSpeed = _animSpeed; }
     
 private:
     
-    s32 start, end;
-    stringw name;
+    irr::s32 start, end;
+    irr::core::stringw name;
     
-    f32 animSpeed;
+    irr::f32 animSpeed;
     
 };
 

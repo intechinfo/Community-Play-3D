@@ -78,6 +78,7 @@ public:
     
     void refresh();
     
+	IGUIWindow *getMainWindow() { return mainWindow; }
     IGUIListBox *getActiveListBox();
     SSelectedNode getSelectedNode();
     stringc getSelectedNodePrefix(ISceneNode *node);

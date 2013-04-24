@@ -17,8 +17,6 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     editGridInstance = new CUIWindowEditGrid(devices);
     
-    characterWindowInstance = new CUICharacterWindow(devices);
-    
     openSceneInstance = new CUIWindowOpenScene(devices);
     
     exportSceneInstance = new CUIWindowExportScene(devices);
@@ -124,7 +122,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Current Rendering Infos", CXT_MENU_EVENTS_RENDERING_INFOS);
-	submenu->addItem(L"Draw/Hide Main Window", -1);
+	submenu->addItem(L"Draw/Hide Main Window", CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW);
+
+	submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"About...", CXT_MENU_EVENTS_HELP_ABOUT);
     //-----------------------------------
     
     //-----------------------------------
@@ -179,7 +180,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
     
-	stringw scene_to_import = L"house.world";
+	stringw scene_to_import = L".world";
     CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importScene(scene_to_import.c_str());
 	scene_to_import.remove(L".world");
@@ -200,6 +201,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
     //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
+
+	//CUICharacterWindow *editChar = new CUICharacterWindow(devices);
+	//editChar->open();
+	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](0).getNode(), 0);
+
+	movementType = CCoreObjectPlacement::Undefined;
+	devices->getObjectPlacement()->setArrowType(movementType);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -224,7 +232,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
             IGUIContextMenu *tempMenu = (IGUIContextMenu *)event.GUIEvent.Caller;
                         
             switch (tempMenu->getItemCommandId(tempMenu->getSelectedItem())) {
-                    
+
                 //-----------------------------------
                 //CONTEXT MENU FILE EVENT
                 case CXT_MENU_EVENTS_FILE_QUIT:
@@ -260,11 +268,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE: {
 					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                    if (prefix != "#light") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
 									   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
-                    } else if (prefix == "#light") {
+                    } else {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
 						editLight->open(mainWindowInstance->getSelectedNode().getNode(),
 										mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
@@ -274,7 +282,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE: {
 					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                    if (prefix == "#light") {
                         CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
 						matEditor->open(mainWindowInstance->getSelectedNode().getNode());
                     }
@@ -391,7 +399,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //CONTEXT MENU ANIMATED OBJECTS EVENT
                 case CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION: {
 					if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
-                        if (!characterWindowInstance->isWindowActive()) {
+						if (mainWindowInstance->getSelectedNode().getNode()) {
+							CUICharacterWindow *characterWindowInstance = new CUICharacterWindow(devices);
                             characterWindowInstance->open();
 							characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getActiveListBox()->getSelected());
                         }
@@ -407,9 +416,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					cube->setName("#object:new_cube");
 					cube->setMaterialFlag(EMF_LIGHTING, false);
 					devices->getXEffect()->addShadowToNode(cube);
-					devices->getCoreData()->getObjectMeshes()->push_back(cube->getMesh());
-					devices->getCoreData()->getObjectNodes()->push_back(cube);
-					devices->getCoreData()->getObjectPaths()->push_back("cube");
+					SObjectsData odata(cube->getMesh(), cube, "cube");
+					devices->getCoreData()->getObjectsData()->push_back(odata);
 					devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
 				}
 					break;
@@ -419,9 +427,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					sphere->setName("#object:new_sphere");
 					sphere->setMaterialFlag(EMF_LIGHTING, false);
 					devices->getXEffect()->addShadowToNode(sphere);
-					devices->getCoreData()->getObjectMeshes()->push_back(sphere->getMesh());
-					devices->getCoreData()->getObjectNodes()->push_back(sphere);
-					devices->getCoreData()->getObjectPaths()->push_back("sphere");
+					SObjectsData odata(sphere->getMesh(), sphere, "sphere");
+					devices->getCoreData()->getObjectsData()->push_back(odata);
 					devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
 				}
 					break;
@@ -434,9 +441,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					planeNode->setName("#object:new_hille_plane_mesh");
 					planeNode->setMaterialFlag(EMF_LIGHTING, false);
 					devices->getXEffect()->addShadowToNode(planeNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
-					devices->getCoreData()->getObjectMeshes()->push_back(planeMesh);
-					devices->getCoreData()->getObjectNodes()->push_back(planeNode);
-					devices->getCoreData()->getObjectPaths()->push_back("hillPlaneMesh");
+					SObjectsData odata(planeMesh, planeNode, "hillPlaneMesh");
+					devices->getCoreData()->getObjectsData()->push_back(odata);
 					devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
 				}
 					break;
@@ -446,9 +452,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					billboard->setName("#object:new_bill_board");
 					billboard->setMaterialFlag(EMF_LIGHTING, false);
 					devices->getXEffect()->addShadowToNode(billboard, devices->getXEffectFilterType(), ESM_EXCLUDE);
-					devices->getCoreData()->getObjectMeshes()->push_back(0);
-					devices->getCoreData()->getObjectNodes()->push_back(billboard);
-					devices->getCoreData()->getObjectPaths()->push_back("billboard");
+					SObjectsData odata(0, billboard, "billboard");
+					devices->getCoreData()->getObjectsData()->push_back(odata);
 				}
 					break;
 
@@ -481,8 +486,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					break;
 
 				case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME: {
-					CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
-					matEditor->open(devices->getSkydome());
+					if (devices->getSkydome()) {
+						CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+						matEditor->open(devices->getSkydome());
+					}
 				}
 					break;
 
@@ -548,8 +555,20 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     CUIRenderingInfos *renderInfos = new CUIRenderingInfos(devices);
                 }
                     break; 
+
+				case CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW:
+					mainWindowInstance->getMainWindow()->setVisible(!mainWindowInstance->getMainWindow()->isVisible());
+					break;
                 //-----------------------------------
                     
+				//-----------------------------------
+                //HELP MENU EVENT
+				case CXT_MENU_EVENTS_HELP_ABOUT:
+					devices->addInformationDialog(L"About...", L"Created by Julien Moreau-Mathis\n"
+															   L"All rights reserved", 
+												  EMBF_OK);
+					break;
+				//-----------------------------------
                 default:
                     break;
             }
@@ -607,17 +626,18 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
             }
         }
 
+		//NODE SELECTION IN MAIN WINDOW CHANGED, DOUBLE CLICK TO CONFIRM ARROWS, OR SINGLE CLICK ??????????
 		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN || event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
 			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
-			bool isAListBoxOfMainWindow = (parent == mainWindowInstance->getActiveListBox());
-			if (isAListBoxOfMainWindow) {
+			bool isAListBoxOfMainWindow = (parent == mainWindowInstance->getActiveListBox() && mainWindowInstance->getActiveListBox()->getItemCount() != 0);
+			if (isAListBoxOfMainWindow && devices->getObjectPlacement()->getArrowType() != CCoreObjectPlacement::Undefined) {
 				CCoreObjectPlacement *cobj = devices->getObjectPlacement();
-				if (cobj->isPlacing() && cobj->getArrowType() == movementType) {
+				/*if (cobj->isPlacing() && cobj->getArrowType() == movementType) {
 					cobj->setCollisionToNormal();
 					cobj->setNodeToPlace(0);
 					cobj->setArrowType(CCoreObjectPlacement::Undefined);
 					cobj->setArrowVisible(false);
-				} else {
+				} else {*/
 					cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
 					if (!cobj->getNodeToPlace()) {
 						devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
@@ -625,7 +645,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						cobj->setArrowType(movementType);
 						cobj->setArrowVisible(true);
 					}
-				}
+				//}
 			}
 		}
         
@@ -639,6 +659,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == ibposition) {
 				if (ibposition->isPressed()) {
 					movementType = CCoreObjectPlacement::Position;
+					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibrotation->setPressed(false);
 				ibscale->setPressed(false);
@@ -648,6 +670,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == ibrotation) {
 				if (ibrotation->isPressed()) {
 					movementType = CCoreObjectPlacement::Rotation;
+					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibposition->setPressed(false);
 				ibscale->setPressed(false);
@@ -657,6 +681,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == ibscale) {
 				if (ibscale->isPressed()) {
 					movementType = CCoreObjectPlacement::Scale;
+					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibposition->setPressed(false);
 				ibrotation->setPressed(false);
@@ -677,11 +703,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_EDIT_NODE: {
 					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix == "#map" || prefix == "#tree" || prefix == "#object" || prefix == "#water") {
+                    if (prefix != "#light") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
 									  mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
-                    } else if (prefix == "#light") {
+                    } else {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
 						editLight->open(mainWindowInstance->getSelectedNode().getNode(),
 										mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
@@ -696,7 +722,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_EDIT_AO: {
 					if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
-                        if (!characterWindowInstance->isWindowActive()) {
+						if (mainWindowInstance->getSelectedNode().getNode()) {
+							CUICharacterWindow *characterWindowInstance = new CUICharacterWindow(devices);
                             characterWindowInstance->open();
 							characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getActiveListBox()->getSelected());
                         }
@@ -786,7 +813,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case KEY_KEY_A:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
 						if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
-                            if (!characterWindowInstance->isWindowActive()) {
+							if (mainWindowInstance->getSelectedNode().getNode()) {
+								CUICharacterWindow *characterWindowInstance = new CUICharacterWindow(devices);
                                 characterWindowInstance->open();
 								characterWindowInstance->setModel((IAnimatedMeshSceneNode *)mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getActiveListBox()->getSelected());
                             }
@@ -809,11 +837,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case KEY_KEY_E: {
 					if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && !devices->isShiftPushed()) {
 						stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                        if (prefix == "#map" || prefix == "#tree" || prefix == "#object") {
+                        if (prefix != "#light") {
                             CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 							editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
 										   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
-                        } else if (prefix == "#light") {
+                        } else {
                             CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
 							editLight->open(mainWindowInstance->getSelectedNode().getNode(),
 											mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
@@ -821,12 +849,14 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
 					if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
 						ISceneNode *node = mainWindowInstance->getSelectedNode().getNode();
-						bool canEdit = (node->getType() == ESNT_MESH || node->getType() == ESNT_OCTREE || node->getType() == ESNT_ANIMATED_MESH
-							|| node->getType() == ESNT_BILLBOARD || node->getType() == ESNT_SKY_BOX || node->getType() == ESNT_SKY_DOME
-							|| node->getType() == ESNT_TERRAIN || node->getType() == ESNT_CUBE || node->getType() == ESNT_SPHERE);
-						if (canEdit) {
-							CUIMaterialEditor *editMat = new CUIMaterialEditor(devices);
-							editMat->open(node);
+						if (mainWindowInstance->getSelectedNode().getNode()) {
+							bool canEdit = (node->getType() == ESNT_MESH || node->getType() == ESNT_OCTREE || node->getType() == ESNT_ANIMATED_MESH
+								|| node->getType() == ESNT_BILLBOARD || node->getType() == ESNT_SKY_BOX || node->getType() == ESNT_SKY_DOME
+								|| node->getType() == ESNT_TERRAIN || node->getType() == ESNT_CUBE || node->getType() == ESNT_SPHERE);
+							if (canEdit) {
+								CUIMaterialEditor *editMat = new CUIMaterialEditor(devices);
+								editMat->open(node);
+							}
 						}
 					}
                 }

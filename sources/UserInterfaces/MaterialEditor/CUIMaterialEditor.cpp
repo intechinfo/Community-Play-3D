@@ -248,6 +248,14 @@ void CUIMaterialEditor::updateElementsPositionsI(IGUIScrollBar *scroolbar) {
 
 bool CUIMaterialEditor::OnEvent(const SEvent &event) {
     
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
+			if (event.UserEvent.UserData2 == meWindow->getReferenceCount()) {
+				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+			}
+		}
+	}
+
     if (event.EventType == EET_GUI_EVENT) {
 		//IF MENU SELECTED
 		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
@@ -270,7 +278,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 					maximize();
 				}
 				if (event.GUIEvent.Caller == meWindow->getMinimizeButton()) {
-					minimize();
+					devices->getEventReceiver()->AddMinimizedWindow(this, meWindow);
 				}
 			}
 

@@ -214,6 +214,9 @@
     <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp">
       <Filter>UserInterfaces\MainWindow</Filter>
     </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\CUIWindowsManager.cpp">
+      <Filter>UserInterfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\sources\CharacterEdition\CAction.h">
@@ -383,6 +386,9 @@
     </ClInclude>
     <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h">
       <Filter>UserInterfaces\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\CUIWindowsManager.h">
+      <Filter>UserInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

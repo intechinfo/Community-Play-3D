@@ -38,7 +38,10 @@ private:
 	//MAIN WINDOW
 	IGUIWindow *materialsWindow;
 
-	IGUIContextMenu *menu, *submenu;
+	IGUIContextMenu *menu;
+	IGUIContextMenu *fileMenu, *helpMenu;
+
+	IGUIFileOpenDialog *openShaderPackage, *saveShaderPackage;
 
 	IGUIButton *removeOGLMaterialShader, *addOGLMaterialShader, *editOGLMaterialShader;
 	IGUIListBox *openGLMaterialsList;
@@ -54,6 +57,7 @@ private:
 
 	IGUIButton *vLoadFromFile, *vEdit;
 	IGUIButton *pLoadFromFile, *pEdit;
+	IGUIButton *cLoadFromFile, *cEdit;
 
 	IGUIComboBox *vShaderType;
 	IGUIComboBox *pShaderType;

@@ -209,19 +209,25 @@ void CImporter::importScene(stringc file_path) {
 					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
 				}
 
-				/*read("factory");
+				read("factory");
 				if (element == "factory") {
 					readWithNextElement("primitive", "factory");
 					while (element == "primitive") {
 						stringc primitiveType = xmlReader->getAttributeValue("type");
+						stringc option = xmlReader->getAttributeValue("options");
 						if (primitiveType == "planar") {
-							//devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(octTreeMesh, xmlReader->getAttributeValueAsFloat("value"));
-							
-							//devices->getCoreData()->getPlanarMeshes()->push_back(octTreeNode);
+							read("resolutionS");
+							f32 resolutionS = xmlReader->getAttributeValueAsFloat("value");
+							if (option == "general") {
+								devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(octTreeMesh, xmlReader->getAttributeValueAsFloat("value"));
+								SPlanarTextureMappingData ptmd(resolutionS, 0, 0, vector3df(0), true);
+								devices->getCoreData()->getPlanarTextureMappingValues()->push_back(ptmd);
+							}
+							devices->getCoreData()->getPlanarMeshes()->push_back(octTreeNode);
 						}
 						readWithNextElement("primitive", "factory");
 					}
-				}*/
+				}
 
                 //NAME
                 if (octTreeNode) {
@@ -607,9 +613,8 @@ void CImporter::importScene(stringc file_path) {
 				} else {
 					devices->getCollisionManager()->setCollisionFromBoundingBox(animatedNode);
 				}
-				devices->getCoreData()->getObjectMeshes()->push_back(animatedMesh);
-                devices->getCoreData()->getObjectNodes()->push_back(animatedNode);
-                devices->getCoreData()->getObjectPaths()->push_back(path.c_str());
+				SObjectsData odata(animatedMesh, animatedNode, path.c_str());
+				devices->getCoreData()->getObjectsData()->push_back(odata);
             }
             //END IF OBJECT
             //------------------------------------------------------------------------------------------------------------------------------

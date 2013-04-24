@@ -42,7 +42,7 @@ void CMaterialEditorFactory::reupdateTreeView(ISceneNode *node, IGUITreeView *ma
 }
 
 void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped(ISceneNode *node) {
-	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Creating Textures...\nMapping Normal Textures...", EMBF_CANCEL, false, guiParent);
+	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Creating Textures...\nMapping Normal Textures...", EMBF_CANCEL, true, guiParent);
 	processingWindow->getCloseButton()->remove();
 
 	((IGUIWindow *)guiParent)->getMinimizeButton()->setVisible(false);
@@ -73,7 +73,7 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped(ISceneNode *n
 }
 
 void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(ISceneNode *node, f32 factor) {
-	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Mapping Normal Textures...", EMBF_CANCEL, false, guiParent);
+	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Mapping Normal Textures...", EMBF_CANCEL, true, guiParent);
 	processingWindow->getCloseButton()->remove();
 
 	((IGUIWindow *)guiParent)->getMinimizeButton()->setVisible(false);
