@@ -68,7 +68,10 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME,
 	CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME,
 
-	CXT_MENU_EVENTS_RENDERING_INFOS
+	CXT_MENU_EVENTS_RENDERING_INFOS,
+	CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW,
+
+	CXT_MENU_EVENTS_HELP_ABOUT
 };
 
 #include "../Device/CDevices.h"
@@ -124,7 +127,6 @@ private:
 	CUIMainWindow *mainWindowInstance;
 	CUISceneView *sceneViewInstance;
 	CUIWindowEditGrid *editGridInstance;
-	CUICharacterWindow *characterWindowInstance;
 
 	CUIWindowOpenScene *openSceneInstance;
 	CUIWindowExportScene *exportSceneInstance;

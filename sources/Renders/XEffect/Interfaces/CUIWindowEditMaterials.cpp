@@ -44,13 +44,14 @@ void CUIWindowEditMaterials::open() {
     menu->addItem(L"File", -1, true, true);
 	menu->addItem(L"Help", -1, true, true);
     
-    submenu = menu->getSubMenu(0);
-	submenu->addItem(L"Open a shader", -1);
-    submenu->addSeparator();
-	submenu->addItem(L"Close", -1);
+    fileMenu = menu->getSubMenu(0);
+	fileMenu->addItem(L"Add A Package", 1);
+	fileMenu->addItem(L"Export As Package", 2);
+    fileMenu->addSeparator();
+	fileMenu->addItem(L"Close", 3);
     
-    submenu = menu->getSubMenu(1);
-	submenu->addItem(L"How to ?", -1);
+    helpMenu = menu->getSubMenu(1);
+	helpMenu->addItem(L"How to ?", -1);
     
     devices->getGUIEnvironment()->addStaticText(L"Material Shaders :", rect<s32>(10, 60, 520, 80), false, true, materialsWindow, -1, false);
     editOGLMaterialShader = devices->getGUIEnvironment()->addButton(rect<s32>(460, 60, 520, 80), materialsWindow, -1, L"Edit", L"Edit shader");
@@ -85,6 +86,23 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 	}
 
     if (event.EventType == EET_GUI_EVENT) {
+
+		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
+			if (event.GUIEvent.Caller == fileMenu) {
+				s32 itemMenuID = fileMenu->getItemCommandId(fileMenu->getSelectedItem());
+				if (itemMenuID == 1) {
+					openShaderPackage = devices->createFileOpenDialog(L"", CGUIFileSelector::EFST_OPEN_DIALOG, materialsWindow);
+				} else if (itemMenuID == 2) {
+					saveShaderPackage = devices->createFileOpenDialog(L"", CGUIFileSelector::EFST_SAVE_DIALOG, materialsWindow);
+				} else if (itemMenuID == 3) {
+					materialsWindow->remove();
+					editMaterialWindow = 0;
+					materialsWindow = 0;
+					devices->getEventReceiver()->RemoveEventReceiver(this);
+					delete this;
+				}
+			}
+		}
         
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             IGUIElement *element = event.GUIEvent.Caller;
@@ -142,6 +160,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 devices->getGUIEnvironment()->addStaticText(L"Pixel Shader", rect<s32>(10, 50, 150, 70), false, true, editMaterialWindow, -1, false);
                 pLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 50, 260, 70), editMaterialWindow, -1, L"Load From File", L"Load From File");
                 pEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 50, 370, 70), editMaterialWindow, -1, L"Edit", L"Edit shader");
+				devices->getGUIEnvironment()->addStaticText(L"Constants", rect<s32>(10, 70, 150, 90), false, true, editMaterialWindow, -1, false);
+                cLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 70, 260, 90), editMaterialWindow, -1, L"Load From File", L"Load From File");
+                cEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 70, 370, 90), editMaterialWindow, -1, L"Edit", L"Edit constants");
                 
                 devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Type", rect<s32>(10, 90, 150, 110), false, true, editMaterialWindow, -1, false);
                 vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 470, 110), editMaterialWindow, -1);
@@ -253,6 +274,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 openingPixel = true;
                 devices->createFileOpenDialog(L"Choose your file", CGUIFileSelector::EFST_OPEN_DIALOG, editMaterialWindow)->addFileFilter(L"Pixel Shader File", L"fbs", 0);
             }
+			if (element == cLoadFromFile) {
+				devices->createFileOpenDialog(L"Choose your file", CGUIFileSelector::EFST_OPEN_DIALOG, editMaterialWindow)->addFileFilter(L"Material Shader Constants", L"cst", 0);
+			}
             
             if (element == buildMaterial) {
                 s32 selected;
@@ -352,31 +376,67 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             openingVertex = false;
         }
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
-            s32 selected;
-            selected = openGLMaterialsList->getSelected();
+			if (openingPixel || openingVertex) {
+				s32 selected;
+				selected = openGLMaterialsList->getSelected();
             
-            IGUIFileOpenDialog *dialog = (IGUIFileOpenDialog *)event.GUIEvent.Caller;
-            stringc path = dialog->getFileName();
-            stringc lines;
-            std::ifstream file(path.c_str());
-            if (file.is_open()) {
-                while (file.good()) {
-                    std::string line;
-                    std::getline(file, line);
-                    lines += line.c_str();
-                    lines += "\n";
-                }
-                file.close();
-            }
+				IGUIFileOpenDialog *dialog = (IGUIFileOpenDialog *)event.GUIEvent.Caller;
+				/*stringc path = dialog->getFileName();
+				stringc lines;
+				std::ifstream file(path.c_str());
+				if (file.is_open()) {
+					while (file.good()) {
+						std::string line;
+						std::getline(file, line);
+						lines += line.c_str();
+						lines += "\n";
+					}
+					file.close();
+				}*/
+				stringc lines = devices->getCore()->getStringcFromFile(stringc(dialog->getFileName()).c_str());
             
-            if (openingVertex) {
-                devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setVertexShader(lines.c_str());
-            }
-            if (openingPixel) {
-                devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setPixelShader(lines.c_str());
-            }
-            openingPixel = false;
-            openingVertex = false;
+				if (openingVertex) {
+					devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setVertexShader(lines.c_str());
+				}
+				if (openingPixel) {
+					devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setPixelShader(lines.c_str());
+				}
+				openingPixel = false;
+				openingVertex = false;
+			}
+			if (event.GUIEvent.Caller == openShaderPackage) {
+				io::path extension, filename;
+				core::getFileNameExtension(extension, openShaderPackage->getFileName());
+                extension.make_lower();
+				if (extension == ".spkg") {
+					IFileSystem *fileSystem = devices->getDevice()->getFileSystem();
+					if (fileSystem->addZipFileArchive(stringc(openShaderPackage->getFileName()).c_str())) {
+						stringc path_file = stringc(openShaderPackage->getFileName());
+
+						stringc vertexLines = devices->getCore()->getStringcFromIReadFile("vertex.vbs");
+						stringc pixelLines = devices->getCore()->getStringcFromIReadFile("pixel.fbs");
+						stringc constantsLines = devices->getCore()->getStringcFromIReadFile("constants.cbs");
+
+						CShaderCallback *callback = new CShaderCallback();
+						callback->setName(fileSystem->getFileBasename(openShaderPackage->getFileName()).c_str());
+						callback->setDevice(devices->getDevice());
+						devices->getCoreData()->getShaderCallbacks()->push_back(callback);
+						stringw name = callback->getName().c_str();
+						openGLMaterialsList->addItem(name.c_str());
+						materialName->setEnabled(true);
+						editOGLMaterialShader->setEnabled(true);
+
+						callback->setVertexShader(vertexLines.c_str());
+						callback->setPixelShader(pixelLines.c_str());
+						callback->setConstants(constantsLines.c_str());
+						callback->buildMaterial(devices->getVideoDriver());
+					} else {
+						devices->addErrorDialog("Error Archive", L"Error when opening the archive\nMaybe the archive is corrupt...", EMBF_OK);
+					}
+				} else {
+					devices->addWarningDialog(L"Sorry", L"This is not a valid shader package", EMBF_OK);
+				}
+			}
         }
         
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {

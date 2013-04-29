@@ -20,8 +20,8 @@ CAction::~CAction() {
     
 }
 
-stringc CAction::getXMLValues() {
-	stringc toReturn = "";
+irr::core::stringc CAction::getXMLValues() {
+	irr::core::stringc toReturn = "";
 
 	toReturn += "<action start=\"";
 	toReturn += start;

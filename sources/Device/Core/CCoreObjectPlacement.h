@@ -21,9 +21,9 @@ public:
 		Position,
 		Rotation,
 		Scale
-	}ArrowType;
+	} ArrowType;
 
-    CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cursorCtrl, CCollisionManager *_colMgr);
+    CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cursorCtrl, CCollisionManager *_colMgr, ISceneManager *otherSmgr);
     ~CCoreObjectPlacement();
     
     bool OnEvent(const SEvent &event);
