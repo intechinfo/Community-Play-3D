@@ -67,6 +67,9 @@
     <Filter Include="CharacterEdition\ManualAnimation">
       <UniqueIdentifier>{65efef30-36a3-442d-ba91-f25bfa78446e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SceneNodes\Animators">
+      <UniqueIdentifier>{113cc7fe-057f-4e62-9379-823b4b47271d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\CharacterEdition\CAction.cpp">
@@ -231,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.cpp">
       <Filter>CharacterEdition\ManualAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\SceneNodes\Animators\CRotationAnimator.cpp">
+      <Filter>SceneNodes\Animators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +422,12 @@
     </ClInclude>
     <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.h">
       <Filter>CharacterEdition\ManualAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\SceneNodes\Animators\CRotationAnimator.h">
+      <Filter>SceneNodes\Animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h">
+      <Filter>SceneNodes\Animators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

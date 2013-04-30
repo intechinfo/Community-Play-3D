@@ -17,9 +17,15 @@ CAnimation::CAnimation(irr::scene::IAnimatedMeshSceneNode *_node) {
 			bonesInformations.push_back(sbi);
 		}
 	}
+	name = "myName";
 }
 
 CAnimation::~CAnimation() {
 	bonesInformations.clear();
 }
 
+CManualAction *CAnimation::addManualAction() {
+	CManualAction *ma = new CManualAction();
+
+	return ma;
+}

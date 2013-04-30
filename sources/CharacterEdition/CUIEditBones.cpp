@@ -24,11 +24,18 @@ CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
 	bonesListBox = 0;
 	bonesWindow = 0;
 
+	selectedAnimation = 0;
+	selectedFrame = 0;
+	selectedManualAction = 0;
+
 	arrayFrames.clear();
 }
 
 CUIEditBones::~CUIEditBones() {
-
+	for (u32 i=0; i < arrayFrames.size(); i++) {
+		delete arrayFrames[i];
+	}
+	arrayFrames.clear();
 }
 
 void CUIEditBones::open() {
@@ -58,17 +65,22 @@ void CUIEditBones::open() {
 	//BONES WINDOW
 	bonesWindow = gui->addWindow(rect<s32>(driver->getScreenSize().Width-410, 75,
 										   driver->getScreenSize().Width, driver->getScreenSize().Height),
-										   false, L"Bones", 0, -1);
+										   false, L"Actions & Bones", 0, -1);
 	bonesWindow->getCloseButton()->remove();
-	bonesWindow->setDrawTitlebar(false);
+	//bonesWindow->setDrawTitlebar(false);
 	bonesWindow->setDraggable(false);
 
 	//BONES LIST BOX
 	gui->addStaticText(L"Bones : ", rect<s32>(10, 50, 400, 70), false, true, bonesWindow, -1, false);
-	bonesListBox = gui->addListBox(rect<s32>(10, 70, 400, 280), bonesWindow, -1, true);
+	bonesListBox = gui->addListBox(rect<s32>(10, 70, 400, 180), bonesWindow, -1, true);
 	for (u32 i=0; i < node->getJointCount(); i++) {
 		bonesListBox->addItem(stringw(node->getJointNode(i)->getBoneName()).c_str());
 	}
+
+	gui->addStaticText(L"Manual Actions : ", rect<s32>(10, 180, 360, 200), false, true, bonesWindow, -1, false);
+	manualActionslb = gui->addListBox(rect<s32>(10, 200, 400, 280), bonesWindow, -1, true);
+	addManualAction = gui->addButton(rect<s32>(360, 180, 380, 200), bonesWindow, -1, L"+", L"Add Manual Actions");
+	removeManualActions = gui->addButton(rect<s32>(380, 180, 400, 200), bonesWindow, -1, L"-", L"Remove Manual Action");
 
 	//ANIMATION VALUES (SENS, TYPE, NAME, ETC.)
 	gui->addStaticText(L"Name :", rect<s32>(10, 320, 140, 340), true, true, bonesWindow, -1, true);
@@ -89,7 +101,7 @@ void CUIEditBones::open() {
 	gui->addStaticText(L"Time To Start :", rect<s32>(10, 380, 140, 400), true, true, bonesWindow, -1, true);
 	timeToStartcb = gui->addEditBox(L"", rect<s32>(140, 380, 400, 400), true, bonesWindow, -1);
 
-	gui->addStaticText(L"Time To Complete :", rect<s32>(10, 400, 140, 420), true, true, bonesWindow, -1, true);
+	gui->addStaticText(L"Time To Do : (ms)", rect<s32>(10, 400, 140, 420), true, true, bonesWindow, -1, true);
 	timeToCompletecb = gui->addEditBox(L"", rect<s32>(140, 400, 400, 420), true, bonesWindow, -1);
 
 	//PREDECESSORS
@@ -100,8 +112,8 @@ void CUIEditBones::open() {
 	predecessors = gui->addListBox(rect<s32>(10, 450, 400, 530), bonesWindow, -1, true);
 
 	//INFORMATIONS
-	startInfo = gui->addStaticText(L"Predecessors :", rect<s32>(10, 540, 400, 560), true, true, bonesWindow, -1, true);
-	endInfo = gui->addStaticText(L"Predecessors :", rect<s32>(10, 560, 400, 580), true, true, bonesWindow, -1, true);
+	startInfo = gui->addStaticText(L"Start : ", rect<s32>(10, 540, 400, 560), true, true, bonesWindow, -1, true);
+	endInfo = gui->addStaticText(L"End   : ", rect<s32>(10, 560, 400, 580), true, true, bonesWindow, -1, true);
 
 	//PREVIEW
 	preview = gui->addButton(rect<s32>(10, 590, 400, 610), bonesWindow, -1, L"Preview", L"Preview the animation");
@@ -163,20 +175,77 @@ void CUIEditBones::close() {
 	}
 }
 
+void CUIEditBones::resetBonesWindow() {
+	manualActionslb->clear();
+	predecessors->clear();
+
+	nameeb->setText(L"");
+	timeToCompletecb->setText(L"");
+	timeToStartcb->setText(L"");
+
+	if (selectedFrame && selectedAnimation && bonesListBox->getSelected() != -1) {
+		manualActionslb->clear();
+		const u32 maSize = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->size();
+		for (u32 i=0; i < maSize; i++) {
+			CManualAction *ma = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->operator[](i);
+			manualActionslb->addItem(ma->getName().c_str());
+		}
+		if (maSize > 0) {
+			manualActionslb->setSelected(0);
+		}
+	}
+}
+
+void CUIEditBones::previewManualAction() {
+	if (selectedManualAction) {
+		ISceneNodeAnimator *ac;
+		if (selectedManualAction->getType() == EMAT_ROTATION) {
+			vector3df rotend = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewRotation();
+			vector3df rotbase = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getRotation();
+			ac = new CRotationAnimator(rotbase, rotend, selectedManualAction->getTimeToComplete(),
+																selectedManualAction->getSens() == EMAS_POSITIVE, 
+																devices->getDevice()->getTimer()->getTime());
+		}
+		if (ac) {
+			node->getJointNode(bonesListBox->getSelected())->addAnimator(ac);
+			ac->drop();
+		}
+	}
+}
+
 bool CUIEditBones::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT || event.EventType == EET_KEY_INPUT_EVENT) {
-		if (frames && bonesListBox) {
-			if (arrayFrames.size() != 0 && frames->getSelected() != -1 && bonesListBox->getSelected() != -1) {
-
-				/*arrayFrames[frames->getSelected()]->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewRotation(node->getJointNode(bonesListBox->getSelected())->getRotation());
-
-				stringw startInfosw = "Start Info : ";
-				startInfosw += devices->getCore()->getStrVector3df(arrayFrames[frames->getSelected()]->getBonesInformations()->operator[](bonesListBox->getSelected()).getRotation());
+		if (selectedFrame && selectedAnimation && bonesListBox && manualActionslb) {
+		if (bonesListBox->getSelected() != -1 && manualActionslb->getSelected() != -1) {
+				CManualAction *ma = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->operator[](manualActionslb->getSelected());
+				stringw infosStart, infosEnd;
+				switch (ma->getType()) {
+				case EMAT_ROTATION:
+					selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewRotation(node->getJointNode(bonesListBox->getSelected())->getRotation());
+					infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getRotation());
+					infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewRotation());
+					break;
+				case EMAT_TRANSLATION:
+					selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewPosition(node->getJointNode(bonesListBox->getSelected())->getPosition());
+					infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getPosition());
+					infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewPosition());
+					break;
+				case EMAT_SCALE:
+					selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewScale(node->getJointNode(bonesListBox->getSelected())->getScale());
+					infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getScale());
+					infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewScale());
+					break;
+				default:
+					break;
+				}
+			
+				stringw startInfosw = "Start : ";
+				startInfosw += infosStart;
 				startInfo->setText(startInfosw.c_str());
-				stringw endInfosw = "End Info   : ";
-				endInfosw += devices->getCore()->getStrVector3df(arrayFrames[frames->getSelected()]->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewRotation());
-				endInfo->setText(endInfosw.c_str());*/
+				stringw endInfosw = "End   : ";
+				endInfosw += infosEnd;
+				endInfo->setText(endInfosw.c_str());
 			}
 		}
 	}
@@ -197,14 +266,39 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 				lastBoneSceneNode = node->getJointNode(bonesListBox->getSelected());
 
 				node->setDebugDataVisible(EDS_SKELETON);
+
+				resetBonesWindow();
 			}
 
 			if (listBox == frames) {
-				selectedFrame = arrayFrames[frames->getSelected()];
-				rootAnimations->clearChilds();
-				for (u32 i=0; i < arrayFrames[frames->getSelected()]->getAnimations()->size(); i++) {
-					CAnimation *anim = arrayFrames[frames->getSelected()]->getAnimations()->operator[](i);
-					IGUITreeViewNode *newAnimation = rootAnimations->addChildBack(anim->getName().c_str(), L"ANIM", -1, -1, anim);
+				if (frames->getSelected() != -1) {
+					selectedFrame = arrayFrames[frames->getSelected()];
+					rootAnimations->clearChilds();
+					for (u32 i=0; i < arrayFrames[frames->getSelected()]->getAnimations()->size(); i++) {
+						CAnimation *anim = arrayFrames[frames->getSelected()]->getAnimations()->operator[](i);
+						IGUITreeViewNode *newAnimation = rootAnimations->addChildBack(anim->getName().c_str(), L"ANIM", -1, -1, anim);
+					}
+					if (rootAnimations->getFirstChild()) {
+						rootAnimations->getFirstChild()->setSelected(true);
+						selectedAnimation = (CAnimation *)rootAnimations->getFirstChild()->getData();
+					} else {
+						if (bonesListBox->getSelected() != -1) {
+							rootAnimations->setSelected(true);
+						}
+						selectedAnimation = 0;
+					}
+					resetBonesWindow();
+				}
+			}
+
+			if (listBox == manualActionslb) {
+				if (manualActionslb->getSelected() != -1 && selectedFrame && selectedAnimation && bonesListBox->getSelected() != -1) {
+					selectedManualAction = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->operator[](manualActionslb->getSelected());
+					nameeb->setText(selectedManualAction->getName().c_str());
+					typecb->setSelected((E_MANUAL_ACTION_TYPE)selectedManualAction->getType());
+					senscb->setSelected((E_MANUAL_ACTION_SENS)selectedManualAction->getSens());
+					timeToStartcb->setText(stringw(selectedManualAction->getTimeToStart()).c_str());
+					timeToCompletecb->setText(stringw(selectedManualAction->getTimeToComplete()).c_str());
 				}
 			}
 		}
@@ -213,8 +307,22 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == animations) {
 				IGUITreeViewNode *selectedAnim = animations->getSelected();
 				if (selectedAnim->getParent() == rootAnimations) {
-					selectedAnimation = (CAnimation *)animations->getSelected();
+					selectedAnimation = (CAnimation *)animations->getSelected()->getData();
+					//SET FIRST MANUAL ACTION SELECTED
+					bonesListBox->setEnabled(true);
+					bonesCloseButton->setEnabled(true);
+					addManualAction->setEnabled(true);
+					if (bonesListBox->getSelected() != -1 && manualActionslb->getSelected() != -1 && manualActionslb->getItemCount() > 0) {
+						manualActionslb->setSelected(0);
+						selectedManualAction = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->operator[](0);
+						devices->getCore()->deactiveChildrenOfGUIElement(bonesWindow, true);
+					}
+				} else {
+					selectedAnimation = 0;
+					devices->getCore()->deactiveChildrenOfGUIElement(bonesWindow, false);
+					bonesCloseButton->setEnabled(true);
 				}
+				resetBonesWindow();
 			}
 		}
 
@@ -272,6 +380,8 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 					addAnimation->setEnabled(false);
 					animations->setEnabled(false);
 				}
+				selectedFrame = 0;
+				resetBonesWindow();
 			}
 
 			//ANIMATIONS
@@ -279,8 +389,8 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 				if (frames->getSelected() != -1) {
 					CAnimation *anim = arrayFrames[frames->getSelected()]->createNewAnimation();
 					anim->setName(stringw(stringw("Animation ") + stringw(arrayFrames[frames->getSelected()]->getAnimations()->size())).c_str());
-					rootAnimations->addChildBack(anim->getName().c_str(), L"ANIM", -1, -1, anim);
-					devices->getCore()->deactiveChildrenOfGUIElement(bonesWindow, true);
+					IGUITreeViewNode *nan = rootAnimations->addChildBack(anim->getName().c_str(), L"ANIM");
+					nan->setData(anim);
 				} else {
 					devices->addInformationDialog(L"Informations", "Please choose a frame before", EMBF_OK, true, 0);
 				}
@@ -289,18 +399,61 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == removeAnimation) {
 				IGUITreeViewNode *selectedAnim = animations->getSelected();
 				//IF REMOVE ENTIRE ANIMATION
-				if (selectedAnim->getParent() == rootAnimations) {
-					CAnimation *anim = (CAnimation *)selectedAnim->getData();
-					arrayFrames[frames->getSelected()]->removeAnimation(anim);
-					rootAnimations->deleteChild(selectedAnim);
+				if (selectedAnim) {
+					if (selectedAnim->getParent() == rootAnimations) {
+						CAnimation *anim = (CAnimation *)selectedAnim->getData();
+						arrayFrames[frames->getSelected()]->removeAnimation(anim);
+						rootAnimations->deleteChild(selectedAnim);
+					}
 				}
+				resetBonesWindow();
+			}
+
+			//MANUAL ACTIONS
+			if (event.GUIEvent.Caller == addManualAction) {
+				if (bonesListBox->getSelected() != -1 && selectedFrame && animations->getSelected()->getParent() == rootAnimations) {
+					CFrame *frame = arrayFrames[frames->getSelected()];
+					CAnimation *anim = (CAnimation *)animations->getSelected()->getData();
+					CManualAction *ma = anim->addManualAction();
+					anim->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->push_back(ma);
+					manualActionslb->addItem(ma->getName().c_str());
+					devices->getCore()->deactiveChildrenOfGUIElement(bonesWindow, true);
+				}
+			}
+
+			if (event.GUIEvent.Caller == removeManualActions) {
+				if (bonesListBox->getSelected() != -1 && frames->getSelected() != -1 && animations->getSelected()->getParent() == rootAnimations) {
+					CFrame *frame = arrayFrames[frames->getSelected()];
+					CAnimation *anim = (CAnimation *)animations->getSelected()->getData();
+					delete anim->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->operator[](manualActionslb->getSelected());
+					anim->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->erase(manualActionslb->getSelected());
+					manualActionslb->removeItem(manualActionslb->getSelected());
+					resetBonesWindow();
+				}
+			}
+
+			//PREVIEWS
+			if (event.GUIEvent.Caller == preview) {
+				previewManualAction();
 			}
 		}
 
 		if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
 			if (event.GUIEvent.Caller == nameeb) {
-				CFrame *frame = arrayFrames[frames->getSelected()];
-				//frame->getBonesInformations()->operator[](bonesListBox->getSelected()).setName(nameeb->getText());
+				if (selectedManualAction) {
+					selectedManualAction->setName(nameeb->getText());
+					manualActionslb->setItem(manualActionslb->getSelected(), selectedManualAction->getName().c_str(), -1);
+				}
+			}
+			if (event.GUIEvent.Caller == timeToStartcb) {
+				if (selectedManualAction) {
+					selectedManualAction->setTimeToStart(devices->getCore()->getF32(stringc(timeToStartcb->getText()).c_str()));
+				}
+			}
+			if (event.GUIEvent.Caller == timeToCompletecb) {
+				if (selectedManualAction) {
+					selectedManualAction->setTimeToComplete(devices->getCore()->getF32(stringc(timeToCompletecb->getText()).c_str()));
+				}
 			}
 		}
 
@@ -312,6 +465,15 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 				} else {
 					senscb->setEnabled(true);
 					senscb->setSelected(EMAS_NEGATIVE);
+				}
+				if (selectedManualAction) {
+					selectedManualAction->setType((E_MANUAL_ACTION_TYPE)typecb->getSelected());
+				}
+			}
+
+			if (event.GUIEvent.Caller == senscb) {
+				if (selectedManualAction) {
+					selectedManualAction->setSens((E_MANUAL_ACTION_SENS)senscb->getSelected());
 				}
 			}
 		}

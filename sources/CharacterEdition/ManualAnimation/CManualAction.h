@@ -11,6 +11,8 @@
 
 #include <irrlicht.h>
 
+#include "../../SceneNodes/Animators/CRotationAnimator.h"
+
 enum E_MANUAL_ACTION_TYPE {
 	EMAT_ROTATION = 0,
 	EMAT_TRANSLATION,
@@ -48,7 +50,7 @@ public:
 	E_MANUAL_ACTION_TYPE getType() { return actionType; }
 	E_MANUAL_ACTION_SENS getSens() { return actionSens; }
 
-	irr::f32 setTimeToComplete() { return timeToComplete; }
+	irr::f32 getTimeToComplete() { return timeToComplete; }
 	irr::u32 getTimesToDo() { return timesToDo; }
 	irr::s32 getTimeToStart() { return timeToStart; }
 

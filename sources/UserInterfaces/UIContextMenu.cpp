@@ -230,6 +230,7 @@ void CUIContextMenu::update() {
         //timer->setTime(0);
 	if (devices->getContextName() == "General") {
 		mainWindowInstance->getMainWindow()->setVisible(true);
+		devices->getCore()->deactiveChildrenOfGUIElement(bar, true);
 		mainWindowInstance->refresh();
 	} else {
 		mainWindowInstance->getMainWindow()->setVisible(false);

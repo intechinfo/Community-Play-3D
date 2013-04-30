@@ -22,6 +22,7 @@ struct SBoneInformations {
 		scale = _scale;
 
 		manualActions.clear();
+		name = L"myName";
 	}
 
 	//SET METHODS
@@ -66,6 +67,8 @@ public:
 
 	irr::core::stringw getName() { return name; }
 	void setName(irr::core::stringw _name) { name = _name; }
+
+	CManualAction *addManualAction();
 
 private:
 

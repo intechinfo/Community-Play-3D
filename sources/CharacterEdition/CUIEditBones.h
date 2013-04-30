@@ -44,6 +44,13 @@ private:
 	//-----------------------------------
 
 	//-----------------------------------
+	//METHODS
+	void resetBonesWindow();
+
+	void previewManualAction();
+	//-----------------------------------
+
+	//-----------------------------------
 	//GUI ELEMENTS
 	IGUIContextMenu *menu;
 	IGUIContextMenu *filem, *editm, *bonesm, *helpm;
@@ -59,6 +66,9 @@ private:
 	IGUIWindow *bonesWindow;
 
 	IGUIListBox *bonesListBox;
+
+	IGUIListBox *manualActionslb;
+	IGUIButton *addManualAction, *removeManualActions;
 
 	IGUIEditBox *nameeb;
 	IGUIComboBox *typecb;
@@ -81,6 +91,7 @@ private:
 
 	CFrame *selectedFrame;
 	CAnimation *selectedAnimation;
+	CManualAction *selectedManualAction;
 	//-----------------------------------
 };
 

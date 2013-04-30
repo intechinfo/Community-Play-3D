@@ -10,6 +10,7 @@
 
 CFrame::CFrame(irr::scene::IAnimatedMeshSceneNode *_node) {
 	node = _node;
+	animations.clear();
 }
 
 CFrame::~CFrame() {
@@ -21,7 +22,7 @@ CFrame::~CFrame() {
 
 CAnimation *CFrame::createNewAnimation() {
 	CAnimation *anim = new CAnimation(node);
-	animations.push_back(anim);
+	getAnimations()->push_back(anim);
 
 	return anim;
 }

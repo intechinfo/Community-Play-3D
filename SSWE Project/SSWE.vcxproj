@@ -36,6 +36,7 @@
     <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CShaderCallback.cpp" />
     <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.cpp" />
     <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp" />
+    <ClCompile Include="..\sources\SceneNodes\Animators\CRotationAnimator.cpp" />
     <ClCompile Include="..\sources\SceneNodes\CGridSceneNode.cpp" />
     <ClCompile Include="..\sources\SceneNodes\LensFlareSceneNode.cpp" />
     <ClCompile Include="..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
@@ -102,6 +103,8 @@
     <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.h" />
     <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h" />
     <ClInclude Include="..\sources\Renders\XEffect\XEffects.h" />
+    <ClInclude Include="..\sources\SceneNodes\Animators\CRotationAnimator.h" />
+    <ClInclude Include="..\sources\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h" />
     <ClInclude Include="..\sources\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h" />
     <ClInclude Include="..\sources\SceneNodes\CGridSceneNode.h" />
     <ClInclude Include="..\sources\SceneNodes\LensFlareSceneNode.h" />
