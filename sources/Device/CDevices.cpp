@@ -28,12 +28,15 @@ CDevices::CDevices() {
     window = 0;
 
     projectName = L"";
+	contextName = L"";
 
     ctrlWasPushed = false;
     shiftWasPushed = false;
 
 	skydome = 0;
 	skybox = 0;
+
+	sceneManagerToDrawIndice = 0;
 }
 
 CDevices::~CDevices() {
@@ -47,6 +50,26 @@ CDevices::~CDevices() {
 	delete effect;
 	delete worldCoreData;
 	delete wolrdCore;*/
+}
+
+void CDevices::removeSceneManager(ISceneManager *smgrToDelete) {
+	for (u32 i=0; i < smgrs.size(); i++) {
+		if (smgrs[i] == smgrToDelete) {
+			smgrs[i]->drop();
+			delete smgrs[i];
+			smgrs.erase(i);
+			break;
+		}
+	}
+}
+
+void CDevices::setSceneManagerToDraw(ISceneManager *smgrToDraw) {
+	for (u32 i=0; i < smgrs.size(); i++) {
+		if (smgrs[i] == smgrToDraw) {
+			sceneManagerToDrawIndice = i;
+			break;
+		}
+	}
 }
 
 void CDevices::updateDevice() {
@@ -119,10 +142,10 @@ void CDevices::updateDevice() {
 	#else
 		if (renderScene) {
 			if (renderXEffect) {
-				effect->setActiveSceneManager(smgr);
+				effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 				effect->update();
 			} else {
-				smgr->drawAll();
+				smgrs[sceneManagerToDrawIndice]->drawAll();
 			}
 		}
 		effectSmgr->drawAll();
@@ -132,7 +155,8 @@ void CDevices::updateDevice() {
 		}
 	#endif
 
-    camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+    //camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
 }
@@ -147,10 +171,10 @@ void CDevices::reupdate() {
 
 void CDevices::drawScene() {
 	if (renderXEffect) {
-        //effect->setActiveSceneManager(smgr);
+		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 		effect->update();
     } else {
-        smgr->drawAll();
+        smgrs[sceneManagerToDrawIndice]->drawAll();
     }
     
     effectSmgr->drawAll();
@@ -170,7 +194,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	Device->maximizeWindow();
     
     driver = Device->getVideoDriver();
-    smgr = Device->getSceneManager();
+    
+	smgr = Device->getSceneManager();
+	smgrs.push_back(smgr);
+
     effectSmgr = smgr->createNewSceneManager();
     gui = Device->getGUIEnvironment();
     

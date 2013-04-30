@@ -13,6 +13,10 @@
   <ItemGroup>
     <ClCompile Include="..\sources\CharacterEdition\CAction.cpp" />
     <ClCompile Include="..\sources\CharacterEdition\CUICharacterWindow.cpp" />
+    <ClCompile Include="..\sources\CharacterEdition\CUIEditBones.cpp" />
+    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.cpp" />
+    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CFrame.cpp" />
+    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CManualAction.cpp" />
     <ClCompile Include="..\sources\Device\CCollisionManager.cpp" />
     <ClCompile Include="..\sources\Device\CDevices.cpp" />
     <ClCompile Include="..\sources\Device\Core\CCore.cpp" />
@@ -70,6 +74,10 @@
   <ItemGroup>
     <ClInclude Include="..\sources\CharacterEdition\CAction.h" />
     <ClInclude Include="..\sources\CharacterEdition\CUICharacterWindow.h" />
+    <ClInclude Include="..\sources\CharacterEdition\CUIEditBones.h" />
+    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.h" />
+    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CFrame.h" />
+    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CManualAction.h" />
     <ClInclude Include="..\sources\Device\CCollisionManager.h" />
     <ClInclude Include="..\sources\Device\CDevices.h" />
     <ClInclude Include="..\sources\Device\Core\CCore.h" />

@@ -90,6 +90,8 @@ private:
 	//METHODS
 	void updateElementsPositionsI(IGUIScrollBar *scroolbar);
 
+	void update();
+
 	void maximize();
 	void minimize();
 	//-----------------------------------

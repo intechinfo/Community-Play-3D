@@ -14,7 +14,15 @@ CCore::CCore() {
 }
 
 CCore::~CCore() {
-    
+
+}
+
+void CCore::deactiveChildrenOfGUIElement(IGUIElement *element, bool visible) {
+	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
+
+	for (; it != element->getChildren().end(); ++it) {
+		(*it)->setEnabled(visible);
+	}
 }
 
 bool CCore::elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements) {
@@ -191,6 +199,17 @@ stringw CCore::getStrNumberU32(u32 value) {
     numberw += value;
 	
 	return numberw;
+}
+
+stringw CCore::getStrVector3df(vector3df v) {
+	stringw vw = "X :";
+	vw += v.X;
+	vw += " Y : ";
+	vw += v.Y;
+	vw += " Z : ";
+	vw += v.Z;
+
+	return vw;
 }
 
 dimension2d<u32> CCore::getDimensionU32(std::string sizeW, std::string sizeH) {

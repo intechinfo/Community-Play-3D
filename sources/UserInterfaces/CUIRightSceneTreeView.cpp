@@ -178,8 +178,9 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				}
 			} else {
 				if (devices->getDevice()->getCursorControl()->getPosition().Y > 75) {
-					if (devices->getDevice()->getCursorControl()->getPosition().X >= driver->getScreenSize().Width-10) {
+					if (devices->getDevice()->getCursorControl()->getPosition().X >= driver->getScreenSize().Width-1) {
 						window->setVisible(true);
+						window->getParent()->bringToFront(window);
 					}
 				}
 			}

@@ -64,6 +64,9 @@
     <Filter Include="UserInterfaces\NodeFactory">
       <UniqueIdentifier>{91b0913f-396b-4232-b290-852e5135d480}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CharacterEdition\ManualAnimation">
+      <UniqueIdentifier>{65efef30-36a3-442d-ba91-f25bfa78446e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\CharacterEdition\CAction.cpp">
@@ -216,6 +219,18 @@
     </ClCompile>
     <ClCompile Include="..\sources\UserInterfaces\CUIWindowsManager.cpp">
       <Filter>UserInterfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\CharacterEdition\CUIEditBones.cpp">
+      <Filter>CharacterEdition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CFrame.cpp">
+      <Filter>CharacterEdition\ManualAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CManualAction.cpp">
+      <Filter>CharacterEdition\ManualAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.cpp">
+      <Filter>CharacterEdition\ManualAnimation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +404,18 @@
     </ClInclude>
     <ClInclude Include="..\sources\UserInterfaces\CUIWindowsManager.h">
       <Filter>UserInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\CharacterEdition\CUIEditBones.h">
+      <Filter>CharacterEdition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CFrame.h">
+      <Filter>CharacterEdition\ManualAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CManualAction.h">
+      <Filter>CharacterEdition\ManualAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.h">
+      <Filter>CharacterEdition\ManualAnimation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

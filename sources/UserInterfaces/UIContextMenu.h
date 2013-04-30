@@ -143,6 +143,8 @@ private:
 	CCoreObjectPlacement::ArrowType movementType;
 
 	IGUIContextMenu *skydomeMenu, *skyboxMenu;
+
+	IGUIStaticText *contextNameText;
 	//-----------------------------------
 
 };
