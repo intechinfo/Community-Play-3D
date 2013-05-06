@@ -56,6 +56,7 @@ void CUIMaterialEditor::maximize() {
 		s32 offsetWindowTabCtrl = meWindow->getRelativePosition().getWidth() - positionTabCtrl.X - tabctrl->getRelativePosition().getWidth();
 		s32 offsetLeftViewTabCtrl = positionTabCtrl.X - viewPort->getRelativePosition().getWidth();
 		s32 lastWindowHeight = meWindow->getRelativePosition().getHeight();
+		s32 offsetUpperLower = materialsView->getRelativePosition().UpperLeftCorner.Y;
 
 		meWindow->setRelativePosition(rect<s32>(0, 74, driver->getScreenSize().Width+2, driver->getScreenSize().Height+1));
 		tabctrl->setRelativePosition(rect<s32>(meWindow->getRelativePosition().getWidth()-offsetWindowTabCtrl-tabctrl->getRelativePosition().getWidth(),
@@ -67,20 +68,22 @@ void CUIMaterialEditor::maximize() {
 													 tabctrl->getRelativePosition().UpperLeftCorner.X - offsetLeftViewTabCtrl + 10, 
 													 meWindow->getRelativePosition().getHeight()-50));
 		viewPort->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X,
-												viewPort->getRelativePosition().UpperLeftCorner.Y, 
+												//viewPort->getRelativePosition().UpperLeftCorner.Y, 
+												meWindow->getRelativePosition().getHeight()/2 + offsetUpperLower - 50,
 												separatorText->getRelativePosition().UpperLeftCorner.X - 20,
 												meWindow->getRelativePosition().getHeight()-5));
 		close->setRelativePosition(position2di(meWindow->getRelativePosition().getWidth()-110,
 											   meWindow->getRelativePosition().getHeight()-40));
 
 		rect<s32> materialsViewRect = materialsView->getRelativePosition();
-		materialsView->getRoot()->clearChilds();
+		//materialsView->getRoot()->clearChilds();
 		materialsView->remove();
 		materialsView = gui->addTreeView(rect<s32>(materialsViewRect.UpperLeftCorner.X,
 												   materialsViewRect.UpperLeftCorner.Y,
 												   separatorText->getRelativePosition().UpperLeftCorner.X-20,
 												   materialsViewRect.UpperLeftCorner.Y + 
-												   materialsViewRect.getHeight()), 
+												   //materialsViewRect.getHeight()), 
+												   meWindow->getRelativePosition().getHeight()/2 - 55),
 										 meWindow, -1, true, true, false);
 
 		meWindow->setDraggable(false);
@@ -104,12 +107,15 @@ void CUIMaterialEditor::minimize() {
 }
 
 void CUIMaterialEditor::open(ISceneNode *node) {
+	if (!node)
+		return;
+
     nodeToEdit = node;
     
     //WINDOW
     meWindow = gui->addWindow(rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
                                         driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2), 
-                              false, L"Material Editor", 0, -1);
+										false, stringw(stringw(L"Material Editor : ") + stringw(node->getName())).c_str(), 0, -1);
 	meWindow->getCloseButton()->remove();
 	meWindow->getMinimizeButton()->setVisible(true);
 	meWindow->getMaximizeButton()->setVisible(true);
@@ -246,6 +252,15 @@ void CUIMaterialEditor::updateElementsPositionsI(IGUIScrollBar *scroolbar) {
 	}
 }
 
+void CUIMaterialEditor::update() {
+	selectedMaterial = (SMaterial *)materialsView->getSelected()->getData();
+    restoreMaterial = (SMaterial *)materialsView->getSelected()->getData();
+                    
+    matEditorTextures->update(selectedMaterial);
+	matEditorColors->update(selectedMaterial);
+	matEditorFlags->update(selectedMaterial);
+}
+
 bool CUIMaterialEditor::OnEvent(const SEvent &event) {
     
 	if (event.EventType == EET_USER_EVENT) {
@@ -268,6 +283,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 				if (id == 2) {
 					mtFactory->setAllTextureLayer2NormalMapped(nodeToEdit, 9.0f);
 				}
+				update();
 			}
 		}
 
@@ -297,12 +313,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_TREEVIEW_NODE_SELECT) {
             if (event.GUIEvent.Caller == materialsView) {
                 if (materialsView->getSelected()->getParent() == rootTreeViewNode) {
-                    selectedMaterial = (SMaterial *)materialsView->getSelected()->getData();
-                    restoreMaterial = (SMaterial *)materialsView->getSelected()->getData();
-                    
-                    matEditorTextures->update(selectedMaterial);
-					matEditorColors->update(selectedMaterial);
-					matEditorFlags->update(selectedMaterial);
+                    update();
                 }
             }
         }
@@ -331,13 +342,18 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
 			IGUITab *currentTab = tabctrl->getTab(tabctrl->getActiveTab());
-			core::list<IGUIElement *>::ConstIterator elements = currentTab->getChildren().begin();
-			for (; elements != currentTab->getChildren().end(); ++elements) {
-				for (u32 sci=0; sci < scbars.size(); sci++) {
-					if (*elements == scbars[sci]) {
-						scbars[sci]->setPos(scbars[sci]->getPos() - event.MouseInput.Wheel);
-						updateElementsPositionsI(scbars[sci]);
-						break;
+			if (devices->getGUIEnvironment()->getFocus()) {
+				IGUIElement *focus = devices->getGUIEnvironment()->getFocus();
+				if (focus->getParent() == currentTab || focus == currentTab) {
+					core::list<IGUIElement *>::ConstIterator elements = currentTab->getChildren().begin();
+					for (; elements != currentTab->getChildren().end(); ++elements) {
+						for (u32 sci=0; sci < scbars.size(); sci++) {
+							if (*elements == scbars[sci]) {
+								scbars[sci]->setPos(scbars[sci]->getPos() - event.MouseInput.Wheel);
+								updateElementsPositionsI(scbars[sci]);
+								break;
+							}
+						}
 					}
 				}
 			}

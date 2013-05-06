@@ -25,7 +25,9 @@ CUIWindowEditNode::~CUIWindowEditNode() {
 }
 
 void CUIWindowEditNode::open(ISceneNode *node, stringw prefix, bool modal) {
-    
+    if (!node)
+		return;
+
     nodeToEdit = node;
     
     if (nodeToEdit == 0) {
@@ -36,14 +38,16 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix, bool modal) {
     } else {
         editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
                                                                    100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
-                                                             modal, L"Node Edition Window", 0, -1);
+															 modal, stringw(stringw("Node Edition Window : ") + stringw(node->getName())).c_str(), 0, -1);
 		editWindow->getMinimizeButton()->setVisible(!modal);
         open(node, prefix);
     }
 }
 
 void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
-    
+    if (!node)
+		return;
+
     devices->getEventReceiver()->AddEventReceiver(this);
     
     nodeToEdit = node;
@@ -61,7 +65,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         if (!editWindow) {
             editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200, 
                                                                            100, devices->getVideoDriver()->getScreenSize().Width/2+220, 700),
-                                                                 false, L"Node Edition Window", 0, -1);
+                                                                 false, stringw(stringw("Node Edition Window : ") + stringw(node->getName())).c_str(), 0, -1);
 			editWindow->getMinimizeButton()->setVisible(true);
         }
         editWindow->getMaximizeButton()->setVisible(true);
@@ -70,7 +74,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 560, 80, 590), editWindow, CXT_EDIT_WINDOW_EVENTS_APPLY_BUTTON, 
                                                               L"Apply", L"Apply the settings");
         closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 560, 175, 590), editWindow, CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON, 
-                                                              L"Cancel", L"Close without effect");
+                                                              L"Close", L"Close without effect");
         editWindow->getCloseButton()->remove();
         
         tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(2, 20, 418, 550), editWindow, true, true, -1);

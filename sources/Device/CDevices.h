@@ -40,7 +40,15 @@ public:
 	//DEVICE
 	IrrlichtDevice *getDevice() { return Device; }
 	IVideoDriver *getVideoDriver() { return driver; }
+
 	ISceneManager *getSceneManager() { return smgr; }
+	ISceneManager *getSecondSceneManager() { return effectSmgr; }
+
+	array<ISceneManager *> *getSceneManagers() { return &smgrs; }
+	void removeSceneManager(ISceneManager *smgrToDelete);
+	void setSceneManagerToDraw(ISceneManager *smgrToDraw);
+	ISceneManager *createNewSceneManager() { return effectSmgr->createNewSceneManager(); }
+
 	IGUIEnvironment *getGUIEnvironment() { return gui; }
 
 	EventReceiver *getEventReceiver() { return &receiver; }
@@ -48,6 +56,9 @@ public:
 	void setEditBoxEntered(bool _editBoxEntered) { editBoxEntered = _editBoxEntered; }
 
 	stringc getWorkingDirectory() { return workingDirectory; }
+
+	stringw getContextName() { return contextName; }
+	void setContextName(stringw _contextName) { contextName = _contextName; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -132,12 +143,17 @@ private:
 	//DEVICE
 	IrrlichtDevice *Device;
 	IVideoDriver *driver;
+
 	ISceneManager *smgr, *effectSmgr;
+	array<ISceneManager *> smgrs;
+	u32 sceneManagerToDrawIndice;
+
 	IGUIEnvironment *gui;
 
 	EventReceiver receiver;
 	bool editBoxEntered;
-	stringw projectName;
+
+	stringw projectName, contextName;
 	//-----------------------------------
 
 	//-----------------------------------

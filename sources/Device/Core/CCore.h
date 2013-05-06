@@ -56,7 +56,6 @@ public:
 
 	void setDevice(IrrlichtDevice *_device) { device = _device; }
     
-    //--------------------------
     //CORE METHODS AND FUNCTIONS
 	std::string convertToString(stringw _textToConvert);
     
@@ -72,6 +71,7 @@ public:
 	
 	stringw getStrNumber(f32 value);
     stringw getStrNumberU32(u32 value);
+	stringw getStrVector3df(vector3df v);
 
 	stringc getStringcFromFile(stringc pathFile);
 	stringc getStringcFromIReadFile(stringc pathFile);
@@ -80,15 +80,18 @@ public:
 
     stringw getTexturePath(ITexture *texture);
 
-    ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
-
+	//DRIVER METHODS
 	s32 textureAlreadyExists(stringc name, IVideoDriver *driver);
+
+	//SCENE METHODS
+	ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
 	s32 nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node);
 	array<ISceneNode *> *getArrayOfAListOfNodeChildren(ISceneNode *node);
 
+	//GUI METHODS
 	bool elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements);
 	array<IGUIElement *> getArrayOfAListOfGUIElementChildren(IGUIElement *element);
-    //--------------------------
+	void deactiveChildrenOfGUIElement(IGUIElement *element, bool visible);
     
     
 private:
@@ -159,8 +162,15 @@ public:
 		IImage *scs = driver->createScreenShot();
 		IGUIImage *image = gui->addImage(rect<s32>(0, 0, scs->getDimension().Width, scs->getDimension().Height), 0, -1, window->getText());
 		ITexture *texture = driver->addTexture(stringc(stringc(window->getText()) + stringc(window->getReferenceCount())).c_str(), scs);
-		
 
+		IGUIStaticText *txt = gui->addStaticText(window->getText(), rect<s32>(0, 0, 0, 0), false, false, 0, -1, false);
+		txt->setToolTipText(window->getText());
+		txt->setOverrideColor(SColor(255, 255, 255, 255));
+		txt->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
+		scs->grab();
+
+		image->setText(window->getText());
+		image->setToolTipText(window->getText());
 		image->setImage(texture);
 		image->setScaleImage(true);
 
@@ -172,6 +182,7 @@ public:
 		smw.relativePositions.push_back(window->getRelativePosition());
 		smw.images.push_back(texture);
 		smw.GUIImages.push_back(image);
+		smw.names.push_back(txt);
 	}
 
 	void RemoveMinimizedWindow(IEventReceiver *rcv) {
@@ -183,6 +194,7 @@ public:
 				
 				smw.GUIImages[i]->remove();
 				driver->removeTexture(smw.images[i]);
+				smw.names[i]->remove();
 
 				smw.minimizedWindows.erase(i);
 				smw.minimizedGUIWindows.erase(i);
@@ -190,6 +202,7 @@ public:
 				smw.relativePositions.erase(i);
 				smw.images.erase(i);
 				smw.GUIImages.erase(i);
+				smw.names.erase(i);
             }
         }
 	}
@@ -198,6 +211,7 @@ public:
 
 	IEventReceiver *getErcv(u32 i) { return smw.minimizedWindows[i]; }
 	IGUIElement *getWindow(u32 i) { return smw.GUIImages[i]; }
+	IGUIElement *getWindowName(u32 i) { return smw.names[i]; }
 	IGUIWindow *getGUIWindow(u32 i) { return smw.minimizedGUIWindows[i]; }
 	IGUIElement *getParent(u32 i) { return smw.parent[i]; }
 
@@ -214,6 +228,7 @@ private:
 		array<rect<s32>> relativePositions;
 		array<ITexture *> images;
 		array<IGUIImage *> GUIImages;
+		array<IGUIStaticText *> names;
 	} smw;
 
 	IVideoDriver *driver;

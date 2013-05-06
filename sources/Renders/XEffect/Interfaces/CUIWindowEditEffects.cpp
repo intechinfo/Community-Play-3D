@@ -79,13 +79,16 @@ void CUIWindowEditEffects::open() {
         shadersList->addItem(name.c_str());
     }
     //-----------------------------------
-    
+
     //-----------------------------------
     //CALLBACKS WINDOW
     editionWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(490, 210, 905, 640),
                                                             false, L"Callbacks Edition Window", 0, -1);
     editionWindow->getCloseButton()->remove();
     editionWindow->setVisible(false);
+
+	effectsWindow->addChild(editionWindow);
+	editionWindow->setRelativePosition(position2di(30, 60));
     
     //PIXEL SHADERS
     pEditWindow = devices->getGUIEnvironment()->addButton(rect<s32>(130, 30, 200, 50), editionWindow, -1, L"Edit", L"Edit Window For complex scripts");
