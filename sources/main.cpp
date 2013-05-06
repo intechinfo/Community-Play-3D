@@ -19,13 +19,13 @@ int main() {
     //---------------------------------------------------------------------------------------------
     //----------------------------------GUI DEVICE CREATION----------------------------------------
     //---------------------------------------------------------------------------------------------
-    
+
     CCoreUserInterface *coreUserInterface = new CCoreUserInterface();
-    
+
     //---------------------------------------------------------------------------------------------
     //---------------------------------------TESTS-------------------------------------------------
     //---------------------------------------------------------------------------------------------
-    
+
 	IrrlichtDevice *device = coreUserInterface->getDevices()->getDevice();
     IVideoDriver *driver = coreUserInterface->getVideoDriver();
     ISceneManager *smgr = coreUserInterface->getSceneManager();
@@ -37,8 +37,8 @@ int main() {
 	//CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
 	//water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
 
-	//ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
-	//coreUserInterface->getDevices()->setSkydome(skydome);
+	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
+	coreUserInterface->getDevices()->setSkydome(skydome);
 
 	//coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skydome, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_NO_SHADOW);
 
@@ -69,6 +69,15 @@ int main() {
 
 	}*/
 
+	//FOR ERIO
+
+	/*CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
+	water->getWaterNode()->setName("#water:test");
+	water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
+	water->setSinWaveEnabled(true);
+	water->setRefractionEnabled(true);
+	coreUserInterface->getDevices()->getCoreData()->getWaterSurfaces()->push_back(water->getWaterNode());*/
+
     //---------------------------------------------------------------------------------------------
     //-----------------------------------RUNNING DEVICE--------------------------------------------
     //---------------------------------------------------------------------------------------------
@@ -79,12 +88,18 @@ int main() {
             driver->beginScene(true, true, SColor(0x0));
 
             coreUserInterface->update();
-            
+
+			/*if (coreUserInterface->getDevices()->isXEffectDrawable()) {
+				water->setOriginRTT(coreUserInterface->getDevices()->getXEffect()->getScreenQuad().rt[1]);
+			} else {
+				water->setOriginRTT(0);
+			}*/
+
             driver->endScene();
         }
-        
+
     }
-    
+
     device->drop();
 
     return EXIT_SUCCESS;

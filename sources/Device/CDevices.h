@@ -48,6 +48,7 @@ public:
 	void removeSceneManager(ISceneManager *smgrToDelete);
 	void setSceneManagerToDraw(ISceneManager *smgrToDraw);
 	ISceneManager *createNewSceneManager() { return effectSmgr->createNewSceneManager(); }
+	ISceneManager *getRenderingSceneManager() { return smgrs[sceneManagerToDrawIndice]; }
 
 	IGUIEnvironment *getGUIEnvironment() { return gui; }
 

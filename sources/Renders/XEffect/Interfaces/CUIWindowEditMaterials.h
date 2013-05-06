@@ -63,6 +63,8 @@ private:
 	IGUIComboBox *pShaderType;
 	IGUIComboBox *bShaderType;
 
+	IGUIButton *gLoadFromFile, *gEdit;
+
 	CGUIEditBoxIRB *constantsCodeBox;
 	IGUIComboBox *editorChoice;
 
@@ -88,7 +90,7 @@ private:
 
 	//-----------------------------------
 	//EDITING VALUES
-	bool openingVertex, openingPixel;
+	bool openingVertex, openingPixel, openingGeometry;
 	bool editingConstants, editingVertexShader, editingPixelShader;
 	//-----------------------------------
 

@@ -104,6 +104,10 @@ s32 CCoreData::isMeshPlanared(ISceneNode *node) {
 	return planared;
 }
 
+void CCoreData::enableRTTWaterSurfaces(bool enable) {
+
+}
+
 array<ISceneNode *> CCoreData::getArrayOfTreeNodes() {
 	array<ISceneNode *> nodes;
 

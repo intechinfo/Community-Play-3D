@@ -75,7 +75,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
                                                               L"Apply", L"Apply the settings");
         closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 560, 175, 590), editWindow, CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON, 
                                                               L"Close", L"Close without effect");
-        editWindow->getCloseButton()->remove();
+        //editWindow->getCloseButton()->remove();
         
         tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(2, 20, 418, 550), editWindow, true, true, -1);
         generalTab = tabCtrl->addTab(L"General");
@@ -650,6 +650,16 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
     }
     
     if (event.EventType == EET_GUI_EVENT) {
+
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			SEvent ev;
+			ev.EventType = EET_GUI_EVENT;
+			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+			ev.GUIEvent.Caller = closeButton;
+			ev.GUIEvent.Element = closeButton;
+			OnEvent(ev);
+		}
+
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
 			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {

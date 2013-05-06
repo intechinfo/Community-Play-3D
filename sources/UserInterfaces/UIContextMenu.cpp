@@ -127,7 +127,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"About...", CXT_MENU_EVENTS_HELP_ABOUT);
     //-----------------------------------
-    
+
     //-----------------------------------
     //TOOLBAR
     bar = devices->getGUIEnvironment()->addToolBar(0, -1);
@@ -188,8 +188,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer = devices->getDevice()->getTimer();
     timer->start();
     timer->setTime(0);
-    
-	stringw scene_to_import = L"zombie.world";
+
+	stringw scene_to_import = L"l.world";
     CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importScene(scene_to_import.c_str());
 	scene_to_import.remove(L".world");
@@ -211,9 +211,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
     //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
 
-	CUICharacterWindow *editChar = new CUICharacterWindow(devices);
-	editChar->open();
-	editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](0).getNode(), 0);
+	//CUICharacterWindow *editChar = new CUICharacterWindow(devices);
+	//editChar->open();
+	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](0).getNode(), 0);
 
 	movementType = CCoreObjectPlacement::Undefined;
 	devices->getObjectPlacement()->setArrowType(movementType);
@@ -682,12 +682,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         //-----------------------------------
         //BUTTON GUI EVENT
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
-            
+
 			//POSITION
 			if (event.GUIEvent.Caller == ibposition) {
 				if (ibposition->isPressed()) {
 					movementType = CCoreObjectPlacement::Position;
 					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
 					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibrotation->setPressed(false);
@@ -699,6 +700,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				if (ibrotation->isPressed()) {
 					movementType = CCoreObjectPlacement::Rotation;
 					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
 					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibposition->setPressed(false);
@@ -710,6 +712,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				if (ibscale->isPressed()) {
 					movementType = CCoreObjectPlacement::Scale;
 					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
 					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibposition->setPressed(false);

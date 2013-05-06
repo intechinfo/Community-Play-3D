@@ -48,6 +48,7 @@ private:
 	void resetBonesWindow();
 
 	void previewManualAction();
+	void previewEntireFrame();
 	//-----------------------------------
 
 	//-----------------------------------

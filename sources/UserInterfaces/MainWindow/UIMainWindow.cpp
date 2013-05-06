@@ -416,10 +416,12 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 previousNode = 0;
             }
         }
-        
+
         if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && devices->isShiftPushed()) {
             if (previousNode) {
                 selectSelectedNode(previousNode);
+				devices->getObjectPlacement()->setNodeToPlace(previousNode);
+				devices->getObjectPlacement()->setArrowVisible(true);
             }
         }
 
@@ -560,26 +562,28 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 		}
 
 		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
-			array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
-			for (int i=0; i < nodes.size(); i++) {
-				nodes[i]->setDebugDataVisible(EDS_OFF);
-			}
-			if (getSelectedNode().getNode()) {
-				getSelectedNode().getNode()->setDebugDataVisible(EDS_BBOX);
-				if (getSelectedNode().getNode()->getType() == ESNT_LIGHT) {
-					refresh();
-					light_icon->setParent(getSelectedNode().getNode());
-					light_icon->setPosition(vector3df(0, 0, 0));
-					light_icon->setVisible(true);
-					devices->getObjectPlacement()->setLightNode(getSelectedNode().getNode());
+			if (event.GUIEvent.Caller == getActiveListBox()) {
+				array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
+				for (int i=0; i < nodes.size(); i++) {
+					nodes[i]->setDebugDataVisible(EDS_OFF);
+				}
+				if (getSelectedNode().getNode()) {
+					getSelectedNode().getNode()->setDebugDataVisible(EDS_BBOX);
+					if (getSelectedNode().getNode()->getType() == ESNT_LIGHT) {
+						refresh();
+						light_icon->setParent(getSelectedNode().getNode());
+						light_icon->setPosition(vector3df(0, 0, 0));
+						light_icon->setVisible(true);
+						devices->getObjectPlacement()->setLightNode(getSelectedNode().getNode());
+					} else {
+						light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+						light_icon->setVisible(false);
+						devices->getObjectPlacement()->setLightNode(0);
+					}
 				} else {
 					light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
 					light_icon->setVisible(false);
-					devices->getObjectPlacement()->setLightNode(0);
 				}
-			} else {
-				light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
-				light_icon->setVisible(false);
 			}
 		}
     }

@@ -213,33 +213,59 @@ void CUIEditBones::previewManualAction() {
 	}
 }
 
+void CUIEditBones::previewEntireFrame() {
+	if (selectedFrame) {
+		for (u32 i=0; i < selectedFrame->getAnimations()->size(); i++) {
+			CAnimation *an = selectedFrame->getAnimations()->operator[](i);
+			for (u32 j=0; j < an->getBonesInformations()->size(); j++) {
+				SBoneInformations bi = an->getBonesInformations()->operator[](j);
+				for (u32 k=0; k < bi.getManualActions()->size(); k++) {
+					CManualAction *ma = bi.getManualActions()->operator[](k);
+					ISceneNodeAnimator *ac;
+					if (ma->getType() == EMAT_ROTATION) {
+						vector3df rotend = bi.getNewRotation();
+						vector3df rotbase = bi.getRotation();
+						ac = new CRotationAnimator(rotbase, rotend, ma->getTimeToComplete(),
+												   ma->getSens() == EMAS_POSITIVE, 
+												   devices->getDevice()->getTimer()->getTime());
+					}
+					if (ac) {
+						bi.getNode()->addAnimator(ac);
+						ac->drop();
+					}
+				}
+			}
+		}
+	}
+}
+
 bool CUIEditBones::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT || event.EventType == EET_KEY_INPUT_EVENT) {
 		if (selectedFrame && selectedAnimation && bonesListBox && manualActionslb) {
-		if (bonesListBox->getSelected() != -1 && manualActionslb->getSelected() != -1) {
+			if (bonesListBox->getSelected() != -1 && manualActionslb->getSelected() != -1) {
 				CManualAction *ma = selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getManualActions()->operator[](manualActionslb->getSelected());
 				stringw infosStart, infosEnd;
 				switch (ma->getType()) {
-				case EMAT_ROTATION:
-					selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewRotation(node->getJointNode(bonesListBox->getSelected())->getRotation());
-					infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getRotation());
-					infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewRotation());
-					break;
-				case EMAT_TRANSLATION:
-					selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewPosition(node->getJointNode(bonesListBox->getSelected())->getPosition());
-					infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getPosition());
-					infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewPosition());
-					break;
-				case EMAT_SCALE:
-					selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewScale(node->getJointNode(bonesListBox->getSelected())->getScale());
-					infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getScale());
-					infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewScale());
-					break;
-				default:
-					break;
+					case EMAT_ROTATION:
+						selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewRotation(node->getJointNode(bonesListBox->getSelected())->getRotation());
+						infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getRotation());
+						infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewRotation());
+						break;
+					case EMAT_TRANSLATION:
+						selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewPosition(node->getJointNode(bonesListBox->getSelected())->getPosition());
+						infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getPosition());
+						infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewPosition());
+						break;
+					case EMAT_SCALE:
+						selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).setNewScale(node->getJointNode(bonesListBox->getSelected())->getScale());
+						infosStart = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getScale());
+						infosEnd = devices->getCore()->getStrVector3df(selectedAnimation->getBonesInformations()->operator[](bonesListBox->getSelected()).getNewScale());
+						break;
+					default:
+						break;
 				}
-			
+
 				stringw startInfosw = "Start : ";
 				startInfosw += infosStart;
 				startInfo->setText(startInfosw.c_str());
@@ -247,6 +273,10 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 				endInfosw += infosEnd;
 				endInfo->setText(endInfosw.c_str());
 			}
+		}
+		if (lastBoneSceneNode) {
+			lastBoneSceneNode->updateAbsolutePosition();
+			lastBoneSceneNode->updateAbsolutePositionOfAllChildren();
 		}
 	}
 
@@ -435,6 +465,9 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 			//PREVIEWS
 			if (event.GUIEvent.Caller == preview) {
 				previewManualAction();
+			}
+			if (event.GUIEvent.Caller == previewFrame) {
+				previewEntireFrame();
 			}
 		}
 

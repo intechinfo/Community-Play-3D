@@ -13,7 +13,7 @@ CAnimation::CAnimation(irr::scene::IAnimatedMeshSceneNode *_node) {
 	if (node) {
 		for (irr::u32 i=0; i < node->getJointCount(); i++) {
 			irr::scene::IBoneSceneNode *bn = node->getJointNode(i);
-			SBoneInformations sbi(bn->getPosition(), bn->getRotation(), bn->getScale());
+			SBoneInformations sbi(bn, bn->getPosition(), bn->getRotation(), bn->getScale());
 			bonesInformations.push_back(sbi);
 		}
 	}
