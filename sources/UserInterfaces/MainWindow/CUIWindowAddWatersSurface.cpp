@@ -47,50 +47,60 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 		}
 		else if(event.GUIEvent.Caller == m_acceptButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
-            if(m_filePath != L"")
+			CWaterSurface *waterSurface;
+
+			io::path extension, filename;
+			extension = ".spkg";
+			filename = "shaders/Materials/water_shader";
+
+			waterSurface = new CWaterSurface(m_devices->getSceneManager(), m_devices->getXEffect()->getScreenQuad().rt[1], m_devices->getSceneManager()->getMesh(m_filePath.c_str()));
+			IMeshSceneNode *waterNode = waterSurface->getWaterNode();
+
+			CShaderCallback *callback = new CShaderCallback();
+
+			if(waterNode)
 			{
-                IAnimatedMesh *waterSurfaceMesh = m_devices->getSceneManager()->getMesh(m_filePath.c_str());
-                IAnimatedMeshSceneNode *waterSurfaceNode = m_devices->getSceneManager()->addAnimatedMeshSceneNode(waterSurfaceMesh);
-                waterSurfaceNode->setAnimationSpeed(0);
-                waterSurfaceNode->setFrameLoop(0, 0);
+				waterNode->setMaterialFlag(EMF_LIGHTING, false);
+				waterNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
 
-                if(waterSurfaceNode)
-                {
-                    video::IGPUProgrammingServices *gpu = m_devices->getVideoDriver()->getGPUProgrammingServices();
-                    s32 shaderMaterialType = 0;
-                    CShaderCallback *callback = new CShaderCallback();
+				stringw waterSurfaceName = L"#water:";
+				waterSurfaceName += m_nameEditBox->getText();
+				waterNode->setName(waterSurfaceName.c_str());
 
+				m_devices->getXEffect()->addShadowToNode(waterNode, m_devices->getXEffectFilterType(), ESM_RECEIVE);
+				m_devices->getCollisionManager()->setCollisionToAnOctTreeNode(waterNode);
 
-                    waterSurfaceNode->setMaterialFlag(EMF_LIGHTING, false);
-                    waterSurfaceNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
+				IFileSystem *fileSystem = m_devices->getDevice()->getFileSystem();
+				if (fileSystem->addZipFileArchive(stringc(filename + extension).c_str()))
+				{
 
-                    stringw waterSurfaceName = L"#water:";
-                    waterSurfaceName += m_nameEditBox->getText();
-                    waterSurfaceNode->setName(waterSurfaceName.c_str());
+					stringc vertexLines = m_devices->getCore()->getStringcFromIReadFile("vertex.vbs");
+					stringc pixelLines = m_devices->getCore()->getStringcFromIReadFile("pixel.fbs");
+					stringc constantsLines = m_devices->getCore()->getStringcFromIReadFile("constants.cbs");
 
-                    m_devices->getXEffect()->addShadowToNode(waterSurfaceNode, m_devices->getXEffectFilterType());
-                    m_devices->getCollisionManager()->setCollisionToAnAnimatedNode(waterSurfaceNode);
+					callback->setDevice(m_devices->getDevice());
 
-                    shaderMaterialType = gpu->addHighLevelShaderMaterialFromFiles(L"shaders/Materials/Water/default.hlsl", "mainVertexShader",EVST_VS_4_0, "shaders/Materials/Water/default.hlsl", "mainPixelShader", EPST_PS_4_0, callback, video::EMT_TRANSPARENT_ADD_COLOR);
-                    waterSurfaceNode->setMaterialTexture(0, m_devices->getVideoDriver()->getTexture(L"shaders/Materials/Water/water_101.JPG"));
-                    waterSurfaceNode->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterialType);
+					callback->setVertexShader(vertexLines.c_str());
+					callback->setVertexShaderType(EVST_VS_3_0);
+					callback->setPixelShader(pixelLines.c_str());
+					callback->setPixelShaderType(EPST_PS_3_0);
+					callback->setConstants(constantsLines.c_str());
+					callback->buildMaterial(m_devices->getVideoDriver());
+				}
+				else
+				{
+					m_devices->addErrorDialog("Error Archive", L"Error when opening the archive\nMaybe the archive is corrupt...", EMBF_OK);
+				}
 
-                    //m_devices->getCoreData()->getWaterSurfaces()->push_back(waterSurfaceNode);
-                    //m_devices->getCoreData()->getWaterSurfacesPath()->push_back(m_filePath);
+				waterNode->setMaterialType((video::E_MATERIAL_TYPE)callback->getMaterial());
 
-                    m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
+				m_devices->getCoreData()->getWaterSurfaces()->push_back(SWaterSurfacesData(waterSurface, callback,filename + extension));
 
-                    m_devices->getEventReceiver()->RemoveEventReceiver(this);
-                    m_window->remove();
-                }
+				m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
 			}
-			else
-			{
-                if(m_filePath == L"")
-                    m_devices->addWarningDialog(L"Warning", "Please select a mesh to apply the water surface !", EMBF_OK);
-                else
-                    m_devices->addWarningDialog(L"Warning", "Error when loading the selected mesh \nPlease verify the path or the model integrity\n", EMBF_OK);
-			}
+
+			m_devices->getEventReceiver()->RemoveEventReceiver(this);
+			m_window->remove();
 		}
 		else if(event.GUIEvent.Caller == m_cancelButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
