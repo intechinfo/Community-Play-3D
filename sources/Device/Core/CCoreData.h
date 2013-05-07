@@ -244,12 +244,13 @@ private:
 
 struct SWaterSurfacesData {
 public:
-		SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"") {
-		waterSurface = _waterSurface;
-		callback = _callback;
-		packagePath = _packagePath;
+	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"") {
+	waterSurface = _waterSurface;
+	callback = _callback;
+	packagePath = _packagePath;
     }
 
+	void remove() { delete this; }
 	void setwaterSurface(CWaterSurface *_waterSurface) { waterSurface = _waterSurface; }
 	void setPath(stringw _packagePath) { packagePath = _packagePath; }
 

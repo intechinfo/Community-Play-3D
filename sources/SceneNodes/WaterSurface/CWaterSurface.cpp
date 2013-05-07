@@ -6,8 +6,8 @@ using namespace core;
 using namespace scene;
 using namespace io;
 
-CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITexture *target, irr::scene::IMesh *mesh,
-							 bool SinWave, bool Refraction, irr::core::stringw packagePath,
+CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITexture *target, irr::scene::IAnimatedMesh *mesh,
+							 bool SinWave, bool Refraction, irr::core::stringw workingDirectory,
 							 irr::core::dimension2du RTTSize, irr::scene::ISceneNode* parent, irr::s32 id, irr::video::E_MATERIAL_TYPE mat)
 							 : ISceneNode(parent, smgr, id), refRTTSize(RTTSize)
 {
@@ -28,14 +28,13 @@ CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITextu
 		SceneManager->getMeshManipulator()->makePlanarTextureMapping(waterMesh, 0.05f);
 	} else {
 		waterMesh = mesh;
-		waterNode = SceneManager->addMeshSceneNode(waterMesh);
 	}
     
-    waterNode = SceneManager->addMeshSceneNode(waterMesh, this);
-    waterNode->getMaterial(0).MaterialType = mat;
-    waterNode->getMaterial(0).setTexture(0, refRTT);
-    waterNode->getMaterial(0).setTexture(1, driver->getTexture("shaders/Textures/Water/waterNormal.png"));
-    waterNode->getMaterial(0).setTexture(2, driver->getTexture("shaders/Textures/Water/waterDUDV.png"));
+	waterNode = SceneManager->addAnimatedMeshSceneNode(waterMesh, this);
+	waterNode->setMaterialType(mat);
+	waterNode->setMaterialTexture(0, refRTT);
+	waterNode->setMaterialTexture(1, driver->getTexture(workingDirectory + "shaders/Textures/Water/waterNormal.png"));
+	waterNode->setMaterialTexture(2, driver->getTexture(workingDirectory + "shaders/Textures/Water/waterDUDV.png"));
     
     setPosition(vector3df(0, 0, 0));
     setSinWaveEnabled(SinWave);

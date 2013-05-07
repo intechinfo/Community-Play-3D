@@ -53,8 +53,8 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 			extension = ".spkg";
 			filename = m_devices->getWorkingDirectory() + "shaders/Materials/water_shader";
 
-			waterSurface = new CWaterSurface(m_devices->getSceneManager(), m_devices->getXEffect()->getScreenQuad().rt[1], m_devices->getSceneManager()->getMesh(m_filePath.c_str()));
-			IMeshSceneNode *waterNode = waterSurface->getWaterNode();
+			waterSurface = new CWaterSurface(m_devices->getSceneManager(), m_devices->getXEffect()->getScreenQuad().rt[1], m_devices->getSceneManager()->getMesh(m_filePath.c_str()), true, true, m_devices->getWorkingDirectory());
+			IAnimatedMeshSceneNode *waterNode = waterSurface->getWaterNode();
 
 			CShaderCallback *callback = new CShaderCallback();
 
@@ -68,7 +68,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				waterNode->setName(waterSurfaceName.c_str());
 
 				m_devices->getXEffect()->addShadowToNode(waterNode, m_devices->getXEffectFilterType(), ESM_RECEIVE);
-				m_devices->getCollisionManager()->setCollisionToAnOctTreeNode(waterNode);
+				m_devices->getCollisionManager()->setCollisionToAnAnimatedNode(waterNode);
 
 				IFileSystem *fileSystem = m_devices->getDevice()->getFileSystem();
 				if (fileSystem->addZipFileArchive(stringc(filename + extension).c_str()))
@@ -99,13 +99,11 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
 			}
 
-			m_devices->getEventReceiver()->RemoveEventReceiver(this);
 			m_window->remove();
 		}
 		else if(event.GUIEvent.Caller == m_cancelButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
 			m_window->remove();
-			m_devices->getEventReceiver()->RemoveEventReceiver(this);
 		}
 
 		if(event.GUIEvent.EventType == EGET_FILE_SELECTED)

@@ -798,9 +798,9 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if(waterSurfacesListBox->getSelected() != -1)
                 {
 					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
-					//devices->getCoreData()->getWaterSurfaces()->operator [](waterSurfaceId)->remove();
-					//devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
-					//devices->getCoreData()->getWaterSurfacesPath()->erase(waterSurfaceId);
+
+					devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface()->remove();
+					devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
                 }
                 else
                 {
