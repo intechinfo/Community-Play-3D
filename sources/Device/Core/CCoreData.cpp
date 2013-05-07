@@ -44,7 +44,7 @@ void CCoreData::clearAllTheArrays() {
     
     lightsData.clear();
 
-	waterSurfaceNodes.clear();
+	waterSurfaces.clear();
 	planarMeshes.clear();
     
     effectRenders.clear();

@@ -245,32 +245,22 @@ private:
 struct SWaterSurfacesData
 {
 public:
-    SWaterSurfacesData(IMesh *_mesh, ISceneNode *_node, stringw _path, stringw shaderPath = "") {
-        mesh = _mesh;
-        node = _node;
-        path = _path;
-        psPath = shaderPath;
-        vsPath = shaderPath;
+		SWaterSurfacesData(CWaterSurface *_waterSurface, stringw _packagePath = L"") {
+		waterSurface = _waterSurface;
+		packagePath = _packagePath;
     }
 
-    void setMesh(IMesh *_mesh) { mesh = _mesh; }
-    void setNode(ISceneNode *_node) { node = _node; }
-    void setPath(stringw _path) { path = _path; }
+	void setwaterSurface(CWaterSurface *_waterSurface) { waterSurface = _waterSurface; }
+	void setPath(stringw _packagePath) { packagePath = _packagePath; }
 
-    IMesh *getMesh() { return mesh; }
-    ISceneNode *getNode() { return node; }
-    stringw getPath() { return path; }
-
-    array<CAction *> *getActions() { return &actions; }
+	CWaterSurface *getWaterSurface() { return waterSurface; }
+	IMesh *getMesh() { return 0; }
+	ISceneNode *getNode() { return 0; }
+	stringw getPath() { return packagePath; }
 
 private:
-    IMesh *mesh;
-    ISceneNode *node;
-    stringw path;
-    stringw psPath;
-    stringw vsPath;
-
-    array<CAction *> actions;
+	CWaterSurface *waterSurface;
+	stringw packagePath;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -317,8 +307,7 @@ public:
 
 	array<SVolumeLightsData> *getVolumeLightsData() { return &volumeLightsData; }
 
-	array<ISceneNode *> *getWaterSurfaces() { return &waterSurfaceNodes; }
-	array<stringw> *getWaterSurfacesPath() { return &waterSurfacePath; }
+	array<SWaterSurfacesData> *getWaterSurfaces() { return &waterSurfaces; }
 
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
 	array<ISceneNode *> *getPlanarMeshes() { return &planarMeshes; }
@@ -357,8 +346,7 @@ private:
 
 	array<SVolumeLightsData> volumeLightsData;
 
-	array<ISceneNode *> waterSurfaceNodes;
-	array<stringw> waterSurfacePath;
+	array<SWaterSurfacesData> waterSurfaces;
 
 	array<SPlanarTextureMappingData> planarTextureMappingValues;
 	array<ISceneNode *> planarMeshes;

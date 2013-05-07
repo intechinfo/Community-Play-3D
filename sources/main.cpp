@@ -14,8 +14,12 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
+#ifdef IS_ERIO_AND_RELOU
+#include <Windows.h>
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow){
+#else
 int main() {
-
+#endif
     //---------------------------------------------------------------------------------------------
     //----------------------------------GUI DEVICE CREATION----------------------------------------
     //---------------------------------------------------------------------------------------------
