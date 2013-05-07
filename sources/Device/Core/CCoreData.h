@@ -242,8 +242,7 @@ private:
 //----------------------------------WATER SURFACES--------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SWaterSurfacesData
-{
+struct SWaterSurfacesData {
 public:
 		SWaterSurfacesData(CWaterSurface *_waterSurface, stringw _packagePath = L"") {
 		waterSurface = _waterSurface;
@@ -261,6 +260,8 @@ public:
 private:
 	CWaterSurface *waterSurface;
 	stringw packagePath;
+
+
 };
 
 //---------------------------------------------------------------------------------------------

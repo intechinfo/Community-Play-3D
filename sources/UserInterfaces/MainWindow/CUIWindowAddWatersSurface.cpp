@@ -75,8 +75,8 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
                     waterSurfaceNode->setMaterialTexture(0, m_devices->getVideoDriver()->getTexture(L"shaders/Materials/Water/water_101.JPG"));
                     waterSurfaceNode->setMaterialType((video::E_MATERIAL_TYPE)shaderMaterialType);
 
-                    m_devices->getCoreData()->getWaterSurfaces()->push_back(waterSurfaceNode);
-                    m_devices->getCoreData()->getWaterSurfacesPath()->push_back(m_filePath);
+                    //m_devices->getCoreData()->getWaterSurfaces()->push_back(waterSurfaceNode);
+                    //m_devices->getCoreData()->getWaterSurfacesPath()->push_back(m_filePath);
 
                     m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
 

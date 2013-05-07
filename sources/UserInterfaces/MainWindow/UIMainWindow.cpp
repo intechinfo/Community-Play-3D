@@ -169,7 +169,7 @@ void CUIMainWindow::refresh() {
     selected = waterSurfacesListBox->getSelected();
     waterSurfacesListBox->clear();
     for (int i=0; i < devices->getCoreData()->getWaterSurfaces()->size(); i++) {
-        stringw name = devices->getCoreData()->getWaterSurfaces()->operator[](i)->getName();
+		stringw name = devices->getCoreData()->getWaterSurfaces()->operator[](i).getNode()->getName();
         waterSurfacesListBox->addItem(name.c_str());
     }
     waterSurfacesListBox->setSelected(selected);
@@ -228,7 +228,8 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 		}
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         if (waterSurfacesListBox->getSelected() != -1) {
-            node = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected());
+			mesh = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getMesh();
+			node = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getNode();
         }
     }
     
@@ -797,9 +798,9 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if(waterSurfacesListBox->getSelected() != -1)
                 {
 					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
-					devices->getCoreData()->getWaterSurfaces()->operator [](waterSurfaceId)->remove();
-					devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
-					devices->getCoreData()->getWaterSurfacesPath()->erase(waterSurfaceId);
+					//devices->getCoreData()->getWaterSurfaces()->operator [](waterSurfaceId)->remove();
+					//devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
+					//devices->getCoreData()->getWaterSurfacesPath()->erase(waterSurfaceId);
                 }
                 else
                 {

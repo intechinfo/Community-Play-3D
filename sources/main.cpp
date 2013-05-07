@@ -74,14 +74,12 @@ int main() {
 
 	}*/
 
-	//FOR ERIO
 
-	/*CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
-	water->getWaterNode()->setName("#water:test");
-	water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
-	water->setSinWaveEnabled(true);
-	water->setRefractionEnabled(true);
-	coreUserInterface->getDevices()->getCoreData()->getWaterSurfaces()->push_back(water->getWaterNode());*/
+	//FOR ERIOR
+	/*CWaterSurface *wat = new CWaterSurface(smgr, coreUserInterface->getDevices()->getXEffect()->getScreenQuad().rt[1], 0);
+	wat->getWaterNode()->setName("#water:test");
+	SWaterSurfacesData wdata(wat);
+	coreUserInterface->getDevices()->getCoreData()->getWaterSurfaces()->push_back(wdata);*/
 
     //---------------------------------------------------------------------------------------------
     //-----------------------------------RUNNING DEVICE--------------------------------------------
@@ -93,12 +91,6 @@ int main() {
             driver->beginScene(true, true, SColor(0x0));
 
             coreUserInterface->update();
-
-			/*if (coreUserInterface->getDevices()->isXEffectDrawable()) {
-				water->setOriginRTT(coreUserInterface->getDevices()->getXEffect()->getScreenQuad().rt[1]);
-			} else {
-				water->setOriginRTT(0);
-			}*/
 
             driver->endScene();
         }

@@ -132,6 +132,15 @@ void CDevices::updateDevice() {
         }
     }
 
+	//UPDATING WATER
+	for (u32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
+		if (renderXEffect) {
+			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
+		} else {
+			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
+		}
+	}
+
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
 			std::thread scene_t(&CDevices::drawScene, *this);

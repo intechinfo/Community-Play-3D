@@ -1,0 +1,3 @@
+vmatrix4 wvp proj[1] view[1] world[1]  dontMakeInverse
+vfloat time + ctime 5
+ 
