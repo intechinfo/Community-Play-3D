@@ -546,6 +546,7 @@ public:
 	/// Set if use Motion Blur Render
 	void setUseMotionBlur(bool use) { useMotionBlur = use; }
 	bool isUsingMotionBlur() { return useMotionBlur; }
+	IPostProcessMotionBlur *getPostProcessMotionBlur() { return motionBlur; }
 
 	/// Set if use VSM shadows
 	void setUseVSMShadows(bool use) { useVSM = use; }

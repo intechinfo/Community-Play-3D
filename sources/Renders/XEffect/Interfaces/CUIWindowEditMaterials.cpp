@@ -172,8 +172,8 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             if (element == removeOGLMaterialShader) {
                 s32 selected;
                 selected = openGLMaterialsList->getSelected();
-                openGLMaterialsList->removeItem(selected);
                 if (selected != -1) {
+					openGLMaterialsList->removeItem(selected);
                     delete devices->getCoreData()->getShaderCallbacks()->operator[](selected);
                     devices->getCoreData()->getShaderCallbacks()->erase(selected);
                 } else {

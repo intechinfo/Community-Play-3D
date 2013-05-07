@@ -26,6 +26,9 @@ CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITextu
 	if (!mesh) {
 		waterMesh = SceneManager->addHillPlaneMesh("waterMesh", dimension2df(25, 25), dimension2du(25, 25));
 		SceneManager->getMeshManipulator()->makePlanarTextureMapping(waterMesh, 0.05f);
+	} else {
+		waterMesh = mesh;
+		waterNode = SceneManager->addMeshSceneNode(waterMesh);
 	}
     
     waterNode = SceneManager->addMeshSceneNode(waterMesh, this);

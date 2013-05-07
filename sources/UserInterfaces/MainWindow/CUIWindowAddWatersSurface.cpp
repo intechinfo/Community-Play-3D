@@ -42,7 +42,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 	{
 		if(event.GUIEvent.Caller == m_selectButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
-			m_devices->createFileOpenDialog(L"Select base mesh", 0);
+			m_devices->createFileOpenDialog(L"Select Base Mesh", 0);
 			m_isFileDialogOpen = true;
 		}
 		else if(event.GUIEvent.Caller == m_acceptButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
@@ -51,7 +51,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 
 			io::path extension, filename;
 			extension = ".spkg";
-			filename = "shaders/Materials/water_shader";
+			filename = m_devices->getWorkingDirectory() + "shaders/Materials/water_shader";
 
 			waterSurface = new CWaterSurface(m_devices->getSceneManager(), m_devices->getXEffect()->getScreenQuad().rt[1], m_devices->getSceneManager()->getMesh(m_filePath.c_str()));
 			IMeshSceneNode *waterNode = waterSurface->getWaterNode();
@@ -105,6 +105,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 		else if(event.GUIEvent.Caller == m_cancelButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
 			m_window->remove();
+			m_devices->getEventReceiver()->RemoveEventReceiver(this);
 		}
 
 		if(event.GUIEvent.EventType == EGET_FILE_SELECTED)

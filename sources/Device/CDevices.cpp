@@ -135,7 +135,11 @@ void CDevices::updateDevice() {
 	//UPDATING WATER
 	for (u32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
 		if (renderXEffect) {
-			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
+			if (effect->isUsingMotionBlur()) {
+				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
+			} else {
+				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
+			}
 		} else {
 			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
 		}
