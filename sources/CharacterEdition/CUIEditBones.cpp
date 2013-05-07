@@ -29,6 +29,8 @@ CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
 	selectedManualAction = 0;
 
 	arrayFrames.clear();
+
+	updateView = false;
 }
 
 CUIEditBones::~CUIEditBones() {
@@ -151,6 +153,12 @@ void CUIEditBones::open() {
 	helpm = menu->getSubMenu(i++);
 	helpm->addItem(L"How to ?", 1);
 
+}
+
+void CUIEditBones::update() {
+	while (updateView) {
+		devices->reupdate();
+	}
 }
 
 void CUIEditBones::close() {
@@ -290,6 +298,7 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 					lastBoneSceneNode->updateAbsolutePositionOfAllChildren();
 				}
 				CCoreObjectPlacement *cobj = devices->getObjectPlacement();
+				node->getJointNode(bonesListBox->getSelected())->updateAbsolutePosition();
 				cobj->setNodeToPlace(node->getJointNode(bonesListBox->getSelected()));
 				cobj->setArrowVisible(true);
 				node->getJointNode(bonesListBox->getSelected())->setDebugDataVisible(EDS_FULL);
@@ -329,6 +338,13 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 					senscb->setSelected((E_MANUAL_ACTION_SENS)selectedManualAction->getSens());
 					timeToStartcb->setText(stringw(selectedManualAction->getTimeToStart()).c_str());
 					timeToCompletecb->setText(stringw(selectedManualAction->getTimeToComplete()).c_str());
+					
+					if (selectedManualAction) {
+						predecessors->clear();
+						for (u32 i=0; i < selectedManualAction->getPredecessors()->size(); i++) {
+							predecessors->addItem(selectedManualAction->getPredecessors()->operator[](i)->getName().c_str());
+						}
+					}
 				}
 			}
 		}
@@ -366,6 +382,7 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 					nevent.GUIEvent.EventType = EGET_BUTTON_CLICKED;
 					nevent.GUIEvent.Caller = bonesCloseButton;
 					nevent.GUIEvent.Element = bonesCloseButton;
+					updateView = false;
 					devices->getEventReceiver()->OnEvent(nevent);
 				}
 			}
@@ -460,6 +477,55 @@ bool CUIEditBones::OnEvent(const SEvent &event) {
 					manualActionslb->removeItem(manualActionslb->getSelected());
 					resetBonesWindow();
 				}
+			}
+
+			//PRECEDESSORS
+			if (event.GUIEvent.Caller == addPredecessor) {
+				if (selectedFrame && selectedAnimation && selectedManualAction) {
+					predecessorsWindow = gui->addWindow(rect<s32>(330, 120, 750, 490), true, L"Choose predecessor", 0, -1);
+					gui->addStaticText(L"Predecessors : ", rect<s32>(10, 20, 410, 40), true, true, predecessorsWindow, -1, true);
+					predecessorstv = gui->addTreeView(rect<s32>(10, 40, 410, 320), predecessorsWindow, -1, true, true, false);
+					acceptPredecessors = gui->addButton(rect<s32>(200, 330, 300, 360), predecessorsWindow, -1, L"Accept", L"Accept");
+					cancelPredecessors = gui->addButton(rect<s32>(310, 330, 410, 360), predecessorsWindow, -1, L"Cancel", L"Cancel");
+
+					rootPredecessors = predecessorstv->getRoot();
+					rootPredecessors = rootPredecessors->addChildBack(L"Confoguration", L"CONGIF");
+					rootPredecessors->setExpanded(true);
+					for (u32 i=0; i < arrayFrames.size(); i++) {
+						IGUITreeViewNode *cframe;
+						cframe = rootPredecessors->addChildBack(arrayFrames[i]->getName().c_str(), 0, -1, -1, &arrayFrames[i], 0);
+						cframe->setExpanded(true);
+						for (u32 animi = 0; animi < arrayFrames[i]->getAnimations()->size(); animi++) {
+							IGUITreeViewNode *canim;
+							CAnimation *currentAnim = arrayFrames[i]->getAnimations()->operator[](animi);
+							canim = cframe->addChildBack(currentAnim->getName().c_str(), 0, -1, -1, &currentAnim, 0);
+							for (u32 bii = 0; bii < currentAnim->getBonesInformations()->size(); bii++) {
+								SBoneInformations bi = currentAnim->getBonesInformations()->operator[](bii);
+								for (u32 manaci = 0; manaci < bi.getManualActions()->size(); manaci++) {
+									CManualAction *ma = bi.getManualActions()->operator[](manaci);
+									IGUITreeViewNode *cmanim;
+									stringw name = stringw(ma->getName()) + stringw(" - ") + stringw(bi.getNode()->getBoneName());
+									cmanim = canim->addChildBack(name.c_str(), 0, -1, -1, &ma, 0);
+								}
+							}
+						}
+							
+					}
+				}
+			}
+
+			if (event.GUIEvent.Caller == acceptPredecessors) {
+				IGUITreeViewNode *selectedPredecessor = predecessorstv->getSelected();
+				if (selectedPredecessor->getLevel() == 4) { // 3 ?
+					selectedManualAction->getPredecessors()->push_back((CManualAction *)predecessorstv->getSelected()->getData());
+					predecessors->addItem(selectedPredecessor->getText());
+					predecessorsWindow->remove();
+				} else {
+					devices->addInformationDialog(L"Informations", L"You must select a manual action...", EMBF_OK, true, predecessorsWindow);
+				}
+			}
+			if (event.GUIEvent.Caller == cancelPredecessors) {
+				predecessorsWindow->remove();
 			}
 
 			//PREVIEWS

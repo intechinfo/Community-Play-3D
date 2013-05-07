@@ -228,7 +228,8 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 
                 devices->getGUIEnvironment()->addStaticText(L"On Set Constants", rect<s32>(10, 200, 440, 220), false, true, editMaterialWindow, -1, false);
                 constantsCodeBox = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), editMaterialWindow, -1, rect<s32>(10, 220, 440, 430), devices->getDevice());
-                //constantsCodeBox->setWordWrap(false);
+                //constantsCodeBox->setWordWrap(true);
+				constantsCodeBox->setMultiLine(true);
                 stringw text = devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getConstants();
                 constantsCodeBox->setText(text.c_str());
 				constantsCodeBox->clearKeywords();
@@ -580,8 +581,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 editingConstants = false;
                 editingVertexShader = false;
                 editingPixelShader = false;
-				constantsCodeBox->restartScrollBar();
-				constantsCodeBox->recalculateTextRect();
+				//constantsCodeBox->restartScrollBar();
+				//constantsCodeBox->recalculateTextRect();
+				constantsCodeBox->setMax(1);
                 switch (editorChoice->getSelected()) {
                     case 0:
                         editingConstants = true;
@@ -614,7 +616,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                     default:
                         break;
                 }
-                
+				constantsCodeBox->setMax(0);
                 editorChoice->setTabStop(true);
             }
         }

@@ -69,6 +69,7 @@
     <ClCompile Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\UIContextMenu.cpp" />
     <ClCompile Include="..\sources\UserInterfaces\UIWindowRender.cpp" />
   </ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h" />
     <ClInclude Include="..\sources\UserInterfaces\UIContextMenu.h" />
     <ClInclude Include="..\sources\UserInterfaces\UIWindowRender.h" />
   </ItemGroup>

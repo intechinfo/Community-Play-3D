@@ -70,6 +70,9 @@
     <Filter Include="SceneNodes\Animators">
       <UniqueIdentifier>{113cc7fe-057f-4e62-9379-823b4b47271d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserInterfaces\TexturesManager">
+      <UniqueIdentifier>{2399d889-1f46-4288-b4bf-7b65b536c0c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sources\CharacterEdition\CAction.cpp">
@@ -237,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="..\sources\SceneNodes\Animators\CRotationAnimator.cpp">
       <Filter>SceneNodes\Animators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp">
+      <Filter>UserInterfaces\TexturesManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,6 +434,9 @@
     </ClInclude>
     <ClInclude Include="..\sources\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h">
       <Filter>SceneNodes\Animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h">
+      <Filter>UserInterfaces\TexturesManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

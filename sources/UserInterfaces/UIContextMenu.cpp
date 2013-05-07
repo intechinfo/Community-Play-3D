@@ -66,6 +66,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"FPS Camera (CTRL+SHIFT+F)", CXT_MENU_EVENTS_VIEW_FPS_CAMERA);
     submenu->addSeparator();
 	submenu->addItem(L"View Tree Node Window", CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW);
+	submenu->addItem(L"Textures Manager", CXT_MENU_EVENTS_VIEW_TEXTURES_MANAGER);
     submenu->addSeparator();
 	submenu->addItem(L"Wire Frame (CTRL+W)", CXT_MENU_EVENTS_VIEW_WIREFRAME, true, false, false, false);
     submenu->addItem(L"Point Cloud", CXT_MENU_EVENTS_VIEW_POINTCLOUD, true, false, false, false);
@@ -219,6 +220,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	devices->getObjectPlacement()->setArrowType(movementType);
 
 	devices->setContextName("General");
+
+	CUITexturesManager *texmgr = new CUITexturesManager(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -359,6 +362,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW:
                     sceneViewInstance->open();
                     break;
+
+				case CXT_MENU_EVENTS_VIEW_TEXTURES_MANAGER: {
+					CUITexturesManager *texmgr = new CUITexturesManager(devices);
+				}
+					break;
                     
                 case CXT_MENU_EVENTS_VIEW_WIREFRAME: {
 					ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode().getNode();
