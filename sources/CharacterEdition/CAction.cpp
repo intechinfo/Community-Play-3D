@@ -12,7 +12,7 @@ CAction::CAction() {
     start = 0;
     end = 0;
     name = L"";
-    
+
     animSpeed = 0;
 }
 

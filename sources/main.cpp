@@ -14,22 +14,18 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-#ifdef _WIN32
-#include <Windows.h>
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-#else
-int main(int argc, char *argv[]) {
-#endif
+int main() {
+
     //---------------------------------------------------------------------------------------------
     //----------------------------------GUI DEVICE CREATION----------------------------------------
     //---------------------------------------------------------------------------------------------
-    
+
     CCoreUserInterface *coreUserInterface = new CCoreUserInterface();
-    
+
     //---------------------------------------------------------------------------------------------
     //---------------------------------------TESTS-------------------------------------------------
     //---------------------------------------------------------------------------------------------
-    
+
 	IrrlichtDevice *device = coreUserInterface->getDevices()->getDevice();
     IVideoDriver *driver = coreUserInterface->getVideoDriver();
     ISceneManager *smgr = coreUserInterface->getSceneManager();
@@ -40,6 +36,9 @@ int main(int argc, char *argv[]) {
 
 	//CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
 	//water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
+
+	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
+	coreUserInterface->getDevices()->setSkydome(skydome);
 
 	//coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skydome, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_NO_SHADOW);
 
@@ -70,31 +69,37 @@ int main(int argc, char *argv[]) {
 
 	}*/
 
+	//FOR ERIO
+
+	/*CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
+	water->getWaterNode()->setName("#water:test");
+	water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
+	water->setSinWaveEnabled(true);
+	water->setRefractionEnabled(true);
+	coreUserInterface->getDevices()->getCoreData()->getWaterSurfaces()->push_back(water->getWaterNode());*/
+
     //---------------------------------------------------------------------------------------------
     //-----------------------------------RUNNING DEVICE--------------------------------------------
     //---------------------------------------------------------------------------------------------
 
-	int lastFPS = -1;
 	while (device->run()) {
 
         if (device->isWindowActive()) {
             driver->beginScene(true, true, SColor(0x0));
 
             coreUserInterface->update();
-            
-            driver->endScene();
 
-			if (driver->getFPS() != lastFPS)
-			{
-				lastFPS = driver->getFPS();
-				core::stringw tmp = L"Soganatsu Studios World Editor - FPS: ";
-				tmp += lastFPS;
-				device->setWindowCaption(tmp.c_str());
-			}
+			/*if (coreUserInterface->getDevices()->isXEffectDrawable()) {
+				water->setOriginRTT(coreUserInterface->getDevices()->getXEffect()->getScreenQuad().rt[1]);
+			} else {
+				water->setOriginRTT(0);
+			}*/
+
+            driver->endScene();
         }
-        
+
     }
-    
+
     device->drop();
 
     return EXIT_SUCCESS;

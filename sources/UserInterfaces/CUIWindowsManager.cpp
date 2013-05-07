@@ -18,6 +18,7 @@ CUIWindowsManager::CUIWindowsManager(CDevices *_devices) {
 		false, L"Windows Manager", 0, -1);
 	window->getCloseButton()->remove();
 	window->setVisible(false);
+	window->setDrawTitlebar(false);
 
 	textureImage = driver->getTexture("GUI/ss_logo.png");
 }
@@ -34,8 +35,10 @@ void CUIWindowsManager::update() {
 		if (!devices->getCore()->elementIsInArrayOfElements(ercv->getWindow(i), windowElements)) {
 			//WORK ON ANIMATION HERE
 			window->addChild(ercv->getWindow(i));
+			window->addChild(ercv->getWindowName(i));
 		} else {
 			ercv->getWindow(i)->setRelativePosition(rect<s32>(10+(90*i*1), 30, 90+(90*i+1), 80));
+			ercv->getWindowName(i)->setRelativePosition(rect<s32>(10+(90*i*1), 80, 90+(90*i+1), 100));
 		}
 	}
 }
@@ -62,8 +65,8 @@ bool CUIWindowsManager::OnEvent(const SEvent &event) {
 		}
 	}
 
-	IVideoDriver *driver = devices->getVideoDriver();
 	if (window->isVisible()) {
+		IVideoDriver *driver = devices->getVideoDriver();
 		window->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height-100, driver->getScreenSize().Width, driver->getScreenSize().Height));
 	}
 

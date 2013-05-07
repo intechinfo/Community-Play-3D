@@ -3,7 +3,7 @@
 
 #include <Irrlicht.h>
 
-#define CLIP_PLANE_OFFSET 2.0f
+#define CLIP_PLANE_OFFSET 200.0f
 
 class CWaterSurface : public irr::scene::ISceneNode
 {
@@ -13,10 +13,12 @@ class CWaterSurface : public irr::scene::ISceneNode
     irr::scene::ISceneManager *SceneManager;
     
     irr::scene::ICameraSceneNode *refCam;
-    irr::video::ITexture         *refRTT;
+    irr::video::ITexture         *refRTT, *originRTT;
     irr::core::dimension2du      refRTTSize;
     
     irr::scene::IMeshSceneNode   *waterNode;
+
+	bool drawScene;
     
     public :
     
@@ -34,9 +36,14 @@ class CWaterSurface : public irr::scene::ISceneNode
     const irr::core::dimension2du     getRTTSize()         { return refRTTSize; }
     const bool                        isSinWaveEnabled();
     const bool                        isRefractionEnabled();
-    
+
     void setSinWaveEnabled    (bool Enabled);
     void setRefractionEnabled (bool Enabled);
+
+	void setOriginRTT(irr::video::ITexture *tex);
+
+	void setDrawScene(bool _drawScene) { drawScene = _drawScene; }
+	bool isDrawingScene() { return drawScene; }
 };
 
 #endif

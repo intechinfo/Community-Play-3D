@@ -29,6 +29,10 @@ public:
 	~CShaderCallback();
 
 	//CONSTANTS
+	irr::core::array<irr::core::vector2df> vectors2D;
+	irr::core::array<irr::core::stringc> vectors2D_c;
+	irr::core::array<ESHADER_TYPE> vectors2D_st;
+
 	irr::core::array<irr::core::vector3df> vectors3D;
 	irr::core::array<irr::core::stringc> vectors3D_c;
 	irr::core::array<ESHADER_TYPE> vectors3D_st;

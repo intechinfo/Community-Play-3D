@@ -437,8 +437,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
                 ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
         }
 	}
-	else
-	{
+	else {
 		driver->setRenderTarget(ScreenQuad.rt[0], true, true, SColor(0xffffffff));
 	}
 	

@@ -34,12 +34,14 @@ public:
 	void setCollisionToNormal();
 	void setArrowVisible(bool set);
 	bool findAndSetMousePositionInPlane();
+	f32 getSmallestAxis();
 	void setArrowType(ArrowType AT);
+	void setScaleToNode(IAnimatedMeshSceneNode *arrowLineNode, f32 valueToAdd);
     
     void refresh(ISceneNode *cursorPosition);
     
-    IAnimatedMeshSceneNode *getArrowVerticalLine() { return arrowYLineNode; }
     CGridSceneNode *getGridSceneNode() { return gridSceneNode; }
+	CGridSceneNode *getYGridSceneNode() { return yGridSceneNode; }
     
     bool isPlacing() { return isMoving; }
 	ArrowType getArrowType() { return arrowType; }
@@ -81,9 +83,11 @@ private:
 	ISceneCollisionManager *collisionManager;
 
     CGridSceneNode *gridSceneNode;
+	CGridSceneNode *yGridSceneNode;
     
     bool isMoving;
     bool allowMoving;
+	bool allowFreeMoving;
 };
 
 #endif

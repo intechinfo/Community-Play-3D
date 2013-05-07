@@ -17,12 +17,14 @@ CUICharacterWindow::CUICharacterWindow(CDevices *_devices) {
     
     currentLoad = 0;
     node = 0;
+
+	lastBoneSceneNode = 0;
     
     actions.clear();
 }
 
 CUICharacterWindow::~CUICharacterWindow() {
-    
+    delete editBones;
 }
 
 void CUICharacterWindow::open() {
@@ -50,7 +52,10 @@ void CUICharacterWindow::open() {
 	submenu->addSeparator();
 	submenu->addItem(L"Close", CXT_EDIT_WINDOW_CHARACTER_EVENTS_CLOSE);
     
-    submenu = menu->getSubMenu(1);
+	submenu = menu->getSubMenu(1);
+	submenu->addItem(L"Enter Bones Edition...", CXT_EDIT_WINDOW_CHARACTER_EVENTS_ENTER_BONES_EDITION);
+
+    submenu = menu->getSubMenu(2);
 	submenu->addItem(L"How to ?", -1);
     
     //-----------------------------------
@@ -73,16 +78,18 @@ void CUICharacterWindow::open() {
 
     //-----------------------------------
     //VIEW PORT CHARACTER VIEW
-    smgr = devices->getSceneManager()->createNewSceneManager();
+	smgr = devices->createNewSceneManager();
     viewPort = new CGUIViewport(devices->getGUIEnvironment(), characterWindow, 1, 
                                               rect<s32>(5, 75, 400, 350), false); 
     if (viewPort) {
         viewPort->setSceneManager(smgr);
-        smgr->drop();
         smgr->setAmbientLight(SColorf(0.3f, 0.3f, 0.3f));
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
         
-        ICameraSceneNode *camera = smgr->addCameraSceneNode();
+		cameraMaya = smgr->addCameraSceneNodeMaya();
+		camera = smgr->addCameraSceneNode();
+		grid = new CGridSceneNode(smgr->getRootSceneNode(), smgr);
+		smgr->setActiveCamera(camera);
         camera->setFarValue(42000.0f);
         camera->setPosition(vector3df(0.f, 1.f, 1.f));
         camera->setAspectRatio(1.f * viewPort->getRelativePosition().getWidth() / viewPort->getRelativePosition().getHeight());
@@ -163,7 +170,7 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
             }
         }
 
-		for (u32 i=0; i < node->getEndFrame(); i++) {
+		for (u32 i=0; i < node->getEndFrame() && node->getEndFrame() >= 0; i++) {
 			framesListBox->addItem(stringw(stringc("Frame ") + stringc(i+1)).c_str());
 		}
         
@@ -197,6 +204,9 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
     nameAction->setEnabled(false);
     speedAction->setEnabled(false);
     previewAction->setEnabled(false);
+
+	editBones = new CUIEditBones(devices, node);
+	devices->getEventReceiver()->AddEventReceiver(editBones);
 }
 
 void CUICharacterWindow::exportAnimatedModel() {
@@ -229,6 +239,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
             switch (tempMenu->getItemCommandId(tempMenu->getSelectedItem())) {
                 //FILE
                 case CXT_EDIT_WINDOW_CHARACTER_EVENTS_CLOSE:
+					editBones->close();
                     characterWindow->remove();
                     viewPort->remove();
                     if (node) {
@@ -237,15 +248,38 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                         node = 0;
 						smgr->clear();
                     }
+					devices->removeSceneManager(smgr);
                     characterWindow = 0;
                     actions.clear();
 					devices->getEventReceiver()->RemoveEventReceiver(this);
+					devices->getEventReceiver()->RemoveEventReceiver(editBones);
 					devices->setRenderScene(true);
 					delete this;
+					return false;
                     break;
 
 				case CXT_EDIT_WINDOW_CHARACTER_EVENTS_SAVE:
 					saveDialog = devices->createFileOpenDialog(L"Select the directory", CGUIFileSelector::EFST_SAVE_DIALOG, characterWindow);
+					break;
+
+				case CXT_EDIT_WINDOW_CHARACTER_EVENTS_ENTER_BONES_EDITION:
+					node->setDebugDataVisible(EDS_SKELETON);
+					//devices->getEventReceiver()->AddMinimizedWindow(this, characterWindow);
+					characterWindow->setVisible(false);
+					devices->getSceneManagers()->push_back(smgr);
+					devices->setSceneManagerToDraw(smgr);
+					smgr->setActiveCamera(cameraMaya);
+					devices->getSecondSceneManager()->setActiveCamera(cameraMaya);
+					devices->getDevice()->setInputReceivingSceneManager(smgr);
+					node->setAnimationSpeed(0);
+					node->setFrameLoop(0, 0);
+					node->setLoopMode(true);
+					node->render();
+					node->setJointMode(EJUOR_CONTROL);
+					devices->setContextName("Bones Edition");
+					editBones->open();
+					cameraMaya->setUpVector(camera->getPosition());
+					cameraMaya->setTarget(node->getPosition());
 					break;
                     
                 default:
@@ -386,15 +420,29 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                 default:
                     break;
             }
+
+			if (event.GUIEvent.Caller == editBones->getCloseButton()) {
+				devices->getObjectPlacement()->setNodeToPlace(0);
+				devices->getObjectPlacement()->setArrowVisible(false);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				characterWindow->setVisible(true);
+				devices->setSceneManagerToDraw(devices->getSceneManager());
+				smgr->setActiveCamera(camera);
+				devices->getSecondSceneManager()->setActiveCamera(devices->getMayaCamera());
+				devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
+				devices->getDevice()->setInputReceivingSceneManager(devices->getSceneManager());
+				devices->setContextName("General");
+				editBones->close();
+			}
         }
-        
+
         if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
             currentLoad = 0;
         }
         
 		if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
             IGUIListBox *listBox = (IGUIListBox *)event.GUIEvent.Caller;
-            
+
 			if (listBox == animationList && listBox->getSelected() != -1) {
                 startAction->setText(devices->getCore()->getStrNumber(actions[animationList->getSelected()]->getStart()).c_str());
                 endAction->setText(devices->getCore()->getStrNumber(actions[animationList->getSelected()]->getEnd()).c_str());
@@ -404,20 +452,12 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 
 			if (listBox == framesListBox) {
 				node->setAnimationSpeed(0);
-				node->setLoopMode(false);
-				node->setFrameLoop(node->getStartFrame() + framesListBox->getSelected(), node->getStartFrame() + framesListBox->getSelected());
+				node->setFrameLoop(framesListBox->getSelected(), framesListBox->getSelected());
+				node->setLoopMode(true);
 			}
 
 			if (listBox == jointNodesListBox && listBox->getSelected() != -1) {
-				node->setJointMode(EJUOR_CONTROL);
-				if (boneNode) {
-					boneNode->setDebugDataVisible(EDS_OFF);
-				}
-				boneNode = node->getJointNode(jointNodesListBox->getSelected());
-				boneNode->setDebugDataVisible(EDS_FULL);
-				ISceneNodeAnimator *anim = devices->getSceneManager()->createRotationAnimator(vector3df(0, 1, 0));
-				boneNode->addAnimator(anim);
-				anim->drop();
+
 			}
         }
         

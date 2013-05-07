@@ -39,8 +39,10 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(devices->getVideoDriver()->getScreenSize().Width/2-200,
 																	   100, devices->getVideoDriver()->getScreenSize().Width/2+300, 570),
 															 false, L"Light Edition Window", 0, -1);
-		editWindow->getMaximizeButton()->remove();
+		//editWindow->getMaximizeButton()->remove();
+		editWindow->getMaximizeButton()->setVisible(true);
 		editWindow->getMinimizeButton()->setVisible(true);
+		//editWindow->getCloseButton()->remove();
 
 		tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(5, 20, 495, 420), editWindow, true, true, -1);
 		generalTab = tabCtrl->addTab(L"General");
@@ -231,7 +233,6 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 															  L"Apply", L"Apply the settings");
 		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 430, 175, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON,
 															  L"Cancel", L"Close without effect");
-		editWindow->getCloseButton()->remove();
 	}
 }
 
@@ -258,6 +259,15 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 	}
 
 	if (event.EventType == EET_GUI_EVENT) {
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			SEvent ev;
+			ev.EventType = EET_GUI_EVENT;
+			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+			ev.GUIEvent.Caller = closeButton;
+			ev.GUIEvent.Element = closeButton;
+			OnEvent(ev);
+		}
+
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
 				devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);

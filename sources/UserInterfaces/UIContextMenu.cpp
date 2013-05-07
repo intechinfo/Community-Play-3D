@@ -93,8 +93,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     i++;
     
     submenu = menu->getSubMenu(i++);
-	submenu->addItem(L"Animated Models Window Edition (CTRL+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
-	submenu->addItem(L"Simple Edition", CXT_MENU_EVENTS_SIMPLE_EDITION);
+	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
+	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
 
 	submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Add Cube Scene Node", CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE);
@@ -127,7 +127,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"About...", CXT_MENU_EVENTS_HELP_ABOUT);
     //-----------------------------------
-    
+
     //-----------------------------------
     //TOOLBAR
     bar = devices->getGUIEnvironment()->addToolBar(0, -1);
@@ -173,14 +173,23 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	(ibrotation = infosBar->addButton(-1, 0, L"Change Object Rotation", image, 0, false, true))->setIsPushButton();
     image = devices->getVideoDriver()->getTexture("GUI/scale.png");
 	(ibscale = infosBar->addButton(-1, 0, L"Change Object Scale", image, 0, false, true))->setIsPushButton();
+
+	IGUIEnvironment *gui = devices->getGUIEnvironment();
+	IVideoDriver *driver = devices->getVideoDriver();
+	contextNameText = gui->addStaticText(L"", rect<s32>(infosBar->getRelativePosition().getWidth()-400, 5,
+														infosBar->getRelativePosition().getWidth(), 25), 
+										true, true, infosBar, -1, true);
+	contextNameText->setBackgroundColor(SColor(255, 0, 0, 0));
+	contextNameText->setOverrideColor(SColor(255, 255, 255, 255));
+	contextNameText->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
     
     //-----------------------------------
     
     timer = devices->getDevice()->getTimer();
     timer->start();
     timer->setTime(0);
-    
-	stringw scene_to_import = L".world";
+
+	stringw scene_to_import = L"l.world";
     CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importScene(scene_to_import.c_str());
 	scene_to_import.remove(L".world");
@@ -208,6 +217,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	movementType = CCoreObjectPlacement::Undefined;
 	devices->getObjectPlacement()->setArrowType(movementType);
+
+	devices->setContextName("General");
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -217,12 +228,29 @@ CUIContextMenu::~CUIContextMenu() {
 void CUIContextMenu::update() {
     //if (timer->getTime() / 3000 == 0 ) {
         //timer->setTime(0);
-        mainWindowInstance->refresh();
+	if (devices->getContextName() == "General") {
+		mainWindowInstance->getMainWindow()->setVisible(true);
+		devices->getCore()->deactiveChildrenOfGUIElement(bar, true);
+		mainWindowInstance->refresh();
+	} else {
+		mainWindowInstance->getMainWindow()->setVisible(false);
+		devices->getCore()->deactiveChildrenOfGUIElement(bar, false);
+	}
     //}
+
+	if (devices->getDevice()->getCursorControl()->getPosition().Y < 75) {
+		contextNameText->setVisible(true);
+		contextNameText->setRelativePosition(rect<s32>(infosBar->getRelativePosition().getWidth()-200, 5,
+													   infosBar->getRelativePosition().getWidth(), 25));
+		contextNameText->setText(stringw(stringw("Context : ") + devices->getContextName().c_str()).c_str());
+		contextNameText->setToolTipText(stringw(stringw("Context : ") + devices->getContextName().c_str()).c_str());
+	} else {
+		contextNameText->setVisible(false);
+	}
 }
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
-    
+
     if (event.EventType == EET_GUI_EVENT) {
         s32 id = event.GUIEvent.Caller->getID();
         //-----------------------------------
@@ -230,7 +258,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
             
             IGUIContextMenu *tempMenu = (IGUIContextMenu *)event.GUIEvent.Caller;
-                        
+
             switch (tempMenu->getItemCommandId(tempMenu->getSelectedItem())) {
 
                 //-----------------------------------
@@ -654,12 +682,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         //-----------------------------------
         //BUTTON GUI EVENT
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
-            
+
 			//POSITION
 			if (event.GUIEvent.Caller == ibposition) {
 				if (ibposition->isPressed()) {
 					movementType = CCoreObjectPlacement::Position;
 					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
 					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibrotation->setPressed(false);
@@ -671,6 +700,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				if (ibrotation->isPressed()) {
 					movementType = CCoreObjectPlacement::Rotation;
 					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
 					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibposition->setPressed(false);
@@ -682,6 +712,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				if (ibscale->isPressed()) {
 					movementType = CCoreObjectPlacement::Scale;
 					devices->getObjectPlacement()->setArrowType(movementType);
+					devices->getObjectPlacement()->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
 					devices->getObjectPlacement()->setArrowVisible(true);
 				}
 				ibposition->setPressed(false);

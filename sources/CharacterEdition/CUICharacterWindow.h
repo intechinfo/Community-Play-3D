@@ -15,6 +15,8 @@ enum CXT_EDIT_WINDOW_CHARACTER_EVENTS {
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_SAVE,
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_CLOSE,
 
+	CXT_EDIT_WINDOW_CHARACTER_EVENTS_ENTER_BONES_EDITION,
+
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_ADD,
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_DELETE,
 
@@ -22,14 +24,17 @@ enum CXT_EDIT_WINDOW_CHARACTER_EVENTS {
 
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_APPLY_SPEED,
 
-	CXT_EDIT_WINDOW_CHARACTER_EVENTS_ROTATION_SB
+	CXT_EDIT_WINDOW_CHARACTER_EVENTS_ROTATION_SB,
+
+	CXT_EDIT_WINDOW_CHARACTER_EVENTS_CLOSE_BONES_EDITION_MODE
 };
 
 #include "../Device/CDevices.h"
 
 #include "../UserInterfaces/CUIWindowEditNode.h"
-
 #include "../GUIExtension/ViewPort/CGUIViewPort.h"
+
+#include "CUIEditBones.h"
 
 class CUICharacterWindow : public IEventReceiver {
 
@@ -50,7 +55,13 @@ private:
 	CDevices *devices;
 
 	IGUIViewport *viewPort;
+
 	ISceneManager *smgr;
+	CGridSceneNode *grid;
+	IBoneSceneNode *lastBoneSceneNode;
+	ICameraSceneNode *camera, *cameraMaya;
+
+	CUIEditBones *editBones;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -85,6 +96,7 @@ private:
 	ISceneNode *boneNode;
 	IGUIStaticText *bgJointNodes;
 	IGUIListBox *jointNodesListBox;
+
 	//-----------------------------------
 
 	//-----------------------------------
