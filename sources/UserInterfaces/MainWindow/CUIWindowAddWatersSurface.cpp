@@ -80,6 +80,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 
                     m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
 
+                    m_devices->getEventReceiver()->RemoveEventReceiver(this);
                     m_window->remove();
                 }
 			}

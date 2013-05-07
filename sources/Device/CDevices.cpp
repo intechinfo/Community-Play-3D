@@ -207,7 +207,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_fps->setName("editor:FPScamera");
     camera_fps->setID(-1);
 	
-	camera_maya = smgr->addCameraSceneNodeMaya();
+    camera_maya = smgr->addCameraSceneNodeMaya();
+    camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
+    camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
+    camera_maya->bindTargetAndRotation(true);
     camera_maya->setFarValue(42000.0f);
 	camera_maya->setName("editor:MayaCamera");
     camera_maya->setID(-1);

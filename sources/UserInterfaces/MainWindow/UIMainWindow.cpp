@@ -491,10 +491,10 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
     //GUI EVENTS
     if (event.EventType == EET_GUI_EVENT) {
 
-		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
-			if (event.GUIEvent.Caller == rightClickCxtMenum) {
-				ISceneNode *node = getSelectedNode().getNode();
-				if (node) {
+        if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
+            if (event.GUIEvent.Caller == rightClickCxtMenum) {
+                ISceneNode *node = getSelectedNode().getNode();
+                if (node) {
 					CCore *core = devices->getCore();
 					CCoreData *worldCore = devices->getCoreData();
 					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 0) {
@@ -559,7 +559,17 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 			}
 		}
 
-		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
+        if(event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN)
+        {
+            ISceneNode *node = getSelectedNode().getNode();
+            if(node && event.GUIEvent.Caller == getActiveListBox())
+            {
+                //Might be moved somewhere else ! One day !
+                devices->getMayaCamera()->setTarget(node->getBoundingBox().getCenter());
+            }
+        }
+
+        if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
 			array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
 			for (int i=0; i < nodes.size(); i++) {
 				nodes[i]->setDebugDataVisible(EDS_OFF);
@@ -799,7 +809,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 }
                 else
                 {
-					devices->addInformationDialog(L"Information", L"Please Select a water surface node before you delete it", EMBF_OK);
+					devices->addInformationDialog(L"Information", L"Please Select a water surface node before you delete it.", EMBF_OK);
                 }
                 break;
             default:
