@@ -99,10 +99,12 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
 			}
 
+			m_isFileDialogOpen = false;
 			m_window->remove();
 		}
 		else if(event.GUIEvent.Caller == m_cancelButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
+			m_isFileDialogOpen = false;
 			m_window->remove();
 		}
 

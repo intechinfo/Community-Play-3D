@@ -795,10 +795,12 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 addWaterSurfaceInstance->openWindow();
 				break;
             case CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE:
-                if(waterSurfacesListBox->getSelected() != -1)
-                {
+				if(waterSurfacesListBox->getSelected() != -1) {
 					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
-
+					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
+					devices->getObjectPlacement()->setNodeToPlace(0);
+					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
+					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface()->remove();
 					devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
                 }
