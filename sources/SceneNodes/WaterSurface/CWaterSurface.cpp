@@ -18,7 +18,7 @@ CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITextu
         setParent(SceneManager->getRootSceneNode());
     
     driver = SceneManager->getVideoDriver();
-    
+
 	refRTT = driver->addRenderTargetTexture(refRTTSize, "refRTT", ECF_A8R8G8B8);
     refCam = SceneManager->addCameraSceneNode(0, vector3df(0,0,0), vector3df(0,0,0), -1, false);
 	originRTT = target;
@@ -31,6 +31,8 @@ CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITextu
 	}
     
 	waterNode = SceneManager->addAnimatedMeshSceneNode(waterMesh, this);
+	waterNode->setMesh(waterMesh);
+
 	waterNode->setMaterialType(mat);
 	waterNode->setMaterialTexture(0, refRTT);
 	waterNode->setMaterialTexture(1, driver->getTexture(workingDirectory + "shaders/Textures/Water/waterNormal.png"));

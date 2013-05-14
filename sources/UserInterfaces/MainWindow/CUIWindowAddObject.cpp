@@ -59,10 +59,13 @@ bool CUIWindowAddObject::OnEvent(const SEvent &event) {
                 case CXT_WINDOW_ADD_OBJECT_EVENTS_ACCEPT: {
                     IAnimatedMesh *objectMesh = devices->getSceneManager()->getMesh(path_file.c_str());
                     IAnimatedMeshSceneNode *objectNode = devices->getSceneManager()->addAnimatedMeshSceneNode(objectMesh);
-                    objectNode->setAnimationSpeed(0);
-                    objectNode->setFrameLoop(0, 0);
                     
                     if (objectNode) {
+						objectNode->setMesh(objectMesh);
+
+						objectNode->setAnimationSpeed(0);
+						objectNode->setFrameLoop(0, 0);
+
                         objectNode->setMaterialFlag(EMF_LIGHTING, false);
                         objectNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
                         

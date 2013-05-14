@@ -34,12 +34,17 @@ private:
 	//-----------------------------------
 
 	//-----------------------------------
+	//METHODS
+	SEvent getUpdateEvent();
+	//-----------------------------------
+
+	//-----------------------------------
 	//USER INTERFACE ELEMENTS
 	IGUIWindow *window;
 
 	IGUIListBox *textures;
 	IGUIImage *texturePreview;
-	IGUIButton *edit, *whoUse, *remove;
+	IGUIButton *edit, *whoUse, *remove, *refresh;
 	//-----------------------------------
 
 };

@@ -190,12 +190,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	stringw scene_to_import = L"l.world";
+	stringw scene_to_import = L"L.world";
     CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importScene(scene_to_import.c_str());
 	scene_to_import.remove(L".world");
 	exportSceneInstance->setPathFile(scene_to_import.c_str());
     delete impoterInstance;
+	
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
     

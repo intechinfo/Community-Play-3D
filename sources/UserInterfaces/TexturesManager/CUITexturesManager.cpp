@@ -15,6 +15,7 @@ CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 	driver = devices->getVideoDriver();
 	gui = devices->getGUIEnvironment();
 
+	//SET UP GUI
 	window = gui->addWindow(rect<s32>(110, 90, 810, 530), false, L"Textures Manager", 0, -1);
 	window->getMaximizeButton()->setVisible(true);
 	window->getMinimizeButton()->setVisible(true);
@@ -25,12 +26,26 @@ CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 	whoUse = gui->addButton(rect<s32>(400, 60, 500, 80), window, -1, L"Who Use ?", L"Checks all scene node to know who use the selected texture");
 	edit = gui->addButton(rect<s32>(400, 90, 500, 110), window, -1, L"Edit...", L"Open texture editor");
 
+	refresh = gui->addButton(rect<s32>(510, 30, 610, 50), window, -1, L"Refresh", L"Refreshes the textures");
+
 	texturePreview = gui->addImage(rect<s32>(400, 130, 690, 430), window, -1, L"Preview");
 	texturePreview->setScaleImage(true);
+
+	//FILL LIST BOX
+	OnEvent(getUpdateEvent());
 }
 
 CUITexturesManager::~CUITexturesManager() {
 
+}
+
+SEvent CUITexturesManager::getUpdateEvent() {
+	SEvent ev;
+	ev.EventType = EET_USER_EVENT;
+	ev.UserEvent.UserData1 = ECUE_TEXTURE_REMOVED;
+	ev.UserEvent.UserData2 = 0;
+	
+	return ev;
 }
 
 array<ISceneNode *> CUITexturesManager::whoUseThisTexture(ITexture *tex) {
@@ -90,18 +105,20 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 				devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
+		if (event.UserEvent.UserData1 == ECUE_TEXTURE_REMOVED && event.UserEvent.UserData2 == 0) {
+			//UPDATE LISTBOX
+			s32 selected = textures->getSelected();
+			textures->clear();
+			for (u32 i=0; i < driver->getTextureCount(); i++) {
+				stringw name = driver->getTextureByIndex(i)->getName().getPath().c_str();
+				name.remove(devices->getWorkingDirectory().c_str());
+				textures->addItem(name.c_str());
+			}
+			textures->setSelected(selected);
+		}
 	}
 
 	if (event.EventType == EET_GUI_EVENT) {
-		//UPDATE LISTBOX
-		s32 selected = textures->getSelected();
-		textures->clear();
-		for (u32 i=0; i < driver->getTextureCount(); i++) {
-			stringw name = driver->getTextureByIndex(i)->getName().getPath().c_str();
-			name.remove(devices->getWorkingDirectory().c_str());
-			textures->addItem(name.c_str());
-		}
-		textures->setSelected(selected);
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
 			//IF CLOSE WINDOW
@@ -120,8 +137,8 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 			//REMOVE SELECTED TEXTURE
 			if (event.GUIEvent.Caller == remove) {
 				ITexture *tex = driver->getTextureByIndex(textures->getSelected());
-				//driver->removeTexture(tex);
 				removeTexture(tex);
+				devices->getEventReceiver()->OnEvent(getUpdateEvent());
 			}
 			//GET WHO USE THE TEXTURE
 			if (event.GUIEvent.Caller == whoUse) {
@@ -140,6 +157,10 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 					nodesText += L"Is a render target \n";
 				}
 				devices->addInformationDialog(L"Informations", nodesText.c_str(), EMBF_OK, true, 0);
+			}
+			//REFRESH LIST
+			if (event.GUIEvent.Caller == refresh) {
+				OnEvent(getUpdateEvent());
 			}
 		}
 

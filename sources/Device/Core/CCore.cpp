@@ -103,6 +103,21 @@ stringw CCore::getTexturePath(ITexture *texture) {
     return texturew;
 }
 
+stringc CCore::getNodeNamePrefix(ISceneNode *node) {
+    stringc prefix = "";
+    
+    if (node) {
+        stringc nodeName = node->getName();
+        int i=0;
+        while (i < nodeName.size() && nodeName[i] != ':') {
+            prefix.append(nodeName[i]);
+            i++;
+        }
+    }
+    
+    return prefix;
+}
+
 ISceneNode *CCore::clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr) {
     ISceneNode *clonedNode;
     IMesh *clonedMesh;

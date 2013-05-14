@@ -218,7 +218,7 @@
     <Link>
       <OutputFile>..\..\bin\Win32-VisualStudio\SSWE.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\libs\SPARK;..\..\..\\lib\Win32-visualstudio;..\..\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\libs\SPARK;..\..\..\\lib\Win32-visualstudio;..\..\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/HelloWorld.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
