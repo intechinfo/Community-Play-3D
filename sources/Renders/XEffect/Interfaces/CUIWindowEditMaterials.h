@@ -16,6 +16,7 @@
 #include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
 
 #include "CShaderCallback.h"
+#include "CUIWindowEditMaterialsCallback.h"
 
 #include <fstream>
 
@@ -49,49 +50,6 @@ private:
 	IGUIEditBox *materialName;
 
 	IGUIButton *close;
-	//-----------------------------------
-
-	//-----------------------------------
-	//EDIT WINDOW
-	IGUIWindow *editMaterialWindow;
-
-	IGUIButton *vLoadFromFile, *vEdit;
-	IGUIButton *pLoadFromFile, *pEdit;
-	IGUIButton *cLoadFromFile, *cEdit;
-
-	IGUIComboBox *vShaderType;
-	IGUIComboBox *pShaderType;
-	IGUIComboBox *bShaderType;
-
-	IGUIButton *gLoadFromFile, *gEdit;
-
-	CGUIEditBoxIRB *constantsCodeBox;
-	IGUIComboBox *editorChoice;
-
-	IGUIStaticText *separator, *previewText, *previewObjectText, *editText;
-
-	IGUIViewport *viewPort;
-	ISceneManager *smgr;
-	IGUIButton *buildMaterial, *editPreviewNode;
-	IGUIComboBox *previewNodeChoice;
-
-	IGUIListBox *console;
-	ELOG_LEVEL logLevel;
-
-	IGUIButton *closeEditMaterialWindow;
-	//-----------------------------------
-
-	//-----------------------------------
-	//EDITING NODES
-	ISceneNode *previewNode;
-	IAnimatedMesh *planeMesh;
-	E_MATERIAL_TYPE editingMat;
-	//-----------------------------------
-
-	//-----------------------------------
-	//EDITING VALUES
-	bool openingVertex, openingPixel, openingGeometry;
-	bool editingConstants, editingVertexShader, editingPixelShader;
 	//-----------------------------------
 
 };

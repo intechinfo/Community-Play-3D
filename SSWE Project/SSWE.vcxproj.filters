@@ -244,6 +244,9 @@
     <ClCompile Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp">
       <Filter>UserInterfaces\TexturesManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp">
+      <Filter>Renders\XEffect\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\sources\CharacterEdition\CAction.h">
@@ -437,6 +440,9 @@
     </ClInclude>
     <ClInclude Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h">
       <Filter>UserInterfaces\TexturesManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h">
+      <Filter>Renders\XEffect\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
