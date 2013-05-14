@@ -17,8 +17,6 @@ CUIWindowAddWaterSurface::CUIWindowAddWaterSurface(CDevices *device, IGUIListBox
 
 	m_filePath = L"";
 	m_isFileDialogOpen = false;
-
-    m_devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 CUIWindowAddWaterSurface::~CUIWindowAddWaterSurface()
@@ -34,6 +32,8 @@ void CUIWindowAddWaterSurface::openWindow()
 	m_selectButton = m_devices->getGUIEnvironment()->addButton(rect<s32>(220, 50, 290, 80), m_window, -1, L"Select",L"Select the mesh that will support the water surface");
 	m_acceptButton = m_devices->getGUIEnvironment()->addButton(rect<s32>(5, 110, 70, 135), m_window, -1, L"Accept", L"Accept the current selection and create the water surface");
 	m_cancelButton = m_devices->getGUIEnvironment()->addButton(rect<s32>(80, 110, 145, 135), m_window, -1, L"Cancel", L"Cancel the current action and close this windows without adding anything");
+
+	m_devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
@@ -100,12 +100,17 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 			}
 
 			m_isFileDialogOpen = false;
+			m_filePath = L"";
 			m_window->remove();
+
+			m_devices->getEventReceiver()->RemoveEventReceiver(this);
 		}
 		else if(event.GUIEvent.Caller == m_cancelButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
 			m_isFileDialogOpen = false;
+			m_filePath = L"";
 			m_window->remove();
+			m_devices->getEventReceiver()->RemoveEventReceiver(this);
 		}
 
 		if(event.GUIEvent.EventType == EGET_FILE_SELECTED)
