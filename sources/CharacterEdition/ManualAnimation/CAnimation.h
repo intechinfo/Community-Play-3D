@@ -16,10 +16,12 @@
 //SBONESINFORMATIONS STRUCTURE
 struct SBoneInformations {
 
-	SBoneInformations(irr::core::vector3df _position, irr::core::vector3df _rotation, irr::core::vector3df _scale) {
+	SBoneInformations(irr::scene::IBoneSceneNode *_node, irr::core::vector3df _position, irr::core::vector3df _rotation, irr::core::vector3df _scale) {
 		position = _position;
 		rotation = _rotation;
 		scale = _scale;
+
+		node = _node;
 
 		manualActions.clear();
 		name = L"myName";
@@ -43,6 +45,8 @@ struct SBoneInformations {
 	irr::core::vector3df getNewRotation() { return newRotation; }
 	irr::core::vector3df getNewScale() { return newScale; }
 
+	irr::scene::IBoneSceneNode *getNode() { return node; }
+
 	irr::core::array<CManualAction *> *getManualActions() { return &manualActions; }
 
 private:
@@ -51,6 +55,8 @@ private:
 	irr::core::vector3df position, newPosition;
 	irr::core::vector3df rotation, newRotation;
 	irr::core::vector3df scale, newScale;
+
+	irr::scene::IBoneSceneNode *node;
 
 	irr::core::array<CManualAction *> manualActions;
 };

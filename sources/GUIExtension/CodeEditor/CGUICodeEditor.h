@@ -189,14 +189,10 @@ namespace irr
 			
 			//! adds LUA style keywords
 			void addLUAKeywords(irr::video::SColor keywordColor = irr::video::SColor(255,0,0,200), irr::video::SColor stringColor = irr::video::SColor(255,170,0,0), irr::video::SColor commentColor = irr::video::SColor(255,0,150,0));
-            
-            //! adds HLSL and GLSL keywords
+
+			//! adds HLSL and GLSL keywords
             void addShaderKeywords(irr::video::SColor keywordColor = irr::video::SColor(255,0,0,0), irr::video::SColor stringColor = irr::video::SColor(180,170,0,100), irr::video::SColor commentColor = irr::video::SColor(180,0,150,0));
 			
-			//!Restart Scroll Bar
-			void restartScrollBar() { Scrollbar->setPos(0); }
-			void recalculateTextRect() { setTextRect(0); }
-
 			//! Replace text for easy undo/redo and line updates
 			void replaceText(int start, int end, irr::core::stringw newText);
 			void undo();

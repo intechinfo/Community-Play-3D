@@ -336,7 +336,7 @@ void CGUIEditBoxIRB::setElementText(u32 index, core::stringw text)
 		menustring[index]=text.c_str();
 
 	// If the Element is the tooltip of the toggle of linecount, set it at the same time.
-	if (index==BT_LINECOUNT)
+	if (index=BT_LINECOUNT)
 		LineToggle->setToolTipText(text.c_str());
 }
 
@@ -1057,11 +1057,9 @@ void CGUIEditBoxIRB::draw()
 						// Find the end of this current word
 						u32 end = u;
 						for (u32 v = u; v < lineCStr.size(); v++) {
-							if (lineCStr.c_str()[v] >= 0) {
-								if (!isalnum(lineCStr.c_str()[v])) {
-									end = v;
-									break;
-								}
+							if (!isalnum(lineCStr.c_str()[v])) {
+								end = v;
+								break;
 							}
 							if (v == lineCStr.size()-1)
 								end = v+1;
@@ -1445,10 +1443,12 @@ void CGUIEditBoxIRB::draw()
 void CGUIEditBoxIRB::setText(const wchar_t* text)
 {
 	Text = text;
-	if (u32(CursorPos) > Text.size())
+	if (u32(CursorPos) > Text.size()) {
 		CursorPos = Text.size();
+	}
 	HScrollPos = 0;
 	breakText();
+	CursorPos = 0;
 }
 
 
@@ -2349,6 +2349,7 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
 
 	addKeyword("Texture",keywordColor,true);
 	addKeyword("sampler",keywordColor,true);
+	addKeyword("sampler2D",keywordColor,true);
 
 	irr::video::SColor vscolor = irr::video::SColor(255, 20, 50, 180);
 	addKeyword("VS", vscolor, false);
@@ -2358,9 +2359,16 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
 	addKeyword("out", vscolor, false);
 
 	addKeyword("xyz", irr::video::SColor(255, 0, 0, 0), false);
-	addKeyword(".x", irr::video::SColor(255, 0, 0, 0), false);
-	addKeyword(".y", irr::video::SColor(255, 0, 0, 0), false);
-	addKeyword(".z", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword("x", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword("y", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword("z", irr::video::SColor(255, 0, 0, 0), false);
+
+	addKeyword(" / ", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword(" + ", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword(" - ", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword(" * ", irr::video::SColor(255, 0, 0, 0), false);
+	addKeyword(" = ", irr::video::SColor(255, 0, 0, 0), false);
+
 	addKeyword("Pos", irr::video::SColor(255, 0, 0, 0), false);
 
 	addKeyword("main", irr::video::SColor(255, 180, 0, 50), false);
@@ -2370,7 +2378,16 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
 	irr::video::SColor prctColor = irr::video::SColor(255, 179, 89, 0);
 	addKeyword("POSITION", prctColor, false);
 	addKeyword("POSITION0", prctColor, false);
+	addKeyword("POSITION1", prctColor, false);
+	addKeyword("POSITION2", prctColor, false);
+	addKeyword("POSITION3", prctColor, false);
+
+	addKeyword("ROTATION", prctColor, false);
 	addKeyword("ROTATION0", prctColor, false);
+	addKeyword("ROTATION1", prctColor, false);
+	addKeyword("ROTATION2", prctColor, false);
+	addKeyword("ROTATION3", prctColor, false);
+
 	addKeyword("COLOR0", prctColor, false);
 	addKeyword("COLOR1", prctColor, false);
 	addKeyword("COLOR2", prctColor, false);
@@ -2379,6 +2396,10 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
 	addKeyword("TEXCOORD1", prctColor, false);
 	addKeyword("TEXCOORD2", prctColor, false);
 	addKeyword("TEXCOORD3", prctColor, false);
+	addKeyword("TEXCOORD4", prctColor, false);
+	addKeyword("TEXCOORD5", prctColor, false);
+	addKeyword("TEXCOORD6", prctColor, false);
+	addKeyword("NORMAL", prctColor, false);
 
     addKeyword("texture2D",keywordColor,true);
     addKeyword("dot",keywordColor,true);
@@ -2398,6 +2419,8 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
     addKeyword("cos",keywordColor,true);
     addKeyword("sin",keywordColor,true);
     addKeyword("tan",keywordColor,true);
+	addKeyword("exp",keywordColor,true);
+	addKeyword("log",keywordColor,true);
     
     addKeyword("gl_FragColor",keywordColor,true);
 }
@@ -2482,7 +2505,7 @@ void CGUIEditBoxIRB::addLUAKeywords(irr::video::SColor keywordColor, irr::video:
 	addKeyword("local",keywordColor,true);
 	addKeyword("nil",keywordColor,true);
 	addKeyword("not",keywordColor,true);
-	addKeyword(" or ",keywordColor,true);
+	addKeyword("or",keywordColor,true);
 	addKeyword("repeat",keywordColor,true);
 	addKeyword("return",keywordColor,true);
 	addKeyword("then",keywordColor,true);

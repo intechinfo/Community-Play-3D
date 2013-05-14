@@ -278,6 +278,8 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 					node->setJointMode(EJUOR_CONTROL);
 					devices->setContextName("Bones Edition");
 					editBones->open();
+					cameraMaya->setUpVector(camera->getPosition());
+					cameraMaya->setTarget(node->getPosition());
 					break;
                     
                 default:

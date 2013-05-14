@@ -338,6 +338,50 @@ void CExporter::exportScene(stringc file_path) {
 		fprintf(export_file, "\t\t\t <farValue value=\"%f\" />\n", devices->getXEffect()->getShadowLight(i).getFarValue());
         
         fprintf(export_file, "\n\t\t\t <shadows resol=\"%u\" />\n\n", devices->getXEffect()->getShadowLight(i).getShadowMapResolution());
+
+		//WRITE LENS FLARE NODE INFORMATIONS
+		fprintf(export_file, "\t\t\t <lensFlare>\n");
+		if (devices->getCoreData()->getLightsData()->operator[](i).getLensFlareSceneNode()) {
+			SLightsData ldata = devices->getCoreData()->getLightsData()->operator[](i);
+
+			fprintf(export_file, "\t\t\t\t <mesh> \n"); //MESH
+			fprintf(export_file, "\t\t\t\t\t <scale X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", ldata.getLensFlareMeshSceneNode()->getScale().X,
+				    ldata.getLensFlareMeshSceneNode()->getScale().Y, ldata.getLensFlareMeshSceneNode()->getScale().Z);
+			stringc ldataTexturePath = "";
+			if (ldata.getLensFlareMeshSceneNode()->getMaterial(0).TextureLayer[0].Texture) {
+				ldataTexturePath = ldata.getLensFlareMeshSceneNode()->getMaterial(0).TextureLayer[0].Texture->getName().getPath().c_str();
+			}
+			ldataTexturePath.remove(devices->getWorkingDirectory().c_str());
+			fprintf(export_file, "\t\t\t\t\t <texture path=\"%s\" />\n",ldataTexturePath.c_str());
+			fprintf(export_file, "\t\t\t\t </mesh> \n");
+
+			fprintf(export_file, "\t\t\t\t <bill> \n"); //BILLBOARD
+			fprintf(export_file, "\t\t\t\t\t <size Width=\"%f\" Height=\"%f\" />\n", ldata.getLensFlareBillBoardSceneNode()->getSize().Width,
+				    ldata.getLensFlareBillBoardSceneNode()->getSize().Height);
+			ldataTexturePath = "";
+			if (ldata.getLensFlareBillBoardSceneNode()->getMaterial(0).TextureLayer[0].Texture) {
+				ldataTexturePath = ldata.getLensFlareBillBoardSceneNode()->getMaterial(0).TextureLayer[0].Texture->getName().getPath().c_str();
+			}
+			ldataTexturePath.remove(devices->getWorkingDirectory().c_str());
+			fprintf(export_file, "\t\t\t\t\t <texture path=\"%s\" />\n", ldataTexturePath.c_str());
+			fprintf(export_file, "\t\t\t\t </bill> \n");
+
+			fprintf(export_file, "\t\t\t\t <lfsn> \n"); //LENS FLARE SCENE NODES
+			fprintf(export_file, "\t\t\t\t\t <strength value=\"%f\" />\n", ldata.getLensFlareSceneNode()->getStrength());
+			ldataTexturePath = "";
+			if (ldata.getLensFlareSceneNode()->getMaterial(0).TextureLayer[0].Texture) {
+				ldataTexturePath = ldata.getLensFlareSceneNode()->getMaterial(0).TextureLayer[0].Texture->getName().getPath().c_str();
+			}
+			ldataTexturePath.remove(devices->getWorkingDirectory().c_str());
+			fprintf(export_file, "\t\t\t\t\t <texture path=\"%s\" />\n", ldataTexturePath.c_str());
+			fprintf(export_file, "\t\t\t\t\t <falseOcclusion value=\"%i\" />\n", ldata.getLensFlareSceneNode()->getFalseOcclusion());
+			fprintf(export_file, "\t\t\t\t </lfsn> \n");
+
+			fprintf(export_file, "\t\t\t\t <position X=\"%f\" Y=\"%f\" Z=\"%f\" />\n ",
+					ldata.getLensFlareMeshSceneNode()->getPosition().X, ldata.getLensFlareMeshSceneNode()->getPosition().Y,
+					ldata.getLensFlareMeshSceneNode()->getPosition().Z);
+		}
+		fprintf(export_file, "\t\t\t </lensFlare>\n\n");
         
         fprintf(export_file, "\t\t </light>\n\n");
     }
@@ -350,7 +394,7 @@ void CExporter::exportScene(stringc file_path) {
     
     fclose(export_file);
 
-	//COPY FILES
+	//COPY FILES FOR SECURITY
 	std::ifstream exported_file(stringc(stringc(file_path.c_str()) + stringc("_temp")).c_str(), std::ios::in);
 	std::ofstream file_to_copy(file_path.c_str(), std::ios::out | std::ios::trunc);
 

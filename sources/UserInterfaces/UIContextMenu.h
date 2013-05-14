@@ -44,6 +44,7 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_VIEW_MAYA_CAMERA,
 	CXT_MENU_EVENTS_VIEW_FPS_CAMERA,
 	CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW,
+	CXT_MENU_EVENTS_VIEW_TEXTURES_MANAGER,
 	CXT_MENU_EVENTS_VIEW_WIREFRAME,
 	CXT_MENU_EVENTS_VIEW_POINTCLOUD,
 
@@ -90,6 +91,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
 
 #include "CUISceneView.h"
+#include "TexturesManager/CUITexturesManager.h"
 
 #include "CUIRenderingInfos.h"
 

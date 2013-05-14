@@ -16,6 +16,10 @@ CCoreData::~CCoreData() {
 
 }
 
+//---------------------------------------------------------------------------------------------
+//----------------------------------CORE DATA FUNCTIONS --------------------------------------
+//---------------------------------------------------------------------------------------------
+
 void CCoreData::clear() {
     for (int i=0; i < terrainNodes.size(); i++) {
         terrainNodes[i]->remove();
@@ -44,7 +48,7 @@ void CCoreData::clearAllTheArrays() {
     
     lightsData.clear();
 
-	waterSurfaceNodes.clear();
+	waterSurfaces.clear();
 	planarMeshes.clear();
     
     effectRenders.clear();
@@ -104,6 +108,10 @@ s32 CCoreData::isMeshPlanared(ISceneNode *node) {
 	return planared;
 }
 
+void CCoreData::enableRTTWaterSurfaces(bool enable) {
+
+}
+
 array<ISceneNode *> CCoreData::getArrayOfTreeNodes() {
 	array<ISceneNode *> nodes;
 
@@ -133,3 +141,7 @@ array<ISceneNode *> CCoreData::getArrayOfLightNodes() {
 
 	return nodes;
 }
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------CALLBACKS ------------------------------------------------
+//---------------------------------------------------------------------------------------------

@@ -48,13 +48,18 @@ private:
 	void resetBonesWindow();
 
 	void previewManualAction();
+	void previewEntireFrame();
+
+	void update();
 	//-----------------------------------
 
 	//-----------------------------------
 	//GUI ELEMENTS
+	//CONTEXT MENU
 	IGUIContextMenu *menu;
 	IGUIContextMenu *filem, *editm, *bonesm, *helpm;
 
+	//MAIN WINDOW
 	IGUIWindow *mainWindow;
 	IGUIButton *addFrame, *removeFrame;
 	IGUIListBox *frames;
@@ -63,6 +68,7 @@ private:
 	IGUITreeViewNode *rootAnimations;
 	IGUIButton *addAnimation, *removeAnimation;
 
+	//ANIMATIONS PARAMS WINDOW
 	IGUIWindow *bonesWindow;
 
 	IGUIListBox *bonesListBox;
@@ -83,6 +89,12 @@ private:
 	IGUIButton *preview;
 
 	IGUIButton *bonesCloseButton;
+
+	//PREDECESSORS WINDOW
+	IGUIWindow *predecessorsWindow;
+	IGUITreeView *predecessorstv;
+	IGUITreeViewNode *rootPredecessors;
+	IGUIButton *cancelPredecessors, *acceptPredecessors;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -92,6 +104,8 @@ private:
 	CFrame *selectedFrame;
 	CAnimation *selectedAnimation;
 	CManualAction *selectedManualAction;
+
+	bool updateView;
 	//-----------------------------------
 };
 

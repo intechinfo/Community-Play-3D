@@ -95,22 +95,17 @@ namespace irr {
                         
                         core::rect<s32> oldViewPort = driver->getViewPort();
                         driver->setViewPort(viewPort);
-                        
+
                         driver->clearZBuffer();
-                        
+
                         f32 oldAspectRatio = cam->getAspectRatio();
                         cam->setAspectRatio(1.f * viewPort.getWidth() / viewPort.getHeight());
-                        
+
                         f32 oldFieldOfView = cam->getFOV();
                         cam->setFOV(oldFieldOfView * viewPort.getHeight() / (AbsoluteRect.getHeight() - 2));
-                        
-                        if (drawEffects) {
-                            effect->setActiveSceneManager(SceneManager);
-                            effect->update();
-                        } else {
-                            SceneManager->drawAll();
-                        }
-                        
+
+                        SceneManager->drawAll();
+
                         cam->setFOV(oldFieldOfView);
                         
                         cam->setAspectRatio(oldAspectRatio);

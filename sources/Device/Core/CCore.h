@@ -41,7 +41,9 @@ using namespace scene;
 using namespace io;
 
 enum E_CORE_USER_EVENTS {
-	ECUE_REACTIVE_MINIMIZED_WINDOW = 0
+	ECUE_REACTIVE_MINIMIZED_WINDOW = 0,
+
+	ECUE_TEXTURE_REMOVED
 };
 
 //--------------------------
@@ -79,6 +81,8 @@ public:
 	stringw changeTextWithValue(const wchar_t *text, s32 value);
 
     stringw getTexturePath(ITexture *texture);
+
+	stringc getNodeNamePrefix(ISceneNode *node);
 
 	//DRIVER METHODS
 	s32 textureAlreadyExists(stringc name, IVideoDriver *driver);

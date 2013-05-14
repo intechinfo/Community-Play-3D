@@ -118,7 +118,7 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------OBJECTS---------------------------------------------------
+//----------------------------------TREES---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
 struct STreesData {
@@ -239,6 +239,35 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
+//----------------------------------WATER SURFACES--------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SWaterSurfacesData {
+public:
+	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"") {
+	waterSurface = _waterSurface;
+	callback = _callback;
+	packagePath = _packagePath;
+    }
+
+	void remove() { delete this; }
+	void setwaterSurface(CWaterSurface *_waterSurface) { waterSurface = _waterSurface; }
+	void setPath(stringw _packagePath) { packagePath = _packagePath; }
+
+	CWaterSurface *getWaterSurface() { return waterSurface; }
+	IMesh *getMesh() { return waterSurface->getWaterMesh(); }
+	ISceneNode *getNode() { return waterSurface->getWaterNode(); }
+	stringw getPath() { return packagePath; }
+
+private:
+	CWaterSurface *waterSurface;
+	CShaderCallback *callback;
+	stringw packagePath;
+
+
+};
+
+//---------------------------------------------------------------------------------------------
 //----------------------------------CORE DATA CLASS-------------------------------------------
 //---------------------------------------------------------------------------------------------
 
@@ -258,6 +287,8 @@ public:
 	array<IMesh *> getAllMeshes();
 
 	s32 isMeshPlanared(ISceneNode *node);
+
+	void enableRTTWaterSurfaces(bool enable);
 
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfTreeNodes();
@@ -280,8 +311,7 @@ public:
 
 	array<SVolumeLightsData> *getVolumeLightsData() { return &volumeLightsData; }
 
-	array<ISceneNode *> *getWaterSurfaces() { return &waterSurfaceNodes; }
-	array<stringw> *getWaterSurfacesPath() { return &waterSurfacePath; }
+	array<SWaterSurfacesData> *getWaterSurfaces() { return &waterSurfaces; }
 
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
 	array<ISceneNode *> *getPlanarMeshes() { return &planarMeshes; }
@@ -320,8 +350,7 @@ private:
 
 	array<SVolumeLightsData> volumeLightsData;
 
-	array<ISceneNode *> waterSurfaceNodes;
-	array<stringw> waterSurfacePath;
+	array<SWaterSurfacesData> waterSurfaces;
 
 	array<SPlanarTextureMappingData> planarTextureMappingValues;
 	array<ISceneNode *> planarMeshes;

@@ -54,7 +54,7 @@ public:
 	irr::u32 getTimesToDo() { return timesToDo; }
 	irr::s32 getTimeToStart() { return timeToStart; }
 
-	irr::core::array<CManualAction *> getPredecessors() { return predecessors; }
+	irr::core::array<CManualAction *> *getPredecessors() { return &predecessors; }
 	bool isCompleted() { return completed; }
 
 private:

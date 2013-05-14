@@ -116,7 +116,7 @@ void CUIMaterialEditor::open(ISceneNode *node) {
     meWindow = gui->addWindow(rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
                                         driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2), 
 										false, stringw(stringw(L"Material Editor : ") + stringw(node->getName())).c_str(), 0, -1);
-	meWindow->getCloseButton()->remove();
+	//meWindow->getCloseButton()->remove();
 	meWindow->getMinimizeButton()->setVisible(true);
 	meWindow->getMaximizeButton()->setVisible(true);
 	mtFactory->setParentGUIElement(meWindow);
@@ -285,6 +285,16 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 				}
 				update();
 			}
+		}
+
+		//IF WINDOW CLOSE
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			SEvent ev;
+			ev.EventType = EET_GUI_EVENT;
+			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+			ev.GUIEvent.Caller = close;
+			ev.GUIEvent.Element = close;
+			OnEvent(ev);
 		}
 
         //IF BUTTON CLICKED

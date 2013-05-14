@@ -6,35 +6,44 @@ using namespace core;
 using namespace scene;
 using namespace io;
 
-CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::core::vector3df position, irr::f32 surfaceTileSize, irr::u32 surfaceTileCount, bool SinWave, bool 
-                             Refraction, irr::core::dimension2du RTTSize, irr::scene::ISceneNode* parent, irr::s32 id,
-                             irr::video::E_MATERIAL_TYPE mat) : ISceneNode(parent, smgr, id), refRTTSize(RTTSize)
+CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITexture *target, irr::scene::IAnimatedMesh *mesh,
+							 bool SinWave, bool Refraction, irr::core::stringw workingDirectory,
+							 irr::core::dimension2du RTTSize, irr::scene::ISceneNode* parent, irr::s32 id, irr::video::E_MATERIAL_TYPE mat)
+							 : ISceneNode(parent, smgr, id), refRTTSize(RTTSize)
 {
-    
+
     SceneManager = smgr;
-    
+
     if (!Parent)
         setParent(SceneManager->getRootSceneNode());
     
     driver = SceneManager->getVideoDriver();
-    
+
+	refRTT = driver->addRenderTargetTexture(refRTTSize, "refRTT", ECF_A8R8G8B8);
     refCam = SceneManager->addCameraSceneNode(0, vector3df(0,0,0), vector3df(0,0,0), -1, false);
-    refRTT = driver->addRenderTargetTexture(refRTTSize, "refRTT", ECF_A8R8G8B8);
+	originRTT = target;
     
-    IAnimatedMesh *waterMesh = SceneManager->addHillPlaneMesh("waterMesh", dimension2df(surfaceTileSize, surfaceTileSize), 
-                                                              dimension2du(surfaceTileCount, surfaceTileCount));
-    SceneManager->getMeshManipulator()->makePlanarTextureMapping(waterMesh->getMesh(0), 0.05f);
+	if (!mesh) {
+		waterMesh = SceneManager->addHillPlaneMesh("waterMesh", dimension2df(25, 25), dimension2du(25, 25));
+		SceneManager->getMeshManipulator()->makePlanarTextureMapping(waterMesh, 0.05f);
+	} else {
+		waterMesh = mesh;
+	}
     
-    waterNode = SceneManager->addMeshSceneNode(waterMesh, this);
-    waterNode->getMaterial(0).MaterialType = mat;
-    waterNode->getMaterial(0).setTexture(0, refRTT);
-    waterNode->getMaterial(0).setTexture(1, driver->getTexture("shaders/Textures/Water/waterNormal.png"));
-    waterNode->getMaterial(0).setTexture(2, driver->getTexture("shaders/Textures/Water/waterDUDV.png"));
+	waterNode = SceneManager->addAnimatedMeshSceneNode(waterMesh, this);
+	waterNode->setMesh(waterMesh);
+
+	waterNode->setMaterialType(mat);
+	waterNode->setMaterialTexture(0, refRTT);
+	waterNode->setMaterialTexture(1, driver->getTexture(workingDirectory + "shaders/Textures/Water/waterNormal.png"));
+	waterNode->setMaterialTexture(2, driver->getTexture(workingDirectory + "shaders/Textures/Water/waterDUDV.png"));
     
-    setPosition(position);
+    setPosition(vector3df(0, 0, 0));
     setSinWaveEnabled(SinWave);
     setRefractionEnabled(Refraction);
-    
+
+	drawScene = true;
+
     this->drop();
 }
 
@@ -46,14 +55,18 @@ CWaterSurface::~CWaterSurface() {
 void CWaterSurface::OnRegisterSceneNode() {
     updateAbsolutePosition();
     waterNode->updateAbsolutePosition();
-    
+
     // Used as seaLevel in shader callback
     waterNode->getMaterial(0).MaterialTypeParam2 = waterNode->getAbsolutePosition().Y;
-    
+
     if (IsVisible)
         SceneManager->registerNodeForRendering(this);
-    
+
     ISceneNode::OnRegisterSceneNode();
+}
+
+void CWaterSurface::setOriginRTT(irr::video::ITexture *tex) {
+	originRTT = tex;
 }
 
 void CWaterSurface::OnAnimate(irr::u32 timeMs) {
@@ -74,9 +87,9 @@ void CWaterSurface::OnAnimate(irr::u32 timeMs) {
         vector3df tempPosition = tempCam->getAbsolutePosition();
         vector3df tempTarget   = tempCam->getTarget();
         
-        f32       seaLevel = 0;
+        f32 seaLevel = 0;
         if (waterNode)
-            seaLevel     = waterNode->getPosition().Y;
+            seaLevel = waterNode->getPosition().Y;
         
         if(tempPosition.Y >= seaLevel) {
             refCam->setPosition(vector3df(tempPosition.X, 2.0f * seaLevel - tempPosition.Y, tempPosition.Z));
@@ -85,28 +98,29 @@ void CWaterSurface::OnAnimate(irr::u32 timeMs) {
             tempTarget.normalize();
             tempTarget.Y *= -1.0f;
             tempTarget   *= 1000000.0f;
-            
+
             refCam->setTarget(tempPosition + tempTarget);
             
             waterNode->setMaterialFlag(EMF_BACK_FACE_CULLING, true);
-        }
-        else {
+        } else {
             refCam->setPosition(tempPosition);
             
             tempTarget -= tempPosition;
             tempTarget.normalize();
             tempTarget *= 1000000.0f;
-            
+
             refCam->setTarget(tempPosition + tempTarget);
             
             waterNode->setMaterialFlag(EMF_BACK_FACE_CULLING, false);
         }
         
-        driver->setRenderTarget(refRTT, true, true, SColor(0,0,0,0));
-        driver->setClipPlane(0, plane3df(0.0f, seaLevel - CLIP_PLANE_OFFSET, 0.0f, 0.0f, 1.0f, 0.0f), true);
-        SceneManager->drawAll();
-        
-        driver->setRenderTarget(0, true, true, SColor(0,0,0,0));
+		if (drawScene) {
+			driver->setRenderTarget(refRTT, true, true, SColor(0,0,0,0));
+			driver->setClipPlane(0, plane3df(0.0f, seaLevel - CLIP_PLANE_OFFSET, 0.0f, 0.0f, 1.0f, 0.0f), true);
+			SceneManager->drawAll();
+		}
+
+        driver->setRenderTarget(originRTT, true, true, SColor(0,0,0,0));
         driver->enableClipPlane(0, false);
         
         SceneManager->setActiveCamera(tempCam);

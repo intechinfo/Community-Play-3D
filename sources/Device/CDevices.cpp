@@ -132,6 +132,19 @@ void CDevices::updateDevice() {
         }
     }
 
+	//UPDATING WATER
+	for (u32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
+		if (renderXEffect) {
+			if (effect->isUsingMotionBlur()) {
+				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
+			} else {
+				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
+			}
+		} else {
+			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
+		}
+	}
+
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
 			std::thread scene_t(&CDevices::drawScene, *this);
@@ -234,7 +247,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_fps->setName("editor:FPScamera");
     camera_fps->setID(-1);
 	
-	camera_maya = smgr->addCameraSceneNodeMaya();
+    camera_maya = smgr->addCameraSceneNodeMaya();
+    camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
+    camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
+    camera_maya->bindTargetAndRotation(true);
     camera_maya->setFarValue(42000.0f);
 	camera_maya->setName("editor:MayaCamera");
     camera_maya->setID(-1);

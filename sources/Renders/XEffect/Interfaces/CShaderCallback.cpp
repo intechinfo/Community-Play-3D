@@ -46,6 +46,26 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
         std::string sub;
         iss >> sub;
         
+		if (sub == "vvector2df" || sub == "pvector2df") {
+			irr::core::vector2df myVector;
+            if (sub.c_str()[0] == 'v') {
+                vectors2D_st.push_back(EST_VERTEX);
+            } else {
+                vectors2D_st.push_back(EST_PIXEL);
+            }
+            iss >> sub;
+            vectors2D_c.push_back(sub.c_str());
+
+            float values[2];
+            values[0] = std::atof(sub.c_str());
+            for (int i=1; i < 2; i++) {
+                iss >> sub;
+                values[i] = std::atof(sub.c_str());
+            }
+            myVector.set(values[0], values[1]);
+            vectors2D.push_back(myVector);
+		}
+
         if (sub == "vvector3df" || sub == "pvector3df") {
             irr::core::vector3df myVector;
             if (sub.c_str()[0] == 'v') {
@@ -87,14 +107,35 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             iss >> sub;
             matrixes4_c.push_back(sub.c_str());
 			for (irr::u32 matrix_i = 0; matrix_i < 3; matrix_i++) {
-			iss >> sub;
-            if (sub == "world[1]") {
-                myMatrix *= _driver->getTransform(irr::video::ETS_WORLD);
-            } else if (sub == "view[1]") {
-				myMatrix *= _driver->getTransform(irr::video::ETS_VIEW);
-			} else if (sub == "proj[1]") {
-				myMatrix *= _driver->getTransform(irr::video::ETS_PROJECTION);
-			}
+				iss >> sub;
+				irr::core::matrix4 newMat;
+				if (sub == "world[1]") {
+					newMat = _driver->getTransform(irr::video::ETS_WORLD);
+					newMat.makeInverse();
+				} else if (sub == "view[1]") {
+					newMat = _driver->getTransform(irr::video::ETS_VIEW);
+					newMat.makeInverse();
+				} else if (sub == "proj[1]") {
+					newMat = _driver->getTransform(irr::video::ETS_PROJECTION);
+					newMat.makeInverse();
+				} else if (sub == "world[0]") {
+					newMat = _driver->getTransform(irr::video::ETS_WORLD);
+				} else if (sub == "view[0]") {
+					newMat = _driver->getTransform(irr::video::ETS_VIEW);
+				} else if (sub == "proj[0]") {
+					newMat = _driver->getTransform(irr::video::ETS_PROJECTION);
+				} else {
+					for (irr::u32 i=0; i < matrixes4_c.size(); i++) {
+						if (matrixes4_c[i].c_str() == sub) {
+							newMat = matrixes4[i];
+						}
+					}
+				}
+				if (matrix_i == 0) {
+					myMatrix = newMat;
+				} else {
+					myMatrix *= newMat;
+				}
 			}
             iss >> sub;
             if (sub == "makeInverse") {
@@ -160,7 +201,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             iss >> sub;
             colors_c.push_back(sub.c_str());
             iss >> sub;
-            //color.a = atof(sub.c_str());
+            color.a = atof(sub.c_str());
             iss >> sub;
             color.r = atof(sub.c_str());
             iss >> sub;
@@ -223,6 +264,14 @@ void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *serv
             services->setPixelShaderConstant(vectors3D_c[i].c_str(), (float*)(&vectors3D[i]), 3);
         }
     }
+
+	for (int i=0; i < vectors2D.size(); i++) {
+		if (vectors2D_st[i] == EST_VERTEX) {
+			services->setVertexShaderConstant(vectors2D_c[i].c_str(), (float *)&vectors2D[i], 2);
+        } else {
+            services->setPixelShaderConstant(vectors2D_c[i].c_str(), (float *)&vectors2D[i], 2);
+        }
+	}
     
     for (int i=0; i < matrixes4.size(); i++) {
         if (matrixes4_st[i] == EST_VERTEX) {

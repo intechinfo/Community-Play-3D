@@ -1,0 +1,13 @@
+vmatrix4 mWorld world[0] 0 0 dontMakeInverse
+vmatrix4 mWorldViewProj proj[0] view[0] 0 mWorld
+pmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorld
+
+vvector3df CamPos camPos4
+
+vfloat Time + ctime realTime
+vfloat sinWave 1
+pfloat sinWaveP 1
+vfloat refractionP 1
+pfloat seaLevel -144
+
+vfloat wavesHeight 15

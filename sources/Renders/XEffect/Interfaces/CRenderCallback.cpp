@@ -19,8 +19,8 @@ void CEffectRenderCallback::clearPixelValues() {
 }
 
 void CEffectRenderCallback::OnPreRender(EffectHandler* effect) {
-    luaScripting->update();
     for (irr::u32 i=0; i < pixelValuesNames.size(); i++) {
+		luaScripting->update();
         luaScripting->runStringScript(pixelValues[i].c_str());
         if (returnedValueType == "integer")
             effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), &returnedValue, returnedValueCount);

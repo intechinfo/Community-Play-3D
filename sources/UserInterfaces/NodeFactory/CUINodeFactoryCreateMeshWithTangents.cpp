@@ -68,15 +68,29 @@ bool CUINodeFactoryCreateMeshWithTangents::OnEvent(const SEvent &event) {
 				newNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_with_tangents")).c_str());
 				newNode->setPosition(nodeToEdit->getPosition());
 				newNode->setRotation(nodeToEdit->getRotation());
+				newNode->setParent(nodeToEdit->getParent());
 				newNode->setScale(nodeToEdit->getScale());
 				for (u32 i=0; i < nodeToEdit->getMaterialCount(); i++) {
 					newNode->getMaterial(i) = nodeToEdit->getMaterial(i);
 				}
 
-				devices->getCoreData()->getTerrainMeshes()->push_back(tangentsMesh);
-				devices->getCoreData()->getTerrainNodes()->push_back(newNode);
-				devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(nodeMinPolysPerNode);
-				devices->getCoreData()->getTerrainPaths()->push_back(meshPath.c_str());
+				stringc prefix = devices->getCore()->getNodeNamePrefix(newNode);
+				if (prefix == "#map") {
+					devices->getCoreData()->getTerrainMeshes()->push_back(tangentsMesh);
+					devices->getCoreData()->getTerrainNodes()->push_back(newNode);
+					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(nodeMinPolysPerNode);
+					devices->getCoreData()->getTerrainPaths()->push_back(meshPath.c_str());
+				} else if (prefix == "#tree") {
+					STreesData tdata(tangentsMesh, newNode, meshPath.c_str(), ESNT_OCTREE, nodeMinPolysPerNode);
+					devices->getCoreData()->getTreesData()->push_back(tdata);
+				} else if (prefix == "#object") {
+					SObjectsData odata(tangentsMesh, newNode, meshPath.c_str());
+					devices->getCoreData()->getObjectsData()->push_back(odata);
+				} else if (prefix == "#water") {
+					CWaterSurface *ws = new CWaterSurface(devices->getSceneManager(), 0, 0);
+					SWaterSurfacesData wsdata(ws, 0);
+					devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
+				}
 
 				devices->getXEffect()->addShadowToNode(newNode, devices->getXEffectFilterType(), 
 													   devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType()));

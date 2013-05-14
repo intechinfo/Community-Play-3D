@@ -26,7 +26,9 @@ void CUIWindowEditEffects::open() {
     //MAIN WINDOW
     effectsWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(400, 50, 1000, 550),
                                                             false, L"Shaders Edition Window", 0, -1);
-    effectsWindow->getCloseButton()->remove();
+    //effectsWindow->getCloseButton()->remove();
+	effectsWindow->getMaximizeButton()->setVisible(true);
+	effectsWindow->getMinimizeButton()->setVisible(true);
     
     menu = devices->getGUIEnvironment()->addMenu(effectsWindow);
     
@@ -72,7 +74,7 @@ void CUIWindowEditEffects::open() {
     }
     for (u32 i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
 		stringw name = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
-        stringw windowsName = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
+		stringw windowsName = devices->getWorkingDirectory().c_str();
         name.make_lower();
 		windowsName.make_lower();
         name.remove(windowsName);
@@ -136,6 +138,14 @@ void CUIWindowEditEffects::open() {
 
 bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
     
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
+			if (event.UserEvent.UserData2 == effectsWindow->getReferenceCount()) {
+				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+			}
+		}
+	}
+
     if (event.EventType == EET_GUI_EVENT) {
         
         if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
@@ -160,9 +170,22 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     break;
             }
         }
+
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			SEvent ev;
+			ev.EventType = EET_GUI_EVENT;
+			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+			ev.GUIEvent.Caller = close;
+			ev.GUIEvent.Element = close;
+			OnEvent(ev);
+		}
         
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
+			if (event.GUIEvent.Caller == effectsWindow->getMinimizeButton()) {
+				devices->getEventReceiver()->AddMinimizedWindow(this, effectsWindow);
+			}
+
             if (event.GUIEvent.Caller == oglRemove) {
                 if (shadersList->getItemCount() > 0 && shadersList->getSelected() != -1) {
                     devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));

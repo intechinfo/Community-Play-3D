@@ -667,6 +667,87 @@ void CImporter::importScene(stringc file_path) {
                 }
 
 				SLightsData ldata(light);
+
+				read("lensFlare");
+				if (element == "lensFlare") {
+					readWithNextElement("mesh", "lensFlare");
+					if (element == "mesh") {
+						//SETUP NODES
+						IMeshSceneNode* meshNode = devices->getSceneManager()->addSphereSceneNode(1, 16, devices->getSceneManager()->getRootSceneNode());
+						meshNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+						meshNode->setMaterialFlag(EMF_LIGHTING, false);
+						meshNode->setScale(vector3d<f32>(0, 0, 0));
+						meshNode->setParent(light);
+						meshNode->setName(stringc(stringc(light->getName()) + stringc("_flare_mesh")).c_str());
+
+						IBillboardSceneNode* bill = devices->getSceneManager()->addBillboardSceneNode(meshNode);
+						bill->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+						bill->setMaterialFlag(EMF_LIGHTING, false);
+						bill->setSize(dimension2d<f32>(0, 0));
+						bill->setParent(meshNode);
+						bill->setName(stringc(stringc(light->getName()) + stringc("_flare_bill")).c_str());
+
+						CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
+						lensFlareNode->setFalseOcclusion(true);
+						lensFlareNode->setParent(meshNode);
+						lensFlareNode->setName(stringc(stringc(light->getName()) + stringc("_flare_node")).c_str());
+
+						//CONFIGURE NODES
+						//MESH
+						read("scale");
+						if (element == "scale") {
+							vector3df scale = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
+														devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
+														devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
+							meshNode->setScale(scale);
+						}
+						read("texture");
+						if (element == "texture") {
+							ITexture *tex = devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path"));
+							meshNode->setMaterialTexture(0, tex);
+						}
+						//BILLBOARD
+						read("size");
+						if (element == "size") {
+							dimension2df size = dimension2df(devices->getCore()->getF32(xmlReader->getAttributeValue("Width")),
+															 devices->getCore()->getF32(xmlReader->getAttributeValue("Height")));
+							bill->setSize(size);
+						}
+						read("texture");
+						if (element == "texture") {
+							ITexture *tex = devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path"));
+							bill->setMaterialTexture(0, tex);
+						}
+						//LENS FLARE SCENE NODE
+						read("strength");
+						if (element == "strength") {
+							f32 strength = devices->getCore()->getF32(xmlReader->getAttributeValue("value"));
+							lensFlareNode->setStrength(strength);
+						}
+						read("texture");
+						if (element == "texture") {
+							ITexture *tex = devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path"));
+							lensFlareNode->setMaterialTexture(0, tex);
+						}
+						read("falseOcclusion");
+						if (element == "falseOcclusion") {
+							lensFlareNode->setFalseOcclusion(devices->getCore()->getU32(xmlReader->getAttributeValue("value")));
+						}
+
+						read("position");
+						if (element == "position") {
+							vector3df position = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
+														   devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
+														   devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
+							meshNode->setPosition(position);
+						}
+
+						ldata.setLensFlareMeshSceneNode(meshNode);
+						ldata.setLensFlareBillboardSceneNode(bill);
+						ldata.setLensFlareSceneNode(lensFlareNode);
+					}
+				}
+
                 devices->getXEffect()->addShadowLight(shadowLight);
                 devices->getCoreData()->getLightsData()->push_back(ldata);
             }

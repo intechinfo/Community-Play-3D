@@ -15,6 +15,7 @@ CUIWindowEditMaterials::CUIWindowEditMaterials(CDevices *_devices) {
     
     openingVertex = false;
     openingPixel = false;
+	openingGeometry = false;
     
     editingConstants = true;
     editingVertexShader = false;
@@ -37,7 +38,9 @@ CUIWindowEditMaterials::~CUIWindowEditMaterials() {
 
 void CUIWindowEditMaterials::open() {
     materialsWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(130, 110, 700, 540), false, L"Material Renderers", 0, -1);
-	materialsWindow->getCloseButton()->remove();
+	//materialsWindow->getCloseButton()->remove();
+	materialsWindow->getMinimizeButton()->setVisible(true);
+	materialsWindow->getMaximizeButton()->setVisible(true);
     
     menu = devices->getGUIEnvironment()->addMenu(materialsWindow);
     
@@ -77,8 +80,22 @@ void CUIWindowEditMaterials::open() {
 
 bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
     
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
+			if (event.UserEvent.UserData2 == materialsWindow->getReferenceCount()) {
+				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+			}
+			if (editMaterialWindow) {
+				if (event.UserEvent.UserData2 == editMaterialWindow->getReferenceCount()) {
+					devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				}
+			}
+		}
+	}
+
 	if (event.EventType == EET_LOG_TEXT_EVENT) {
 		if (console) {
+			console->clear();
 			console->addItem(stringw(event.LogEvent.Text).c_str());
 			console->setSelected(console->getItemCount()-1);
 			console->setToolTipText(stringw(console->getListItem(console->getSelected())).c_str());
@@ -86,6 +103,25 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 	}
 
     if (event.EventType == EET_GUI_EVENT) {
+
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			if (event.GUIEvent.Caller == materialsWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = close;
+				ev.GUIEvent.Element = close;
+				OnEvent(ev);
+			}
+			if (event.GUIEvent.Caller == editMaterialWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = closeEditMaterialWindow;
+				ev.GUIEvent.Element = closeEditMaterialWindow;
+				OnEvent(ev);
+			}
+		}
 
 		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
 			if (event.GUIEvent.Caller == fileMenu) {
@@ -108,6 +144,17 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             IGUIElement *element = event.GUIEvent.Caller;
             
             //WINDOW PART
+			if (event.GUIEvent.Caller == materialsWindow->getMinimizeButton()) {
+				devices->getEventReceiver()->AddMinimizedWindow(this, materialsWindow);
+			}
+			if (editMaterialWindow) {
+				if (event.GUIEvent.Caller == editMaterialWindow->getMinimizeButton()) {
+					devices->getEventReceiver()->AddMinimizedWindow(this, editMaterialWindow);
+					devices->setRenderScene(true);
+				}
+			}
+
+
             if (element == addOGLMaterialShader) {
                 CShaderCallback *callback = new CShaderCallback();
                 callback->setName("New Material Type");
@@ -125,8 +172,8 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             if (element == removeOGLMaterialShader) {
                 s32 selected;
                 selected = openGLMaterialsList->getSelected();
-                openGLMaterialsList->removeItem(selected);
                 if (selected != -1) {
+					openGLMaterialsList->removeItem(selected);
                     delete devices->getCoreData()->getShaderCallbacks()->operator[](selected);
                     devices->getCoreData()->getShaderCallbacks()->erase(selected);
                 } else {
@@ -150,8 +197,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 editingMat = (E_MATERIAL_TYPE)0;
                 editingMat = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getMaterial();
                 
-                editMaterialWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(180, 140, 1090, 660), true, L"Edit Material Renderers", 0, -1);
-				editMaterialWindow->getCloseButton()->remove();
+                editMaterialWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(180, 140, 1090, 660), false, L"Edit Material Renderers", 0, -1);
+				//editMaterialWindow->getCloseButton()->remove();
+				editMaterialWindow->getMinimizeButton()->setVisible(true);
 				editMaterialWindow->getMaximizeButton()->setVisible(true);
                 
                 devices->getGUIEnvironment()->addStaticText(L"Vertex Shader", rect<s32>(10, 30, 150, 50), false, true, editMaterialWindow, -1, false);
@@ -165,18 +213,23 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 cEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 70, 370, 90), editMaterialWindow, -1, L"Edit", L"Edit constants");
                 
                 devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Type", rect<s32>(10, 90, 150, 110), false, true, editMaterialWindow, -1, false);
-                vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 470, 110), editMaterialWindow, -1);
+                vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 440, 110), editMaterialWindow, -1);
                 vShaderType->setSelected((E_VERTEX_SHADER_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getVertexShaderType());
                 devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Type", rect<s32>(10, 110, 150, 130), false, true, editMaterialWindow, -1, false);
-                pShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 110, 470, 130), editMaterialWindow, -1);
+                pShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 110, 440, 130), editMaterialWindow, -1);
                 pShaderType->setSelected((E_PIXEL_SHADER_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getPixelShaderType());
                 devices->getGUIEnvironment()->addStaticText(L"Base Material", rect<s32>(10, 130, 150, 150), false, true, editMaterialWindow, -1, false);
-                bShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 130, 470, 150), editMaterialWindow, -1);
+                bShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 130, 440, 150), editMaterialWindow, -1);
 				bShaderType->setSelected((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getBaseMaterial());
                 
-                devices->getGUIEnvironment()->addStaticText(L"On Set Constants", rect<s32>(10, 150, 440, 170), false, true, editMaterialWindow, -1, false);
-                constantsCodeBox = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), editMaterialWindow, -1, rect<s32>(10, 170, 440, 380), devices->getDevice());
-                //constantsCodeBox->setWordWrap(false);
+				devices->getGUIEnvironment()->addStaticText(L"Geometry", rect<s32>(10, 160, 150, 180), false, true, editMaterialWindow, -1, false);
+                gLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 160, 260, 180), editMaterialWindow, -1, L"Load From File", L"Load From File");
+                gEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 160, 370, 180), editMaterialWindow, -1, L"Edit", L"Edit constants");
+
+                devices->getGUIEnvironment()->addStaticText(L"On Set Constants", rect<s32>(10, 200, 440, 220), false, true, editMaterialWindow, -1, false);
+                constantsCodeBox = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), editMaterialWindow, -1, rect<s32>(10, 220, 440, 430), devices->getDevice());
+                //constantsCodeBox->setWordWrap(true);
+				constantsCodeBox->setMultiLine(true);
                 stringw text = devices->getCoreData()->getShaderCallbacks()->operator[](selected)->getConstants();
                 constantsCodeBox->setText(text.c_str());
 				constantsCodeBox->clearKeywords();
@@ -195,8 +248,8 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 constantsCodeBox->addKeyword("vSColor", SColor(180, 180, 180, 64), true);
                 constantsCodeBox->addKeyword("pSColor", SColor(180, 180, 180, 64), true);
                 
-                editText = devices->getGUIEnvironment()->addStaticText(L"Edit :", rect<s32>(10, 390, 50, 410), false, true, editMaterialWindow, -1, false);
-                editorChoice = devices->getGUIEnvironment()->addComboBox(rect<s32>(50, 390, 440, 410), editMaterialWindow, -1);
+                editText = devices->getGUIEnvironment()->addStaticText(L"Edit :", rect<s32>(10, 440, 50, 460), false, true, editMaterialWindow, -1, false);
+                editorChoice = devices->getGUIEnvironment()->addComboBox(rect<s32>(50, 440, 440, 460), editMaterialWindow, -1);
                 editorChoice->addItem(L"Constants");
                 editorChoice->addItem(L"Vertex Shader");
                 editorChoice->addItem(L"Pixel Shader");
@@ -238,6 +291,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 previewNodeChoice->addItem(L"Cube");
                 previewNodeChoice->addItem(L"Plane");
                 previewNodeChoice->addItem(L"Sphere");
+				previewNodeChoice->addItem(L"Current Scene");
                 
                 closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", 
                                                                                   L"Close Window");
@@ -265,7 +319,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
                 editNode->open(previewNode, "#object:", editMaterialWindow);
             }
-                
+
             if (element == vLoadFromFile) {
                 openingVertex = true;
                 devices->createFileOpenDialog(L"Choose your file", CGUIFileSelector::EFST_OPEN_DIALOG, editMaterialWindow)->addFileFilter(L"Vertex Shader File", L"vbs", 0);
@@ -324,7 +378,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 																		   previewObjectText->getRelativePosition().UpperLeftCorner.Y));
 						closeEditMaterialWindow->setRelativePosition(position2di(editMaterialWindow->getRelativePosition().getWidth()-110,
 																				 editMaterialWindow->getRelativePosition().getHeight()-40));
-						constantsCodeBox->setRelativePosition(rect<s32>(10, 175, separator->getRelativePosition().UpperLeftCorner.X-10,
+						constantsCodeBox->setRelativePosition(rect<s32>(10, 220, separator->getRelativePosition().UpperLeftCorner.X-10,
 																		editMaterialWindow->getRelativePosition().getHeight()-50));
 						editText->setRelativePosition(position2di(editText->getRelativePosition().UpperLeftCorner.X,
 																  editMaterialWindow->getRelativePosition().getHeight()-40));
@@ -350,9 +404,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 						previewObjectText->setRelativePosition(rect<s32>(610, 340, 720, 360));
 						previewNodeChoice->setRelativePosition(rect<s32>(720, 340, 890, 360));
 						closeEditMaterialWindow->setRelativePosition(rect<s32>(800, 480, 900, 510));
-						constantsCodeBox->setRelativePosition(rect<s32>(10, 170, 440, 380));
-						editText->setRelativePosition(rect<s32>(10, 390, 50, 410));
-						editorChoice->setRelativePosition(rect<s32>(50, 390, 440, 410));
+						constantsCodeBox->setRelativePosition(rect<s32>(10, 220, 440, 430));
+						editText->setRelativePosition(rect<s32>(10, 440, 50, 460));
+						editorChoice->setRelativePosition(rect<s32>(50, 440, 440, 460));
 						if (console) {
 							console->remove();
 							console = 0;
@@ -364,6 +418,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 
 			if (element == close) {
                 materialsWindow->remove();
+				if (editMaterialWindow) {
+					editMaterialWindow->remove();
+				}
 				editMaterialWindow = 0;
 				materialsWindow = 0;
                 devices->getEventReceiver()->RemoveEventReceiver(this);
@@ -401,8 +458,12 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 				if (openingPixel) {
 					devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setPixelShader(lines.c_str());
 				}
+				if (openingGeometry) {
+					//devices->getCoreData()->getShaderCallbacks()->operator[](selected)->setGeometryShader(lines.c_str());
+				}
 				openingPixel = false;
 				openingVertex = false;
+				openingGeometry = false;
 			}
 			if (event.GUIEvent.Caller == openShaderPackage) {
 				io::path extension, filename;
@@ -459,8 +520,10 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 ITexture *tex4;
                 vector3df position;
                 vector3df scale;
+
+				viewPort->setSceneManager(smgr);
                 
-                if (previewNode) {
+				if (previewNode && previewNodeChoice->getSelected() != 3) {
                     tex1 = previewNode->getMaterial(0).getTexture(0);
                     tex2 = previewNode->getMaterial(0).getTexture(1);
                     tex3 = previewNode->getMaterial(0).getTexture(2);
@@ -506,6 +569,10 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                     previewNode->setScale(scale);
                     previewNode->setMaterialFlag(EMF_LIGHTING, false);
                 }
+
+				if (previewNodeChoice->getSelected() == 3) {
+					viewPort->setSceneManager(devices->getSceneManager());
+				}
             }
             
             if (event.GUIEvent.Caller == editorChoice) {
@@ -514,8 +581,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                 editingConstants = false;
                 editingVertexShader = false;
                 editingPixelShader = false;
-				constantsCodeBox->restartScrollBar();
-				constantsCodeBox->recalculateTextRect();
+				//constantsCodeBox->restartScrollBar();
+				//constantsCodeBox->recalculateTextRect();
+				constantsCodeBox->setMax(1);
                 switch (editorChoice->getSelected()) {
                     case 0:
                         editingConstants = true;
@@ -548,7 +616,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
                     default:
                         break;
                 }
-                
+				constantsCodeBox->setMax(0);
                 editorChoice->setTabStop(true);
             }
         }

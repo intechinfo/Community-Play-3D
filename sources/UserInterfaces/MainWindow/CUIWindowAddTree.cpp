@@ -60,6 +60,7 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
                     IMesh *octTreeMesh = devices->getSceneManager()->getMesh(path_file.c_str());
                     IMeshSceneNode *treeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, 256);
                     if (treeNode) {
+						treeNode->setMesh(octTreeMesh);
                         treeNode->setMaterialFlag(EMF_LIGHTING, false);
                         treeNode->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
                         
