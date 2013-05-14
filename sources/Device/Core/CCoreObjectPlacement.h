@@ -34,7 +34,7 @@ public:
 	void setCollisionToNormal();
 	void setArrowVisible(bool set);
 	bool findAndSetMousePositionInPlane();
-	f32 getSmallestAxis();
+	f32 getSmallestArrow();
 	void setArrowType(ArrowType AT);
 	void setScaleToNode(IAnimatedMeshSceneNode *arrowLineNode, f32 valueToAdd);
     
