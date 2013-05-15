@@ -257,7 +257,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 	if(shadowsUnsupported || smgr->getActiveCamera() == 0)
 		return;
     
-    bool recalculate = true;
+    bool recalculate = false;
     for (irr::u32 i=0; i < LightList.size(); i++) {
         if (LightList[i].getPosition() != LightList[i].lastPos || LightList[i].getTarget() != LightList[i].lastTar
 			|| LightList[i].getShadowMapResolution() != LightList[i].lastMapRes) {

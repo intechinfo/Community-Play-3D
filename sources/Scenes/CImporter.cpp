@@ -10,6 +10,8 @@
 
 CImporter::CImporter(CDevices *_devices) {
     devices = _devices;
+
+	smgr = devices->getSceneManager();
 }
 
 CImporter::~CImporter() {
@@ -44,9 +46,14 @@ void CImporter::importScene(stringc file_path) {
     devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(wd.c_str());
     
     xmlReader = createIrrXMLReader(file_path.c_str());
+	if (!xmlReader)
+		return;
     
     devices->getCoreData()->clearAllTheArrays();
     
+	newImportScene(file_path);
+	return;
+
     if (xmlReader) {
         read("rootScene");
     }
@@ -759,6 +766,501 @@ void CImporter::importScene(stringc file_path) {
         read("rootScene");
     }
     
+    delete xmlReader;
+
+}
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------BUILDING NODES--------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+void CImporter::buildTerrain() {
+	read("path");
+	stringc path = xmlReader->getAttributeValue("file");
+
+	read("type");
+	stringc type = xmlReader->getAttributeValue("esnt");
+
+	IMesh *mesh = 0;
+    ISceneNode *node = 0;
+	u32 minPolysPerNode = 0;
+	if (type == "heightMap") {
+		node = smgr->addTerrainSceneNode(path.c_str(), 0, -1, vector3df(0.f, 0.f, 0.f),
+                                                vector3df(0.f, 0.f, 0.f), vector3df(1.f, 0.1f, 1.f),
+                                                SColor (255, 255, 255, 255), 5, ETPS_17, 4);
+		devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
+	} else if (type == "octtree") {
+		minPolysPerNode = xmlReader->getAttributeValueAsInt("mppn");
+		mesh = smgr->getMesh(path.c_str());
+		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
+	} else if (type == "mesh") {
+		mesh = devices->getSceneManager()->getMesh(path.c_str());
+		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
+			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, false, true, false, true);
+		}
+		node = smgr->addMeshSceneNode(mesh, 0, -1);
+	}
+
+	readFactory(node);
+
+	if (node) {
+		read("name");
+		stringc name = xmlReader->getAttributeValue("c8name");
+		node->setName(name.c_str());
+
+		readMaterials(node);
+		readTransformations(node);
+
+		read("visible");
+		node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
+
+		read("shadowMode");
+		E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
+		shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
+
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
+        devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
+		devices->getCoreData()->getTerrainMeshes()->push_back(mesh);
+        devices->getCoreData()->getTerrainNodes()->push_back(node);
+        devices->getCoreData()->getTerrainPaths()->push_back(path.c_str());
+		devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(minPolysPerNode);
+	}
+}
+
+void CImporter::buildTree() {
+	read("path");
+	stringc path = xmlReader->getAttributeValue("file");
+
+	IMesh *mesh = 0;
+    ISceneNode *node = 0;
+
+	mesh = smgr->getMesh(path.c_str());
+	node = smgr->addOctreeSceneNode(mesh, 0, -1, 4096*16);
+
+	if (node) {
+		read("name");
+		stringc name = xmlReader->getAttributeValue("c8name");
+		node->setName(name.c_str());
+
+		readMaterials(node);
+		readTransformations(node);
+
+		read("visible");
+		node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
+		read("shadowMode");
+		E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
+		shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
+
+        STreesData tdata(mesh, node, path, ESNT_OCTREE, 1024);
+		devices->getCoreData()->getTreesData()->push_back(tdata);
+	}
+}
+
+void CImporter::buildObject() {
+	read("path");
+	stringc path = xmlReader->getAttributeValue("file");
+
+	IAnimatedMesh *mesh = 0;
+	IAnimatedMeshSceneNode *node = 0;
+
+	if (path == "cube") {
+		node = (IAnimatedMeshSceneNode *)smgr->addCubeSceneNode();
+	} else if (path == "sphere") {
+		node = (IAnimatedMeshSceneNode *)smgr->addSphereSceneNode();
+	} else if (path == "hillPlaneMesh") {
+		mesh = smgr->addHillPlaneMesh("#new_hille_plane_mesh", 
+									  dimension2df(25, 25), dimension2du(25, 25),
+									  0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
+		node = smgr->addAnimatedMeshSceneNode(mesh);
+	} else if (path == "billboard") {
+		node = (IAnimatedMeshSceneNode *)smgr->addBillboardSceneNode();
+	} else {
+		mesh = smgr->getMesh(path.c_str());
+		node = smgr->addAnimatedMeshSceneNode(mesh);
+		if (node) {
+			node->setAnimationSpeed(0);
+			node->setFrameLoop(0, 0);
+		}
+	}
+
+	if (node) {
+		read("name");
+		stringc name = xmlReader->getAttributeValue("c8name");
+		node->setName(name.c_str());
+
+		readMaterials(node);
+		readTransformations(node);
+
+		read("visible");
+		node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
+		read("shadowMode");
+		E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
+		shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
+
+        SObjectsData odata(mesh, node, path);
+		devices->getCoreData()->getObjectsData()->push_back(odata);
+	}
+}
+
+void CImporter::buildLight() {
+	ILightSceneNode *node = smgr->addLightSceneNode();
+	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 5000.f, 89.99f * DEGTORAD);
+
+	read("name");
+	node->setName(xmlReader->getAttributeValue("c8name"));
+
+	//TRANSFORMATIONS
+	read("position");
+	vector3df position = buildVector3df();
+    node->setPosition(position);
+    read("target");
+    vector3df rotation = buildVector3df();
+    node->setRotation(rotation);
+
+	//PARAMETERS
+	read("diffuseColor");
+	node->getLightData().DiffuseColor = buildSColorf();
+	read("ambiantColor");
+	node->getLightData().AmbientColor = buildSColorf();
+	read("specularColor");
+	node->getLightData().SpecularColor = buildSColorf();
+
+	read("radius");
+	node->setRadius(xmlReader->getAttributeValueAsFloat("value"));
+	read("farValue");
+	shadowLight.setFarValue(xmlReader->getAttributeValueAsFloat("value"));
+
+	read("shadows");
+	shadowLight.setShadowMapResolution(xmlReader->getAttributeValueAsFloat("resol"));
+
+	IMeshSceneNode* lfMeshNode = 0;
+	IBillboardSceneNode *lfBillBoard = 0;
+	CLensFlareSceneNode *lfNode = 0;
+	read("lensFlare");
+	readWithNextElement("mesh", "lensFlare");
+	if (element == "mesh") {
+		lfMeshNode = devices->getSceneManager()->addSphereSceneNode(1, 16, devices->getSceneManager()->getRootSceneNode());
+		lfMeshNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+		lfMeshNode->setMaterialFlag(EMF_LIGHTING, false);
+		lfMeshNode->setScale(vector3d<f32>(0, 0, 0));
+		lfMeshNode->setParent(node);
+		lfMeshNode->setName(stringc(stringc(node->getName()) + stringc("_flare_mesh")).c_str());
+		lfBillBoard = devices->getSceneManager()->addBillboardSceneNode(lfMeshNode);
+		lfBillBoard->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+		lfBillBoard->setMaterialFlag(EMF_LIGHTING, false);
+		lfBillBoard->setSize(dimension2d<f32>(0, 0));
+		lfBillBoard->setParent(lfMeshNode);
+		lfBillBoard->setName(stringc(stringc(node->getName()) + stringc("_flare_bill")).c_str());
+		lfNode = new CLensFlareSceneNode(lfMeshNode, devices->getSceneManager());
+		lfNode->setFalseOcclusion(true);
+		lfNode->setParent(lfMeshNode);
+		lfNode->setName(stringc(stringc(node->getName()) + stringc("_flare_node")).c_str());
+		//MESH
+		read("scale");
+		lfMeshNode->setScale(buildVector3df());
+		read("texture");
+		lfMeshNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path")));
+		//BILLBOARD
+		read("size");
+		lfBillBoard->setSize(buildDimension2df());
+		read("texture");
+		lfBillBoard->setMaterialTexture(0, devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path")));
+		//LENS FLARE
+		read("strength");
+		lfNode->setStrength(xmlReader->getAttributeValueAsFloat("value"));
+		read("texture");
+		lfNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path")));
+		read("falseOcclusion");
+		lfNode->setFalseOcclusion(xmlReader->getAttributeValueAsInt("value"));
+		read("position");
+		lfNode->setPosition(buildVector3df());
+	}
+
+	devices->getXEffect()->addShadowLight(shadowLight);
+	devices->getCoreData()->getLightsData()->push_back(SLightsData(node, lfMeshNode, lfBillBoard, lfNode));
+}
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------BUILDING CONFIGURATIONS-----------------------------------
+//---------------------------------------------------------------------------------------------
+
+void CImporter::readConfig() {
+	read("config");
+	//IF GRID
+	read("grid");
+	read("accentLineOffset");
+	u32 ALO = devices->getCore()->getU32(xmlReader->getAttributeValue("ALO"));
+	devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(ALO);
+                
+	read("size");
+	u32 size = devices->getCore()->getU32(xmlReader->getAttributeValue("S"));
+	devices->getObjectPlacement()->getGridSceneNode()->SetSize(size);
+                
+	read("spacing");
+	u32 spacing = devices->getCore()->getU32(xmlReader->getAttributeValue("SP"));
+	devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(spacing);
+                
+	//IF CAMERA
+	read("camera");
+	read("position");
+	vector3df position = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
+									devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
+									devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
+	devices->getMayaCamera()->setPosition(position);
+                
+	read("rotation");
+	vector3df rotation = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
+									devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
+									devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
+	devices->getMayaCamera()->setRotation(rotation);
+
+	//EFFECTS
+	readEffects();
+	//CALLBACKS
+	readMaterialShaderCallbacks();
+	read("config");
+}
+
+void CImporter::readEffects() {
+	read("effect");
+	readWithNextElement("postProcessingEffect", "effect");
+	while (element == "postProcessingEffect") {
+		stringw path = L"";
+		read("file_path");
+		path = xmlReader->getAttributeValue("path");
+                    
+		s32 render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
+		devices->getCoreData()->getEffectRenders()->push_back(render);
+		devices->getCoreData()->getEffectRendersPaths()->push_back(path);
+                    
+		CEffectRenderCallback *callback = new CEffectRenderCallback(render, devices->getDevice());
+		callback->clearPixelValues();
+		callback->clearVertexValues();
+		devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
+		devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
+                    
+		read("values");
+		readWithNextElement("value", "values");
+		while (element == "value") {
+			stringw name = L"";
+			stringc value = "0.0";
+                        
+			name = xmlReader->getAttributeValue("name");
+			value = xmlReader->getAttributeValue("val");
+                        
+			callback->getPixelValues()->push_back(value);
+			callback->getPixelValuesNames()->push_back(name);
+                        
+			readWithNextElement("value", "values");
+		}
+		read("postProcessingEffect");
+		readWithNextElement("postProcessingEffect", "effect");
+	}
+}
+
+void CImporter::readMaterialShaderCallbacks() {
+	read("materialTypes");
+	readWithNextElement("materialType", "materialTypes");
+	while (element == "materialType") {
+		read("pixelShaderType");
+		E_PIXEL_SHADER_TYPE pixelShaderType = (E_PIXEL_SHADER_TYPE)xmlReader->getAttributeValueAsInt("type");
+		read("vertexShaderType");
+		E_VERTEX_SHADER_TYPE vertexShaderType = (E_VERTEX_SHADER_TYPE)xmlReader->getAttributeValueAsInt("type");
+
+		stringc name = "";
+		read("name");
+		name = xmlReader->getAttributeValue("cname");
+
+		stringc vertex = "", pixel = "", constants = "";
+		read("vertex");
+		vertex = xmlReader->getAttributeValue("shader");
+		read("pixel");
+		pixel = xmlReader->getAttributeValue("shader");
+		read("constants");
+		constants = xmlReader->getAttributeValue("value");
+
+		CShaderCallback *callback = new CShaderCallback();
+		callback->setName(name.c_str());
+		callback->setVertexShader(vertex.c_str());
+		callback->setPixelShader(pixel.c_str());
+		callback->setConstants(constants.c_str());
+		callback->setPixelShaderType(pixelShaderType);
+		callback->setVertexShaderType(vertexShaderType);
+		callback->setDevice(devices->getDevice());
+		callback->buildMaterial(devices->getVideoDriver());
+		devices->getCoreData()->getShaderCallbacks()->push_back(callback);
+
+		read("materialType");
+		readWithNextElement("materialType", "materialTypes");
+	}
+}
+
+void CImporter::readFactory(ISceneNode *_node) {
+
+}
+
+void CImporter::readMaterials(ISceneNode *_node) {
+	read("materials");
+	readWithNextElement("material", "materials");
+	while (element == "material") {
+		u32 id = xmlReader->getAttributeValueAsInt("id");
+		//TEXTURES
+		read("textures");
+		for (u32 i=0; i < irr::video::MATERIAL_MAX_TEXTURES; i++) {
+			read("texture");
+			ITexture *tex = devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path"));
+			_node->getMaterial(id).TextureLayer[i].Texture = tex;
+		}
+
+		//COLORS
+		read("diffuseColor");
+		_node->getMaterial(id).DiffuseColor = buildSColor();
+		read("ambiantColor");
+		_node->getMaterial(id).AmbientColor = buildSColor();
+		read("specularColor");
+		_node->getMaterial(id).SpecularColor = buildSColor();
+		read("emissiveColor");
+		_node->getMaterial(id).EmissiveColor = buildSColor();
+
+		//LIGHTING
+		read("lighting");
+		_node->getMaterial(id).Lighting = xmlReader->getAttributeValueAsInt("value");
+
+		//MATERIAL TYPE PARAMETERS
+		read("materialTypeParam1");
+		_node->getMaterial(id).MaterialTypeParam = xmlReader->getAttributeValueAsFloat("value");
+		read("materialTypeParam2");
+		_node->getMaterial(id).MaterialTypeParam2 = xmlReader->getAttributeValueAsFloat("value");
+
+		//MISC PARAMETERS
+		read("shininess");
+		_node->getMaterial(id).Shininess = xmlReader->getAttributeValueAsFloat("value");
+		read("thickness");
+		_node->getMaterial(id).Thickness = xmlReader->getAttributeValueAsFloat("value");
+
+		//FLAGS
+		read("antiAliasing");
+		_node->getMaterial(id).AntiAliasing = xmlReader->getAttributeValueAsInt("value");
+		read("backfaceCulling");
+		_node->getMaterial(id).BackfaceCulling = xmlReader->getAttributeValueAsInt("value");
+		read("colorMask");
+		_node->getMaterial(id).ColorMask = xmlReader->getAttributeValueAsInt("value");
+		read("colorMaterial");
+		_node->getMaterial(id).ColorMaterial = xmlReader->getAttributeValueAsInt("value");
+		read("fogEnable");
+		_node->getMaterial(id).FogEnable = xmlReader->getAttributeValueAsInt("value");
+		read("frontfaceCulling");
+		_node->getMaterial(id).FrontfaceCulling = xmlReader->getAttributeValueAsInt("value");
+		read("gouraudShading");
+		_node->getMaterial(id).GouraudShading = xmlReader->getAttributeValueAsInt("value");
+		read("normalizeNormals");
+		_node->getMaterial(id).NormalizeNormals = xmlReader->getAttributeValueAsInt("value");
+		read("zBuffer");
+		_node->getMaterial(id).ZBuffer = xmlReader->getAttributeValueAsInt("value");
+		read("zWriteEnable");
+		_node->getMaterial(id).ZWriteEnable = xmlReader->getAttributeValueAsInt("value");
+
+		//MATERIAL TYPE
+		read("materianType");
+		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
+		_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
+		if (matS32 < 0) {
+			_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](-matS32-1)->getMaterial();
+		}
+
+		read("material");
+		readWithNextElement("material", "materials");
+	}
+}
+
+void CImporter::readTransformations(ISceneNode *_node) {
+	 //POSITION
+    read("position");
+    vector3df position = buildVector3df();
+    _node->setPosition(position);
+                    
+    //ROTATION
+    read("rotation");
+    vector3df rotation = buildVector3df();
+    _node->setRotation(rotation);
+                    
+    //SCALE
+    read("scale");
+    vector3df scale = buildVector3df();
+    _node->setScale(scale);
+}
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------BUILDING PARAMETERS---------------------------------------
+//---------------------------------------------------------------------------------------------
+
+SColor CImporter::buildSColor() {
+	SColor color(xmlReader->getAttributeValueAsInt("a"), xmlReader->getAttributeValueAsInt("r"),
+				 xmlReader->getAttributeValueAsInt("g"), xmlReader->getAttributeValueAsInt("b"));
+	return color;
+}
+
+SColorf CImporter::buildSColorf() {
+	SColorf color(xmlReader->getAttributeValueAsInt("r"), xmlReader->getAttributeValueAsInt("g"), 
+				  xmlReader->getAttributeValueAsInt("b"), xmlReader->getAttributeValueAsInt("a"));
+	return color;
+}
+
+vector3df CImporter::buildVector3df() {
+	vector3df vec = buildVector3d<f32>();
+    return vec;
+}
+
+dimension2df CImporter::buildDimension2df() {
+	dimension2df dim = buildDimension2d<f32>();
+	return dim;
+}
+
+template<class T>
+vector3d<T> CImporter::buildVector3d() {
+	vector3df vec = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
+                                 devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
+                                 devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
+    return vec;
+}
+
+template<class T>
+dimension2d<T> CImporter::buildDimension2d() {
+	dimension2d<T> dim = dimension2d<T>(devices->getCore()->getF32(xmlReader->getAttributeValue("Width")),
+										devices->getCore()->getF32(xmlReader->getAttributeValue("Height")));
+	return dim;
+}
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------LOAD SCENE------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+void CImporter::newImportScene(stringc file_path) {
+	read("rootScene");
+
+	readConfig();
+
+	while (xmlReader->read()) {
+
+		element = "";
+		if (xmlReader->getNodeType() == EXN_ELEMENT)
+			element = xmlReader->getNodeName();
+
+		if (element == "terrain")
+			buildTerrain();
+		else if (element == "tree")
+			buildTree();
+		else if (element == "object")
+			buildObject();
+		else if (element == "light")
+			buildLight();
+
+	}
+
+    read("rootScene");
+
     delete xmlReader;
 
 }

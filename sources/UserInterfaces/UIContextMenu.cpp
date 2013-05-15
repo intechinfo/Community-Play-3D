@@ -164,9 +164,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     consoleButton = infosBar->addButton(CXT_BAR_EVENTS_LOG_WINDOW, 0, L"Show/Hide Console", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/help.png");
 	infosBar->addButton(CXT_MENU_EVENTS_HELP, 0, L"Open Help", image, 0, false, true);
-    
+
     infosBar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
-    
+
     //PLACE POSITION, ROTATION, SCALE HERE
     image = devices->getVideoDriver()->getTexture("GUI/position.png");
 	(ibposition = infosBar->addButton(-1, 0, L"Change Object Position", image, 0, false, true))->setIsPushButton();
@@ -183,9 +183,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	contextNameText->setBackgroundColor(SColor(255, 0, 0, 0));
 	contextNameText->setOverrideColor(SColor(255, 255, 255, 255));
 	contextNameText->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-    
+
     //-----------------------------------
-    
+
     timer = devices->getDevice()->getTimer();
     timer->start();
     timer->setTime(0);
@@ -196,7 +196,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	scene_to_import.remove(L".world");
 	exportSceneInstance->setPathFile(scene_to_import.c_str());
     delete impoterInstance;
-	
+
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
     

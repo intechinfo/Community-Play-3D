@@ -18,6 +18,7 @@ CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_device
 	//-----------------------------------
 
 	previewNode = 0;
+	console = 0;
 }
 
 CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {

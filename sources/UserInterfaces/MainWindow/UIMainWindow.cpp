@@ -211,6 +211,9 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
     } else if (tabCtrl->getActiveTab() == treesTab->getNumber()) {
         if (treesListBox->getSelected() != -1) {
 			node = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode();
+			mesh = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getMesh();
+			minPolysPerNode = devices->getCoreData()->getTreesData()->operator[](terrainsListBox->getSelected()).getMinPolysPerNode();
+			path = devices->getCoreData()->getTreesData()->operator[](terrainsListBox->getSelected()).getPath();
         }
     } else if (tabCtrl->getActiveTab() == objectsTab->getNumber()) {
         if (objectsListBox->getSelected() != -1) {

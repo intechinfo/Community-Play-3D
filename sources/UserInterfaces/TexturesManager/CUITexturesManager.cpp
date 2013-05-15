@@ -8,6 +8,8 @@
 
 #include "CUITexturesManager.h"
 
+
+
 CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 	devices = _devices;
 	devices->getEventReceiver()->AddEventReceiver(this);
@@ -70,7 +72,6 @@ array<ISceneNode *> CUITexturesManager::whoUseThisTexture(ITexture *tex) {
 			nodeswu.push_back(node);
 		}
 	}
-
 	return nodeswu;
 }
 
@@ -154,7 +155,7 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 					nodesText += L"\n";
 				}
 				if (driver->getTextureByIndex(textures->getSelected())->isRenderTarget()) {
-					nodesText += L"Is a render target \n";
+					nodesText += L"\nIs a render target \n";
 				}
 				devices->addInformationDialog(L"Informations", nodesText.c_str(), EMBF_OK, true, 0);
 			}

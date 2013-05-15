@@ -99,7 +99,6 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		resolutionComboBox->addItem(L"1024");
 		resolutionComboBox->addItem(L"2048");
 		resolutionComboBox->addItem(L"4096");
-		resolutionComboBox->addItem(L"8192");
 
 		//ADVANCED DIFFUSE COLOR
 		devices->getGUIEnvironment()->addStaticText(L"Diffuse :", rect<s32>(10, 30, 70, 50), true, true, advancedTab, -1, true);
@@ -227,6 +226,16 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		//SHADOW LIGHT TAB
 		devices->getGUIEnvironment()->addStaticText(L"Far Value : ", rect<s32>(10, 20, 90, 40), true, true, shadowLightTab, -1, true);
 		farValueSL = devices->getGUIEnvironment()->addEditBox(stringw(devices->getXEffect()->getShadowLight(index).getFarValue()).c_str(), rect<s32>(90, 20, 190, 40), true, shadowLightTab, -1);
+
+		shadowMapPreview = devices->getGUIEnvironment()->addImage(rect<s32>(10, 50, 250, 350), shadowLightTab, -1, L"Shadow Light Preview 1");
+		shadowMapPreview->setScaleImage(true);
+		shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false));
+		devices->getGUIEnvironment()->addStaticText(L"Primary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview, -1, false);
+
+		shadowMapPreview2 = devices->getGUIEnvironment()->addImage(rect<s32>(250, 50, 500, 350), shadowLightTab, -1, L"Shadow Light Preview 2");
+		shadowMapPreview2->setScaleImage(true);
+		shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true));
+		devices->getGUIEnvironment()->addStaticText(L"Secondary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview2, -1, false);
 
 		//WINDOW BUTTONS
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
@@ -390,7 +399,10 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 				u32 resolution = devices->getCore()->getU32(resolutionw.c_str());
 				devices->getXEffect()->getShadowLight(index).setShadowMapResolution(resolution);
 
-				if (resolutionw == "8192") {
+				shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false));
+				shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true));
+
+				if (resolution == 4086) {
 					devices->addWarningDialog(L"Warning",
 											  L"This quality of shadows can make the World Editor CRASHING !\n\n"
 											  L"I cannot make sure the render will be successful...",

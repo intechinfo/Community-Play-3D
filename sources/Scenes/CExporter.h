@@ -22,7 +22,32 @@ public:
     
 private:
     
+	//-----------------------------------
+	//DEVICES AND DATAS
     CDevices *devices;
+
+	FILE *export_file;
+	stringc wd;
+	//-----------------------------------
+
+	//-----------------------------------
+	//METHODS
+	//XML EXPORTERS
+	void exportConfig();
+	void exportTerrains();
+	void exportObjects();
+	void exportTrees();
+	void exportLights();
+	void exporterWaterSurfaces();
+
+	//INFORMATIONS EXPORTERS
+	void exportMaterials(stringc tabs, ISceneNode *node);
+	void exportTransformations(stringc tabs, ISceneNode *node);
+	void exportFactory(stringc tabs, ISceneNode *node);
+	
+	//GET PARAMETERS
+	E_SHADOW_MODE getShadowMode(ISceneNode *node);
+	//-----------------------------------
     
 };
 

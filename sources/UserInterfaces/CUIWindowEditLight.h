@@ -76,6 +76,7 @@ private:
     IGUIButton *lfnArrowMeshPosition;
 
 	IGUIEditBox *farValueSL;
+	IGUIImage *shadowMapPreview, *shadowMapPreview2;
     //-----------------------------------
     
     //-----------------------------------

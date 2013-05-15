@@ -74,7 +74,6 @@ int main() {
 
 	}*/
 
-
 	//FOR ERIOR
 	/*CWaterSurface *wat = new CWaterSurface(smgr, coreUserInterface->getDevices()->getXEffect()->getScreenQuad().rt[1], 0);
 	wat->getWaterNode()->setName("#water:test");

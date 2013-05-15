@@ -43,13 +43,21 @@ bool CCore::elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *
 
 array<IGUIElement *> CCore::getArrayOfAListOfGUIElementChildren(IGUIElement *element) {
 	array<IGUIElement *> elements;
+	elements.clear();
 
 	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
 	for (; it != element->getChildren().end(); ++it) {
 		elements.push_back(*it);
+		fillArrayOfGUIElementsFromArrayOfGUIElements(elements, getArrayOfAListOfGUIElementChildren(*it));
 	}
 
 	return elements;
+}
+
+void CCore::fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> toFill, array<IGUIElement *> source) {
+	for (u32 i=0; i < source.size(); i++) {
+		toFill.push_back(source[i]);
+	}
 }
 
 array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
@@ -294,6 +302,16 @@ u32 CCore::getU32(std::string valueu32) {
 	issX >> value_u32;
 	
 	return value_u32;
+}
+
+u32 CCore::getNumberOfBuildInMaterialTypes() {
+	irr::video::sBuiltInMaterialTypeNames;
+	u32 builtInMatTypeNb=0;
+	while (irr::video::sBuiltInMaterialTypeNames[builtInMatTypeNb] != 0) {
+		builtInMatTypeNb++;
+	}
+
+	return builtInMatTypeNb;
 }
 
 stringc CCore::getStringcFromFile(stringc pathFile) {
