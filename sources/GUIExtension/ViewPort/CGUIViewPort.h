@@ -10,7 +10,7 @@ namespace irr {
             
         public:
             
-            CGUIViewport(IGUIEnvironment* environment, IGUIElement* parent, s32 id, core::rect<s32> rectangle, bool _drawEffects);
+            CGUIViewport(IGUIEnvironment* environment, IGUIElement* parent, s32 id, core::rect<s32> rectangle);
             
             virtual ~CGUIViewport();
             
@@ -19,8 +19,6 @@ namespace irr {
             virtual void draw();
             
             virtual void setSceneManager(scene::ISceneManager* scene);
-            
-            void setEffects(EffectHandler *_effect);
             
             virtual scene::ISceneManager* getSceneManager() const;
             

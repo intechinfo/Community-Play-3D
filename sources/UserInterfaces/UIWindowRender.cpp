@@ -24,7 +24,7 @@ void CUIWindowRender::open() {
     renderWindow->getCloseButton()->remove();
     
     viewPort = new CGUIViewport(devices->getGUIEnvironment(), renderWindow, 1, 
-                                rect<s32>(10, 30, 660, 490), false); 
+                                rect<s32>(10, 30, 660, 490)); 
     if (viewPort) {
         viewPort->setSceneManager(devices->getSceneManager());
     } else {

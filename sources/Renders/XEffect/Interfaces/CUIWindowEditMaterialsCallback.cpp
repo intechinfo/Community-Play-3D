@@ -17,17 +17,27 @@ CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_device
 	gui = devices->getGUIEnvironment();
 	//-----------------------------------
 
+	planeMesh = 0;
 	previewNode = 0;
+
 	console = 0;
 }
 
 CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {
-	planeMesh->grab();
-	planeMesh->drop();
+	if (planeMesh) {
+		planeMesh->grab();
+		planeMesh->drop();
+	}
 }
 
 void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
 	callback = _callback;
+
+	if (callback == 0) {
+		devices->addErrorDialog(L"Error", L"There is no callback to edit.", EMBF_OK);
+		delete this;
+		return;
+	}
 
 	smgr = devices->getSceneManager()->createNewSceneManager();
     planeMesh = smgr->addHillPlaneMesh("plane", dimension2df(6, 6), dimension2du(6, 6));
@@ -94,7 +104,7 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     separator = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(445, 40, 455, 500), true, true, editMaterialWindow, -1, false);
                 
     previewText = devices->getGUIEnvironment()->addStaticText(L"Preview :", rect<s32>(460, 40, 560, 62), false, true, editMaterialWindow, -1, false);
-    viewPort = new CGUIViewport(devices->getGUIEnvironment(), editMaterialWindow, 1, rect<s32>(460, 60, 890, 330), false);
+    viewPort = new CGUIViewport(devices->getGUIEnvironment(), editMaterialWindow, 1, rect<s32>(460, 60, 890, 330));
 	smgr = devices->getSceneManager()->createNewSceneManager();
     if (viewPort) {
         viewPort->setSceneManager(smgr);

@@ -47,6 +47,7 @@ private:
 	void buildTree();
 	void buildObject();
 	void buildLight();
+	void buildWaterSurface();
 
 	//BUILDING CONFIGURATIONS
 	void readConfig();
@@ -55,6 +56,7 @@ private:
 	void readFactory(ISceneNode *_node);
 	void readMaterials(ISceneNode *_node);
 	void readTransformations(ISceneNode *_node);
+	void readViewModes(ISceneNode *_node);
 
 	//BUILDING PARAMETERS
 	SColor buildSColor();

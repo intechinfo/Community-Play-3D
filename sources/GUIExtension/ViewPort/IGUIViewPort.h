@@ -24,8 +24,6 @@ namespace irr {
             
             virtual void setSceneManager(scene::ISceneManager* scene) = 0;
             
-            virtual void setEffects(EffectHandler *_effect) = 0;
-            
             virtual scene::ISceneManager* getSceneManager() const = 0;
             
             virtual void setOverrideColor(video::SColor color) = 0;

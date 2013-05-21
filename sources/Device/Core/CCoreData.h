@@ -244,26 +244,31 @@ private:
 
 struct SWaterSurfacesData {
 public:
-	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"") {
-	waterSurface = _waterSurface;
-	callback = _callback;
-	packagePath = _packagePath;
+	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"") {
+		waterSurface = _waterSurface;
+		callback = _callback;
+		packagePath = _packagePath;
+		meshPath = _meshPath;
     }
 
 	void remove() { delete this; }
 	void setwaterSurface(CWaterSurface *_waterSurface) { waterSurface = _waterSurface; }
-	void setPath(stringw _packagePath) { packagePath = _packagePath; }
+	void setCallback(CShaderCallback *_callback) { callback = _callback; }
+	void setPackagePath(stringw _packagePath) { packagePath = _packagePath; }
+	void setMeshPath(stringw _meshPath) { meshPath = _meshPath; }
 
 	CWaterSurface *getWaterSurface() { return waterSurface; }
 	IMesh *getMesh() { return waterSurface->getWaterMesh(); }
 	ISceneNode *getNode() { return waterSurface->getWaterNode(); }
-	stringw getPath() { return packagePath; }
+	CShaderCallback *getShaderCallback() { return callback; }
+	stringw getMeshPath() { return meshPath; }
+	stringw getPackagePath() { return packagePath; }
 
 private:
 	CWaterSurface *waterSurface;
 	CShaderCallback *callback;
 	stringw packagePath;
-
+	stringw meshPath;
 
 };
 

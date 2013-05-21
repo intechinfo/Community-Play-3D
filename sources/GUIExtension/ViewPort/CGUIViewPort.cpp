@@ -10,12 +10,11 @@ namespace irr {
         
         
         //! constructor
-        CGUIViewport::CGUIViewport(irr::gui::IGUIEnvironment* environment, irr::gui::IGUIElement* parent, s32 id, irr::core::rect<s32> rectangle, bool _drawEffects)
+        CGUIViewport::CGUIViewport(irr::gui::IGUIEnvironment* environment, irr::gui::IGUIElement* parent, s32 id, irr::core::rect<s32> rectangle)
         : IGUIViewport(environment, parent, id, rectangle)
         , SceneManager(0)
         , OverrideColorEnabled(false)
-        , OverrideColor(255, 0, 0, 0)
-        , drawEffects(_drawEffects) {
+        , OverrideColor(255, 0, 0, 0) {
 #ifdef _DEBUG
             setDebugName("CGUIViewport");
 #endif
@@ -37,10 +36,6 @@ namespace irr {
                 absorbed = Parent->OnEvent(event);
             
             return absorbed;
-        }
-        
-        void CGUIViewport::setEffects(EffectHandler *_effect) {
-            effect = _effect;
         }
         
         void CGUIViewport::draw() {

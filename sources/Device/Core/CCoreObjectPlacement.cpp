@@ -97,13 +97,18 @@ CCoreObjectPlacement::~CCoreObjectPlacement() {
 }
 
 void CCoreObjectPlacement::refresh(ISceneNode *cursorPosition) {
-    if (isMoving) {
+    if (isMoving && nodeToPlace) {
 		arrowYLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		arrowXLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		arrowZLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		arrowYXZLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		yGridSceneNode->setPosition(vector3df(0, nodeToPlace->getAbsolutePosition().Y, 0));
-    }
+    } else {
+		setArrowVisible(false);
+		isMoving = false;
+		nodeToPlace = 0;
+		setArrowType(Undefined);
+	}
     if (lightNode) {
         coneMesh->drop();
         line3d<f32> distanceLight(lightNode->getPosition(), lightNode->getRotation());

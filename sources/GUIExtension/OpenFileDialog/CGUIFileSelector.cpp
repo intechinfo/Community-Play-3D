@@ -14,7 +14,7 @@ CGUIFileSelector::CGUIFileSelector(const wchar_t* title, IGUIEnvironment* enviro
 					(parent->getAbsolutePosition().getWidth()-FOD_WIDTH)/2+FOD_WIDTH,
 					(parent->getAbsolutePosition().getHeight()-FOD_HEIGHT)/2+FOD_HEIGHT)),	
   Dragging(false), FileNameText(0), FileList(0), DialogType(type)
-{   
+{
     #ifdef _DEBUG
 	  IGUIElement::setDebugName("CGUIFileSelector");
 	#endif

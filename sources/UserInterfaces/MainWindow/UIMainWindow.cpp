@@ -200,7 +200,7 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 	IMesh *mesh = 0;
 	u32 minPolysPerNode = 0;
 	stringc path = stringc("");
-    
+
     if (tabCtrl->getActiveTab() == terrainsTab->getNumber()) {
         if (terrainsListBox->getSelected() != -1) {
             node = devices->getCoreData()->getTerrainNodes()->operator[](terrainsListBox->getSelected());
@@ -212,8 +212,8 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
         if (treesListBox->getSelected() != -1) {
 			node = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode();
 			mesh = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getMesh();
-			minPolysPerNode = devices->getCoreData()->getTreesData()->operator[](terrainsListBox->getSelected()).getMinPolysPerNode();
-			path = devices->getCoreData()->getTreesData()->operator[](terrainsListBox->getSelected()).getPath();
+			minPolysPerNode = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getMinPolysPerNode();
+			path = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getPath();
         }
     } else if (tabCtrl->getActiveTab() == objectsTab->getNumber()) {
         if (objectsListBox->getSelected() != -1) {
@@ -233,6 +233,7 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
         if (waterSurfacesListBox->getSelected() != -1) {
 			mesh = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getMesh();
 			node = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getNode();
+			path = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getMeshPath();
         }
     }
     
@@ -273,6 +274,15 @@ void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
 		if (devices->getCoreData()->getLightsData()->operator[](i).getNode() == node) {
 			tabCtrl->setActiveTab(lightsTab);
 			lightsListBox->setSelected(i);
+			founded = true;
+		}
+		i++;
+	}
+	i=0;
+	while (!founded && i < devices->getCoreData()->getWaterSurfaces()->size()) {
+		if (devices->getCoreData()->getWaterSurfaces()->operator[](i).getNode() == node) {
+			tabCtrl->setActiveTab(waterSurfacesTab);
+			waterSurfacesListBox->setSelected(i);
 			founded = true;
 		}
 		i++;
@@ -442,6 +452,9 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					rightClickCxtMenum = gui->addContextMenu(rectMenu, 0, -1);
 					rightClickCxtMenum->addItem(L"Edit...", 0, true, false, false, false);
 					rightClickCxtMenum->addItem(L"Edit Materials...", 1, true, false, false, false);
+					if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
+						rightClickCxtMenum->addItem(L"Edit Water Surface Callback...", -1, true, false, false, false);
+					}
 					rightClickCxtMenum->addSeparator();
 					rightClickCxtMenum->addItem(L"Clone", 2, true, false, false, false);
 					rightClickCxtMenum->addSeparator();
@@ -503,6 +516,14 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 				if (node) {
 					CCore *core = devices->getCore();
 					CCoreData *worldCore = devices->getCoreData();
+
+					if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
+						if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == -1) {
+							CUIWindowEditMaterialsCallback *editCall = new CUIWindowEditMaterialsCallback(devices);
+							editCall->open(worldCore->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getShaderCallback());
+						}
+					}
+
 					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 0) {
 						stringc prefix = getSelectedNodePrefix(node);
 						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {

@@ -47,7 +47,7 @@ void CUIWindowEditEffects::open() {
                                                                 -1, L"Enable Depth Pass");
     
     viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
-                                rect<s32>(10, 70, 580, 270), false);
+                                rect<s32>(10, 70, 580, 270));
     if (viewPort) {
         viewPort->setSceneManager(devices->getSceneManager());
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 

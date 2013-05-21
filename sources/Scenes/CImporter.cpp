@@ -15,7 +15,7 @@ CImporter::CImporter(CDevices *_devices) {
 }
 
 CImporter::~CImporter() {
-    devices = NULL;
+    devices = 0;
 }
 
 void CImporter::readWithNextElement(std::string node, std::string nextNode) {
@@ -810,15 +810,8 @@ void CImporter::buildTerrain() {
 
 		readMaterials(node);
 		readTransformations(node);
+		readViewModes(node);
 
-		read("visible");
-		node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
-
-		read("shadowMode");
-		E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
-		shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
-
-		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
         devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
 		devices->getCoreData()->getTerrainMeshes()->push_back(mesh);
         devices->getCoreData()->getTerrainNodes()->push_back(node);
@@ -844,14 +837,9 @@ void CImporter::buildTree() {
 
 		readMaterials(node);
 		readTransformations(node);
+		readViewModes(node);
 
-		read("visible");
-		node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
-		read("shadowMode");
-		E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
-		shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
-		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
-
+		devices->getCollisionManager()->setCollisionFromBoundingBox(node);
         STreesData tdata(mesh, node, path, ESNT_OCTREE, 1024);
 		devices->getCoreData()->getTreesData()->push_back(tdata);
 	}
@@ -891,14 +879,9 @@ void CImporter::buildObject() {
 
 		readMaterials(node);
 		readTransformations(node);
+		readViewModes(node);
 
-		read("visible");
-		node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
-		read("shadowMode");
-		E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
-		shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
-		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
-
+		devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
         SObjectsData odata(mesh, node, path);
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}
@@ -980,6 +963,27 @@ void CImporter::buildLight() {
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(SLightsData(node, lfMeshNode, lfBillBoard, lfNode));
+}
+
+void CImporter::buildWaterSurface() {
+	read("mesh");
+	CWaterSurface *waterSurface = new CWaterSurface(smgr, 0, smgr->getMesh(xmlReader->getAttributeValue("path")), 
+													true, true, devices->getWorkingDirectory());
+	IAnimatedMeshSceneNode *node = waterSurface->getWaterNode();
+
+	if (node) {
+		read("name");
+		node->setName(xmlReader->getAttributeValue("c8name"));
+
+		readTransformations(node);
+		readMaterials(node);
+		readViewModes(node);
+
+		devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+		SWaterSurfacesData wsdata(waterSurface, 0, "");
+		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
+	}
+
 }
 
 //---------------------------------------------------------------------------------------------
@@ -1192,6 +1196,15 @@ void CImporter::readTransformations(ISceneNode *_node) {
     _node->setScale(scale);
 }
 
+void CImporter::readViewModes(ISceneNode *_node) {
+	read("visible");
+	_node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
+	read("shadowMode");
+	E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
+	shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
+	devices->getXEffect()->addShadowToNode(_node, devices->getXEffectFilterType(), shadowMode);
+}
+
 //---------------------------------------------------------------------------------------------
 //-----------------------------------BUILDING PARAMETERS---------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -1256,6 +1269,8 @@ void CImporter::newImportScene(stringc file_path) {
 			buildObject();
 		else if (element == "light")
 			buildLight();
+		else if (element == "waterSurface")
+			buildWaterSurface();
 
 	}
 

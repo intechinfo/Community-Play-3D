@@ -313,7 +313,7 @@ void CExporter::exporterWaterSurfaces() {
 	for (u32 i=0; i < devices->getCoreData()->getWaterSurfaces()->size(); i++) {
 		CWaterSurface *surf = devices->getCoreData()->getWaterSurfaces()->operator[](i).getWaterSurface();
 		ISceneNode *node = devices->getCoreData()->getWaterSurfaces()->operator[](i).getNode();
-		stringw surfpath = devices->getCoreData()->getWaterSurfaces()->operator[](i).getPath();
+		stringw surfpath = devices->getCoreData()->getWaterSurfaces()->operator[](i).getMeshPath();
 
 		fprintf(export_file, "\t\t <waterSurface>\n\n");
 
@@ -321,8 +321,10 @@ void CExporter::exporterWaterSurfaces() {
 		fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
 
 		exportTransformations("\t\t\t", node);
-
 		exportMaterials("\t\t\t", node);
+
+		fprintf(export_file, "\t\t\t <visible bool=\"%d\" />\n", node->isVisible());
+		fprintf(export_file, "\t\t\t <shadowMode mode=\"%d\" />\n", getShadowMode(node));
 
 		fprintf(export_file, "\t\t </waterSurface>\n\n");
 	}

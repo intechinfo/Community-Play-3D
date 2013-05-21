@@ -38,10 +38,19 @@ int main() {
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, true);
 	driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY, true);
 
+	driver->setAllowZWriteOnTransparent(true);
+
+	stringw t = "Max texture size = ";
+	t += driver->getMaxTextureSize().Width;
+	t += " x ";
+	t += driver->getMaxTextureSize().Height;
+	coreUserInterface->getDevices()->addInformationDialog("Info", t.c_str(), EMBF_OK, false, 0);
+
+
 	//CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
 	//water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
 
-	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
+	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 16, 8, 0.95f, 2.0f);
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 

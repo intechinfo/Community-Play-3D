@@ -179,7 +179,7 @@ void CUIMaterialEditor::open(ISceneNode *node) {
     rootTreeViewNode->getFirstChild()->setSelected(true);
     
     //VIEW PORT
-    viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710), false); 
+    viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710)); 
     if (viewPort) {
         viewPort->setSceneManager(smgr);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 

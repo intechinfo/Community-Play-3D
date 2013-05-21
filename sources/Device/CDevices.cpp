@@ -298,8 +298,7 @@ IGUIFileOpenDialog *CDevices::createFileOpenDialog(stringw title, IGUIElement *p
     window = gui->addWindow(rect<s32>(100, 100, 960, 590), true, 
                             L"Open File Dialog", parent, -1);
     
-    //dialog = gui->addFileOpenDialog(title.c_str(), false, window, -1);
-	dialog = createFileOpenDialog(title.c_str(), CGUIFileSelector::EFST_OPEN_DIALOG, window);
+	dialog = this->createFileOpenDialog(title, CGUIFileSelector::EFST_OPEN_DIALOG, window);
     dialog->setRelativePosition(rect<s32>(0, 20, 560, 440));
     
     gui->addButton(rect<s32>(320, 450, 430, 480), window, DEVICES_FILE_OPEN_DIALOG_EVENTS_OK, L"Ok", L"Accept");
@@ -310,13 +309,7 @@ IGUIFileOpenDialog *CDevices::createFileOpenDialog(stringw title, IGUIElement *p
 }
 
 CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type) {
-    CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, gui->getRootGUIElement(), 1, type);
-    selector->setRelativePosition(rect<s32>(0, 20, 560, 440));
-    
-    selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
-    selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
-    
-    return selector;
+	return this->createFileOpenDialog(title, type, gui->getRootGUIElement());
 }
 
 CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent) {

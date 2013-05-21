@@ -33,7 +33,7 @@ public :
     void render();
     const irr::core::aabbox3df& getBoundingBox() const;
     
-	irr::scene::IAnimatedMesh *getWaterMesh() { return waterMesh; }
+	irr::scene::IAnimatedMesh *getWaterMesh() { return waterNode->getMesh(); }
 	irr::scene::IAnimatedMeshSceneNode* getWaterNode() { return waterNode; }
     const irr::core::dimension2du getRTTSize() { return refRTTSize; }
     const bool isSinWaveEnabled();

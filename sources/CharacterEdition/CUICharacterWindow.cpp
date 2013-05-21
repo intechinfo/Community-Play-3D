@@ -80,7 +80,7 @@ void CUICharacterWindow::open() {
     //VIEW PORT CHARACTER VIEW
 	smgr = devices->createNewSceneManager();
     viewPort = new CGUIViewport(devices->getGUIEnvironment(), characterWindow, 1, 
-                                              rect<s32>(5, 75, 400, 350), false); 
+                                              rect<s32>(5, 75, 400, 350)); 
     if (viewPort) {
         viewPort->setSceneManager(smgr);
         smgr->setAmbientLight(SColorf(0.3f, 0.3f, 0.3f));
