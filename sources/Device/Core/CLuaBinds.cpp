@@ -7,4 +7,4 @@
 //
 
 #include "CLuaBinds.h"
-
+#include "stdafx.h"

@@ -4,8 +4,6 @@
 #include <IGUIElement.h>
 #include <SColor.h>
 
-#include "../../Device/CDevices.h"
-
 namespace irr {
     namespace scene {
         class ISceneManager;

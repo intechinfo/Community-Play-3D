@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CUICharacterWindow.h"
 
 CUICharacterWindow::CUICharacterWindow(CDevices *_devices) {

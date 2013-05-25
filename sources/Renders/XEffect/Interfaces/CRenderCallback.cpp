@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 28/11/12.
 //
 //
-
+#include "stdafx.h"
 #include "CRenderCallback.h"
 
 void CEffectRenderCallback::clearVertexValues() {

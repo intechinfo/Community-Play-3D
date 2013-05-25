@@ -36,6 +36,15 @@ x64/
 *.vspscc
 *.vssscc
 .builds
+*.dll
+*.lib
+*.tlog
+*.idb
+*.lastbuildstate
+*.exp
+*.res
+*.exe
+*.bi
 
 # Visual C++ cache files
 ipch/

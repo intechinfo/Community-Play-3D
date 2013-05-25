@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 19/01/13.
 //
 //
-
+#include "stdafx.h"
 #include "CUIRightSceneTreeView.h"
 
 CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu *_cxtMenu) {

@@ -1,7 +1,7 @@
 // Created by Etienne Rocipon on 09/04/13
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowAddWatersSurface.h"
 
 CUIWindowAddWaterSurface::CUIWindowAddWaterSurface(CDevices *device, IGUIListBox *waterSurfacesListBox)

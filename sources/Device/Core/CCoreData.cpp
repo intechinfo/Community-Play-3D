@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CCoreData.h"
 
 CCoreData::CCoreData() {

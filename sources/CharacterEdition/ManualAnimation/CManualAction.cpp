@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CManualAction.h"
 
 CManualAction::CManualAction() {

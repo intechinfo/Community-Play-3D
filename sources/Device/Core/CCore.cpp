@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-
+#include "stdafx.h"
 #include "CCore.h"
 
 CCore::CCore() {

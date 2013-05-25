@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CUINodeFactoryCreateMeshWithTangents.h"
 
 CUINodeFactoryCreateMeshWithTangents::CUINodeFactoryCreateMeshWithTangents(CDevices *_devices) {

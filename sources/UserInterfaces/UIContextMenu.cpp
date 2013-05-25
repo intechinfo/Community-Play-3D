@@ -6,6 +6,7 @@
  *  Copyright 2011 __MyCompanyName__. All rights reserved.
  *
  */
+#include "stdafx.h"
 #include "UIContextMenu.h"
 
 CUIContextMenu::CUIContextMenu(CDevices *_devices) {

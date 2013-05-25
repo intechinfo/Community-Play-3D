@@ -6,6 +6,7 @@
  *  Copyright 2011 __MyCompanyName__. All rights reserved.
  *
  */
+#include "stdafx.h"
 #include "CUIWindowsManager.h"
 
 CUIWindowsManager::CUIWindowsManager(CDevices *_devices) {

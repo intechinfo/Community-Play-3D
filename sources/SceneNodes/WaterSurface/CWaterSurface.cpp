@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CWaterSurface.h"
 
 using namespace irr;

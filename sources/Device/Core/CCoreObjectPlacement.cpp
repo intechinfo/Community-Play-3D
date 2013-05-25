@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 05/10/12.
 //
 //
-
+#include "stdafx.h"
 #include "CCoreObjectPlacement.h"
 
 CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cursorCtrl, CCollisionManager *_colMgr, ISceneManager *otherSmgr) {

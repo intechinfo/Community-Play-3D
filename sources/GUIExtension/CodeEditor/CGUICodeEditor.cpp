@@ -4,6 +4,7 @@
 
 // This component was modified to code editing in IRB
 // Modifications made by Christian Clavet, Andres Jesse Porfirio & Lonesome Ducky
+#include "stdafx.h"
 
 #include "CGUICodeEditor.h"
 #include "IGUIScrollBar.h"

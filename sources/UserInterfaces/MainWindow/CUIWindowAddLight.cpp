@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 27/09/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowAddLight.h"
 
 CUIWindowAddLight::CUIWindowAddLight(CDevices *_devices, IGUIListBox *_lightsListBox) {

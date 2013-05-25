@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\SSWECore">
+      <UniqueIdentifier>{f8c2e8fa-6abb-434f-b9e3-ff4b37ffe688}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -26,8 +29,8 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="unittest1.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="CCoreTests.cpp">
+      <Filter>Fichiers sources\SSWECore</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

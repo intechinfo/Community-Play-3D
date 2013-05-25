@@ -1,13 +1,15 @@
 #ifndef __C_GRID_SCENE_NODE_H__
 #define __C_GRID_SCENE_NODE_H__
 
+#include <SSWECore.h>
+
 #include "ISceneNode.h"
 #include "SMeshBuffer.h"
 
 namespace irr {
     namespace scene {
         
-        class CGridSceneNode : public ISceneNode {
+        class SSWE_CORE_API CGridSceneNode : public ISceneNode {
             
         public:
             

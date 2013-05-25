@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 09/10/12.
 //
 //
-
+#include "stdafx.h"
 #include "CExporter.h"
 
 CExporter::CExporter(CDevices *_devices) {

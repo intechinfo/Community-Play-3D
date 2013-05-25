@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{44ea56d9-e168-490b-9312-482579d0b6a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc\Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Misc\Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Misc\Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SSWECore">
+      <UniqueIdentifier>{f7ad65dc-fe25-470f-aa29-774810f89e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWECore\Core">
+      <UniqueIdentifier>{5557ba8d-9a86-4104-a9dd-d1e88bb5ad56}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SSWECore.cpp">
+      <Filter>Misc\Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Misc\Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\CCore.cpp">
+      <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\CCoreData.cpp">
+      <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\CCoreObjectPlacement.cpp">
+      <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\CLuaBinds.cpp">
+      <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\CCollisionManager.cpp">
+      <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp">
+      <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SSWECore.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\CCore.h">
+      <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\CCoreData.h">
+      <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\CCoreObjectPlacement.h">
+      <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\CLuaBinds.h">
+      <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\CCollisionManager.h">
+      <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h">
+      <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SSWECore.def">
+      <Filter>Misc\Fichiers sources</Filter>
+    </None>
+    <None Include="res\SSWECore.rc2">
+      <Filter>Misc\Fichiers de ressources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SSWECore.rc">
+      <Filter>Misc\Fichiers de ressources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>Misc</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

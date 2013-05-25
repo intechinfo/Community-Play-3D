@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CUIEditBones.h"
 
 CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {

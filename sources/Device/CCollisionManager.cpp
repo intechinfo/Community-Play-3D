@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CCollisionManager.h"
 
 CCollisionManager::CCollisionManager(ISceneManager *_smgr) {

@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 07/11/12.
 //
 //
-
+#include "stdafx.h"
 #include "CRotationAnimator.h"
 
 namespace irr {

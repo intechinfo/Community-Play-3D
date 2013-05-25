@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CFrame.h"
 
 CFrame::CFrame(irr::scene::IAnimatedMeshSceneNode *_node) {

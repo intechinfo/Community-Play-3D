@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 29/09/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowEditLight.h"
 
 CUIWindowEditLight::CUIWindowEditLight(CDevices *_devices, s32 _index) {

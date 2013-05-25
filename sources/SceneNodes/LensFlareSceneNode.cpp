@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "LensFlareSceneNode.h"
 #include <IVideoDriver.h>
 #include <ISceneManager.h>

@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 16/10/12.
 //
 //
-
+#include "stdafx.h"
 #include "UIWindowRender.h"
 
 CUIWindowRender::CUIWindowRender(CDevices *_devices) {

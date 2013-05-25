@@ -9,10 +9,12 @@
 #ifndef __C_CORE_OBJECT_PLACEMENT_H_INCLUDED__
 #define __C_CORE_OBJECT_PLACEMENT_H_INCLUDED__
 
+#include <SSWECore.h>
+
 #include "../CCollisionManager.h"
 #include "../../SceneNodes/CGridSceneNode.h"
 
-class CCoreObjectPlacement : public IEventReceiver {
+class SSWE_CORE_API CCoreObjectPlacement : public IEventReceiver {
   
 public:
     
