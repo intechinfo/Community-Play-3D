@@ -45,6 +45,7 @@ x64/
 *.res
 *.exe
 *.bi
+*.unsuccessfulbuild
 
 # Visual C++ cache files
 ipch/

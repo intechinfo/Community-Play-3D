@@ -56,12 +56,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\include;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\include\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\libs\SPARK;C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\libs;$(SolutionDir)SSWELib\Output\;C:\Users\JulienMM\Desktop\Soganatsu Studios\lib\Win32-visualstudio;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\libs\SPARK;C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\libs;$(SolutionDir)SSWELib\Output\;$(SolutionDir)..\..\..\lib\Win32-visualstudio;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SSWELib.lib;SSWECore.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
