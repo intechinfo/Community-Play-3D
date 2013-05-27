@@ -1,10 +1,11 @@
 #ifndef __POST_PROCESS_EFFECT_MOTION_BLUR__
 #define __POST_PROCESS_EFFECT_MOTION_BLUR__
 
+#include <SSWERenders.h>
 #include <irrlicht.h>
 using namespace irr;
 
-class CMotionBlurCallback : public video::IShaderConstantSetCallBack
+class SSWE_RENDERS_API CMotionBlurCallback : public video::IShaderConstantSetCallBack
 {
 private:
    float m_ScreenWidth, m_ScreenHeight, m_Strength;

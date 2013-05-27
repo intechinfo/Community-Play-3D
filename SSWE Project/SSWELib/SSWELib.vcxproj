@@ -58,15 +58,15 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\include\;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\include\;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)SSWECore\Output\;$(SolutionDir)..\..\libs\SPARK;$(SolutionDir)..\..\libs\;$(SolutionDir)..\..\..\lib\Win32-visualstudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SSWECore.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)..\..\libs;$(SolutionDir)..\..\libs\SPARK;$(SolutionDir)..\..\..\lib\Win32-VisualStudio\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib</AdditionalDependencies>
       <RegisterOutput>false</RegisterOutput>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -107,7 +107,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\include;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,7 +115,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalDependencies>SSWECore.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)..\..\libs;$(SolutionDir)..\..\libs\SPARK;$(SolutionDir)..\..\..\lib\Win32-VisualStudio\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -142,8 +143,6 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.cpp" />
-    <ClCompile Include="..\..\sources\Renders\XEffect\CShaderPre.cpp" />
-    <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CShaderCallback.cpp" />
@@ -151,7 +150,6 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp" />
     <ClCompile Include="..\..\sources\SceneNodes\Animators\CRotationAnimator.cpp" />
-    <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp" />
     <ClCompile Include="..\..\sources\SceneNodes\LensFlareSceneNode.cpp" />
     <ClCompile Include="..\..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
     <ClCompile Include="..\..\sources\SceneNodes\WaterSurface\CWaterSurface.cpp" />
@@ -163,6 +161,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditLight.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditNode.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditWater.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowExportScene.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowsManager.cpp" />
@@ -201,23 +200,15 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
     <ClInclude Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.h" />
     <ClInclude Include="..\..\sources\GUIExtension\ViewPort\IGUIViewPort.h" />
-    <ClInclude Include="..\..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\CScreenQuad.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\CShaderPre.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectCB.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectHandler.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectShaders.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CShaderCallback.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\XEffects.h" />
     <ClInclude Include="..\..\sources\SceneNodes\Animators\CRotationAnimator.h" />
     <ClInclude Include="..\..\sources\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h" />
     <ClInclude Include="..\..\sources\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h" />
-    <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h" />
     <ClInclude Include="..\..\sources\SceneNodes\LensFlareSceneNode.h" />
     <ClInclude Include="..\..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.h" />
     <ClInclude Include="..\..\sources\SceneNodes\WaterSurface\CWaterSurface.h" />
@@ -229,6 +220,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditLight.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditNode.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditWater.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowExportScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowsManager.h" />

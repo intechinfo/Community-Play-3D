@@ -8,7 +8,7 @@ using namespace scene;
 using namespace video;
 using namespace core;
 
-class DepthShaderCB : public video::IShaderConstantSetCallBack
+class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack
 {
 public:
 	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
@@ -31,7 +31,7 @@ public:
 	core::matrix4 worldViewProj;
 };
 
-class ShadowShaderCB : public video::IShaderConstantSetCallBack
+class SSWE_RENDERS_API ShadowShaderCB : public video::IShaderConstantSetCallBack
 {
 public:
 	ShadowShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
@@ -74,7 +74,7 @@ public:
 };
 
 
-class ScreenQuadCB : public irr::video::IShaderConstantSetCallBack
+class SSWE_RENDERS_API ScreenQuadCB : public irr::video::IShaderConstantSetCallBack
 {
 public:
 	ScreenQuadCB(EffectHandler* effectIn, bool defaultV = true) 

@@ -139,8 +139,10 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             if (element == editOGLMaterialShader) {
 				s32 selected;
                 selected = openGLMaterialsList->getSelected();
-				CUIWindowEditMaterialsCallback *editCallback = new CUIWindowEditMaterialsCallback(devices);
-				editCallback->open(devices->getCoreData()->getShaderCallbacks()->operator[](selected));
+				if (selected != -1) {
+					CUIWindowEditMaterialsCallback *editCallback = new CUIWindowEditMaterialsCallback(devices);
+					editCallback->open(devices->getCoreData()->getShaderCallbacks()->operator[](selected));
+				}
             }
 
 			if (element == close) {

@@ -48,15 +48,15 @@ array<IGUIElement *> CCore::getArrayOfAListOfGUIElementChildren(IGUIElement *ele
 	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
 	for (; it != element->getChildren().end(); ++it) {
 		elements.push_back(*it);
-		fillArrayOfGUIElementsFromArrayOfGUIElements(elements, getArrayOfAListOfGUIElementChildren(*it));
+		fillArrayOfGUIElementsFromArrayOfGUIElements(&elements, getArrayOfAListOfGUIElementChildren(*it));
 	}
 
 	return elements;
 }
 
-void CCore::fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> toFill, array<IGUIElement *> source) {
+void CCore::fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> *toFill, array<IGUIElement *> source) {
 	for (u32 i=0; i < source.size(); i++) {
-		toFill.push_back(source[i]);
+		toFill->push_back(source[i]);
 	}
 }
 

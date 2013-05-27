@@ -12,7 +12,7 @@
 CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     devices = _devices;
     devices->getEventReceiver()->AddEventReceiver(this);
-    
+
     //-----------------------------------
     //WINDOW
     mainWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(10, 80, 430, 580), 
@@ -23,7 +23,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     isWindowed = true;
     isMinimized = false;
     //-----------------------------------
-    
+
     //-----------------------------------
     //TABS
     tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(5, 20, 415, 495), 
@@ -35,23 +35,23 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     dynamicLightsTab = tabCtrl->addTab(L"Volume Lights");
     waterSurfacesTab = tabCtrl->addTab(L"Water Surfaces");
     //-----------------------------------
-    
+
     //-----------------------------------
     //LISTS VIEW
     terrainsListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395), 
                                                               terrainsTab, -1, true);
     treesListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395), 
-                                                               treesTab, -1, true);
+                                                            treesTab, -1, true);
     objectsListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
                                                               objectsTab, -1, true);
     lightsListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
-                                                              lightsTab, -1, true);
-    dynamicListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
-                                                             dynamicLightsTab, -1, true);
+                                                             lightsTab, -1, true);
+    volumeLightsListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
+																   dynamicLightsTab, -1, true);
     waterSurfacesListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
-                                                              waterSurfacesTab, -1, true);
+																	waterSurfacesTab, -1, true);
     //-----------------------------------
-    
+
     //-----------------------------------
     //BUTTONS
     addTerrain = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
@@ -96,7 +96,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
                                                              waterSurfacesTab, CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE, 
                                                              L"Delete Water Surface", L"Delete the selected water surface.");
     //-----------------------------------
-    
+
     //-----------------------------------
     //WINDOWS INSTANCES
     addOctTreeInstance = new CUIWindowAddOctTree(devices, terrainsListBox);
@@ -109,7 +109,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
 
     addWaterSurfaceInstance = new CUIWindowAddWaterSurface(devices, waterSurfacesListBox);
     //-----------------------------------
-    
+
     light_icon = devices->getSceneManager()->addBillboardSceneNode(0, dimension2d<f32>(20.f, 20.f), 
                                                                    vector3df(0, 0, 0));
     light_icon->setMaterialTexture(0, devices->getVideoDriver()->getTexture("GUI/light_icon.jpg"));
@@ -120,7 +120,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
 
     collisionManager = devices->getSceneManager()->getSceneCollisionManager();
     previousNode = 0;
-    
+
 }
 
 CUIMainWindow::~CUIMainWindow() {
@@ -147,7 +147,7 @@ void CUIMainWindow::refresh() {
         treesListBox->addItem(name.c_str());
     }
     treesListBox->setSelected(selected);
-    
+
     //OBJECTS
     selected = objectsListBox->getSelected();
     objectsListBox->clear();
@@ -156,7 +156,7 @@ void CUIMainWindow::refresh() {
         objectsListBox->addItem(name.c_str());
     }
     objectsListBox->setSelected(selected);
-    
+
     //LIGHTS
     selected = lightsListBox->getSelected();
     lightsListBox->clear();
@@ -165,7 +165,16 @@ void CUIMainWindow::refresh() {
         lightsListBox->addItem(name.c_str());
     }
     lightsListBox->setSelected(selected);
-    
+
+	//VOLUME LIGHTS
+	selected = volumeLightsListBox->getSelected();
+	volumeLightsListBox->clear();
+	for (int i=0; i < devices->getCoreData()->getVolumeLightsData()->size(); i++) {
+		stringw name = devices->getCoreData()->getVolumeLightsData()->operator[](i).getNode()->getName();
+		volumeLightsListBox->addItem(name.c_str());
+	}
+	volumeLightsListBox->setSelected(selected);
+
     //WATER SURFACES
     selected = waterSurfacesListBox->getSelected();
     waterSurfacesListBox->clear();
@@ -188,7 +197,7 @@ IGUIListBox *CUIMainWindow::getActiveListBox() {
     } else if (tabCtrl->getActiveTab() == lightsTab->getNumber()) {
         listBox = lightsListBox;
 	} else if (tabCtrl->getActiveTab() == dynamicLightsTab->getNumber()) {
-		listBox = dynamicListBox;
+		listBox = volumeLightsListBox;
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         listBox = waterSurfacesListBox;
     }
@@ -227,8 +236,8 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 			node = devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected()).getNode();
         }
 	} else if (tabCtrl->getActiveTab() == dynamicLightsTab->getNumber()) {
-		if (dynamicListBox->getSelected() != -1) {
-			node = devices->getCoreData()->getVolumeLightsData()->operator[](dynamicListBox->getSelected()).getNode();
+		if (volumeLightsListBox->getSelected() != -1) {
+			node = devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode();
 		}
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         if (waterSurfacesListBox->getSelected() != -1) {
@@ -275,6 +284,15 @@ void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
 		if (devices->getCoreData()->getLightsData()->operator[](i).getNode() == node) {
 			tabCtrl->setActiveTab(lightsTab);
 			lightsListBox->setSelected(i);
+			founded = true;
+		}
+		i++;
+	}
+	i=0;
+	while (!founded && i < devices->getCoreData()->getVolumeLightsData()->size()) {
+		if (devices->getCoreData()->getVolumeLightsData()->operator[](i).getNode() == node) {
+			tabCtrl->setActiveTab(dynamicLightsTab);
+			volumeLightsListBox->setSelected(i);
 			founded = true;
 		}
 		i++;
@@ -627,7 +645,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 treesListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
                 objectsListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
                 lightsListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
-                dynamicListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
+                volumeLightsListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
                 waterSurfacesListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
                 
                 addTerrain->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
@@ -658,7 +676,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 treesListBox->setRelativePosition(rect<s32>(0, 5, 405, 395));
                 objectsListBox->setRelativePosition(rect<s32>(0, 5, 405, 395));
                 lightsListBox->setRelativePosition(rect<s32>(0, 5, 405, 395));
-                dynamicListBox->setRelativePosition(rect<s32>(0, 5, 405, 395));
+                volumeLightsListBox->setRelativePosition(rect<s32>(0, 5, 405, 395));
                 waterSurfacesListBox->setRelativePosition(rect<s32>(0, 5, 405, 395));
                 
                 addTerrain->setRelativePosition(rect<s32>(5, 400, 185, 435));
@@ -808,7 +826,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 break;
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L:
-                if (dynamicListBox->getSelected() != -1) {
+                if (volumeLightsListBox->getSelected() != -1) {
                     
                 } else {
                     devices->addInformationDialog(L"Information",

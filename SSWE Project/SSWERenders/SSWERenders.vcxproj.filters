@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Renders">
+      <UniqueIdentifier>{e241b99b-5358-4107-b26f-ba83aa21c78d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{a417c4ef-a561-4deb-b1ee-3a54986a7187}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc\Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Misc\Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Misc\Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Renders\PostProcessor">
+      <UniqueIdentifier>{2cbbd6e9-d796-41c8-bd81-1655120db3d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renders\XEffect">
+      <UniqueIdentifier>{188826f9-5f8d-4287-9350-c673ded28add}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SSWERenders.cpp">
+      <Filter>Misc\Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Misc\Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Renders\XEffect\CShaderPre.cpp">
+      <Filter>Renders\XEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp">
+      <Filter>Renders\XEffect</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SSWERenders.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Misc\Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h">
+      <Filter>Renders\PostProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\XEffect\CScreenQuad.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\XEffect\CShaderPre.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\XEffect\EffectCB.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\XEffect\EffectHandler.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\XEffect\EffectShaders.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\XEffect\XEffects.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SSWERenders.def">
+      <Filter>Misc\Fichiers sources</Filter>
+    </None>
+    <None Include="res\SSWERenders.rc2">
+      <Filter>Misc\Fichiers de ressources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SSWERenders.rc">
+      <Filter>Misc\Fichiers de ressources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -134,13 +134,20 @@ namespace SSWETests {
 				array<IGUIElement *> elementsToFill;
 
 				elements = core->getArrayOfAListOfGUIElementChildren(device->getGUIEnvironment()->getRootGUIElement());
-				core->fillArrayOfGUIElementsFromArrayOfGUIElements(elementsToFill, elements);
+				core->fillArrayOfGUIElementsFromArrayOfGUIElements(&elementsToFill, elements);
 
 				if (elementsToFill.size() != elements.size()) {
 					stringw fail = L"\nFail : sizes are not equal";
 					fail += stringw("\n\t elementsToFill : ") + stringw(elementsToFill.size());
 					fail += stringw("\n\t elements : ") + stringw(elements.size());
 					Assert::Fail(fail.c_str());
+				} else {
+					for (u32 i=0; i < elementsToFill.size(); i++) {
+						if (elementsToFill[i] != elements[i]) {
+							stringw fail = L"\nFail : elements order is not equal...";
+							Assert::Fail(fail.c_str());
+						}
+					}
 				}
 			}
 //---------------------------------------------------------------------------------------------

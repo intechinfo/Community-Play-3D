@@ -64,9 +64,6 @@
     <Filter Include="Renders\HDR">
       <UniqueIdentifier>{1053c6a2-20f8-4109-bfde-22dfa7adc983}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renders\PostProcessor">
-      <UniqueIdentifier>{b3cfc4cc-acd3-4f96-a973-537206018b80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renders\XEffect">
       <UniqueIdentifier>{e6f1a103-b4ee-4f34-8bd2-f91ea7f68378}</UniqueIdentifier>
     </Filter>
@@ -204,12 +201,6 @@
     <ClCompile Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.cpp">
       <Filter>GUIExtension\ViewPort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\CShaderPre.cpp">
-      <Filter>Renders\XEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp">
-      <Filter>Renders\XEffect</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp">
       <Filter>Renders\XEffect\Interfaces</Filter>
     </ClCompile>
@@ -228,9 +219,6 @@
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp">
       <Filter>Renders\XEffect\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp">
-      <Filter>SceneNodes</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sources\SceneNodes\LensFlareSceneNode.cpp">
       <Filter>SceneNodes</Filter>
     </ClCompile>
@@ -248,6 +236,9 @@
     </ClCompile>
     <ClCompile Include="..\..\sources\Scenes\CImporter.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditWater.cpp">
+      <Filter>UserInterfaces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -374,27 +365,6 @@
     <ClInclude Include="..\..\sources\GUIExtension\ViewPort\IGUIViewPort.h">
       <Filter>GUIExtension\ViewPort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h">
-      <Filter>Renders\PostProcessor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\CScreenQuad.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\CShaderPre.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectCB.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectHandler.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectShaders.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\XEffects.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.h">
       <Filter>Renders\XEffect\Interfaces</Filter>
     </ClInclude>
@@ -412,9 +382,6 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h">
       <Filter>Renders\XEffect\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h">
-      <Filter>SceneNodes</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sources\SceneNodes\LensFlareSceneNode.h">
       <Filter>SceneNodes</Filter>
@@ -439,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\Scenes\CImporter.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditWater.h">
+      <Filter>UserInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

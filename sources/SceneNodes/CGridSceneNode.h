@@ -8,11 +8,11 @@
 
 namespace irr {
     namespace scene {
-        
+
         class SSWE_CORE_API CGridSceneNode : public ISceneNode {
-            
+
         public:
-            
+
             CGridSceneNode(ISceneNode* parent, ISceneManager* smgr, s32 id = -1, 
                            u32 spacing = 8, u32 size = 1024, video::SColor gridcolor = video::SColor(255,128,128,128),
                            u32 accentlineoffset = 8, video::SColor accentgridcolor = video::SColor(255,192,192,192),

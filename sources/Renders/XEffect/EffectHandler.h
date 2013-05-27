@@ -1,6 +1,7 @@
 #ifndef H_XEFFECTS_EFFECT_HANDLER
 #define H_XEFFECTS_EFFECT_HANDLER
 
+#include <SSWERenders.h>
 #include <irrlicht.h>
 #include "CShaderPre.h"
 #include "CScreenQuad.h"
@@ -178,7 +179,7 @@ private:
 // a specific post-processing effect. You will be passed an instance of the EffectHandler.
 // The function names themselves should be self-explanatory ;)
 class EffectHandler;
-class IPostProcessingRenderCallback
+class SSWE_RENDERS_API IPostProcessingRenderCallback
 {
 public:
 	virtual void OnPreRender(EffectHandler* effect) = 0;
@@ -191,7 +192,7 @@ class ShadowShaderCB;
 class ScreenQuadCB;
 
 /// Main effect handling class, use this to apply shadows and effects.
-class EffectHandler
+class SSWE_RENDERS_API EffectHandler
 {
 public:
 
