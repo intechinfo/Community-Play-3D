@@ -63,7 +63,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>.\SSWECore.def</ModuleDefinitionFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\libs\;$(SolutionDir)Lua52\;$(SolutionDir)..\..\libs\SPARK\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\libs\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>

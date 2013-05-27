@@ -67,6 +67,9 @@
     <Lib>
       <OutputFile>$(OutDir)SPARK_debug.lib</OutputFile>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)SPARK_debug.lib" "$(SolutionDir)..\..\..\libs\" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
