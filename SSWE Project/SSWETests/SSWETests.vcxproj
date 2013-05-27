@@ -64,7 +64,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\lib\Win32-visualstudio;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\lib\Win32-visualstudio;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SSWECore.lib;SSWELib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
