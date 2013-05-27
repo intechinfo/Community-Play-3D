@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 08/10/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowEditGrid.h"
 
 CUIWindowEditGrid::CUIWindowEditGrid(CDevices *_devices) {

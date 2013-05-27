@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 16/03/13.
 //
 //
-
+#include "stdafx.h"
 #include "CUIMaterialEditor.h"
 
 CUIMaterialEditor::CUIMaterialEditor(CDevices *_devices) {

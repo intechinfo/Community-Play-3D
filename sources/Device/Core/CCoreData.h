@@ -9,6 +9,7 @@
 #ifndef __C_CORE_DATA_H_INCLUDED__
 #define __C_CORE_DATA_H_INCLUDED__
 
+#include "stdafx.h"
 #include "CCore.h"
 
 #include "../../Renders/XEffect/Interfaces/CRenderCallback.h"
@@ -276,7 +277,7 @@ private:
 //----------------------------------CORE DATA CLASS-------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-class CCoreData {
+class SSWE_CORE_API CCoreData {
 
 public:
 
@@ -292,8 +293,6 @@ public:
 	array<IMesh *> getAllMeshes();
 
 	s32 isMeshPlanared(ISceneNode *node);
-
-	void enableRTTWaterSurfaces(bool enable);
 
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfTreeNodes();

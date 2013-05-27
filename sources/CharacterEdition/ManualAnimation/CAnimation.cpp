@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CAnimation.h"
 
 CAnimation::CAnimation(irr::scene::IAnimatedMeshSceneNode *_node) {

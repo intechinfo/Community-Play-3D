@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 27/09/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowAddTerrain.h"
 
 CUIWindowAddOctTree::CUIWindowAddOctTree(CDevices *_devices, IGUIListBox *_terrainsListBox) {

@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 03/02/13.
 //
 //
-
+#include "stdafx.h"
 #include "CRenderCallbackScripting.h"
 
 irr::f32 currentTime;

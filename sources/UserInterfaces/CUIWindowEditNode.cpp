@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 29/09/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowEditNode.h"
 
 CUIWindowEditNode::CUIWindowEditNode(CDevices *_devices) {

@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 28/11/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowEditMaterialsCallback.h"
 
 CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_devices) {
@@ -29,6 +29,7 @@ CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {
 		planeMesh->grab();
 		planeMesh->drop();
 	}
+
 }
 
 void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {

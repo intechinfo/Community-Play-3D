@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 27/09/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowOpenScene.h"
 
 CUIWindowOpenScene::CUIWindowOpenScene(CDevices *_devices) {

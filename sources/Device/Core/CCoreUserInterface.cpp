@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CCoreUserInterface.h"
 
 CCoreUserInterface::CCoreUserInterface() {

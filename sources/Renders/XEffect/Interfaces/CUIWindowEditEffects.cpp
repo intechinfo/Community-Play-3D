@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 20/11/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUIWindowEditEffects.h"
 
 CUIWindowEditEffects::CUIWindowEditEffects(CDevices *_devices) {

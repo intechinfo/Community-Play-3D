@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 26/02/13.
 //
 //
-
+#include "stdafx.h"
 #include "CShaderCallback.h"
 
 CShaderCallback::CShaderCallback() {

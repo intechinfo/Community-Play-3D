@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "CGUIViewport.h"
 #include <IGUIEnvironment.h>
 #include <ISceneManager.h>

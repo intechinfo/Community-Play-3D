@@ -9,6 +9,8 @@
 #ifndef __C_CORE_H_INCLUDED__
 #define __C_CORE_H_INCLUDED__
 
+#include <SSWECore.h>
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -49,7 +51,7 @@ enum E_CORE_USER_EVENTS {
 //--------------------------
 //CORE CLASS
 
-class CCore {
+class SSWE_CORE_API CCore {
     
 public:
 	

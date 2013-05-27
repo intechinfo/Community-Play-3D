@@ -7,6 +7,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "CDevices.h"
 
 CDevices::CDevices() {

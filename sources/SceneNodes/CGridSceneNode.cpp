@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "CGridSceneNode.h"
 #include "ISceneManager.h"
 #include "IVideoDriver.h"

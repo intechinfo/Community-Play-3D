@@ -33,7 +33,6 @@ namespace irr {
             bool OverrideColorEnabled;
             video::SColor OverrideColor;
             
-            EffectHandler *effect;
             bool drawEffects;
         };
         

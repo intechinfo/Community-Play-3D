@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "CShaderPre.h"
 #include <iostream>
 #include <string>

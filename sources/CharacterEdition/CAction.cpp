@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CAction.h"
 
 CAction::CAction() {

@@ -40,13 +40,6 @@ int main() {
 
 	driver->setAllowZWriteOnTransparent(true);
 
-	stringw t = "Max texture size = ";
-	t += driver->getMaxTextureSize().Width;
-	t += " x ";
-	t += driver->getMaxTextureSize().Height;
-	coreUserInterface->getDevices()->addInformationDialog("Info", t.c_str(), EMBF_OK, false, 0);
-
-
 	//CWaterSurface *water = new CWaterSurface(smgr, vector3df(0, 0, 0));
 	//water->getWaterNode()->setMaterialType((E_MATERIAL_TYPE)coreUserInterface->getDevices()->getCoreData()->getShaderCallbacks()->operator[](0)->getMaterial());
 
@@ -109,3 +102,43 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+
+//#include "stdafx.h"
+//#include "CppUnitTest.h"
+//
+//#include "../../sources/Device/Core/CCore.h"
+//
+//using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+//
+//namespace NativeTests
+//{		
+//	TEST_CLASS(CCoreTests)
+//	{
+//	private:
+//		static CCore *core;
+//	public:
+//
+//		CCoreTests() {
+//
+//		}
+//
+//		TEST_CLASS_INITIALIZE(CCoreTestsInitialize) {
+//			core = new CCore();
+//		}
+//
+//		TEST_METHOD(getF32Test)
+//		{
+//			Assert::AreEqual(1.1f, core->getF32("1.1"), FLT_EPSILON, L"TEST", LINE_INFO());
+//		}
+//
+//		TEST_CLASS_CLEANUP(CCOreTestsTearDown) {
+//			delete core;
+//		}
+//
+//	};
+//
+//
+//}
+//
+//CCore * NativeTests::CCoreTests::core;
+

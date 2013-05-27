@@ -11,144 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sources\CharacterEdition\CAction.cpp" />
-    <ClCompile Include="..\sources\CharacterEdition\CUICharacterWindow.cpp" />
-    <ClCompile Include="..\sources\CharacterEdition\CUIEditBones.cpp" />
-    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.cpp" />
-    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CFrame.cpp" />
-    <ClCompile Include="..\sources\CharacterEdition\ManualAnimation\CManualAction.cpp" />
-    <ClCompile Include="..\sources\Device\CCollisionManager.cpp" />
-    <ClCompile Include="..\sources\Device\CDevices.cpp" />
-    <ClCompile Include="..\sources\Device\Core\CCore.cpp" />
-    <ClCompile Include="..\sources\Device\Core\CCoreData.cpp" />
-    <ClCompile Include="..\sources\Device\Core\CCoreObjectPlacement.cpp" />
-    <ClCompile Include="..\sources\Device\Core\CCoreUserInterface.cpp" />
-    <ClCompile Include="..\sources\Device\Core\CLuaBinds.cpp" />
-    <ClCompile Include="..\sources\Device\Core\CUITextDialog.cpp" />
-    <ClCompile Include="..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
-    <ClCompile Include="..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
-    <ClCompile Include="..\sources\GUIExtension\ViewPort\CGUIViewPort.cpp" />
     <ClCompile Include="..\sources\main.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\CShaderPre.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\EffectHandler.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CShaderCallback.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp" />
-    <ClCompile Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp" />
-    <ClCompile Include="..\sources\SceneNodes\Animators\CRotationAnimator.cpp" />
-    <ClCompile Include="..\sources\SceneNodes\CGridSceneNode.cpp" />
-    <ClCompile Include="..\sources\SceneNodes\LensFlareSceneNode.cpp" />
-    <ClCompile Include="..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
-    <ClCompile Include="..\sources\SceneNodes\WaterSurface\CWaterSurface.cpp" />
-    <ClCompile Include="..\sources\Scenes\CExporter.cpp" />
-    <ClCompile Include="..\sources\Scenes\CImporter.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIRenderingInfos.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIRightSceneTreeView.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUISceneView.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditGrid.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditLight.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIWindowEditNode.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIWindowExportScene.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIWindowOpenScene.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\CUIWindowsManager.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\UIContextMenu.cpp" />
-    <ClCompile Include="..\sources\UserInterfaces\UIWindowRender.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\sources\CharacterEdition\CAction.h" />
-    <ClInclude Include="..\sources\CharacterEdition\CUICharacterWindow.h" />
-    <ClInclude Include="..\sources\CharacterEdition\CUIEditBones.h" />
-    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CAnimation.h" />
-    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CFrame.h" />
-    <ClInclude Include="..\sources\CharacterEdition\ManualAnimation\CManualAction.h" />
-    <ClInclude Include="..\sources\Device\CCollisionManager.h" />
-    <ClInclude Include="..\sources\Device\CDevices.h" />
-    <ClInclude Include="..\sources\Device\Core\CCore.h" />
-    <ClInclude Include="..\sources\Device\Core\CCoreData.h" />
-    <ClInclude Include="..\sources\Device\Core\CCoreObjectPlacement.h" />
-    <ClInclude Include="..\sources\Device\Core\CCoreUserInterface.h" />
-    <ClInclude Include="..\sources\Device\Core\CLuaBinds.h" />
-    <ClInclude Include="..\sources\Device\Core\CUITextDialog.h" />
-    <ClInclude Include="..\sources\GUIExtension\CodeEditor\CGUICodeEditor.h" />
-    <ClInclude Include="..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
-    <ClInclude Include="..\sources\GUIExtension\ViewPort\CGUIViewPort.h" />
-    <ClInclude Include="..\sources\GUIExtension\ViewPort\IGUIViewPort.h" />
-    <ClInclude Include="..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\CScreenQuad.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\CShaderPre.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\EffectCB.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\EffectHandler.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\EffectShaders.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CRenderCallback.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CShaderCallback.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h" />
-    <ClInclude Include="..\sources\Renders\XEffect\XEffects.h" />
-    <ClInclude Include="..\sources\SceneNodes\Animators\CRotationAnimator.h" />
-    <ClInclude Include="..\sources\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h" />
-    <ClInclude Include="..\sources\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h" />
-    <ClInclude Include="..\sources\SceneNodes\CGridSceneNode.h" />
-    <ClInclude Include="..\sources\SceneNodes\LensFlareSceneNode.h" />
-    <ClInclude Include="..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.h" />
-    <ClInclude Include="..\sources\SceneNodes\WaterSurface\CWaterSurface.h" />
-    <ClInclude Include="..\sources\Scenes\CExporter.h" />
-    <ClInclude Include="..\sources\Scenes\CImporter.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIRenderingInfos.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIRightSceneTreeView.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUISceneView.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditGrid.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditLight.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIWindowEditNode.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIWindowExportScene.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIWindowOpenScene.h" />
-    <ClInclude Include="..\sources\UserInterfaces\CUIWindowsManager.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MainWindow\UIMainWindow.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.h" />
-    <ClInclude Include="..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h" />
-    <ClInclude Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h" />
-    <ClInclude Include="..\sources\UserInterfaces\UIContextMenu.h" />
-    <ClInclude Include="..\sources\UserInterfaces\UIWindowRender.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="NativeTests\NativeTests.vcxproj">
-      <Project>{70527f6c-b120-4c9f-b02a-8856467a6250}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>SSWE</ProjectName>
@@ -225,7 +88,7 @@
       <Culture>0x000c</Culture>
     </ResourceCompile>
     <Link>
-      <OutputFile>..\..\bin\Win32-VisualStudio\SSWE.exe</OutputFile>
+      <OutputFile>..\..\bin\Win32-VisualStudio\SSWE.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\..\libs\SPARK;..\..\..\\lib\Win32-visualstudio;..\..\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>

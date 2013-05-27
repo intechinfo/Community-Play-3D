@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 07/10/12.
 //
 //
-
+#include "stdafx.h"
 #include "CUISceneView.h"
 
 CUISceneView::CUISceneView(CDevices *_devices) {

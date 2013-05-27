@@ -6,6 +6,7 @@
  *  Copyright 2011 __MyCompanyName__. All rights reserved.
  *
  */
+#include "stdafx.h"
 #include "UIContextMenu.h"
 
 CUIContextMenu::CUIContextMenu(CDevices *_devices) {
@@ -190,7 +191,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	stringw scene_to_import = L"forest.world";
+	stringw scene_to_import = L"L.world";
     CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importScene(scene_to_import.c_str());
 	scene_to_import.remove(L".world");

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CUINodeFactoryPlanarMapping.h"
 
 CUINodeFactoryPlanarMapping::CUINodeFactoryPlanarMapping(CDevices *_devices) {

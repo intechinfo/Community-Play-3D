@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CImporter.h"
 
 CImporter::CImporter(CDevices *_devices) {

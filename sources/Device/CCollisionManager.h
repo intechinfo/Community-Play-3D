@@ -9,9 +9,10 @@
 #ifndef __C_COLLISION_MANAGER_H_INCLUDED__
 #define __C_COLLISION_MANAGER_H_INCLUDED__
 
+#include "stdafx.h"
 #include "Core/CCore.h"
 
-class CCollisionManager {
+class SSWE_CORE_API CCollisionManager {
     
 public:
 	

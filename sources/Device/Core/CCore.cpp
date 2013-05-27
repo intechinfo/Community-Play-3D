@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-
+#include "stdafx.h"
 #include "CCore.h"
 
 CCore::CCore() {
@@ -186,27 +186,7 @@ vector3df CCore::getVector3df(stringw X, stringw Y, stringw Z) {
 }
 
 vector3df CCore::getVector3df(std::string X, std::string Y, std::string Z) {
-	vector3df position;
-	
-	stringc Xx, Yy, Zz;
-	
-	Xx = X.c_str();
-	Xx.replace(',', '.');
-	
-	Yy = Y.c_str();
-	Yy.replace(',', '.');
-	
-	Zz = Z.c_str();
-	Zz.replace(',', '.');
-	
-	std::istringstream issX(Xx.c_str());
-	issX >> position.X;
-	std::istringstream issY(Yy.c_str());
-	issY >> position.Y;
-	std::istringstream issZ(Zz.c_str());
-	issZ >> position.Z;
-	
-	return position;
+	return this->getVector3df(stringw(X.c_str()).c_str(), stringw(Y.c_str()).c_str(), stringw(Z.c_str()).c_str());
 }
 
 stringw CCore::getStrNumber(f32 value) {

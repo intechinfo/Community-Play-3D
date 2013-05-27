@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "EffectHandler.h"
 #include "EffectCB.h"
 #include "EffectShaders.h"

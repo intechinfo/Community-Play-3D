@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CCoreData.h"
 
 CCoreData::CCoreData() {
@@ -31,30 +32,33 @@ void CCoreData::clear() {
 		objectsData[i].getNode()->remove();
     }
     for (int i=0; i < lightsData.size(); i++) {
-		lightsData[i].getNode()->removeAll();
 		lightsData[i].getNode()->remove();
     }
 }
 
 void CCoreData::clearAllTheArrays() {
+	//NODES
 	terrainMeshes.clear();
 	terrainMinPolysPerNode.clear();
     terrainNodes.clear();
     terrainPaths.clear();
-    
-    treesData.clear();
-    
-	objectsData.clear();
-    
-    lightsData.clear();
 
+	terrainsData.clear();
+    treesData.clear();
+	objectsData.clear();
+    lightsData.clear();
 	waterSurfaces.clear();
+
 	planarMeshes.clear();
-    
+
+	//EFFECT SHADERS
     effectRenders.clear();
     effectRendersPaths.clear();
+
+	//CALLBACKS
     effectRenderCallbacks.clear();
-    
+	materialRenderCallbacks.clear();
+
     shaderCallbacks.clear();
 }
 
@@ -65,6 +69,9 @@ array<ISceneNode *> CCoreData::getAllSceneNodes() {
     for (int i=0; i < terrainNodes.size(); i++) {
         nodes.push_back(terrainNodes[i]);
     }
+	for (u32 i=0; i < terrainsData.size(); i++) {
+		nodes.push_back(terrainsData[i].getNode());
+	}
     for (int i=0; i < treesData.size(); i++) {
 		nodes.push_back(treesData[i].getNode());
     }
@@ -106,10 +113,6 @@ s32 CCoreData::isMeshPlanared(ISceneNode *node) {
 	}
 
 	return planared;
-}
-
-void CCoreData::enableRTTWaterSurfaces(bool enable) {
-
 }
 
 array<ISceneNode *> CCoreData::getArrayOfTreeNodes() {
