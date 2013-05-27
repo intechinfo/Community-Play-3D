@@ -32,5 +32,8 @@
     <ClCompile Include="CCoreTests.cpp">
       <Filter>Fichiers sources\SSWECore</Filter>
     </ClCompile>
+    <ClCompile Include="CCoreDataTests.cpp">
+      <Filter>Fichiers sources\SSWECore</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -42,11 +42,11 @@
     <ClCompile Include="..\..\sources\Device\Core\CLuaBinds.cpp">
       <Filter>SSWECore\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\CCollisionManager.cpp">
-      <Filter>SSWECore\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp">
       <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\CCollisionManager.cpp">
+      <Filter>SSWECore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +74,11 @@
     <ClInclude Include="..\..\sources\Device\Core\CLuaBinds.h">
       <Filter>SSWECore\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\CCollisionManager.h">
-      <Filter>SSWECore\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h">
       <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\CCollisionManager.h">
+      <Filter>SSWECore</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

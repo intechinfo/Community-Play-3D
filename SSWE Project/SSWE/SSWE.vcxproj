@@ -61,7 +61,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\libs\SPARK;C:\Users\JulienMM\Desktop\Soganatsu Studios\Git\libs;$(SolutionDir)SSWELib\Output\;$(SolutionDir)..\..\..\lib\Win32-visualstudio;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\libs\SPARK;$(SolutionDir)..\..\libs;$(SolutionDir)SSWELib\Output\;$(SolutionDir)..\..\..\lib\Win32-visualstudio;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SSWELib.lib;SSWECore.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -84,6 +84,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SSWELib.lib;SSWECore.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

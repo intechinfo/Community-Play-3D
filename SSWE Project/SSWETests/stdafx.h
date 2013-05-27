@@ -11,5 +11,8 @@
 #include "CppUnitTest.h"
 
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme
+
 #include <SSWECore.h>
+
 #include "Core/CCore.h"
+#include "Core/CCoreData.h"

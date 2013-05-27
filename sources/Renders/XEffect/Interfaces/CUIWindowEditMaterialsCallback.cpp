@@ -28,6 +28,7 @@ CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {
 		planeMesh->grab();
 		planeMesh->drop();
 	}
+
 }
 
 void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {

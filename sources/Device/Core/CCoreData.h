@@ -294,8 +294,6 @@ public:
 
 	s32 isMeshPlanared(ISceneNode *node);
 
-	void enableRTTWaterSurfaces(bool enable);
-
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfTreeNodes();
 	array<ISceneNode *> getArrayOfObjectNodes();
