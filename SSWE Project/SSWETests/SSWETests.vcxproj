@@ -57,14 +57,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\include\;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\Device\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\libs\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\Device\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\lib\Win32-visualstudio;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\libs\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SSWECore.lib;SSWELib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

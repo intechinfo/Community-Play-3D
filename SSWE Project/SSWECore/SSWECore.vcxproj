@@ -57,13 +57,13 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\..\include\;%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Irrlicht\libs\include;%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>.\SSWECore.def</ModuleDefinitionFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\lib\Win32-visualstudio;$(SolutionDir)..\..\libs\;$(SolutionDir)..\..\libs\SPARK\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\libs\;$(SolutionDir)Lua52\;$(SolutionDir)..\..\libs\SPARK\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>

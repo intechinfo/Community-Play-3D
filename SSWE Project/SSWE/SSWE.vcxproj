@@ -56,12 +56,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\include\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWERenders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\libs\include;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWERenders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\libs\SPARK;$(SolutionDir)..\..\libs;$(SolutionDir)SSWELib\Output\;$(SolutionDir)..\..\..\lib\Win32-visualstudio;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\libs\SPARK;$(SolutionDir)Lua52\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)Irrlicht\libs\;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SSWELib.lib;SSWECore.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>

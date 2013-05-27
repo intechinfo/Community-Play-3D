@@ -3,6 +3,7 @@
  * Made on: May 21 2013
 -----------------------------------------------------*/
 
+#include "stdafx.h"
 #include "CUIWindowEditWater.h"
 
 CUIWindowEditWater::CUIWindowEditWater(CWaterSurface *waterSurface, CDevices *devices, rect<s32> parentSize)
