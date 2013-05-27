@@ -19,6 +19,7 @@
 #include "CUIWindowAddWatersSurface.h"
 
 #include "../CUIWindowEditNode.h"
+#include "../CUIWindowEditWater.h"
 #include "../MaterialEditor/CUIMaterialEditor.h"
 #include "../CUIWindowEditLight.h"
 #include "../../Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.h"

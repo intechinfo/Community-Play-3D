@@ -114,9 +114,9 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     light_icon->setMaterialTexture(0, devices->getVideoDriver()->getTexture("GUI/light_icon.jpg"));
     light_icon->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
     light_icon->setMaterialFlag(EMF_LIGHTING, false);
-    light_icon->setVisible(false);
-    light_icon->setName("editor:Light_Icon");
-    
+	light_icon->setVisible(false);
+	light_icon->setName("editor:Light_Icon");
+
     collisionManager = devices->getSceneManager()->getSceneCollisionManager();
     previousNode = 0;
     
@@ -519,8 +519,10 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 
 					if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
 						if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == -1) {
+							SWaterSurfacesData waterSurfaceData = worldCore->getWaterSurfaces()->operator [](waterSurfacesListBox->getSelected());
 							CUIWindowEditMaterialsCallback *editCall = new CUIWindowEditMaterialsCallback(devices);
-							editCall->open(worldCore->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getShaderCallback());
+							editCall->setWaterSurface(waterSurfaceData.getWaterSurface());
+							editCall->open(waterSurfaceData.getShaderCallback());
 						}
 					}
 
