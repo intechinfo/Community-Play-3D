@@ -100,6 +100,12 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		resolutionComboBox->addItem(L"1024");
 		resolutionComboBox->addItem(L"2048");
 		resolutionComboBox->addItem(L"4096");
+		for (u32 i=0; i < resolutionComboBox->getItemCount(); i++) {
+			if (stringw(devices->getXEffect()->getShadowLight(index).getShadowMapResolution()) == resolutionComboBox->getItem(i)) {
+				resolutionComboBox->setSelected(i);
+				break;
+			}
+		}
 
 		//ADVANCED DIFFUSE COLOR
 		devices->getGUIEnvironment()->addStaticText(L"Diffuse :", rect<s32>(10, 30, 70, 50), true, true, advancedTab, -1, true);
@@ -430,13 +436,11 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					bill->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 					bill->setMaterialFlag(EMF_LIGHTING, false);
 					bill->setSize(dimension2d<f32>(0, 0));
-					bill->setParent(meshNode);
 					bill->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_bill")).c_str());
 					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(bill);
 
 					CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
 					lensFlareNode->setFalseOcclusion(true);
-					lensFlareNode->setParent(meshNode);
 					lensFlareNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_node")).c_str());
 					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(lensFlareNode);
 
@@ -445,6 +449,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					for (; element != lensFlareTab->getChildren().end(); ++element) {
 						(*element)->setEnabled(true);
 					}
+					devices->getVideoDriver()->addOcclusionQuery(meshNode, meshNode->getMesh());
 
 				} else {
 					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->remove();
@@ -461,6 +466,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					for (; element != lensFlareTab->getChildren().end(); ++element) {
 						(*element)->setEnabled(false);
 					}
+					devices->getVideoDriver()->removeOcclusionQuery(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
 				}
 			}
 		}

@@ -68,6 +68,8 @@ CCoreUserInterface::CCoreUserInterface() {
 	skin_window_classic->setColor(EGDC_3D_HIGH_LIGHT, SColor(255,0x22,0x22,0x22));
 	skin_window_classic->setColor(EGDC_3D_FACE, SColor(255,0x44,0x44,0x44));
 	skin_window_classic->setColor(EGDC_WINDOW, SColor(255,0x66,0x66,0x66));
+	skin_window_classic->setColor(EGDC_EDITABLE, SColor(255,0x66,0x66,0x66));
+	skin_window_classic->setColor(EGDC_INACTIVE_CAPTION, SColor(255,0,0,0));
 
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/error.png"));
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/warning.png"));

@@ -945,6 +945,9 @@ void CImporter::buildLight() {
 		lfNode->setFalseOcclusion(true);
 		lfNode->setParent(lfMeshNode);
 		lfNode->setName(stringc(stringc(node->getName()) + stringc("_flare_node")).c_str());
+		if (IRRLICHT_SDK_VERSION != "1.7.3") {
+			devices->getVideoDriver()->addOcclusionQuery(lfMeshNode, lfMeshNode->getMesh());
+		}
 		//MESH
 		read("scale");
 		lfMeshNode->setScale(buildVector3df());

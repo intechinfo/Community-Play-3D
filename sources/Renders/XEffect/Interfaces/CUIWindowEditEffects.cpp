@@ -434,15 +434,17 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
             if (event.GUIEvent.Caller == active) {
-                if (active->isChecked()) {
-                    if (!devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
-                        devices->getXEffect()->addPostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
-                    }
-                } else {
-                    if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
-                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
-                    }
-                }
+				if (shadersList->getSelected() != -1) {
+					if (active->isChecked()) {
+						if (!devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
+							devices->getXEffect()->addPostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
+						}
+					} else {
+						if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
+							devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
+						}
+					}
+				}
             }
             
             if (event.GUIEvent.Caller == enableDepthPass) {

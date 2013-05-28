@@ -200,7 +200,6 @@ void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2d
 	ScreenRTTSize = resolution;
 }
 
-
 void EffectHandler::enableDepthPass(bool enableDepthPass)
 {
 	DepthPass = enableDepthPass;
@@ -209,14 +208,12 @@ void EffectHandler::enableDepthPass(bool enableDepthPass)
 		DepthRTT = driver->addRenderTargetTexture(ScreenRTTSize, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
 }
 
-
 void EffectHandler::addPostProcessingEffect(irr::s32 MaterialType, IPostProcessingRenderCallback* callback)
 {
 	SPostProcessingPair pPair(MaterialType, 0);
 	pPair.renderCallback = callback;
 	PostProcessingRoutines.push_back(pPair);
 }
-
 
 void EffectHandler::addShadowToNode(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType, E_SHADOW_MODE shadowMode)
 {
@@ -430,7 +427,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
                 }
             }
             
-            ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
+			ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getRealTime());
             ShadowNodeArray[i].node->render();
             
             for(u32 m = 0;m < CurrentMaterialCount;++m)
@@ -510,7 +507,6 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 		}
 	}
 }
-
 
 irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary)
 {

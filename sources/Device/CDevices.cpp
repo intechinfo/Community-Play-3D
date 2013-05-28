@@ -75,81 +75,6 @@ void CDevices::setSceneManagerToDraw(ISceneManager *smgrToDraw) {
 
 void CDevices::updateDevice() {
 
-    //UPDATE CURSOR POSITION
-    line3d<f32> ray;
-	ray.start = smgr->getActiveCamera()->getPosition();
-	ray.end = ray.start + (smgr->getActiveCamera()->getTarget() - ray.start).normalize() * 1000.0f;
-	vector3df intersection;
-	triangle3df hitTriangle;
-	ISceneCollisionManager *collMan = smgr->getSceneCollisionManager();
-	ISceneNode *selectedSceneNode = collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 1, 0);
-	if(selectedSceneNode) {
-		cursorBillBoard->setPosition(intersection);
-        cursorBillBoard->setSize(dimension2d<f32>((ray.getLength()*1.0f)/300.f, (ray.getLength()*1.0f)/300.f));
-	}
-    
-    objPlacement->refresh(cursorBillBoard);
-    
-    //UPDATE EFFECT LIGHTS
-    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
-		if (effect->getShadowLight(i).getPosition() != worldCoreData->getLightsData()->operator[](i).getNode()->getPosition()) {
-			effect->getShadowLight(i).setRecalculate(true);
-		}
-
-		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
-        effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
-        
-        effect->getShadowLight(i).setLightColor(SColorf
-												 (((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.r,
-                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
-                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
-                                                 255));
-    }
-    
-    //UPDATE LENS FLARE STRENGTHS
-    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
-		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
-			if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getFalseOcclusion()) {
-                //GET CURRENT LANS FLARE ABOSLUTE POSITION
-                line3d<f32> lfLine;
-                lfLine.start = smgr->getActiveCamera()->getAbsolutePosition();
-				matrix4 matr = worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getAbsoluteTransformation();
-				const matrix4 w2n(worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
-                matr = (w2n*matr);
-                lfLine.end = matr.getTranslation();
-				if (lfLine.getLength() < ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
-					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f - (lfLine.getLength()/((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()));
-                }
-                if (lfLine.getLength() == 0.f) {
-					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f);
-                }
-				if (lfLine.getLength() >= ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
-					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(0.f);
-                }
-                ray.start = smgr->getActiveCamera()->getPosition();
-                ray.end = lfLine.end;
-                selectedSceneNode = collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 1, 0);
-                if(selectedSceneNode) {
-                    
-                }
-				worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->updateAbsolutePosition();
-            }
-        }
-    }
-
-	//UPDATING WATER
-	for (u32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
-		if (renderXEffect) {
-			if (effect->isUsingMotionBlur()) {
-				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
-			} else {
-				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
-			}
-		} else {
-			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
-		}
-	}
-
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
 			std::thread scene_t(&CDevices::drawScene, *this);
@@ -172,6 +97,93 @@ void CDevices::updateDevice() {
 			gui->drawAll();
 		}
 	#endif
+
+    //UPDATE CURSOR POSITION
+    line3d<f32> ray;
+	ray.start = smgr->getActiveCamera()->getPosition();
+	ray.end = ray.start + (smgr->getActiveCamera()->getTarget() - ray.start).normalize() * 1000.0f;
+	vector3df intersection;
+	triangle3df hitTriangle;
+	ISceneCollisionManager *collMan = smgr->getSceneCollisionManager();
+	ISceneNode *selectedSceneNode = collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 1, 0);
+	if(selectedSceneNode) {
+		cursorBillBoard->setPosition(intersection);
+        cursorBillBoard->setSize(dimension2d<f32>((ray.getLength()*1.0f)/300.f, (ray.getLength()*1.0f)/300.f));
+	}
+    
+    objPlacement->refresh(cursorBillBoard);
+    //UPDATE EFFECT LIGHTS
+    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+		if (effect->getShadowLight(i).getPosition() != worldCoreData->getLightsData()->operator[](i).getNode()->getPosition()) {
+			effect->getShadowLight(i).setRecalculate(true);
+		}
+
+		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
+        effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
+        
+        effect->getShadowLight(i).setLightColor(SColorf
+												 (((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.r,
+                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
+                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
+                                                 255));
+    }
+    
+    //UPDATE LENS FLARE STRENGTHS
+    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
+			if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getFalseOcclusion()) {
+                //GET CURRENT LANS FLARE ABOSLUTE POSITION
+				if (IRRLICHT_SDK_VERSION == "1.7.3") {
+					line3d<f32> lfLine;
+					lfLine.start = smgr->getActiveCamera()->getAbsolutePosition();
+					matrix4 matr = worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getAbsoluteTransformation();
+					const matrix4 w2n(worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
+					matr = (w2n*matr);
+					lfLine.end = matr.getTranslation();
+					if (lfLine.getLength() < ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
+						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f - (lfLine.getLength()/((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()));
+					}
+					if (lfLine.getLength() == 0.f) {
+						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f);
+					}
+					if (lfLine.getLength() >= ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
+						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(0.f);
+					}
+					ray.start = smgr->getActiveCamera()->getPosition();
+					ray.end = lfLine.end;
+					selectedSceneNode = collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 1, 0);
+					if(selectedSceneNode) {
+
+					}
+				} else {
+					driver->runAllOcclusionQueries(false);
+					driver->updateAllOcclusionQueries(false);
+					u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
+					if(occlusionQueryResult != 0xffffffff) {
+						u32 divided = (20*450)/4200;
+						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult*divided)/1000.f);
+					}
+					Device->setWindowCaption(stringw((f32)occlusionQueryResult).c_str());
+				}
+				worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->updateAbsolutePosition();
+            }
+        }
+    }
+
+	//UPDATING WATER
+	for (u32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
+		if (renderXEffect) {
+			if (effect->isUsingMotionBlur()) {
+				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
+			} else {
+				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
+			}
+		} else {
+			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
+		}
+	}
+
+
 
     //camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
