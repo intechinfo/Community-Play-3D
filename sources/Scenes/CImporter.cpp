@@ -882,7 +882,11 @@ void CImporter::buildObject() {
 		readTransformations(node);
 		readViewModes(node);
 
-		devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+		if (path == "sphere") {
+			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		} else {
+			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+		}
         SObjectsData odata(mesh, node, path);
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}

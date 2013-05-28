@@ -149,7 +149,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	currentSecondaryShadowMap = 0;
 
 	motionBlur = new IPostProcessMotionBlur(smgr->getActiveCamera(), smgr, -2);
-    motionBlur->initiate(1280, 800, 0.6);
+	motionBlur->initiate(screenRTTSize.Width, screenRTTSize.Height, 0.6);
 	useMotionBlur = false;
 }
 
@@ -261,15 +261,13 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
     
     bool recalculate = false;
     for (irr::u32 i=0; i < LightList.size(); i++) {
-        if (LightList[i].getPosition() != LightList[i].lastPos || LightList[i].getTarget() != LightList[i].lastTar
-			|| LightList[i].getShadowMapResolution() != LightList[i].lastMapRes) {
-            LightList[i].lastPos = LightList[i].getPosition();
-            LightList[i].lastTar = LightList[i].getTarget();
+		if (LightList[i].mustRecalculate()) {
             recalculate = true;
+			LightList[i].setRecalculate(false);
 			break;
         }
     }
-	
+
 	if(!ShadowNodeArray.empty() && !LightList.empty())
 	{
 		driver->setRenderTarget(ScreenQuad.rt[0], true, true, AmbientColour);
@@ -278,14 +276,14 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 		activeCam->OnAnimate(device->getTimer()->getTime());
 		activeCam->OnRegisterSceneNode();
 		activeCam->render();
-        
+
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
 		const u32 LightListSize = LightList.size();
 		for(u32 l = 0; l < LightListSize; l++)
 		{
-			if (LightList[l].getFarValue() == 0) {
+			if (LightList[l].getFarValue() == 0)
 				continue;
-			}
+
 			// Set max distance constant for depth shader.
 			depthMC->FarLink = LightList[l].getFarValue();
             
@@ -338,7 +336,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 				ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurH;
 				
 				ScreenQuad.render(driver);
-                
+
 				driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
 				ScreenQuad.getMaterial().setTexture(0, currentSecondaryShadowMap);
 				ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurV;

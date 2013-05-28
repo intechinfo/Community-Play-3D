@@ -92,6 +92,10 @@ void CDevices::updateDevice() {
     
     //UPDATE EFFECT LIGHTS
     for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+		if (effect->getShadowLight(i).getPosition() != worldCoreData->getLightsData()->operator[](i).getNode()->getPosition()) {
+			effect->getShadowLight(i).setRecalculate(true);
+		}
+
 		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
         effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
         
@@ -274,15 +278,16 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //3D INTERACTION
     collisionManager = new CCollisionManager(smgr);
 	objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);
-    
+
 	//INIT EFFECTS
-    effect = new EffectHandler(Device, dimension2du(1440, 838), true, true, true);
+    //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
+	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	effect->setUseVSMShadows(false);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
-	effect->setUseMotionBlur(true);
+	effect->setUseMotionBlur(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), EFT_NONE, ESM_EXCLUDE);

@@ -81,6 +81,12 @@ array<ISceneNode *> CCoreData::getAllSceneNodes() {
     for (int i=0; i < lightsData.size(); i++) {
 		nodes.push_back(lightsData[i].getNode());
     }
+	for (int i=0; i < volumeLightsData.size(); i++) {
+		nodes.push_back(volumeLightsData[i].getNode());
+	}
+	for (int i=0; i < waterSurfaces.size(); i++) {
+		nodes.push_back(waterSurfaces[i].getNode());
+	}
     
     return nodes;
 }
