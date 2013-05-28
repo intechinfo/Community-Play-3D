@@ -47,8 +47,8 @@ void CUIWindowEditEffects::open() {
                                                                 -1, L"Enable Depth Pass");
     
 	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 580, 270), effectsWindow, -1);
-	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[0]);
-	viewPort->setScaleImage(true);
+	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
+	viewPort->setScaleImage(false);
     /*viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
                                 rect<s32>(10, 70, 580, 270));
     if (viewPort) {
@@ -68,7 +68,7 @@ void CUIWindowEditEffects::open() {
     
     editCallBack = devices->getGUIEnvironment()->addButton(rect<s32>(410, 320, 510, 340), effectsWindow, -1, L"Edit CallBack", 
                                                            L"Edit The CallBack Of The Shader");
-    
+
     close = devices->getGUIEnvironment()->addButton(rect<s32>(484, 463, 584, 493), effectsWindow, -1, L"Close", L"Close the window");
     
     if (devices->getCoreData()->getEffectRenders()->size() == 0) {
@@ -175,12 +175,14 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         }
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			SEvent ev;
-			ev.EventType = EET_GUI_EVENT;
-			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-			ev.GUIEvent.Caller = close;
-			ev.GUIEvent.Element = close;
-			OnEvent(ev);
+			if (event.GUIEvent.Caller == effectsWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = close;
+				ev.GUIEvent.Element = close;
+				OnEvent(ev);
+			}
 		}
         
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {

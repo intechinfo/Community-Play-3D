@@ -292,12 +292,14 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 
 		//IF WINDOW CLOSE
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			SEvent ev;
-			ev.EventType = EET_GUI_EVENT;
-			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-			ev.GUIEvent.Caller = close;
-			ev.GUIEvent.Element = close;
-			OnEvent(ev);
+			if (event.GUIEvent.Caller == meWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = close;
+				ev.GUIEvent.Element = close;
+				OnEvent(ev);
+			}
 		}
 
         //IF BUTTON CLICKED

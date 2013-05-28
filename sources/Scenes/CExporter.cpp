@@ -53,6 +53,10 @@ void CExporter::exportScene(stringc file_path) {
 	//---------------------------------------------------------------------------------------------
     exportLights();
 	//---------------------------------------------------------------------------------------------
+	//-----------------------------------VOLUME LIGHTS---------------------------------------------
+	//---------------------------------------------------------------------------------------------
+    exportVolumeLights();
+	//---------------------------------------------------------------------------------------------
 	//-----------------------------------WATER SURFACES--------------------------------------------
 	//---------------------------------------------------------------------------------------------
 	exporterWaterSurfaces();
@@ -309,6 +313,34 @@ void CExporter::exportLights() {
     }
 }
 
+void CExporter::exportVolumeLights() {
+	for (int i=0; i < devices->getCoreData()->getVolumeLightsData()->size(); i++) {
+		IVolumeLightSceneNode *node = (IVolumeLightSceneNode *)devices->getCoreData()->getVolumeLightsData()->operator[](i).getNode();
+        
+        fprintf(export_file, "\t\t <volumeLight>\n\n");
+        
+        fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
+        
+		fprintf(export_file, "\t\t\t <footColor r=\"%u\" g=\"%u\" b=\"%u\" a=\"%u\" />\n",
+				node->getFootColor().getRed(), node->getFootColor().getGreen(), node->getFootColor().getBlue(), 
+				node->getFootColor().getAlpha());
+		fprintf(export_file, "\t\t\t <tailColor r=\"%u\" g=\"%u\" b=\"%u\" a=\"%u\" />\n",
+				node->getTailColor().getRed(), node->getTailColor().getGreen(), node->getTailColor().getBlue(), 
+				node->getTailColor().getAlpha());
+		fprintf(export_file, "\t\t\t <subDivideU value=\"%u\" />\n", node->getSubDivideU());
+		fprintf(export_file, "\t\t\t <subDivideV value=\"%u\" />\n\n", node->getSubDivideV());
+
+		exportMaterials("\t\t\t", node);
+        exportTransformations("\t\t\t", node);
+
+		fprintf(export_file, "\t\t\t <visible bool=\"%d\" />\n", node->isVisible());
+        fprintf(export_file, "\t\t\t <shadowMode mode=\"%d\" />\n", getShadowMode(node));
+
+        fprintf(export_file, "\t\t </volumeLight>\n\n");
+        
+    }
+}
+
 void CExporter::exporterWaterSurfaces() {
 	for (u32 i=0; i < devices->getCoreData()->getWaterSurfaces()->size(); i++) {
 		CWaterSurface *surf = devices->getCoreData()->getWaterSurfaces()->operator[](i).getWaterSurface();
@@ -458,6 +490,10 @@ E_SHADOW_MODE CExporter::getShadowMode(ISceneNode *node) {
 		shadowMode = ESM_CAST;
 	} else if (devices->getXEffect()->isNodeShadowed(node, devices->getXEffectFilterType(), ESM_RECEIVE)) {
 		shadowMode = ESM_RECEIVE;
+	}
+
+	if (!devices->getXEffect()->isNodeShadowed(node)) {
+		shadowMode = ESM_NO_SHADOW;
 	}
 
 	return shadowMode;

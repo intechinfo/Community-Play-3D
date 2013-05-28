@@ -62,13 +62,18 @@ namespace irr
 
 			//! Sets another skin independent font.
 			virtual void setOverrideFont(IGUIFont* font=0);
+			IGUIFont *getOverrideFont() const { return 0; }
+			IGUIFont *getActiveFont() const { return 0; }
 
 			//! Sets another color for the text.
 			virtual void setOverrideColor(video::SColor color);
+			SColor getOverrideColor() const { return 0; }
 
 			//! Sets if the text should use the overide color or the
 			//! color in the gui skin.
 			virtual void enableOverrideColor(bool enable);
+			bool isOverrideColorEnabled() const { return 0; }
+			void setDrawBackground(bool draw) { }
 
 			//! Turns the border on or off
 			virtual void setDrawBorder(bool border);

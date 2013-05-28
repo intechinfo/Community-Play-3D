@@ -49,6 +49,7 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		advancedTab = tabCtrl->addTab(L"Advanced");
 		lensFlareTab = tabCtrl->addTab(L"Lens Flare");
 		shadowLightTab = tabCtrl->addTab(L"Shadow Light");
+		tabCtrl->addTab(L"Volume Light");
 		tabCtrl->setActiveTab(generalTab);
 
 		//NAME
@@ -269,12 +270,14 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			SEvent ev;
-			ev.EventType = EET_GUI_EVENT;
-			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-			ev.GUIEvent.Caller = closeButton;
-			ev.GUIEvent.Element = closeButton;
-			OnEvent(ev);
+			if (event.GUIEvent.Caller == editWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = closeButton;
+				ev.GUIEvent.Element = closeButton;
+				OnEvent(ev);
+			}
 		}
 
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {

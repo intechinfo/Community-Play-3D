@@ -38,6 +38,7 @@ private:
 	void exportObjects();
 	void exportTrees();
 	void exportLights();
+	void exportVolumeLights();
 	void exporterWaterSurfaces();
 
 	//INFORMATIONS EXPORTERS

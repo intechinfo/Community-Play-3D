@@ -289,6 +289,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
+	setXEffectDrawable(true);
 
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), EFT_NONE, ESM_EXCLUDE);
 

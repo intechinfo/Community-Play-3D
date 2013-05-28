@@ -282,7 +282,7 @@ public:
         }
 	}
     
-    //Check if node is shadowed
+    /// Check if node is shadowed
     bool isNodeShadowed(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType, E_SHADOW_MODE shadowMode) {
         bool shadowed = false;
         bool founded = false;
@@ -300,6 +300,19 @@ public:
         
         return shadowed;
     }
+
+	/// Check if node is in the array of shadowed nodes
+	bool isNodeShadowed(irr::scene::ISceneNode *node) {
+		bool founded = false;
+		for (irr::u32 i=0; i < ShadowNodeArray.size(); i++) {
+			if (ShadowNodeArray[i].node == node) {
+				founded = true;
+				break;
+			}
+		}
+
+		return founded;
+	}
     
     //Check is node is depth passed
     bool isDepthPassed(irr::scene::ISceneNode *node) {
