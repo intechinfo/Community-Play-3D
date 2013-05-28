@@ -20,19 +20,18 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY, true);
 	driver->setAllowZWriteOnTransparent(true);
 
-	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 16, 8, 0.95f, 2.0f);
+	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
-	IVolumeLightSceneNode * n = smgr->addVolumeLightSceneNode(0, -1, 32, 32, SColor(0, 180, 180, 180), SColor(0, 0, 0, 0));
+	/*IVolumeLightSceneNode *n = smgr->addVolumeLightSceneNode(0, -1, 32, 32, SColor(255, 64, 64, 64), SColor(255, 64, 64, 64));
 	if (n) {
-		n->setName("#vlight:volume_light_test");
-		n->setScale(core::vector3df(46.0f, 45.0f, 46.0f));
+		n->setPosition(vector3df(-19, 0, 4));
+		n->setScale(core::vector3df(246.0f, 246.0f, 246.0f));
 		n->getMaterial(0).setTexture(0, smgr->getVideoDriver()->getTexture("data/Lights/lightFalloff.png"));
-
-		SVolumeLightsData vldata(n);
-		coreUserInterface->getDevices()->getCoreData()->getVolumeLightsData()->push_back(vldata);
+		n->setName("#vlight:test");
 	}
+	coreUserInterface->getDevices()->getCoreData()->getVolumeLightsData()->push_back(SVolumeLightsData(n));*/
 
 	while (device->run()) {
 

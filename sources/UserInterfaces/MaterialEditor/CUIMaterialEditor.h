@@ -26,8 +26,6 @@ public:
     ~CUIMaterialEditor();
     
     void open(ISceneNode *node);
-
-	void setViewPortSceneManager(ISceneManager *_smgr) { viewPort->setSceneManager(_smgr); }
     
     bool OnEvent(const SEvent &event);
     
@@ -73,7 +71,8 @@ private:
     IGUITreeViewNode *rootTreeViewNode;
     
     //VIEW PORT
-    IGUIViewport *viewPort;
+    //IGUIViewport *viewPort;
+	IGUIImage *viewPort;
 
 	//SEPARATOR
 	IGUIStaticText *separatorText;
