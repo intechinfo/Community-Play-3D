@@ -24,6 +24,12 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
+	IVolumeLightSceneNode *vol = smgr->addVolumeLightSceneNode(0, -1, 10, 100, video::SColor(0, 255, 255, 255), video::SColor(0, 255, 255, 255), vector3df(0, 0, 0), vector3df(0, 0, 0), vector3df(50, 50, 50));
+	vol->setMaterialTexture(0, driver->getTexture("wall for volume light testing/portal7.bmp"));
+	coreUserInterface->getDevices()->getXEffect()->addShadowToNode(vol, EFT_16PCF, ESM_EXCLUDE);
+	CUIWindowEditNode *en = new CUIWindowEditNode(coreUserInterface->getDevices());
+	en->open(vol, "#object");
+
 	while (device->run()) {
 
         if (device->isWindowActive()) {
