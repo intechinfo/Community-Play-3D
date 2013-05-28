@@ -24,15 +24,6 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
-	/*IVolumeLightSceneNode *n = smgr->addVolumeLightSceneNode(0, -1, 32, 32, SColor(255, 64, 64, 64), SColor(255, 64, 64, 64));
-	if (n) {
-		n->setPosition(vector3df(-19, 0, 4));
-		n->setScale(core::vector3df(246.0f, 246.0f, 246.0f));
-		n->getMaterial(0).setTexture(0, smgr->getVideoDriver()->getTexture("data/Lights/lightFalloff.png"));
-		n->setName("#vlight:test");
-	}
-	coreUserInterface->getDevices()->getCoreData()->getVolumeLightsData()->push_back(SVolumeLightsData(n));*/
-
 	while (device->run()) {
 
         if (device->isWindowActive()) {

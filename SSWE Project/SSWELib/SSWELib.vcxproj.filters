@@ -240,6 +240,9 @@
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditWater.cpp">
       <Filter>UserInterfaces</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.cpp">
+      <Filter>UserInterfaces\MainWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -409,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditWater.h">
       <Filter>UserInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.h">
+      <Filter>UserInterfaces\MainWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

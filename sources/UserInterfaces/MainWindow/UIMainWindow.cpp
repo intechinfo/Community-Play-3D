@@ -82,11 +82,11 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
                                                           lightsTab, CXT_MAIN_WINDOW_EVENTS_DELETE_LIGHT, 
                                                           L"Delete This Light", L"Delete the selected light.");
     
-    addDynamicL = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
-                                                         dynamicLightsTab, CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L, L"Add a Volume Light", 
+    addVolumeLight = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
+                                                         dynamicLightsTab, CXT_MAIN_WINDOW_EVENTS_ADD_VOLUME_LIGHT, L"Add a Volume Light", 
                                                          L"Add a Volume Light.");
-    removeDynamicL = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
-                                                            dynamicLightsTab, CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L, 
+    removeVolumeLight = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
+                                                            dynamicLightsTab, CXT_MAIN_WINDOW_EVENTS_DELETE_VOLUME_LIGHT, 
                                                             L"Delete Volume Light", L"Delete the selected volume light.");
     
     addWaterSurface = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
@@ -106,6 +106,8 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     addObjectInstance = new CUIWindowAddObject(devices, objectsListBox);
     
     addLightInstance = new CUIWindowAddLight(devices, lightsListBox);
+
+	addVolumeLightInstance = new CUIWindowAddVolumeLight(devices, volumeLightsListBox);
 
     addWaterSurfaceInstance = new CUIWindowAddWaterSurface(devices, waterSurfacesListBox);
     //-----------------------------------
@@ -660,8 +662,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 addLight->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
                 removeLight->setRelativePosition(rect<s32>(190, tabCtrl->getRelativePosition().getHeight() - 75, 370, tabCtrl->getRelativePosition().getHeight() - 40));
                 
-                addDynamicL->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
-                removeDynamicL->setRelativePosition(rect<s32>(190, tabCtrl->getRelativePosition().getHeight() - 75, 370, tabCtrl->getRelativePosition().getHeight() - 40));
+                addVolumeLight->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
+                removeVolumeLight->setRelativePosition(rect<s32>(190, tabCtrl->getRelativePosition().getHeight() - 75, 370, tabCtrl->getRelativePosition().getHeight() - 40));
                 
                 addWaterSurface->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
                 removeWaterSurface->setRelativePosition(rect<s32>(190, tabCtrl->getRelativePosition().getHeight() - 75, 370, tabCtrl->getRelativePosition().getHeight() - 40));
@@ -691,8 +693,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 addLight->setRelativePosition(rect<s32>(5, 400, 185, 435));
                 removeLight->setRelativePosition(rect<s32>(190, 400, 370, 435));
                 
-                addDynamicL->setRelativePosition(rect<s32>(5, 400, 185, 435));
-                removeDynamicL->setRelativePosition(rect<s32>(190, 400, 370, 435));
+                addVolumeLight->setRelativePosition(rect<s32>(5, 400, 185, 435));
+                removeVolumeLight->setRelativePosition(rect<s32>(190, 400, 370, 435));
                 
                 addWaterSurface->setRelativePosition(rect<s32>(5, 400, 185, 435));
                 removeWaterSurface->setRelativePosition(rect<s32>(190, 400, 370, 435));
@@ -820,14 +822,22 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             //-----------------------------------
             //-----------------------------------
             //VOLUME LIGHT
-            case CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L:
-                devices->addInformationDialog(L"Information",
-                                              L"Not implanted yes...", EMBF_OK);
+            case CXT_MAIN_WINDOW_EVENTS_ADD_VOLUME_LIGHT:
+                addVolumeLightInstance->open();
                 break;
                 
-            case CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L:
+            case CXT_MAIN_WINDOW_EVENTS_DELETE_VOLUME_LIGHT:
                 if (volumeLightsListBox->getSelected() != -1) {
+                    //light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+					devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode()->remove();
+                    devices->getCoreData()->getVolumeLightsData()->erase(volumeLightsListBox->getSelected());
+                    devices->getObjectPlacement()->setNodeToPlace(0);
+                    devices->getObjectPlacement()->setLightNode(0);
+                    //light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+                    //light_icon->setVisible(false);
                     
+                    lightsListBox->removeItem(lightsListBox->getSelected());
+                    lightsListBox->setSelected(-1);
                 } else {
                     devices->addInformationDialog(L"Information",
                                                   L"Please select a node before...", EMBF_OK);
