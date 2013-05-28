@@ -15,6 +15,8 @@
 #include "../../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 #include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
 
+#include "../../../UserInterfaces/CUIWindowEditWater.h"
+
 #include "CShaderCallback.h"
 
 class CUIWindowEditMaterialsCallback : public IEventReceiver  {
@@ -28,6 +30,15 @@ public:
 	//-----------------------------------
 	//METHODS
 	void open(CShaderCallback *_callback);
+	//-----------------------------------
+
+	//-----------------------------------
+	//GETTERS
+	CDevices *getDevices();
+	rect<s32> getSize();
+	CShaderCallback *getCallback();
+	void setWaterSurface(CWaterSurface *_waterSurface);
+	CWaterSurface *getWaterSurface();
 	//-----------------------------------
 
 private:
@@ -47,6 +58,7 @@ private:
 	ISceneManager *smgr;
 	ISceneNode *previewNode;
 	IAnimatedMesh *planeMesh;
+	CWaterSurface *waterSurface;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -76,6 +88,8 @@ private:
 	ELOG_LEVEL logLevel;
 
 	IGUIButton *closeEditMaterialWindow;
+
+	CUIWindowEditWater *editWaterAddon;
 	//-----------------------------------
 
 	//-----------------------------------

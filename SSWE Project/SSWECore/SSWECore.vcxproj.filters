@@ -22,6 +22,9 @@
     <Filter Include="SSWECore\Core">
       <UniqueIdentifier>{5557ba8d-9a86-4104-a9dd-d1e88bb5ad56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWECore\SceneNodes">
+      <UniqueIdentifier>{1da195f4-f808-4438-b121-a4af9b00e85d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWECore.cpp">
@@ -42,11 +45,11 @@
     <ClCompile Include="..\..\sources\Device\Core\CLuaBinds.cpp">
       <Filter>SSWECore\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp">
-      <Filter>SSWECore\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sources\Device\CCollisionManager.cpp">
       <Filter>SSWECore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp">
+      <Filter>SSWECore\SceneNodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +77,11 @@
     <ClInclude Include="..\..\sources\Device\Core\CLuaBinds.h">
       <Filter>SSWECore\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h">
-      <Filter>SSWECore\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sources\Device\CCollisionManager.h">
       <Filter>SSWECore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h">
+      <Filter>SSWECore\SceneNodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

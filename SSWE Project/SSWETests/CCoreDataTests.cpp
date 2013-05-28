@@ -65,6 +65,34 @@ namespace SSWETests
 
 			Assert::AreEqual((u32)0, coreData->getTerrainsData()->size());
 			Assert::AreEqual((u32)0, coreData->getObjectsData()->size());
+
+			device->getSceneManager()->clear();
+		}
+		TEST_METHOD(getArrayOfLightNodesTest) {
+			ILightSceneNode *l1 = device->getSceneManager()->addLightSceneNode();
+			ILightSceneNode *l2 = device->getSceneManager()->addLightSceneNode();
+
+			SLightsData l1data(l1);
+			SLightsData l2data(l2);
+			coreData->getLightsData()->push_back(l1data);
+			coreData->getLightsData()->push_back(l2data);
+
+			array<ISceneNode *> nodes = coreData->getArrayOfLightNodes();
+
+			if (nodes.size() != 2) {
+				Assert::Fail(L"Number of lights in the array is not equal to number of lights in the scene");
+			}
+			if (nodes[0] != l1) {
+				Assert::Fail(L"Light 1 in the array is not the first light added");
+			}
+			if (nodes[1] != l2) {
+				Assert::Fail(L"Light 2 in the array is not the second light added");
+			}
+
+			coreData->clearAllTheArrays();
+			device->getSceneManager()->clear();
+
+			//BECAUSE getArrayOfObjectNodes ETC. FOLLOW THE SAME METHOD, WE WILL NOT TEST THEM
 		}
 //---------------------------------------------------------------------------------------------
 //---------------------------------------TEAR DOWN CLASS---------------------------------------

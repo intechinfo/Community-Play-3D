@@ -1,9 +1,10 @@
 #ifndef H_XEFFECTS_SQ
 #define H_XEFFECTS_SQ
 
+#include <SSWERenders.h>
 #include <irrlicht.h>
 
-class CScreenQuad
+class SSWE_RENDERS_API CScreenQuad
 {
 public:
 	CScreenQuad()

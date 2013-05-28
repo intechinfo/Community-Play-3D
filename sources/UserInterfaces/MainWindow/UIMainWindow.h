@@ -19,6 +19,7 @@
 #include "CUIWindowAddWatersSurface.h"
 
 #include "../CUIWindowEditNode.h"
+#include "../CUIWindowEditWater.h"
 #include "../MaterialEditor/CUIMaterialEditor.h"
 #include "../CUIWindowEditLight.h"
 #include "../../Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.h"
@@ -101,7 +102,7 @@ private:
     IGUITabControl *tabCtrl;
     IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab, *waterSurfacesTab;
     
-    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *dynamicListBox, *waterSurfacesListBox;
+    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *volumeLightsListBox, *waterSurfacesListBox;
     IGUIButton *addTerrain, *removeTerrain;
     IGUIButton *addTree, *removeTree;
     IGUIButton *addObject, *removeObject;

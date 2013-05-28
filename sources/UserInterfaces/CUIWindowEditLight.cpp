@@ -241,7 +241,7 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
 															  L"Apply", L"Apply the settings");
 		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 430, 175, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON,
-															  L"Cancel", L"Close without effect");
+															  L"Close", L"Close without effect");
 	}
 }
 

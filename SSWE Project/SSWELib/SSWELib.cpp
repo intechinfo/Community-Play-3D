@@ -24,11 +24,15 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
-	IVolumeLightSceneNode *vol = smgr->addVolumeLightSceneNode(0, -1, 10, 100, video::SColor(0, 255, 255, 255), video::SColor(0, 255, 255, 255), vector3df(0, 0, 0), vector3df(0, 0, 0), vector3df(50, 50, 50));
-	vol->setMaterialTexture(0, driver->getTexture("wall for volume light testing/portal7.bmp"));
-	coreUserInterface->getDevices()->getXEffect()->addShadowToNode(vol, EFT_16PCF, ESM_EXCLUDE);
-	CUIWindowEditNode *en = new CUIWindowEditNode(coreUserInterface->getDevices());
-	en->open(vol, "#object");
+	IVolumeLightSceneNode * n = smgr->addVolumeLightSceneNode(0, -1, 32, 32, SColor(0, 180, 180, 180), SColor(0, 0, 0, 0));
+	if (n) {
+		n->setName("#vlight:volume_light_test");
+		n->setScale(core::vector3df(46.0f, 45.0f, 46.0f));
+		n->getMaterial(0).setTexture(0, smgr->getVideoDriver()->getTexture("data/Lights/lightFalloff.png"));
+
+		SVolumeLightsData vldata(n);
+		coreUserInterface->getDevices()->getCoreData()->getVolumeLightsData()->push_back(vldata);
+	}
 
 	while (device->run()) {
 

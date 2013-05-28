@@ -1,9 +1,10 @@
 #ifndef H_C_SHADER_PP
 #define H_C_SHADER_PP
 
+#include <SSWERenders.h>
 #include <irrlicht.h>
 
-class CShaderPreprocessor
+class SSWE_RENDERS_API CShaderPreprocessor
 {
 public:
 	CShaderPreprocessor(irr::video::IVideoDriver* driverIn);

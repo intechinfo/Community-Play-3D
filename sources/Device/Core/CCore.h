@@ -98,7 +98,7 @@ public:
 	bool elementIsInArrayOfElements(IGUIElement *element, array<IGUIElement *> elements);
 	array<IGUIElement *> getArrayOfAListOfGUIElementChildren(IGUIElement *element);
 	void deactiveChildrenOfGUIElement(IGUIElement *element, bool visible);
-	void fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> toFill, array<IGUIElement *> source);
+	void fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> *toFill, array<IGUIElement *> source);
     
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();
