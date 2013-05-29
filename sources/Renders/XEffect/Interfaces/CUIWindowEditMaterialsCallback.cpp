@@ -10,7 +10,6 @@
 
 CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_devices) {
 	devices = _devices;
-	waterSurface = NULL;
 
 	//-----------------------------------
 	//GET DATAS
@@ -146,10 +145,9 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", 
                                                                         L"Close Window");
 
-	//CREATE THE WATER EDIT WINDOW IF IT EDITS A WATERSURFACE
 	if(waterSurface != NULL)
 	{
-		editWaterAddon = new CUIWindowEditWater(waterSurface, devices, this->getSize());
+		editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, rect<s32>(0,0,100,100));
 	}
 
     //FILL VERTEX AND PIXEL SHADER TYPES COMBO BOXES
@@ -247,6 +245,10 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			console = 0;
 			devices->setRenderScene(true);
 			devices->getEventReceiver()->RemoveEventReceiver(this);
+			if(editWaterAddon != NULL)
+			{
+				editWaterAddon->close();
+			}
 			delete this;
 			return false;
 		}
@@ -469,15 +471,13 @@ CShaderCallback *CUIWindowEditMaterialsCallback::getCallback()
 	return callback;
 }
 
-void CUIWindowEditMaterialsCallback::setWaterSurface(CWaterSurface *_waterSurface)
+SWaterSurfacesData *CUIWindowEditMaterialsCallback::getWaterSurfaceData()
 {
-	waterSurface = _waterSurface;
+	return waterSurfaceData;
 }
 
-CWaterSurface *CUIWindowEditMaterialsCallback::getWaterSurface()
+void CUIWindowEditMaterialsCallback::setWaterSurfaceData(SWaterSurfacesData *_waterSurfaceData)
 {
-	if(waterSurface != NULL)
-		return waterSurface;
-	else
-		return 0;
+	waterSurfaceData = _waterSurfaceData;
+	waterSurface = waterSurfaceData->getWaterSurface();
 }

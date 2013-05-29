@@ -410,6 +410,9 @@
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditWater.h">
       <Filter>UserInterfaces</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sources\UserInterfaces\ITool.h">
+      <Filter>UserInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

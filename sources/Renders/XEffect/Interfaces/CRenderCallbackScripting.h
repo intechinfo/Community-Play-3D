@@ -19,7 +19,7 @@
 #elif defined(IS_ERIO_AND_RELOU)
     #include "../../../Lua/lua.hpp"
 #else
-    #include "../../../../../libs/include/lua.hpp"
+	#include "../Lua52/include/lua.hpp"
 #endif
 
 class CRenderCallbackScripting {

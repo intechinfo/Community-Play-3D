@@ -224,6 +224,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowExportScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowsManager.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\ITool.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.h" />
