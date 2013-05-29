@@ -48,11 +48,11 @@ public:
 
 		//SSAO
 		irr::core::array<irr::s32> buildSSAO(irr::core::stringc ext) {
-
-			SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAOCombine") + ext, 0, true);
-			BlurV = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurVP") + ext, 0, true);
-			BlurH = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurHP") + ext, 0, true);
-			SSAO = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAO") + ext, 0, true);
+						
+			SSAO = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAO") + ext, 0, false);
+			BlurH = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurHP") + ext, 0, false);
+			BlurV = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurVP") + ext, 0, false);
+			SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAOCombine") + ext, 0, false);
 
 			ssaoRenderCallback = new SSAORenderCallback(SSAO);
 			reffect->setPostProcessingRenderCallback(SSAO, ssaoRenderCallback);

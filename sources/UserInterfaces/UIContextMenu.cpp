@@ -202,8 +202,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
     
-    CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
-    editEffects->open();
+    //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
+    //editEffects->open();
     
     //CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, 0);
     //editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
