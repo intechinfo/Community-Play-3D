@@ -181,6 +181,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         shadowed->addItem(L"RECEIVE");
         shadowed->addItem(L"BOTH (CAST & RECEIVE)");
         shadowed->addItem(L"EXCLUDE");
+		shadowed->addItem(L"NO SHADOWS");
         E_SHADOW_MODE shadowMode = devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType());
         switch (shadowMode) {
             case ESM_CAST:
@@ -199,6 +200,9 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
             default:
                 break;
         }
+		if (!devices->getXEffect()->isNodeShadowed(nodeToEdit)) {
+			shadowed->setSelected(4);
+		}
         
         nodeToDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassed(nodeToEdit), rect<s32>(10, 470, 150, 490), generalTab, 
                                                                     CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS, L"Depth pass...");
@@ -652,12 +656,14 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
     if (event.EventType == EET_GUI_EVENT) {
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			SEvent ev;
-			ev.EventType = EET_GUI_EVENT;
-			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-			ev.GUIEvent.Caller = closeButton;
-			ev.GUIEvent.Element = closeButton;
-			OnEvent(ev);
+			if (event.GUIEvent.Caller == editWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = closeButton;
+				ev.GUIEvent.Element = closeButton;
+				OnEvent(ev);
+			}
 		}
 
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {

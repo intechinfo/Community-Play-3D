@@ -195,9 +195,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)..\libs\" /y
-copy "$(SolutionDir)include\*" "$(SolutionDir)..\libs\include\" /y
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

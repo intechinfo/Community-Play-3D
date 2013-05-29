@@ -28,7 +28,6 @@ private:
     //GUI ELEMENTS
     IGUIWindow *window;
     IGUIStaticText *fps, *driver, *resolution;
-    IGUIButton *close;
     //-----------------------------------
     
 };

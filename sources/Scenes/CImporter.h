@@ -47,6 +47,7 @@ private:
 	void buildTree();
 	void buildObject();
 	void buildLight();
+	void buildVolumeLight();
 	void buildWaterSurface();
 
 	//BUILDING CONFIGURATIONS

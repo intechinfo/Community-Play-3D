@@ -35,7 +35,8 @@ private:
 
 	//-----------------------------------
 	//MAIN WINDOW
-	IGUIViewport *viewPort;
+	//IGUIViewport *viewPort;
+	IGUIImage *viewPort;
 	ISceneManager *smgr;
 
 	IGUIWindow *effectsWindow;

@@ -46,12 +46,15 @@ void CUIWindowEditEffects::open() {
     enableDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassEnabled(), rect<s32>(10, 50, 160, 70), effectsWindow, 
                                                                 -1, L"Enable Depth Pass");
     
-    viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
+	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 580, 270), effectsWindow, -1);
+	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
+	viewPort->setScaleImage(false);
+    /*viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
                                 rect<s32>(10, 70, 580, 270));
     if (viewPort) {
         viewPort->setSceneManager(devices->getSceneManager());
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
-    }
+    }*/
     
     devices->getGUIEnvironment()->addStaticText(L"Shaders :", rect<s32>(10, 280, 110, 300), false, true, effectsWindow, -1, false);
     
@@ -65,7 +68,7 @@ void CUIWindowEditEffects::open() {
     
     editCallBack = devices->getGUIEnvironment()->addButton(rect<s32>(410, 320, 510, 340), effectsWindow, -1, L"Edit CallBack", 
                                                            L"Edit The CallBack Of The Shader");
-    
+
     close = devices->getGUIEnvironment()->addButton(rect<s32>(484, 463, 584, 493), effectsWindow, -1, L"Close", L"Close the window");
     
     if (devices->getCoreData()->getEffectRenders()->size() == 0) {
@@ -172,12 +175,14 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         }
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			SEvent ev;
-			ev.EventType = EET_GUI_EVENT;
-			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-			ev.GUIEvent.Caller = close;
-			ev.GUIEvent.Element = close;
-			OnEvent(ev);
+			if (event.GUIEvent.Caller == effectsWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = close;
+				ev.GUIEvent.Element = close;
+				OnEvent(ev);
+			}
 		}
         
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
@@ -429,15 +434,17 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
             if (event.GUIEvent.Caller == active) {
-                if (active->isChecked()) {
-                    if (!devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
-                        devices->getXEffect()->addPostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
-                    }
-                } else {
-                    if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
-                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
-                    }
-                }
+				if (shadersList->getSelected() != -1) {
+					if (active->isChecked()) {
+						if (!devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
+							devices->getXEffect()->addPostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
+						}
+					} else {
+						if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
+							devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
+						}
+					}
+				}
             }
             
             if (event.GUIEvent.Caller == enableDepthPass) {

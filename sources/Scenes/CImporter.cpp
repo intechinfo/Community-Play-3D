@@ -882,7 +882,11 @@ void CImporter::buildObject() {
 		readTransformations(node);
 		readViewModes(node);
 
-		devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+		if (path == "sphere") {
+			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		} else {
+			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+		}
         SObjectsData odata(mesh, node, path);
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}
@@ -941,6 +945,9 @@ void CImporter::buildLight() {
 		lfNode->setFalseOcclusion(true);
 		lfNode->setParent(lfMeshNode);
 		lfNode->setName(stringc(stringc(node->getName()) + stringc("_flare_node")).c_str());
+		if (IRRLICHT_SDK_VERSION != "1.7.3") {
+			devices->getVideoDriver()->addOcclusionQuery(lfMeshNode, lfMeshNode->getMesh());
+		}
 		//MESH
 		read("scale");
 		lfMeshNode->setScale(buildVector3df());
@@ -964,6 +971,33 @@ void CImporter::buildLight() {
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(SLightsData(node, lfMeshNode, lfBillBoard, lfNode));
+}
+
+void CImporter::buildVolumeLight() {
+
+	read("name");
+	stringc name = xmlReader->getAttributeValue("c8name");
+
+	read("footColor");
+	SColor footColor = buildSColor();
+	read("tailColor");
+	SColor tailColor = buildSColor();
+	read("subDivideU");
+	u32 subDivideU = xmlReader->getAttributeValueAsInt("value");
+	read("subDivideV");
+	u32 subDivideV = xmlReader->getAttributeValueAsInt("value");
+
+	IVolumeLightSceneNode *node = smgr->addVolumeLightSceneNode(0, -1, subDivideU, subDivideV, footColor, tailColor);
+	if (node) {
+		node->setName(name.c_str());
+
+		readMaterials(node);
+		readTransformations(node);
+
+		readViewModes(node);
+
+		devices->getCoreData()->getVolumeLightsData()->push_back(SVolumeLightsData(node));
+	}
 }
 
 void CImporter::buildWaterSurface() {
@@ -1200,10 +1234,12 @@ void CImporter::readTransformations(ISceneNode *_node) {
 void CImporter::readViewModes(ISceneNode *_node) {
 	read("visible");
 	_node->setVisible(xmlReader->getAttributeValueAsInt("bool"));
+
 	read("shadowMode");
 	E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
 	shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
-	devices->getXEffect()->addShadowToNode(_node, devices->getXEffectFilterType(), shadowMode);
+	if (shadowMode != ESM_NO_SHADOW)
+		devices->getXEffect()->addShadowToNode(_node, devices->getXEffectFilterType(), shadowMode);
 }
 
 //---------------------------------------------------------------------------------------------
@@ -1234,9 +1270,9 @@ dimension2df CImporter::buildDimension2df() {
 
 template<class T>
 vector3d<T> CImporter::buildVector3d() {
-	vector3df vec = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
-                                 devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
-                                 devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
+	vector3df vec = vector3df(xmlReader->getAttributeValueAsFloat("X"),
+							  xmlReader->getAttributeValueAsFloat("Y"),
+							  xmlReader->getAttributeValueAsFloat("Z"));
     return vec;
 }
 
@@ -1272,6 +1308,8 @@ void CImporter::newImportScene(stringc file_path) {
 			buildLight();
 		else if (element == "waterSurface")
 			buildWaterSurface();
+		else if (element == "volumeLight")
+			buildVolumeLight();
 
 	}
 

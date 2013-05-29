@@ -135,3 +135,4 @@ SSWE/libs/lua52.lib
 Documentation/exemple cas d'ut.jpg
 sources/Device/Core/CCoreUserInterface.cpp
 sources/sources.pro.user.eb66fc8
+SSWE Project/SSWELib/SSWELib.cpp

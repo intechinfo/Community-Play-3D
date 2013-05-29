@@ -16,6 +16,7 @@
 #include "CUIWindowAddTree.h"
 #include "CUIWindowAddObject.h"
 #include "CUIWindowAddLight.h"
+#include "CUIWindowAddVolumeLight.h"
 #include "CUIWindowAddWatersSurface.h"
 
 #include "../CUIWindowEditNode.h"
@@ -40,8 +41,8 @@ enum GUI_MAIN_WINDOW_EVENTS {
     CXT_MAIN_WINDOW_EVENTS_ADD_LIGHT,
     CXT_MAIN_WINDOW_EVENTS_DELETE_LIGHT, CXT_MAIN_WINDOW_EVENTS_DELETE_LIGHT_LIGHT_YES,
     
-    CXT_MAIN_WINDOW_EVENTS_ADD_DYNAMIC_L,
-    CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L, CXT_MAIN_WINDOW_EVENTS_DELETE_DYNAMIC_L_YES,
+    CXT_MAIN_WINDOW_EVENTS_ADD_VOLUME_LIGHT,
+    CXT_MAIN_WINDOW_EVENTS_DELETE_VOLUME_LIGHT, CXT_MAIN_WINDOW_EVENTS_DELETE_VOLUME_LIGHT_YES,
     
     CXT_MAIN_WINDOW_EVENTS_ADD_WATER_SURFACE,
     CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE, CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE_YES
@@ -107,13 +108,14 @@ private:
     IGUIButton *addTree, *removeTree;
     IGUIButton *addObject, *removeObject;
     IGUIButton *addLight, *removeLight;
-    IGUIButton *addDynamicL, *removeDynamicL;
+    IGUIButton *addVolumeLight, *removeVolumeLight;
     IGUIButton *addWaterSurface, *removeWaterSurface;
     
     CUIWindowAddOctTree *addOctTreeInstance;
     CUIWindowAddTree *addTreeInstance;
     CUIWindowAddObject *addObjectInstance;
     CUIWindowAddLight *addLightInstance;
+	CUIWindowAddVolumeLight *addVolumeLightInstance;
     CUIWindowAddWaterSurface *addWaterSurfaceInstance;
     //-----------------------------------
     

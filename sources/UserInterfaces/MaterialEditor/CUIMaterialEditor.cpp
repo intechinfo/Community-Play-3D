@@ -179,11 +179,14 @@ void CUIMaterialEditor::open(ISceneNode *node) {
     rootTreeViewNode->getFirstChild()->setSelected(true);
     
     //VIEW PORT
-    viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710)); 
+    /*viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710)); 
     if (viewPort) {
         viewPort->setSceneManager(smgr);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
-    }
+    }*/
+	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 550, 280, 710), meWindow, -1);
+	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
+	viewPort->setScaleImage(true);
     
     separatorText = gui->addStaticText(L"", rect<s32>(290, 70, 300, 710), true, true, meWindow, -1, false);
     
@@ -289,12 +292,14 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 
 		//IF WINDOW CLOSE
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			SEvent ev;
-			ev.EventType = EET_GUI_EVENT;
-			ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-			ev.GUIEvent.Caller = close;
-			ev.GUIEvent.Element = close;
-			OnEvent(ev);
+			if (event.GUIEvent.Caller == meWindow) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+				ev.GUIEvent.Caller = close;
+				ev.GUIEvent.Element = close;
+				OnEvent(ev);
+			}
 		}
 
         //IF BUTTON CLICKED

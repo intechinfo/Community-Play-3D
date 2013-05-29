@@ -61,14 +61,7 @@ struct SShadowLight
 			projMat.buildProjectionMatrixOrthoLH(fov, fov, nearValue, farValue);
 		else
 			projMat.buildProjectionMatrixPerspectiveFovLH(fov, 1.0f, nearValue, farValue);
-        
-        lastPos = irr::core::vector3df(0, 0, 0);
-        lastTar = irr::core::vector3df(0, 0, 0);
-		lastMapRes = 0;
 	}
-    
-    irr::core::vector3df lastPos, lastTar;
-	irr::u32 lastMapRes;
 
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position)
@@ -158,6 +151,10 @@ struct SShadowLight
 		return mapRes;
 	}
 
+	/// Gets if we must recalculate the shadow map
+	bool mustRecalculate() { return recalculate; }
+	void setRecalculate(bool _recalculate) { recalculate = _recalculate; }
+
 private:
 
 	void updateViewMatrix()
@@ -169,10 +166,11 @@ private:
 
 	irr::video::SColorf diffuseColour;
 	irr::core::vector3df pos, tar;
-    //irr::core::vector3df lastPos, lastTar;
 	irr::f32 farPlane;
 	irr::core::matrix4 viewMat, projMat;
 	irr::u32 mapRes;
+
+	bool recalculate;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -284,7 +282,7 @@ public:
         }
 	}
     
-    //Check if node is shadowed
+    /// Check if node is shadowed
     bool isNodeShadowed(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType, E_SHADOW_MODE shadowMode) {
         bool shadowed = false;
         bool founded = false;
@@ -302,6 +300,19 @@ public:
         
         return shadowed;
     }
+
+	/// Check if node is in the array of shadowed nodes
+	bool isNodeShadowed(irr::scene::ISceneNode *node) {
+		bool founded = false;
+		for (irr::u32 i=0; i < ShadowNodeArray.size(); i++) {
+			if (ShadowNodeArray[i].node == node) {
+				founded = true;
+				break;
+			}
+		}
+
+		return founded;
+	}
     
     //Check is node is depth passed
     bool isDepthPassed(irr::scene::ISceneNode *node) {

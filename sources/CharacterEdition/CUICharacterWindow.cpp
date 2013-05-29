@@ -164,6 +164,8 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
         node->setRotation(pnode->getRotation());
         node->setScale(pnode->getScale());
         node->setMaterialFlag(EMF_LIGHTING, false);
+
+		grid->setPosition(vector3df(grid->getPosition().X, node->getPosition().Y, grid->getPosition().Z));
         
         for (int i=0; i < pnode->getMaterialCount(); i++) {
             for (int a=0; a < 4; a++) {
