@@ -136,7 +136,6 @@ Documentation/exemple cas d'ut.jpg
 sources/Device/Core/CCoreUserInterface.cpp
 sources/sources.pro.user.eb66fc8
 SSWE Project/SSWELib/SSWELib.cpp
-sources/UserInterfaces/ITool.h
 SSWE Project/SPARK/SPARK155/projects/vc2008/SPARK engine/SPARK IRR LIB.vcxproj
 SSWE Project/SSWE/Output/data/._.DS_Store
 SSWE Project/SSWE/Output/data/.DS_Store
