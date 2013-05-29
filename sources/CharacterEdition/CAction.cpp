@@ -38,3 +38,10 @@ irr::core::stringc CAction::getXMLValues() {
 
 	return toReturn;
 }
+
+void CAction::setXMLValues(irr::io::IrrXMLReader *xmlReader) {
+	start = xmlReader->getAttributeValueAsInt("start");
+	end = xmlReader->getAttributeValueAsInt("end");
+	name = xmlReader->getAttributeValue("name");
+	animSpeed = xmlReader->getAttributeValueAsFloat("speed");
+}

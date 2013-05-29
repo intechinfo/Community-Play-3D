@@ -384,11 +384,24 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
 		
 		devices->getGUIEnvironment()->addStaticText(L"Saved Animations :", rect<s32>(19, 46, 149, 66), true, true, animatedTab, -1, true);
 		savedAnimationsPath = devices->getGUIEnvironment()->addEditBox(L"", rect<s32>(149, 46, 309, 66), true, animatedTab, -1);
+		savedAnimationsPath->setEnabled(false);
 		browseSavedAnimations = devices->getGUIEnvironment()->addButton(rect<s32>(309, 46, 409, 66), animatedTab, -1, 
 																		L"Browse...", L"Browse...");
 
 		devices->getGUIEnvironment()->addStaticText(L"Choose Animation :", rect<s32>(19, 76, 149, 96), true, true, animatedTab, -1, true);
 		chooseSavedAnimation = devices->getGUIEnvironment()->addComboBox(rect<s32>(149, 76, 409, 96), animatedTab, -1);
+
+		if (nodeToEditPrefix == "#object") {
+			u32 i = devices->getCoreData()->getObjectNodeIndice(nodeToEdit);
+			if (i != -1) {
+				drawAnimations->setChecked(true);
+				for (u32 ai = 0; ai < devices->getCoreData()->getObjectsData()->operator[](i).getActions()->size(); ai++) {
+					chooseSavedAnimation->addItem(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](ai)->getName().c_str());
+				}
+			} else {
+				drawAnimations->setChecked(false);
+			}
+		}
 
 		if (nodeToEdit->getType() != ESNT_ANIMATED_MESH) {
 			core::list<IGUIElement *>::ConstIterator animatedElements = animatedTab->getChildren().begin();
@@ -1249,6 +1262,17 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					}
 				}
 				delete xmlReader;
+
+				if (nodeToEditPrefix == "#object") {
+					u32 i = devices->getCoreData()->getObjectNodeIndice(nodeToEdit);
+					if (i != -1) {
+						devices->getCoreData()->getObjectsData()->operator[](i).setActions(actions);
+					}
+				}
+
+				stringw pathSavedAnimation = browseSavedAnimationDialog->getFileName();
+				pathSavedAnimation.remove(devices->getWorkingDirectory().c_str());
+				savedAnimationsPath->setText(pathSavedAnimation.c_str());
 			}
             
             switch (currentBrowse) {

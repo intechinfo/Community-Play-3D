@@ -46,7 +46,7 @@ private:
 	IGUIListBox *shadersList;
 	IGUICheckBox *active;
 	IGUIButton *oglAdd, *oglRemove;
-	IGUIButton *editCallBack, *close;
+	IGUIButton *close;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -55,7 +55,6 @@ private:
 
 	IGUICheckBox *enableDepthPass;
 
-	IGUIButton *pApplyButton;
 	IGUIEditBox *pvalue, *pname;
 	IGUIButton *pAdd, *pRemove;
 	IGUIListBox *pList;
@@ -64,12 +63,6 @@ private:
 	CGUIEditBoxIRB *codeEditor;
 	IGUIButton *complexClose, *complexOpen;
 
-	IGUIButton *vApplyButton;
-	IGUIEditBox *vvalue, *vname;
-	IGUIButton *vAdd, *vRemove;
-	IGUIListBox *vList;
-
-	IGUIButton *closeButton;
 	//-----------------------------------
 
 	bool openingShader;

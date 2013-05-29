@@ -80,6 +80,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu = submenu->getSubMenu(0);
     submenu->addItem(L"Draw Motion Blur", CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW, true, false,
 					devices->getXEffect()->isUsingMotionBlur(), true);
+	submenu->addItem(L"Draw SSAO", CXT_MENU_EVENTS_RENDERS_SSAO, true, false, devices->getRenderCallbacks()->getSSAORenderCallback(), true);
     submenu->addSeparator();
     submenu->addItem(L"...", CXT_MENU_EVENTS_RENDERS_HDR_EDIT);
     submenu = menu->getSubMenu(i);
@@ -201,9 +202,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
     
-    //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
-    //editEffects->open();
-    //devices->setXEffectDrawable(true);
+    CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
+    editEffects->open();
     
     //CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, 0);
     //editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
@@ -412,6 +412,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
 					devices->getXEffect()->setUseMotionBlur(!devices->getXEffect()->isUsingMotionBlur());
                     break;
+				case CXT_MENU_EVENTS_RENDERS_SSAO:
+					if (!devices->getRenderCallbacks()->getSSAORenderCallback()) {
+						devices->getRenderCallbacks()->buildSSAO(devices->getShaderExt());
+					} else {
+						devices->getRenderCallbacks()->removeSSAO();
+					}
+					break;
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
                     devices->setXEffectDrawable(!devices->isXEffectDrawable());

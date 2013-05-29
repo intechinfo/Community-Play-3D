@@ -77,6 +77,9 @@
     <ClInclude Include="..\..\sources\Renders\XEffect\XEffects.h">
       <Filter>Renders\XEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
+      <Filter>Renders\PostProcessor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWERenders.def">
