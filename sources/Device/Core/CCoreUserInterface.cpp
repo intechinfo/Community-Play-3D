@@ -35,6 +35,13 @@ CCoreUserInterface::CCoreUserInterface() {
     params.ZBufferBits = 32;
 	params.EventReceiver=0;
 	
+	if (params.Fullscreen) {
+		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);
+		params.WindowSize = tempDevice->getVideoModeList()->getDesktopResolution();
+		tempDevice->closeDevice();
+		tempDevice->drop();
+	}
+
 	devices = new CDevices();
 	devices->createDevice(params);
     

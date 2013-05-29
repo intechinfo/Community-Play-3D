@@ -18,6 +18,7 @@ CDevices::CDevices() {
 
     //RENDERS
     effect = 0;
+	renderCallbacks = 0;
 
 	renderScene = true;
 
@@ -38,6 +39,7 @@ CDevices::CDevices() {
 	skybox = 0;
 
 	sceneManagerToDrawIndice = 0;
+
 }
 
 CDevices::~CDevices() {
@@ -201,6 +203,8 @@ void CDevices::reupdate() {
 
 void CDevices::drawScene() {
 	if (renderXEffect) {
+		matrix4 viewProj;
+		smgrs[sceneManagerToDrawIndice]->drawAll();
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 		effect->update();
     } else {
@@ -302,8 +306,11 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setUseMotionBlur(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
+	effect->enableDepthPass(true);
 
-	effect->addShadowToNode(objPlacement->getGridSceneNode(), EFT_NONE, ESM_EXCLUDE);
+	renderCallbacks = new CRenderCallbacks(effect, workingDirectory);
+
+	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_EXCLUDE);
 
 	//FINISH WITH EVENTS
     receiver.AddEventReceiver(objPlacement);

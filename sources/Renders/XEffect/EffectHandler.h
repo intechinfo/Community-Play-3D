@@ -470,8 +470,9 @@ public:
 
 		if(i != -1)
 		{
-			if(PostProcessingRoutines[i].renderCallback)
+			if(PostProcessingRoutines[i].renderCallback) {
 				delete PostProcessingRoutines[i].renderCallback;
+			}
 
 			PostProcessingRoutines.erase(i);
 		}
@@ -498,7 +499,7 @@ public:
 	/// See addPostProcessingEffect for more info.
 	/// Returns the Irrlicht material type of the post processing effect.
 	irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename,
-		IPostProcessingRenderCallback* callback = 0);
+		IPostProcessingRenderCallback* callback = 0, bool pushFront=false);
 
 	/// Sets a shader parameter for a post-processing effect. The first parameter is the material type, the second
 	/// is the uniform paratmeter name, the third is a float pointer that points to the data and the last is the
@@ -592,6 +593,7 @@ private:
 		ScreenQuadCB* callback;
 		IPostProcessingRenderCallback* renderCallback;
 		irr::s32 materialType;
+		irr::core::array<irr::video::ITexture *> textures;
 	};
 
 	SPostProcessingPair obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename, 

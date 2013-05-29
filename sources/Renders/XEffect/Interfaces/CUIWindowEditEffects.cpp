@@ -21,11 +21,10 @@ CUIWindowEditEffects::~CUIWindowEditEffects() {
 }
 
 void CUIWindowEditEffects::open() {
-    
+
     //-----------------------------------
     //MAIN WINDOW
-    effectsWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(400, 50, 1000, 550),
-                                                            false, L"Shaders Edition Window", 0, -1);
+    effectsWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(10, 20, 1030, 610), false, L"Shaders Edition Window", 0, -1);
     //effectsWindow->getCloseButton()->remove();
 	effectsWindow->getMaximizeButton()->setVisible(true);
 	effectsWindow->getMinimizeButton()->setVisible(true);
@@ -46,9 +45,9 @@ void CUIWindowEditEffects::open() {
     enableDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassEnabled(), rect<s32>(10, 50, 160, 70), effectsWindow, 
                                                                 -1, L"Enable Depth Pass");
     
-	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 580, 270), effectsWindow, -1);
+	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 500, 430), effectsWindow, -1);
 	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
-	viewPort->setScaleImage(false);
+	viewPort->setScaleImage(true);
     /*viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
                                 rect<s32>(10, 70, 580, 270));
     if (viewPort) {
@@ -56,25 +55,21 @@ void CUIWindowEditEffects::open() {
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
     }*/
     
-    devices->getGUIEnvironment()->addStaticText(L"Shaders :", rect<s32>(10, 280, 110, 300), false, true, effectsWindow, -1, false);
+    devices->getGUIEnvironment()->addStaticText(L"Shaders :", rect<s32>(510, 50, 610, 70), false, true, effectsWindow, -1, false);
     
-    oglAdd = devices->getGUIEnvironment()->addButton(rect<s32>(300, 280, 320, 300), effectsWindow, -1, L"+", L"Add a shader");
-    oglRemove = devices->getGUIEnvironment()->addButton(rect<s32>(270, 280, 290, 300), effectsWindow, -1, L"-", L"Add a shader");
+    oglAdd = devices->getGUIEnvironment()->addButton(rect<s32>(630, 50, 650, 70), effectsWindow, -1, L"+", L"Add a shader");
+    oglRemove = devices->getGUIEnvironment()->addButton(rect<s32>(610, 50, 630, 70), effectsWindow, -1, L"-", L"Add a shader");
     
-    shadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 310, 320, 490), effectsWindow, -1, true);
+    shadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(510, 70, 1010, 270), effectsWindow, -1, true);
     
-    active = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(330, 320, 400, 340), effectsWindow, 
-                                                       -1, L"Active");
-    
-    editCallBack = devices->getGUIEnvironment()->addButton(rect<s32>(410, 320, 510, 340), effectsWindow, -1, L"Edit CallBack", 
-                                                           L"Edit The CallBack Of The Shader");
+    active = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(940, 50, 1010, 70), effectsWindow, -1, L"Active");
 
-    close = devices->getGUIEnvironment()->addButton(rect<s32>(484, 463, 584, 493), effectsWindow, -1, L"Close", L"Close the window");
+    close = devices->getGUIEnvironment()->addButton(rect<s32>(910, 550, 1010, 580), effectsWindow, -1, L"Close", L"Close the window");
     
     if (devices->getCoreData()->getEffectRenders()->size() == 0) {
-        editCallBack->setEnabled(false);
         active->setEnabled(false);
     }
+
     for (u32 i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
 		stringw name = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
 		stringw windowsName = devices->getWorkingDirectory().c_str();
@@ -87,51 +82,32 @@ void CUIWindowEditEffects::open() {
 
     //-----------------------------------
     //CALLBACKS WINDOW
-    editionWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(490, 210, 905, 640),
-                                                            false, L"Callbacks Edition Window", 0, -1);
+    editionWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(510, 280, 1010, 540), false, L"Callbacks Edition Window", effectsWindow, -1);
     editionWindow->getCloseButton()->remove();
-    editionWindow->setVisible(false);
+	editionWindow->setDraggable(false);
+	editionWindow->setDrawTitlebar(false);
 
-	effectsWindow->addChild(editionWindow);
-	editionWindow->setRelativePosition(position2di(30, 60));
-    
     //PIXEL SHADERS
     pEditWindow = devices->getGUIEnvironment()->addButton(rect<s32>(130, 30, 200, 50), editionWindow, -1, L"Edit", L"Edit Window For complex scripts");
     devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Values", rect<s32>(5, 30, 130, 50), false, true, editionWindow, -1, false);
-    //pApplyButton = devices->getGUIEnvironment()->addButton(rect<s32>(120, 30, 190, 50), editionWindow, -1, L"Apply", L"Apply all pixel constants");
     
     devices->getGUIEnvironment()->addStaticText(L"Value :", rect<s32>(5, 60, 55, 80), false, true, editionWindow, -1, false);
-    pvalue = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(45, 60, 195, 80), true, editionWindow, -1);
+	pvalue = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(45, 60, editionWindow->getRelativePosition().getWidth()-5, 80), true, editionWindow, -1);
     pvalue->setMultiLine(true);
     devices->getGUIEnvironment()->addStaticText(L"Name :", rect<s32>(5, 90, 55, 110), false, true, editionWindow, -1, false);
-    pname = devices->getGUIEnvironment()->addEditBox(L"No Name", rect<s32>(45, 90, 195, 110), true, editionWindow, -1);
+    pname = devices->getGUIEnvironment()->addEditBox(L"No Name", rect<s32>(45, 90, editionWindow->getRelativePosition().getWidth()-5, 110), true, editionWindow, -1);
     
     pAdd = devices->getGUIEnvironment()->addButton(rect<s32>(10, 120, 80, 140), editionWindow, -1, L"Add", L"Add a constant");
     pRemove = devices->getGUIEnvironment()->addButton(rect<s32>(95, 120, 175, 140), editionWindow, -1, L"Remove", L"Remove the selected constant");
     
-    pList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 150, 200, 380), editionWindow, -1, true);
+    pList = devices->getGUIEnvironment()->addListBox(rect<s32>(10, 150, editionWindow->getRelativePosition().getWidth()-5,
+															   editionWindow->getRelativePosition().getHeight()-15), editionWindow, 
+													 -1, true);
     
     pvalue->setEnabled(false);
     pname->setEnabled(false);
     
     complexEditWindow = 0;
-    
-    //VERTEX SHADERS
-    devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Values", rect<s32>(205, 30, 395, 50), false, true, editionWindow, -1, false);
-    //vApplyButton = devices->getGUIEnvironment()->addButton(rect<s32>(330, 30, 400, 50), editionWindow, -1, L"Apply", L"Apply all vertex constants");
-    
-    devices->getGUIEnvironment()->addStaticText(L"Value :", rect<s32>(205, 60, 255, 80), false, true, editionWindow, -1, false);
-    vvalue = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(245, 60, 395, 80), true, editionWindow, -1);
-    devices->getGUIEnvironment()->addStaticText(L"Name :", rect<s32>(205, 90, 255, 110), false, true, editionWindow, -1, false);
-    vname = devices->getGUIEnvironment()->addEditBox(L"No Name", rect<s32>(245, 90, 395, 110), true, editionWindow, -1);
-    
-    vAdd = devices->getGUIEnvironment()->addButton(rect<s32>(210, 120, 290, 140), editionWindow, -1, L"Add", L"Add a constant");
-    vRemove = devices->getGUIEnvironment()->addButton(rect<s32>(300, 120, 380, 140), editionWindow, -1, L"Remove", L"Remove the selected constant");
-    
-    vList = devices->getGUIEnvironment()->addListBox(rect<s32>(205, 150, 395, 380), editionWindow, -1, true);
-    
-    //CLOSE BUTTON
-    closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(300, 390, 400, 420), editionWindow, -1, L"Close", L"Close this window");
     
     //-----------------------------------
     
@@ -187,6 +163,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
+			//MAIN WINDOW
 			if (event.GUIEvent.Caller == effectsWindow->getMinimizeButton()) {
 				devices->getEventReceiver()->AddMinimizedWindow(this, effectsWindow);
 			}
@@ -201,7 +178,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     shadersList->removeItem(shadersList->getSelected());
                     
                     if (shadersList->getItemCount() == 0) {
-                        editCallBack->setEnabled(false);
                         active->setEnabled(false);
                     }
                 } else {
@@ -221,51 +197,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 effectsWindow->remove();
                 devices->getEventReceiver()->RemoveEventReceiver(this);
                 delete this;
-            }
-
-            if (event.GUIEvent.Caller == editCallBack) {
-                s32 selected = -1;
-                if (shadersList->getSelected() != -1) {
-					selected = shadersList->getSelected();
-                    editionWindow->setVisible(true);
-                    editionWindow->setDrawBackground(true);
-                    pList->clear();
-                    for (u32 i=0; i < devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->size(); i++) {
-                        stringw name = L"";
-                        name += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](i).c_str();
-                        pList->addItem(name.c_str());
-                    }
-                    pname->setText(L"No Name");
-                    pvalue->setText(L"0.0");
-                    
-                    if (pList->getItemCount() == 0) {
-                        pname->setEnabled(false);
-                        pvalue->setEnabled(false);
-                    } else {
-                        pname->setEnabled(true);
-                        pvalue->setEnabled(true);
-                        pList->setSelected(0);
-                        
-                        stringw text = L"";
-                        text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](pList->getSelected());
-                        pname->setText(text.c_str());
-                        
-                        stringw value = L"";
-                        value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected());
-                        pvalue->setText(value.c_str());
-                    }
-                    shadersList->setEnabled(false);
-                    editCallBack->setEnabled(false);
-                } else {
-                    devices->addInformationDialog(L"Information",
-                                                  L"Please select an item in the list before.", EMBF_OK);
-                }
-            }
-            
-            if (event.GUIEvent.Caller == closeButton) {
-                editionWindow->setVisible(false);
-                shadersList->setEnabled(true);
-                editCallBack->setEnabled(true);
             }
             
             //EDIT CALLBACKS
@@ -319,7 +250,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     devices->addInformationDialog(L"Information", L"Please Select a value before.", EMBF_OK);
                 }
             }
-            
+
             if (event.GUIEvent.Caller == complexClose) {
                 complexEditWindow->remove();
             }
@@ -396,8 +327,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
                 devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
                 shadersList->addItem(name.c_str());
-                
-                editCallBack->setEnabled(true);
+
                 active->setEnabled(true);
                 
                 openingShader = false;
@@ -414,6 +344,34 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     active->setChecked(true);
                 } else {
                     active->setChecked(false);
+                }
+				u32 selected = shadersList->getSelected();
+                editionWindow->setVisible(true);
+                editionWindow->setDrawBackground(true);
+                pList->clear();
+                for (u32 i=0; i < devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->size(); i++) {
+                    stringw name = L"";
+                    name += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](i).c_str();
+                    pList->addItem(name.c_str());
+                }
+                pname->setText(L"No Name");
+                pvalue->setText(L"0.0");
+                    
+                if (pList->getItemCount() == 0) {
+                    pname->setEnabled(false);
+                    pvalue->setEnabled(false);
+                } else {
+                    pname->setEnabled(true);
+                    pvalue->setEnabled(true);
+                    pList->setSelected(0);
+                        
+                    stringw text = L"";
+                    text += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValuesNames()->operator[](pList->getSelected());
+                    pname->setText(text.c_str());
+                        
+                    stringw value = L"";
+                    value += devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected());
+                    pvalue->setText(value.c_str());
                 }
             }
             

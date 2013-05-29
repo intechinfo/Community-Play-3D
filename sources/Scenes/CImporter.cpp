@@ -882,12 +882,22 @@ void CImporter::buildObject() {
 		readTransformations(node);
 		readViewModes(node);
 
+		array<CAction *> actions;
+		read("actions");
+		while (element == "action") {
+			CAction *action = new CAction();
+			action->setXMLValues(xmlReader);
+			actions.push_back(action);
+			readWithNextElement("action", "actions");
+		}
+
 		if (path == "sphere") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
 		} else {
 			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
 		}
         SObjectsData odata(mesh, node, path);
+		odata.setActions(actions);
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}
 }

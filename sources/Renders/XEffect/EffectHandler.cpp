@@ -604,11 +604,16 @@ void EffectHandler::setPostProcessingEffectConstant(const irr::s32 materialType,
 
 
 s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& filename,
-                                                   IPostProcessingRenderCallback* callback)
+                                                   IPostProcessingRenderCallback* callback,
+												   bool pushFront)
 {
 	SPostProcessingPair pPair = obtainScreenQuadMaterialFromFile(filename);
 	pPair.renderCallback = callback;
-	PostProcessingRoutines.push_back(pPair);
+
+	if (!pushFront)
+		PostProcessingRoutines.push_back(pPair);
+	else
+		PostProcessingRoutines.push_front(pPair);
     
 	return pPair.materialType;
 }
