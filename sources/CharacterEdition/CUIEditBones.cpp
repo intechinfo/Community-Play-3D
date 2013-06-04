@@ -10,11 +10,18 @@
 #include "CUIEditBones.h"
 
 CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
+	//DEVICES
 	devices = _devices;
 	driver = devices->getVideoDriver();
 	smgr = devices->getSceneManager();
 	gui = devices->getGUIEnvironment();
 
+	//EFFECT
+	effect = new EffectHandler(devices->getDevice(), devices->getDevice()->getVideoModeList()->getDesktopResolution(), true, true, true);
+	effect->setActiveSceneManager(smgr);
+	effect->addShadowToNode(_node, devices->getXEffectFilterType(), ESM_BOTH);
+
+	//NODES
 	node = _node;
 
 	node->animateJoints(true);
@@ -25,6 +32,7 @@ CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
 	bonesListBox = 0;
 	bonesWindow = 0;
 
+	//GUI
 	selectedAnimation = 0;
 	selectedFrame = 0;
 	selectedManualAction = 0;
@@ -158,7 +166,7 @@ void CUIEditBones::open() {
 
 void CUIEditBones::update() {
 	while (updateView) {
-		devices->reupdate();
+		devices->reupdate(effect);
 	}
 }
 

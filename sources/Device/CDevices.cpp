@@ -193,11 +193,21 @@ void CDevices::updateDevice() {
 
 }
 
-void CDevices::reupdate() {
+void CDevices::reupdate(EffectHandler *_effect) {
 	if (Device->run()) {
+
+		EffectHandler *tempEffect = effect;
+		if (_effect) {
+			effect = _effect;
+		}
+
 		driver->beginScene(true, true, SColor(0x0));
 		updateDevice();
 		driver->endScene();
+
+		if (_effect) {
+			effect = tempEffect;
+		}
 	}
 }
 

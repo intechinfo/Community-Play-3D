@@ -33,6 +33,7 @@ private:
 	//-----------------------------------
 	//DEVICE ELEMENTS
 	CDevices *devices;
+	EffectHandler *effect;
 
 	IVideoDriver *driver;
 	ISceneManager *smgr;

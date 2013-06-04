@@ -57,15 +57,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\libs\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\Device\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\libs\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\libs\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SSWECore.lib;SSWELib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\libs\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWECore.lib;SSWELib.lib;SSWERenders.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,8 +92,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CCoreDataTests.cpp" />
-    <ClCompile Include="CCoreTests.cpp" />
+    <ClCompile Include="CImporterTests.cpp" />
+    <ClCompile Include="SSWECore\CCoreDataTests.cpp" />
+    <ClCompile Include="SSWECore\CCoreTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

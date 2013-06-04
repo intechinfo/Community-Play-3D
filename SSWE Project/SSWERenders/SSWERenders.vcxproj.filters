@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp">
       <Filter>Renders\XEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp">
+      <Filter>Renders\PostProcessor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWERenders.h">
