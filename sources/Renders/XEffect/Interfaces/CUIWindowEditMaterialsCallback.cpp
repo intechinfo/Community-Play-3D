@@ -10,6 +10,9 @@
 
 CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_devices) {
 	devices = _devices;
+	editWaterAddon = NULL;
+	waterSurface = NULL;
+	waterSurfaceData = NULL;
 
 	//-----------------------------------
 	//GET DATAS
@@ -142,12 +145,11 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     previewNodeChoice->addItem(L"Sphere");
 	previewNodeChoice->addItem(L"Current Scene");
                 
-    closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", 
-                                                                        L"Close Window");
+    closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", L"Close Window");
 
-	if(waterSurface != NULL)
+	if(waterSurfaceData != NULL)
 	{
-		editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, rect<s32>(0,0,100,100));
+		editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, rect<s32>(this->getSize().UpperLeftCorner.X,this->getSize().UpperLeftCorner.Y + this->getSize().getHeight(),100,100));
 	}
 
     //FILL VERTEX AND PIXEL SHADER TYPES COMBO BOXES
