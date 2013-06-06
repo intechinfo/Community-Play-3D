@@ -104,7 +104,7 @@ public:
 	ISceneNode *getCursor() { return cursorBillBoard; }
 
 	void updateDevice();
-	void reupdate();
+	void reupdate(EffectHandler *_effect = 0);
 
 	stringw getProjectName() { return projectName; }
 	void setProjectName(stringw _projectName) { projectName = _projectName; }

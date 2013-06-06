@@ -116,6 +116,7 @@
     <ClInclude Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\CShaderPre.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp" />
     <ClCompile Include="SSWERenders.cpp" />

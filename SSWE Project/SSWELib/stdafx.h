@@ -5,6 +5,7 @@
 #pragma once
 
 #include <irrlicht.h>
+
 #include <SSWECore.h>
 
 #include "../../sources/Device/CDevices.h"

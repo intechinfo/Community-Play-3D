@@ -1,0 +1,81 @@
+#include "stdafx.h"
+#include "ScreenSpaceAmbientOcclusion.h"
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------SSAO------------------------------------------------------
+//---------------------------------------------------------------------------------------------
+SSAORenderCallback::SSAORenderCallback(irr::s32 materialTypeIn) { 
+	materialType = materialTypeIn; 
+}
+
+SSAORenderCallback::~SSAORenderCallback() { 
+	
+}
+
+void SSAORenderCallback::OnPostRender(EffectHandler* effect) {
+
+}
+
+void SSAORenderCallback::OnPreRender(EffectHandler* effect) {
+	irr::video::IVideoDriver* driver = effect->getIrrlichtDevice()->getVideoDriver();
+	viewProj = driver->getTransform(irr::video::ETS_PROJECTION) * driver->getTransform(irr::video::ETS_VIEW);
+	effect->setPostProcessingEffectConstant(materialType, "mViewProj", viewProj.pointer(), 16);
+}
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------RENDER CALLBACKS------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+CRenderCallbacks::CRenderCallbacks(EffectHandler *effect, irr::core::stringc workingDir = "") {
+	reffect = effect;
+	randVecTexture = 0;
+	reffect->setPostProcessingUserTexture(randVecTexture);
+
+	workingDirirectory = workingDir;
+
+	ssaoRenderCallback = 0;
+}
+
+CRenderCallbacks::~CRenderCallbacks() {
+	reffect->setPostProcessingUserTexture(0);
+	reffect->getIrrlichtDevice()->getVideoDriver()->removeTexture(0);
+
+	removeSSAO();
+}
+
+//SSAO
+irr::core::array<irr::s32> CRenderCallbacks::buildSSAO(irr::core::stringc ext) {
+
+	if (!randVecTexture) {
+		randVecTexture = reffect->generateRandomVectorTexture(irr::core::dimension2du(4096, 4096));
+	}
+
+	SSAO = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAO") + ext, 0, false);
+	BlurH = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurHP") + ext, 0, false);
+	BlurV = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurVP") + ext, 0, false);
+	SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAOCombine") + ext, 0, false);
+
+	ssaoRenderCallback = new SSAORenderCallback(SSAO);
+	reffect->setPostProcessingRenderCallback(SSAO, ssaoRenderCallback);
+
+	irr::core::array<irr::s32> materialTypes;
+	materialTypes.push_back(SSAO);
+	materialTypes.push_back(BlurH);
+	materialTypes.push_back(BlurV);
+	materialTypes.push_back(SSAOCombine);
+
+	return materialTypes;
+}
+
+void CRenderCallbacks::removeSSAO() {
+	reffect->removePostProcessingEffect(SSAO);
+	reffect->removePostProcessingEffect(BlurH);
+	reffect->removePostProcessingEffect(BlurV);
+	reffect->removePostProcessingEffect(SSAOCombine);
+
+	reffect->setPostProcessingUserTexture(0);
+
+	reffect->getIrrlichtDevice()->getVideoDriver()->removeTexture(randVecTexture);
+	ssaoRenderCallback = 0;
+	randVecTexture = 0;
+}
