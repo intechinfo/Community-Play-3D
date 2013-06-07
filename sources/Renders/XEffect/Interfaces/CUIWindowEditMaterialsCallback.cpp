@@ -11,7 +11,6 @@
 CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_devices) {
 	devices = _devices;
 	editWaterAddon = NULL;
-	waterSurface = NULL;
 	waterSurfaceData = NULL;
 
 	//-----------------------------------
@@ -35,6 +34,7 @@ CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {
 }
 
 void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
+	
 	callback = _callback;
 
 	if (callback == 0) {
@@ -147,9 +147,10 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
                 
     closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", L"Close Window");
 
-	if(waterSurfaceData != NULL)
+	if(waterSurfaceData != NULL && editWaterAddon == NULL)
 	{
-		editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, rect<s32>(this->getSize().UpperLeftCorner.X,this->getSize().UpperLeftCorner.Y + this->getSize().getHeight(),100,100));
+		editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, this->getSize());
+		//editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, rect<s32>(editMaterialWindow->getAbsolutePosition().UpperLeftCorner.X, editMaterialWindow->getAbsolutePosition().UpperLeftCorner.Y + editMaterialWindow->getAbsolutePosition().getHeight(), editMaterialWindow->getAbsolutePosition().UpperLeftCorner.X + 200, editMaterialWindow->getAbsolutePosition().UpperLeftCorner.Y + editMaterialWindow->getAbsolutePosition().getHeight() + 90));
 	}
 
     //FILL VERTEX AND PIXEL SHADER TYPES COMBO BOXES
@@ -481,5 +482,4 @@ SWaterSurfacesData *CUIWindowEditMaterialsCallback::getWaterSurfaceData()
 void CUIWindowEditMaterialsCallback::setWaterSurfaceData(SWaterSurfacesData *_waterSurfaceData)
 {
 	waterSurfaceData = _waterSurfaceData;
-	waterSurface = waterSurfaceData->getWaterSurface();
 }

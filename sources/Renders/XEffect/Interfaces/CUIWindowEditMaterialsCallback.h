@@ -58,7 +58,6 @@ private:
 	ISceneNode *previewNode;
 	IAnimatedMesh *planeMesh;
 	SWaterSurfacesData *waterSurfaceData;
-	CWaterSurface *waterSurface;
 	//-----------------------------------
 
 	//-----------------------------------
