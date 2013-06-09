@@ -25,12 +25,12 @@ class SSWE_RENDERS_API CRenderCallbacks {
 
 public:
 
-		CRenderCallbacks(EffectHandler *effect, irr::core::stringc workingDir);
+		CRenderCallbacks(EffectHandler *effect, irr::core::stringc ext=".hlsl", irr::core::stringc workingDir="");
 
 		~CRenderCallbacks();
 
 		//SSAO
-		irr::core::array<irr::s32> buildSSAO(irr::core::stringc ext);
+		irr::core::array<irr::s32> buildSSAO();
 		void removeSSAO();
 		SSAORenderCallback *getSSAORenderCallback() { return ssaoRenderCallback; }
 
@@ -41,7 +41,9 @@ private:
 	irr::video::ITexture *randVecTexture;
 	irr::core::matrix4 viewProj;
 	EffectHandler *reffect;
+
 	irr::core::stringc workingDirirectory;
+	irr::core::stringc extention;
 
 	//SSAO
 	irr::s32 SSAO;

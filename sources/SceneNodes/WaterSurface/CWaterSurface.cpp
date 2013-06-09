@@ -30,7 +30,7 @@ CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITextu
 	} else {
 		waterMesh = mesh;
 	}
-    
+
 	waterNode = SceneManager->addAnimatedMeshSceneNode(waterMesh, this);
 	waterNode->setMesh(waterMesh);
 
@@ -38,7 +38,7 @@ CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITextu
 	waterNode->setMaterialTexture(0, refRTT);
 	waterNode->setMaterialTexture(1, driver->getTexture(workingDirectory + "shaders/Textures/Water/waterNormal.png"));
 	waterNode->setMaterialTexture(2, driver->getTexture(workingDirectory + "shaders/Textures/Water/waterDUDV.png"));
-    
+
     setPosition(vector3df(0, 0, 0));
     setSinWaveEnabled(SinWave);
     setRefractionEnabled(Refraction);
@@ -51,6 +51,7 @@ CWaterSurface::CWaterSurface(irr::scene::ISceneManager* smgr, irr::video::ITextu
 CWaterSurface::~CWaterSurface() {
     if (refCam)    { refCam->remove();    }
     if (waterNode) { waterNode->remove(); }
+	if (refRTT) { driver->removeTexture(refRTT); }
 }
 
 void CWaterSurface::OnRegisterSceneNode() {

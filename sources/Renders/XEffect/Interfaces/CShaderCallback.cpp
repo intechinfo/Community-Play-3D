@@ -127,7 +127,8 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
 				} else {
 					for (irr::u32 i=0; i < matrixes4_c.size(); i++) {
 						if (matrixes4_c[i].c_str() == sub) {
-							newMat = matrixes4[i];
+							if (i < matrixes4.size())
+								newMat = matrixes4[i];
 						}
 					}
 				}
@@ -143,7 +144,8 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             } else if (sub != "dontMakeInverse") {
                 for (irr::u32 i=0; i < matrixes4_c.size(); i++) {
                     if (matrixes4_c[i].c_str() == sub) {
-                        myMatrix *= matrixes4[i];
+						if (i < matrixes4.size())
+							myMatrix *= matrixes4[i];
                     }
                 }
             }
@@ -232,7 +234,7 @@ void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
 }
 
 void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData) {
-    
+
     buildConstants(services->getVideoDriver());
     
     for (int i=0; i < integers.size(); i++) {

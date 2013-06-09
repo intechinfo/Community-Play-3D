@@ -177,10 +177,10 @@ struct SObjectsData {
 	void setMesh(IMesh *_mesh) { mesh = _mesh; }
 	void setNode(ISceneNode *_node) { node = _node; }
 	void setPath(stringw _path) { path = _path; }
-	void setActions(array<CAction *> _actions) {
+	void setActions(array<CAction *> *_actions) {
 		actions.clear();
-		for (u32 i=0; i < _actions.size(); i++) {
-			actions.push_back(_actions[i]);
+		for (u32 i=0; i < _actions->size(); i++) {
+			actions.push_back(_actions->operator[](i));
 		}
 	}
 
@@ -307,6 +307,7 @@ public:
 	array<ISceneNode *> getArrayOfObjectNodes();
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfVolumeLightNodes();
+	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
 	//-----------------------------------
 
 	//-----------------------------------

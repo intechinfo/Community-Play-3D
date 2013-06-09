@@ -6,5 +6,7 @@
 #pragma once
 
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme
+#include <irrlicht.h>
+
 #include <SSWELib.h>
 #include <SSWECore.h>

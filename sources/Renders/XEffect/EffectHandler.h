@@ -386,6 +386,8 @@ public:
 	/// A render target may be passed as the output target, else rendering will commence on the backbuffer.
 	void update(irr::video::ITexture* outputTarget = 0);
 
+	void updateEffect();
+
 	/// Adds a shadow to the scene node. The filter type specifies how many shadow map samples
 	/// to take, a higher value can produce a smoother or softer result. The shadow mode can
 	/// be either ESM_BOTH, ESM_CAST, or ESM_RECEIVE. ESM_BOTH casts and receives shadows,
@@ -510,7 +512,7 @@ public:
 
 	/// Returns the screen quad scene node. This is not required in any way, but some advanced users may want to adjust
 	/// its material settings accordingly.
-	const CScreenQuad& getScreenQuad() 
+	CScreenQuad getScreenQuad() 
 	{
 		return ScreenQuad;
 	}

@@ -171,6 +171,16 @@ array<ISceneNode *> CCoreData::getArrayOfVolumeLightNodes() {
 	return nodes;
 }
 
+array<ISceneNode *> CCoreData::getArrayOfWaterSurfaceNodes() {
+	array<ISceneNode *> nodes;
+
+	for (u32 i=0; i < waterSurfaces.size(); i++) {
+		nodes.push_back(waterSurfaces[i].getNode());
+	}
+
+	return nodes;
+}
+
 //---------------------------------------------------------------------------------------------
 //----------------------------------IRRLICHT NODES---------------------------------------------
 //---------------------------------------------------------------------------------------------

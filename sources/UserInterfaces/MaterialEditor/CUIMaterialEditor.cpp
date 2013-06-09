@@ -119,7 +119,9 @@ void CUIMaterialEditor::open(ISceneNode *node) {
 	//meWindow->getCloseButton()->remove();
 	meWindow->getMinimizeButton()->setVisible(true);
 	meWindow->getMaximizeButton()->setVisible(true);
+
 	mtFactory->setParentGUIElement(meWindow);
+	mtFactory->setSceneNode(node);
     
     //CONTEXT MENU
     menu = gui->addMenu(meWindow);
@@ -247,7 +249,7 @@ void CUIMaterialEditor::updateElementsPositionsI(IGUIScrollBar *scroolbar) {
 	u32 j = 0;
 	for (; element != tab->getChildren().end(); ++element) {
 		IGUIElement *it = (IGUIElement *)*element;
-		if (it != scroolbar && it->getType() != EGUIET_FILE_OPEN_DIALOG) {
+		if (it != scroolbar && it->getType() != EGUIET_FILE_OPEN_DIALOG && it->getType() != EGUIET_WINDOW) {
 			it->setRelativePosition(position2di(initialElementsPosition[tab->getNumber()][j].X, 
 												initialElementsPosition[tab->getNumber()][j].Y - scroolbar->getPos()));
 		}
@@ -281,10 +283,12 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 			if (tempMenu == menu->getSubMenu(2)) {
 				s32 id = tempMenu->getItemCommandId(tempMenu->getSelectedItem());
 				if (id == 1) {
-					mtFactory->setCreateAllTextureLayer2NormalMapped(nodeToEdit);
+					std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
+					scatl.detach();
 				}
 				if (id == 2) {
-					mtFactory->setAllTextureLayer2NormalMapped(nodeToEdit, 9.0f);
+					std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
+					satlnm.detach();
 				}
 				update();
 			}
@@ -359,7 +363,8 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 			IGUITab *currentTab = tabctrl->getTab(tabctrl->getActiveTab());
 			if (devices->getGUIEnvironment()->getFocus()) {
 				IGUIElement *focus = devices->getGUIEnvironment()->getFocus();
-				if (focus->getParent() == currentTab || focus == currentTab) {
+				//if (focus->getParent() == currentTab || focus == currentTab) {
+				if (focus == currentTab || (focus->getParent() == currentTab && focus->getType() == EGUIET_STATIC_TEXT)) {
 					core::list<IGUIElement *>::ConstIterator elements = currentTab->getChildren().begin();
 					for (; elements != currentTab->getChildren().end(); ++elements) {
 						for (u32 sci=0; sci < scbars.size(); sci++) {

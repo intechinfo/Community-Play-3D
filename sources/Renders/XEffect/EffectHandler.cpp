@@ -250,6 +250,9 @@ void EffectHandler::removeNodeFromDepthPass(irr::scene::ISceneNode *node)
 		DepthPassArray.erase(i);
 }
 
+void EffectHandler::updateEffect() {
+	update();
+}
 
 void EffectHandler::update(irr::video::ITexture* outputTarget)
 {
@@ -610,10 +613,11 @@ s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& fil
 	SPostProcessingPair pPair = obtainScreenQuadMaterialFromFile(filename);
 	pPair.renderCallback = callback;
 
-	if (!pushFront)
-		PostProcessingRoutines.push_back(pPair);
-	else
+	if (pushFront) {
 		PostProcessingRoutines.push_front(pPair);
+	} else {
+		PostProcessingRoutines.push_front(pPair);
+	}
     
 	return pPair.materialType;
 }

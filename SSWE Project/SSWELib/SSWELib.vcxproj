@@ -141,7 +141,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\Device\CDevices.cpp" />
     <ClCompile Include="..\..\sources\Device\Core\CCoreUserInterface.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
+    <ClCompile Include="..\..\sources\GUIExtension\Graph2D\GraphKat.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
+    <ClCompile Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp" />
@@ -198,7 +200,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\Device\CDevices.h" />
     <ClInclude Include="..\..\sources\Device\Core\CCoreUserInterface.h" />
     <ClInclude Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.h" />
+    <ClInclude Include="..\..\sources\GUIExtension\Graph2D\GraphKat.h" />
     <ClInclude Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
+    <ClInclude Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.h" />
     <ClInclude Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.h" />
     <ClInclude Include="..\..\sources\GUIExtension\ViewPort\IGUIViewPort.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.h" />

@@ -24,6 +24,10 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
+	driver->beginScene(true, true, SColor(0x0));
+	driver->endScene();
+	coreUserInterface->getDevices()->getDevice()->maximizeWindow();
+
 	while (device->run()) {
 
         if (device->isWindowActive()) {

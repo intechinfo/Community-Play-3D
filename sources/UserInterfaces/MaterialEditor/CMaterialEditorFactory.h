@@ -11,6 +11,8 @@
 
 #include "../../Device/CDevices.h"
 
+#include "../../GUIExtension/ProgressBar/ProgressBar.h"
+
 class CMaterialEditorFactory {
   
 public:
@@ -24,10 +26,12 @@ public:
 	//METHODS
 	void reupdateTreeView(ISceneNode *node, IGUITreeView *materialsList, IGUITreeViewNode *rootTreeViewNode, IGUIImageList *imageList);
 
-	void setCreateAllTextureLayer2NormalMapped(ISceneNode *node);
-	void setAllTextureLayer2NormalMapped(ISceneNode *node, f32 factor);
+	void setCreateAllTextureLayer2NormalMapped();
+	void setAllTextureLayer2NormalMapped(f32 factor);
 
 	ITexture *copyTexture(stringc nameOfTexture, ITexture *texture);
+
+	void setSceneNode(ISceneNode *_node) { node = _node; }
 	//-----------------------------------
 
     
@@ -41,6 +45,8 @@ private:
     ISceneManager *smgr;
     IVideoDriver *driver;
     IGUIEnvironment *gui;
+
+	ISceneNode *node;
     //-----------------------------------
 };
 

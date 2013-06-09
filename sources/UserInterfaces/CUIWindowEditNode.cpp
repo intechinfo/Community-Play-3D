@@ -417,6 +417,13 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
     }
 }
 
+void CUIWindowEditNode::activateCloseButtons(bool activateCloseButton, bool activateWindowCloseButton) {
+	if (editWindow) {
+		closeButton->setVisible(activateCloseButton);
+		editWindow->getCloseButton()->setVisible(activateWindowCloseButton);
+	}
+}
+
 void CUIWindowEditNode::setMaterialTextures() {
     //LIGHTING
     if (nodeToEdit->getMaterial(materialsBar->getPos()).Lighting == true) {
@@ -511,7 +518,7 @@ void CUIWindowEditNode::setMaterialTextures() {
 void CUIWindowEditNode::createMaterialTypesComboBox(IGUIElement *element) {
     IGUIComboBox *comboBox = (IGUIComboBox *)element;
     
-    comboBox->addItem(L"SOLID");
+    /*comboBox->addItem(L"SOLID");
     comboBox->addItem(L"SOLID_2_LAYER");
     comboBox->addItem(L"LIGHTMAP");
     comboBox->addItem(L"LIGHTMAP_ADD");
@@ -535,7 +542,13 @@ void CUIWindowEditNode::createMaterialTypesComboBox(IGUIElement *element) {
     comboBox->addItem(L"PARALLAX_MAP_TRANSPARENT_ADD_COLOR");
     comboBox->addItem(L"PARALLAX_MAP_TRANSPARENT_VERTEX_ALPHA");
     comboBox->addItem(L"ONETEXTURE_BLEND");
-    comboBox->addItem(L"FORCE_32BIT");
+    comboBox->addItem(L"FORCE_32BIT");*/
+
+	for (u32 i=0; i < devices->getCore()->getNumberOfBuildInMaterialTypes(); i++) {
+		stringw name = sBuiltInMaterialTypeNames[i];
+		name.make_upper();
+		comboBox->addItem(name.c_str());
+	}
     
     // > 25
     for (u32 i=0; i < devices->getCoreData()->getShaderCallbacks()->size(); i++) {
@@ -1177,20 +1190,20 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
-                    if (generalMaterialCB->getSelected() <= 24) {
+                    if (generalMaterialCB->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
                         nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
                     } else {
-                        nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - 25)->getMaterial());
+						nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial());
                     }
-                    
+
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_MATERIAL_TYPE:
                     //nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
-                    if (materialType->getSelected() < 25) {
+                    if (materialType->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
                         nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
                     } else {
-                        nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](materialType->getSelected() - 25)->getMaterial();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](materialType->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial();
                     }
                     break;
                     
@@ -1219,11 +1232,14 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     break;
             }
 			if (event.GUIEvent.Caller == chooseSavedAnimation) {
-				if (actions.size() > 0 && drawAnimations->isChecked()) {
+				if (drawAnimations->isChecked()) {
 					IAnimatedMeshSceneNode *animatedNode = (IAnimatedMeshSceneNode *)nodeToEdit;
-					animatedNode->setFrameLoop(actions[chooseSavedAnimation->getSelected()]->getStart(),
-											   actions[chooseSavedAnimation->getSelected()]->getEnd());
-					animatedNode->setAnimationSpeed(actions[chooseSavedAnimation->getSelected()]->getAnimSpeed());
+					u32 i = devices->getCoreData()->getObjectNodeIndice(nodeToEdit);
+					if (i != -1) {
+						animatedNode->setFrameLoop(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getStart(),
+												   devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getEnd());
+					animatedNode->setAnimationSpeed(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getAnimSpeed());
+					}
 				}
 			}
         }
@@ -1232,10 +1248,8 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
             IGUIFileOpenDialog* dialog = (IGUIFileOpenDialog*)event.GUIEvent.Caller;
 			if (dialog == browseSavedAnimationDialog) {
-				for (u32 i=0; i < actions.size(); i++) {
-					delete actions[i];
-				}
-				actions.clear();
+				//DELETE OBJECT ANIMATIONS
+				array<CAction *> actions;
 				chooseSavedAnimation->clear();
 				IrrXMLReader *xmlReader = createIrrXMLReader(stringc(dialog->getFileName()).c_str());
 				if (xmlReader) {
@@ -1266,7 +1280,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 				if (nodeToEditPrefix == "#object") {
 					u32 i = devices->getCoreData()->getObjectNodeIndice(nodeToEdit);
 					if (i != -1) {
-						devices->getCoreData()->getObjectsData()->operator[](i).setActions(actions);
+						devices->getCoreData()->getObjectsData()->operator[](i).setActions(&actions);
 					}
 				}
 

@@ -26,12 +26,13 @@ void SSAORenderCallback::OnPreRender(EffectHandler* effect) {
 //-----------------------------------RENDER CALLBACKS------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-CRenderCallbacks::CRenderCallbacks(EffectHandler *effect, irr::core::stringc workingDir = "") {
+CRenderCallbacks::CRenderCallbacks(EffectHandler *effect, irr::core::stringc ext, irr::core::stringc workingDir) {
 	reffect = effect;
 	randVecTexture = 0;
 	reffect->setPostProcessingUserTexture(randVecTexture);
 
 	workingDirirectory = workingDir;
+	extention = ext;
 
 	ssaoRenderCallback = 0;
 }
@@ -44,16 +45,16 @@ CRenderCallbacks::~CRenderCallbacks() {
 }
 
 //SSAO
-irr::core::array<irr::s32> CRenderCallbacks::buildSSAO(irr::core::stringc ext) {
+irr::core::array<irr::s32> CRenderCallbacks::buildSSAO() {
 
 	if (!randVecTexture) {
-		randVecTexture = reffect->generateRandomVectorTexture(irr::core::dimension2du(4096, 4096));
+		randVecTexture = reffect->generateRandomVectorTexture(irr::core::dimension2du(512, 512));
 	}
 
-	SSAO = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAO") + ext, 0, false);
-	BlurH = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurHP") + ext, 0, false);
-	BlurV = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurVP") + ext, 0, false);
-	SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAOCombine") + ext, 0, false);
+	SSAO = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAO") + extention, 0, false);
+	BlurH = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurHP") + extention, 0, false);
+	BlurV = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurVP") + extention, 0, false);
+	SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAOCombine") + extention, 0, false);
 
 	ssaoRenderCallback = new SSAORenderCallback(SSAO);
 	reffect->setPostProcessingRenderCallback(SSAO, ssaoRenderCallback);

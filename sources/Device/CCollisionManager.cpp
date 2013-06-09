@@ -11,7 +11,7 @@
 
 CCollisionManager::CCollisionManager(ISceneManager *_smgr) {
     smgr = _smgr;
-    
+
     meta = smgr->createMetaTriangleSelector();
     animCollisions = 0;
 }
@@ -55,8 +55,7 @@ void CCollisionManager::createAnimatorCollisionCamera(ISceneNode *camera) {
     if (animCollisions) {
         camera->removeAnimator(animCollisions);
     }
-    animCollisions = smgr->createCollisionResponseAnimator(meta, camera, 
-														   vector3df(2.f, 2.5f, 2.f),
+    animCollisions = smgr->createCollisionResponseAnimator(meta, camera, vector3df(2.f, 72.5f, 2.f),
                                                            vector3df(0.f, -0.981f, 0.f), vector3df(0.f, 54.4f, 0.f));
     camera->addAnimator(animCollisions);
 }

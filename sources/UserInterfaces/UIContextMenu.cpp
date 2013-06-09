@@ -13,15 +13,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     devices = _devices;
     
     mainWindowInstance = new CUIMainWindow(devices);
-    
+
     sceneViewInstance = new CUISceneView(devices);
-    
+
     editGridInstance = new CUIWindowEditGrid(devices);
-    
+
     openSceneInstance = new CUIWindowOpenScene(devices);
-    
+
     exportSceneInstance = new CUIWindowExportScene(devices);
-    
+
     //-----------------------------------
     //MENU
     menu = devices->getGUIEnvironment()->addMenu();
@@ -44,6 +44,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Open a script (CTRL+O)", CXT_MENU_EVENTS_OPEN_SCRIPT);
+	submenu->addItem(L"Concat this scene with other...", CXT_MENU_EVENTS_FILE_CONCAT_SCENE_SCRIPT);
+	submenu->addSeparator();
 	submenu->addItem(L"Export this scene", CXT_MENU_EVENTS_FILE_EXPORT_SCENE);
 	submenu->addItem(L"Clean the scene", CXT_MENU_EVENTS_FILE_CLEAN_SCENE);
     submenu->addSeparator();
@@ -283,6 +285,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_OPEN_SCRIPT:
                     openSceneInstance->open();
                     break;
+
+				case CXT_MENU_EVENTS_FILE_CONCAT_SCENE_SCRIPT:
+					openSceneInstance->open();
+					break;
                     
                 case CXT_MENU_EVENTS_FILE_RENDER: {
                     CUIWindowRender *render = new CUIWindowRender(devices);
@@ -339,7 +345,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_GRID_SCENE_NODE:
                     editGridInstance->open();
                     break;
@@ -387,7 +393,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_VIEW_POINTCLOUD: {
 					ISceneNode *nodePointCloud = mainWindowInstance->getSelectedNode().getNode();
                     if (nodePointCloud) {
@@ -406,7 +412,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
                     break;
                 //-----------------------------------
-                
+
                 //-----------------------------------
                 //CONTEXT MENU RENDERS EVENT
                 case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
@@ -414,7 +420,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
 				case CXT_MENU_EVENTS_RENDERS_SSAO:
 					if (!devices->getRenderCallbacks()->getSSAORenderCallback()) {
-						devices->getRenderCallbacks()->buildSSAO(devices->getShaderExt());
+						devices->getRenderCallbacks()->buildSSAO();
 					} else {
 						devices->getRenderCallbacks()->removeSSAO();
 					}
@@ -430,7 +436,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
                     break;
                 //-----------------------------------
-                
+
                 //-----------------------------------
                 //CONTEXT MENU SHADERS EVENT
                 case CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER: {
@@ -439,7 +445,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
                     break;
                 //-----------------------------------
-                
+
                 //-----------------------------------
                 //CONTEXT MENU ANIMATED OBJECTS EVENT
                 case CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION: {
@@ -842,14 +848,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
 						ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode().getNode();
                         if (nodeWireFrame) {
-                            if (nodeWireFrame->getType() == ESNT_TERRAIN || nodeWireFrame->getType() == ESNT_OCTREE) {
-                                nodeWireFrame->setMaterialFlag(EMF_WIREFRAME, !nodeWireFrame->getMaterial(0).Wireframe);
-                                submenu = menu->getSubMenu(3);
-                                if (nodeWireFrame->getMaterial(0).Wireframe) {
-                                    submenu->setItemChecked(5, true);
-                                } else {
-                                    submenu->setItemChecked(5, false);
-                                }
+                            nodeWireFrame->setMaterialFlag(EMF_WIREFRAME, !nodeWireFrame->getMaterial(0).Wireframe);
+                            submenu = menu->getSubMenu(3);
+                            if (nodeWireFrame->getMaterial(0).Wireframe) {
+                                submenu->setItemChecked(5, true);
+                            } else {
+                                submenu->setItemChecked(5, false);
                             }
                         } else {
                             devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);

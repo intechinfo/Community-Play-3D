@@ -176,7 +176,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
         logListBox->addItem(text.c_str());
         logListBox->setSelected(logListBox->getItemCount());
     }
-    
+
     if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (!event.KeyInput.PressedDown) {
 			if (event.KeyInput.Key == KEY_ESCAPE) {
