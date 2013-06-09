@@ -49,6 +49,7 @@ CUIWindowEditWater::CUIWindowEditWater(SWaterSurfacesData *waterSurfaceData, CDe
 
 CUIWindowEditWater::~CUIWindowEditWater()
 {
+
 }
 
 bool CUIWindowEditWater::OnEvent(const SEvent &event)
