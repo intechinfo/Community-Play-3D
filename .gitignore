@@ -2937,3 +2937,161 @@ SSWE Project/SSWE/Output/worlds/project3.world
 SSWE Project/SSWE/Output/worlds/sponza.world
 SSWE Project/SSWE/Output/x/dwarf.x
 SSWE Project/SSWELib/SSWELib.vcxproj.filters.orig
+SSWE Project/SSWE/Output/GUI/sc.png
+SSWE Project/SSWE/Output/shaders/Example_Fresnel.cg
+SSWE Project/SSWE/Output/shaders/Materials/HDR/hdr.hlsl
+SSWE Project/SSWE/Output/shaders/Materials/HDR/hdrutils.hlsl
+SSWE Project/SSWE/Output/shaders/Materials/pixelstests/._nmapping.fbs
+SSWE Project/SSWE/Output/shaders/Materials/pixelstests/._nmapping.vbs
+SSWE Project/SSWE/Output/shaders/Materials/pixelstests/constants.cbs
+SSWE Project/SSWE/Output/shaders/Materials/pixelstests/pixel.fbs
+SSWE Project/SSWE/Output/shaders/Materials/pixelstests/vertex.vbs
+SSWE Project/SSWE/Output/shaders/Materials/Water/ocean.fbs
+SSWE Project/SSWE/Output/shaders/Materials/Water/ocean.vbs
+SSWE Project/SSWE/Output/shaders/OldMovieFP.cg
+SSWE Project/SSWE/Output/shaders/Predefined/.DS_Store
+SSWE Project/SSWE/Output/shaders/Predefined/effect.xml
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/.DS_Store
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/material/depth.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/material/depth.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/material/water.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/material/water.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/accumulate.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/brightpass.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/color.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/depthoffield.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/desaturate.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/displacement.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/downscale2x2.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/dreamvision.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/embossed.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/finalpass_fxaa.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/grayscale.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/hblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/invert.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/luminance_adapt.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/luminance_init.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/luminance_iter.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/motionblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/nightvision.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/pencil.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/posterize.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/pulsing.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/radialblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/scratched.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/screenquad.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/sepia.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/shake.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/sharpen.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/simplebloom.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/tiling.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/underwater.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/underwater.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/vblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/vertex.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/vignette.psh
+SSWE Project/SSWE/Output/shaders/Predefined/glsl/postprocess/water.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/.DS_Store
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/material/depth.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/material/depth.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/material/water.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/material/water.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/accumulate.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/brightpass.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/color.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/depthoffield.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/desaturate.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/displacement.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/downscale2x2.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/dreamvision.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/embossed.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/finalpass_fxaa.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/grayscale.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/hblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/invert.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/luminance_adapt.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/luminance_init.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/luminance_iter.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/motionblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/nightvision.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/pencil.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/posterize.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/pulsing.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/radialblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/scratched.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/screenquad.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/sepia.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/shake.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/sharpen.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/simplebloom.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/tiling.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/underwater.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/underwater.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/vblur.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/vertex.vsh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/vignette.psh
+SSWE Project/SSWE/Output/shaders/Predefined/hlsl/postprocess/water.psh
+SSWE Project/SSWE/Output/shaders/Predefined/rtt.xml
+SSWE Project/SSWE/Output/shaders/Predefined/textures/.DS_Store
+SSWE Project/SSWE/Output/shaders/Predefined/textures/postprocess/noise1.png
+SSWE Project/SSWE/Output/shaders/Predefined/textures/postprocess/noise2.png
+SSWE Project/SSWE/Output/shaders/Predefined/textures/postprocess/pencil.png
+SSWE Project/SSWE/Output/shaders/Predefined/textures/postprocess/readme.txt
+SSWE Project/SSWE/Output/shaders/Predefined/textures/postprocess/scope.png
+SSWE Project/SSWE/Output/shaders/Predefined/textures/postprocess/water.png
+SSWE Project/SSWE/Output/shaders/shaders old/BloomP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/BloomP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/BlurHP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/BlurHP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/BlurVP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/BlurVP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/BrightPass.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/BrightPass.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/LightModulate.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/LightModulate.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ScreenQuadV.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderAnisoP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderAnisoP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderAnisoV.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderAnisoV.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderBRDFP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderBRDFP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderBRDFV.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderBRDFV.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderDepthWiggleP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderDepthWiggleP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderDepthWiggleV.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderDepthWiggleV.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderGoochPtP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderGoochPtP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderGoochPtV.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderGoochPtV.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderMrWiggleP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderMrWiggleP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderMrWiggleV.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderMrWiggleV.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderPhongP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderPhongP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderPhongV.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShaderPhongV.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass1P.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass1P.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass1PT.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass1PT.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass1V.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass1V.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass2P.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass2P.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass2V.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/ShadowPass2V.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/SimpleP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/SimpleP.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/SSAO.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/SSAO.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/SSAOCombine.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/SSAOCombine.hlsl
+SSWE Project/SSWE/Output/shaders/shaders old/WhiteWashP.glsl
+SSWE Project/SSWE/Output/shaders/shaders old/WhiteWashP.hlsl
+SSWE Project/SSWE/Output/shaders/Textures/Water/1D_Noise.png
+SSWE Project/SSWE/Output/shaders/Textures/Water/NoiseVolume.dds
+SSWE Project/SSWE/Output/shaders/Textures/Water/water.jpg

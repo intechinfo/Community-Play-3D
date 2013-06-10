@@ -95,6 +95,7 @@ private:
 	//EDITING INFORMATIONS
 	bool editingConstants, editingVertexShader, editingPixelShader;
 	IGUIFileOpenDialog *openConstantsfod, *openVertexShaderfod, *openPixelShaderfod;
+	rect<s32> oldSize;
 	//-----------------------------------
 
 };

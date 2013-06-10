@@ -153,6 +153,8 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
 		//editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, rect<s32>(editMaterialWindow->getAbsolutePosition().UpperLeftCorner.X, editMaterialWindow->getAbsolutePosition().UpperLeftCorner.Y + editMaterialWindow->getAbsolutePosition().getHeight(), editMaterialWindow->getAbsolutePosition().UpperLeftCorner.X + 200, editMaterialWindow->getAbsolutePosition().UpperLeftCorner.Y + editMaterialWindow->getAbsolutePosition().getHeight() + 90));
 	}
 
+	oldSize = this->getSize();
+
     //FILL VERTEX AND PIXEL SHADER TYPES COMBO BOXES
     for (u32 i=0; i < 7; i++) {
         stringw name = VERTEX_SHADER_TYPE_NAMES[i];
@@ -179,6 +181,8 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == editMaterialWindow->getReferenceCount()) {
 				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				if(editWaterAddon != NULL)
+					editWaterAddon->setVisible(true);
 			}
 		}
 	}
@@ -203,6 +207,12 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
 	}
 
+	if(oldSize != this->getSize())
+	{
+		if(editWaterAddon != NULL)
+			editWaterAddon->resize(this->getSize());
+	}
+
 	if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 		IGUIElement *element = event.GUIEvent.Caller;
             
@@ -210,6 +220,8 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.Caller == editMaterialWindow->getMinimizeButton()) {
 			devices->getEventReceiver()->AddMinimizedWindow(this, editMaterialWindow);
 			devices->setRenderScene(true);
+			if(editWaterAddon != NULL)
+				editWaterAddon->setVisible(false);
 		}
             
 		//EDIT MATERIAL WINDOW
@@ -455,6 +467,8 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			callback->setConstants(lines.c_str());
 		}
 	}
+
+	oldSize = this->getSize();
 
 	return false;
 }

@@ -12,6 +12,9 @@ class CUIWindowEditWater : public IEventReceiver, public ITool
 
 		bool OnEvent(const SEvent &event);
 
+		void resize(rect<s32> position);
+		void setVisible(bool visible);
+
 		void close();
 
 	private:

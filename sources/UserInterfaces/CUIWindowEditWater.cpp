@@ -37,6 +37,7 @@ CUIWindowEditWater::CUIWindowEditWater(SWaterSurfacesData *waterSurfaceData, CDe
 
 	//Adding the UI to the manager
 	m_window = m_guiEnv->addWindow(windowSize);
+	m_window->getCloseButton()->remove();
 	m_window->setDraggable(false);
 	m_window->setDrawTitlebar(false);
 	m_sinWaveCheckBox = m_guiEnv->addCheckBox(m_waterSurface->isSinWaveEnabled(),sinWaveCheckBoxSize, m_window);
@@ -69,6 +70,16 @@ bool CUIWindowEditWater::OnEvent(const SEvent &event)
 	{
 		return false;
 	}
+}
+
+void CUIWindowEditWater::resize(rect<s32> position)
+{
+	m_window->setRelativePosition(vector2d<s32>(position.UpperLeftCorner.X, position.UpperLeftCorner.Y + position.getHeight()));
+}
+
+void CUIWindowEditWater::setVisible(bool visible)
+{
+	m_window->setVisible(visible);
 }
 
 void CUIWindowEditWater::close()
