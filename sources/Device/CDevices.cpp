@@ -18,6 +18,7 @@ CDevices::CDevices() {
 
     //RENDERS
     effect = 0;
+	renderCallbacks = 0;
 
 	renderScene = true;
 
@@ -38,6 +39,7 @@ CDevices::CDevices() {
 	skybox = 0;
 
 	sceneManagerToDrawIndice = 0;
+
 }
 
 CDevices::~CDevices() {
@@ -73,32 +75,8 @@ void CDevices::setSceneManagerToDraw(ISceneManager *smgrToDraw) {
 	}
 }
 
-void CDevices::updateDevice() {
-
-	#ifndef _IRR_OSX_PLATFORM_
-		if (renderScene) {
-			std::thread scene_t(&CDevices::drawScene, *this);
-			scene_t.join();
-		}
-		std::thread gui_t(&CDevices::drawGUI, *this);
-		gui_t.join();
-	#else
-		if (renderScene) {
-			if (renderXEffect) {
-				effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-				effect->update();
-			} else {
-				smgrs[sceneManagerToDrawIndice]->drawAll();
-			}
-		}
-		effectSmgr->drawAll();
-
-		if (renderGUI) {
-			gui->drawAll();
-		}
-	#endif
-
-    //UPDATE CURSOR POSITION
+void CDevices::updateEntities() {
+	//UPDATE CURSOR POSITION
     line3d<f32> ray;
 	ray.start = smgr->getActiveCamera()->getPosition();
 	ray.end = ray.start + (smgr->getActiveCamera()->getTarget() - ray.start).normalize() * 1000.0f;
@@ -133,38 +111,14 @@ void CDevices::updateDevice() {
 		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
 			if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getFalseOcclusion()) {
                 //GET CURRENT LANS FLARE ABOSLUTE POSITION
-				if (IRRLICHT_SDK_VERSION == "1.7.3") {
-					line3d<f32> lfLine;
-					lfLine.start = smgr->getActiveCamera()->getAbsolutePosition();
-					matrix4 matr = worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getAbsoluteTransformation();
-					const matrix4 w2n(worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
-					matr = (w2n*matr);
-					lfLine.end = matr.getTranslation();
-					if (lfLine.getLength() < ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
-						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f - (lfLine.getLength()/((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()));
-					}
-					if (lfLine.getLength() == 0.f) {
-						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(1.f);
-					}
-					if (lfLine.getLength() >= ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getRadius()) {
-						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(0.f);
-					}
-					ray.start = smgr->getActiveCamera()->getPosition();
-					ray.end = lfLine.end;
-					selectedSceneNode = collMan->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 1, 0);
-					if(selectedSceneNode) {
-
-					}
-				} else {
-					driver->runAllOcclusionQueries(false);
-					driver->updateAllOcclusionQueries(false);
-					u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
-					if(occlusionQueryResult != 0xffffffff) {
-						u32 divided = (20*450)/4200;
-						worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult*divided)/1000.f);
-					}
-					Device->setWindowCaption(stringw((f32)occlusionQueryResult).c_str());
+				driver->runAllOcclusionQueries(false);
+				driver->updateAllOcclusionQueries(false);
+				u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
+				if(occlusionQueryResult != 0xffffffff) {
+					u32 divided = (20*450)/4200;
+					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult*divided)/1000.f);
 				}
+				Device->setWindowCaption(stringw((f32)occlusionQueryResult).c_str());
 				worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->updateAbsolutePosition();
             }
         }
@@ -183,26 +137,67 @@ void CDevices::updateDevice() {
 		}
 	}
 
+}
 
+void CDevices::updateDevice() {
 
-    //camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	#ifndef _IRR_OSX_PLATFORM_
+		if (renderScene) {
+			std::thread scene_t(&CDevices::drawScene, *this);
+			scene_t.join();
+		}
+		std::thread gui_t(&CDevices::drawGUI, *this);
+		gui_t.join();
+	#else
+		if (renderScene) {
+			if (renderXEffect) {
+				effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
+				effect->update();
+			} else {
+				smgrs[sceneManagerToDrawIndice]->drawAll();
+			}
+		}
+		effectSmgr->drawAll();
+
+		if (renderGUI) {
+			gui->drawAll();
+		}
+	#endif
+
+	updateEntities();
+
+	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-	camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
 }
 
-void CDevices::reupdate() {
+void CDevices::reupdate(EffectHandler *_effect) {
 	if (Device->run()) {
+
+		EffectHandler *tempEffect = effect;
+		if (_effect) {
+			effect = _effect;
+		}
+
 		driver->beginScene(true, true, SColor(0x0));
 		updateDevice();
 		driver->endScene();
+
+		if (_effect) {
+			effect = tempEffect;
+		}
 	}
 }
 
 void CDevices::drawScene() {
 	if (renderXEffect) {
+		matrix4 viewProj;
+		smgrs[sceneManagerToDrawIndice]->drawAll();
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
+
 		effect->update();
+
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }
@@ -221,7 +216,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	Device = createDeviceEx(parameters);
     Device->setWindowCaption(L"Soganatsu Studios World Editor V1");
 	Device->setResizable(true);
-	Device->maximizeWindow();
     
     driver = Device->getVideoDriver();
     
@@ -244,6 +238,13 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#else
 		workingDirectory += "/";
 	#endif
+
+	//DRAW SPLASH SCREEN
+	ITexture *splashScreen = driver->getTexture("GUI/sc.png");
+	driver->beginScene(true, true, SColor(0x0));
+	driver->draw2DImage(splashScreen, rect<s32>(0, 0, 800, 600), rect<s32>(0, 0, 800, 600));
+	driver->endScene();
+	driver->removeTexture(splashScreen);
     
     //-----------------------------------
     //CAMERAS
@@ -302,8 +303,11 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setUseMotionBlur(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
+	effect->enableDepthPass(true);
 
-	effect->addShadowToNode(objPlacement->getGridSceneNode(), EFT_NONE, ESM_EXCLUDE);
+	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
+
+	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_EXCLUDE);
 
 	//FINISH WITH EVENTS
     receiver.AddEventReceiver(objPlacement);

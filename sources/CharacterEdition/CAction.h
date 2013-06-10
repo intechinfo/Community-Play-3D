@@ -20,6 +20,7 @@ public:
 
 	//METHODS
 	irr::core::stringc getXMLValues();
+	void setXMLValues(irr::io::IrrXMLReader *xmlReader);
 
     //GET METHODS
     irr::s32 getStart() { return start; }

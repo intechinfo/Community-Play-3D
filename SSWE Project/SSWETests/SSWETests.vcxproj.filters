@@ -16,6 +16,9 @@
     <Filter Include="Fichiers sources\SSWECore">
       <UniqueIdentifier>{f8c2e8fa-6abb-434f-b9e3-ff4b37ffe688}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\SSWElib">
+      <UniqueIdentifier>{bca2688c-c354-4c91-ac1d-e5a375fcba83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -29,11 +32,14 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="CCoreTests.cpp">
+    <ClCompile Include="SSWECore\CCoreDataTests.cpp">
       <Filter>Fichiers sources\SSWECore</Filter>
     </ClCompile>
-    <ClCompile Include="CCoreDataTests.cpp">
+    <ClCompile Include="SSWECore\CCoreTests.cpp">
       <Filter>Fichiers sources\SSWECore</Filter>
+    </ClCompile>
+    <ClCompile Include="CImporterTests.cpp">
+      <Filter>Fichiers sources\SSWElib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

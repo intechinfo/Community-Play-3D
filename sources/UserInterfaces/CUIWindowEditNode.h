@@ -97,6 +97,8 @@ public:
     
     bool isVisible() { return editWindow->isVisible(); }
     void setVisible() { editWindow->setVisible(!editWindow->isVisible()); }
+
+	void activateCloseButtons(bool activateCloseButton, bool activateWindowCloseButton);
     
     void createMaterialTypesComboBox(IGUIElement *element);
     
@@ -175,8 +177,6 @@ private:
     stringw nodeToEditPrefix;
     u32 currentBrowse;
     bool isWindowed;
-
-	array<CAction *> actions;
     
     //FLAGS & Materials
     u32 rsCurrentPos, totalSpacing;

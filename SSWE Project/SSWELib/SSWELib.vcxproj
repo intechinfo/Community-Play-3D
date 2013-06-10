@@ -94,9 +94,9 @@
       <OutputFile>Intermediate\$(Configuration)-$(PlatformTarget)\$(TargetName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)..\..\..\..\bin\Win32-VisualStudio\SSWELib.dll" /y
-copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
-</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\SSWE\Output\$(TargetName)$(TargetExt)" /y
+
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-VisualStudio\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,6 +127,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)..\..\..\..\bin\Win32-VisualStudio\SSWELib.dll" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -141,7 +144,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\Device\CDevices.cpp" />
     <ClCompile Include="..\..\sources\Device\Core\CCoreUserInterface.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
+    <ClCompile Include="..\..\sources\GUIExtension\Graph2D\GraphKat.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
+    <ClCompile Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp" />
@@ -199,7 +204,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\Device\CDevices.h" />
     <ClInclude Include="..\..\sources\Device\Core\CCoreUserInterface.h" />
     <ClInclude Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.h" />
+    <ClInclude Include="..\..\sources\GUIExtension\Graph2D\GraphKat.h" />
     <ClInclude Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
+    <ClInclude Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.h" />
     <ClInclude Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.h" />
     <ClInclude Include="..\..\sources\GUIExtension\ViewPort\IGUIViewPort.h" />
     <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.h" />
@@ -227,6 +234,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowExportScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowsManager.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\ITool.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.h" />

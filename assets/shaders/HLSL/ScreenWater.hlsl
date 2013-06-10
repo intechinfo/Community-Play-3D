@@ -2,6 +2,8 @@ sampler2D ScreenMapSampler : register(s1);
 sampler2D DepthMapSampler : register(s2);
 sampler2D UserMapSampler : register(s3);
 
+float time;
+
 float getDepthAt(float2 coords)
 {
 	float4 texDepth = tex2D(DepthMapSampler, coords);

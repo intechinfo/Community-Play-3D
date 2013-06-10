@@ -882,19 +882,30 @@ void CImporter::buildObject() {
 		readTransformations(node);
 		readViewModes(node);
 
+		array<CAction *> actions;
+		read("actions");
+		readWithNextElement("action", "actions");
+		while (element == "action") {
+			CAction *action = new CAction();
+			action->setXMLValues(xmlReader);
+			actions.push_back(action);
+			readWithNextElement("action", "actions");
+		}
+
 		if (path == "sphere") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
 		} else {
 			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
 		}
         SObjectsData odata(mesh, node, path);
+		odata.setActions(&actions);
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}
 }
 
 void CImporter::buildLight() {
 	ILightSceneNode *node = smgr->addLightSceneNode();
-	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 5000.f, 89.99f * DEGTORAD);
+	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 5000.f, 89.99f * DEGTORAD, false);
 
 	read("name");
 	node->setName(xmlReader->getAttributeValue("c8name"));

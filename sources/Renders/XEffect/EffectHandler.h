@@ -386,6 +386,8 @@ public:
 	/// A render target may be passed as the output target, else rendering will commence on the backbuffer.
 	void update(irr::video::ITexture* outputTarget = 0);
 
+	void updateEffect();
+
 	/// Adds a shadow to the scene node. The filter type specifies how many shadow map samples
 	/// to take, a higher value can produce a smoother or softer result. The shadow mode can
 	/// be either ESM_BOTH, ESM_CAST, or ESM_RECEIVE. ESM_BOTH casts and receives shadows,
@@ -470,8 +472,9 @@ public:
 
 		if(i != -1)
 		{
-			if(PostProcessingRoutines[i].renderCallback)
+			if(PostProcessingRoutines[i].renderCallback) {
 				delete PostProcessingRoutines[i].renderCallback;
+			}
 
 			PostProcessingRoutines.erase(i);
 		}
@@ -498,7 +501,7 @@ public:
 	/// See addPostProcessingEffect for more info.
 	/// Returns the Irrlicht material type of the post processing effect.
 	irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename,
-		IPostProcessingRenderCallback* callback = 0);
+		IPostProcessingRenderCallback* callback = 0, bool pushFront=false);
 
 	/// Sets a shader parameter for a post-processing effect. The first parameter is the material type, the second
 	/// is the uniform paratmeter name, the third is a float pointer that points to the data and the last is the
@@ -509,7 +512,7 @@ public:
 
 	/// Returns the screen quad scene node. This is not required in any way, but some advanced users may want to adjust
 	/// its material settings accordingly.
-	const CScreenQuad& getScreenQuad() 
+	CScreenQuad getScreenQuad() 
 	{
 		return ScreenQuad;
 	}
@@ -592,6 +595,7 @@ private:
 		ScreenQuadCB* callback;
 		IPostProcessingRenderCallback* renderCallback;
 		irr::s32 materialType;
+		irr::core::array<irr::video::ITexture *> textures;
 	};
 
 	SPostProcessingPair obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename, 

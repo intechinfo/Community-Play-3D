@@ -121,6 +121,16 @@ s32 CCoreData::isMeshPlanared(ISceneNode *node) {
 	return planared;
 }
 
+array<ISceneNode *> CCoreData::getArrayOfTerrainNodes() {
+	array<ISceneNode *> nodes;
+
+	for (u32 i=0; i < terrainsData.size(); i++) {
+		nodes.push_back(terrainsData[i].getNode());
+	}
+
+	return nodes;
+}
+
 array<ISceneNode *> CCoreData::getArrayOfTreeNodes() {
 	array<ISceneNode *> nodes;
 
@@ -151,6 +161,42 @@ array<ISceneNode *> CCoreData::getArrayOfLightNodes() {
 	return nodes;
 }
 
+array<ISceneNode *> CCoreData::getArrayOfVolumeLightNodes() {
+	array<ISceneNode *> nodes;
+	
+	for (u32 i=0; i < volumeLightsData.size(); i++) {
+		nodes.push_back(volumeLightsData[i].getNode());
+	}
+
+	return nodes;
+}
+
+array<ISceneNode *> CCoreData::getArrayOfWaterSurfaceNodes() {
+	array<ISceneNode *> nodes;
+
+	for (u32 i=0; i < waterSurfaces.size(); i++) {
+		nodes.push_back(waterSurfaces[i].getNode());
+	}
+
+	return nodes;
+}
+
 //---------------------------------------------------------------------------------------------
-//----------------------------------CALLBACKS ------------------------------------------------
+//----------------------------------IRRLICHT NODES---------------------------------------------
+//---------------------------------------------------------------------------------------------
+u32 CCoreData::getObjectNodeIndice(ISceneNode *node) {
+	u32 ni=-1;
+
+	for (u32 i=0; i < objectsData.size(); i++) {
+		if (objectsData[i].getNode() == node) {
+			ni = i;
+			break;
+		}
+	}
+
+	return ni;
+}
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------CALLBACKS -------------------------------------------------
 //---------------------------------------------------------------------------------------------

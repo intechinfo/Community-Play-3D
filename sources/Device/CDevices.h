@@ -16,6 +16,8 @@
 
 #include "../GUIExtension/OpenFileDialog/CGUIFileSelector.h"
 
+#include "../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
+
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
 #else
@@ -70,6 +72,7 @@ public:
 	bool isXEffectDrawable() { return renderXEffect; }
 	stringc getShaderExt() { return shaderExt; }
 	void rebuildXEffect();
+	CRenderCallbacks *getRenderCallbacks() { return renderCallbacks; }
 
 	bool isRenderScene() { return renderScene; }
 	void setRenderScene(bool _renderScene) { renderScene = _renderScene; }
@@ -101,7 +104,9 @@ public:
 	ISceneNode *getCursor() { return cursorBillBoard; }
 
 	void updateDevice();
-	void reupdate();
+	void updateEntities();
+
+	void reupdate(EffectHandler *_effect = 0);
 
 	stringw getProjectName() { return projectName; }
 	void setProjectName(stringw _projectName) { projectName = _projectName; }
@@ -164,6 +169,7 @@ private:
 	stringc shaderExt;
 
 	IPostProcessMotionBlur* motionBlur;
+	CRenderCallbacks *renderCallbacks;
 
 	bool renderScene;
 	bool renderXEffect, renderGUI;

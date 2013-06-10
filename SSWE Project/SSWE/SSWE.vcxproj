@@ -45,9 +45,11 @@
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <OutDir>Output\</OutDir>
     <IntDir>Intermediate\$(Configuration)-$(PlatformTarget)\</IntDir>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -61,8 +63,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)SPARK\libs\;$(SolutionDir)Lua52\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)Irrlicht\libs\;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SSWELib.lib;SSWECore.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SPARK\libs\;$(SolutionDir)Lua52\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)Irrlicht\libs\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWERenders\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWELib.lib;SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)..\..\..\..\bin\Win32-VisualStudio\$(TargetName)$(TargetExt)" /y</Command>

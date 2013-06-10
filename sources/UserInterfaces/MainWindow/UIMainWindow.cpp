@@ -540,10 +540,10 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 
 					if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
 						if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == -1) {
-							SWaterSurfacesData waterSurfaceData = worldCore->getWaterSurfaces()->operator [](waterSurfacesListBox->getSelected());
-							CUIWindowEditMaterialsCallback *editCall = new CUIWindowEditMaterialsCallback(devices);
-							editCall->setWaterSurface(waterSurfaceData.getWaterSurface());
-							editCall->open(waterSurfaceData.getShaderCallback());
+							SWaterSurfacesData *waterSurfaceData = &worldCore->getWaterSurfaces()->operator [](waterSurfacesListBox->getSelected());
+							CUIWindowEditMaterialsCallback *edit = new CUIWindowEditMaterialsCallback(devices);
+							edit->setWaterSurfaceData(waterSurfaceData);
+							edit->open(waterSurfaceData->getShaderCallback());
 						}
 					}
 

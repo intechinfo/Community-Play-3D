@@ -147,6 +147,8 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 		addChildrenBackWithArray(treesNode, &worldCore->getArrayOfTreeNodes());
 		addChildrenBackWithArray(objectsNode, &worldCore->getArrayOfObjectNodes());
 		addChildrenBackWithArray(lightsNode, &worldCore->getArrayOfLightNodes());
+		addChildrenBackWithArray(volumeLightsNode, &worldCore->getArrayOfVolumeLightNodes());
+		addChildrenBackWithArray(waterSurfacesNode, &worldCore->getArrayOfWaterSurfaceNodes());
 	}
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {

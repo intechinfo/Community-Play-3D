@@ -35,6 +35,13 @@ CCoreUserInterface::CCoreUserInterface() {
     params.ZBufferBits = 32;
 	params.EventReceiver=0;
 	
+	if (params.Fullscreen) {
+		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);
+		params.WindowSize = tempDevice->getVideoModeList()->getDesktopResolution();
+		tempDevice->closeDevice();
+		tempDevice->drop();
+	}
+
 	devices = new CDevices();
 	devices->createDevice(params);
     
@@ -169,7 +176,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
         logListBox->addItem(text.c_str());
         logListBox->setSelected(logListBox->getItemCount());
     }
-    
+
     if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (!event.KeyInput.PressedDown) {
 			if (event.KeyInput.Key == KEY_ESCAPE) {

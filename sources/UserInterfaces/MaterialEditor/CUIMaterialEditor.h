@@ -10,7 +10,6 @@
 #define __C_UI_MATERIAL_EDITOR_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
-#include "../../GUIExtension/ViewPort/CGUIViewPort.h"
 
 #include "CMaterialEditorFactory.h"
 

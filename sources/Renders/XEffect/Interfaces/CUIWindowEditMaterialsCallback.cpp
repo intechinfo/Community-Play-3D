@@ -10,7 +10,8 @@
 
 CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_devices) {
 	devices = _devices;
-	waterSurface = NULL;
+	editWaterAddon = NULL;
+	waterSurfaceData = NULL;
 
 	//-----------------------------------
 	//GET DATAS
@@ -33,6 +34,7 @@ CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {
 }
 
 void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
+	
 	callback = _callback;
 
 	if (callback == 0) {
@@ -143,14 +145,15 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     previewNodeChoice->addItem(L"Sphere");
 	previewNodeChoice->addItem(L"Current Scene");
                 
-    closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", 
-                                                                        L"Close Window");
+    closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", L"Close Window");
 
-	//CREATE THE WATER EDIT WINDOW IF IT EDITS A WATERSURFACE
-	if(waterSurface != NULL)
+	if(waterSurfaceData != NULL && editWaterAddon == NULL)
 	{
-		editWaterAddon = new CUIWindowEditWater(waterSurface, devices, this->getSize());
+		editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, this->getSize());
+		//editWaterAddon = new CUIWindowEditWater(waterSurfaceData, devices, rect<s32>(editMaterialWindow->getAbsolutePosition().UpperLeftCorner.X, editMaterialWindow->getAbsolutePosition().UpperLeftCorner.Y + editMaterialWindow->getAbsolutePosition().getHeight(), editMaterialWindow->getAbsolutePosition().UpperLeftCorner.X + 200, editMaterialWindow->getAbsolutePosition().UpperLeftCorner.Y + editMaterialWindow->getAbsolutePosition().getHeight() + 90));
 	}
+
+	oldSize = this->getSize();
 
     //FILL VERTEX AND PIXEL SHADER TYPES COMBO BOXES
     for (u32 i=0; i < 7; i++) {
@@ -178,6 +181,8 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == editMaterialWindow->getReferenceCount()) {
 				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				if(editWaterAddon != NULL)
+					editWaterAddon->setVisible(true);
 			}
 		}
 	}
@@ -202,6 +207,12 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
 	}
 
+	if(oldSize != this->getSize())
+	{
+		if(editWaterAddon != NULL)
+			editWaterAddon->resize(this->getSize());
+	}
+
 	if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 		IGUIElement *element = event.GUIEvent.Caller;
             
@@ -209,6 +220,8 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.Caller == editMaterialWindow->getMinimizeButton()) {
 			devices->getEventReceiver()->AddMinimizedWindow(this, editMaterialWindow);
 			devices->setRenderScene(true);
+			if(editWaterAddon != NULL)
+				editWaterAddon->setVisible(false);
 		}
             
 		//EDIT MATERIAL WINDOW
@@ -247,6 +260,10 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			console = 0;
 			devices->setRenderScene(true);
 			devices->getEventReceiver()->RemoveEventReceiver(this);
+			if(editWaterAddon != NULL)
+			{
+				editWaterAddon->close();
+			}
 			delete this;
 			return false;
 		}
@@ -451,6 +468,8 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
 	}
 
+	oldSize = this->getSize();
+
 	return false;
 }
 
@@ -469,15 +488,12 @@ CShaderCallback *CUIWindowEditMaterialsCallback::getCallback()
 	return callback;
 }
 
-void CUIWindowEditMaterialsCallback::setWaterSurface(CWaterSurface *_waterSurface)
+SWaterSurfacesData *CUIWindowEditMaterialsCallback::getWaterSurfaceData()
 {
-	waterSurface = _waterSurface;
+	return waterSurfaceData;
 }
 
-CWaterSurface *CUIWindowEditMaterialsCallback::getWaterSurface()
+void CUIWindowEditMaterialsCallback::setWaterSurfaceData(SWaterSurfacesData *_waterSurfaceData)
 {
-	if(waterSurface != NULL)
-		return waterSurface;
-	else
-		return 0;
+	waterSurfaceData = _waterSurfaceData;
 }

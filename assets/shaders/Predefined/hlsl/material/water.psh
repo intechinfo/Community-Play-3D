@@ -1,0 +1,93 @@
+uniform sampler2D WaveNormalSampler : register(s0);
+uniform sampler2D ReflectionSampler : register(s1);
+uniform sampler2D RefractionSampler : register(s2);
+uniform sampler2D DepthSampler	    : register(s3);
+
+uniform float3 CameraPosition;
+uniform float3 SunPos;
+uniform float4 WaterColor;
+uniform float  WaveHeight;
+uniform float  BlendFactor;
+uniform float  SpecExponent;
+uniform float  SpecAlpha;
+uniform float  FresnelExponent;
+uniform float  DepthBias;
+uniform float  DepthExponent;
+uniform float4 DeepColor;
+uniform float  WaterTransparency;
+uniform float  MaxDistance;
+
+float getDepth(float2 texCoords)
+{
+	float4 texDepth = tex2D(DepthSampler, texCoords);
+	return texDepth.a;
+}
+
+float4 main (float4 reflected : TEXCOORD0,
+             float4 refracted : TEXCOORD1,
+             float2 bump1     : TEXCOORD2,
+             float2 bump2     : TEXCOORD3,
+             float2 bump3     : TEXCOORD4,
+             float3 posWorld  : TEXCOORD5) : COLOR0
+{
+
+	// calculate projected TexCoords
+	reflected.x =  reflected.x / reflected.w * 0.5 + 0.5;
+	reflected.y = -reflected.y / reflected.w * 0.5 + 0.5;
+	refracted.x =  refracted.x / refracted.w * 0.5 + 0.5;
+	refracted.y = -refracted.y / refracted.w * 0.5 + 0.5;	     
+
+	// create pertubated texcoords
+	// by adding three normal vectors at different coords we create a dynamic normal map
+	float4 n1 = tex2D(WaveNormalSampler, bump1)*2.0-1.0;
+	float4 n2 = tex2D(WaveNormalSampler, bump2)*2.0-1.0;
+	float4 n3 = tex2D(WaveNormalSampler, bump3)*2.0-1.0;
+	float4 normalCol = normalize(n1+n2+n3)*WaveHeight;
+
+	// calculate the water depth and the strength of displacement at the refracted coord
+	float waterZ = refracted.z/MaxDistance;
+	float waterDepth = abs(getDepth(refracted.xy)-waterZ);
+	float dispFactor = 1.0-pow((1.0-saturate(waterDepth/min(waterZ,0.01))), DepthExponent);
+	
+	// sample with pertubated texcoords
+	float4 refractedCol = tex2D(RefractionSampler, refracted.xy+normalCol.xy*dispFactor);
+	float4 reflectedCol = tex2D(ReflectionSampler, reflected.xy+normalCol.xy*dispFactor);
+	
+	// calculate eye and up vector
+	float3 eyeVector = normalize(CameraPosition-posWorld);
+	float3 upVector = float3(0.0, 1.0, 0.0);
+	
+	// set depth factor (fading effect)
+	float waterDepthPert = abs(getDepth(refracted.xy+normalCol.xy*dispFactor)-waterZ);
+	waterDepth = max(waterDepth, waterDepthPert);
+	float depthFactor = 1.0-pow(1.0-saturate(waterDepth*DepthBias), DepthExponent*20);
+	
+	// mix reflected and refracted map by fresnelTerm
+	float4 mixedCol;
+	if (dot(eyeVector, upVector) < 0.0)
+	{
+		// under water (without reflection)
+		reflectedCol = refractedCol;
+		mixedCol = lerp(refractedCol, WaterColor, saturate(waterZ*WaterTransparency*0.2));
+	}
+	else
+	{
+		// over water (with reflection)
+		// calculate fresnel term		
+		float fresnelTerm = saturate(pow(dot(eyeVector, upVector), FresnelExponent)+1.0-depthFactor);
+		refractedCol = lerp(refractedCol, DeepColor, saturate(waterDepth*WaterTransparency));
+		mixedCol = fresnelTerm*refractedCol + (1.0-fresnelTerm)*reflectedCol;
+	}
+	
+	// specular color
+	float4 specCol = tex2D(ReflectionSampler, reflected.xy+normalCol.xy*dispFactor);
+	float lumValue = 0.5*(max(specCol.r, max(specCol.g, specCol.b))+min(specCol.r, min(specCol.g,specCol.b)));
+	specCol = saturate(specCol * pow(lumValue, SpecExponent))*depthFactor;
+
+	// final Color
+	float4 finalCol = BlendFactor*depthFactor*WaterColor + (1.0-BlendFactor*depthFactor)*mixedCol;
+	finalCol = lerp(finalCol, specCol, clamp(specCol.g, 0, SpecAlpha));
+	finalCol.a = 1.0;
+	return finalCol;
+	return float4(waterDepth,0,0,1)+finalCol*0.0000001;
+}

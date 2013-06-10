@@ -203,6 +203,13 @@ void CExporter::exportObjects() {
 		fprintf(export_file, "\t\t\t <visible bool=\"%d\" />\n", node->isVisible());
         fprintf(export_file, "\t\t\t <shadowMode mode=\"%d\" />\n", getShadowMode(node));
 
+		fprintf(export_file, "\t\t\t <actions>\n");
+		for (u32 ai=0; ai < devices->getCoreData()->getObjectsData()->operator[](i).getActions()->size(); ai++) {
+			CAction *action = devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](ai);
+			fprintf(export_file, stringc(stringc("\t\t\t\t ") + stringc(action->getXMLValues()) + "\n").c_str());
+		}
+		fprintf(export_file, "\t\t\t </actions>\n\n");
+
         fprintf(export_file, "\t\t </object>\n\n");
         
     }

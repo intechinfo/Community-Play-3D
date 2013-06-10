@@ -75,9 +75,9 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)..\..\..\..\bin\Win32-VisualStudio\SSWERenders.dll" /y
-copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
-</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\SSWE\Output\$(TargetName)$(TargetExt)" /y
+
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-VisualStudio\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,11 +107,18 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)..\..\..\..\bin\Win32-VisualStudio\SSWERenders.dll" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClCompile Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\CShaderPre.cpp" />
     <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp" />
     <ClCompile Include="SSWERenders.cpp" />

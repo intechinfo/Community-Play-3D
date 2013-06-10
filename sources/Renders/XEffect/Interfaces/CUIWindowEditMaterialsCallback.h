@@ -11,11 +11,10 @@
 
 #include "../../../Device/CDevices.h"
 #include "../../../UserInterfaces/CUIWindowEditNode.h"
+#include "../../../UserInterfaces/CUIWindowEditWater.h"
 
 #include "../../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 #include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
-
-#include "../../../UserInterfaces/CUIWindowEditWater.h"
 
 #include "CShaderCallback.h"
 
@@ -37,8 +36,8 @@ public:
 	CDevices *getDevices();
 	rect<s32> getSize();
 	CShaderCallback *getCallback();
-	void setWaterSurface(CWaterSurface *_waterSurface);
-	CWaterSurface *getWaterSurface();
+	SWaterSurfacesData *getWaterSurfaceData();
+	void setWaterSurfaceData(SWaterSurfacesData *_watersurfaceData);
 	//-----------------------------------
 
 private:
@@ -58,7 +57,7 @@ private:
 	ISceneManager *smgr;
 	ISceneNode *previewNode;
 	IAnimatedMesh *planeMesh;
-	CWaterSurface *waterSurface;
+	SWaterSurfacesData *waterSurfaceData;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -96,6 +95,7 @@ private:
 	//EDITING INFORMATIONS
 	bool editingConstants, editingVertexShader, editingPixelShader;
 	IGUIFileOpenDialog *openConstantsfod, *openVertexShaderfod, *openPixelShaderfod;
+	rect<s32> oldSize;
 	//-----------------------------------
 
 };

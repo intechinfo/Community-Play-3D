@@ -170,11 +170,19 @@ struct SObjectsData {
 		mesh = _mesh;
 		node = _node;
 		path = _path;
+
+		actions.clear();
 	}
 
 	void setMesh(IMesh *_mesh) { mesh = _mesh; }
 	void setNode(ISceneNode *_node) { node = _node; }
 	void setPath(stringw _path) { path = _path; }
+	void setActions(array<CAction *> *_actions) {
+		actions.clear();
+		for (u32 i=0; i < _actions->size(); i++) {
+			actions.push_back(_actions->operator[](i));
+		}
+	}
 
 	IMesh *getMesh() { return mesh; }
 	ISceneNode *getNode() { return node; }
@@ -294,9 +302,12 @@ public:
 
 	s32 isMeshPlanared(ISceneNode *node);
 
-	array<ISceneNode *> getArrayOfLightNodes();
+	array<ISceneNode *> getArrayOfTerrainNodes();
 	array<ISceneNode *> getArrayOfTreeNodes();
 	array<ISceneNode *> getArrayOfObjectNodes();
+	array<ISceneNode *> getArrayOfLightNodes();
+	array<ISceneNode *> getArrayOfVolumeLightNodes();
+	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
 	//-----------------------------------
 
 	//-----------------------------------
@@ -310,6 +321,7 @@ public:
 	array<STreesData> *getTreesData() { return &treesData; }
 
 	array<SObjectsData> *getObjectsData() { return &objectsData; }
+	u32 getObjectNodeIndice(ISceneNode *node);
 
 	array<SLightsData> *getLightsData() { return &lightsData; }
 
