@@ -85,6 +85,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "CUIWindowEditNode.h"
 #include "MaterialEditor/CUIMaterialEditor.h"
 #include "CUIWindowEditLight.h"
+#include "CUIWindowEditVolumeLight.h"
 #include "CUIWindowEditGrid.h"
 
 #include "NodeFactory/CUINodeFactoryPlanarMapping.h"

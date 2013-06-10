@@ -900,6 +900,18 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 							}
 						}
 					}
+					if (!devices->isEditBoxEntered() && !devices->isCtrlPushed() && devices->isShiftPushed()) {
+						stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
+                        if (prefix != "#volumeLight") {
+                            CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+							editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+										   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
+                        } else {
+                            CUIWindowEditVolumeLight *editVolumeLight = new CUIWindowEditVolumeLight(devices);
+							editVolumeLight->open(mainWindowInstance->getSelectedNode().getNode(),
+											mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
+                        }
+                    }
                 }
                     break;
                     

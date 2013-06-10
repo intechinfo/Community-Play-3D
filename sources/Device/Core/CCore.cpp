@@ -273,7 +273,7 @@ f32 CCore::getF32(std::string valuef32) {
 	return value_f32;
 }
 
-u32 CCore::getU32(std::string valueu32) {
+u32 CCore::getU32(stringc valueu32) {
 	u32 value_u32;
 	stringc value_u32_c = valueu32.c_str();
 	value_u32_c.replace(',', '.');

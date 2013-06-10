@@ -243,6 +243,9 @@
     <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.cpp">
       <Filter>UserInterfaces\MainWindow</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp">
+      <Filter>UserInterfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -415,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.h">
       <Filter>UserInterfaces\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h">
+      <Filter>UserInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

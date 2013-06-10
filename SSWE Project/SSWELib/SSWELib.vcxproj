@@ -161,6 +161,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditLight.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditNode.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditWater.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowExportScene.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.cpp" />
@@ -221,6 +222,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditLight.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditNode.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditWater.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowExportScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.h" />
