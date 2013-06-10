@@ -249,13 +249,14 @@
     <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.cpp">
       <Filter>UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp">
-      <Filter>UserInterfaces</Filter>
     <ClCompile Include="..\..\sources\GUIExtension\Graph2D\GraphKat.cpp">
       <Filter>GUIExtension\Graph2D</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.cpp">
       <Filter>GUIExtension\ProgressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp">
+      <Filter>UserInterfaces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,7 +431,6 @@
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.h">
       <Filter>UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h">
     <ClInclude Include="..\..\sources\UserInterfaces\ITool.h">
       <Filter>UserInterfaces</Filter>
     </ClInclude>
@@ -439,6 +439,9 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.h">
       <Filter>GUIExtension\ProgressBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h">
+      <Filter>UserInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
