@@ -182,6 +182,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\UIContextMenu.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\UIWindowRender.cpp" />
@@ -246,6 +248,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\UIContextMenu.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\UIWindowRender.h" />

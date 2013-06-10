@@ -17,13 +17,28 @@ class CProcess {
 
 public:
 
-	CProcess(stringw _name);
+	CProcess(IGUIEnvironment *_gui, stringw _name);
 	~CProcess();
+
+	stringw getName() { return name; }
+
+	bool hasFinished() { return finished; }
+	void setHasFinished(bool _hasFinished) { finished = _hasFinished; }
+
+	IGUIStaticText *getNameTxt() { return nameTxt; }
+	IGUIStaticText *getBackground() { return bg; }
+
+	CProgressBar *getProgressBar() { return bar; }
 
 private:
 
+	IGUIEnvironment *gui;
+
 	stringw name;
 	bool finished;
+
+	IGUIStaticText *nameTxt, *bg;
+	CProgressBar *bar;
 
 };
 

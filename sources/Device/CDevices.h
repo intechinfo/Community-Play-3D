@@ -14,6 +14,8 @@
 
 #include "Core/CCoreObjectPlacement.h"
 
+#include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
+
 #include "../GUIExtension/OpenFileDialog/CGUIFileSelector.h"
 
 #include "../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
@@ -88,6 +90,8 @@ public:
 
 	CCollisionManager *getCollisionManager() { return collisionManager; }
 	CCoreObjectPlacement *getObjectPlacement() { return objPlacement; }
+
+	CUIProcessesLogger *getProcessesLogger() { return processesLogger; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -189,6 +193,8 @@ private:
 
 	CCollisionManager *collisionManager;
 	CCoreObjectPlacement *objPlacement;
+
+	CUIProcessesLogger *processesLogger;
 
 	stringc workingDirectory;
 	//-----------------------------------

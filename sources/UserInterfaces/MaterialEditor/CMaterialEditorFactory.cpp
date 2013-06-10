@@ -42,20 +42,11 @@ void CMaterialEditorFactory::reupdateTreeView(ISceneNode *node, IGUITreeView *ma
 }
 
 void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
-	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Creating Textures...\nMapping Normal Textures...\n\n\n\n\n\n", EMBF_CANCEL, false, 0);
-	processingWindow->getCloseButton()->remove();
-	processingWindow->setDraggable(false);
-
-	CProgressBar* bar = new CProgressBar(devices->getGUIEnvironment(), -1, processingWindow);
-	bar->setPosition(vector2di(processingWindow->getRelativePosition().UpperLeftCorner.X, processingWindow->getRelativePosition().LowerRightCorner.Y-95));
-	bar->setDimension(processingWindow->getRelativePosition().getWidth(), 40);
-	bar->setTextColor(SColor(255, 255, 255, 255));
-	bar->setBackgroundColor(SColor(255,0x44,0x44,0x44));
-	bar->setFillColor(SColor(255,0x66,0x66,0x66));
+	//CREATE PROCESS
+	CProcess *process = new CProcess(devices->getGUIEnvironment(), "CREATE AND NORMAL MAP TEXTURES");
+	devices->getProcessesLogger()->addProcess(process);
 
 	for (u32 i=0; i < node->getMaterialCount(); i++) {
-		processingWindow->setText(stringw(stringw("Material ") + stringw(i) + stringw(" / ") + stringw(node->getMaterialCount())).c_str());
-
 		if (node->getMaterial(i).TextureLayer[0].Texture) {
 			stringc texname = node->getMaterial(i).TextureLayer[0].Texture->getName().getPath().c_str();
 			stringc texmname = stringc(texname + stringc("_copy")).c_str();
@@ -69,37 +60,28 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
 			} else {
 				node->getMaterial(i).setTexture(1, driver->getTextureByIndex(devices->getCore()->textureAlreadyExists(texmname, devices->getVideoDriver())));
 			}
-			bar->setPercentage((100*i)/node->getMaterialCount());
+			process->getProgressBar()->setPercentage((100*i)/node->getMaterialCount());
 		}
 	}
 
-	processingWindow->remove();
-	bar->remove();
+	//SET PROCESS HAS FINISHED
+	process->setHasFinished(true);
 }
 
 void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(f32 factor) {
-	IGUIWindow *processingWindow = devices->addInformationDialog(L"Processing", L"Mapping Normal Textures...\n\n\n\n\n\n", EMBF_CANCEL, false, 0);
-	processingWindow->getCloseButton()->remove();
-	processingWindow->setDraggable(false);
-
-	CProgressBar* bar = new CProgressBar(devices->getGUIEnvironment(), -1, processingWindow);
-	bar->setPosition(vector2di(processingWindow->getRelativePosition().UpperLeftCorner.X, processingWindow->getRelativePosition().LowerRightCorner.Y-20));
-	bar->setDimension(processingWindow->getRelativePosition().getWidth(), 40);
-	bar->setTextColor(SColor(255, 255, 255, 255));
-	bar->setBackgroundColor(SColor(255,0x44,0x44,0x44));
-	bar->setFillColor(SColor(255,0x66,0x66,0x66));
+	//CREATE PROCESS
+	CProcess *process = new CProcess(devices->getGUIEnvironment(), "NORMAL MAPPING TEXTURES");
+	devices->getProcessesLogger()->addProcess(process);
 
 	for (u32 i=0; i < node->getMaterialCount(); i++) {
-		processingWindow->setText(stringw(stringw("Material ") + stringw(i) + stringw(" / ") + stringw(node->getMaterialCount())).c_str());
-
 		if (node->getMaterial(i).TextureLayer[1].Texture) {
 			devices->getVideoDriver()->makeNormalMapTexture(node->getMaterial(i).TextureLayer[1].Texture, factor);
 		}
-		bar->setPercentage((100*i)/node->getMaterialCount());
+		process->getProgressBar()->setPercentage((100*i)/node->getMaterialCount());
 	}
 
-	processingWindow->remove();
-	bar->remove();
+	//SET PROCESS HAS FINISHED
+	process->setHasFinished(true);
 }
 
 ITexture *CMaterialEditorFactory::copyTexture(stringc nameOfTexture, ITexture *texture) {

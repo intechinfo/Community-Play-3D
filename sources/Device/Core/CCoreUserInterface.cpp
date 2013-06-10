@@ -120,6 +120,7 @@ void CCoreUserInterface::update() {
     
     contextMenuInstance->update();
 	windowsManagerInstance->update();
+	devices->getProcessesLogger()->update();
     
     programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-97));
 

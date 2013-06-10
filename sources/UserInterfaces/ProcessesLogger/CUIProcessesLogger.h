@@ -13,19 +13,31 @@
 
 #include "CProcess.h"
 
+//---------------------------------------------------------------------------------------------
+//-----------------------------------PROCESSES LOGGER STRUCT-----------------------------------
+//---------------------------------------------------------------------------------------------
+
 struct SProcess {
 	
 public:
 
-	SProcess(stringw _name, std::thread _t) {
-		process = new CProcess(_name);
+	SProcess(CProcess *_process) {
+		process = _process;
 	}
+
+	CProcess *getProcess() { return process; }
+	bool hasFinished() { return process->hasFinished(); }
+	CProgressBar *getProgressBar() { return process->getProgressBar(); }
 
 private:
 
 	CProcess *process;
 
 };
+
+//---------------------------------------------------------------------------------------------
+//------------------------------------PROCESSES LOGGER CLASS-----------------------------------
+//---------------------------------------------------------------------------------------------
 
 class CUIProcessesLogger : public IEventReceiver {
 
@@ -35,6 +47,8 @@ public:
 	~CUIProcessesLogger();
 
 	void update();
+
+	void addProcess(CProcess *process);
 
 	bool OnEvent(const SEvent &event);
 
