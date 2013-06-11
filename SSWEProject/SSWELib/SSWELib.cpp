@@ -51,6 +51,5 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 
 	DeleteCriticalSection(&CriticalSection);
 
-	System::Destroy();
     device->drop();
 }
