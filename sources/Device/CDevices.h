@@ -185,7 +185,7 @@ private:
 	//-----------------------------------
 	//CAMERAS
 	SKeyMap keyMap[5];
-	ICameraSceneNode *camera_fps, *camera_maya;
+	ICameraSceneNode *camera_fps, *camera_maya, *lcamera_fps, *rcamera_fps, *lcamera_maya, *rcamera_maya;
 	IBillboardSceneNode *cursorBillBoard;
 	//-----------------------------------
 
@@ -225,6 +225,7 @@ private:
 	bool isOculusRiftConnected;
 	Ptr<DeviceManager> oculusDeviceManagerPtr;
 	Ptr<HMDDevice> oculusHMDPtr;
+	//-----------------------------------
 };
 
 #endif

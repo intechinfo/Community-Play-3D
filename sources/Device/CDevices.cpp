@@ -221,7 +221,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	oculusHMDPtr = *oculusDeviceManagerPtr->EnumerateDevices<HMDDevice>().CreateDevice();
 
 	HMDInfo oculusHMDInfo;
-	if(oculusHMDPtr->GetDeviceInfo(&oculusHMDInfo))
+	if(oculusHMDPtr != NULL)
 	{
 		isOculusRiftConnected = true;
 	}
@@ -275,10 +275,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	if(!isOculusRiftConnected)
 	{
 		camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.09f, -1, keyMap, 5, true, 0.3f, false, true);
+		camera_fps->setPosition(vector3df(0.0f, 1.7f, 0.0f));
 		camera_fps->setTarget(vector3df(0.f, 5.f, 0.f));
 		camera_fps->setFarValue(42000.0f);
 		camera_fps->setName("editor:FPScamera");
 		camera_fps->setID(-1);
+		camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	
 		camera_maya = smgr->addCameraSceneNodeMaya();
 		camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
@@ -294,6 +296,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	}
 	else
 	{
+		camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.09f, -1, keyMap, 5, true, 0.3f, false, true);
+		lcamera_fps = smgr->addCameraSceneNodeFPS(camera_fps, 0, 0, -1);
+		lcamera_fps->setPosition(vector3df(camera_fps->getPosition().X - 0.32, camera_fps->getPosition().Y, camera_fps->getPosition().Z));
+		rcamera_fps = smgr->addCameraSceneNodeFPS(camera_fps, 0, 0, -1);
+		rcamera_fps->setPosition(vector3df(camera_fps->getPosition().X + 0.32, camera_fps->getPosition().Y, camera_fps->getPosition().Z));
+
 
 	}
     
