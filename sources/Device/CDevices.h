@@ -18,6 +18,9 @@
 
 #include "../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
+#include <OVR.h>
+using namespace OVR;
+
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
 #else
@@ -210,6 +213,12 @@ private:
 	//SHARED NODES
 	ISceneNode *skydome, *skybox;
 	//-----------------------------------
+
+	//-----------------------------------
+	//OCULUS RIFT
+	bool isOculusRiftConnected;
+	Ptr<DeviceManager> oculusDeviceManagerPtr;
+	Ptr<HMDDevice> oculusHMDPtr;
 };
 
 #endif
