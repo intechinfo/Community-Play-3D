@@ -57,7 +57,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\libs\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\libs\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\;$(SolutionDir)OculusSDK\LibOVR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>

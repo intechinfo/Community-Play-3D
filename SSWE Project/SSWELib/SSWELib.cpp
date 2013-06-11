@@ -39,5 +39,6 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
         }
 	}
 
+	System::Destroy();
     device->drop();
 }
