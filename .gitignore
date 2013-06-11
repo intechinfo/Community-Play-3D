@@ -47,7 +47,6 @@ x64/
 *.bi
 *.unsuccessfulbuild
 *.sdf
-*.def
 
 # Visual C++ cache files
 ipch/

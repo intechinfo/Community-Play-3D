@@ -15,7 +15,7 @@ CProcess::CProcess(IGUIEnvironment *_gui, stringw _name) {
 
 	bg = gui->addStaticText(L"", rect<s32>(10, 30, 280, 90), true, false, 0, -1, true);
 
-	nameTxt = gui->addStaticText(name.c_str(), rect<s32>(0, 3, 270, 30), false, true, bg, -1, false);
+	nameTxt = gui->addStaticText(name.c_str(), rect<s32>(0, 3, 270, 30), false, false, bg, -1, false);
 	nameTxt->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
 
 	bar = new CProgressBar(gui, -1, gui->getRootGUIElement());
@@ -31,3 +31,7 @@ CProcess::~CProcess() {
 	bar->remove();
 }
 
+void CProcess::setName(stringw _name) { 
+	name = _name;
+	nameTxt->setText(name.c_str());
+}

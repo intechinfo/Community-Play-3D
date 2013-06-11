@@ -21,4 +21,6 @@
 
 #ifndef _IRR_OSX_PLATFORM_
 	#include <thread>
+	#include <mutex>
+	#include <Windows.h>
 #endif

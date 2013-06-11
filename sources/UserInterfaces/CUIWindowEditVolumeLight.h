@@ -21,13 +21,14 @@ public:
     ~CUIWindowEditVolumeLight();
     
     void open(ISceneNode *node, stringw prefix);
-	bool isValid();
     
     bool OnEvent(const SEvent &event);
     
 private:
     
     CDevices *devices;
+
+	bool isValid();
     
     //-----------------------------------
     //EDIT WINDOW USER INTERFACE ELEMENTS

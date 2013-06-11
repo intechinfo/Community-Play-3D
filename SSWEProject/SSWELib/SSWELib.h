@@ -5,10 +5,6 @@
 
 #include "../../sources/Device/Core/CCoreUserInterface.h"
 
-#ifdef _MSC_VER
-#pragma comment(lib, "Irrlicht.lib")
-#endif
-
 #define SSWE_LIB_EXPORTS
 #ifdef SSWE_LIB_EXPORTS
 	#define SSWE_LIB_API __declspec(dllexport)

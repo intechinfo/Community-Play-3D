@@ -4,6 +4,10 @@
 #include "stdafx.h"
 #include "SSWELib.h"
 
+void test(CCoreUserInterface *coreUserInterface) {
+
+}
+
 SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice() {
 	return new CCoreUserInterface();
 }
@@ -24,9 +28,15 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
+	//std::thread test_t(&test, coreUserInterface);
+	//test_t.detach();
+
 	driver->beginScene(true, true, SColor(0x0));
 	driver->endScene();
 	coreUserInterface->getDevices()->getDevice()->maximizeWindow();
+
+	if (!InitializeCriticalSectionAndSpinCount(&CriticalSection,  0x00000400))
+		return;
 
 	while (device->run()) {
 
@@ -39,6 +49,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
         }
 	}
 
-	System::Destroy();
+	DeleteCriticalSection(&CriticalSection);
+
     device->drop();
 }

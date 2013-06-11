@@ -267,6 +267,9 @@
     <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp">
       <Filter>UserInterfaces\ProcessesLogger</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.cpp">
+      <Filter>UserInterfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -457,6 +460,9 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h">
       <Filter>UserInterfaces\ProcessesLogger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.h">
+      <Filter>UserInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

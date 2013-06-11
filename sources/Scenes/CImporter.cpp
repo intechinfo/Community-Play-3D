@@ -894,7 +894,7 @@ void CImporter::buildObject() {
 
 		if (path == "sphere") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
-		} else {
+		} else if (node->getType() != ESNT_BILLBOARD) {
 			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
 		}
         SObjectsData odata(mesh, node, path);
@@ -1118,6 +1118,8 @@ void CImporter::readMaterialShaderCallbacks() {
 		E_PIXEL_SHADER_TYPE pixelShaderType = (E_PIXEL_SHADER_TYPE)xmlReader->getAttributeValueAsInt("type");
 		read("vertexShaderType");
 		E_VERTEX_SHADER_TYPE vertexShaderType = (E_VERTEX_SHADER_TYPE)xmlReader->getAttributeValueAsInt("type");
+		read("baseMaterial");
+		E_MATERIAL_TYPE baseMaterial = (E_MATERIAL_TYPE)xmlReader->getAttributeValueAsInt("type");
 
 		stringc name = "";
 		read("name");
@@ -1138,6 +1140,7 @@ void CImporter::readMaterialShaderCallbacks() {
 		callback->setConstants(constants.c_str());
 		callback->setPixelShaderType(pixelShaderType);
 		callback->setVertexShaderType(vertexShaderType);
+		callback->setBaseMaterial(baseMaterial);
 		callback->setDevice(devices->getDevice());
 		callback->buildMaterial(devices->getVideoDriver());
 		devices->getCoreData()->getShaderCallbacks()->push_back(callback);
@@ -1239,7 +1242,11 @@ void CImporter::readTransformations(ISceneNode *_node) {
     //SCALE
     read("scale");
     vector3df scale = buildVector3df();
-    _node->setScale(scale);
+	if (_node->getType() == ESNT_BILLBOARD) {
+		((IBillboardSceneNode *)_node)->setSize(dimension2d<f32>(scale.X, scale.Y));
+	} else {
+		_node->setScale(scale);
+	}
 }
 
 void CImporter::readViewModes(ISceneNode *_node) {

@@ -10,3 +10,5 @@
 
 #include "../../sources/Device/CDevices.h"
 #include "../../sources/Device/Core/CCore.h"
+
+extern CRITICAL_SECTION CriticalSection;

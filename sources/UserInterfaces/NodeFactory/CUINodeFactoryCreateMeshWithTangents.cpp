@@ -31,6 +31,67 @@ void CUINodeFactoryCreateMeshWithTangents::open(ISceneNode *node, IMesh *mesh) {
 	cancel = gui->addButton(rect<s32>(120, 180, 220, 210), window, -1, L"Close", L"Close The Window");
 }
 
+void CUINodeFactoryCreateMeshWithTangents::create() {
+	CProcess *process = new CProcess(devices->getGUIEnvironment(), "CREATE MESH WITH TANGENTS");
+	devices->getProcessesLogger()->addProcess(process);
+
+	IGUIWindow *windowPrecessing = devices->addInformationDialog(L"Informations", L"Are you sure ?\nProcessing...", 0x0, true, window);
+	sure->setText(L"Processing...");
+	window->addChild(windowPrecessing);
+
+    devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
+    devices->updateDevice();
+    devices->getVideoDriver()->endScene();
+
+	IMeshManipulator *mm = devices->getSceneManager()->getMeshManipulator();
+	devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
+    devices->updateDevice();
+    devices->getVideoDriver()->endScene();
+	IMesh *tangentsMesh = mm->createMeshWithTangents(meshToEdit, recalculateNormals->isChecked(), smooth->isChecked(), angleWeighted->isChecked(), recalculateTangents->isChecked());
+	ISceneNode *newNode;
+	if (nodeType == ESNT_OCTREE) {
+		newNode = devices->getSceneManager()->addOctreeSceneNode(tangentsMesh);
+	} else {
+		newNode = devices->getSceneManager()->addMeshSceneNode(tangentsMesh);
+	}
+
+	newNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_with_tangents")).c_str());
+	newNode->setPosition(nodeToEdit->getPosition());
+	newNode->setRotation(nodeToEdit->getRotation());
+	newNode->setParent(nodeToEdit->getParent());
+	newNode->setScale(nodeToEdit->getScale());
+	for (u32 i=0; i < nodeToEdit->getMaterialCount(); i++) {
+		newNode->getMaterial(i) = nodeToEdit->getMaterial(i);
+	}
+
+	stringc prefix = devices->getCore()->getNodeNamePrefix(newNode);
+	if (prefix == "#map") {
+		devices->getCoreData()->getTerrainMeshes()->push_back(tangentsMesh);
+		devices->getCoreData()->getTerrainNodes()->push_back(newNode);
+		devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(nodeMinPolysPerNode);
+		devices->getCoreData()->getTerrainPaths()->push_back(meshPath.c_str());
+	} else if (prefix == "#tree") {
+		STreesData tdata(tangentsMesh, newNode, meshPath.c_str(), ESNT_OCTREE, nodeMinPolysPerNode);
+		devices->getCoreData()->getTreesData()->push_back(tdata);
+	} else if (prefix == "#object") {
+		SObjectsData odata(tangentsMesh, newNode, meshPath.c_str());
+		devices->getCoreData()->getObjectsData()->push_back(odata);
+	} else if (prefix == "#water") {
+		CWaterSurface *ws = new CWaterSurface(devices->getSceneManager(), 0, 0);
+		SWaterSurfacesData wsdata(ws, 0);
+		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
+	}
+
+	devices->getXEffect()->addShadowToNode(newNode, devices->getXEffectFilterType(), 
+											devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType()));
+	devices->getCollisionManager()->setCollisionToAnOctTreeNode(newNode);
+
+	windowPrecessing->remove();
+	window->remove();
+
+	process->setHasFinished(true);
+}
+
 bool CUINodeFactoryCreateMeshWithTangents::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_GUI_EVENT) {
@@ -46,61 +107,10 @@ bool CUINodeFactoryCreateMeshWithTangents::OnEvent(const SEvent &event) {
 		}
 		if (event.GUIEvent.EventType == EGET_MESSAGEBOX_OK) {
 			if (event.GUIEvent.Caller == sure) {
-				IGUIWindow *windowPrecessing = devices->addInformationDialog(L"Informations", L"Are you sure ?\nProcessing...", 0x3, true, window);
-				window->addChild(windowPrecessing);
-
-                devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
-                devices->updateDevice();
-                devices->getVideoDriver()->endScene();
-
-				IMeshManipulator *mm = devices->getSceneManager()->getMeshManipulator();
-				sure->setText(L"Processing...");
-				devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
-                devices->updateDevice();
-                devices->getVideoDriver()->endScene();
-				IMesh *tangentsMesh = mm->createMeshWithTangents(meshToEdit, recalculateNormals->isChecked(), smooth->isChecked(), angleWeighted->isChecked(), recalculateTangents->isChecked());
-				ISceneNode *newNode;
-				if (nodeType == ESNT_OCTREE) {
-					newNode = devices->getSceneManager()->addOctreeSceneNode(tangentsMesh);
-				} else {
-					newNode = devices->getSceneManager()->addMeshSceneNode(tangentsMesh);
-				}
-
-				newNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_with_tangents")).c_str());
-				newNode->setPosition(nodeToEdit->getPosition());
-				newNode->setRotation(nodeToEdit->getRotation());
-				newNode->setParent(nodeToEdit->getParent());
-				newNode->setScale(nodeToEdit->getScale());
-				for (u32 i=0; i < nodeToEdit->getMaterialCount(); i++) {
-					newNode->getMaterial(i) = nodeToEdit->getMaterial(i);
-				}
-
-				stringc prefix = devices->getCore()->getNodeNamePrefix(newNode);
-				if (prefix == "#map") {
-					devices->getCoreData()->getTerrainMeshes()->push_back(tangentsMesh);
-					devices->getCoreData()->getTerrainNodes()->push_back(newNode);
-					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(nodeMinPolysPerNode);
-					devices->getCoreData()->getTerrainPaths()->push_back(meshPath.c_str());
-				} else if (prefix == "#tree") {
-					STreesData tdata(tangentsMesh, newNode, meshPath.c_str(), ESNT_OCTREE, nodeMinPolysPerNode);
-					devices->getCoreData()->getTreesData()->push_back(tdata);
-				} else if (prefix == "#object") {
-					SObjectsData odata(tangentsMesh, newNode, meshPath.c_str());
-					devices->getCoreData()->getObjectsData()->push_back(odata);
-				} else if (prefix == "#water") {
-					CWaterSurface *ws = new CWaterSurface(devices->getSceneManager(), 0, 0);
-					SWaterSurfacesData wsdata(ws, 0);
-					devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
-				}
-
-				devices->getXEffect()->addShadowToNode(newNode, devices->getXEffectFilterType(), 
-													   devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType()));
-				devices->getCollisionManager()->setCollisionToAnOctTreeNode(newNode);
-
-				windowPrecessing->remove();
+				std::thread create_t(&CUINodeFactoryCreateMeshWithTangents::create, *this);
+				create_t.detach();
 
 				devices->getEventReceiver()->RemoveEventReceiver(this);
-				window->remove();
 				delete this;
 			}
 		}
