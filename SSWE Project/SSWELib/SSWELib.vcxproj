@@ -94,9 +94,9 @@
       <OutputFile>Intermediate\$(Configuration)-$(PlatformTarget)\$(TargetName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\SSWE\Output\$(TargetName)$(TargetExt)" /y
-
-copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-VisualStudio\$(TargetName)$(TargetExt)" /y</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)..\..\..\..\bin\Win32-VisualStudio\SSWELib.dll" /y
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,9 +127,6 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-Visua
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
-    <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)..\..\..\..\bin\Win32-VisualStudio\SSWELib.dll" /y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -166,6 +163,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-Visua
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditLight.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditNode.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditWater.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowExportScene.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.cpp" />
@@ -184,6 +182,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-Visua
     <ClCompile Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\UIContextMenu.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\UIWindowRender.cpp" />
@@ -228,6 +228,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-Visua
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditLight.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditNode.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditWater.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowExportScene.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.h" />
@@ -247,6 +248,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(OutDir)\..\..\..\..\bin\Win32-Visua
     <ClInclude Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\UIContextMenu.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\UIWindowRender.h" />

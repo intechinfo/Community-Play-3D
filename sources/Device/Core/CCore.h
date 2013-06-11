@@ -70,9 +70,9 @@ public:
 	dimension2d<f32> getDimensionF32(std::string sizeW, std::string sizeH);
 	
 	f32 getF32(std::string valuef32);
-	u32 getU32(std::string valueu32);
+	u32 getU32(stringc valueu32);
     s32 getS32(std::string values32);
-	
+
 	stringw getStrNumber(f32 value);
     stringw getStrNumberU32(u32 value);
 	stringw getStrVector3df(vector3df v);

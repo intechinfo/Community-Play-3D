@@ -15,6 +15,7 @@ CDevices::CDevices() {
 	Device = 0;
 	wolrdCore = new CCore();
     worldCoreData = new CCoreData();
+	processesLogger = 0;
 
     //RENDERS
     effect = 0;
@@ -330,6 +331,9 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//FINISH WITH EVENTS
     receiver.AddEventReceiver(objPlacement);
+
+	//ADVANCED GUI ASSETS
+	processesLogger = new CUIProcessesLogger(gui);
 }
 
 void CDevices::rebuildXEffect() {

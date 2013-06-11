@@ -20,7 +20,7 @@
 #include "../../CharacterEdition/CAction.h"
 
 //---------------------------------------------------------------------------------------------
-//-----------------------------------PLANAR MAPPING-------------------------------------------
+//-----------------------------------PLANAR MAPPING--------------------------------------------
 //---------------------------------------------------------------------------------------------
 struct SPlanarTextureMappingData {
 
@@ -296,6 +296,9 @@ public:
 	//METHODS
 	void clearAllTheArrays();
 	void clear();
+
+	array<stringw> getSceneNodeAnimatorsNames(IrrlichtDevice *_device, u32 idx=0);
+	u32 getAmountOfSceneNodeAnimators();
 
 	array<ISceneNode *> getAllSceneNodes();
 	array<IMesh *> getAllMeshes();

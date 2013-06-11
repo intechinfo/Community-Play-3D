@@ -62,6 +62,26 @@ void CCoreData::clearAllTheArrays() {
     shaderCallbacks.clear();
 }
 
+array<stringw> CCoreData::getSceneNodeAnimatorsNames(IrrlichtDevice *_device, u32 idx) {
+	ISceneManager *smgr = _device->getSceneManager();
+	ISceneNodeAnimatorFactory *anf = smgr->getSceneNodeAnimatorFactory(idx);
+	array<stringw> names;
+
+	if (anf) {
+		anf->createSceneNodeAnimator("test !", 0);
+
+		for (u32 i=0; i < getAmountOfSceneNodeAnimators(); i++) {
+			names.push_back(stringw(anf->getCreateableSceneNodeAnimatorTypeName((ESCENE_NODE_ANIMATOR_TYPE)i)));
+		}
+	}
+
+	return names;
+}
+
+u32 CCoreData::getAmountOfSceneNodeAnimators() {
+	return (u32)ESNAT_COUNT;
+}
+
 array<ISceneNode *> CCoreData::getAllSceneNodes() {
     array<ISceneNode *> nodes;
     nodes.clear();
