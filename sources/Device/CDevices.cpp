@@ -143,6 +143,10 @@ void CDevices::updateEntities() {
 void CDevices::updateDevice() {
 
 	#ifndef _IRR_OSX_PLATFORM_
+		EnterCriticalSection(&CriticalSection);
+	#endif
+
+	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
 			std::thread scene_t(&CDevices::drawScene, *this);
 			scene_t.join();
@@ -171,6 +175,9 @@ void CDevices::updateDevice() {
 	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
+	#ifndef _IRR_OSX_PLATFORM_
+		LeaveCriticalSection(&CriticalSection);
+	#endif
 }
 
 void CDevices::reupdate(EffectHandler *_effect) {
@@ -194,11 +201,8 @@ void CDevices::reupdate(EffectHandler *_effect) {
 void CDevices::drawScene() {
 	if (renderXEffect) {
 		matrix4 viewProj;
-		smgrs[sceneManagerToDrawIndice]->drawAll();
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-
 		effect->update();
-
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }

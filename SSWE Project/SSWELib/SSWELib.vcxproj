@@ -157,6 +157,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClCompile Include="..\..\sources\SceneNodes\WaterSurface\CWaterSurface.cpp" />
     <ClCompile Include="..\..\sources\Scenes\CExporter.cpp" />
     <ClCompile Include="..\..\sources\Scenes\CImporter.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIRenderingInfos.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIRightSceneTreeView.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUISceneView.cpp" />
@@ -222,6 +223,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\" /y
     <ClInclude Include="..\..\sources\SceneNodes\WaterSurface\CWaterSurface.h" />
     <ClInclude Include="..\..\sources\Scenes\CExporter.h" />
     <ClInclude Include="..\..\sources\Scenes\CImporter.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIRenderingInfos.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIRightSceneTreeView.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUISceneView.h" />

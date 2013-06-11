@@ -45,6 +45,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Open a script (CTRL+O)", CXT_MENU_EVENTS_OPEN_SCRIPT);
 	submenu->addItem(L"Concat this scene with other...", CXT_MENU_EVENTS_FILE_CONCAT_SCENE_SCRIPT);
+	submenu->addItem(L"Add nodes group from directory...", CXT_MENU_EVENTS_FILE_ADD_NODES_GROUP);
 	submenu->addSeparator();
 	submenu->addItem(L"Export this scene", CXT_MENU_EVENTS_FILE_EXPORT_SCENE);
 	submenu->addItem(L"Clean the scene", CXT_MENU_EVENTS_FILE_CLEAN_SCENE);
@@ -288,6 +289,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				case CXT_MENU_EVENTS_FILE_CONCAT_SCENE_SCRIPT:
 					openSceneInstance->open();
+					break;
+
+				case CXT_MENU_EVENTS_FILE_ADD_NODES_GROUP: {
+					CUILoadNodesGroup *loadGroup = new CUILoadNodesGroup(devices);
+				}
 					break;
                     
                 case CXT_MENU_EVENTS_FILE_RENDER: {

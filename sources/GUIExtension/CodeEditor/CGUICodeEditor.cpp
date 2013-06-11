@@ -1412,7 +1412,7 @@ void CGUIEditBoxIRB::draw()
 		// Checking that the "txtline" size is bigger than 5 to redefine the position of the cursor
 		// Was crashing for a position NOT allocated in the line.
 		if (txtLine->size()>0) {
-			int index = std::min((int)txtLine->size(),CursorPos-startPos-1);
+			int index = min((int)txtLine->size(),CursorPos-startPos-1);
 			charcursorpos = font->getDimension(s.c_str()).Width +
 			font->getKerningWidth(L"_", CursorPos-startPos > 0 ? &((*txtLine)[index]) : 0);
 		}
@@ -1594,7 +1594,7 @@ bool CGUIEditBoxIRB::processMouse(const SEvent& event)
 				int height = (s32)font->getDimension(L"O").Height;
 				s32 lineCount = isMultiLineEnabled() ? BrokenText.size() : 1;
 				float linesOnScreen = FrameRect.getHeight()/(float)height;
-				Scrollbar->setPos(std::max(0,getLineFromPos(CursorPos-linesOnScreen)));*/
+				Scrollbar->setPos(max(0,getLineFromPos(CursorPos-linesOnScreen)));*/
 				return true;
 			}
 		}
@@ -1827,7 +1827,7 @@ s32 CGUIEditBoxIRB::getCursorPos(s32 x, s32 y)
 
 	// click was off the right edge of the line, go to end.
 	if (txtLine) {
-		return std::max((int)0,(int)txtLine->size() + startPos-1);
+		return max((int)0,(int)txtLine->size() + startPos-1);
 	}
 	else {
 		return startPos;
@@ -2319,7 +2319,7 @@ irr::core::recti CGUIEditBoxIRB::myRect(int x, int y, int w, int h)
 //! returns whether a point is within the selection
 bool CGUIEditBoxIRB::isPointInSelection(core::position2di pos) 
 {
-	return (getCursorPos(pos.X,pos.Y) > std::min(MarkBegin,MarkEnd) && getCursorPos(pos.X,pos.Y) < std::max(MarkBegin,MarkEnd));
+	return (getCursorPos(pos.X,pos.Y) > min(MarkBegin,MarkEnd) && getCursorPos(pos.X,pos.Y) < max(MarkBegin,MarkEnd));
 }
 
 //! clears all keywords
@@ -2542,8 +2542,8 @@ void CGUIEditBoxIRB::replaceText(int start, int end, irr::core::stringw newText)
 	STextAction action;
 	action.newText = newText;
 	action.oldText = Text.subString(start,(end-start));
-	action.oldStart = std::min(start,end);
-	action.oldEnd = std::max(end,start);
+	action.oldStart = min(start,end);
+	action.oldEnd = max(end,start);
 	UndoList.push_back(action);
 
 	core::stringw s = Text.subString(0, start);

@@ -26,6 +26,7 @@
 
 #ifndef _IRR_OSX_PLATFORM_
 	#include <thread>
+	#include <Windows.h>
 #endif
 
 #include "../../Renders/XEffect/XEffects.h"

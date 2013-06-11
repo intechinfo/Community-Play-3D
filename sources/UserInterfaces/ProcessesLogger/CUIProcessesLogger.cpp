@@ -31,7 +31,8 @@ void CUIProcessesLogger::update() {
 	if (processes.size() > 0) {
 		window->setVisible(true);
 		gui->getRootGUIElement()->bringToFront(window);
-		window->setRelativePosition(position2di(gui->getVideoDriver()->getScreenSize().Width-window->getRelativePosition().getWidth(), 75));
+		window->setRelativePosition(rect<s32>(gui->getVideoDriver()->getScreenSize().Width-window->getRelativePosition().getWidth(), 75,
+											  gui->getVideoDriver()->getScreenSize().Width, 30+processes.size()*60+100));
 		for (u32 i=0; i < processes.size(); i++) {
 			if (processes[i].hasFinished()) {
 				delete processes[i].getProcess();

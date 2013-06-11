@@ -20,6 +20,7 @@ public:
 	CProcess(IGUIEnvironment *_gui, stringw _name);
 	~CProcess();
 
+	void setName(stringw _name);
 	stringw getName() { return name; }
 
 	bool hasFinished() { return finished; }

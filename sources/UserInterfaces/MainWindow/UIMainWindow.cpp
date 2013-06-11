@@ -828,16 +828,13 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_VOLUME_LIGHT:
                 if (volumeLightsListBox->getSelected() != -1) {
-                    //light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode());
 					devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getVolumeLightsData()->erase(volumeLightsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
-                    devices->getObjectPlacement()->setLightNode(0);
-                    //light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
-                    //light_icon->setVisible(false);
                     
-                    lightsListBox->removeItem(lightsListBox->getSelected());
-                    lightsListBox->setSelected(-1);
+                    volumeLightsListBox->removeItem(lightsListBox->getSelected());
+                    volumeLightsListBox->setSelected(-1);
                 } else {
                     devices->addInformationDialog(L"Information",
                                                   L"Please select a node before...", EMBF_OK);
