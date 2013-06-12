@@ -237,7 +237,7 @@ public:
 	/// Only one shadow map is kept for each resolution, so if multiple lights are using
 	/// the same resolution, you will only see the last light drawn's output.
 	/// The secondary param specifies whether to retrieve the secondary shadow map used in blurring.
-	irr::video::ITexture* getShadowMapTexture(const irr::u32 resolution, const bool secondary = false);
+	irr::video::ITexture* getShadowMapTexture(const irr::u32 resolution, const bool secondary = false, const irr::u32 id = 0);
 
 	/// Retrieves the screen depth map texture if the depth pass is enabled. This is unrelated to the shadow map, and is
 	/// meant to be used for post processing effects that require screen depth info, eg. DOF or SSAO.

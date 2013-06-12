@@ -894,7 +894,9 @@ void CImporter::buildObject() {
 
 		if (path == "sphere") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
-		} else if (node->getType() != ESNT_BILLBOARD) {
+		} else if (path == "cube") {
+			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		} else if (path == "billboard") {
 			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
 		}
         SObjectsData odata(mesh, node, path);

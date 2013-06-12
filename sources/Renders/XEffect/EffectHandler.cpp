@@ -259,7 +259,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 	if(shadowsUnsupported || smgr->getActiveCamera() == 0)
 		return;
     
-    bool recalculate = false;
+    bool recalculate = true;
     for (irr::u32 i=0; i < LightList.size(); i++) {
 		if (LightList[i].mustRecalculate()) {
             recalculate = true;
@@ -290,9 +290,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
             driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
             driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
             
-            if (recalculate || !currentShadowMapTexture) {
-                currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution());
-            }
+            currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 
 			driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
 
@@ -327,9 +325,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 			// Blur the shadow map texture if we're using VSM filtering.
 			if(useVSM)
 			{
-                if (recalculate || !currentSecondaryShadowMap) {
-                    currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true);
-                }
+                currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true, l);
                 
 				driver->setRenderTarget(currentSecondaryShadowMap, true, true, SColor(0xffffffff));
 				ScreenQuad.getMaterial().setTexture(0, currentShadowMapTexture);
@@ -373,7 +369,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
                 {
                     BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
                     BufferTextureList.push_back(ShadowNodeArray[i].node->getMaterial(m).getTexture(0));
-                    
+
                     ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)Shadow[ShadowNodeArray[i].filterType];
                     ShadowNodeArray[i].node->getMaterial(m).setTexture(0, currentShadowMapTexture);
                 }
@@ -511,10 +507,13 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 	}
 }
 
-irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary)
+irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id)
 {
 	// Using Irrlicht cache now.
 	core::stringc shadowMapName = core::stringc("XEFFECTS_SM_") + core::stringc(resolution);
+	shadowMapName += "_";
+	shadowMapName += id;
+	shadowMapName += "_";
     
 	if(secondary)
 		shadowMapName += "_2";
