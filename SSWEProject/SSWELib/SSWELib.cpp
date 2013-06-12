@@ -4,10 +4,6 @@
 #include "stdafx.h"
 #include "SSWELib.h"
 
-void test(CCoreUserInterface *coreUserInterface) {
-
-}
-
 SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice() {
 	return new CCoreUserInterface();
 }
@@ -28,9 +24,6 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
-	//std::thread test_t(&test, coreUserInterface);
-	//test_t.detach();
-
 	driver->beginScene(true, true, SColor(0x0));
 	driver->endScene();
 	coreUserInterface->getDevices()->getDevice()->maximizeWindow();
@@ -41,6 +34,8 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	while (device->run()) {
 
         if (device->isWindowActive()) {
+			coreUserInterface->getDevices()->updateEntities();
+
             driver->beginScene(true, true, SColor(0x0));
 
             coreUserInterface->update();
@@ -52,4 +47,6 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	DeleteCriticalSection(&CriticalSection);
 
     device->drop();
+
+
 }

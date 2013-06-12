@@ -907,7 +907,7 @@ void CImporter::buildObject() {
 
 void CImporter::buildLight() {
 	ILightSceneNode *node = smgr->addLightSceneNode();
-	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 5000.f, 89.99f * DEGTORAD, false);
+	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
 
 	read("name");
 	node->setName(xmlReader->getAttributeValue("c8name"));
