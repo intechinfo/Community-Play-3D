@@ -273,9 +273,6 @@
     <ClCompile Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.cpp">
       <Filter>UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -469,9 +466,6 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.h">
       <Filter>UserInterfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
