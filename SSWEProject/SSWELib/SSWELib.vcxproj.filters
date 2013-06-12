@@ -94,6 +94,9 @@
     <Filter Include="UserInterfaces\ProcessesLogger">
       <UniqueIdentifier>{91f397dc-8d06-41e6-aca2-274c80bf0d3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserInterfaces\AnimatorsEditor">
+      <UniqueIdentifier>{b25f4e1c-f8b9-4d38-8c0e-67d48f2b7cdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
