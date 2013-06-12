@@ -95,6 +95,8 @@ enum GUI_CXT_MENU_EVENTS {
 #include "NodeFactory/CUINodeFactoryPlanarMapping.h"
 #include "NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
 
+#include "AnimatorsEditor/CUIWindowEditNodeAnimators.h"
+
 #include "CUISceneView.h"
 #include "TexturesManager/CUITexturesManager.h"
 
