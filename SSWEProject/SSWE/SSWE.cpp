@@ -17,7 +17,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, 
 #else
 int main() {
 #endif
-
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
 	updateSSWEDevice(coreUserInterface);
 

@@ -45,7 +45,7 @@ CDevices::CDevices() {
 }
 
 CDevices::~CDevices() {
-	/*gui->drop();
+	gui->drop();
 
     smgr->drop();
 	effectSmgr->drop();
@@ -54,7 +54,7 @@ CDevices::~CDevices() {
 
 	delete effect;
 	delete worldCoreData;
-	delete wolrdCore;*/
+	delete wolrdCore;
 }
 
 void CDevices::removeSceneManager(ISceneManager *smgrToDelete) {
@@ -149,11 +149,9 @@ void CDevices::updateDevice() {
 
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
-			std::thread scene_t(&CDevices::drawScene, *this);
-			scene_t.join();
+			this->drawScene();
 		}
-		std::thread gui_t(&CDevices::drawGUI, *this);
-		gui_t.join();
+		this->drawGUI();
 	#else
 		if (renderScene) {
 			if (renderXEffect) {

@@ -275,6 +275,8 @@
     </ClCompile>
     <ClCompile Include="OculusRift.cpp">
       <Filter>Device</Filter>
+    <ClCompile Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp">
+      <Filter>UserInterfaces\AnimatorsEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -472,6 +474,8 @@
     </ClInclude>
     <ClInclude Include="OculusRift.h">
       <Filter>Device</Filter>
+    <ClInclude Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h">
+      <Filter>UserInterfaces\AnimatorsEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
