@@ -143,14 +143,15 @@ bool CUIWindowEditVolumeLight::OnEvent(const SEvent &event) {
 					nodeToEdit->setSubDivideV(subdivV);
 					nodeToEdit->setFootColor(SColor(aFootColor, rFootColor, gFootColor, bFootColor));
 					nodeToEdit->setTailColor(SColor(aTailColor, rTailColor, gTailColor, bTailColor));
-					nodeToEdit->getMaterial(0).setTexture(0, devices->getSceneManager()->getVideoDriver()->getTexture("data/Lights/lightFalloff.png"));
 					editWindow->remove();
-					return true;
+					devices->getEventReceiver()->RemoveEventReceiver(this);
+					delete this;
 				}
             }
 			if(event.GUIEvent.Caller == closeButton) {
                 editWindow->remove();
-				return true;
+				devices->getEventReceiver()->RemoveEventReceiver(this);
+				delete this;
 			}
         }
     }

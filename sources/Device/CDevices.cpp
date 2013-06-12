@@ -143,6 +143,10 @@ void CDevices::updateEntities() {
 void CDevices::updateDevice() {
 
 	#ifndef _IRR_OSX_PLATFORM_
+		EnterCriticalSection(&CriticalSection);
+	#endif
+
+	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
 			std::thread scene_t(&CDevices::drawScene, *this);
 			scene_t.join();
@@ -171,6 +175,9 @@ void CDevices::updateDevice() {
 	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
+	#ifndef _IRR_OSX_PLATFORM_
+		LeaveCriticalSection(&CriticalSection);
+	#endif
 }
 
 void CDevices::reupdate(EffectHandler *_effect) {
@@ -194,11 +201,8 @@ void CDevices::reupdate(EffectHandler *_effect) {
 void CDevices::drawScene() {
 	if (renderXEffect) {
 		matrix4 viewProj;
-		smgrs[sceneManagerToDrawIndice]->drawAll();
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-
 		effect->update();
-
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }
@@ -214,6 +218,7 @@ void CDevices::drawGUI() {
 
 void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
+
 	Device = createDeviceEx(parameters);
     Device->setWindowCaption(L"Soganatsu Studios World Editor V1");
 	Device->setResizable(true);
@@ -260,22 +265,22 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	keyMap[4].Action = EKA_JUMP_UP;
 	keyMap[4].KeyCode = KEY_SPACE;
     
-    camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.09f, -1, keyMap, 5, true, 0.3f, false, true);
+	camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.09f, -1, keyMap, 5, true, 0.3f, false, true);
 	camera_fps->setTarget(vector3df(0.f, 5.f, 0.f));
 	camera_fps->setFarValue(42000.0f);
 	camera_fps->setName("editor:FPScamera");
-    camera_fps->setID(-1);
+	camera_fps->setID(-1);
 	
-    camera_maya = smgr->addCameraSceneNodeMaya();
-    camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
-    camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
-    camera_maya->bindTargetAndRotation(true);
-    camera_maya->setFarValue(42000.0f);
+	camera_maya = smgr->addCameraSceneNodeMaya();
+	camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
+	camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
+	camera_maya->bindTargetAndRotation(true);
+	camera_maya->setFarValue(42000.0f);
 	camera_maya->setName("editor:MayaCamera");
-    camera_maya->setID(-1);
-    camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	camera_maya->setID(-1);
+	camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
     
-    smgr->setActiveCamera(camera_maya);
+	smgr->setActiveCamera(camera_maya);
 	effectSmgr->setActiveCamera(camera_maya);
     
     cursorBillBoard = smgr->addBillboardSceneNode();

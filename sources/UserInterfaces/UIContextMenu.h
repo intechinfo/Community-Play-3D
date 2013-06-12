@@ -30,6 +30,7 @@ enum GUI_CXT_MENU_EVENTS {
 
 	CXT_MENU_EVENTS_FILE_OPEN_SCRIPT,
 	CXT_MENU_EVENTS_FILE_CONCAT_SCENE_SCRIPT,
+	CXT_MENU_EVENTS_FILE_ADD_NODES_GROUP,
 	CXT_MENU_EVENTS_FILE_EXPORT_SCENE,
 	CXT_MENU_EVENTS_FILE_CLEAN_SCENE, CXT_MENU_EVENTS_FILE_CLEAN_SCENE_OK,
 	CXT_MENU_EVENTS_FILE_RENDER,
@@ -84,6 +85,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "../UserInterfaces/CUIWindowOpenScene.h"
 #include "../UserInterfaces/CUIWindowExportScene.h"
 
+#include "CUILoadNodesGroup.h"
 #include "CUIWindowEditNode.h"
 #include "MaterialEditor/CUIMaterialEditor.h"
 #include "CUIWindowEditLight.h"

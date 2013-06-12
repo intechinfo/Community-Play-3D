@@ -20,6 +20,8 @@ public:
 
 private:
 
+	void create();
+
 	//-----------------------------------
 	//DEVICES ELEMENTS AND DATAS
 	CDevices *devices;

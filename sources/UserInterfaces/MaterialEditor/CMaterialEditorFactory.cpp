@@ -46,6 +46,9 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
 	CProcess *process = new CProcess(devices->getGUIEnvironment(), "CREATE AND NORMAL MAP TEXTURES");
 	devices->getProcessesLogger()->addProcess(process);
 
+	E_SHADOW_MODE shadowMode = devices->getXEffect()->getNodeShadowMode(node, devices->getXEffectFilterType());
+	devices->getXEffect()->removeShadowFromNode(node);
+
 	for (u32 i=0; i < node->getMaterialCount(); i++) {
 		if (node->getMaterial(i).TextureLayer[0].Texture) {
 			stringc texname = node->getMaterial(i).TextureLayer[0].Texture->getName().getPath().c_str();
@@ -66,6 +69,7 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
 
 	//SET PROCESS HAS FINISHED
 	process->setHasFinished(true);
+	devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
 }
 
 void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(f32 factor) {
@@ -73,7 +77,14 @@ void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(f32 factor) {
 	CProcess *process = new CProcess(devices->getGUIEnvironment(), "NORMAL MAPPING TEXTURES");
 	devices->getProcessesLogger()->addProcess(process);
 
+	E_SHADOW_MODE shadowMode = devices->getXEffect()->getNodeShadowMode(node, devices->getXEffectFilterType());
+	devices->getXEffect()->removeShadowFromNode(node);
+
 	for (u32 i=0; i < node->getMaterialCount(); i++) {
+		if (node->getMaterial(i).TextureLayer[0].Texture) {
+			while (node->getMaterial(i).TextureLayer[0].Texture->isRenderTarget());
+		}
+
 		if (node->getMaterial(i).TextureLayer[1].Texture) {
 			devices->getVideoDriver()->makeNormalMapTexture(node->getMaterial(i).TextureLayer[1].Texture, factor);
 		}
@@ -82,6 +93,7 @@ void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(f32 factor) {
 
 	//SET PROCESS HAS FINISHED
 	process->setHasFinished(true);
+	devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
 }
 
 ITexture *CMaterialEditorFactory::copyTexture(stringc nameOfTexture, ITexture *texture) {
