@@ -982,6 +982,10 @@ void CImporter::buildLight() {
 		lfNode->setPosition(buildVector3df());
 	}
 
+	shadowLight.setLSCookieTexture(devices->getVideoDriver()->getTexture("shaders/Textures/LS/Cookie1.png"));
+	shadowLight.setLSNoiseTexture(devices->getVideoDriver()->getTexture("shaders/Textures/LS/Noise.png"));
+	shadowLight.setUseLightShafts(true);
+
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(SLightsData(node, lfMeshNode, lfBillBoard, lfNode));
 }

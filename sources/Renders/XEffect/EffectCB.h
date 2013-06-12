@@ -8,13 +8,11 @@ using namespace scene;
 using namespace video;
 using namespace core;
 
-class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack
-{
+class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack {
 public:
 	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
 
-	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
-	{
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
 		IVideoDriver* driver = services->getVideoDriver();
 
 		worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
@@ -31,15 +29,66 @@ public:
 	core::matrix4 worldViewProj;
 };
 
-class SSWE_RENDERS_API ShadowShaderCB : public video::IShaderConstantSetCallBack
-{
+class SSWE_RENDERS_API LightShaftsCB : public video::IShaderConstantSetCallBack {
+public:
+	LightShaftsCB(EffectHandler *effectIn) : effect(effectIn) {
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[16] = (
+			0.5f,    0.f,     0.f,    0.5f,
+            0.f,    -0.5f,    0.f,    0.5f,
+            0.f,     0.f,     1.f,    0.f,
+            0.f,     0.f,     0.f,    1.f
+		);
+	};
+
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
+		IVideoDriver *driver = services->getVideoDriver();
+
+		/// Set uTexViewProj
+		core::matrix4 uTexViewProj;
+		core::matrix4 PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M.setM(PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE);
+		uTexViewProj = PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M * cameraProjectionMatrix * cameraViewMatrix;
+		services->setVertexShaderConstant("uTexViewProj", uTexViewProj.pointer(), 16);
+
+		/// Set other matrixes
+		core::matrix4 uWorld = driver->getTransform(ETS_WORLD);
+		services->setVertexShaderConstant("uWorld", uWorld.pointer(), 16);
+
+		core::matrix4 uWorldViewProj = uWorld;
+		uWorldViewProj *= driver->getTransform(ETS_VIEW);
+		uWorldViewProj *= driver->getTransform(ETS_PROJECTION);
+		services->setVertexShaderConstant("uWorldViewProj", uWorldViewProj.pointer(), 16);
+
+		/// Set Pixel constants
+		f32 uAttenuation = 0.02f;
+		f32 uLightFarClipDistance = 48;
+		f32 Time = effect->getIrrlichtDevice()->getTimer()->getTime();
+
+		services->setPixelShaderConstant("uLightPosition", reinterpret_cast<f32*>(&uLightPosition.X), 4);
+		services->setPixelShaderConstant("uAttenuation", reinterpret_cast<f32*>(&uAttenuation), 1);
+		services->setPixelShaderConstant("uLightFarClipDistance", reinterpret_cast<f32*>(&uLightFarClipDistance), 1);
+		services->setPixelShaderConstant("Time", reinterpret_cast<f32*>(&Time), 1);
+	}
+
+	EffectHandler* effect;
+
+	core::matrix4 cameraProjectionMatrix;
+	core::matrix4 cameraViewMatrix;
+
+	core::vector3df uLightPosition;
+
+private:
+
+	float PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[16];
+};
+
+class SSWE_RENDERS_API ShadowShaderCB : public video::IShaderConstantSetCallBack {
 public:
 	ShadowShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
 
 	virtual void OnSetMaterial(const SMaterial& material) {}
 
-	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
-	{
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
 		IVideoDriver* driver = services->getVideoDriver();
 
 		matrix4 worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
@@ -74,8 +123,7 @@ public:
 };
 
 
-class SSWE_RENDERS_API ScreenQuadCB : public irr::video::IShaderConstantSetCallBack
-{
+class SSWE_RENDERS_API ScreenQuadCB : public irr::video::IShaderConstantSetCallBack {
 public:
 	ScreenQuadCB(EffectHandler* effectIn, bool defaultV = true) 
 		: effect(effectIn), defaultVertexShader(defaultV) {};
@@ -83,10 +131,8 @@ public:
 	EffectHandler* effect;
 	bool defaultVertexShader;
 
-	virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
-	{
-		if(services->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL)
-		{
+	virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {
+		if(services->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL) {
 			irr::u32 TexVar = 0;
 			services->setPixelShaderConstant("ColorMapSampler", (irr::f32*)(&TexVar), 1); 
 
@@ -100,8 +146,7 @@ public:
 			services->setPixelShaderConstant("UserMapSampler", (irr::f32*)(&TexVar), 1);
 		}
 
-		if(defaultVertexShader)
-		{
+		if(defaultVertexShader) {
 			const irr::core::dimension2du currentRTTSize = services->getVideoDriver()->getCurrentRenderTargetSize();
 			const irr::f32 screenX = (irr::f32)currentRTTSize.Width, screenY = (irr::f32)currentRTTSize.Height;
 
@@ -114,8 +159,7 @@ public:
 			const irr::core::position2di tLeft = services->getVideoDriver()->getViewPort().UpperLeftCorner;
 			const irr::core::position2di bRight = services->getVideoDriver()->getViewPort().LowerRightCorner;
 
-			const irr::core::line3df sLines[4] =
-			{
+			const irr::core::line3df sLines[4] = {
 				smgr->getSceneCollisionManager()->getRayFromScreenCoordinates
 				(irr::core::position2di(tLeft.X, tLeft.Y), cam),
 				smgr->getSceneCollisionManager()->getRayFromScreenCoordinates
@@ -137,12 +181,10 @@ public:
 			services->setVertexShaderConstant("LineEnds3", &sLines[3].end.X, 3);
 		}
 
-		if(uniformDescriptors.size())
-		{
+		if(uniformDescriptors.size()) {
 			irr::core::map<irr::core::stringc, SUniformDescriptor>::Iterator mapIter = uniformDescriptors.getIterator();
 
-			for(;!mapIter.atEnd();mapIter++)
-			{
+			for(;!mapIter.atEnd();mapIter++) {
 				if(mapIter.getNode()->getValue().fPointer == 0)
 					continue;
 
@@ -152,8 +194,7 @@ public:
 		}
 	}
 
-	struct SUniformDescriptor
-	{
+	struct SUniformDescriptor {
 		SUniformDescriptor() : fPointer(0), paramCount(0) {}
 
 		SUniformDescriptor(const irr::f32* fPointerIn, irr::u32 paramCountIn)

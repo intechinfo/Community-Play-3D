@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="SSWERenders.cpp">
       <Filter>Misc\Fichiers sources</Filter>
     </ClCompile>

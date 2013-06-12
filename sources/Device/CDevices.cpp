@@ -302,6 +302,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
 	effect->enableDepthPass(true);
+	effect->setUseLightShafts(true);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
 

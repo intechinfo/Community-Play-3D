@@ -124,6 +124,11 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		VSMBlurV = gpu->addHighLevelShaderMaterial(
                                                    sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                    sPP.ppShader(VSM_BLUR_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
+
+		LSCB = new LightShaftsCB(this);
+		LightShafts = gpu->addHighLevelShaderMaterial(
+                                                      sPP.ppShader(LIGHT_SHAFTS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+                                                      sPP.ppShader(LIGHT_SHAFTS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, LSCB);
 		
 		// Drop the screen quad callback.
 		SQCB->drop();
@@ -335,6 +340,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 			shadowMC->ProjLink = LightList[l].getProjectionMatrix();
 			shadowMC->MapRes = (f32)LightList[l].getShadowMapResolution();
 
+			// Render all the Receive nodes
 			for(u32 i = 0;i < ShadowNodeArraySize;++i)
 			{
 				if(ShadowNodeArray[i].shadowMode == ESM_CAST || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
