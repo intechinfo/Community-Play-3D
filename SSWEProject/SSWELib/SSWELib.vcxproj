@@ -124,7 +124,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;winmm.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;libovr.lib;winmm.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -201,6 +201,7 @@
     <ClCompile Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\UIContextMenu.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\UIWindowRender.cpp" />
+    <ClCompile Include="OculusRift.cpp" />
     <ClCompile Include="SSWELib.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -268,6 +269,7 @@
     <ClInclude Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\UIContextMenu.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\UIWindowRender.h" />
+    <ClInclude Include="OculusRift.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWELib.h" />
     <ClInclude Include="stdafx.h" />

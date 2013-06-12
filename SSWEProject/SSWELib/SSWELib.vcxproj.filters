@@ -270,6 +270,9 @@
     <ClCompile Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.cpp">
       <Filter>UserInterfaces</Filter>
     </ClCompile>
+    <ClCompile Include="OculusRift.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.h">
       <Filter>UserInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="OculusRift.h">
+      <Filter>Device</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

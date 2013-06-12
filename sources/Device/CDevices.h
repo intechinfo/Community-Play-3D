@@ -20,8 +20,7 @@
 
 #include "../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
-#include <OVR.h>
-using namespace OVR;
+#include "OculusRift.h""
 
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
@@ -144,6 +143,11 @@ public:
 	void setSkyBox(ISceneNode *node) { skybox = node; }
 	//-----------------------------------
 
+	//-----------------------------------
+	//OCULUS RIFT
+	OculusRift *getOculusRift();
+	//-----------------------------------
+
 private:
 
 	//-----------------------------------
@@ -222,9 +226,7 @@ private:
 
 	//-----------------------------------
 	//OCULUS RIFT
-	bool isOculusRiftConnected;
-	Ptr<DeviceManager> oculusDeviceManagerPtr;
-	Ptr<HMDDevice> oculusHMDPtr;
+	OculusRift *oculusRift;
 	//-----------------------------------
 };
 

@@ -12,6 +12,7 @@
 
 CDevices::CDevices() {
     //DEVICE
+	oculusRift = NULL;
 	Device = 0;
 	wolrdCore = new CCore();
     worldCoreData = new CCoreData();
@@ -218,6 +219,10 @@ void CDevices::drawGUI() {
 
 void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
+	if(!oculusRift)
+	{
+		oculusRift = new OculusRift();
+	}
 
 	Device = createDeviceEx(parameters);
     Device->setWindowCaption(L"Soganatsu Studios World Editor V1");
@@ -476,4 +481,9 @@ bool CDevices::OnEvent(const SEvent &event) {
     }
     
     return false;
+}
+
+OculusRift *CDevices::getOculusRift()
+{
+	return oculusRift;
 }
