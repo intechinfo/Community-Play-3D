@@ -91,12 +91,6 @@
     <Filter Include="GUIExtension\ProgressBar">
       <UniqueIdentifier>{adcd41e1-c8ea-4406-b7c7-4ec6f78ea75e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\ProcessesLogger">
-      <UniqueIdentifier>{91f397dc-8d06-41e6-aca2-274c80bf0d3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserInterfaces\AnimatorsEditor">
-      <UniqueIdentifier>{b25f4e1c-f8b9-4d38-8c0e-67d48f2b7cdf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -260,18 +254,6 @@
     </ClCompile>
     <ClCompile Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.cpp">
       <Filter>GUIExtension\ProgressBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp">
-      <Filter>UserInterfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.cpp">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -454,18 +436,6 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.h">
       <Filter>GUIExtension\ProgressBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h">
-      <Filter>UserInterfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.h">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

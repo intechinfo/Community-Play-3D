@@ -863,7 +863,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case KEY_KEY_A:
-                    if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
+                    if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && !devices->isShiftPushed()) {
 						if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
 							if (mainWindowInstance->getSelectedNode().getNode()) {
 								CUICharacterWindow *characterWindowInstance = new CUICharacterWindow(devices);
@@ -872,6 +872,15 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                             }
                         }
                     }
+					if(!devices->isEditBoxEntered() && !devices->isCtrlPushed() && devices->isShiftPushed()) {
+						stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
+						if(prefix == L"#animator") {
+							devices->addWarningDialog(L"Warning", L"Please, select a node which is not an animator", EMBF_OK);
+						} else {
+						CUIWindowEditNodeAnimators *editNodeAnimator = new CUIWindowEditNodeAnimators(devices);
+						editNodeAnimator->open(mainWindowInstance->getSelectedNode().getNode(), prefix);
+						}
+					}
                     break;
                     
                 case KEY_KEY_O:

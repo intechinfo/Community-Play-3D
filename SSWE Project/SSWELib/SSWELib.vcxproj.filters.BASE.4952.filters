@@ -85,18 +85,6 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{4ede1748-8d45-4768-85c4-ad643d74da27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUIExtension\Graph2D">
-      <UniqueIdentifier>{14bafc0c-9d1b-47df-b532-6ee7f7d2f59a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUIExtension\ProgressBar">
-      <UniqueIdentifier>{adcd41e1-c8ea-4406-b7c7-4ec6f78ea75e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserInterfaces\ProcessesLogger">
-      <UniqueIdentifier>{91f397dc-8d06-41e6-aca2-274c80bf0d3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserInterfaces\AnimatorsEditor">
-      <UniqueIdentifier>{b25f4e1c-f8b9-4d38-8c0e-67d48f2b7cdf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -254,24 +242,6 @@
     </ClCompile>
     <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.cpp">
       <Filter>UserInterfaces\MainWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\GUIExtension\Graph2D\GraphKat.cpp">
-      <Filter>GUIExtension\Graph2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.cpp">
-      <Filter>GUIExtension\ProgressBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp">
-      <Filter>UserInterfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.cpp">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,27 +415,6 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.h">
       <Filter>UserInterfaces\MainWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ITool.h">
-      <Filter>UserInterfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\Graph2D\GraphKat.h">
-      <Filter>GUIExtension\Graph2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.h">
-      <Filter>GUIExtension\ProgressBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h">
-      <Filter>UserInterfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.h">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
