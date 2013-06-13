@@ -28,7 +28,7 @@ public:
 private:
     
     CDevices *devices;
-    
+
     //-----------------------------------
     //EDIT WINDOW USER INTERFACE ELEMENTS
     IGUIWindow *editWindow;
