@@ -69,27 +69,37 @@ struct SShadowLight
 			projMat.buildProjectionMatrixOrthoLH(fov, fov, nearValue, farValue);
 		else
 			projMat.buildProjectionMatrixPerspectiveFovLH(fov, 1.0f, nearValue, farValue);
-
-		useLightShafts = false;
-		lsCookie = 0;
-		lsNoise = 0;
 	}
+
 	/// Sets the light's position.
-	void setPosition(const irr::core::vector3df& position) {
+	void setPosition(const irr::core::vector3df& position)
+	{
 		pos = position;
 		updateViewMatrix();
 	}
+
 	/// Sets the light's target.
-	void setTarget(const irr::core::vector3df& target) {
+	void setTarget(const irr::core::vector3df& target)
+	{
 		tar = target;
 		updateViewMatrix();
 	}
+
 	/// Gets the light's position.
-	const irr::core::vector3df& getPosition() const { return pos; }
-	const irr::core::vector3df& getTarget()  const { return tar; }
+	const irr::core::vector3df& getPosition() const
+	{
+		return pos;
+	}
+
+	/// Gets the light's target.
+	const irr::core::vector3df& getTarget()  const
+	{
+		return tar;
+	}
 
 	/// Sets the light's view matrix.
-	void setViewMatrix(const irr::core::matrix4& matrix) {
+	void setViewMatrix(const irr::core::matrix4& matrix)
+	{
 		viewMat = matrix;
 		irr::core::matrix4 vInverse;
 		viewMat.getInverse(vInverse);
@@ -97,34 +107,61 @@ struct SShadowLight
 	}
 
 	/// Sets the light's projection matrix.
-	void setProjectionMatrix(const irr::core::matrix4& matrix) { projMat = matrix; }
-	irr::core::matrix4& getViewMatrix() { return viewMat; }
-	irr::core::matrix4& getProjectionMatrix() { return projMat; }
+	void setProjectionMatrix(const irr::core::matrix4& matrix)
+	{
+		projMat = matrix;
+	}
+
+	/// Gets the light's view matrix.
+	irr::core::matrix4& getViewMatrix()
+	{
+		return viewMat;
+	}
+
+	/// Gets the light's projection matrix.
+	irr::core::matrix4& getProjectionMatrix()
+	{
+		return projMat;
+	}
 
 	/// Gets the light's far value.
-	irr::f32 getFarValue() const { return farPlane; }
-    void setFarValue(const irr::f32 _farPlane) { farPlane = _farPlane; }
+	irr::f32 getFarValue() const
+	{
+		return farPlane;
+	}
+    
+    void setFarValue(const irr::f32 _farPlane)
+    {
+        farPlane = _farPlane;
+    }
 
 	/// Gets the light's color.
-	const irr::video::SColorf& getLightColor() const { return diffuseColour; }
-	void setLightColor(const irr::video::SColorf& lightColour)  { diffuseColour = lightColour; }
+	const irr::video::SColorf& getLightColor() const
+	{
+		return diffuseColour;
+	}
+
+	/// Sets the light's color.
+	void setLightColor(const irr::video::SColorf& lightColour) 
+	{
+		diffuseColour = lightColour;
+	}
 
 	/// Sets the shadow map resolution for this light.
-	void setShadowMapResolution(irr::u32 shadowMapResolution) { mapRes = shadowMapResolution; }
-	irr::u32& getShadowMapResolution() { return mapRes; }
-
-	/// Sets using Light Shafts or no
-	void setUseLightShafts(bool use) { useLightShafts = use; }
-	bool isUseLightShafts() { return useLightShafts; }
-
-	/// Sets the light shaft textures
-	void setLSCookieTexture(irr::video::ITexture *tex) { lsCookie = tex; }
-	irr::video::ITexture *getLSCookieTexture() { return lsCookie; }
-	void setLSNoiseTexture(irr::video::ITexture *tex) { lsNoise = tex; }
-	irr::video::ITexture *getLSNoiseTexture() { return lsNoise; }
-	void createLightShafts(irr::scene::ICameraSceneNode *node) {
-
+	void setShadowMapResolution(irr::u32 shadowMapResolution)
+	{
+		mapRes = shadowMapResolution;
 	}
+
+	/// Gets the shadow map resolution for this light.
+	irr::u32& getShadowMapResolution()
+	{
+		return mapRes;
+	}
+
+	/// Gets if we must recalculate the shadow map
+	bool mustRecalculate() { return recalculate; }
+	void setRecalculate(bool _recalculate) { recalculate = _recalculate; }
 
 private:
 
@@ -141,8 +178,7 @@ private:
 	irr::core::matrix4 viewMat, projMat;
 	irr::u32 mapRes;
 
-	bool useLightShafts;
-	irr::video::ITexture *lsCookie, *lsNoise;
+	bool recalculate;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -160,7 +196,6 @@ public:
 class DepthShaderCB;
 class ShadowShaderCB;
 class ScreenQuadCB;
-class LightShaftsCB;
 
 /// Main effect handling class, use this to apply shadows and effects.
 class SSWE_RENDERS_API EffectHandler
@@ -531,18 +566,13 @@ public:
 	/// Returns the device that this EffectHandler was initialized with.
 	irr::IrrlichtDevice* getIrrlichtDevice() {return device;}
 
-	/// Sets if use Motion Blur Render
+	/// Set if use Motion Blur Render
 	void setUseMotionBlur(bool use) { useMotionBlur = use; }
 	bool isUsingMotionBlur() { return useMotionBlur; }
 	IPostProcessMotionBlur *getPostProcessMotionBlur() { return motionBlur; }
 
-	/// Sets if use VSM shadows
+	/// Set if use VSM shadows
 	void setUseVSMShadows(bool use) { useVSM = use; }
-	bool isUsingVSMShadows() { return useVSM; }
-
-	/// Setsi if use LightShafts
-	void setUseLightShafts(bool use) { useLightShafts = use; }
-	bool isUsingLightShafts() { return useLightShafts; }
 
 private:
 
@@ -596,11 +626,9 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
-	irr::s32 LightShafts;
 	
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
-	LightShaftsCB* LSCB;
 
 	irr::video::ITexture* ScreenRTT;
 	irr::video::ITexture* DepthRTT;
@@ -622,7 +650,6 @@ private:
 	bool use32BitDepth;
 	bool useVSM;
 	bool DepthPass;
-	bool useLightShafts;
 
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;

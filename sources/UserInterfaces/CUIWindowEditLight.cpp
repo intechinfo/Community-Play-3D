@@ -236,12 +236,12 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 
 		shadowMapPreview = devices->getGUIEnvironment()->addImage(rect<s32>(10, 50, 250, 310), shadowLightTab, -1, L"Shadow Light Preview 1");
 		shadowMapPreview->setScaleImage(true);
-		shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false));
+		shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false, index));
 		devices->getGUIEnvironment()->addStaticText(L"Primary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview, -1, false);
 
 		shadowMapPreview2 = devices->getGUIEnvironment()->addImage(rect<s32>(250, 50, 500, 310), shadowLightTab, -1, L"Shadow Light Preview 2");
 		shadowMapPreview2->setScaleImage(true);
-		shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true));
+		shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true, index));
 		devices->getGUIEnvironment()->addStaticText(L"Secondary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview2, -1, false);
 
 		//WINDOW BUTTONS

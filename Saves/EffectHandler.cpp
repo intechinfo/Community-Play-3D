@@ -124,11 +124,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		VSMBlurV = gpu->addHighLevelShaderMaterial(
                                                    sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                    sPP.ppShader(VSM_BLUR_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
-
-		LSCB = new LightShaftsCB(this);
-		LightShafts = gpu->addHighLevelShaderMaterial(
-                                                      sPP.ppShader(LIGHT_SHAFTS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
-                                                      sPP.ppShader(LIGHT_SHAFTS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, LSCB);
 		
 		// Drop the screen quad callback.
 		SQCB->drop();
@@ -261,13 +256,22 @@ void EffectHandler::updateEffect() {
 
 void EffectHandler::update(irr::video::ITexture* outputTarget)
 {
-		if(shadowsUnsupported || smgr->getActiveCamera() == 0)
+	if(shadowsUnsupported || smgr->getActiveCamera() == 0)
 		return;
-	
+    
+    bool recalculate = true;
+    for (irr::u32 i=0; i < LightList.size(); i++) {
+		if (LightList[i].mustRecalculate()) {
+            recalculate = true;
+			LightList[i].setRecalculate(false);
+			break;
+        }
+    }
+
 	if(!ShadowNodeArray.empty() && !LightList.empty())
 	{
 		driver->setRenderTarget(ScreenQuad.rt[0], true, true, AmbientColour);
-
+        
 		ICameraSceneNode* activeCam = smgr->getActiveCamera();
 		activeCam->OnAnimate(device->getTimer()->getTime());
 		activeCam->OnRegisterSceneNode();
@@ -275,46 +279,54 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
 		const u32 LightListSize = LightList.size();
-		for(u32 l = 0;l < LightListSize;++l)
+		for(u32 l = 0; l < LightList.size(); l++)
 		{
+			if (LightList[l].getFarValue() == 0)
+				continue;
+
 			// Set max distance constant for depth shader.
 			depthMC->FarLink = LightList[l].getFarValue();
+            
+            driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
+            driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
+            
+            currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 
-			driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
-			driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
-			
-			ITexture* currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 			driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
-			
-			for(u32 i = 0;i < ShadowNodeArraySize;++i)
-			{
-				if(ShadowNodeArray[i].shadowMode == ESM_RECEIVE || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
+
+            for(u32 i = 0;i < ShadowNodeArraySize;++i)
+            {
+                if(ShadowNodeArray[i].shadowMode == ESM_RECEIVE || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
+                    continue;
+                
+				if (!ShadowNodeArray[i].node->isVisible()) {
 					continue;
-
-				const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
-				core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
-				BufferMaterialList.set_used(0);
-
-				for(u32 m = 0;m < CurrentMaterialCount;++m)
-				{
-					BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
-					ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)
-						(BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF ? DepthT : Depth);
 				}
 
-				ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
-				ShadowNodeArray[i].node->render();
-
-				const u32 BufferMaterialListSize = BufferMaterialList.size();
-				for(u32 m = 0;m < BufferMaterialListSize;++m)
-					ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
-			}
-
+                const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
+                core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
+                BufferMaterialList.set_used(0);
+                
+                for(u32 m = 0;m < CurrentMaterialCount;++m)
+                {
+                    BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
+                    ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)
+                    (BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF ? DepthT : Depth);
+                }
+                
+                ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
+                ShadowNodeArray[i].node->render();
+                
+                const u32 BufferMaterialListSize = BufferMaterialList.size();
+                for(u32 m = 0;m < BufferMaterialListSize;++m)
+                    ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
+            }
+            
 			// Blur the shadow map texture if we're using VSM filtering.
 			if(useVSM)
 			{
-				ITexture* currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true, l);
-
+                currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true, l);
+                
 				driver->setRenderTarget(currentSecondaryShadowMap, true, true, SColor(0xffffffff));
 				ScreenQuad.getMaterial().setTexture(0, currentShadowMapTexture);
 				ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurH;
@@ -327,9 +339,9 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 				
 				ScreenQuad.render(driver);
 			}
-
+            
 			driver->setRenderTarget(ScreenQuad.rt[1], true, true, SColor(0xffffffff));
-		
+
 			driver->setTransform(ETS_VIEW, activeCam->getViewMatrix());
 			driver->setTransform(ETS_PROJECTION, activeCam->getProjectionMatrix());
 
@@ -339,83 +351,89 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 			shadowMC->ViewLink = LightList[l].getViewMatrix();
 			shadowMC->ProjLink = LightList[l].getProjectionMatrix();
 			shadowMC->MapRes = (f32)LightList[l].getShadowMapResolution();
+            
+            for(u32 i = 0;i < ShadowNodeArraySize;++i)
+            {
+                if(ShadowNodeArray[i].shadowMode == ESM_CAST || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
+                    continue;
 
-			// Render all the Receive nodes
-			for(u32 i = 0;i < ShadowNodeArraySize;++i)
-			{
-				if(ShadowNodeArray[i].shadowMode == ESM_CAST || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
-						continue;
-
-				const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
-				core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
-				core::array<irr::video::ITexture*> BufferTextureList(CurrentMaterialCount);
-				
-				for(u32 m = 0;m < CurrentMaterialCount;++m)
-				{
-					BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
-					BufferTextureList.push_back(ShadowNodeArray[i].node->getMaterial(m).getTexture(0));
-				
-					ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)Shadow[ShadowNodeArray[i].filterType];
-					ShadowNodeArray[i].node->getMaterial(m).setTexture(0, currentShadowMapTexture);
+				if (!ShadowNodeArray[i].node->isVisible()) {
+					continue;
 				}
+                
+                const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
+                core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
+                core::array<irr::video::ITexture*> BufferTextureList(CurrentMaterialCount);
+                
+                for(u32 m = 0;m < CurrentMaterialCount;++m)
+                {
+                    BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
+                    BufferTextureList.push_back(ShadowNodeArray[i].node->getMaterial(m).getTexture(0));
 
-				ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
-				ShadowNodeArray[i].node->render();
+                    ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)Shadow[ShadowNodeArray[i].filterType];
+                    ShadowNodeArray[i].node->getMaterial(m).setTexture(0, currentShadowMapTexture);
+                }
 
-				for(u32 m = 0;m < CurrentMaterialCount;++m)
-				{
-					ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
-					ShadowNodeArray[i].node->getMaterial(m).setTexture(0, BufferTextureList[m]);
-				}
-			}
+                ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
+                ShadowNodeArray[i].node->render();
 
-			driver->setRenderTarget(ScreenQuad.rt[0], false, false, SColor(0x0));
-			ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
-			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
-			
-			ScreenQuad.render(driver);
-		}
+                for(u32 m = 0;m < CurrentMaterialCount;++m)
+                {
+                    ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
+                    ShadowNodeArray[i].node->getMaterial(m).setTexture(0, BufferTextureList[m]);
+                }
+            }
+        }
+
+        driver->setRenderTarget(ScreenQuad.rt[0], false, false, SColor(0x0));
+        ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
+        ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
+
+        ScreenQuad.render(driver);
 
 		// Render all the excluded and casting-only nodes.
-		for(u32 i = 0;i < ShadowNodeArraySize;++i)
-		{
-			if(ShadowNodeArray[i].shadowMode != ESM_CAST && ShadowNodeArray[i].shadowMode != ESM_EXCLUDE)
-					continue;
+        for(u32 i = 0;i < ShadowNodeArraySize;++i)
+        {
+            if(ShadowNodeArray[i].shadowMode != ESM_CAST && ShadowNodeArray[i].shadowMode != ESM_EXCLUDE)
+                continue;
 
-			const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
-			core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
-			BufferMaterialList.set_used(0);
-			
-			for(u32 m = 0;m < CurrentMaterialCount;++m)
-			{
-				BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
-			
-				switch(BufferMaterialList[m])
-				{
-					case EMT_TRANSPARENT_ALPHA_CHANNEL_REF:
-						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWashTRef;
-						break;
-					case EMT_TRANSPARENT_ADD_COLOR:
-						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWashTAdd;
-						break;
-					case EMT_TRANSPARENT_ALPHA_CHANNEL:
-						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWashTAlpha;
-						break;
-					default:
-						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWash;
-						break;
-				}
+			if (!ShadowNodeArray[i].node->isVisible()) {
+				continue;
 			}
-
-			ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
-			ShadowNodeArray[i].node->render();
-
-			for(u32 m = 0;m < CurrentMaterialCount;++m)
-				ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
-		}
+            
+            const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
+            core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
+            BufferMaterialList.set_used(0);
+            
+            for(u32 m = 0;m < CurrentMaterialCount;++m)
+            {
+                BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
+                
+                switch(BufferMaterialList[m])
+                {
+                    case EMT_TRANSPARENT_ALPHA_CHANNEL_REF:
+                        ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWashTRef;
+                        break;
+                    case EMT_TRANSPARENT_ADD_COLOR:
+                        ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWashTAdd;
+                        break;
+                    case EMT_TRANSPARENT_ALPHA_CHANNEL:
+                        ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWashTAlpha;
+                        break;
+                    default:
+                        ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)WhiteWash;
+                        break;
+                }
+            }
+            
+			ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getRealTime());
+            ShadowNodeArray[i].node->render();
+            
+            for(u32 m = 0;m < CurrentMaterialCount;++m)
+                ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
+        }
 	}
-	else
-	{
+	else {
 		driver->setRenderTarget(ScreenQuad.rt[0], true, true, SColor(0xffffffff));
 	}
 	
@@ -429,42 +447,42 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 		smgr->drawAll();
 	}
-
+    
 	const u32 PostProcessingRoutinesSize = PostProcessingRoutines.size();
-
+    
 	driver->setRenderTarget(PostProcessingRoutinesSize 
-		? ScreenRTT : outputTarget, true, true, SColor(0x0));
-
+                            ? ScreenRTT : outputTarget, true, true, SColor(0x0));
+    
 	ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
 	ScreenQuad.getMaterial().setTexture(1, ScreenQuad.rt[0]);
-
+    
 	ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)LightModulate;
 	ScreenQuad.render(driver);
-
+    
 	// Perform depth pass after rendering, to ensure animations stay up to date.
 	if(DepthPass)
 	{
 		driver->setRenderTarget(DepthRTT, true, true, SColor(0xffffffff));
-
+        
 		// Set max distance constant for depth shader.
 		depthMC->FarLink = smgr->getActiveCamera()->getFarValue();
-
+        
 		for(u32 i = 0;i < DepthPassArray.size();++i)
 		{
 			core::array<irr::s32> BufferMaterialList(DepthPassArray[i]->getMaterialCount());
 			BufferMaterialList.set_used(0);
-
+            
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g).MaterialType);
-
+            
 			DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)Depth);
 			DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
 			DepthPassArray[i]->render();
-
+            
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				DepthPassArray[i]->getMaterial(g).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[g];
 		}
-
+        
 		driver->setRenderTarget(0, false, false);
 	}
 	
@@ -476,12 +494,12 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 		for(u32 i = 0;i < PostProcessingRoutinesSize;++i)
 		{
 			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
-
+            
 			Alter = !Alter;
 			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
 			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 ?
-				outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
-
+                                    outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+            
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
 			ScreenQuad.render(driver);
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);

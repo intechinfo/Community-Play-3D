@@ -44,7 +44,7 @@ CDevices::CDevices() {
 }
 
 CDevices::~CDevices() {
-	/*gui->drop();
+	gui->drop();
 
     smgr->drop();
 	effectSmgr->drop();
@@ -53,7 +53,7 @@ CDevices::~CDevices() {
 
 	delete effect;
 	delete worldCoreData;
-	delete wolrdCore;*/
+	delete wolrdCore;
 }
 
 void CDevices::removeSceneManager(ISceneManager *smgrToDelete) {
@@ -93,10 +93,6 @@ void CDevices::updateEntities() {
     objPlacement->refresh(cursorBillBoard);
     //UPDATE EFFECT LIGHTS
     for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
-		if (effect->getShadowLight(i).getPosition() != worldCoreData->getLightsData()->operator[](i).getNode()->getPosition()) {
-			effect->getShadowLight(i).setRecalculate(true);
-		}
-
 		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
         effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
         
@@ -148,11 +144,9 @@ void CDevices::updateDevice() {
 
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
-			std::thread scene_t(&CDevices::drawScene, *this);
-			scene_t.join();
+			this->drawScene();
 		}
-		std::thread gui_t(&CDevices::drawGUI, *this);
-		gui_t.join();
+		this->drawGUI();
 	#else
 		if (renderScene) {
 			if (renderXEffect) {
@@ -168,8 +162,6 @@ void CDevices::updateDevice() {
 			gui->drawAll();
 		}
 	#endif
-
-	updateEntities();
 
 	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
@@ -300,16 +292,17 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
-	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
-	effect->setUseVSMShadows(false);
+	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);
+	effect->setUseVSMShadows(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
 	effect->enableDepthPass(true);
+	effect->setUseLightShafts(true);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
 

@@ -894,7 +894,9 @@ void CImporter::buildObject() {
 
 		if (path == "sphere") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
-		} else if (node->getType() != ESNT_BILLBOARD) {
+		} else if (path == "cube") {
+			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		} else if (path == "billboard") {
 			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
 		}
         SObjectsData odata(mesh, node, path);
@@ -905,7 +907,7 @@ void CImporter::buildObject() {
 
 void CImporter::buildLight() {
 	ILightSceneNode *node = smgr->addLightSceneNode();
-	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 5000.f, 89.99f * DEGTORAD, false);
+	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
 
 	read("name");
 	node->setName(xmlReader->getAttributeValue("c8name"));
@@ -979,6 +981,10 @@ void CImporter::buildLight() {
 		read("position");
 		lfNode->setPosition(buildVector3df());
 	}
+
+	shadowLight.setLSCookieTexture(devices->getVideoDriver()->getTexture("shaders/Textures/LS/Cookie1.png"));
+	shadowLight.setLSNoiseTexture(devices->getVideoDriver()->getTexture("shaders/Textures/LS/Noise.png"));
+	shadowLight.setUseLightShafts(true);
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(SLightsData(node, lfMeshNode, lfBillBoard, lfNode));

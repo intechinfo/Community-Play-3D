@@ -33,7 +33,7 @@ public:
 	virtual irr::video::SMaterial& getMaterial()
 	{
 		return Material;
-	}   
+	}
 
 	irr::video::ITexture* rt[2];
 
