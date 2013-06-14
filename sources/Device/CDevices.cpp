@@ -55,6 +55,8 @@ CDevices::~CDevices() {
 	delete effect;
 	delete worldCoreData;
 	delete wolrdCore;
+
+	oculusRift->clear();
 }
 
 void CDevices::removeSceneManager(ISceneManager *smgrToDelete) {
