@@ -78,7 +78,7 @@ void CExporter::exportScene(stringc file_path) {
 	std::string line;
 	while (std::getline(exported_file, line)) {
 		//std::cout << line;
-		if (line.c_str() != "\n")
+		if (line != "\n")
 			file_to_copy << line.c_str() << std::endl;
 	}
 

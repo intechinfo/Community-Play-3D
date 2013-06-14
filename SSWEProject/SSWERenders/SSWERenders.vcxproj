@@ -121,9 +121,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
       <FileType>CppCode</FileType>
     </ClInclude>
