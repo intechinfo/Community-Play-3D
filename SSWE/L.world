@@ -21,40 +21,6 @@
 
 		 <effect>
 
-			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/sepia_toon_shader.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/blurhp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/blurvp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/bloomp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/desaturate.hlsl" />
-				 <values>
-					 <value name="Desaturation" val="setReturnedValueAsFloat()
-value =  -1.5
-returnValue(value, 1)" />
-				 </values>
-			 </postProcessingEffect>
-
-
 		 </effect>
 
 		 <materialTypes>
