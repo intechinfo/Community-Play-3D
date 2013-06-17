@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "CCoreData.h"
 
+#include "../../Renders/XEffect/EffectShaders.h"
+
 CCoreData::CCoreData() {
     clearAllTheArrays();
 }
@@ -22,18 +24,35 @@ CCoreData::~CCoreData() {
 //---------------------------------------------------------------------------------------------
 
 void CCoreData::clear() {
-    for (int i=0; i < terrainNodes.size(); i++) {
+    for (u32 i=0; i < terrainNodes.size(); i++) {
         terrainNodes[i]->remove();
     }
-    for (int i=0; i < treesData.size(); i++) {
+    for (u32 i=0; i < treesData.size(); i++) {
         treesData[i].getNode()->remove();
     }
-    for (int i=0; i < objectsData.size(); i++) {
+    for (u32 i=0; i < objectsData.size(); i++) {
 		objectsData[i].getNode()->remove();
     }
-    for (int i=0; i < lightsData.size(); i++) {
+    for (u32 i=0; i < lightsData.size(); i++) {
 		lightsData[i].getNode()->remove();
     }
+	for (u32 i=0; i < volumeLightsData.size(); i++) {
+		volumeLightsData[i].getNode()->remove();
+	}
+	for (u32 i=0; i < waterSurfaces.size(); i++) {
+		waterSurfaces[i].getNode()->remove();
+		waterSurfaces[i].getWaterSurface()->remove();
+	}
+
+	for (u32 i=0; i < effectRenderCallbacks.size(); i++) {
+		delete effectRenderCallbacks[i];
+	}
+	for (u32 i=0; i < materialRenderCallbacks.size(); i++) {
+		delete materialRenderCallbacks[i];
+	}
+	for (u32 i=0; i < shaderCallbacks.size(); i++) {
+		delete shaderCallbacks[i];
+	}
 }
 
 void CCoreData::clearAllTheArrays() {
@@ -47,9 +66,10 @@ void CCoreData::clearAllTheArrays() {
     treesData.clear();
 	objectsData.clear();
     lightsData.clear();
+	volumeLightsData.clear();
 	waterSurfaces.clear();
 
-	planarMeshes.clear();
+	planarTextureMappingValues.clear();
 
 	//EFFECT SHADERS
     effectRenders.clear();
@@ -60,6 +80,10 @@ void CCoreData::clearAllTheArrays() {
 	materialRenderCallbacks.clear();
 
     shaderCallbacks.clear();
+
+	//RENDERS
+	materialRenders.clear();
+	materialRendersPaths.clear();
 }
 
 array<stringw> CCoreData::getSceneNodeAnimatorsNames(IrrlichtDevice *_device, u32 idx) {
@@ -131,8 +155,8 @@ array<IMesh *> CCoreData::getAllMeshes() {
 s32 CCoreData::isMeshPlanared(ISceneNode *node) {
 	s32 planared = -1;
 
-	for (u32 i=0; i < planarMeshes.size(); i++) {
-		if (planarMeshes[i] == node) {
+	for (u32 i=0; i < planarTextureMappingValues.size(); i++) {
+		if (planarTextureMappingValues[i].getNode() == node) {
 			planared = i;
 			break;
 		}
@@ -215,6 +239,26 @@ u32 CCoreData::getObjectNodeIndice(ISceneNode *node) {
 	}
 
 	return ni;
+}
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------SHADERS-- -------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+void SLightsData::createLightShafts(EffectHandler *effect, const u32 numberOfPlanes) {
+	ICameraSceneNode *initialCam = effect->getActiveSceneManager()->getActiveCamera();
+	ICameraSceneNode *lightCamera = effect->getActiveSceneManager()->addCameraSceneNode();
+	lightCamera->setPosition(node->getPosition());
+	lightCamera->setTarget(node->getRotation());
+
+	lightCamera->OnAnimate(effect->getIrrlichtDevice()->getTimer()->getTime());
+	lightCamera->OnRegisterSceneNode();
+	lightCamera->render();
+
+	lsdata.create(lightCamera, numberOfPlanes, LIGHT_SHAFTS_V[ESE_HLSL], LIGHT_SHAFTS_P[ESE_HLSL]);
+
+	//lightCamera->remove();
+	effect->getActiveSceneManager()->setActiveCamera(initialCam);
 }
 
 //---------------------------------------------------------------------------------------------

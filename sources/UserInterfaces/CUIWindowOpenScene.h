@@ -26,7 +26,7 @@ public:
     CUIWindowOpenScene(CDevices *_devices);
     ~CUIWindowOpenScene();
     
-    void open();
+    void open(bool concat=false);
     stringw getPathFile();
     
     bool OnEvent(const SEvent &event);
@@ -34,9 +34,12 @@ public:
 private:
     
     CDevices *devices;
-    
+    IGUIElement *modalScreen;
+
+	IGUIFileOpenDialog *openDialog;
     stringw path_file;
-    bool isOpenFileDialogOpened;
+
+	bool concat;
     
 };
 

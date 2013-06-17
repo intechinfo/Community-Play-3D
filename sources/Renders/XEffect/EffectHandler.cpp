@@ -13,7 +13,6 @@ using namespace scene;
 using namespace video;
 using namespace core;
 
-
 EffectHandler::EffectHandler(IrrlichtDevice* dev, const irr::core::dimension2du& screenRTTSize,
                              const bool useVSMShadows, const bool useRoundSpotLights, const bool use32BitDepthBuffers)
 : device(dev), smgr(dev->getSceneManager()), driver(dev->getVideoDriver()),
@@ -124,11 +123,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		VSMBlurV = gpu->addHighLevelShaderMaterial(
                                                    sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                    sPP.ppShader(VSM_BLUR_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
-
-		LSCB = new LightShaftsCB(this);
-		LightShafts = gpu->addHighLevelShaderMaterial(
-                                                      sPP.ppShader(LIGHT_SHAFTS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
-                                                      sPP.ppShader(LIGHT_SHAFTS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, LSCB);
 		
 		// Drop the screen quad callback.
 		SQCB->drop();
@@ -259,7 +253,7 @@ void EffectHandler::updateEffect() {
 	update();
 }
 
-void EffectHandler::update(irr::video::ITexture* outputTarget)
+void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* outputTarget)
 {
 		if(shadowsUnsupported || smgr->getActiveCamera() == 0)
 		return;
@@ -283,7 +277,7 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 			driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
 			driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
 			
-			ITexture* currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
+			ITexture *currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 			driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
 			
 			for(u32 i = 0;i < ShadowNodeArraySize;++i)
@@ -421,6 +415,10 @@ void EffectHandler::update(irr::video::ITexture* outputTarget)
 	
 	//driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 	//smgr->drawAll();
+	if (updateOcclusionQueries) {
+		driver->runAllOcclusionQueries(true);
+		driver->updateAllOcclusionQueries(true);
+	}
 	if (useMotionBlur) {
 		motionBlur->render();
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);

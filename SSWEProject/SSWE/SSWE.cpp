@@ -11,6 +11,10 @@
 
 #include "stdafx.h"
 
+#ifdef SSWE_RELEASE
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#endif
+
 #ifdef IS_ERIO_AND_RELOU
 #include <Windows.h>
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow){

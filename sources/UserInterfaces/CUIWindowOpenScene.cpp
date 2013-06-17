@@ -13,7 +13,6 @@ CUIWindowOpenScene::CUIWindowOpenScene(CDevices *_devices) {
     devices->getEventReceiver()->AddEventReceiver(this);
     
     path_file = L"";
-    isOpenFileDialogOpened = false;
 }
 
 CUIWindowOpenScene::~CUIWindowOpenScene() {
@@ -30,16 +29,19 @@ stringw CUIWindowOpenScene::getPathFile() {
     return returnedPathFile;
 }
 
-void CUIWindowOpenScene::open() {
+void CUIWindowOpenScene::open(bool concat) {
     /*IGUIFileOpenDialog *dialog = devices->getGUIEnvironment()->addFileOpenDialog(L"Open Scene");
     dialog->setMinSize(dimension2d<u32>(400, 400));
     dialog->setNotClipped(false);
     dialog->setRelativePositionProportional(rect<f32>(0.3, 0.3, 0.3, 0.6));*/
     
-    devices->createFileOpenDialog(L"Open saved world", CGUIFileSelector::EFST_OPEN_DIALOG)->addFileFilter(L"WORLD", L"world", 0);
+	this->concat = concat;
+
+    openDialog = devices->createFileOpenDialog(L"Open saved world", CGUIFileSelector::EFST_OPEN_DIALOG);
+	((CGUIFileSelector *)openDialog)->addFileFilter(L"WORLD", L"world", 0);
+
+	//modalScreen = devices->getGUIEnvironment()->addModalScreen(openDialog);
     //devices->createFileOpenDialog(L"Open Scene");
-    
-    isOpenFileDialogOpened = true;
 }
 
 bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
@@ -53,20 +55,18 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
                     break;
             }
         }
-
-		if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
-			isOpenFileDialogOpened = false;
-		}
         
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
-            if (isOpenFileDialogOpened == true) {
+			if (event.GUIEvent.Caller == openDialog) {
                 IGUIFileOpenDialog *dialog = (IGUIFileOpenDialog *)event.GUIEvent.Caller;
                 path_file = L"";
                 path_file.append(dialog->getFileName());
-                isOpenFileDialogOpened = false;
                 if (path_file != L"") {
-                    devices->getCoreData()->clear();
-                    devices->getCoreData()->clearAllTheArrays();
+					if (!concat) {
+						devices->getCoreData()->clear();
+						devices->getCoreData()->clearAllTheArrays();
+						devices->getXEffect()->clearAll();
+					}
                     
                     IGUIWindow *window = devices->getGUIEnvironment()->addMessageBox(L"Loading", 
                                                                                      L"Please wait while importing the world \n\n"
@@ -85,7 +85,9 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
                     }
                     
                     CImporter *importer = new CImporter(devices);
-                    importer->importScene(path_file.c_str());
+					importer->setPathOfFile_t(path_file.c_str());
+					std::thread importer_t(&CImporter::import_t, *importer);
+					importer_t.detach();
                     delete importer;
                     
                     window->remove();

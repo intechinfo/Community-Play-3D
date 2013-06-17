@@ -195,12 +195,24 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	stringw scene_to_import = L"L.world";
-    CImporter *impoterInstance = new CImporter(devices);
-	impoterInstance->importScene(scene_to_import.c_str());
-	scene_to_import.remove(L".world");
-	exportSceneInstance->setPathFile(scene_to_import.c_str());
-    delete impoterInstance;
+	for (u32 i=0; i < 1; i++) {
+		devices->getCoreData()->clear();
+		devices->getCoreData()->clearAllTheArrays();
+		devices->getXEffect()->clearAll();
+
+		stringw scene_to_import = L"L.world";
+		CImporter *impoterInstance = new CImporter(devices);
+		impoterInstance->importScene(scene_to_import.c_str());
+		/*impoterInstance->setPathOfFile_t(scene_to_import.c_str());
+		std::thread importer_t(&CImporter::import_t, *impoterInstance);
+		importer_t.detach();*/
+
+		scene_to_import.remove(L".world");
+		exportSceneInstance->setPathFile(scene_to_import.c_str());
+		delete impoterInstance;
+
+		printf("Importing scene number %u \n", i);
+	}
 
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
@@ -288,7 +300,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
 
 				case CXT_MENU_EVENTS_FILE_CONCAT_SCENE_SCRIPT:
-					openSceneInstance->open();
+					openSceneInstance->open(true);
 					break;
 
 				case CXT_MENU_EVENTS_FILE_ADD_NODES_GROUP: {
@@ -637,20 +649,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_FILE_CLEAN_SCENE_OK:
                     //Clear Nodes
                     devices->getCoreData()->clear();
-                    //Clear all the shadows
-                    for (u32 i=0; i < devices->getCoreData()->getAllSceneNodes().size(); i++) {
-                        devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getAllSceneNodes()[i]);
-                    }
-                    //Clear all the shadow lights
-                    for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
-                        devices->getXEffect()->removeShadowLight(i);
-                    }
-                    //Clear all the PostProcessing effects (shaders)
-                    for (u32 i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
-                        devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](i));
-                    }
                     //Clear CoreData
                     devices->getCoreData()->clearAllTheArrays();
+					//Resetting XEffect Framework
+					devices->getXEffect()->clearAll();
                     //Resetting grid
                     devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(8);
                     devices->getObjectPlacement()->getGridSceneNode()->SetSize(1024);
