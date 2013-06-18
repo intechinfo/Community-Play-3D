@@ -70,12 +70,6 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowYXZLineNode->setScale(vector3df(10, 40, 10));
 	arrowYXZLineNode->setRotation(vector3df(45, 0, -45));
 	colMgr->setCollisionFromBoundingBox(arrowYXZLineNode);
-
-    coneMesh = smgr->getGeometryCreator()->createConeMesh(50, 50, 50);
-    lightCone = smgr->addMeshSceneNode(coneMesh);
-    lightCone->setMaterialFlag(EMF_WIREFRAME, true);
-    lightCone->setMaterialFlag(EMF_LIGHTING, false);
-    lightCone->setVisible(false);
     
     gridSceneNode = new CGridSceneNode(otherSmgr->getRootSceneNode(), otherSmgr);
     gridSceneNode->setName("editor:grid");//editor:Ygrid
@@ -109,26 +103,10 @@ void CCoreObjectPlacement::refresh(ISceneNode *cursorPosition) {
 		nodeToPlace = 0;
 		setArrowType(Undefined);
 	}
-    if (lightNode) {
-        coneMesh->drop();
-        line3d<f32> distanceLight(lightNode->getPosition(), lightNode->getRotation());
-        coneMesh = smgr->getGeometryCreator()->createConeMesh(((ILightSceneNode *)lightNode)->getRadius(), distanceLight.getLength(), 50);
-        lightCone->remove();
-        lightCone = smgr->addMeshSceneNode(coneMesh);
-        lightCone->setMaterialFlag(EMF_WIREFRAME, true);
-        lightCone->setMaterialFlag(EMF_LIGHTING, false);
-        lightCone->setPosition(lightNode->getPosition());
-        lightCone->setRotation(lightNode->getRotation());
-    }
 }
 
 void CCoreObjectPlacement::setLightNode(ISceneNode *node) {
     lightNode = node;
-    if (lightNode) {
-        lightCone->setVisible(true);
-    } else {
-        lightCone->setVisible(false);
-    }
 }
 
 void CCoreObjectPlacement::setCollisionToNormal() {

@@ -15,7 +15,7 @@ CUIWindowRender::CUIWindowRender(CDevices *_devices) {
 }
 
 CUIWindowRender::~CUIWindowRender() {
-    
+
 }
 
 void CUIWindowRender::open() {
@@ -23,10 +23,10 @@ void CUIWindowRender::open() {
                                                      false, L"Render Window", 0, -1);
     renderWindow->getCloseButton()->remove();
     
-    viewPort = new CGUIViewport(devices->getGUIEnvironment(), renderWindow, 1, 
-                                rect<s32>(10, 30, 660, 490)); 
+	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 30, 660, 490), renderWindow, -1);
     if (viewPort) {
-        viewPort->setSceneManager(devices->getSceneManager());
+		viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
+		viewPort->setScaleImage(true);
     } else {
         devices->addErrorDialog(L"Error", L"Error when creating the view port", EMBF_OK);
     }

@@ -36,9 +36,10 @@ private:
 	IGUIComboBox *nodeSelectedComboBox;
 	IGUIComboBox *animatorSelectedComboBox;
 
+	IGUIStaticText *mainArea;
+
 	IGUIButton *addButton;
 	IGUIButton *removeButton;
-
     IGUIButton *applyButton;
 	IGUIButton *closeButton;
 

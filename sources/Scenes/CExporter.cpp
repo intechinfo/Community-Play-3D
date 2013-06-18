@@ -98,6 +98,9 @@ void CExporter::exportScene(stringc file_path) {
 void CExporter::exportConfig() {
 	//CONFIG
 	fprintf(export_file, "\t<config>\n\n");
+
+	//SCENE INFORMATION
+	fprintf(export_file, "\t\t <numberOfObjects value=\"%u\" />\n\n", devices->getCoreData()->getAllSceneNodes().size());
     
 	//GRID
 	fprintf(export_file, "\t\t <grid>\n\n");
@@ -300,7 +303,7 @@ void CExporter::exportLights() {
 			fprintf(export_file, "\t\t\t\t </bill> \n");
 
 			fprintf(export_file, "\t\t\t\t <lfsn> \n"); //LENS FLARE SCENE NODES
-			fprintf(export_file, "\t\t\t\t\t <strength value=\"%f\" />\n", ldata.getLensFlareSceneNode()->getStrength());
+			fprintf(export_file, "\t\t\t\t\t <strength value=\"%f\" />\n", ldata.getLensFlareStrengthFactor());
 			ldataTexturePath = "";
 			if (ldata.getLensFlareSceneNode()->getMaterial(0).TextureLayer[0].Texture) {
 				ldataTexturePath = ldata.getLensFlareSceneNode()->getMaterial(0).TextureLayer[0].Texture->getName().getPath().c_str();

@@ -34,27 +34,24 @@ void CUIWindowEditNodeAnimators::open(ISceneNode *node, stringw prefix) {
 		nodeToEditPrefix.append(prefix);
 
 //test ->
-		/*
-		ISceneNodeAnimatorFactory *factory;
-		ISceneNodeAnimator *a;
-		ISceneNodeAnimator *b;
-		ISceneNodeAnimator *c;
-		a = factory->createSceneNodeAnimator(0, 0);
-		b = factory->createSceneNodeAnimator(0, 0);
-		c = factory->createSceneNodeAnimator(0, 0);
+		
+		ISceneNodeAnimatorFactory *factory = devices->getSceneManager()->getSceneNodeAnimatorFactory(0);
+		array<ISceneNodeAnimator*> arrayAnimator;
+		for(u32 i = 0; i < factory->getCreatableSceneNodeAnimatorTypeCount(); i++) {
+			arrayAnimator.push_back(factory->createSceneNodeAnimator(factory->getCreateableSceneNodeAnimatorType(i), 0));
+		}
+		/*a = factory->createSceneNodeAnimator(ESNAT_FLY_CIRCLE, 0);
+		b = factory->createSceneNodeAnimator(ESNAT_FLY_STRAIGHT, 0);
+		c = factory->createSceneNodeAnimator(ESNAT_FOLLOW_SPLINE, 0);
+		factory->get
 		IAttributes *ia;
 		IAttributes *ib;
 		IAttributes *ic;
 		a->deserializeAttributes(ia);
 		b->deserializeAttributes(ib);
 		c->deserializeAttributes(ic);
-		ia->addBool("test", true);
-		ib->addBool("test", false);
-		ic->addBool("testeuuh", true);
-		ia->addString("name", "a");
-		ib->addString("name", "b");
-		ic->addString("name", "c");
-		*/
+		a->getType()*/
+		
 //<- test
 
 		editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(450, 100, 1110, 560), false, L"Edit Node's Animators", 0, -1);
@@ -102,7 +99,7 @@ void CUIWindowEditNodeAnimators::open(ISceneNode *node, stringw prefix) {
 		removeButton = devices->getGUIEnvironment()->addButton(rect<s32>(20, 380, 130, 400), editWindow, -1, L"Remove", L"Clic to remove selected animator of the node");
 
 		//Zone de paramètres de l'animator sélectionné
-		devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(150, 50, 650, 410), true, false, editWindow, -1, false);
+		mainArea = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(150, 50, 650, 410), true, false, editWindow, -1, false);
 		devices->getGUIEnvironment()->addScrollBar(false, rect<s32>(620, 60, 640, 400), editWindow, -1);
 
 		//Zone des bouttons Accept et Cancel

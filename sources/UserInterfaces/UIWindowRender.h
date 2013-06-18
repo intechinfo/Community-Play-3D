@@ -36,7 +36,8 @@ private:
 	IGUIEditBox *saveAs;
 	IGUICheckBox *shadowsE, *hdrE, *shadersE;
 
-	IGUIViewport *viewPort;
+	//IGUIViewport *viewPort;
+	IGUIImage *viewPort;
 };
 
 #endif

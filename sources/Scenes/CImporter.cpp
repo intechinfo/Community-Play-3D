@@ -17,6 +17,7 @@ CImporter::CImporter(CDevices *_devices) {
 
 CImporter::~CImporter() {
     devices = 0;
+	pathOfFile = "";
 }
 
 void CImporter::readWithNextElement(std::string node, std::string nextNode) {
@@ -25,7 +26,7 @@ void CImporter::readWithNextElement(std::string node, std::string nextNode) {
     if (element != node && element != nextNode) {
         while (xmlReader && element != node && element != nextNode && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            printf("current element : %s\n", element.c_str());
+            //printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -36,7 +37,7 @@ void CImporter::read(std::string node) {
     if (element != node) {
         while (xmlReader && element != node && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            printf("current element : %s\n", element.c_str());
+            //printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -50,9 +51,8 @@ void CImporter::importScene(stringc file_path) {
 	if (!xmlReader)
 		return;
     
-    devices->getCoreData()->clearAllTheArrays();
-    
-	newImportScene(file_path);
+	pathOfFile = file_path;
+	newImportScene(pathOfFile);
 	return;
 
     if (xmlReader) {
@@ -228,10 +228,9 @@ void CImporter::importScene(stringc file_path) {
 							f32 resolutionS = xmlReader->getAttributeValueAsFloat("value");
 							if (option == "general") {
 								devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(octTreeMesh, xmlReader->getAttributeValueAsFloat("value"));
-								SPlanarTextureMappingData ptmd(resolutionS, 0, 0, vector3df(0), true);
+								SPlanarTextureMappingData ptmd(octTreeNode, resolutionS);
 								devices->getCoreData()->getPlanarTextureMappingValues()->push_back(ptmd);
 							}
-							devices->getCoreData()->getPlanarMeshes()->push_back(octTreeNode);
 						}
 						readWithNextElement("primitive", "factory");
 					}
@@ -802,7 +801,7 @@ void CImporter::buildTerrain() {
 		node = smgr->addMeshSceneNode(mesh, 0, -1);
 	}
 
-	readFactory(node);
+	readFactory(node, mesh);
 
 	if (node) {
 		read("name");
@@ -894,11 +893,16 @@ void CImporter::buildObject() {
 
 		if (path == "sphere") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+			devices->getXEffect()->addNodeToDepthPass(node);
 		} else if (path == "cube") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+			devices->getXEffect()->addNodeToDepthPass(node);
 		} else if (path == "billboard") {
-			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		} else if (path == "hillPlaneMesh") {
+			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
 		}
+
         SObjectsData odata(mesh, node, path);
 		odata.setActions(&actions);
 		devices->getCoreData()->getObjectsData()->push_back(odata);
@@ -936,6 +940,8 @@ void CImporter::buildLight() {
 	read("shadows");
 	shadowLight.setShadowMapResolution(xmlReader->getAttributeValueAsFloat("resol"));
 
+	SLightsData ldata(node);
+
 	IMeshSceneNode* lfMeshNode = 0;
 	IBillboardSceneNode *lfBillBoard = 0;
 	CLensFlareSceneNode *lfNode = 0;
@@ -958,9 +964,7 @@ void CImporter::buildLight() {
 		lfNode->setFalseOcclusion(true);
 		lfNode->setParent(lfMeshNode);
 		lfNode->setName(stringc(stringc(node->getName()) + stringc("_flare_node")).c_str());
-		if (IRRLICHT_SDK_VERSION != "1.7.3") {
-			devices->getVideoDriver()->addOcclusionQuery(lfMeshNode, lfMeshNode->getMesh());
-		}
+		devices->getVideoDriver()->addOcclusionQuery(lfMeshNode, lfMeshNode->getMesh());
 		//MESH
 		read("scale");
 		lfMeshNode->setScale(buildVector3df());
@@ -973,21 +977,26 @@ void CImporter::buildLight() {
 		lfBillBoard->setMaterialTexture(0, devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path")));
 		//LENS FLARE
 		read("strength");
-		lfNode->setStrength(xmlReader->getAttributeValueAsFloat("value"));
+		ldata.setLensFlareStrengthFactor(xmlReader->getAttributeValueAsFloat("value"));
 		read("texture");
 		lfNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path")));
 		read("falseOcclusion");
 		lfNode->setFalseOcclusion(xmlReader->getAttributeValueAsInt("value"));
 		read("position");
 		lfNode->setPosition(buildVector3df());
+
+		devices->getXEffect()->addShadowToNode(lfMeshNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
+		devices->getXEffect()->addShadowToNode(lfBillBoard, devices->getXEffectFilterType(), ESM_EXCLUDE);
+		devices->getXEffect()->addShadowToNode(lfNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
+
+		ldata.setLensFlareMeshSceneNode(lfMeshNode);
+		ldata.setLensFlareBillboardSceneNode(lfBillBoard);
+		ldata.setLensFlareSceneNode(lfNode);
 	}
 
-	shadowLight.setLSCookieTexture(devices->getVideoDriver()->getTexture("shaders/Textures/LS/Cookie1.png"));
-	shadowLight.setLSNoiseTexture(devices->getVideoDriver()->getTexture("shaders/Textures/LS/Noise.png"));
-	shadowLight.setUseLightShafts(true);
-
 	devices->getXEffect()->addShadowLight(shadowLight);
-	devices->getCoreData()->getLightsData()->push_back(SLightsData(node, lfMeshNode, lfBillBoard, lfNode));
+	devices->getCoreData()->getLightsData()->push_back(ldata);
+
 }
 
 void CImporter::buildVolumeLight() {
@@ -1044,6 +1053,11 @@ void CImporter::buildWaterSurface() {
 
 void CImporter::readConfig() {
 	read("config");
+
+	//CONFIG SCENE
+	read("numberOfObjects");
+	numberOfObjects = xmlReader->getAttributeValueAsInt("value");
+
 	//IF GRID
 	read("grid");
 	read("accentLineOffset");
@@ -1156,8 +1170,24 @@ void CImporter::readMaterialShaderCallbacks() {
 	}
 }
 
-void CImporter::readFactory(ISceneNode *_node) {
+void CImporter::readFactory(ISceneNode *_node, IMesh *_mesh) {
+	read("factory");
+	readWithNextElement("primitive", "factory");
+	while (element == "primitive") {
+		if (stringc(xmlReader->getAttributeValue("type")) == "planar") {
+			SPlanarTextureMappingData sptmd;
+			if (stringc(xmlReader->getAttributeValue("options")) == "general") {
+				read("resolutionS");
+				f32 resolutionS = xmlReader->getAttributeValueAsFloat("value");
+				sptmd.setResolutionS(resolutionS);
+				devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(_mesh, resolutionS);
+			} else {
 
+			}
+			devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptmd);
+		}
+		readWithNextElement("primitive", "factory");
+	}
 }
 
 void CImporter::readMaterials(ISceneNode *_node) {
@@ -1311,9 +1341,18 @@ dimension2d<T> CImporter::buildDimension2d() {
 //-----------------------------------LOAD SCENE------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-void CImporter::newImportScene(stringc file_path) {
-	read("rootScene");
+void CImporter::import_t() {
+	importScene(pathOfFile);
+}
 
+void CImporter::newImportScene(stringc file_path) {
+	CProcess *process = new CProcess(devices->getGUIEnvironment(), "Importing Scene");
+	devices->getProcessesLogger()->addProcess(process);
+	u32 currentElementNumber = 0;
+
+	bool isXeffectDrawable = devices->isXEffectDrawable();
+	devices->setXEffectDrawable(false);
+	read("rootScene");
 	readConfig();
 
 	while (xmlReader->read()) {
@@ -1321,6 +1360,8 @@ void CImporter::newImportScene(stringc file_path) {
 		element = "";
 		if (xmlReader->getNodeType() == EXN_ELEMENT)
 			element = xmlReader->getNodeName();
+
+		process->setName(stringc("Importing ") + stringc(element.c_str()));
 
 		if (element == "terrain")
 			buildTerrain();
@@ -1335,10 +1376,16 @@ void CImporter::newImportScene(stringc file_path) {
 		else if (element == "volumeLight")
 			buildVolumeLight();
 
+		currentElementNumber++;
+		process->getProgressBar()->setPercentage((currentElementNumber*100)/numberOfObjects);
+
 	}
 
     read("rootScene");
 
     delete xmlReader;
+
+	process->setHasFinished(true);
+	devices->setXEffectDrawable(isXeffectDrawable);
 
 }
