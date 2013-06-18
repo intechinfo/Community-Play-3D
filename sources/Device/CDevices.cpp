@@ -55,8 +55,6 @@ CDevices::~CDevices() {
 	delete effect;
 	delete worldCoreData;
 	delete wolrdCore;
-
-	oculusRift->clear();
 }
 
 void CDevices::removeSceneManager(ISceneManager *smgrToDelete) {
@@ -199,24 +197,20 @@ void CDevices::drawScene() {
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 		effect->update();
     } else {
-        smgrs[sceneManagerToDrawIndice]->drawAll();
+		smgrs[sceneManagerToDrawIndice]->drawAll();
     }
     
-    effectSmgr->drawAll();
+	effectSmgr->drawAll();
 }
 
 void CDevices::drawGUI() {
 	if (renderGUI) {
-        gui->drawAll();
+			gui->drawAll();
     }
 }
 
 void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
-	if(!oculusRift)
-	{
-		oculusRift = new OculusRift();
-	}
 
 	Device = createDeviceEx(parameters);
     Device->setWindowCaption(L"Soganatsu Studios World Editor V1");

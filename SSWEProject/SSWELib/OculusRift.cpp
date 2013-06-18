@@ -5,6 +5,7 @@
 OculusRift::OculusRift()
 {
 	m_infoLoaded = false;
+	m_isOculusRiftEnabled = false;
 }
 
 
@@ -47,4 +48,14 @@ void OculusRift::clear()
 HMDInfo OculusRift::getInfo()
 {
 	return m_info;
+}
+
+bool OculusRift::isOculusRiftEnabled()
+{
+	return m_isOculusRiftEnabled;
+}
+
+void OculusRift::setOculusRiftEnabled(bool isEnabled)
+{
+	m_isOculusRiftEnabled = isEnabled;
 }

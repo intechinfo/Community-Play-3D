@@ -14,6 +14,8 @@ public:
 	void clear();
 
 	HMDInfo getInfo();
+	bool isOculusRiftEnabled();
+	void setOculusRiftEnabled(bool isEnabled);
 
 private:
 	Ptr<DeviceManager> m_deviceManager;
@@ -22,6 +24,8 @@ private:
 	SensorFusion m_fusionResult;
 	HMDInfo m_info;
 	bool m_infoLoaded;
+
+	bool m_isOculusRiftEnabled;
 };
 
 #endif
