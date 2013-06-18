@@ -79,8 +79,7 @@ private:
 	IAnimatedMesh *arrowYXZLine;
     IAnimatedMeshSceneNode *arrowYXZLineNode;
 
-    ISceneNode *lightCone, *lightNode;
-    IMesh *coneMesh;
+    ISceneNode *lightNode;
     
 	ISceneCollisionManager *collisionManager;
 

@@ -285,6 +285,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 				if(ShadowNodeArray[i].shadowMode == ESM_RECEIVE || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
 					continue;
 
+				if (!ShadowNodeArray[i].node->isVisible()) {
+					continue;
+				}
+
 				const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
 				core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
 				BufferMaterialList.set_used(0);
@@ -340,6 +344,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 				if(ShadowNodeArray[i].shadowMode == ESM_CAST || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
 						continue;
 
+				if (!ShadowNodeArray[i].node->isVisible()) {
+					continue;
+				}
+
 				const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
 				core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
 				core::array<irr::video::ITexture*> BufferTextureList(CurrentMaterialCount);
@@ -375,6 +383,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		{
 			if(ShadowNodeArray[i].shadowMode != ESM_CAST && ShadowNodeArray[i].shadowMode != ESM_EXCLUDE)
 					continue;
+
+			if (!ShadowNodeArray[i].node->isVisible()) {
+				continue;
+			}
 
 			const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
 			core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);

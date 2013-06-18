@@ -121,10 +121,8 @@ void CDevices::updateEntities() {
 				driver->updateAllOcclusionQueries(false);
 				u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
 				if(occlusionQueryResult != 0xffffffff) {
-					u32 divided = (20*450)/4200;
-					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult*divided)/1000.f);
+					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult)/8000.f);
 				}
-				//Device->setWindowCaption(stringw((f32)occlusionQueryResult).c_str());
 				worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->updateAbsolutePosition();
             }
 			ISceneNode *light = worldCoreData->getLightsData()->operator[](i).getNode();
