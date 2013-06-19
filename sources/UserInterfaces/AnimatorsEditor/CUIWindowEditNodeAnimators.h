@@ -20,6 +20,10 @@ public:
     CUIWindowEditNodeAnimators(CDevices *_devices);
     ~CUIWindowEditNodeAnimators();
     
+	stringw getAnimatorNameById(u32 enumIndex);
+	u32 getAnimatorIdByName(stringw name);
+	void fillMainArea();
+	void saveChanges();
     void open(ISceneNode *node, stringw prefix);
 	bool isValid();
     
@@ -36,6 +40,8 @@ private:
 	IGUIComboBox *nodeSelectedComboBox;
 	IGUIComboBox *animatorSelectedComboBox;
 
+	IGUIListBox *nodeAnimatorsListBox;
+
 	IGUIStaticText *mainArea;
 
 	IGUIButton *addButton;
@@ -43,10 +49,27 @@ private:
     IGUIButton *applyButton;
 	IGUIButton *closeButton;
 
+	IGUIEditBox *intEditBox;
+	IGUIEditBox *floatEditBox;
+	IGUIEditBox *stringEditBox;
+	IGUIEditBox *enumEditBox;
+	IGUIEditBox *vector3dXEditBox;
+	IGUIEditBox *vector3dYEditBox;
+	IGUIEditBox *vector3dZEditBox;
+	IGUIEditBox *position2dXEditBox;
+	IGUIEditBox *position2dYEditBox;
+	IGUIEditBox *vector2dXEditBox;
+	IGUIEditBox *vector2dYEditBox;
+
     //-----------------------------------
     //EDITING NODE INFORMATIONS
     ISceneNode *nodeToEdit;
     stringw nodeToEditPrefix;
+	ISceneNodeAnimator *animatorSelected;
+	array<ISceneNodeAnimator*> arrayAnimators;
+	array<ISceneNodeAnimator*> nodeAnimators;
+	array<ISceneNode*> sceneNodeArray;
+	ISceneNodeAnimatorFactory *factory;
     
     u32 currentBrowse;
     //-----------------------------------
