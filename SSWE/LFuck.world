@@ -4,6 +4,8 @@
 
 	<config>
 
+		 <numberOfObjects value="5" />
+
 		 <grid>
 
 			 <accentLineOffset ALO="8" />
@@ -14,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="330.262695" Y="227.327576" Z="-221.373810" />
-			 <rotation X="356.420044" Y="297.083344" Z="0.000000" />
+			 <position X="299.376709" Y="261.409668" Z="-178.472900" />
+			 <rotation X="10.740011" Y="303.333191" Z="0.000000" />
 
 		 </camera>
 
@@ -48,10 +50,10 @@
 			 <postProcessingEffect>
 				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/bin/Win32-VisualStudio/shaders/hlsl/desaturate.hlsl" />
 				 <values>
-					 <value name="Desaturation" val="setReturnedValueAsFloat()
-
-value =  -1
-
+					 <value name="Desaturation" val="setReturnedValueAsFloat()
+
+value =  -1
+
 returnValue(value, 1)" />
 				 </values>
 			 </postProcessingEffect>
@@ -123,7 +125,7 @@ returnValue(value, 1)" />
 			 	 <material id="0">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/container.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/container.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -158,7 +160,7 @@ returnValue(value, 1)" />
 			 	 <material id="1">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/wood.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/wood.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -193,7 +195,7 @@ returnValue(value, 1)" />
 			 	 <material id="2">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/board.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/board.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -228,7 +230,7 @@ returnValue(value, 1)" />
 			 	 <material id="3">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/clean.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/clean.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -263,7 +265,7 @@ returnValue(value, 1)" />
 			 	 <material id="4">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/wood.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/wood.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -298,7 +300,7 @@ returnValue(value, 1)" />
 			 	 <material id="5">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/walls.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/walls.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -333,7 +335,7 @@ returnValue(value, 1)" />
 			 	 <material id="6">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/floor.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/floor.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -368,7 +370,7 @@ returnValue(value, 1)" />
 			 	 <material id="7">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/chair.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/chair.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -403,7 +405,7 @@ returnValue(value, 1)" />
 			 	 <material id="8">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/computer.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/computer.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -437,8 +439,8 @@ returnValue(value, 1)" />
 			 	 </material>
 			 	 <material id="9">
 					 <textures>
-						 <texture id="0" path="data/nouveau dossier/dmc - safe house/screen.tga" />
-						 <texture id="1" path="" />
+						 <texture id="0" path="XEFFECTS_SM_2048_0_" />
+						 <texture id="1" path="XEFFECTS_SM_2048_0__copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -473,7 +475,7 @@ returnValue(value, 1)" />
 			 	 <material id="10">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/sofa.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/sofa.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -508,7 +510,7 @@ returnValue(value, 1)" />
 			 	 <material id="11">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/rug.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/rug.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -543,7 +545,7 @@ returnValue(value, 1)" />
 			 	 <material id="12">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/clean.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/clean.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -578,7 +580,7 @@ returnValue(value, 1)" />
 			 	 <material id="13">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/desk.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/desk.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -648,7 +650,7 @@ returnValue(value, 1)" />
 			 	 <material id="15">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/trashbox.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/trashbox.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -683,7 +685,7 @@ returnValue(value, 1)" />
 			 	 <material id="16">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/pipes.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/pipes.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -718,7 +720,7 @@ returnValue(value, 1)" />
 			 	 <material id="17">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/trashbox.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/trashbox.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -753,7 +755,7 @@ returnValue(value, 1)" />
 			 	 <material id="18">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/cables.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/cables.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -788,7 +790,7 @@ returnValue(value, 1)" />
 			 	 <material id="19">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/winwood.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/winwood.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -858,7 +860,7 @@ returnValue(value, 1)" />
 			 	 <material id="21">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/frame.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/frame.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -893,7 +895,7 @@ returnValue(value, 1)" />
 			 	 <material id="22">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/roller.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/roller.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -928,7 +930,7 @@ returnValue(value, 1)" />
 			 	 <material id="23">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/container.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/container.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -963,7 +965,7 @@ returnValue(value, 1)" />
 			 	 <material id="24">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -998,7 +1000,7 @@ returnValue(value, 1)" />
 			 	 <material id="25">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1033,7 +1035,7 @@ returnValue(value, 1)" />
 			 	 <material id="26">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1068,7 +1070,7 @@ returnValue(value, 1)" />
 			 	 <material id="27">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1103,7 +1105,7 @@ returnValue(value, 1)" />
 			 	 <material id="28">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1138,7 +1140,7 @@ returnValue(value, 1)" />
 			 	 <material id="29">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1173,7 +1175,7 @@ returnValue(value, 1)" />
 			 	 <material id="30">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1208,7 +1210,7 @@ returnValue(value, 1)" />
 			 	 <material id="31">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/books.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/books.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1243,7 +1245,7 @@ returnValue(value, 1)" />
 			 	 <material id="32">
 					 <textures>
 						 <texture id="0" path="" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="XEFFECTS_SM_2048_0__copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1278,7 +1280,7 @@ returnValue(value, 1)" />
 			 	 <material id="33">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/wood.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/wood.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1313,7 +1315,7 @@ returnValue(value, 1)" />
 			 	 <material id="34">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/board.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/board.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1348,7 +1350,7 @@ returnValue(value, 1)" />
 			 	 <material id="35">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc - safe house/board.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/nouveau dossier/dmc - safe house/board.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1383,7 +1385,7 @@ returnValue(value, 1)" />
 			 	 <material id="36">
 					 <textures>
 						 <texture id="0" path="" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="XEFFECTS_SM_2048_0__copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1561,7 +1563,7 @@ returnValue(value, 1)" />
 			 </materials>
 			 <position X="162.239883" Y="157.232315" Z="-27.416290" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1000.000000" Y="1000.000000" Z="1.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="4" />

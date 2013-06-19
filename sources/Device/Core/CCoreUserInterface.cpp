@@ -13,6 +13,7 @@ CCoreUserInterface::CCoreUserInterface() {
     
     //-----------------------------------
     //DEVICE
+
     SIrrlichtCreationParameters params;
     #ifdef _IRR_OSX_PLATFORM_
     params.DriverType=EDT_OPENGL;
@@ -53,17 +54,21 @@ CCoreUserInterface::CCoreUserInterface() {
     windowSize = devices->getVideoDriver()->getScreenSize();
 
 	devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+
     //-----------------------------------
 
     //-----------------------------------
     //USER INTERFACE OBJECTS
+
     contextMenuInstance = new CUIContextMenu(devices);
 	rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices, contextMenuInstance);
 	windowsManagerInstance = new CUIWindowsManager(devices);
+
     //-----------------------------------
     
     //-----------------------------------
     //GUI SKIN
+
     IGUISkin *skin_window_classic = gui->createSkin(EGST_WINDOWS_CLASSIC);
 	IGUIFont *FontM = gui->getFont("GUI/fontlucida.png");
     skin_window_classic->setFont(FontM);
@@ -81,29 +86,32 @@ CCoreUserInterface::CCoreUserInterface() {
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/error.png"));
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/warning.png"));
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/info.png"));
+
     //-----------------------------------
     
     //-----------------------------------
     //LOG CONSOLE
+
     logWindow =  gui->addWindow(rect<s32>(0, 0, 320, 520), false, L"Log Window", 0, -1);
     logWindow->getMaximizeButton()->setVisible(true);
     logWindow->getCloseButton()->remove();
     logListBox = gui->addListBox(rect<s32>(0, 20, 320, 470), logWindow, -1, true);
     logListBox->setAutoScrollEnabled(true);
-    
+
     logLevel = gui->addComboBox(rect<s32>(10, 480, 200, 510), logWindow, -1);
     logLevel->addItem(L"ELL_INFORMATION");
     logLevel->addItem(L"ELL_WARNING");
     logLevel->addItem(L"ELL_ERROR");
     logLevel->addItem(L"ELL_NONE");
 	logLevel->setSelected(3);
-    
+
     clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
-    
+
     logVisible = false;
     logWindow->setVisible(logVisible);
+
     //-----------------------------------
-    
+
     devices->getEventReceiver()->AddEventReceiver(this);
     devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
 	devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);

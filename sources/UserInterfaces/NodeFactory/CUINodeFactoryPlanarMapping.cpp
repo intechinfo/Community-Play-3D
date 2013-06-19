@@ -60,6 +60,7 @@ bool CUINodeFactoryPlanarMapping::OnEvent(const SEvent &event) {
 																 L"Continue ?", 0x3, true, window);
 			}
 		}
+
 		if (event.GUIEvent.EventType == EGET_MESSAGEBOX_OK) {
 			if (event.GUIEvent.Caller == messageBoxAccept) {
 				IMeshManipulator *meshMap = devices->getSceneManager()->getMeshManipulator();
@@ -77,14 +78,24 @@ bool CUINodeFactoryPlanarMapping::OnEvent(const SEvent &event) {
 						meshMap->makePlanarTextureMapping(meshToEdit->getMeshBuffer(i), hr, vr, a, offset);
 					}
 				}
-				
-				SPlanarTextureMappingData sptm(hr, vr, a, offset, general);
+
 				s32 i = devices->getCoreData()->isMeshPlanared(nodeToEdit);
 				if (i != -1) {
-					devices->getCoreData()->getPlanarTextureMappingValues()->operator[](i) = sptm;
+					if (general) {
+						SPlanarTextureMappingData sptm(nodeToEdit, hr);
+						devices->getCoreData()->getPlanarTextureMappingValues()->operator[](i) = sptm;
+					} else {
+						SPlanarTextureMappingData sptm(nodeToEdit, hr, vr, a, offset);
+						devices->getCoreData()->getPlanarTextureMappingValues()->operator[](i) = sptm;
+					}
 				} else {
-					devices->getCoreData()->getPlanarMeshes()->push_back(nodeToEdit);
-					devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptm);
+					if (general) {
+						SPlanarTextureMappingData sptm(nodeToEdit, hr);
+						devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptm);
+					} else {
+						SPlanarTextureMappingData sptm(nodeToEdit, hr, vr, a, offset);
+						devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptm);
+					}
 				}
 			}
 		}

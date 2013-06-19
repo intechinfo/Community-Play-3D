@@ -741,7 +741,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_OCTTREE:
                 if (terrainsListBox->getSelected() != -1) {
-                    devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getTerrainNodes()->operator[](terrainsListBox->getSelected()));
+                    devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
+					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
                     devices->getCoreData()->getTerrainNodes()->operator[](terrainsListBox->getSelected())->remove();
@@ -764,7 +765,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_TREE:
                 if (treesListBox->getSelected() != -1) {
-					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode());
+					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
+					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode()->remove();
@@ -784,7 +786,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_OBJECT:
                 if (objectsListBox->getSelected() != -1) {
-					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode());
+					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
+					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode()->remove();
@@ -828,7 +831,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_VOLUME_LIGHT:
                 if (volumeLightsListBox->getSelected() != -1) {
-					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode());
+					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
+					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getVolumeLightsData()->erase(volumeLightsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
@@ -850,6 +854,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 				if(waterSurfacesListBox->getSelected() != -1) {
 					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
+					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getObjectPlacement()->setNodeToPlace(0);
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);

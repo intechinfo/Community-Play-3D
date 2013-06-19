@@ -69,10 +69,6 @@ struct SShadowLight
 			projMat.buildProjectionMatrixOrthoLH(fov, fov, nearValue, farValue);
 		else
 			projMat.buildProjectionMatrixPerspectiveFovLH(fov, 1.0f, nearValue, farValue);
-
-		useLightShafts = false;
-		lsCookie = 0;
-		lsNoise = 0;
 	}
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position) {
@@ -113,19 +109,6 @@ struct SShadowLight
 	void setShadowMapResolution(irr::u32 shadowMapResolution) { mapRes = shadowMapResolution; }
 	irr::u32& getShadowMapResolution() { return mapRes; }
 
-	/// Sets using Light Shafts or no
-	void setUseLightShafts(bool use) { useLightShafts = use; }
-	bool isUseLightShafts() { return useLightShafts; }
-
-	/// Sets the light shaft textures
-	void setLSCookieTexture(irr::video::ITexture *tex) { lsCookie = tex; }
-	irr::video::ITexture *getLSCookieTexture() { return lsCookie; }
-	void setLSNoiseTexture(irr::video::ITexture *tex) { lsNoise = tex; }
-	irr::video::ITexture *getLSNoiseTexture() { return lsNoise; }
-	void createLightShafts(irr::scene::ICameraSceneNode *node) {
-
-	}
-
 private:
 
 	void updateViewMatrix()
@@ -140,9 +123,6 @@ private:
 	irr::f32 farPlane;
 	irr::core::matrix4 viewMat, projMat;
 	irr::u32 mapRes;
-
-	bool useLightShafts;
-	irr::video::ITexture *lsCookie, *lsNoise;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -357,7 +337,7 @@ public:
 	/// that the clear colour from IVideoDriver::beginScene is not preserved, so you must instead specify the clear
 	/// colour using EffectHandler::setClearColour(Colour).
 	/// A render target may be passed as the output target, else rendering will commence on the backbuffer.
-	void update(irr::video::ITexture* outputTarget = 0);
+	void update(bool  updateOcclusionQueries = false, irr::video::ITexture* outputTarget = 0);
 
 	void updateEffect();
 
@@ -540,9 +520,13 @@ public:
 	void setUseVSMShadows(bool use) { useVSM = use; }
 	bool isUsingVSMShadows() { return useVSM; }
 
-	/// Setsi if use LightShafts
-	void setUseLightShafts(bool use) { useLightShafts = use; }
-	bool isUsingLightShafts() { return useLightShafts; }
+	/// Clears all datas of XEffect framework
+	void clearAll() {
+		ShadowNodeArray.clear();
+		LightList.clear();
+		DepthPassArray.clear();
+		PostProcessingRoutines.clear();
+	}
 
 private:
 
@@ -596,11 +580,9 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
-	irr::s32 LightShafts;
 	
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
-	LightShaftsCB* LSCB;
 
 	irr::video::ITexture* ScreenRTT;
 	irr::video::ITexture* DepthRTT;
@@ -622,7 +604,6 @@ private:
 	bool use32BitDepth;
 	bool useVSM;
 	bool DepthPass;
-	bool useLightShafts;
 
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;

@@ -14,6 +14,7 @@
 
 #include "../../Renders/XEffect/Interfaces/CRenderCallback.h"
 #include "../../Renders/XEffect//Interfaces/CShaderCallback.h"
+#include "../../Renders/XEffect/EffectCB.h"
 
 #include "../../SceneNodes/WaterSurface/CWaterSurface.h"
 
@@ -22,22 +23,39 @@
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PLANAR MAPPING--------------------------------------------
 //---------------------------------------------------------------------------------------------
-struct SPlanarTextureMappingData {
+struct SSWE_CORE_API SPlanarTextureMappingData {
 
-	SPlanarTextureMappingData(f32 _resolutionS, f32 _resolutionT, u8 _axis, vector3df _offset, bool _general=false) {
+	SPlanarTextureMappingData() {
+		SPlanarTextureMappingData(0, 0, 0, 0, vector3df(0));
+	}
+
+	SPlanarTextureMappingData(ISceneNode *_node, f32 _resolutionS, f32 _resolutionT, u8 _axis, vector3df _offset) {
+		node = _node;
+
 		resolutionS = _resolutionS;
 		resolutionT = _resolutionT;
 		axis = _axis;
 		offset = _offset;
-		general = _general;
+		general = false;
 	}
 
+	SPlanarTextureMappingData(ISceneNode *_node, f32 _resolutionS) {
+		SPlanarTextureMappingData(0, 0, 0, 0, vector3df(0));
+
+		node = _node;
+
+		resolutionS = _resolutionS;
+		general = true;
+	}
+
+	void setNode(ISceneNode *_node) { node = _node; }
 	void setResolutionS(f32 _resolutionS) { resolutionS = _resolutionS; }
 	void setResolutionT(f32 _resolutionT) { resolutionT = _resolutionT; }
 	void setAxis(u8 _axis) { axis = _axis; }
 	void setOffset(vector3df _offset) { offset = _offset; }
 	void setIsGeneralPlanarTextureMapping(bool _general) { general = _general; }
 
+	ISceneNode *getNode() { return node; }
 	f32 getResolutionS() { return resolutionS; }
 	f32 getResolutionT() { return resolutionT; }
 	u8 getAxis() { return axis; }
@@ -45,6 +63,8 @@ struct SPlanarTextureMappingData {
 	bool isGeneralPlanarTextureMapping() { return general; }
 
 private:
+	ISceneNode *node;
+
 	f32 resolutionS;
 	f32 resolutionT;
 	u8 axis;
@@ -52,7 +72,7 @@ private:
 	bool general;
 };
 
-struct SMeshWithTangentsData {
+struct SSWE_CORE_API SMeshWithTangentsData {
 
 	SMeshWithTangentsData(ISceneNode *_node, bool _recalculateNormals=false, bool _smooth=false, bool _angleWeighted=false, 
 						  bool _recalculateTangents=true) {
@@ -88,7 +108,7 @@ private:
 //----------------------------------TERRAINS--------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct STerrainsData {
+struct SSWE_CORE_API STerrainsData {
 	
 	STerrainsData(IMesh *_mesh, ISceneNode *_node, stringw _path, u32 _minPolysPerNode=0, ESCENE_NODE_TYPE _type=ESNT_MESH) {
 		mesh = _mesh;
@@ -122,7 +142,7 @@ private:
 //----------------------------------TREES---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct STreesData {
+struct SSWE_CORE_API STreesData {
 	STreesData(IMesh *_mesh, ISceneNode *_node, stringw _path, ESCENE_NODE_TYPE _type=ESNT_OCTREE, u32 _minPolysPerNode=0) {
 		mesh = _mesh;
 		node = _node;
@@ -164,7 +184,7 @@ private:
 //----------------------------------OBJECTS---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SObjectsData {
+struct SSWE_CORE_API SObjectsData {
 
 	SObjectsData(IMesh *_mesh, ISceneNode *_node, stringw _path) {
 		mesh = _mesh;
@@ -199,41 +219,168 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------LIGHTS----------------------------------------------------
+//----------------------------------LIGHTS-----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SLightsData {
+struct SSWE_CORE_API SLightsData {
 
 	SLightsData(ISceneNode *_node, IMeshSceneNode *_lensFlareMeshSceneNode=0, IBillboardSceneNode *_lensFlareBillBoardSceneNode=0,
 				CLensFlareSceneNode *_lensFlareSceneNode=0) {
+
 		node = _node;
-		lensFlareMeshSceneNode  = _lensFlareMeshSceneNode;
-		lensFlareBillBoardSceneNode = _lensFlareBillBoardSceneNode;
-		lensFlareSceneNode = _lensFlareSceneNode;
+
+		lfdata.setLensFlareMeshSceneNode(_lensFlareMeshSceneNode);
+		lfdata.setLensFlareBillboardSceneNode(_lensFlareBillBoardSceneNode);
+		lfdata.setLensFlareSceneNode(_lensFlareSceneNode);
 	}
 
+	// LENS FLARE
 	ISceneNode *getNode() { return node; }
-	IMeshSceneNode *getLensFlareMeshSceneNode() { return lensFlareMeshSceneNode; }
-	IBillboardSceneNode *getLensFlareBillBoardSceneNode() { return lensFlareBillBoardSceneNode; }
-	CLensFlareSceneNode *getLensFlareSceneNode() { return lensFlareSceneNode; }
+	IMeshSceneNode *getLensFlareMeshSceneNode() { return lfdata.getLensFlareMeshSceneNode(); }
+	IBillboardSceneNode *getLensFlareBillBoardSceneNode() { return lfdata.getLensFlareBillBoardSceneNode(); }
+	CLensFlareSceneNode *getLensFlareSceneNode() { return lfdata.getLensFlareSceneNode(); }
+	f32 getLensFlareStrengthFactor() { return lfdata.getStrengthFactor(); }
 
 	void setLight(ISceneNode *_node) { node = _node; }
-	void setLensFlareMeshSceneNode(IMeshSceneNode *_node) { lensFlareMeshSceneNode = _node; }
-	void setLensFlareBillboardSceneNode(IBillboardSceneNode *_node) { lensFlareBillBoardSceneNode = _node; }
-	void setLensFlareSceneNode(CLensFlareSceneNode *_node) { lensFlareSceneNode = _node; }
+	void setLensFlareMeshSceneNode(IMeshSceneNode *_node) { lfdata.setLensFlareMeshSceneNode(_node); }
+	void setLensFlareBillboardSceneNode(IBillboardSceneNode *_node) { lfdata.setLensFlareBillboardSceneNode(_node); }
+	void setLensFlareSceneNode(CLensFlareSceneNode *_node) { lfdata.setLensFlareSceneNode(_node); }
+	void setLensFlareStrengthFactor(f32 strengthFactor) { lfdata.setStrengthFactor(strengthFactor); }
+
+	// LIGHT SHAFTS
+	void createLightShafts(EffectHandler *effect, const u32 numberOfPlanes);
+	void createLightShaftsCallback(EffectHandler *effect) { lsdata.createCallback(effect); }
+	void createLightShaftsTextures(EffectHandler *effect, u32 resolution) { lsdata.createTextures(effect, resolution); }
+
+	void destroyLightShafts() { lsdata.destroyLightShafts(); }
+	void destroyLightShaftsCallback() { delete lsdata.getCallback(); }
+
+	array<ISceneNode *> *getLightShaftsBS() { return lsdata.getBillBoardSet(); }
+	LightShaftsCB *getLightShaftsCallback() { return lsdata.getCallback(); }
+	bool isLightShaftsEnable() { return lsdata.isLightShaftsEnabled(); }
 
 private:
+
 	ISceneNode *node;
-	IMeshSceneNode *lensFlareMeshSceneNode;
-	IBillboardSceneNode *lensFlareBillBoardSceneNode;
-	CLensFlareSceneNode *lensFlareSceneNode;
+
+	struct SLensFlare {
+	public:
+		IMeshSceneNode *getLensFlareMeshSceneNode() { return lensFlareMeshSceneNode; }
+		IBillboardSceneNode *getLensFlareBillBoardSceneNode() { return lensFlareBillBoardSceneNode; }
+		CLensFlareSceneNode *getLensFlareSceneNode() { return lensFlareSceneNode; }
+		f32 getStrengthFactor() { return strengthFactor; }
+
+		void setLensFlareMeshSceneNode(IMeshSceneNode *_node) { lensFlareMeshSceneNode = _node; }
+		void setLensFlareBillboardSceneNode(IBillboardSceneNode *_node) { lensFlareBillBoardSceneNode = _node; }
+		void setLensFlareSceneNode(CLensFlareSceneNode *_node) { lensFlareSceneNode = _node; }
+		void setStrengthFactor(f32 _strengthFactor) { strengthFactor = _strengthFactor; }
+	private:
+		IMeshSceneNode *lensFlareMeshSceneNode;
+		IBillboardSceneNode *lensFlareBillBoardSceneNode;
+		CLensFlareSceneNode *lensFlareSceneNode;
+		f32 strengthFactor;
+	} lfdata;
+
+	struct SLightShafts {
+	public:
+		SLightShafts() {
+			billBoardSet.clear();
+			callback = 0;
+			enable = false;
+		}
+
+		array<ISceneNode *> *getBillBoardSet() { return &billBoardSet; }
+		LightShaftsCB *getCallback() { return callback; }
+		bool isLightShaftsEnabled() { return enable; }
+
+		void createCallback(EffectHandler *effect) {
+			callback = new LightShaftsCB(effect);
+		}
+		void create(ICameraSceneNode *lightCamera, const u32 NumberOfPlanes, stringc LIGHT_SHAFTS_V, stringc LIGHT_SHAFTS_P) {
+
+			LightShafts = lightCamera->getSceneManager()->getVideoDriver()->getGPUProgrammingServices()->
+				addHighLevelShaderMaterial(LIGHT_SHAFTS_V.c_str(), "vertexMain", EVST_VS_2_0,
+										   LIGHT_SHAFTS_P.c_str(), "pixelMain", EPST_PS_2_0, 
+										   callback);
+
+			float DistanceBetweenPlanes = (lightCamera->getFarValue() - lightCamera->getNearValue())/NumberOfPlanes;
+			vector3df *FrustumCorners = getWorldSpaceCorners(lightCamera);
+
+			float NearWidth  = (FrustumCorners[0] - FrustumCorners[1]).getLength(),
+				  NearHeigth = (FrustumCorners[1] - FrustumCorners[2]).getLength(),
+				  FarWidth   = (FrustumCorners[4] - FrustumCorners[5]).getLength(),
+				  FarHeigth  = (FrustumCorners[5] - FrustumCorners[6]).getLength();
+
+			float WidthStep  = (FarWidth-NearWidth)/NumberOfPlanes,
+				  HeigthStep = (FarHeigth-NearHeigth)/NumberOfPlanes;
+
+			for(s32 i = 0; i < NumberOfPlanes; i++) {
+				vector3df position = vector3df(0, 0,-lightCamera->getNearValue() -i*DistanceBetweenPlanes);
+				IBillboardSceneNode *bb = lightCamera->getSceneManager()->addBillboardSceneNode();
+				bb->setParent(callback->lightCamera);
+				bb->setPosition(position);
+				bb->setSize(dimension2d<f32>(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep));
+				bb->setColor(SColor(255, 255, 255, 255));
+				bb->setMaterialFlag(EMF_LIGHTING, false);
+				if (callback) {
+					//bb->setMaterialType((E_MATERIAL_TYPE)LightShafts);
+					callback->uLightFarClipDistance = DistanceBetweenPlanes;
+					callback->lightCamera->setPosition(lightCamera->getPosition());
+				}
+				billBoardSet.push_back(bb);
+			}
+			enable = true;
+		}
+		void createTextures(EffectHandler *effect, u32 id) {
+			IVideoDriver *driver = effect->getIrrlichtDevice()->getVideoDriver();
+			for (u32 i=0; i < billBoardSet.size(); i++) {
+				billBoardSet[i]->setMaterialTexture(0, effect->getShadowMapTexture(effect->getShadowLight(id).getShadowMapResolution(), 
+																				   false, 
+																				   id));
+				billBoardSet[i]->setMaterialTexture(1, driver->getTexture("shaders/Textures/LS/Cookie.png"));
+				billBoardSet[i]->setMaterialTexture(2, driver->getTexture("shaders/Textures/LS/Noise.png"));
+				effect->addShadowToNode(billBoardSet[i], EFT_NONE, ESM_EXCLUDE);
+			}
+		}
+
+		void destroyCallback() { delete callback; }
+		void destroyLightShafts() {
+			for (u32 i=0; i < billBoardSet.size(); i++) {
+				billBoardSet[i]->remove();
+			}
+			billBoardSet.clear();
+			enable = false;
+		}
+
+	private:
+		array<ISceneNode *> billBoardSet;
+		LightShaftsCB *callback;
+		irr::s32 LightShafts;
+		bool enable;
+
+		vector3df *getWorldSpaceCorners(ICameraSceneNode *cam) {
+			const SViewFrustum *f = cam->getViewFrustum();
+			vector3df *vec[8] = {
+				&irr::core::vector3df(f->getNearRightUp()),
+				&irr::core::vector3df(f->getNearLeftUp()),
+				&irr::core::vector3df(f->getNearLeftDown()),
+				&irr::core::vector3df(f->getNearRightDown()),
+				&irr::core::vector3df(f->getFarRightUp()),
+				&irr::core::vector3df(f->getFarLeftUp()),
+				&irr::core::vector3df(f->getFarLeftDown()),
+				&irr::core::vector3df(f->getFarRightDown())
+			};
+
+			return *vec;
+		}
+	} lsdata;
 };
 
 //---------------------------------------------------------------------------------------------
 //----------------------------------VOLUME LIGHTS---------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SVolumeLightsData {
+struct SSWE_CORE_API SVolumeLightsData {
 
 	SVolumeLightsData(IVolumeLightSceneNode *_node) {
 		node = _node;
@@ -251,7 +398,7 @@ private:
 //----------------------------------WATER SURFACES--------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SWaterSurfacesData {
+struct SSWE_CORE_API SWaterSurfacesData {
 public:
 	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"") {
 		waterSurface = _waterSurface;
@@ -333,7 +480,6 @@ public:
 	array<SWaterSurfacesData> *getWaterSurfaces() { return &waterSurfaces; }
 
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
-	array<ISceneNode *> *getPlanarMeshes() { return &planarMeshes; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -372,7 +518,6 @@ private:
 	array<SWaterSurfacesData> waterSurfaces;
 
 	array<SPlanarTextureMappingData> planarTextureMappingValues;
-	array<ISceneNode *> planarMeshes;
 	//-----------------------------------
 
 	//-----------------------------------

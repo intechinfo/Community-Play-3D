@@ -28,6 +28,8 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	driver->endScene();
 	coreUserInterface->getDevices()->getDevice()->maximizeWindow();
 
+	coreUserInterface->getDevices()->getRenderingSceneManager()->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
+
 	if (!InitializeCriticalSectionAndSpinCount(&CriticalSection,  0x00000400))
 		return;
 
@@ -44,7 +46,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
         }
 	}
 
-	DeleteCriticalSection(&CriticalSection);
+	//DeleteCriticalSection(&CriticalSection);
 
     device->drop();
 

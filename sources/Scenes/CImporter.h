@@ -20,6 +20,9 @@ public:
 	CImporter(CDevices *_devices);
 	~CImporter();
 
+	void import_t();
+	void setPathOfFile_t(stringc path) { pathOfFile = path; }
+
 	void importScene(stringc file_path);
 	void newImportScene(stringc file_path);
 
@@ -33,6 +36,9 @@ private:
 
 	IrrXMLReader *xmlReader;
 	std::string element;
+	u32 numberOfObjects;
+
+	stringc pathOfFile;
 	//--------------------------
 
 	//--------------------------
@@ -54,7 +60,7 @@ private:
 	void readConfig();
 	void readEffects();
 	void readMaterialShaderCallbacks();
-	void readFactory(ISceneNode *_node);
+	void readFactory(ISceneNode *_node, IMesh *_mesh);
 	void readMaterials(ISceneNode *_node);
 	void readTransformations(ISceneNode *_node);
 	void readViewModes(ISceneNode *_node);

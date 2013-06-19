@@ -20,7 +20,7 @@ public:
 		worldViewProj *= driver->getTransform(video::ETS_WORLD);
 
 		services->setVertexShaderConstant("mWorldViewProj", worldViewProj.pointer(), 16);
-        
+
 		services->setVertexShaderConstant("MaxD", &FarLink, 1);
 	}
 
@@ -29,25 +29,42 @@ public:
 	core::matrix4 worldViewProj;
 };
 
-class SSWE_RENDERS_API LightShaftsCB : public video::IShaderConstantSetCallBack {
+class SSWE_RENDERS_API LightShaftsCB : public SSWE_RENDERS_EXPORTS video::IShaderConstantSetCallBack {
 public:
-	LightShaftsCB(EffectHandler *effectIn) : effect(effectIn) {
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[16] = (
-			0.5f,    0.f,     0.f,    0.5f,
-            0.f,    -0.5f,    0.f,    0.5f,
-            0.f,     0.f,     1.f,    0.f,
-            0.f,     0.f,     0.f,    1.f
-		);
-	};
+	SSWE_RENDERS_EXPORTS LightShaftsCB(EffectHandler *effectIn) : effect(effectIn) {
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[0] = 0.5f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[1] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[2] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[3] = 0.5f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[4] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[5] = -0.5f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[6] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[7] = 0.5f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[8] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[9] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[10] = 1.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[11] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[12] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[13] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[14] = 0.f;
+		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[15] = 1.f;
+
+		lightCamera = effect->getActiveSceneManager()->addEmptySceneNode();
+		lightCamera->setDebugDataVisible(EDS_FULL);
+	}
 
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
 		IVideoDriver *driver = services->getVideoDriver();
 
 		/// Set uTexViewProj
 		core::matrix4 uTexViewProj;
+
 		core::matrix4 PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M;
 		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M.setM(PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE);
-		uTexViewProj = PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M * cameraProjectionMatrix * cameraViewMatrix;
+
+		uTexViewProj = PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M * 
+					   lightCameraProjectionMatrix * 
+					   lightCameraViewMatrix;
 		services->setVertexShaderConstant("uTexViewProj", uTexViewProj.pointer(), 16);
 
 		/// Set other matrixes
@@ -61,7 +78,6 @@ public:
 
 		/// Set Pixel constants
 		f32 uAttenuation = 0.02f;
-		f32 uLightFarClipDistance = 48;
 		f32 Time = effect->getIrrlichtDevice()->getTimer()->getTime();
 
 		services->setPixelShaderConstant("uLightPosition", reinterpret_cast<f32*>(&uLightPosition.X), 4);
@@ -72,10 +88,11 @@ public:
 
 	EffectHandler* effect;
 
-	core::matrix4 cameraProjectionMatrix;
-	core::matrix4 cameraViewMatrix;
+	scene::ISceneNode *lightCamera;
 
+	core::matrix4 lightCameraViewMatrix, lightCameraProjectionMatrix;
 	core::vector3df uLightPosition;
+	irr::f32 uLightFarClipDistance;
 
 private:
 

@@ -44,7 +44,7 @@ CDevices::CDevices() {
 }
 
 CDevices::~CDevices() {
-	gui->drop();
+	/*gui->drop();
 
     smgr->drop();
 	effectSmgr->drop();
@@ -53,7 +53,7 @@ CDevices::~CDevices() {
 
 	delete effect;
 	delete worldCoreData;
-	delete wolrdCore;
+	delete wolrdCore;*/
 }
 
 void CDevices::removeSceneManager(ISceneManager *smgrToDelete) {
@@ -101,23 +101,34 @@ void CDevices::updateEntities() {
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
                                                  255));
+		if (worldCoreData->getLightsData()->operator[](i).isLightShaftsEnable()) {
+			SLightsData ldata = worldCoreData->getLightsData()->operator[](i);
+
+			ldata.getLightShaftsCallback()->lightCameraProjectionMatrix = effect->getShadowLight(i).getProjectionMatrix();
+			ldata.getLightShaftsCallback()->lightCameraViewMatrix = effect->getShadowLight(i).getViewMatrix();
+			ldata.getLightShaftsCallback()->uLightPosition = effect->getShadowLight(i).getPosition();
+
+			ldata.getLightShaftsCallback()->lightCamera->setPosition(ldata.getNode()->getPosition());
+			ldata.getNode()->addChild(ldata.getLightShaftsCallback()->lightCamera);
+		}
     }
     
     //UPDATE LENS FLARE STRENGTHS
     for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
 			if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getFalseOcclusion()) {
-                //GET CURRENT LANS FLARE ABOSLUTE POSITION
 				driver->runAllOcclusionQueries(false);
 				driver->updateAllOcclusionQueries(false);
 				u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
 				if(occlusionQueryResult != 0xffffffff) {
-					u32 divided = (20*450)/4200;
-					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult*divided)/1000.f);
+					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult)/8000.f);
 				}
-				Device->setWindowCaption(stringw((f32)occlusionQueryResult).c_str());
 				worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->updateAbsolutePosition();
             }
+			ISceneNode *light = worldCoreData->getLightsData()->operator[](i).getNode();
+			CLensFlareSceneNode *lfNode = worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode();
+			line3d<f32> length(smgrs[sceneManagerToDrawIndice]->getActiveCamera()->getPosition(), light->getPosition());
+			lfNode->setStrength(lfNode->getStrength()/(length.getLength()/worldCoreData->getLightsData()->operator[](i).getLensFlareStrengthFactor()));
         }
     }
 
@@ -194,7 +205,7 @@ void CDevices::drawScene() {
 	if (renderXEffect) {
 		matrix4 viewProj;
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-		effect->update();
+		effect->update(true);
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }
@@ -302,13 +313,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
 	effect->enableDepthPass(true);
-	effect->setUseLightShafts(true);
-
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
-
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_EXCLUDE);
 
-	//FINISH WITH EVENTS
+	//ADD EVENTS
     receiver.AddEventReceiver(objPlacement);
 
 	//ADVANCED GUI ASSETS

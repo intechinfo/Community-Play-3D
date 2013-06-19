@@ -97,6 +97,9 @@
     <Filter Include="UserInterfaces\AnimatorsEditor">
       <UniqueIdentifier>{b25f4e1c-f8b9-4d38-8c0e-67d48f2b7cdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserInterfaces\CodeEditor">
+      <UniqueIdentifier>{58076c09-b168-49cd-829f-5a35d1b90431}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">

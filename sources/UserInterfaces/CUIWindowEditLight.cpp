@@ -165,7 +165,8 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		}
 
 		devices->getGUIEnvironment()->addStaticText(L"Strength : ", rect<s32>(10, 40, 80, 60), true, true, lensFlareTab, -1, true);
-		lfStrength = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(80, 40, 220, 60), true, lensFlareTab, -1);
+		lfStrength = devices->getGUIEnvironment()->addEditBox(stringw(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareStrengthFactor()).c_str(), 
+															  rect<s32>(80, 40, 220, 60), true, lensFlareTab, -1);
 
 		//LENS FLARE TAB : SPHERE
 		IGUIStaticText *sphereText = devices->getGUIEnvironment()->addStaticText(L"Sphere", rect<s32>(400, 70, 480, 140), true, true, lensFlareTab, -1, true);
@@ -452,6 +453,10 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					devices->getVideoDriver()->addOcclusionQuery(meshNode, meshNode->getMesh());
 
 				} else {
+					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode());
+					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
+					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode());
+
 					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->remove();
 					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(0);
 
@@ -476,7 +481,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == lfStrength) {
 				stringc strength_c = lfStrength->getText();
 				f32 strength = devices->getCore()->getF32(strength_c.c_str());
-				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->setStrength(strength);
+				devices->getCoreData()->getLightsData()->operator[](index).setLensFlareStrengthFactor(strength);
 			}
 
 			//LENS FLARE SPHERE SCALE
