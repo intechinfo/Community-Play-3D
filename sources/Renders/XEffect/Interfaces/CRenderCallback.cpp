@@ -25,8 +25,7 @@ void CEffectRenderCallback::OnPreRender(EffectHandler* effect) {
 		luaScripting->update();
         luaScripting->runStringScript(pixelValues[i].c_str());
         if (returnedValueType == "integer") {
-			float var = returnedValue;
-            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), &var, returnedValueCount);
+            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), &returnedValue, returnedValueCount);
 		}
 
         if (returnedValueType == "sampler2D")

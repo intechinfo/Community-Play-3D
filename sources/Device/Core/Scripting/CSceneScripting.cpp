@@ -129,7 +129,8 @@ void CSceneScripting::addBillBoardSceneNode(ISceneNode *parent) {
 
 ----------------------------------------------------
 ----------CFILESYSTEM PSEUDO CLASS----------------
-----------------------------------------------------CFileSystem = {
+----------------------------------------------------
+CFileSystem = {
 
 }
 --Returns table of full file names in directory path
