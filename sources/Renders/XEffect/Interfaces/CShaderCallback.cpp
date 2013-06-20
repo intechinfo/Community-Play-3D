@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CShaderCallback.h"
 
+#include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
 CShaderCallback::CShaderCallback() {
     material = 0;
     name = "";
@@ -20,6 +22,21 @@ CShaderCallback::CShaderCallback() {
 
 CShaderCallback::~CShaderCallback() {
     
+}
+
+CUICodeEditor *CShaderCallback::modifyVertexShader(CDevices *devices) {
+	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &vertexShader, true);
+	return codeEditor;
+}
+
+CUICodeEditor *CShaderCallback::modifyPixelShader(CDevices *devices) {
+	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &pixelShader, true);
+	return codeEditor;
+}
+
+CUICodeEditor *CShaderCallback::modifyConstants(CDevices *devices) {
+	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &constants, true);
+	return codeEditor;
 }
 
 void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
@@ -38,7 +55,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
     colors.clear();
     colors_c.clear();
     
-    std::string sConstants(constants.c_str());
+    std::string sConstants(stringc(constants).c_str());
     std::istringstream iss(sConstants);
     
     do
@@ -223,13 +240,13 @@ void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
     buildConstants(driver);
 
     if (driver->getDriverType() == irr::video::EDT_OPENGL) {
-        material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "main", vertexShaderType,
-                                                    pixelShader.c_str(), "main", pixelShaderType,
+        material = gpu->addHighLevelShaderMaterial(stringc(vertexShader).c_str(), "main", vertexShaderType,
+                                                    stringc(pixelShader).c_str(), "main", pixelShaderType,
                                                     this, baseMaterial);
     } else {
-        material = gpu->addHighLevelShaderMaterial(vertexShader.c_str(), "vertexMain", vertexShaderType,
-                                                    pixelShader.c_str(), "pixelMain", pixelShaderType,
-                                                    this, baseMaterial);
+		material = gpu->addHighLevelShaderMaterial(stringc(vertexShader).c_str(), "vertexMain", vertexShaderType,
+													stringc(pixelShader).c_str(), "pixelMain", pixelShaderType,
+													this, baseMaterial);
     }
 }
 

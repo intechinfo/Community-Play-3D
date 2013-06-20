@@ -153,6 +153,10 @@
     <ClCompile Include="..\..\sources\CharacterEdition\ManualAnimation\CManualAction.cpp" />
     <ClCompile Include="..\..\sources\Device\CDevices.cpp" />
     <ClCompile Include="..\..\sources\Device\Core\CCoreUserInterface.cpp" />
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CFileSystemScripting.cpp" />
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CLuaBinds.cpp" />
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CSceneScripting.cpp" />
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CUIScriptEditor.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\Graph2D\GraphKat.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
@@ -171,6 +175,7 @@
     <ClCompile Include="..\..\sources\Scenes\CExporter.cpp" />
     <ClCompile Include="..\..\sources\Scenes\CImporter.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp" />
+    <ClCompile Include="..\..\sources\UserInterfaces\CodeEditor\CUICodeEditor.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIRenderingInfos.cpp" />
     <ClCompile Include="..\..\sources\UserInterfaces\CUIRightSceneTreeView.cpp" />
@@ -217,6 +222,10 @@
     <ClInclude Include="..\..\sources\CharacterEdition\ManualAnimation\CManualAction.h" />
     <ClInclude Include="..\..\sources\Device\CDevices.h" />
     <ClInclude Include="..\..\sources\Device\Core\CCoreUserInterface.h" />
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CFileSystemScripting.h" />
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CLuaBinds.h" />
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CSceneScripting.h" />
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CUIScriptEditor.h" />
     <ClInclude Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.h" />
     <ClInclude Include="..\..\sources\GUIExtension\Graph2D\GraphKat.h" />
     <ClInclude Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
@@ -238,6 +247,7 @@
     <ClInclude Include="..\..\sources\Scenes\CExporter.h" />
     <ClInclude Include="..\..\sources\Scenes\CImporter.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h" />
+    <ClInclude Include="..\..\sources\UserInterfaces\CodeEditor\CUICodeEditor.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIRenderingInfos.h" />
     <ClInclude Include="..\..\sources\UserInterfaces\CUIRightSceneTreeView.h" />

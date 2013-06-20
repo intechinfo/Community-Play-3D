@@ -429,7 +429,30 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------CORE DATA CLASS-------------------------------------------
+//----------------------------------SCRIPTS----------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SScriptFile {
+	SScriptFile(stringw _file, stringw _name) {
+		file = _file;
+		name = _name;
+	}
+
+	stringw getFile() { return file; }
+	stringw getName() { return name; }
+	stringw *getFilePointer() { return &file; }
+	stringw *getNamePointer() { return &name; }
+
+	void setFile(stringw _file) { file = _file; }
+	void setName(stringw _name) { name = _name; }
+
+private:
+	stringw file;
+	stringw name;
+};
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------CORE DATA CLASS--------------------------------------------
 //---------------------------------------------------------------------------------------------
 
 class SSWE_CORE_API CCoreData {
@@ -497,6 +520,11 @@ public:
 	array<CShaderCallback *> *getShaderCallbacks() { return &shaderCallbacks; }
 	//-----------------------------------
 
+	//-----------------------------------
+	//SCRIPTS
+	array<SScriptFile> *getScriptFiles() { return &scriptFiles; }
+	//-----------------------------------
+
 private:
 
 	//-----------------------------------
@@ -533,6 +561,11 @@ private:
 	array<CEffectRenderCallback *> materialRenderCallbacks;
 
 	array<CShaderCallback *> shaderCallbacks;
+	//-----------------------------------
+
+	//-----------------------------------
+	//SCRIPTS
+	array<SScriptFile> scriptFiles;
 	//-----------------------------------
 
 };

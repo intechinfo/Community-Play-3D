@@ -114,7 +114,7 @@ void CRenderCallbackScripting::update() {
 
 void CRenderCallbackScripting::runStringScript(irr::core::stringc script) {
     luaL_dostring(luaState, script.c_str());
-    lua_pcall(luaState, 0, LUA_MULTRET, 0);
+    //lua_pcall(luaState, 0, LUA_MULTRET, 0);
 }
 
 int setReturnedValueAsInteger(lua_State *L) {

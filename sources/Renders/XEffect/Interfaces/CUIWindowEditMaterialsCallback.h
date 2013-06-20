@@ -13,6 +13,7 @@
 #include "../../../UserInterfaces/CUIWindowEditNode.h"
 #include "../../../UserInterfaces/CUIWindowEditWater.h"
 
+#include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 #include "../../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 #include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
 
@@ -41,6 +42,11 @@ public:
 	//-----------------------------------
 
 private:
+
+	//-----------------------------------
+	//METHODS
+	void resetCodeBox();
+	//-----------------------------------
     
 	//-----------------------------------
 	//DATAS

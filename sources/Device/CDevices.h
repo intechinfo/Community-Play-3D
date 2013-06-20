@@ -12,6 +12,8 @@
 #include "Core/CCore.h"
 #include "Core/CCoreData.h"
 
+#include "Core/Scripting/CLuaBinds.h"
+
 #include "Core/CCoreObjectPlacement.h"
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
@@ -95,6 +97,8 @@ public:
 	CCoreObjectPlacement *getObjectPlacement() { return objPlacement; }
 
 	CUIProcessesLogger *getProcessesLogger() { return processesLogger; }
+
+	CScripting *getScripting() { return scripting; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -200,6 +204,8 @@ private:
 	CUIProcessesLogger *processesLogger;
 
 	stringc workingDirectory;
+
+	CScripting *scripting;
 	//-----------------------------------
 
 	//-----------------------------------

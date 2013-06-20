@@ -77,6 +77,10 @@ void CUIWindowEditWater::resize(rect<s32> position)
 	m_window->setRelativePosition(vector2d<s32>(position.UpperLeftCorner.X, position.UpperLeftCorner.Y + position.getHeight()));
 }
 
+void CUIWindowEditWater::resize(position2di position) {
+	m_window->setRelativePosition(position);
+}
+
 void CUIWindowEditWater::setVisible(bool visible)
 {
 	m_window->setVisible(visible);

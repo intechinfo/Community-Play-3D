@@ -11,4 +11,11 @@
 #include "../../sources/Device/CDevices.h"
 #include "../../sources/Device/Core/CCore.h"
 
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <cstdlib>
+
+#include <OVR.h>
+
 extern CRITICAL_SECTION CriticalSection;

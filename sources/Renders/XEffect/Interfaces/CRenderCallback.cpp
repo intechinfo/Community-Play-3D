@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CRenderCallback.h"
 
+#include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
 void CEffectRenderCallback::clearVertexValues() {
     vertexValues.clear();
     vertexValuesNames.clear();
@@ -22,9 +24,11 @@ void CEffectRenderCallback::OnPreRender(EffectHandler* effect) {
     for (irr::u32 i=0; i < pixelValuesNames.size(); i++) {
 		luaScripting->update();
         luaScripting->runStringScript(pixelValues[i].c_str());
-        if (returnedValueType == "integer")
-            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), &returnedValue, returnedValueCount);
-        
+        if (returnedValueType == "integer") {
+			float var = returnedValue;
+            effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), &var, returnedValueCount);
+		}
+
         if (returnedValueType == "sampler2D")
             effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), dimension_f, returnedValueCount);
         
@@ -38,3 +42,9 @@ void CEffectRenderCallback::OnPreRender(EffectHandler* effect) {
             effect->setPostProcessingEffectConstant(materialType, pixelValuesNames[i].c_str(), worldViewProj.pointer(), returnedValueCount);
     }
 }
+
+void CEffectRenderCallback::modifyPixelValue(u32 i, CDevices *devices) { 
+	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &pixelValues[i]);
+	codeEditor->setAutoSave(true);
+}
+

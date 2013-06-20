@@ -86,6 +86,8 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 					callback->setPixelShaderType(EPST_PS_3_0);
 					callback->setConstants(constantsLines.c_str());
 					callback->buildMaterial(m_devices->getVideoDriver());
+
+					fileSystem->removeFileArchive(fileSystem->getFileArchive(fileSystem->getFileArchiveCount()-1));
 				}
 				else
 				{

@@ -42,9 +42,6 @@
     <ClCompile Include="..\..\sources\Device\Core\CCoreObjectPlacement.cpp">
       <Filter>SSWECore\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\CLuaBinds.cpp">
-      <Filter>SSWECore\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sources\Device\CCollisionManager.cpp">
       <Filter>SSWECore</Filter>
     </ClCompile>
@@ -72,9 +69,6 @@
       <Filter>SSWECore\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sources\Device\Core\CCoreObjectPlacement.h">
-      <Filter>SSWECore\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\CLuaBinds.h">
       <Filter>SSWECore\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sources\Device\CCollisionManager.h">

@@ -1028,7 +1028,8 @@ void CImporter::buildVolumeLight() {
 
 void CImporter::buildWaterSurface() {
 	read("mesh");
-	CWaterSurface *waterSurface = new CWaterSurface(smgr, 0, smgr->getMesh(xmlReader->getAttributeValue("path")), 
+	stringc meshPath = xmlReader->getAttributeValue("path");
+	CWaterSurface *waterSurface = new CWaterSurface(smgr, 0, smgr->getMesh(meshPath.c_str()), 
 													true, true, devices->getWorkingDirectory());
 	IAnimatedMeshSceneNode *node = waterSurface->getWaterNode();
 
@@ -1040,8 +1041,27 @@ void CImporter::buildWaterSurface() {
 		readMaterials(node);
 		readViewModes(node);
 
+		read("shaderPackagePath");
+		stringc shaderPackagePath = xmlReader->getAttributeValue("value");
+		CShaderCallback *callback = new CShaderCallback();
+		IFileSystem *fileSystem = devices->getDevice()->getFileSystem();
+		if (fileSystem->addZipFileArchive(shaderPackagePath.c_str())) {
+			stringc vertexLines = devices->getCore()->getStringcFromIReadFile("vertex.vbs");
+			stringc pixelLines = devices->getCore()->getStringcFromIReadFile("pixel.fbs");
+			stringc constantsLines = devices->getCore()->getStringcFromIReadFile("constants.cbs");
+			callback->setDevice(devices->getDevice());
+			callback->setVertexShader(vertexLines.c_str());
+			callback->setVertexShaderType(EVST_VS_3_0);
+			callback->setPixelShader(pixelLines.c_str());
+			callback->setPixelShaderType(EPST_PS_3_0);
+			callback->setConstants(constantsLines.c_str());
+			callback->buildMaterial(devices->getVideoDriver());
+			fileSystem->removeFileArchive(fileSystem->getFileArchive(fileSystem->getFileArchiveCount()-1));
+		}
+		node->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
+
 		devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
-		SWaterSurfacesData wsdata(waterSurface, 0, "");
+		SWaterSurfacesData wsdata(waterSurface, callback, shaderPackagePath, meshPath);
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}
 

@@ -127,7 +127,6 @@
     <ClCompile Include="..\..\sources\Device\Core\CCore.cpp" />
     <ClCompile Include="..\..\sources\Device\Core\CCoreData.cpp" />
     <ClCompile Include="..\..\sources\Device\Core\CCoreObjectPlacement.cpp" />
-    <ClCompile Include="..\..\sources\Device\Core\CLuaBinds.cpp" />
     <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp" />
     <ClCompile Include="SSWECore.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -140,7 +139,6 @@
     <ClInclude Include="..\..\sources\Device\Core\CCore.h" />
     <ClInclude Include="..\..\sources\Device\Core\CCoreData.h" />
     <ClInclude Include="..\..\sources\Device\Core\CCoreObjectPlacement.h" />
-    <ClInclude Include="..\..\sources\Device\Core\CLuaBinds.h" />
     <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWECore.h" />

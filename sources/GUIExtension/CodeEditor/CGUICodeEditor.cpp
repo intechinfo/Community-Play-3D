@@ -2521,6 +2521,19 @@ void CGUIEditBoxIRB::addLUAKeywords(irr::video::SColor keywordColor, irr::video:
 	addLineKeyword("--",commentColor,true);
 }
 
+void CGUIEditBoxIRB::addConstantsShaderKeyWords(irr::video::SColor keywordColor, irr::video::SColor stringColor, irr::video::SColor commentColor) {
+	addKeyword("vint", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("pint", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("vfloat", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("pfloat", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("vvector3df", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("pvector3df", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("vmatrix4", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("pmatrix4", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("vSColor", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("pSColor", irr::video::SColor(180, 180, 180, 64), true);
+}
+
 //! adds keyword info
 void CGUIEditBoxIRB::addKeywordInfo(int size, int type) 
 {

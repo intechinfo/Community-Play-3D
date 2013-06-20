@@ -20,7 +20,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY, true);
 	driver->setAllowZWriteOnTransparent(true);
 
-	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome_o.jpg"), 16, 8, 0.95f, 2.0f);
+	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 16, 8, 0.95f, 2.0f);
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
 
@@ -36,6 +36,9 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	while (device->run()) {
 
         if (device->isWindowActive()) {
+			#ifndef _IRR_OSX_PLATFORM_
+				EnterCriticalSection(&CriticalSection);
+			#endif
 			coreUserInterface->getDevices()->updateEntities();
 
             driver->beginScene(true, true, SColor(0x0));
@@ -43,6 +46,9 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
             coreUserInterface->update();
 
             driver->endScene();
+			#ifndef _IRR_OSX_PLATFORM_
+				LeaveCriticalSection(&CriticalSection);
+			#endif
         }
 	}
 

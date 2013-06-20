@@ -180,6 +180,8 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 						callback->setPixelShader(pixelLines.c_str());
 						callback->setConstants(constantsLines.c_str());
 						callback->buildMaterial(devices->getVideoDriver());
+
+						fileSystem->removeFileArchive(fileSystem->getFileArchive(fileSystem->getFileArchiveCount()-1));
 					} else {
 						devices->addErrorDialog("Error Archive", L"Error when opening the archive\nMaybe the archive is corrupt...", EMBF_OK);
 					}

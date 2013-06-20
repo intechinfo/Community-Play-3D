@@ -27,6 +27,10 @@ void CCoreData::clear() {
     for (u32 i=0; i < terrainNodes.size(); i++) {
         terrainNodes[i]->remove();
     }
+	for (u32 i=0; i < terrainsData.size(); i++) {
+		terrainsData[i].getNode()->remove();
+	}
+
     for (u32 i=0; i < treesData.size(); i++) {
         treesData[i].getNode()->remove();
     }
@@ -40,7 +44,6 @@ void CCoreData::clear() {
 		volumeLightsData[i].getNode()->remove();
 	}
 	for (u32 i=0; i < waterSurfaces.size(); i++) {
-		waterSurfaces[i].getNode()->remove();
 		waterSurfaces[i].getWaterSurface()->remove();
 	}
 

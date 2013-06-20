@@ -87,7 +87,7 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
                     CImporter *importer = new CImporter(devices);
 					importer->setPathOfFile_t(path_file.c_str());
 					std::thread importer_t(&CImporter::import_t, *importer);
-					importer_t.detach();
+					importer_t.join();
                     delete importer;
                     
                     window->remove();

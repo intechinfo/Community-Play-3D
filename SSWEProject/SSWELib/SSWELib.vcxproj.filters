@@ -100,6 +100,9 @@
     <Filter Include="UserInterfaces\CodeEditor">
       <UniqueIdentifier>{58076c09-b168-49cd-829f-5a35d1b90431}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Device\Core\Scripting">
+      <UniqueIdentifier>{ec5a244a-3189-4517-bb2b-013bb33a78bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -278,6 +281,21 @@
     </ClCompile>
     <ClCompile Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp">
       <Filter>UserInterfaces\AnimatorsEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\UserInterfaces\CodeEditor\CUICodeEditor.cpp">
+      <Filter>UserInterfaces\CodeEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CLuaBinds.cpp">
+      <Filter>Device\Core\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CUIScriptEditor.cpp">
+      <Filter>Device\Core\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CSceneScripting.cpp">
+      <Filter>Device\Core\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\Device\Core\Scripting\CFileSystemScripting.cpp">
+      <Filter>Device\Core\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -475,6 +493,21 @@
     </ClInclude>
     <ClInclude Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h">
       <Filter>UserInterfaces\AnimatorsEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\UserInterfaces\CodeEditor\CUICodeEditor.h">
+      <Filter>UserInterfaces\CodeEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CLuaBinds.h">
+      <Filter>Device\Core\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CUIScriptEditor.h">
+      <Filter>Device\Core\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CSceneScripting.h">
+      <Filter>Device\Core\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sources\Device\Core\Scripting\CFileSystemScripting.h">
+      <Filter>Device\Core\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

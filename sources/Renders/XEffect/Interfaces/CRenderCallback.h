@@ -10,9 +10,13 @@
 #define __C_RENDER_CALLBACK_H_INCLUDED__
 
 #include "../XEffects.h"
+
+class CDevices;
+
 #include "CRenderCallbackScripting.h"
 
 class CEffectRenderCallback : public IPostProcessingRenderCallback {
+
 public:
     
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,12 +44,15 @@ public:
 	}
     
     irr::s32 materialType;
+
+	//METHODS TO MODIFY
+	void modifyPixelValue(u32 i, CDevices *devices);
     
     //GET METHODS
     irr::core::array<float> *getVertexValues() { return &vertexValues; }
     irr::core::array<irr::core::stringc> *getVertexValuesNames() { return &vertexValuesNames; }
     
-    irr::core::array<irr::core::stringc> *getPixelValues() { return &pixelValues; }
+    irr::core::array<irr::core::stringw> *getPixelValues() { return &pixelValues; }
     irr::core::array<irr::core::stringc> *getPixelValuesNames() { return &pixelValuesNames; }
     
     //CLEAR METHODS
@@ -59,12 +66,11 @@ private:
     irr::core::array<float> vertexValues;
     irr::core::array<irr::core::stringc> vertexValuesNames;
     
-    irr::core::array<irr::core::stringc> pixelValues;
+    irr::core::array<irr::core::stringw> pixelValues;
     irr::core::array<irr::core::stringc> pixelValuesNames;
     
     //SCRIPTING LUA
     CRenderCallbackScripting *luaScripting;
-    
     
 };
 

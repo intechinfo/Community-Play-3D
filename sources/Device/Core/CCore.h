@@ -34,8 +34,6 @@
 #include "../../SceneNodes/LensFlareSceneNode.h"
 #include "../../SceneNodes/SceneNodeAnimatorFollowCamera.h"
 
-#include "CLuaBinds.h"
-
 using namespace irr;
 using namespace video;
 using namespace gui;
@@ -224,6 +222,7 @@ public:
 	IGUIElement *getWindowName(u32 i) { return smw.names[i]; }
 	IGUIWindow *getGUIWindow(u32 i) { return smw.minimizedGUIWindows[i]; }
 	IGUIElement *getParent(u32 i) { return smw.parent[i]; }
+	ITexture *getWindowTexture(u32 i) { return smw.images[i]; }
 
 	void setDriver(IVideoDriver *_driver) { driver = _driver; }
 	void setGUI(IGUIEnvironment *_gui) { gui = _gui; }

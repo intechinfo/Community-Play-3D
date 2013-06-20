@@ -138,14 +138,13 @@ bool CUIWindowEditVolumeLight::OnEvent(const SEvent &event) {
 				if(isValid() && nodeToEdit != 0) {
 					stringw volumeLightNodeName = L"#volumeLight:";
 					volumeLightNodeName += name;
+					SMaterial mat = nodeToEdit->getMaterial(0);
 					nodeToEdit->setName(volumeLightNodeName.c_str());
 					nodeToEdit->setSubDivideU(subdivU);
 					nodeToEdit->setSubDivideV(subdivV);
 					nodeToEdit->setFootColor(SColor(aFootColor, rFootColor, gFootColor, bFootColor));
 					nodeToEdit->setTailColor(SColor(aTailColor, rTailColor, gTailColor, bTailColor));
-					editWindow->remove();
-					devices->getEventReceiver()->RemoveEventReceiver(this);
-					delete this;
+					nodeToEdit->getMaterial(0) = mat;
 				}
             }
 			if(event.GUIEvent.Caller == closeButton) {

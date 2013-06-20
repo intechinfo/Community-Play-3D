@@ -15,6 +15,9 @@ enum CXT_EDIT_WINDOW_EFFECTS_EVENTS {
 };
 
 #include "../../../Device/CDevices.h"
+
+#include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
 #include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 
@@ -59,9 +62,6 @@ private:
 	IGUIButton *pAdd, *pRemove;
 	IGUIListBox *pList;
 	IGUIButton *pEditWindow;
-	IGUIWindow *complexEditWindow;
-	CGUIEditBoxIRB *codeEditor;
-	IGUIButton *complexClose, *complexOpen;
 
 	//-----------------------------------
 

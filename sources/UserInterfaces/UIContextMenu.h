@@ -72,9 +72,10 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME,
 	CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME,
 
+	CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR,
+
 	CXT_MENU_EVENTS_RENDERING_INFOS,
 	CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW,
-
 	CXT_MENU_EVENTS_HELP_ABOUT
 };
 
@@ -107,6 +108,8 @@ enum GUI_CXT_MENU_EVENTS {
 
 #include "../Renders/XEffect/Interfaces/CUIWindowEditEffects.h"
 #include "../Renders/XEffect/Interfaces/CUIWindowEditMaterials.h"
+
+#include "../Device/Core/Scripting/CUIScriptEditor.h"
 
 class CUIContextMenu : public IEventReceiver {
 

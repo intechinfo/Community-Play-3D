@@ -107,8 +107,6 @@ void CUIWindowEditEffects::open() {
     pvalue->setEnabled(false);
     pname->setEnabled(false);
     
-    complexEditWindow = 0;
-    
     //-----------------------------------
     
     //POINTER TO viewProj FOR EFFECTS
@@ -201,21 +199,8 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             
             //EDIT CALLBACKS
             if (event.GUIEvent.Caller == pEditWindow) {
-                complexEditWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(230, 80, 930, 555), true, L"Complex Script Window Edition", 0, -1);
-                complexEditWindow->getCloseButton()->remove();
-                codeEditor = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), complexEditWindow, -1, rect<s32>(100, 30, 690, 460), devices->getDevice());
-                codeEditor->setText(pvalue->getText());
-                codeEditor->setOverrideColor(SColor(255, 32, 32, 32));
-                codeEditor->setBackgroundColor(SColor(255, 200, 200, 200));
-                codeEditor->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
-                codeEditor->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
-                codeEditor->addKeyword("returnValue", SColor(255,200,100,0));
-                codeEditor->addKeyword("setReturnedValueAsMatrix4", SColor(255,200,100,0));
-                codeEditor->addKeyword("setReturnedValueAsFloat", SColor(255,0,150,150));
-                codeEditor->addLUAKeywords();
-                
-                complexClose = devices->getGUIEnvironment()->addButton(rect<s32>(10, 430, 90, 460), complexEditWindow, -1, L"Close", L"Close and save changes");
-                complexOpen = devices->getGUIEnvironment()->addButton(rect<s32>(10, 40, 90, 70), complexEditWindow, -1, L"Add file", L"Load script from file");
+				s32 selected = shadersList->getSelected();
+				devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->modifyPixelValue(pList->getSelected(), devices);
             }
             
             if (event.GUIEvent.Caller == pAdd) {
@@ -250,14 +235,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     devices->addInformationDialog(L"Information", L"Please Select a value before.", EMBF_OK);
                 }
             }
-
-            if (event.GUIEvent.Caller == complexClose) {
-                complexEditWindow->remove();
-            }
-            
-            if (event.GUIEvent.Caller == complexOpen) {
-                //TODO ADD FROM FILE
-            }
         }
         
         if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
@@ -281,15 +258,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     newValue += pvalue->getText();
                     devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected()) = newValue;
                 }
-            }
-            
-            if (event.GUIEvent.Caller == codeEditor) {
-                pvalue->setText(codeEditor->getText());
-                stringc newValue = "";
-                newValue += pvalue->getText();
-                s32 selected = -1;
-                selected = shadersList->getSelected();
-                devices->getCoreData()->getEffectRenderCallbacks()->operator[](selected)->getPixelValues()->operator[](pList->getSelected()) = newValue;
             }
         }
         

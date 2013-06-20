@@ -66,13 +66,10 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
                 
     devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Type", rect<s32>(10, 90, 150, 110), false, true, editMaterialWindow, -1, false);
     vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 440, 110), editMaterialWindow, -1);
-	vShaderType->setSelected((E_VERTEX_SHADER_TYPE)(callback->getVertexShaderType()));
     devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Type", rect<s32>(10, 110, 150, 130), false, true, editMaterialWindow, -1, false);
     pShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 110, 440, 130), editMaterialWindow, -1);
-    pShaderType->setSelected((E_PIXEL_SHADER_TYPE)callback->getPixelShaderType());
     devices->getGUIEnvironment()->addStaticText(L"Base Material", rect<s32>(10, 130, 150, 150), false, true, editMaterialWindow, -1, false);
     bShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 130, 440, 150), editMaterialWindow, -1);
-	bShaderType->setSelected((E_MATERIAL_TYPE)callback->getBaseMaterial());
                 
 	devices->getGUIEnvironment()->addStaticText(L"Geometry", rect<s32>(10, 160, 150, 180), false, true, editMaterialWindow, -1, false);
     gLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 160, 260, 180), editMaterialWindow, -1, L"Load From File", L"Load From File");
@@ -88,16 +85,7 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     constantsCodeBox->setBackgroundColor(SColor(255, 200, 200, 200));
     constantsCodeBox->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
     constantsCodeBox->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
-    constantsCodeBox->addKeyword("vint", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("pint", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("vfloat", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("pfloat", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("vvector3df", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("pvector3df", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("vmatrix4", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("pmatrix4", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("vSColor", SColor(180, 180, 180, 64), true);
-    constantsCodeBox->addKeyword("pSColor", SColor(180, 180, 180, 64), true);
+    constantsCodeBox->addConstantsShaderKeyWords();
                 
     editText = devices->getGUIEnvironment()->addStaticText(L"Edit :", rect<s32>(10, 440, 50, 460), false, true, editMaterialWindow, -1, false);
     editorChoice = devices->getGUIEnvironment()->addComboBox(rect<s32>(50, 440, 440, 460), editMaterialWindow, -1);
@@ -119,9 +107,11 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
         previewNode->setMaterialFlag(EMF_LIGHTING, false);
         previewNode->setScale(vector3df(2, 2, 2));
         previewNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) + 
-                                                                                    stringc("cloud.tga")).c_str()));
+                                                                                    stringc("shaders/Textures/predefined/diffuse.tga")).c_str()));
         previewNode->setMaterialTexture(1, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) + 
-                                                                                    stringc("lavatile.jpg")).c_str()));
+                                                                                    stringc("shaders/Textures/predefined/normal.tga")).c_str()));
+		previewNode->setMaterialTexture(2, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) + 
+                                                                                    stringc("shaders/Textures/predefined/specular.tga")).c_str()));
         previewNode->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
                     
         ICameraSceneNode *camera = smgr->addCameraSceneNode();
@@ -166,16 +156,58 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
         name.make_upper();
         pShaderType->addItem(name.c_str());
     }
+	vShaderType->setSelected((E_VERTEX_SHADER_TYPE)(callback->getVertexShaderType()));
+	pShaderType->setSelected((E_PIXEL_SHADER_TYPE)callback->getPixelShaderType());
                 
     //FILL BASE MATERIAL COMBO BOX
     CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
     editNode->createMaterialTypesComboBox(bShaderType);
+	bShaderType->setSelected((E_MATERIAL_TYPE)callback->getBaseMaterial());
 	//-----------------------------------
 
 	devices->getEventReceiver()->AddEventReceiver(this);
 }
 
+void CUIWindowEditMaterialsCallback::resetCodeBox() {
+	constantsCodeBox->remove();
+	constantsCodeBox = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), editMaterialWindow, -1, rect<s32>(10, 220, 440, 430), devices->getDevice());
+	constantsCodeBox->setMultiLine(true);
+	constantsCodeBox->clearKeywords();
+    constantsCodeBox->setOverrideColor(SColor(180, 32, 32, 32));
+    constantsCodeBox->setBackgroundColor(SColor(255, 200, 200, 200));
+    constantsCodeBox->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
+    constantsCodeBox->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
+
+	stringw text ;
+	switch (editorChoice->getSelected()) {
+		case 0:
+			text = callback->getConstants();
+			constantsCodeBox->setText(text.c_str());
+			break;
+		case 1:
+			text = callback->getVertexShader();
+			constantsCodeBox->setText(text.c_str());
+			break;
+		case 2:
+			text = callback->getPixelShader();
+			constantsCodeBox->setText(text.c_str());
+			break;
+
+		default:
+			break;
+	}
+
+	if (editMaterialWindow->getRelativePosition().getWidth() == devices->getVideoDriver()->getScreenSize().Width) {
+		constantsCodeBox->setRelativePosition(rect<s32>(10, 220, separator->getRelativePosition().UpperLeftCorner.X-10,
+														editMaterialWindow->getRelativePosition().getHeight()-50));
+	}
+}
+
 bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
+
+	if (event.EventType == EET_KEY_INPUT_EVENT) {
+
+	}
 
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
@@ -204,13 +236,16 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			ev.GUIEvent.Caller = closeEditMaterialWindow;
 			ev.GUIEvent.Element = closeEditMaterialWindow;
 			OnEvent(ev);
+			return true;
 		}
 	}
 
-	if(oldSize != this->getSize())
-	{
-		if(editWaterAddon != NULL)
-			editWaterAddon->resize(this->getSize());
+	if (editMaterialWindow) {
+		if(oldSize != this->getSize())
+		{
+			if(editWaterAddon != NULL)
+				editWaterAddon->resize(this->getSize());
+		}
 	}
 
 	if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
@@ -223,7 +258,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			if(editWaterAddon != NULL)
 				editWaterAddon->setVisible(false);
 		}
-            
+
 		//EDIT MATERIAL WINDOW
 		if (element == editPreviewNode) {
 			CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
@@ -234,13 +269,30 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			openConstantsfod = devices->createFileOpenDialog(L"Choose your file", CGUIFileSelector::EFST_OPEN_DIALOG, editMaterialWindow);
 			((CGUIFileSelector *)openConstantsfod)->addFileFilter(L"Vertex Shader File", L"vbs", 0);
 		}
+		if (element == vEdit) {
+			CUICodeEditor *codeEditor = callback->modifyVertexShader(devices);
+			codeEditor->setAutoSave(true);
+			codeEditor->setAlwaysBringToFront(true);
+		}
+
 		if (element == pLoadFromFile) {
 			openPixelShaderfod = devices->createFileOpenDialog(L"Choose your file", CGUIFileSelector::EFST_OPEN_DIALOG, editMaterialWindow);
 			((CGUIFileSelector *)openPixelShaderfod)->addFileFilter(L"Pixel Shader File", L"fbs", 0);
 		}
+		if (element == pEdit) {
+			CUICodeEditor *codeEditor = callback->modifyPixelShader(devices);
+			codeEditor->setAutoSave(true);
+			codeEditor->setAlwaysBringToFront(true);
+		}
+
 		if (element == cLoadFromFile) {
 			openConstantsfod = devices->createFileOpenDialog(L"Choose your file", CGUIFileSelector::EFST_OPEN_DIALOG, editMaterialWindow);
 			((CGUIFileSelector *)openConstantsfod)->addFileFilter(L"Material Shader Constants", L"cst", 0);
+		}
+		if (element == cEdit) {
+			CUICodeEditor *codeEditor = callback->modifyConstants(devices);
+			codeEditor->setAutoSave(true);
+			codeEditor->setAlwaysBringToFront(true);
 		}
             
 		if (element == buildMaterial) {
@@ -251,6 +303,10 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			callback->buildMaterial(devices->getVideoDriver());
 
 			previewNode->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
+
+			if (console) {
+				console->clear();
+			}
 		}
                 
 		if (element == closeEditMaterialWindow) {
@@ -265,7 +321,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 				editWaterAddon->close();
 			}
 			delete this;
-			return false;
+			return true;
 		}
 
 		if (element == editMaterialWindow->getMaximizeButton()) {
@@ -305,7 +361,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 																			closeEditMaterialWindow->getRelativePosition().UpperLeftCorner.Y-10),
 																			editMaterialWindow, -1, true);
 				console->setAutoScrollEnabled(true);
-				devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+				devices->getDevice()->getLogger()->setLogLevel(ELL_ERROR);
 				devices->setRenderScene(false);
 			} else {
 				editMaterialWindow->setRelativePosition(rect<s32>(180, 140, 1090, 660));
@@ -398,40 +454,26 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
             editingConstants = false;
             editingVertexShader = false;
             editingPixelShader = false;
-			constantsCodeBox->setMax(1);
             switch (editorChoice->getSelected()) {
                 case 0:
                     editingConstants = true;
-                    constantsCodeBox->clearKeywords();
-                    constantsCodeBox->addKeyword("vint", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("pint", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("vfloat", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("pfloat", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("vvector3df", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("pvector3df", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("vmatrix4", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("pmatrix4", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("vSColor", SColor(180, 180, 180, 64));
-                    constantsCodeBox->addKeyword("pSColor", SColor(180, 180, 180, 64));
-                    constantsCodeBox->setText(stringw(callback->getConstants().c_str()).c_str());
+                    resetCodeBox();
+					constantsCodeBox->addConstantsShaderKeyWords();
                     break;
                 case 1:
                     editingVertexShader = true;
-                    constantsCodeBox->clearKeywords();
-                    constantsCodeBox->addShaderKeywords();
-                    constantsCodeBox->setText(stringw(callback->getVertexShader().c_str()).c_str());
+                    resetCodeBox();
+					constantsCodeBox->addShaderKeywords();
                     break;
                 case 2:
                     editingPixelShader = true;
-                    constantsCodeBox->clearKeywords();
-                    constantsCodeBox->addShaderKeywords();
-                    constantsCodeBox->setText(stringw(callback->getPixelShader().c_str()).c_str());
+                    resetCodeBox();
+					constantsCodeBox->addShaderKeywords();
                     break;
 
                 default:
                     break;
             }
-			constantsCodeBox->setMax(0);
             editorChoice->setTabStop(true);
         }
     }

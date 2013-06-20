@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "CCoreUserInterface.h"
 
+#include "../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
 CCoreUserInterface::CCoreUserInterface() {
     
     //-----------------------------------
@@ -117,19 +119,22 @@ CCoreUserInterface::CCoreUserInterface() {
 	devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
 	devices->getEventReceiver()->AddEventReceiver(windowsManagerInstance);
 
+	//stringw test = "test de texte \n";
+	//CUICodeEditor *c = new CUICodeEditor(devices, &test, true);
+	//c->setAutoSave(true);
 }
 
 CCoreUserInterface::~CCoreUserInterface() {
-    
+
 }
 
 void CCoreUserInterface::update() {
     devices->updateDevice();
-    
+
     contextMenuInstance->update();
 	windowsManagerInstance->update();
 	devices->getProcessesLogger()->update();
-    
+
     programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-97));
 
     if (logWindow) {

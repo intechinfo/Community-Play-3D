@@ -17,7 +17,7 @@ CExporter::~CExporter() {
 }
 
 void CExporter::exportScene(stringc file_path) {
-    
+
     wd = devices->getWorkingDirectory().c_str();
     //wd+= "/";
     
@@ -129,7 +129,7 @@ void CExporter::exportConfig() {
 		for (u32 ei=0; ei < devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->size(); ei++) {
 			fprintf(export_file, "\t\t\t\t\t <value name=\"%s\" val=\"%s\" />\n",
 					devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValuesNames()->operator[](ei).c_str(),
-					devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->operator[](ei).c_str());
+					stringc(devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->operator[](ei)).c_str());
 		}
 		fprintf(export_file, "\t\t\t\t </values>\n");
 		fprintf(export_file, "\t\t\t </postProcessingEffect>\n\n");
@@ -145,9 +145,9 @@ void CExporter::exportConfig() {
 		fprintf(export_file, "\t\t\t\t <vertexShaderType type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShaderType());
 		fprintf(export_file, "\t\t\t\t <baseMaterial type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getBaseMaterial());
 		fprintf(export_file, "\t\t\t\t <name cname=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName().c_str());
-		fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader().c_str());
-		fprintf(export_file, "\t\t\t\t <pixel shader=\n\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader().c_str());
-		fprintf(export_file, "\t\t\t\t <constants value=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getConstants().c_str());
+		fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader()).c_str());
+		fprintf(export_file, "\t\t\t\t <pixel shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader()).c_str());
+		fprintf(export_file, "\t\t\t\t <constants value=\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getConstants()).c_str());
         
 		fprintf(export_file, "\t\t\t </materialType>\n\n");
 	}
@@ -167,7 +167,9 @@ void CExporter::exportTerrains() {
         fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getTerrainPaths()->operator[](i).c_str());
         if (node->getType() == ESNT_OCTREE) {
 			fprintf(export_file, "\t\t\t <type esnt=\"octtree\" mppn=\"%u\" />\n\n", devices->getCoreData()->getTerrainMinPolysPerNode()->operator[](i));
-        } else {
+		} else if (node->getType() == ESNT_TERRAIN) {
+			fprintf(export_file, "\t\t\t <type esnt=\"heightMap\" />\n\n");
+		} else {
             fprintf(export_file, "\t\t\t <type esnt=\"mesh\" />\n\n");
         }
         
@@ -367,6 +369,10 @@ void CExporter::exporterWaterSurfaces() {
 
 		fprintf(export_file, "\t\t\t <visible bool=\"%d\" />\n", node->isVisible());
 		fprintf(export_file, "\t\t\t <shadowMode mode=\"%d\" />\n", getShadowMode(node));
+
+		stringc shaderPackagePath = devices->getCoreData()->getWaterSurfaces()->operator[](i).getPackagePath();
+		shaderPackagePath.remove(devices->getWorkingDirectory().c_str());
+		fprintf(export_file, "\t\t\t <shaderPackagePath value=\"%s\" />\n", shaderPackagePath.c_str());
 
 		fprintf(export_file, "\t\t </waterSurface>\n\n");
 	}

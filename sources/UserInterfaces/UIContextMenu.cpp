@@ -33,15 +33,17 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	menu->addItem(L"Animators", -1, true, true);
 	menu->addItem(L"Renders", -1, true, true);
     menu->addItem(L"Shaders", -1, true, true);
-    menu->addItem(L"Animated Objects", -1, true, true);
-	menu->addItem(L"Nodes Factory", -1, true, true);
+	menu->addItem(L"Factory", -1, true, true);
+	menu->addItem(L"Scripting", -1, true, true);
+	menu->addItem(L"Sounds", -1, true, true);
     menu->addItem(L"Window", -1, true, true);
-	menu->addItem(L"Help", -1, true, true);
     
     int i=0;
     
+	//WORLD EDITOR
     submenu = menu->getSubMenu(i++);
     
+	//FILE
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Open a script (CTRL+O)", CXT_MENU_EVENTS_OPEN_SCRIPT);
 	submenu->addItem(L"Concat this scene with other...", CXT_MENU_EVENTS_FILE_CONCAT_SCENE_SCRIPT);
@@ -54,6 +56,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addSeparator();
 	submenu->addItem(L"Quit", CXT_MENU_EVENTS_FILE_QUIT);
     
+	//EDIT
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Edit Selected Node (CTRL+E)", CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE);
     submenu->addItem(L"Edit Materials (CTRL+SHIFT+E)", CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE);
@@ -64,7 +67,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Edit Grid", CXT_MENU_EVENTS_EDIT_GRID_SCENE_NODE);
     submenu->addSeparator();
     submenu->addItem(L"Clone (CTRL+SHIFT+C)", CXT_MENU_EVENTS_EDIT_CLONE);
+	submenu->addSeparator();
+	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
+	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
     
+	//VIEW
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Maya Camera (CTRL+SHIFT+M)", CXT_MENU_EVENTS_VIEW_MAYA_CAMERA);
 	submenu->addItem(L"FPS Camera (CTRL+SHIFT+F)", CXT_MENU_EVENTS_VIEW_FPS_CAMERA);
@@ -75,8 +82,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Wire Frame (CTRL+W)", CXT_MENU_EVENTS_VIEW_WIREFRAME, true, false, false, false);
     submenu->addItem(L"Point Cloud", CXT_MENU_EVENTS_VIEW_POINTCLOUD, true, false, false, false);
     
-    i++;//TO CHANGE
+	//ANIMATORS
+    submenu = menu->getSubMenu(i++);
     
+	//RENDERS
     submenu = menu->getSubMenu(i);
     submenu->addItem(L"Post Processes", -1, true, true);
 	submenu->addItem(L"Effects", -1, true, true);
@@ -91,17 +100,14 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
-    i++;
+	i++;
     
-    submenu = menu->getSubMenu(i);
+	//SHADERS
+    submenu = menu->getSubMenu(i++);
     submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
     submenu->addItem(L"Edit Selected Water Shader", -1);
-    i++;
-    
-    submenu = menu->getSubMenu(i++);
-	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
-	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
 
+	//FACTORY
 	submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Add Cube Scene Node", CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE);
 	submenu->addItem(L"Add Sphere Scene Node", CXT_MENU_EVENTS_ADD_SPHERE_SCENE_NODE);
@@ -126,11 +132,19 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Scale Mesh...", -1);
 	submenu = menu->getSubMenu(i-1);
     
+	//SCRIPTING
+	submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"Open Script Editor", CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR);
+
+	//SOUNDS
+	submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"Edit Sounds System", -1);
+
+	//WINDOW
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Current Rendering Infos", CXT_MENU_EVENTS_RENDERING_INFOS);
 	submenu->addItem(L"Draw/Hide Main Window", CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW);
-
-	submenu = menu->getSubMenu(i++);
+	submenu->addSeparator();
 	submenu->addItem(L"About...", CXT_MENU_EVENTS_HELP_ABOUT);
     //-----------------------------------
 
@@ -249,7 +263,8 @@ void CUIContextMenu::update() {
     //if (timer->getTime() / 3000 == 0 ) {
         //timer->setTime(0);
 	if (devices->getContextName() == "General") {
-		mainWindowInstance->getMainWindow()->setVisible(true);
+		if (mainWindowInstance->getMainWindow()->isVisible())
+			mainWindowInstance->getMainWindow()->setVisible(true);
 		devices->getCore()->deactiveChildrenOfGUIElement(bar, true);
 		mainWindowInstance->refresh();
 	} else {
@@ -618,8 +633,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				//-----------------------------------
 
+				case CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR: {
+					CUIScriptEditor *spte = new CUIScriptEditor(devices);
+				}
+					break;
+
                 //-----------------------------------
-                //CONTEXT MENU VIEW EVENT
+                //CONTEXT MENU WINDOW EVENT
                 case CXT_MENU_EVENTS_RENDERING_INFOS: {
                     CUIRenderingInfos *renderInfos = new CUIRenderingInfos(devices);
                 }

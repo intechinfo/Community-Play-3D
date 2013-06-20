@@ -16,6 +16,7 @@ CDevices::CDevices() {
 	wolrdCore = new CCore();
     worldCoreData = new CCoreData();
 	processesLogger = 0;
+	scripting = 0;
 
     //RENDERS
     effect = 0;
@@ -149,9 +150,9 @@ void CDevices::updateEntities() {
 
 void CDevices::updateDevice() {
 
-	#ifndef _IRR_OSX_PLATFORM_
-		EnterCriticalSection(&CriticalSection);
-	#endif
+	//#ifndef _IRR_OSX_PLATFORM_
+	//	EnterCriticalSection(&CriticalSection);
+	//#endif
 
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
@@ -178,9 +179,9 @@ void CDevices::updateDevice() {
 	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
-	#ifndef _IRR_OSX_PLATFORM_
-		LeaveCriticalSection(&CriticalSection);
-	#endif
+	//#ifndef _IRR_OSX_PLATFORM_
+	//	LeaveCriticalSection(&CriticalSection);
+	//#endif
 }
 
 void CDevices::reupdate(EffectHandler *_effect) {
@@ -209,7 +210,7 @@ void CDevices::drawScene() {
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }
-    
+
     effectSmgr->drawAll();
 }
 
@@ -238,10 +239,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     receiver.AddEventReceiver(this);
 	receiver.setDriver(driver);
 	receiver.setGUI(gui);
-    
+
 	wolrdCore->setDevice(Device);
     workingDirectory = Device->getFileSystem()->getWorkingDirectory().c_str();
-    
+
 	#ifdef _IRR_OSX_PLATFORM_
 		workingDirectory += "/";
 	#else
@@ -249,7 +250,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#endif
 
 	//DRAW SPLASH SCREEN
-	ITexture *splashScreen = driver->getTexture("GUI/sc.png");
+	ITexture *splashScreen = driver->getTexture("GUI/scs/sc1.png");
 	driver->beginScene(true, true, SColor(0x0));
 	driver->draw2DImage(splashScreen, rect<s32>(0, 0, 800, 600), rect<s32>(0, 0, 800, 600));
 	driver->endScene();
@@ -321,6 +322,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//ADVANCED GUI ASSETS
 	processesLogger = new CUIProcessesLogger(gui);
+
+	//SCRIPTING
+	//RUN SCRIPTING
+	scripting = new CScripting(this);
+	scripting->initializeSceneScripting();
+	scripting->initializeFileSystemScripting();
 }
 
 void CDevices::rebuildXEffect() {

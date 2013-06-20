@@ -11,10 +11,8 @@
 
 #include <irrlicht.h>
 
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <cstdlib>
+class CDevices;
+class CUICodeEditor;
 
 enum ESHADER_TYPE {
 	EST_VERTEX = 0,
@@ -27,6 +25,11 @@ public:
 
 	CShaderCallback();
 	~CShaderCallback();
+
+	//METHODS
+	CUICodeEditor *modifyVertexShader(CDevices *devices);
+	CUICodeEditor *modifyPixelShader(CDevices *devices);
+	CUICodeEditor *modifyConstants(CDevices *devices);
 
 	//CONSTANTS
 	irr::core::array<irr::core::vector2df> vectors2D;
@@ -59,9 +62,9 @@ public:
 	irr::s32 getMaterial() { return material; }
 
 	void setVertexShader(irr::core::stringc newVertexShader) { vertexShader = newVertexShader; }
-	irr::core::stringc getVertexShader() { return vertexShader; }
+	irr::core::stringw getVertexShader() { return vertexShader; }
 	void setPixelShader(irr::core::stringc newPixelShader) { pixelShader = newPixelShader; }
-	irr::core::stringc getPixelShader() { return pixelShader; }
+	irr::core::stringw getPixelShader() { return pixelShader; }
 
 	//SHADER TYPE
 	void setVertexShaderType(irr::video::E_VERTEX_SHADER_TYPE _vertexShaderType) { vertexShaderType = _vertexShaderType; }
@@ -94,10 +97,10 @@ private:
 	//MATERIAL INFORMATIONS
 	irr::s32 material;
 	irr::core::stringc name;
-	irr::core::stringc constants;
 
-	irr::core::stringc vertexShader;
-	irr::core::stringc pixelShader;
+	irr::core::stringw constants;
+	irr::core::stringw vertexShader;
+	irr::core::stringw pixelShader;
 
 	irr::video::E_VERTEX_SHADER_TYPE vertexShaderType;
 	irr::video::E_PIXEL_SHADER_TYPE pixelShaderType;

@@ -67,7 +67,7 @@ namespace irr
 
 			//! Sets another color for the text.
 			virtual void setOverrideColor(video::SColor color);
-			SColor getOverrideColor() const { return 0; }
+			irr::video::SColor getOverrideColor() const { return 0; }
 
 			//! Sets if the text should use the overide color or the
 			//! color in the gui skin.
@@ -197,6 +197,8 @@ namespace irr
 
 			//! adds HLSL and GLSL keywords
             void addShaderKeywords(irr::video::SColor keywordColor = irr::video::SColor(255,0,0,0), irr::video::SColor stringColor = irr::video::SColor(180,170,0,100), irr::video::SColor commentColor = irr::video::SColor(180,0,150,0));
+
+			void addConstantsShaderKeyWords(irr::video::SColor keywordColor = irr::video::SColor(255,0,0,0), irr::video::SColor stringColor = irr::video::SColor(180,170,0,100), irr::video::SColor commentColor = irr::video::SColor(180,0,150,0));
 			
 			//! Replace text for easy undo/redo and line updates
 			void replaceText(int start, int end, irr::core::stringw newText);
