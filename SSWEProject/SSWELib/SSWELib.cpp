@@ -9,7 +9,6 @@ SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice() {
 }
 
 SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
-	//CCoreUserInterface *coreUserInterface = new CCoreUserInterface();
 
 	IrrlichtDevice *device = coreUserInterface->getDevices()->getDevice();
     IVideoDriver *driver = coreUserInterface->getVideoDriver();
@@ -52,7 +51,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
         }
 	}
 
-	//DeleteCriticalSection(&CriticalSection);
+	DeleteCriticalSection(&CriticalSection);
 
     device->drop();
 

@@ -42,18 +42,28 @@ CUICodeEditor *CShaderCallback::modifyConstants(CDevices *devices) {
 void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
     integers.clear();
     integers_c.clear();
+	integers_st.clear();
     
     floats.clear();
     floats_c.clear();
+	floats_st.clear();
+
+	vectors2D.clear();
+	vectors2D_c.clear();
+	vectors2D_st.clear();
     
     vectors3D.clear();
     vectors3D_c.clear();
+	vectors3D_st.clear();
+    vectors3DAs4Values.clear();
     
     matrixes4.clear();
     matrixes4_c.clear();
+	matrixes4_st.clear();
     
     colors.clear();
     colors_c.clear();
+	colors_st.clear();
     
     std::string sConstants(stringc(constants).c_str());
     std::istringstream iss(sConstants);

@@ -106,7 +106,7 @@ CRenderCallbackScripting::~CRenderCallbackScripting() {
 
 void CRenderCallbackScripting::update() {
     currentTime = device->getTimer()->getRealTime();
-    worldViewProj = 0;
+	worldViewProj = irr::core::matrix4();
     returnedValue = 0;
     returnedValueCount = 0;
     returnedValueType = "";

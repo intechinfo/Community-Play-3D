@@ -376,6 +376,9 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             if (event.GUIEvent.Caller == enableDepthPass) {
                 devices->getXEffect()->enableDepthPass(enableDepthPass->isChecked());
 				devices->getXEffect()->setUseVSMShadows(enableDepthPass->isChecked());
+				for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
+					devices->getXEffect()->getShadowLight(i).setRecalculate(true);
+				}
             }
         }
     }

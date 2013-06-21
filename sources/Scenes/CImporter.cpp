@@ -920,9 +920,11 @@ void CImporter::buildLight() {
 	read("position");
 	vector3df position = buildVector3df();
     node->setPosition(position);
+	shadowLight.setPosition(position);
     read("target");
-    vector3df rotation = buildVector3df();
-    node->setRotation(rotation);
+    vector3df target = buildVector3df();
+    node->setRotation(target);
+	shadowLight.setTarget(target);
 
 	//PARAMETERS
 	read("diffuseColor");

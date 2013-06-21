@@ -69,6 +69,9 @@ struct SShadowLight
 			projMat.buildProjectionMatrixOrthoLH(fov, fov, nearValue, farValue);
 		else
 			projMat.buildProjectionMatrixPerspectiveFovLH(fov, 1.0f, nearValue, farValue);
+
+		recalculate = true;
+		autoRecalculate = false;
 	}
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position) {
@@ -109,6 +112,14 @@ struct SShadowLight
 	void setShadowMapResolution(irr::u32 shadowMapResolution) { mapRes = shadowMapResolution; }
 	irr::u32& getShadowMapResolution() { return mapRes; }
 
+	/// Sets if we must recalculate shadow map
+	bool mustRecalculate() { return recalculate; }
+	void setRecalculate(bool _recalculate) { recalculate = _recalculate; }
+
+	/// Sets if we must auto recalculate shadow map
+	bool isAutoRecalculate() { return autoRecalculate; }
+	void setAutoRecalculate(bool _autoRecalculate) { autoRecalculate = _autoRecalculate; }
+
 private:
 
 	void updateViewMatrix()
@@ -123,6 +134,9 @@ private:
 	irr::f32 farPlane;
 	irr::core::matrix4 viewMat, projMat;
 	irr::u32 mapRes;
+
+	bool recalculate;
+	bool autoRecalculate;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -229,10 +243,6 @@ public:
             }
             i++;
         }
-        
-        if (!founded) {
-            printf("The selected node doesn't have any shadow at the moment...");
-        }
 	}
     
     /// Check if node is shadowed
@@ -316,10 +326,6 @@ public:
                 founded = true;
             }
             i++;
-        }
-        
-        if (!founded) {
-            printf("Node not found when you tried to find shadow mode");
         }
         
         return shadowMode;

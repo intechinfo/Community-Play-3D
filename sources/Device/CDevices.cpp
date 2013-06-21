@@ -90,10 +90,14 @@ void CDevices::updateEntities() {
 		cursorBillBoard->setPosition(intersection);
         cursorBillBoard->setSize(dimension2d<f32>((ray.getLength()*1.0f)/300.f, (ray.getLength()*1.0f)/300.f));
 	}
-    
     objPlacement->refresh(cursorBillBoard);
+
     //UPDATE EFFECT LIGHTS
     for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+		if (worldCoreData->getLightsData()->operator[](i).getNode()->getPosition() != effect->getShadowLight(i).getPosition()) {
+			effect->getShadowLight(i).setRecalculate(true);
+		}
+
 		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
         effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
         
@@ -102,6 +106,7 @@ void CDevices::updateEntities() {
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
                                                  255));
+
 		if (worldCoreData->getLightsData()->operator[](i).isLightShaftsEnable()) {
 			SLightsData ldata = worldCoreData->getLightsData()->operator[](i);
 
@@ -156,9 +161,9 @@ void CDevices::updateDevice() {
 
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
-			this->drawScene();
+			drawScene();
 		}
-		this->drawGUI();
+		drawGUI();
 	#else
 		if (renderScene) {
 			if (renderXEffect) {
