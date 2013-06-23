@@ -25,6 +25,16 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_EDIT_EFFECTS,
 	CXT_MENU_EVENTS_HELP,
 
+	CXT_MENU_EVENTS_OPEN_SCRIPT_EDITOR,
+	CXT_MENU_EVENTS_MAKE_PLANAR_MAPPING,
+	CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS,
+
+	CXT_MENU_EVENTS_CREATE_CUBE,
+	CXT_MENU_EVENTS_CREATE_SPHERE,
+	CXT_MENU_EVENTS_CREATE_PLANE,
+	CXT_MENU_EVENTS_CREATE_BILLBOARD,
+	CXT_MENU_EVENTS_CREATE_LIGHT,
+
 	CXT_BAR_EVENTS_RENDER,
 	CXT_BAR_EVENTS_LOG_WINDOW,
 
@@ -95,6 +105,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "CUIWindowEditVolumeLight.h"
 #include "CUIWindowEditGrid.h"
 
+#include "NodeFactory/CNodeFactory.h"
 #include "NodeFactory/CUINodeFactoryPlanarMapping.h"
 #include "NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
 
@@ -134,6 +145,8 @@ private:
 	CDevices *devices;
 
 	IGUIButton *consoleButton;
+
+	CNodeFactory *nodeFactory;
 	//-----------------------------------
 
 	//-----------------------------------

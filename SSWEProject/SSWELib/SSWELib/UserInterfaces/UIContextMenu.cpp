@@ -13,14 +13,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     devices = _devices;
     
     mainWindowInstance = new CUIMainWindow(devices);
-
     sceneViewInstance = new CUISceneView(devices);
-
     editGridInstance = new CUIWindowEditGrid(devices);
-
     openSceneInstance = new CUIWindowOpenScene(devices);
-
     exportSceneInstance = new CUIWindowExportScene(devices);
+
+	nodeFactory = new CNodeFactory(devices);
 
     //-----------------------------------
     //MENU
@@ -98,7 +96,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"...", CXT_MENU_EVENTS_RENDERS_HDR_EDIT);
     submenu = menu->getSubMenu(i);
 	submenu = submenu->getSubMenu(1);
-    submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW);
+	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
 	submenu->addItem(L"Recalculate All Shadow Lights", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
@@ -171,6 +169,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     bar->addButton(CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS, 0, L"Edit Material Shaders", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/effects.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_EFFECTS, 0, L"Edit Effects", image, 0, false, true);
+
+	bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+
+	image = devices->getVideoDriver()->getTexture("GUI/scripts.png");
+	bar->addButton(CXT_MENU_EVENTS_OPEN_SCRIPT_EDITOR, 0, L"open script editor", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/planarmapping.png");
+	bar->addButton(CXT_MENU_EVENTS_MAKE_PLANAR_MAPPING, 0, L"Make planar mapping to node...", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/tangents.png");
+	bar->addButton(CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS, 0, L"Create mesh with tangents", image, 0, false, true);
     
     //-----------------------------------
     
@@ -195,6 +202,21 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	(ibrotation = infosBar->addButton(-1, 0, L"Change Object Rotation", image, 0, false, true))->setIsPushButton();
     image = devices->getVideoDriver()->getTexture("GUI/scale.png");
 	(ibscale = infosBar->addButton(-1, 0, L"Change Object Scale", image, 0, false, true))->setIsPushButton();
+
+	infosBar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+	infosBar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+
+	//CUBE SHPERE PLANE BILLBOARD
+	image = devices->getVideoDriver()->getTexture("GUI/cube.png");
+	infosBar->addButton(CXT_MENU_EVENTS_CREATE_CUBE, 0, L"Add a cube scene node", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/sphere.png");
+	infosBar->addButton(CXT_MENU_EVENTS_CREATE_SPHERE, 0, L"Add a sphere scene node", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/hill_plane.png");
+	infosBar->addButton(CXT_MENU_EVENTS_CREATE_PLANE, 0, L"Add a hill plane scene node", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/billboard.png");
+	infosBar->addButton(CXT_MENU_EVENTS_CREATE_BILLBOARD, 0, L"Add a billboard scene node", image, 0, false, true);
+	image = devices->getVideoDriver()->getTexture("GUI/light.png");
+	infosBar->addButton(CXT_MENU_EVENTS_CREATE_LIGHT, 0, L"Add a light scene node", image, 0, false, true);
 
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 	IVideoDriver *driver = devices->getVideoDriver();
@@ -507,50 +529,20 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 
 				//-----------------------------------
                 //CONTEXT MENU MESH FACTORY EVENT
-				case CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE: {
-					IMeshSceneNode *cube = devices->getSceneManager()->addCubeSceneNode();
-					cube->setName("#object:new_cube");
-					cube->setMaterialFlag(EMF_LIGHTING, false);
-					devices->getXEffect()->addShadowToNode(cube);
-					SObjectsData odata(cube->getMesh(), cube, "cube");
-					devices->getCoreData()->getObjectsData()->push_back(odata);
-					devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
-				}
+				case CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE:
+					nodeFactory->createCubeSceneNode();
 					break;
 
-				case CXT_MENU_EVENTS_ADD_SPHERE_SCENE_NODE: {
-					IMeshSceneNode *sphere = devices->getSceneManager()->addSphereSceneNode();
-					sphere->setName("#object:new_sphere");
-					sphere->setMaterialFlag(EMF_LIGHTING, false);
-					devices->getXEffect()->addShadowToNode(sphere);
-					SObjectsData odata(sphere->getMesh(), sphere, "sphere");
-					devices->getCoreData()->getObjectsData()->push_back(odata);
-					devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
-				}
+				case CXT_MENU_EVENTS_ADD_SPHERE_SCENE_NODE:
+					nodeFactory->createSphereSceneNode();
 					break;
 
-				case CXT_MENU_EVENTS_ADD_HILL_PLANE_MESH: {
-					IAnimatedMesh *planeMesh = devices->getSceneManager()->addHillPlaneMesh("#object:new_hille_plane_mesh", 
-																					dimension2df(25, 25), 
-																					dimension2du(25, 25));
-					ISceneNode *planeNode = devices->getSceneManager()->addMeshSceneNode(planeMesh->getMesh(0), 0, -1, vector3df(0, 0, 0));
-					planeNode->setName("#object:new_hille_plane_mesh");
-					planeNode->setMaterialFlag(EMF_LIGHTING, false);
-					devices->getXEffect()->addShadowToNode(planeNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
-					SObjectsData odata(planeMesh, planeNode, "hillPlaneMesh");
-					devices->getCoreData()->getObjectsData()->push_back(odata);
-					devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
-				}
+				case CXT_MENU_EVENTS_ADD_HILL_PLANE_MESH:
+					nodeFactory->createPlaneMeshSceneNode();
 					break;
 
-				case CXT_MENU_EVENTS_ADD_BILL_BOARD: {
-					IBillboardSceneNode *billboard = devices->getSceneManager()->addBillboardSceneNode();
-					billboard->setName("#object:new_bill_board");
-					billboard->setMaterialFlag(EMF_LIGHTING, false);
-					devices->getXEffect()->addShadowToNode(billboard, devices->getXEffectFilterType(), ESM_EXCLUDE);
-					SObjectsData odata(0, billboard, "billboard");
-					devices->getCoreData()->getObjectsData()->push_back(odata);
-				}
+				case CXT_MENU_EVENTS_ADD_BILL_BOARD:
+					nodeFactory->createBillBoardSceneNode();
 					break;
 
 				case CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYDOME: {
@@ -836,6 +828,27 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					editEffects->open();
                 }
                     break;
+
+				case CXT_MENU_EVENTS_OPEN_SCRIPT_EDITOR: {
+					CUIScriptEditor *scriptEditor = new CUIScriptEditor(devices);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_MAKE_PLANAR_MAPPING: {
+					if (mainWindowInstance->getSelectedNode().getNode() && mainWindowInstance->getSelectedNode().getMesh()) {
+						CUINodeFactoryPlanarMapping *cuifpm = new CUINodeFactoryPlanarMapping(devices);
+						cuifpm->open(mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getSelectedNode().getMesh());
+					}
+				}
+					break;
+
+				case CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS: {
+					if (mainWindowInstance->getSelectedNode().getNode() && mainWindowInstance->getSelectedNode().getMesh()) {
+						CUINodeFactoryCreateMeshWithTangents *cuinfcwt = new CUINodeFactoryCreateMeshWithTangents(devices);
+						cuinfcwt->open(mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getSelectedNode().getMesh());
+					}
+				}
+					break;
                     
                 case CXT_MENU_EVENTS_HELP:
                     devices->getGUIEnvironment()->addMessageBox(L"How to ?",
@@ -864,6 +877,22 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_BAR_EVENTS_LOG_WINDOW:
                     
                     break;
+
+				case CXT_MENU_EVENTS_CREATE_CUBE:
+					nodeFactory->createCubeSceneNode();
+					break;
+				case CXT_MENU_EVENTS_CREATE_SPHERE:
+					nodeFactory->createSphereSceneNode();
+					break;
+				case CXT_MENU_EVENTS_CREATE_PLANE:
+					nodeFactory->createPlaneMeshSceneNode();
+					break;
+				case CXT_MENU_EVENTS_CREATE_BILLBOARD:
+					nodeFactory->createBillBoardSceneNode();
+					break;
+				case CXT_MENU_EVENTS_CREATE_LIGHT:
+					nodeFactory->createLightSceneNode();
+					break;
                     
                 //-----------------------------------
                     

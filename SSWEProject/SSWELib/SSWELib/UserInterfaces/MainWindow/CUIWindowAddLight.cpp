@@ -16,7 +16,7 @@ CUIWindowAddLight::CUIWindowAddLight(CDevices *_devices, IGUIListBox *_lightsLis
 }
 
 CUIWindowAddLight::~CUIWindowAddLight() {
-    
+
 }
 
 void CUIWindowAddLight::open() {

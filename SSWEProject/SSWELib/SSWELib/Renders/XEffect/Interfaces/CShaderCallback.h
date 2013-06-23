@@ -79,7 +79,7 @@ public:
 	irr::core::stringc getName() { return name; }
 
 	//CONSTANTS METHODS
-	void setConstants(irr::core::stringc newConstants) { constants = newConstants; }
+	void setConstants(irr::core::stringc newConstants);
 	irr::core::stringc getConstants() { return constants; }
 
 	//DEVICE METHODS

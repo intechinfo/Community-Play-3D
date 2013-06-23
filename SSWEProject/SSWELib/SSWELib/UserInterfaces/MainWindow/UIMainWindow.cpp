@@ -330,7 +330,7 @@ void CUIMainWindow::cloneNode() {
     stringw name = L"";
     s32 index;
 	if (getSelectedNode().getNode()) {
-		node = getSelectedNode().getNode()->clone();
+		//node = getSelectedNode().getNode()->clone();
         if (node) {
             //NODE WAS CLONED BY IRRLICHT
             node->setPosition(devices->getCursorPosition());
@@ -519,6 +519,15 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     devices->getObjectPlacement()->setLightNode(0);
                 }
             }
+
+			if (event.KeyInput.Key == KEY_KEY_V) {
+				if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
+					ISceneNode *node = getSelectedNode().getNode();
+					if (node) {
+						node->setVisible(!node->isVisible());
+					}
+				}
+			}
         }
     }
     //-----------------------------------

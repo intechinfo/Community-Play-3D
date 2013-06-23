@@ -300,6 +300,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.cpp">
       <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -511,6 +514,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.h">
       <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

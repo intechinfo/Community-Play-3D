@@ -14,6 +14,7 @@ CShaderCallback::CShaderCallback() {
     material = 0;
     name = "";
     
+	constants = "";
     vertexShader = "";
     pixelShader = "";
     
@@ -37,6 +38,10 @@ CUICodeEditor *CShaderCallback::modifyPixelShader(CDevices *devices) {
 CUICodeEditor *CShaderCallback::modifyConstants(CDevices *devices) {
 	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &constants, true);
 	return codeEditor;
+}
+
+void CShaderCallback::setConstants(irr::core::stringc newConstants) {
+	constants = newConstants;
 }
 
 void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
@@ -262,7 +267,7 @@ void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
 
 void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData) {
 
-    buildConstants(services->getVideoDriver());
+	buildConstants(services->getVideoDriver());
     
     for (int i=0; i < integers.size(); i++) {
         if (integers_st[i] == EST_VERTEX) {

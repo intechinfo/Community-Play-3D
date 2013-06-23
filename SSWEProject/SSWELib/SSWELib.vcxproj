@@ -206,6 +206,7 @@
     <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.h" />

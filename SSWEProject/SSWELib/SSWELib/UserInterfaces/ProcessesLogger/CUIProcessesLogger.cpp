@@ -35,16 +35,28 @@ void CUIProcessesLogger::update() {
 											  gui->getVideoDriver()->getScreenSize().Width, 30+processes.size()*60+100));
 		for (u32 i=0; i < processes.size(); i++) {
 			if (processes[i].hasFinished()) {
-				delete processes[i].getProcess();
-				processes.erase(i);
-				break;
+				rect<s32> processiRect = processes[i].getProcess()->getBackground()->getRelativePosition();
+				if (processiRect.getHeight() > 1) {
+					processes[i].getProcess()->getBackground()->setRelativePosition(rect<s32>(processiRect.UpperLeftCorner.X, processiRect.UpperLeftCorner.Y,
+																					processiRect.LowerRightCorner.X, processiRect.LowerRightCorner.Y-5));
+					if (processes[i].getProgressBar()->getDimension().LowerRightCorner.Y > 0) {
+						processes[i].getProgressBar()->setDimension(processes[i].getProgressBar()->getRelativePosition().getWidth(),
+																	processes[i].getProgressBar()->getRelativePosition().getHeight()-5);
+					}
+				} else {
+					delete processes[i].getProcess();
+					processes.erase(i);
+					break;
+				}
 			}
 			processes[i].getProcess()->getBackground()->setRelativePosition(position2di(5, 30+i*60+10));
 			processes[i].getProcess()->getNameTxt()->setRelativePosition(position2di(5, 3));
-			processes[i].getProgressBar()->setPosition(vector2di(window->getRelativePosition().UpperLeftCorner.X+10,
-																 window->getRelativePosition().UpperLeftCorner.Y+30+i*60+10
-																 //+processes[i].getProcess()->getNameTxt()->getRelativePosition().getHeight()
-																 +processes[i].getProcess()->getNameTxt()->getRelativePosition().getHeight()));
+			if (!processes[i].hasFinished()) {
+				processes[i].getProgressBar()->setPosition(vector2di(window->getRelativePosition().UpperLeftCorner.X+10,
+																		window->getRelativePosition().UpperLeftCorner.Y+30+i*60+10
+																		//+processes[i].getProcess()->getNameTxt()->getRelativePosition().getHeight()
+																		+processes[i].getProcess()->getNameTxt()->getRelativePosition().getHeight()));
+			}
 			gui->getRootGUIElement()->bringToFront(processes[i].getProgressBar());
 		}
 	} else {

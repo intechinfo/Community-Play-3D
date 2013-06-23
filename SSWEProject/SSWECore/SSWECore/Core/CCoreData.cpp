@@ -79,6 +79,9 @@ void CCoreData::clearAllTheArrays() {
 	//RENDERS
 	materialRenders.clear();
 	materialRendersPaths.clear();
+
+	//SCRIPTS
+	scriptFiles.clear();
 }
 
 array<stringw> CCoreData::getSceneNodeAnimatorsNames(IrrlichtDevice *_device, u32 idx) {

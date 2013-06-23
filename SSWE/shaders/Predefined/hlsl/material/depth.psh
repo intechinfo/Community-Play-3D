@@ -1,0 +1,12 @@
+uniform float MaxDistance;
+
+float4 main(float3 worldNormal : TEXCOORD0, 
+			float  depth       : TEXCOORD1) : COLOR0
+{
+    // return the depth, calculated in vertex shader
+    float4 finalCol;
+    finalCol.rgb = worldNormal;
+    finalCol.a = depth/MaxDistance;
+	finalCol.rgb = finalCol.a;
+    return finalCol;
+}
