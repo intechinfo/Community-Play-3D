@@ -16,44 +16,61 @@
 
 		 <camera>
 
-			 <position X="-9.752952" Y="-19.009323" Z="37.806641" />
-			 <rotation X="26.849539" Y="194.374908" Z="0.000000" />
+			 <position X="-22.898754" Y="-19.582064" Z="41.068840" />
+			 <rotation X="15.182243" Y="163.571365" Z="0.000000" />
 
 		 </camera>
 
 		 <effect>
 
 			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/bw_shader.hlsl" />
+				 <file_path path="shaders/hlsl/sepia_toon_shader.hlsl" />
 				 <values>
 				 </values>
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/blurhp.hlsl" />
+				 <file_path path="shaders/hlsl/blurhp.hlsl" />
 				 <values>
 				 </values>
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/blurvp.hlsl" />
+				 <file_path path="shaders/hlsl/blurvp.hlsl" />
 				 <values>
 				 </values>
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/bloomp.hlsl" />
+				 <file_path path="shaders/hlsl/brightpass.hlsl" />
+				 <values>
+					 <value name="multiplier" val="setReturnedValueAsFloat()
+
+value =  1
+
+returnValue(value, 1)" />
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/hlsl/bloomp.hlsl" />
 				 <values>
 				 </values>
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
-				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/Soganatsu/SSWE/shaders/hlsl/desaturate.hlsl" />
+				 <file_path path="shaders/hlsl/hdr.hlsl" />
 				 <values>
-					 <value name="Desaturation" val="setReturnedValueAsFloat()
+				 </values>
+			 </postProcessingEffect>
 
-value =  -1
-
+			 <postProcessingEffect>
+				 <file_path path="shaders/hlsl/desaturate.hlsl" />
+				 <values>
+					 <value name="Desaturation" val="setReturnedValueAsFloat()
+
+value =  -1
+
 returnValue(value, 1)" />
 				 </values>
 			 </postProcessingEffect>
@@ -67,175 +84,354 @@ returnValue(value, 1)" />
 				 <pixelShaderType type="7" /> 
 				 <vertexShaderType type="3" /> 
 				 <baseMaterial type="0" /> 
-				 <name cname="NORMAL MAP" />
+				 <name cname="NORMAL MAP SOLID" />
 				 <vertex shader=
-"float4x4 matWorldInverse; 
-float4x4 ModelViewMatrix;
-float4x4 ModelViewProjectionMatrix;
-float3 fvLightPosition1; 
-float3 fvLightPosition2; 
-float3 fvLightPosition3; 
-float3 fvLightPosition4; 
-float fLightStrength1; 
-float fLightStrength2; 
-float fLightStrength3; 
-float fLightStrength4; 
-struct VS_OUTPUT
-{
-   float4 Position            : POSITION0;
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3; 
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float getLengthSQR (float3 vec) 
-{ 
-   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-}  
-struct VS_INPUT
-{
-   float3 Position         : POSITION0;
-   float3 Normal           : NORMAL;
-   float2 Texcoord         : TEXCOORD0;
-};
-VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-{    
-   VS_OUTPUT OUT = (VS_OUTPUT)0;
-   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   OUT.Texcoord = IN.Texcoord;
-   
-   float4x4 LightTransform= ModelViewMatrix; 
-   LightTransform= mul(matWorldInverse, LightTransform);
-   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-   
-   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-   
-   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-   float3 fvBinormal   = cross(fvTangent,IN.Normal);
-   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-   
-   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-   
-   return OUT;
-}
+"float4x4 matWorldInverse; 
+float4x4 ModelViewMatrix;
+float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; 
+float3 fvLightPosition2; 
+float3 fvLightPosition3; 
+float3 fvLightPosition4; 
+float fLightStrength1; 
+float fLightStrength2; 
+float fLightStrength3; 
+float fLightStrength4; 
+struct VS_OUTPUT
+{
+   float4 Position            : POSITION0;
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3; 
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float getLengthSQR (float3 vec) 
+{ 
+   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+}  
+struct VS_INPUT
+{
+   float3 Position         : POSITION0;
+   float3 Normal           : NORMAL;
+   float2 Texcoord         : TEXCOORD0;
+};
+VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+{    
+   VS_OUTPUT OUT = (VS_OUTPUT)0;
+   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   OUT.Texcoord = IN.Texcoord;
+   
+   float4x4 LightTransform= ModelViewMatrix; 
+   LightTransform= mul(matWorldInverse, LightTransform);
+   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+   
+   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+   
+   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+   float3 fvBinormal   = cross(fvTangent,IN.Normal);
+   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+   
+   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+   
+   return OUT;
+}
 " />
 				 <pixel shader=
-"float4 fvAmbient;
-float4 fvLight1Color; 
-float4 fvLight2Color; 
-float4 fvLight3Color; 
-float4 fvLight4Color; 
-float fSpecularPower; 
-float fSpecularStrength; 
-float fBumpStrength; 
-sampler2D baseMap      : register(s0); 
-sampler2D bumpMap      : register(s1); 
-struct PS_INPUT
-{   
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3;
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float4 pixelMain( in PS_INPUT IN ) : COLOR
-{
-   float4 color = float4(0,0,0,0);
-   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-   
-   fvNormal.xy*=2.0; 
-   fvNormal.xy-=1.0;
-   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-   fvNormal=normalize(fvNormal);
-   
-   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-   if(color.r>1.0){color.gb+=color.r-1.0;} 
-   if(color.g>1.0){color.rb+=color.g-1.0;} 
-   if(color.b>1.0){color.rg+=color.b-1.0;} 
-   
-   return color;
-}
+"float4 fvAmbient;
+float4 fvLight1Color; 
+float4 fvLight2Color; 
+float4 fvLight3Color; 
+float4 fvLight4Color; 
+float fSpecularPower; 
+float fSpecularStrength; 
+float fBumpStrength; 
+sampler2D baseMap      : register(s0); 
+sampler2D bumpMap      : register(s1); 
+struct PS_INPUT
+{   
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3;
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float4 pixelMain( in PS_INPUT IN ) : COLOR
+{
+   float4 color = float4(0,0,0,0);
+   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+   
+   fvNormal.xy*=2.0; 
+   fvNormal.xy-=1.0;
+   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+   if(color.r>1.0){color.gb+=color.r-1.0;} 
+   if(color.g>1.0){color.rb+=color.g-1.0;} 
+   if(color.b>1.0){color.rg+=color.b-1.0;} 
+   
+   return color;
+}
 " />
-				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInversevmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInversevmatrix4 matWorldInverse world[0] 0 0 makeInversevfloat fLightStrength1 80vfloat fLightStrength2 80vfloat fLightStrength3 80vfloat fLightStrength4 80vvector3df fvLightPosition1 150 240 -34vvector3df fvLightPosition2 150 240 -34vvector3df fvLightPosition3 150 240 -34vvector3df fvLightPosition4 150 240 -34pSColor fvAmbient 1 0.7 0.7 0.7pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02pfloat fSpecularPower 20pfloat fSpecularStrength 0.9pfloat fBumpStrength 5" />
+				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInversevmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInversevmatrix4 matWorldInverse world[0] 0 0 makeInversevfloat fLightStrength1 80vfloat fLightStrength2 80vfloat fLightStrength3 80vfloat fLightStrength4 80vvector3df fvLightPosition1 150 240 -34vvector3df fvLightPosition2 150 240 -34vvector3df fvLightPosition3 150 240 -34vvector3df fvLightPosition4 150 240 -34pSColor fvAmbient 1 0.7 0.7 0.7pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02pfloat fSpecularPower 20pfloat fSpecularStrength 0.9pfloat fBumpStrength 10" />
 			 </materialType>
 
 			 <materialType>
-				 <pixelShaderType type="4" /> 
-				 <vertexShaderType type="1" /> 
-				 <baseMaterial type="-842150451" /> 
-				 <name cname="TOON SHADER" />
+				 <pixelShaderType type="7" /> 
+				 <vertexShaderType type="3" /> 
+				 <baseMaterial type="15" /> 
+				 <name cname="NORMAL MAPPING TRANS_ADD" />
 				 <vertex shader=
-"f" />
+"float4x4 matWorldInverse; 
+float4x4 ModelViewMatrix;
+float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; 
+float3 fvLightPosition2; 
+float3 fvLightPosition3; 
+float3 fvLightPosition4; 
+float fLightStrength1; 
+float fLightStrength2; 
+float fLightStrength3; 
+float fLightStrength4; 
+struct VS_OUTPUT
+{
+   float4 Position            : POSITION0;
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3; 
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float getLengthSQR (float3 vec) 
+{ 
+   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+}  
+struct VS_INPUT
+{
+   float3 Position         : POSITION0;
+   float3 Normal           : NORMAL;
+   float2 Texcoord         : TEXCOORD0;
+};
+VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+{    
+   VS_OUTPUT OUT = (VS_OUTPUT)0;
+   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   OUT.Texcoord = IN.Texcoord;
+   
+   float4x4 LightTransform= ModelViewMatrix; 
+   LightTransform= mul(matWorldInverse, LightTransform);
+   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+   
+   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+   
+   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+   float3 fvBinormal   = cross(fvTangent,IN.Normal);
+   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+   
+   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+   
+   return OUT;
+}
+" />
 				 <pixel shader=
-"f" />
-				 <constants value="vvector3df mLightPos 136 103 0
-vvector3df mCamPos camPos4
-vmatrix4 mWorld world[0] 0 0 0 makeInverse
-vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
+"float4 fvAmbient;
+float4 fvLight1Color; 
+float4 fvLight2Color; 
+float4 fvLight3Color; 
+float4 fvLight4Color; 
+float fSpecularPower; 
+float fSpecularStrength; 
+float fBumpStrength; 
+sampler2D baseMap      : register(s0); 
+sampler2D bumpMap      : register(s1); 
+struct PS_INPUT
+{   
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3;
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float4 pixelMain( in PS_INPUT IN ) : COLOR
+{
+   float4 color = float4(0,0,0,0);
+   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+   
+   fvNormal.xy*=2.0; 
+   fvNormal.xy-=1.0;
+   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+   if(color.r>1.0){color.gb+=color.r-1.0;} 
+   if(color.g>1.0){color.rb+=color.g-1.0;} 
+   if(color.b>1.0){color.rg+=color.b-1.0;} 
+   
+   return color;
+}
+" />
+				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
+vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+vfloat fLightStrength1 80
+vfloat fLightStrength2 80
+vfloat fLightStrength3 80
+vfloat fLightStrength4 80
+
+vvector3df fvLightPosition1 150 240 -34
+vvector3df fvLightPosition2 150 240 -34
+vvector3df fvLightPosition3 150 240 -34
+vvector3df fvLightPosition4 150 240 -34
+
+pSColor fvAmbient 1 0.7 0.7 0.7
+pSColor fvLight1Color 1 0.02 0.02 0.02
+pSColor fvLight2Color 1 0.02 0.02 0.02
+pSColor fvLight3Color 1 0.02 0.02 0.02
+pSColor fvLight4Color 1 0.02 0.02 0.02
+
+pfloat fSpecularPower 20
+pfloat fSpecularStrength 0.9
+pfloat fBumpStrength 5
+" />
 			 </materialType>
 
 
 		 </materialTypes>
+
+		 <scripts>
+
+			 <script>
+				 <name value="SOLID_TO_NORMAL" /> 
+				 <file value="fs = FileSystem.new()sn = Scene.new()res = sn:getTerrainByName((%quot)#map:res5(%quot))for i=0,sn:getTerrainMaterialCount(res)-1 do    if (sn:getTerrainMaterialName(res, i) == (%quot)SOLID(%quot)) then        sn:setTerrainMaterialNumber(res, i, sn:getMaterialIDByName((%quot)NORMAL MAP SOLID(%quot)))    endend" /> 
+			 </script>
+
+			 <script>
+				 <name value="NORMAL_TO_SOLID" /> 
+				 <file value="fs = FileSystem.new()sn = Scene.new()res = sn:getTerrainByName((%quot)#map:res5(%quot))for i=0,sn:getTerrainMaterialCount(res)-1 do    if (sn:getTerrainMaterialName(res, i) == (%quot)NORMAL MAP SOLID(%quot)) then        sn:setTerrainMaterialNumber(res, i, sn:getMaterialIDByName((%quot)SOLID(%quot)))    endend" /> 
+			 </script>
+
+
+		 </scripts>
 
 	</config>
 
@@ -289,7 +485,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
@@ -324,7 +520,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -359,13 +555,13 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="3">
 					 <textures>
 						 <texture id="0" path="" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -394,7 +590,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="4">
@@ -429,13 +625,13 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="5">
 					 <textures>
 						 <texture id="0" path="" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -464,7 +660,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -499,7 +695,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="7">
@@ -534,7 +730,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="8">
@@ -569,7 +765,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="9">
@@ -604,7 +800,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="10">
@@ -639,13 +835,13 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="11">
 					 <textures>
-						 <texture id="0" path="data/Nouveau dossier/re5village part 4/y_M000_145a_BM.png" />
-						 <texture id="1" path="data/Nouveau dossier/re5village part 4/y_M000_145a_BM.png_copy" />
+						 <texture id="0" path="" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -674,7 +870,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="12">
@@ -709,7 +905,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="13">
@@ -744,7 +940,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="14">
@@ -779,7 +975,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="15">
@@ -814,7 +1010,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="16">
@@ -849,7 +1045,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="17">
@@ -884,7 +1080,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="18">
@@ -919,7 +1115,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="19">
@@ -954,7 +1150,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="20">
@@ -989,7 +1185,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="21">
@@ -1024,7 +1220,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="22">
@@ -1059,7 +1255,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="23">
@@ -1094,7 +1290,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="24">
@@ -1129,7 +1325,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="25">
@@ -1164,7 +1360,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="26">
@@ -1199,7 +1395,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="27">
@@ -1234,7 +1430,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="28">
@@ -1269,7 +1465,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="29">
@@ -1304,7 +1500,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="30">
@@ -1339,7 +1535,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="31">
@@ -1374,7 +1570,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="32">
@@ -1409,7 +1605,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="33">
@@ -1444,7 +1640,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="34">
@@ -1479,7 +1675,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="35">
@@ -1514,7 +1710,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="36">
@@ -1549,7 +1745,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="37">
@@ -1584,7 +1780,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="38">
@@ -1619,7 +1815,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="39">
@@ -1654,7 +1850,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="40">
@@ -1689,7 +1885,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="41">
@@ -1724,7 +1920,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="42">
@@ -1759,7 +1955,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="43">
@@ -1794,7 +1990,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="44">
@@ -1829,7 +2025,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="45">
@@ -1864,7 +2060,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="46">
@@ -1899,7 +2095,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="47">
@@ -1934,7 +2130,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="48">
@@ -1969,7 +2165,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="49">
@@ -2004,7 +2200,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="50">
@@ -2039,7 +2235,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="51">
@@ -2074,7 +2270,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="52">
@@ -2109,7 +2305,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="53">
@@ -2144,7 +2340,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="54">
@@ -2179,7 +2375,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="55">
@@ -2214,7 +2410,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="56">
@@ -2249,7 +2445,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="57">
@@ -2284,7 +2480,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="58">
@@ -2319,7 +2515,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="59">
@@ -2354,7 +2550,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="60">
@@ -2389,7 +2585,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="61">
@@ -2424,7 +2620,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="62">
@@ -2459,7 +2655,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="63">
@@ -2494,7 +2690,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="64">
@@ -2529,7 +2725,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="65">
@@ -2564,7 +2760,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="66">
@@ -2599,7 +2795,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="67">
@@ -2634,7 +2830,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="68">
@@ -2669,7 +2865,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="69">
@@ -2704,7 +2900,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="70">
@@ -2739,7 +2935,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="71">
@@ -2774,7 +2970,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="72">
@@ -2809,7 +3005,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="73">
@@ -2844,7 +3040,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="13" />
 
 			 	 </material>
 			 	 <material id="74">
@@ -2879,7 +3075,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="75">
@@ -2914,7 +3110,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="76">
@@ -2949,7 +3145,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="77">
@@ -2984,7 +3180,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="78">
@@ -3019,7 +3215,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="79">
@@ -3054,7 +3250,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="80">
@@ -3089,7 +3285,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="81">
@@ -3124,7 +3320,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="82">
@@ -3159,7 +3355,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="83">
@@ -3194,7 +3390,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="84">
@@ -3229,7 +3425,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="85">
@@ -3264,7 +3460,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="86">
@@ -3299,7 +3495,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="87">
@@ -3334,7 +3530,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="88">
@@ -3369,7 +3565,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="89">
@@ -3404,7 +3600,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="90">
@@ -3439,7 +3635,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="91">
@@ -3474,7 +3670,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="92">
@@ -3509,7 +3705,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="93">
@@ -3544,7 +3740,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="94">
@@ -3579,7 +3775,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="95">
@@ -3614,7 +3810,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="96">
@@ -3649,7 +3845,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="97">
@@ -3684,7 +3880,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="13" />
 
 			 	 </material>
 			 	 <material id="98">
@@ -3719,7 +3915,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="99">
@@ -3754,7 +3950,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="100">
@@ -3789,7 +3985,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 	 <material id="101">
@@ -3824,7 +4020,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="102">
@@ -3859,7 +4055,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="103">
@@ -3894,7 +4090,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="104">
@@ -3929,7 +4125,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="105">
@@ -3964,7 +4160,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="106">
@@ -3999,7 +4195,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="107">
@@ -4034,7 +4230,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="108">
@@ -4069,7 +4265,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="109">
@@ -4104,7 +4300,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="110">
@@ -4139,7 +4335,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="111">
@@ -4174,7 +4370,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="112">
@@ -4209,7 +4405,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="113">
@@ -4244,7 +4440,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="114">
@@ -4279,7 +4475,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="115">
@@ -4314,7 +4510,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 	 <material id="116">
@@ -4349,7 +4545,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="117">
@@ -4384,7 +4580,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="118">
@@ -4419,7 +4615,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="119">
@@ -4454,7 +4650,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="120">
@@ -4489,7 +4685,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="121">
@@ -4524,7 +4720,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="122">
@@ -4559,7 +4755,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="123">
@@ -4594,7 +4790,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="124">
@@ -4629,7 +4825,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="125">
@@ -4664,7 +4860,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="126">
@@ -4699,7 +4895,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="127">
@@ -4734,7 +4930,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="128">
@@ -4769,7 +4965,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="129">
@@ -4804,7 +5000,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="130">
@@ -4839,7 +5035,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="131">
@@ -4874,7 +5070,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="132">
@@ -4909,7 +5105,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="133">
@@ -4944,7 +5140,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="134">
@@ -4979,7 +5175,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="135">
@@ -5014,7 +5210,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="136">
@@ -5049,7 +5245,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="137">
@@ -5084,7 +5280,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="138">
@@ -5119,7 +5315,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="139">
@@ -5154,7 +5350,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="140">
@@ -5189,7 +5385,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="141">
@@ -5224,7 +5420,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="142">
@@ -5259,7 +5455,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="143">
@@ -5294,7 +5490,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="144">
@@ -5329,7 +5525,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="145">
@@ -5364,7 +5560,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="146">
@@ -5399,7 +5595,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="147">
@@ -5434,7 +5630,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="148">
@@ -5469,7 +5665,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="149">
@@ -5504,7 +5700,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="150">
@@ -5539,7 +5735,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="151">
@@ -5574,7 +5770,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="152">
@@ -5609,7 +5805,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="-2" />
 
 			 	 </material>
 			 	 <material id="153">
@@ -5644,7 +5840,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="154">
@@ -5679,7 +5875,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="155">
@@ -5714,7 +5910,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="156">
@@ -5749,7 +5945,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="157">
@@ -5784,7 +5980,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="158">
@@ -5819,7 +6015,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="159">
@@ -5854,7 +6050,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="160">
@@ -5889,7 +6085,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 	 <material id="161">
@@ -5924,7 +6120,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 	 <material id="162">
@@ -5959,7 +6155,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="13" />
 
 			 	 </material>
 			 	 <material id="163">
@@ -5994,7 +6190,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="164">
@@ -6029,7 +6225,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="165">
@@ -6064,7 +6260,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="166">
@@ -6099,7 +6295,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="167">
@@ -6134,7 +6330,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="168">
@@ -6169,7 +6365,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="169">
@@ -6204,7 +6400,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="170">
@@ -6239,7 +6435,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="171">
@@ -6274,7 +6470,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="172">
@@ -6309,7 +6505,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="173">
@@ -6344,7 +6540,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="174">
@@ -6379,7 +6575,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="175">
@@ -6414,7 +6610,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="176">
@@ -6449,7 +6645,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="177">
@@ -6484,7 +6680,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="178">
@@ -6519,7 +6715,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="179">
@@ -6554,7 +6750,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="180">
@@ -6589,7 +6785,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="181">
@@ -6624,7 +6820,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="182">
@@ -6659,7 +6855,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="183">
@@ -6694,7 +6890,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="184">
@@ -6729,7 +6925,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="185">
@@ -6764,7 +6960,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="186">
@@ -6799,7 +6995,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="13" />
 
 			 	 </material>
 			 	 <material id="187">
@@ -6834,7 +7030,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="188">
@@ -6869,7 +7065,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="189">
@@ -6904,7 +7100,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="190">
@@ -6939,7 +7135,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="191">
@@ -6974,7 +7170,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="192">
@@ -7009,7 +7205,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="193">
@@ -7044,7 +7240,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="194">
@@ -7079,7 +7275,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="195">
@@ -7114,7 +7310,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="196">
@@ -7149,7 +7345,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="197">
@@ -7184,7 +7380,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="198">
@@ -7219,7 +7415,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="199">
@@ -7254,7 +7450,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="200">
@@ -7289,7 +7485,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="201">
@@ -7324,7 +7520,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="202">
@@ -7359,7 +7555,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="203">
@@ -7394,7 +7590,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="204">
@@ -7429,7 +7625,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="205">
@@ -7464,7 +7660,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="206">
@@ -7499,7 +7695,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="207">
@@ -7534,7 +7730,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="208">
@@ -7569,7 +7765,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="209">
@@ -7604,7 +7800,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="210">
@@ -7639,7 +7835,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="211">
@@ -7674,7 +7870,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="212">
@@ -7709,7 +7905,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="213">
@@ -7744,7 +7940,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="214">
@@ -7779,7 +7975,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="215">
@@ -7814,7 +8010,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="216">
@@ -7849,7 +8045,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="217">
@@ -7884,7 +8080,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="218">
@@ -7919,7 +8115,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="219">
@@ -7954,7 +8150,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 	 <material id="220">
@@ -7989,7 +8185,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="221">
@@ -8024,7 +8220,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="222">
@@ -8059,7 +8255,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="223">
@@ -8094,7 +8290,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="224">
@@ -8129,7 +8325,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="225">
@@ -8164,7 +8360,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="226">
@@ -8199,7 +8395,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="227">
@@ -8234,7 +8430,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="228">
@@ -8269,7 +8465,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="229">
@@ -8304,7 +8500,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="230">
@@ -8339,7 +8535,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="231">
@@ -8374,7 +8570,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="232">
@@ -8409,7 +8605,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="233">
@@ -8444,7 +8640,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="234">
@@ -8479,7 +8675,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="235">
@@ -8514,7 +8710,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="236">
@@ -8549,7 +8745,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="237">
@@ -8584,7 +8780,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="238">
@@ -8619,7 +8815,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="239">
@@ -8654,7 +8850,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="240">
@@ -8689,7 +8885,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="241">
@@ -8724,7 +8920,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="242">
@@ -8759,7 +8955,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="243">
@@ -8794,7 +8990,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="244">
@@ -8829,7 +9025,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="245">
@@ -8864,7 +9060,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="246">
@@ -8899,7 +9095,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="247">
@@ -8934,7 +9130,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="248">
@@ -8969,7 +9165,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="249">
@@ -9004,7 +9200,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="250">
@@ -9039,7 +9235,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="251">
@@ -9074,7 +9270,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="252">
@@ -9109,7 +9305,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="253">
@@ -9144,7 +9340,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="254">
@@ -9179,7 +9375,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="255">
@@ -9214,7 +9410,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="256">
@@ -9249,7 +9445,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="257">
@@ -9284,7 +9480,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="258">
@@ -9319,7 +9515,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="259">
@@ -9354,7 +9550,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="260">
@@ -9389,7 +9585,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="261">
@@ -9424,7 +9620,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="262">
@@ -9459,7 +9655,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="263">
@@ -9494,7 +9690,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="264">
@@ -9529,7 +9725,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="265">
@@ -9564,7 +9760,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="266">
@@ -9599,7 +9795,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="267">
@@ -9634,7 +9830,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="268">
@@ -9669,7 +9865,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="269">
@@ -9704,7 +9900,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="270">
@@ -9739,7 +9935,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="271">
@@ -9774,7 +9970,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="272">
@@ -9809,7 +10005,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="273">
@@ -9844,7 +10040,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="274">
@@ -9879,7 +10075,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="275">
@@ -9914,7 +10110,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="276">
@@ -9949,7 +10145,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="277">
@@ -9984,7 +10180,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="278">
@@ -10019,7 +10215,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="279">
@@ -10054,7 +10250,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="280">
@@ -10089,7 +10285,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="281">
@@ -10124,7 +10320,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="282">
@@ -10159,7 +10355,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="283">
@@ -10194,7 +10390,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="284">
@@ -10229,7 +10425,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="285">
@@ -10264,7 +10460,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="286">
@@ -10299,7 +10495,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="287">
@@ -10334,7 +10530,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="288">
@@ -10369,7 +10565,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="289">
@@ -10404,7 +10600,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="290">
@@ -10439,7 +10635,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="291">
@@ -10474,7 +10670,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="292">
@@ -10509,7 +10705,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="293">
@@ -10544,7 +10740,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="294">
@@ -10579,7 +10775,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="295">
@@ -10614,7 +10810,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="296">
@@ -10649,7 +10845,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="297">
@@ -10684,7 +10880,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="298">
@@ -10719,7 +10915,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="299">
@@ -10754,7 +10950,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="300">
@@ -10789,7 +10985,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="301">
@@ -10824,7 +11020,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="302">
@@ -10859,7 +11055,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="303">
@@ -10894,7 +11090,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="304">
@@ -10929,7 +11125,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="305">
@@ -10964,7 +11160,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="306">
@@ -10999,7 +11195,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="307">
@@ -11034,7 +11230,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="308">
@@ -11069,7 +11265,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="309">
@@ -11104,7 +11300,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="310">
@@ -11139,7 +11335,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="311">
@@ -11174,7 +11370,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="312">
@@ -11209,7 +11405,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="313">
@@ -11244,7 +11440,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="314">
@@ -11279,7 +11475,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="315">
@@ -11314,7 +11510,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="316">
@@ -11349,7 +11545,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="317">
@@ -11384,7 +11580,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="318">
@@ -11419,7 +11615,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="319">
@@ -11454,7 +11650,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="320">
@@ -11489,7 +11685,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="321">
@@ -11524,7 +11720,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="322">
@@ -11559,7 +11755,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="323">
@@ -11594,7 +11790,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="324">
@@ -11629,7 +11825,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="325">
@@ -11664,7 +11860,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="326">
@@ -11699,7 +11895,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="327">
@@ -11734,7 +11930,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="328">
@@ -11769,7 +11965,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="329">
@@ -11804,7 +12000,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="330">
@@ -11839,7 +12035,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="331">
@@ -11874,7 +12070,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="332">
@@ -11909,7 +12105,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="333">
@@ -11944,7 +12140,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="334">
@@ -11979,7 +12175,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="335">
@@ -12014,7 +12210,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="336">
@@ -12049,7 +12245,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="337">
@@ -12084,7 +12280,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="338">
@@ -12119,7 +12315,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="339">
@@ -12154,7 +12350,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="340">
@@ -12189,7 +12385,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="341">
@@ -12224,7 +12420,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="342">
@@ -12259,7 +12455,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="343">
@@ -12294,7 +12490,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="344">
@@ -12329,7 +12525,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="345">
@@ -12364,7 +12560,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="346">
@@ -12399,7 +12595,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="347">
@@ -12434,7 +12630,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="348">
@@ -12469,7 +12665,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="349">
@@ -12504,7 +12700,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="350">
@@ -12539,7 +12735,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="351">
@@ -12574,7 +12770,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="352">
@@ -12609,7 +12805,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="353">
@@ -12644,7 +12840,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="354">
@@ -12679,7 +12875,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="355">
@@ -12714,7 +12910,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="356">
@@ -12749,7 +12945,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="357">
@@ -12784,7 +12980,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="358">
@@ -12819,7 +13015,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="359">
@@ -12854,7 +13050,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="360">
@@ -12889,7 +13085,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="361">
@@ -12924,7 +13120,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="13" />
 
 			 	 </material>
 			 	 <material id="362">
@@ -12959,7 +13155,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="363">
@@ -12994,7 +13190,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="364">
@@ -13029,7 +13225,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="365">
@@ -13064,7 +13260,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="366">
@@ -13099,7 +13295,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="367">
@@ -13134,7 +13330,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="368">
@@ -13169,7 +13365,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="369">
@@ -13204,7 +13400,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="370">
@@ -13239,7 +13435,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="371">
@@ -13274,7 +13470,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="372">
@@ -13309,7 +13505,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="373">
@@ -13344,7 +13540,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="374">
@@ -13379,7 +13575,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="375">
@@ -13414,7 +13610,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="376">
@@ -13449,7 +13645,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="377">
@@ -13484,7 +13680,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="378">
@@ -13519,7 +13715,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="379">
@@ -13554,7 +13750,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="380">
@@ -13589,7 +13785,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="381">
@@ -13624,7 +13820,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="382">
@@ -13659,7 +13855,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="383">
@@ -13694,7 +13890,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="384">
@@ -13729,7 +13925,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="385">
@@ -13764,7 +13960,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="386">
@@ -13799,7 +13995,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="387">
@@ -13834,7 +14030,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="388">
@@ -13869,7 +14065,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="389">
@@ -13904,7 +14100,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="390">
@@ -13939,7 +14135,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="391">
@@ -13974,7 +14170,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="392">
@@ -14009,7 +14205,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="393">
@@ -14044,7 +14240,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="394">
@@ -14079,7 +14275,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="395">
@@ -14114,7 +14310,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="396">
@@ -14149,7 +14345,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="397">
@@ -14184,7 +14380,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="398">
@@ -14219,7 +14415,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="399">
@@ -14254,7 +14450,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="400">
@@ -14289,7 +14485,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="401">
@@ -14324,7 +14520,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="402">
@@ -14359,7 +14555,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="403">
@@ -14394,7 +14590,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="404">
@@ -14429,7 +14625,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="405">
@@ -14464,7 +14660,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="406">
@@ -14499,7 +14695,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="407">
@@ -14534,7 +14730,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="408">
@@ -14569,7 +14765,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="409">
@@ -14604,7 +14800,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="410">
@@ -14639,7 +14835,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="411">
@@ -14674,7 +14870,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="412">
@@ -14709,7 +14905,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="413">
@@ -14744,7 +14940,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="414">
@@ -14779,7 +14975,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="415">
@@ -14814,7 +15010,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="416">
@@ -14849,7 +15045,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="417">
@@ -14884,7 +15080,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="418">
@@ -14919,7 +15115,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="419">
@@ -14954,7 +15150,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="420">
@@ -14989,7 +15185,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="421">
@@ -15024,7 +15220,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="422">
@@ -15059,7 +15255,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="423">
@@ -15094,7 +15290,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="424">
@@ -15129,7 +15325,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="425">
@@ -15164,7 +15360,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="426">
@@ -15199,7 +15395,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="427">
@@ -15234,7 +15430,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="428">
@@ -15269,7 +15465,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="429">
@@ -15304,7 +15500,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="430">
@@ -15339,7 +15535,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="431">
@@ -15374,7 +15570,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="432">
@@ -15409,7 +15605,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="433">
@@ -15444,7 +15640,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="434">
@@ -15479,7 +15675,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="435">
@@ -15514,7 +15710,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="436">
@@ -15549,7 +15745,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="437">
@@ -15584,7 +15780,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="438">
@@ -15619,7 +15815,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="439">
@@ -15654,7 +15850,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="440">
@@ -15689,7 +15885,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="441">
@@ -15724,7 +15920,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="442">
@@ -15759,7 +15955,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="443">
@@ -15794,7 +15990,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="444">
@@ -15829,7 +16025,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="445">
@@ -15864,7 +16060,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="446">
@@ -15899,7 +16095,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="447">
@@ -15934,7 +16130,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="448">
@@ -15969,7 +16165,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="449">
@@ -16004,7 +16200,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="450">
@@ -16039,7 +16235,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="451">
@@ -16074,7 +16270,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="452">
@@ -16109,7 +16305,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="453">
@@ -16144,7 +16340,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="454">
@@ -16179,7 +16375,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="455">
@@ -16214,7 +16410,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="456">
@@ -16249,7 +16445,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="457">
@@ -16284,7 +16480,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="458">
@@ -16319,7 +16515,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="459">
@@ -16354,7 +16550,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="460">
@@ -16389,7 +16585,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="461">
@@ -16424,7 +16620,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="462">
@@ -16459,7 +16655,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="463">
@@ -16494,7 +16690,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="464">
@@ -16529,7 +16725,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="465">
@@ -16564,7 +16760,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="466">
@@ -16599,7 +16795,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="467">
@@ -16634,7 +16830,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="468">
@@ -16669,7 +16865,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="469">
@@ -16704,7 +16900,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="470">
@@ -16739,7 +16935,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="471">
@@ -16774,7 +16970,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="472">
@@ -16809,7 +17005,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="473">
@@ -16844,7 +17040,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="474">
@@ -16879,7 +17075,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="475">
@@ -16914,7 +17110,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="476">
@@ -16949,7 +17145,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="477">
@@ -16984,7 +17180,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="478">
@@ -17019,7 +17215,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="479">
@@ -17054,7 +17250,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="480">
@@ -17089,7 +17285,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 	 <material id="481">
@@ -17124,7 +17320,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="482">
@@ -17159,7 +17355,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="483">
@@ -17194,7 +17390,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="484">
@@ -17229,7 +17425,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="485">
@@ -17264,7 +17460,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="486">
@@ -17299,7 +17495,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="487">
@@ -17334,7 +17530,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="488">
@@ -17369,7 +17565,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="489">
@@ -17404,7 +17600,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="490">
@@ -17439,7 +17635,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="491">
@@ -17474,7 +17670,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="492">
@@ -17509,7 +17705,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="493">
@@ -17544,7 +17740,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="494">
@@ -17579,7 +17775,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="495">
@@ -17614,7 +17810,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="496">
@@ -17649,7 +17845,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="497">
@@ -17684,7 +17880,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="498">
@@ -17719,7 +17915,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="499">
@@ -17754,7 +17950,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="500">
@@ -17789,7 +17985,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="501">
@@ -17824,7 +18020,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="502">
@@ -17859,7 +18055,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="503">
@@ -17894,7 +18090,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="504">
@@ -17929,7 +18125,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="505">
@@ -17964,7 +18160,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="506">
@@ -17999,7 +18195,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="507">
@@ -18034,7 +18230,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="508">
@@ -18069,7 +18265,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="509">
@@ -18104,7 +18300,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="510">
@@ -18139,7 +18335,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="511">
@@ -18174,7 +18370,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="512">
@@ -18209,7 +18405,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="513">
@@ -18244,7 +18440,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="514">
@@ -18279,7 +18475,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="515">
@@ -18314,7 +18510,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="516">
@@ -18349,7 +18545,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="517">
@@ -18384,7 +18580,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="518">
@@ -18419,7 +18615,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="519">
@@ -18454,7 +18650,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
@@ -18539,7 +18735,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 
 			 <lensFlare>
 				 <mesh> 
-					 <scale X="20.000000" Y="20.000000" Z="20.000000" />
+					 <scale X="120.000000" Y="120.000000" Z="120.000000" />
 					 <texture path="shaders/textures/lf/mesh.png" />
 				 </mesh> 
 				 <bill> 
@@ -18547,7 +18743,7 @@ vmatrix4 mWorldViewProj proj[0] view[0] mWorld dontMakeInverse" />
 					 <texture path="shaders/textures/lf/sun.png" />
 				 </bill> 
 				 <lfsn> 
-					 <strength value="100.000000" />
+					 <strength value="50.000000" />
 					 <texture path="shaders/textures/lf/flare.png" />
 					 <falseOcclusion value="1" />
 				 </lfsn> 

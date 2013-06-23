@@ -20,13 +20,10 @@ CCoreData::~CCoreData() {
 }
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------CORE DATA FUNCTIONS --------------------------------------
+//----------------------------------CORE DATA FUNCTIONS ---------------------------------------
 //---------------------------------------------------------------------------------------------
 
 void CCoreData::clear() {
-    for (u32 i=0; i < terrainNodes.size(); i++) {
-        terrainNodes[i]->remove();
-    }
 	for (u32 i=0; i < terrainsData.size(); i++) {
 		terrainsData[i].getNode()->remove();
 	}
@@ -60,11 +57,6 @@ void CCoreData::clear() {
 
 void CCoreData::clearAllTheArrays() {
 	//NODES
-	terrainMeshes.clear();
-	terrainMinPolysPerNode.clear();
-    terrainNodes.clear();
-    terrainPaths.clear();
-
 	terrainsData.clear();
     treesData.clear();
 	objectsData.clear();
@@ -113,9 +105,6 @@ array<ISceneNode *> CCoreData::getAllSceneNodes() {
     array<ISceneNode *> nodes;
     nodes.clear();
     
-    for (int i=0; i < terrainNodes.size(); i++) {
-        nodes.push_back(terrainNodes[i]);
-    }
 	for (u32 i=0; i < terrainsData.size(); i++) {
 		nodes.push_back(terrainsData[i].getNode());
 	}
@@ -142,8 +131,8 @@ array<IMesh *> CCoreData::getAllMeshes() {
     array<IMesh *> meshes;
     meshes.clear();
     
-    for (int i=0; i < terrainNodes.size(); i++) {
-        meshes.push_back(terrainMeshes[i]);
+    for (int i=0; i < terrainsData.size(); i++) {
+		meshes.push_back(terrainsData[i].getMesh());
     }
     for (int i=0; i < treesData.size(); i++) {
 		meshes.push_back(treesData[i].getMesh());
@@ -151,6 +140,9 @@ array<IMesh *> CCoreData::getAllMeshes() {
     for (int i=0; i < objectsData.size(); i++) {
 		meshes.push_back(objectsData[i].getMesh());
     }
+	for (u32 i=0; i < waterSurfaces.size(); i++) {
+		meshes.push_back(waterSurfaces[i].getMesh());
+	}
 
     return meshes;
 }

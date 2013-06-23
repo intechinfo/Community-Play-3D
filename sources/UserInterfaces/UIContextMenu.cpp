@@ -90,6 +90,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Post Processes", -1, true, true);
 	submenu->addItem(L"Effects", -1, true, true);
     submenu = submenu->getSubMenu(0);
+	submenu->addItem(L"Draw Full Post-Traitement", CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT, true, false, devices->isRenderingFullPostTraitements(), true);
     submenu->addItem(L"Draw Motion Blur", CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW, true, false,
 					devices->getXEffect()->isUsingMotionBlur(), true);
 	submenu->addItem(L"Draw SSAO", CXT_MENU_EVENTS_RENDERS_SSAO, true, false, devices->getRenderCallbacks()->getSSAORenderCallback(), true);
@@ -100,6 +101,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
+	submenu->addItem(L"Recalculate All Shadow Lights", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
 	i++;
     
 	//SHADERS
@@ -448,6 +450,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
                 //-----------------------------------
                 //CONTEXT MENU RENDERS EVENT
+				case CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT: {
+					devices->setRenderFullPostTraitements(!devices->isRenderingFullPostTraitements());
+				}
+					break;
                 case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
 					devices->getXEffect()->setUseMotionBlur(!devices->getXEffect()->isUsingMotionBlur());
                     break;
@@ -467,6 +473,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
                     editEffects->open();
                 }
+					break;
+				case CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS: {
+					for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
+						devices->getXEffect()->getShadowLight(i).setRecalculate(true);
+					}
+				}
                     break;
                 //-----------------------------------
 

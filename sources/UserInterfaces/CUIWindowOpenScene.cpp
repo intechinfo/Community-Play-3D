@@ -67,12 +67,12 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
 						devices->getCoreData()->clearAllTheArrays();
 						devices->getXEffect()->clearAll();
 					}
-                    
+
                     IGUIWindow *window = devices->getGUIEnvironment()->addMessageBox(L"Loading", 
                                                                                      L"Please wait while importing the world \n\n"
                                                                                      L"This action can take a while",
                                                                                      true, 0x0, 0);
-                    
+
                     devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
                     devices->updateDevice();
                     devices->getVideoDriver()->endScene();
@@ -89,6 +89,14 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
 					std::thread importer_t(&CImporter::import_t, *importer);
 					importer_t.join();
                     delete importer;
+
+					stringw projectName = path_file;
+					projectName.remove(devices->getDevice()->getFileSystem()->getFileDir(projectName.c_str()));
+					projectName.remove("/");
+					stringc fileExtension;
+					core::getFileNameExtension(fileExtension, projectName.c_str());
+					projectName.remove(fileExtension);
+					devices->setProjectName(projectName.c_str());
                     
                     window->remove();
                 } else {

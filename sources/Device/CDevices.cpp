@@ -26,6 +26,7 @@ CDevices::CDevices() {
 
     renderXEffect = false;
     renderGUI = true;
+	renderFullPostTraitements = false;
 
     editBoxEntered = false;
 
@@ -93,8 +94,9 @@ void CDevices::updateEntities() {
     objPlacement->refresh(cursorBillBoard);
 
     //UPDATE EFFECT LIGHTS
-    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
-		if (worldCoreData->getLightsData()->operator[](i).getNode()->getPosition() != effect->getShadowLight(i).getPosition()) {
+    for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+		if (worldCoreData->getLightsData()->operator[](i).getNode()->getPosition() != effect->getShadowLight(i).getPosition()
+			|| worldCoreData->getLightsData()->operator[](i).getNode()->getRotation() != effect->getShadowLight(i).getTarget()) {
 			effect->getShadowLight(i).setRecalculate(true);
 		}
 
@@ -120,9 +122,9 @@ void CDevices::updateEntities() {
     }
     
     //UPDATE LENS FLARE STRENGTHS
-    for (u32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
+    for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
-			if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->getFalseOcclusion()) {
+			if (renderFullPostTraitements) {
 				driver->runAllOcclusionQueries(false);
 				driver->updateAllOcclusionQueries(false);
 				u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
@@ -139,7 +141,7 @@ void CDevices::updateEntities() {
     }
 
 	//UPDATING WATER
-	for (u32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
+	for (s32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
 		if (renderXEffect) {
 			if (effect->isUsingMotionBlur()) {
 				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
@@ -150,7 +152,6 @@ void CDevices::updateEntities() {
 			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
 		}
 	}
-
 }
 
 void CDevices::updateDevice() {
@@ -160,10 +161,25 @@ void CDevices::updateDevice() {
 	//#endif
 
 	#ifndef _IRR_OSX_PLATFORM_
-		if (renderScene) {
+		/*if (renderScene) {
 			drawScene();
 		}
-		drawGUI();
+		drawGUI();*/
+		#pragma omp parallel sections
+		{
+			#pragma omp section
+			{
+				if (renderScene) 
+					drawScene();
+
+				if (renderFullPostTraitements && renderXEffect) {
+					rect<s32> rt1Rect = rect<s32>(0, 0, effect->getScreenQuad().rt[1]->getSize().Width, effect->getScreenQuad().rt[1]->getSize().Height);
+					driver->draw2DImage(effect->getScreenQuad().rt[1], rt1Rect, rt1Rect);
+				}
+
+				drawGUI();
+			}
+		}
 	#else
 		if (renderScene) {
 			if (renderXEffect) {
@@ -211,7 +227,7 @@ void CDevices::drawScene() {
 	if (renderXEffect) {
 		matrix4 viewProj;
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-		effect->update(true);
+		effect->update(renderFullPostTraitements);
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }
@@ -310,6 +326,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
 	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
+	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));

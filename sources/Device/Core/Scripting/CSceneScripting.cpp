@@ -24,7 +24,7 @@ void CSceneScripting::loadMesh(irr::core::stringc path, irr::scene::ESCENE_NODE_
 	irr::scene::IMesh *mesh = smgr->getMesh(path.c_str());
 }
 
-void CSceneScripting::addTerrainMeshSceneNode(irr::core::stringc path, ISceneNode *parent) {
+s32 CSceneScripting::addTerrainMeshSceneNode(irr::core::stringc path, ISceneNode *parent) {
 	irr::scene::IMesh *mesh = smgr->getMesh(path.c_str());
 	if (mesh) {
 		IMeshSceneNode *node = smgr->addMeshSceneNode(mesh, parent, -1);
@@ -32,10 +32,13 @@ void CSceneScripting::addTerrainMeshSceneNode(irr::core::stringc path, ISceneNod
 			node->setName(path.c_str());
 			STerrainsData tdata(mesh, node, path, 0, ESNT_MESH);
 			devices->getCoreData()->getTerrainsData()->push_back(tdata);
+			return devices->getCoreData()->getTerrainsData()->size();
 		}
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addTerrainOctTreeSceneNode(irr::core::stringc path, irr::u32 minPolys, ISceneNode *parent) {
+s32 CSceneScripting::addTerrainOctTreeSceneNode(irr::core::stringc path, irr::u32 minPolys, ISceneNode *parent) {
 	irr::scene::IMesh *mesh = smgr->getMesh(path.c_str());
 	if (mesh) {
 		IMeshSceneNode *node = smgr->addOctreeSceneNode(mesh, parent, -1, minPolys);
@@ -43,10 +46,13 @@ void CSceneScripting::addTerrainOctTreeSceneNode(irr::core::stringc path, irr::u
 			node->setName(path.c_str());
 			STerrainsData tdata(mesh, node, path, minPolys, ESNT_OCTREE);
 			devices->getCoreData()->getTerrainsData()->push_back(tdata);
+			return devices->getCoreData()->getTerrainsData()->size();
 		}
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addTreeMeshSceneNode(irr::core::stringc path, irr::u32 minPolys, ISceneNode *parent) {
+s32 CSceneScripting::addTreeMeshSceneNode(irr::core::stringc path, irr::u32 minPolys, ISceneNode *parent) {
 	irr::scene::IMesh *mesh = smgr->getMesh(path.c_str());
 	if (mesh) {
 		IMeshSceneNode *node = smgr->addOctreeSceneNode(mesh, parent, -1, minPolys);
@@ -54,10 +60,13 @@ void CSceneScripting::addTreeMeshSceneNode(irr::core::stringc path, irr::u32 min
 			node->setName(path.c_str());
 			STreesData tdata(mesh, node, path, ESNT_OCTREE, minPolys);
 			devices->getCoreData()->getTreesData()->push_back(tdata);
+			return devices->getCoreData()->getTreesData()->size();
 		}
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addObjectMeshSceneNode(irr::core::stringc path, ISceneNode *parent) {
+s32 CSceneScripting::addObjectMeshSceneNode(irr::core::stringc path, ISceneNode *parent) {
 	IAnimatedMesh *mesh = smgr->getMesh(path.c_str());
 	if (mesh) {
 		IAnimatedMeshSceneNode *node = smgr->addAnimatedMeshSceneNode(mesh, parent);
@@ -65,10 +74,13 @@ void CSceneScripting::addObjectMeshSceneNode(irr::core::stringc path, ISceneNode
 			node->setName(path.c_str());
 			SObjectsData odata(mesh, node, path);
 			devices->getCoreData()->getObjectsData()->push_back(odata);
+			return devices->getCoreData()->getObjectsData()->size();
 		}
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addLightSceneNode(ISceneNode *parent) {
+s32 CSceneScripting::addLightSceneNode(ISceneNode *parent) {
 	ILightSceneNode *node = smgr->addLightSceneNode();
 	if (node) {
 		node->setName(stringc("#light:new_light").c_str());
@@ -77,35 +89,53 @@ void CSceneScripting::addLightSceneNode(ISceneNode *parent) {
 
 		SShadowLight shadowLight(1024, vector3df(0), vector3df(0));
 		devices->getXEffect()->addShadowLight(shadowLight);
+		return devices->getCoreData()->getLightsData()->size();
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addVolumeLightSceneNode(ISceneNode *parent) {
+s32 CSceneScripting::addVolumeLightSceneNode(ISceneNode *parent) {
 	IVolumeLightSceneNode *node = smgr->addVolumeLightSceneNode();
 	if (node) {
 		node->setName(stringc("#volumeLight:new_volume_light").c_str());
 		SVolumeLightsData ldata(node);
 		devices->getCoreData()->getVolumeLightsData()->push_back(ldata);
+		return devices->getCoreData()->getVolumeLightsData()->size();
+	} else {
+		return -1;
 	}
 }
 
+u32 CSceneScripting::getTerrainCount() { return devices->getCoreData()->getTerrainsData()->size(); }
+u32 CSceneScripting::getTreeCount() { return devices->getCoreData()->getTreesData()->size(); }
+u32 CSceneScripting::getObjectCount() { return devices->getCoreData()->getObjectsData()->size(); }
+u32 CSceneScripting::getLightCount() { return devices->getCoreData()->getLightsData()->size(); }
+u32 CSceneScripting::getVolumeLightCount() { return devices->getCoreData()->getVolumeLightsData()->size(); }
+
 //FACTORY
-void CSceneScripting::addCubeSceneNode(ISceneNode *parent) {
+s32 CSceneScripting::addCubeSceneNode(ISceneNode *parent) {
 	ISceneNode *node = smgr->addCubeSceneNode();
 	if (node) {
 		node->setName(stringc("#object:new_cube").c_str());
 		SObjectsData odata(0, node, "cube");
 		devices->getCoreData()->getObjectsData()->push_back(odata);
+		return devices->getCoreData()->getObjectsData()->size();
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addSphereSceneNode(ISceneNode *parent) {
+s32 CSceneScripting::addSphereSceneNode(ISceneNode *parent) {
 	ISceneNode *node = smgr->addSphereSceneNode();
 	if (node) {
 		node->setName("#object:new_sphere");
 		SObjectsData odata(0, node, "sphere");
 		devices->getCoreData()->getObjectsData()->push_back(odata);
+		return devices->getCoreData()->getObjectsData()->size();
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addHillPlaneMesh(ISceneNode *parent) {
+s32 CSceneScripting::addHillPlaneMesh(ISceneNode *parent) {
 	IAnimatedMesh *mesh = smgr->addHillPlaneMesh("#new_hille_plane_mesh", 
 												 dimension2df(25, 25), dimension2du(25, 25),
 												 0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
@@ -114,66 +144,86 @@ void CSceneScripting::addHillPlaneMesh(ISceneNode *parent) {
 		node->setName("#object:new_hill_plane_mesh");
 		SObjectsData odata(mesh, node, "hillPlaneMesh");
 		devices->getCoreData()->getObjectsData()->push_back(odata);
+		return devices->getCoreData()->getObjectsData()->size();
+	} else {
+		return -1;
 	}
 }
-void CSceneScripting::addBillBoardSceneNode(ISceneNode *parent) {
+s32 CSceneScripting::addBillBoardSceneNode(ISceneNode *parent) {
 	IBillboardSceneNode *node = smgr->addBillboardSceneNode();
 	if (node) {
 		node->setName("#object:new_billboard");
 		SObjectsData odata(0, node, "billboard");
 		devices->getCoreData()->getObjectsData()->push_back(odata);
+		return devices->getCoreData()->getObjectsData()->size();
+	} else {
+		return -1;
 	}
 }
 
-/*
-
-----------------------------------------------------
-----------CFILESYSTEM PSEUDO CLASS----------------
-----------------------------------------------------
-CFileSystem = {
-
+//METHODS
+u32 CSceneScripting::getTerrainNodeMaterialCount(u32 ti) {
+	if (devices->getCoreData()->getTerrainsData()->size() > ti) {
+		u32 mc = devices->getCoreData()->getTerrainsData()->operator[](ti).getNode()->getMaterialCount()-1;
+		return mc;
+	} else {
+		return -1;
+	}
 }
---Returns table of full file names in directory path
-function CFileSystem:getFileList(path, resolve)
-    local fs = FileSystem.new()
-    local t = {}
-    for k,v in ipairs(fs:getFileList(path, resolve)) do
-        t[k] = v
-    end
-    return t
-end
---Returns files count of the directory path
-function CFileSystem:getFileCount(path, resolve)
-    local fs = FileSystem.new()
-    return fs:getFileCount(path, resolve)
-end
-----------------------------------------------------
--------------------MY APPLICATION------------------
-----------------------------------------------------
---Adds objects from directory path, using CFileSystem
-function addObjectsFromDirectory(path, resolve)
-    local files = CFileSystem:getFileList(path, resolve)
-    local filesCount = CFileSystem:getFileCount(path, resolve)
-    local sn = Scene.new()
+s32 CSceneScripting::getTerrainByName(stringc name) {
+	s32 i=-1;
 
-    for i=0,filesCount do
-        myMesh = sn:loadMesh(files[i])
-        sn:addObjectMeshSceneNode(myMesh)
-    end
-end
---Adds terrains from directory path, using CFileSystem
-function addTerrainsFromDirectory(path, resolve)
-    local files = CFileSystem:getFileList(path, resolve)
-    local filesCount = CFileSystem:getFileCount(path, resolve)
-    local sn = Scene.new()
+	for (u32 t=0; t < devices->getCoreData()->getTerrainsData()->size(); t++) {
+		if (stringc(devices->getCoreData()->getTerrainsData()->operator[](t).getNode()->getName()) == name) {
+			i = t;
+			break;
+		}
+	}
 
-    for i=0,filesCount do
-        myMesh = sn:loadMesh(files[i])
-        sn:addTerrainMeshSceneNode(myMesh)
-    end
-end
+	return i;
+}
+stringc CSceneScripting::getTerrainMaterialName(s32 ti, s32 mi) {
+	stringc name;
+	bool founded = false;
+	SMaterial mat = devices->getCoreData()->getTerrainsData()->operator[](ti).getNode()->getMaterial(mi);
 
-addObjectsFromDirectory("tata/", true)
-addTerrainsFromDirectory("tata/", true)
+	if (mat.MaterialType > devices->getCore()->getNumberOfBuildInMaterialTypes()) {
+		for (u32 i=0; i < devices->getCoreData()->getShaderCallbacks()->size(); i++) {
+			if (mat.MaterialType == devices->getCoreData()->getShaderCallbacks()->operator[](i)->getMaterial()) {
+				name = devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName();
+				break;
+			}
+		}
+	} else {
+		name = devices->getCore()->getArrayOfBuildInMaterialTypes()[mat.MaterialType];
+	}
 
-*/
+	name.make_upper();
+	return name;
+}
+void CSceneScripting::setTerrainMaterialNumber(s32 ti, s32 mi, s32 mati) {
+	devices->getCoreData()->getTerrainsData()->operator[](ti).getNode()->getMaterial(mi).MaterialType = (E_MATERIAL_TYPE)mati;
+}
+s32 CSceneScripting::getMaterialIDByName(stringc name) {
+	s32 i=0;
+	bool founded = false;
+
+	for (u32 bi = 0; bi < devices->getCore()->getNumberOfBuildInMaterialTypes(); bi++) {
+		if (devices->getCore()->getArrayOfBuildInMaterialTypes()[bi] == name) {
+			i = bi;
+			founded = true;
+			break;
+		}
+	}
+
+	if (!founded) {
+		for (u32 ci = 0; ci < devices->getCoreData()->getShaderCallbacks()->size(); ci++) {
+			if (devices->getCoreData()->getShaderCallbacks()->operator[](ci)->getName() == name) {
+				i = devices->getCoreData()->getShaderCallbacks()->operator[](ci)->getMaterial();
+				break;
+			}
+		}
+	}
+
+	return i;
+}

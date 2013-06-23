@@ -91,8 +91,8 @@ void CUIWindowEditVolumeLight::open(ISceneNode *node, stringw prefix) {
 bool CUIWindowEditVolumeLight::isValid() {
 	CCore *core = devices->getCore();
 	name = stringw(volumeLightNameEditBox->getText());
-	subdivU = core->getU32(volumeLightSubdivUEditBox->getText());
-	subdivV = core->getU32(volumeLightSubdivVEditBox->getText());
+	subdivU = core->getS32(volumeLightSubdivUEditBox->getText());
+	subdivV = core->getS32(volumeLightSubdivVEditBox->getText());
 	aFootColor = core->getU32(volumeLightAFootColorEditBox->getText());
 	rFootColor = core->getU32(volumeLightRFootColorEditBox->getText());
 	gFootColor = core->getU32(volumeLightGFootColorEditBox->getText());
@@ -107,12 +107,12 @@ bool CUIWindowEditVolumeLight::isValid() {
 		return false;
 	}
 	else {
-		if(subdivU == 0) {
+		if(subdivU < 0) {
 			devices->addErrorDialog(L"Error Volume Light Creator", L"You must enter a value greater than 1 for Subdiv U", EMBF_OK);
 			return false;
 		}
 		else {
-			if(subdivV == 0) {
+			if(subdivV < 0) {
 			devices->addErrorDialog(L"Error Volume Light Creator", L"You must enter a value greater than 1 for Subdiv V", EMBF_OK);
 			return false;
 			}

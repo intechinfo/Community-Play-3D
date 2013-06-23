@@ -335,7 +335,7 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
             
         }
     }
-    
+
     if (event.EventType == EET_MOUSE_INPUT_EVENT && isMoving) {
 		if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
 			if(nodeToPlace != gridSceneNode && selectedArrow == NULL) {
@@ -352,11 +352,17 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 				}
 				else if(arrowType == Scale) {
 					f32 smallestArrow = getSmallestArrow();
-					setScaleToNode(arrowYLineNode, arrowYLineNode->getScale().Y + (event.MouseInput.Wheel * (arrowYLineNode->getScale().Y / smallestArrow)));
-					setScaleToNode(arrowXLineNode, arrowXLineNode->getScale().Y + (event.MouseInput.Wheel * (arrowXLineNode->getScale().Y / smallestArrow)));
-					setScaleToNode(arrowZLineNode, arrowZLineNode->getScale().Y + (event.MouseInput.Wheel * (arrowZLineNode->getScale().Y / smallestArrow)));
+					if (nodeToPlace->getType() == ESNT_BILLBOARD) {
+						IBillboardSceneNode *bbnode = (IBillboardSceneNode *)nodeToPlace;
+						bbnode->setSize(dimension2d<f32>(bbnode->getSize().Width + event.MouseInput.Wheel,
+														 bbnode->getSize().Height + event.MouseInput.Wheel));
+					} else {
+						setScaleToNode(arrowYLineNode, arrowYLineNode->getScale().Y + (event.MouseInput.Wheel * (arrowYLineNode->getScale().Y / smallestArrow)));
+						setScaleToNode(arrowXLineNode, arrowXLineNode->getScale().Y + (event.MouseInput.Wheel * (arrowXLineNode->getScale().Y / smallestArrow)));
+						setScaleToNode(arrowZLineNode, arrowZLineNode->getScale().Y + (event.MouseInput.Wheel * (arrowZLineNode->getScale().Y / smallestArrow)));
 
-					setScaleToNode(arrowYXZLineNode, smallestArrow);
+						setScaleToNode(arrowYXZLineNode, smallestArrow);
+					}
 				}
 			}
 		}

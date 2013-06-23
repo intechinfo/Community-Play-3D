@@ -60,6 +60,7 @@ private:
 	void readConfig();
 	void readEffects();
 	void readMaterialShaderCallbacks();
+	void readScripts();
 	void readFactory(ISceneNode *_node, IMesh *_mesh);
 	void readMaterials(ISceneNode *_node);
 	void readTransformations(ISceneNode *_node);

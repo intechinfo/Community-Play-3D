@@ -15,18 +15,31 @@ public:
 	void loadMesh(irr::core::stringc path, irr::scene::ESCENE_NODE_TYPE type=irr::scene::ESNT_UNKNOWN);
 
 	//MESHES
-	void addTerrainMeshSceneNode(irr::core::stringc path, ISceneNode *parent=0);
-	void addTerrainOctTreeSceneNode(irr::core::stringc path, irr::u32 minPolys=1024, ISceneNode *parent=0);
-	void addTreeMeshSceneNode(irr::core::stringc path, irr::u32 minPolys=1024, ISceneNode *parent=0);
-	void addObjectMeshSceneNode(irr::core::stringc path, ISceneNode *parent=0);
-	void addLightSceneNode(ISceneNode *parent=0);
-	void addVolumeLightSceneNode(ISceneNode *parent=0);
+	s32 addTerrainMeshSceneNode(irr::core::stringc path, ISceneNode *parent=0);
+	s32 addTerrainOctTreeSceneNode(irr::core::stringc path, irr::u32 minPolys=1024, ISceneNode *parent=0);
+	s32 addTreeMeshSceneNode(irr::core::stringc path, irr::u32 minPolys=1024, ISceneNode *parent=0);
+	s32 addObjectMeshSceneNode(irr::core::stringc path, ISceneNode *parent=0);
+	s32 addLightSceneNode(ISceneNode *parent=0);
+	s32 addVolumeLightSceneNode(ISceneNode *parent=0);
+
+	u32 getTerrainCount();
+	u32 getTreeCount();
+	u32 getObjectCount();
+	u32 getLightCount();
+	u32 getVolumeLightCount();
 
 	//FACTORY
-	void addCubeSceneNode(ISceneNode *parent=0);
-	void addSphereSceneNode(ISceneNode *parent=0);
-	void addHillPlaneMesh(ISceneNode *parent=0);
-	void addBillBoardSceneNode(ISceneNode *parent=0);
+	s32 addCubeSceneNode(ISceneNode *parent=0);
+	s32 addSphereSceneNode(ISceneNode *parent=0);
+	s32 addHillPlaneMesh(ISceneNode *parent=0);
+	s32 addBillBoardSceneNode(ISceneNode *parent=0);
+
+	//METHODS
+	u32 getTerrainNodeMaterialCount(u32 ti);
+	s32 getTerrainByName(stringc name);
+	stringc getTerrainMaterialName(s32 ti, s32 mi);
+	void setTerrainMaterialNumber(s32 ti, s32 mi, s32 mati);
+	s32 getMaterialIDByName(stringc name);
 
 private:
 

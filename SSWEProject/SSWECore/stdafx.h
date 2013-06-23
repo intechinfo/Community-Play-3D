@@ -20,7 +20,7 @@
 #include <irrlicht.h>
 
 #ifndef _IRR_OSX_PLATFORM_
+	#include <memory>
 	#include <thread>
-	#include <mutex>
 	#include <Windows.h>
 #endif

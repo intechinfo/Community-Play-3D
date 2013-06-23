@@ -25,6 +25,8 @@
 #include <OVR.h>
 using namespace OVR;
 
+#include <omp.h>
+
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
 #else
@@ -86,6 +88,9 @@ public:
 
 	void setRenderGUI(bool _renderGUI) { renderGUI = _renderGUI; }
 	bool isRenderingGUI() { return renderGUI; }
+
+	void setRenderFullPostTraitements(bool _render) { renderFullPostTraitements = _render; }
+	bool isRenderingFullPostTraitements() { return renderFullPostTraitements; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -184,6 +189,7 @@ private:
 
 	bool renderScene;
 	bool renderXEffect, renderGUI;
+	bool renderFullPostTraitements;
 	//-----------------------------------
 
 	//-----------------------------------

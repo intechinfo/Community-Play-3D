@@ -133,9 +133,9 @@ void CUIMainWindow::refresh() {
     //TERRAINS
     int selected = terrainsListBox->getSelected();
     terrainsListBox->clear();
-    for (int i=0; i < devices->getCoreData()->getTerrainNodes()->size(); i++) {
-		if (devices->getCoreData()->getTerrainNodes()->operator[](i)) {
-			stringw name = devices->getCoreData()->getTerrainNodes()->operator[](i)->getName();
+    for (int i=0; i < devices->getCoreData()->getTerrainsData()->size(); i++) {
+		if (devices->getCoreData()->getTerrainsData()->operator[](i).getNode()) {
+			stringw name = devices->getCoreData()->getTerrainsData()->operator[](i).getNode()->getName();
 			terrainsListBox->addItem(name.c_str());
 		}
     }
@@ -215,10 +215,10 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 
     if (tabCtrl->getActiveTab() == terrainsTab->getNumber()) {
         if (terrainsListBox->getSelected() != -1) {
-            node = devices->getCoreData()->getTerrainNodes()->operator[](terrainsListBox->getSelected());
-			mesh = devices->getCoreData()->getTerrainMeshes()->operator[](terrainsListBox->getSelected());
-			minPolysPerNode = devices->getCoreData()->getTerrainMinPolysPerNode()->operator[](terrainsListBox->getSelected());
-			path = devices->getCoreData()->getTerrainPaths()->operator[](terrainsListBox->getSelected());
+			node = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getNode();
+			mesh = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getMesh();
+			minPolysPerNode = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getMinPolysPerNode();
+			path = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getPath();
         }
     } else if (tabCtrl->getActiveTab() == treesTab->getNumber()) {
         if (treesListBox->getSelected() != -1) {
@@ -255,8 +255,8 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
     bool founded=false;
     u32 i=0;
-	while (!founded && i < devices->getCoreData()->getTerrainNodes()->size()) {
-		if (devices->getCoreData()->getTerrainNodes()->operator[](i) == node) {
+	while (!founded && i < devices->getCoreData()->getTerrainsData()->size()) {
+		if (devices->getCoreData()->getTerrainsData()->operator[](i).getNode() == node) {
 			tabCtrl->setActiveTab(terrainsTab);
 			terrainsListBox->setSelected(i);
 			founded = true;
@@ -336,10 +336,8 @@ void CUIMainWindow::cloneNode() {
             node->setPosition(devices->getCursorPosition());
             
 			if (getActiveListBox() == terrainsListBox) {
-				devices->getCoreData()->getTerrainMeshes()->push_back(getSelectedNode().getMesh());
-                devices->getCoreData()->getTerrainNodes()->push_back(node);
-				devices->getCoreData()->getTerrainPaths()->push_back(getSelectedNode().getPath());
-				devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(getSelectedNode().getMinPolysPerNode());
+				STerrainsData tdata(getSelectedNode().getMesh(), node, getSelectedNode().getPath(), getSelectedNode().getMinPolysPerNode(), node->getType());
+				devices->getCoreData()->getTerrainsData()->push_back(tdata);
             }
             if (getActiveListBox() == treesListBox) {
 				STreesData tdata(getSelectedNode().getMesh(), node, getSelectedNode().getPath());
@@ -368,7 +366,7 @@ void CUIMainWindow::cloneNode() {
             stringw path;
             
             if (getActiveListBox() == terrainsListBox) {
-                path = devices->getCoreData()->getTerrainPaths()->operator[](terrainsListBox->getSelected()).c_str();
+				path = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getPath().c_str();
             }
             if (getActiveListBox() == treesListBox) {
 				path = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getPath().c_str();
@@ -380,10 +378,8 @@ void CUIMainWindow::cloneNode() {
                 clonedNode->setPosition(devices->getCursorPosition());
                 
                 if (getActiveListBox() == terrainsListBox) {
-					devices->getCoreData()->getTerrainMeshes()->push_back(getSelectedNode().getMesh());
-                    devices->getCoreData()->getTerrainNodes()->push_back(clonedNode);
-                    devices->getCoreData()->getTerrainPaths()->push_back(path.c_str());
-					devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(getSelectedNode().getMinPolysPerNode());
+					STerrainsData tdata(getSelectedNode().getMesh(), clonedNode, path, getSelectedNode().getMinPolysPerNode(), node->getType());
+					devices->getCoreData()->getTerrainsData()->push_back(tdata);
                 }
                 if (getActiveListBox() == treesListBox) {
 					STreesData tdata(0, clonedNode, path.c_str());
@@ -439,7 +435,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                                                                                                    hitTriangle, 0, 0);
             if (selectedMouseNode) {
                 devices->getVideoDriver()->setTransform(ETS_WORLD, matrix4());
-                if (devices->getCoreData()->getTerrainNodes()->linear_search(selectedMouseNode)) {
+				if (devices->getCoreData()->getArrayOfTerrainNodes().linear_search(selectedMouseNode)) {
                     if (selectedMouseNode->getType() != ESNT_OCTREE && selectedMouseNode->getType() != ESNT_MESH) {
                         //selectedMouseNode->setMaterialFlag(EMF_WIREFRAME, true);
                         //selectedMouseNode->setDebugDataVisible(EDS_BBOX);
@@ -745,11 +741,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
-                    devices->getCoreData()->getTerrainNodes()->operator[](terrainsListBox->getSelected())->remove();
-					devices->getCoreData()->getTerrainMeshes()->erase(terrainsListBox->getSelected());
-					devices->getCoreData()->getTerrainMinPolysPerNode()->erase(terrainsListBox->getSelected());
-                    devices->getCoreData()->getTerrainNodes()->erase(terrainsListBox->getSelected());
-                    devices->getCoreData()->getTerrainPaths()->erase(terrainsListBox->getSelected());
+					devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getNode()->remove();
+					devices->getCoreData()->getTerrainsData()->erase(terrainsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     terrainsListBox->removeItem(terrainsListBox->getSelected());
                 } else {

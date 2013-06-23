@@ -34,10 +34,24 @@ int scene_add_object_scene_node(lua_State *L);
 int scene_add_light_scene_node(lua_State *L);
 int scene_add_volume_light_scene_node(lua_State *L);
 
+int scene_get_terrain_count(lua_State *L);
+int scene_get_tree_count(lua_State *L);
+int scene_get_object_count(lua_State *L);
+int scene_get_light_count(lua_State *L);
+int scene_get_volume_light_count(lua_State *L);
+
 int scene_add_cube_scene_node(lua_State *L);
 int scene_add_sphere_scene_node(lua_State *L);
 int scene_add_plane_scene_node(lua_State *L);
 int scene_add_billboard_scene_node(lua_State *L);
+
+int scene_get_node_material_count(lua_State *L);
+
+int scene_get_terrain_by_name(lua_State *L);
+int scene_get_terrain_material_name(lua_State *L);
+int scene_get_terrain_material_name(lua_State *L);
+int scene_set_terrain_material_number(lua_State *L);
+int scene_get_material_id_by_name(lua_State *L);
 
 
 //SET UP CLASSES
@@ -58,10 +72,23 @@ static const luaL_Reg scene_methods[] = {
 	{"addLightSceneNode", scene_add_light_scene_node},
 	{"addVolumeLightSceneNode", scene_add_volume_light_scene_node},
 
+	{"getTerrainCount", scene_get_terrain_count},
+	{"getTreeCount", scene_get_tree_count},
+	{"getObjectCount", scene_get_object_count},
+	{"getLightCount", scene_get_light_count},
+	{"getVolumeLightCount", scene_get_volume_light_count},
+
 	{"addCubeSceneNode", scene_add_cube_scene_node},
 	{"addSphereSceneNode", scene_add_sphere_scene_node},
 	{"addPlaneSceneNode", scene_add_plane_scene_node},
 	{"addBillBoardSceneNode", scene_add_billboard_scene_node},
+
+	{"getTerrainMaterialCount", scene_get_node_material_count},
+	{"getTerrainByName", scene_get_terrain_by_name},
+	{"getTerrainMaterialName", scene_get_terrain_material_name},
+	{"setTerrainMaterialNumber", scene_set_terrain_material_number},
+	{"getMaterialIDByName", scene_get_material_id_by_name},
+
 	{ NULL, NULL }
 };
 
@@ -165,6 +192,10 @@ void CScripting::initializeFileSystemScripting() {
 void CScripting::runScript(irr::core::stringc script, irr::core::stringc name) {
 	CProcess *process = new CProcess(devices->getGUIEnvironment(), name.c_str());
 	devices->getProcessesLogger()->addProcess(process);
+
+
+	devices->reupdate();
+
 	luaL_dostring(L, script.c_str());
 	process->setHasFinished(true);
 }
@@ -223,9 +254,11 @@ int scene_add_terrain_scene_node(lua_State *L) {
 	int argc = lua_gettop(L);
 
 	irr::core::stringc path = lua_tostring(L, 2);
-	sceneScripting->addTerrainMeshSceneNode(path.c_str());
+	s32 terrainCount = sceneScripting->addTerrainMeshSceneNode(path.c_str());
 
-	return 0;
+	lua_pushnumber(L, terrainCount);
+
+	return 1;
 }
 int scene_add_oct_tree_scene_node(lua_State *L) {
 	printf("## addTerrainOctTreeSceneNode\n");
@@ -233,9 +266,11 @@ int scene_add_oct_tree_scene_node(lua_State *L) {
 
 	irr::core::stringc path = lua_tostring(L, 2);
 	irr::u32 minPolys = lua_tointeger(L, 3);
-	sceneScripting->addTerrainOctTreeSceneNode(path.c_str(), minPolys);
+	s32 terrainCount = sceneScripting->addTerrainOctTreeSceneNode(path.c_str(), minPolys);
 
-	return 0;
+	lua_pushnumber(L, terrainCount);
+
+	return 1;
 }
 int scene_add_tree_scene_node(lua_State *L) {
 	printf("## addTreeMeshSceneNode\n");
@@ -243,59 +278,170 @@ int scene_add_tree_scene_node(lua_State *L) {
 
 	irr::core::stringc path = lua_tostring(L, 2);
 	irr::u32 minPolys = lua_tointeger(L, 3);
-	sceneScripting->addTreeMeshSceneNode(path.c_str(), minPolys);
+	s32 treeCount = sceneScripting->addTreeMeshSceneNode(path.c_str(), minPolys);
 
-	return 0;
+	lua_pushnumber(L, treeCount);
+
+	return 1;
 }
 int scene_add_object_scene_node(lua_State *L) {
 	printf("## addObjectMeshSceneNode\n");
 	int argc = lua_gettop(L);
 
 	irr::core::stringc path = lua_tostring(L, 2);
-	sceneScripting->addObjectMeshSceneNode(path.c_str());
+	s32 objectCount = sceneScripting->addObjectMeshSceneNode(path.c_str());
 
-	return 0;
+	lua_pushnumber(L, objectCount);
+
+	return 1;
 }
 int scene_add_light_scene_node(lua_State *L) {
 	printf("## addLightSceneNode\n");
 	int argc = lua_gettop(L);
 
-	sceneScripting->addLightSceneNode();
+	s32 lightCount = sceneScripting->addLightSceneNode();
 
-	return 0;
+	lua_pushnumber(L, lightCount);
+
+	return 1;
 }
 int scene_add_volume_light_scene_node(lua_State *L) {
 	printf("## addVolumeLightSceneNode\n");
 	int argc = lua_gettop(L);
 
-	sceneScripting->addVolumeLightSceneNode();
+	s32 volumeLightCount = sceneScripting->addVolumeLightSceneNode();
 
-	return 0;
+	lua_pushnumber(L, volumeLightCount);
+
+	return 1;
+}
+
+int scene_get_terrain_count(lua_State *L) {
+	int argc = lua_gettop(L);
+
+	lua_pushnumber(L, sceneScripting->getTerrainCount());
+
+	return 1;
+}
+int scene_get_tree_count(lua_State *L) {
+	int argc = lua_gettop(L);
+
+	lua_pushnumber(L, sceneScripting->getTreeCount());
+
+	return 1;
+}
+int scene_get_object_count(lua_State *L) {
+	int argc = lua_gettop(L);
+
+	lua_pushnumber(L, sceneScripting->getObjectCount());
+
+	return 1;
+}
+int scene_get_light_count(lua_State *L) {
+	int argc = lua_gettop(L);
+
+	lua_pushnumber(L, sceneScripting->getLightCount());
+
+	return 1;
+}
+int scene_get_volume_light_count(lua_State *L) {
+	int argc = lua_gettop(L);
+
+	lua_pushnumber(L, sceneScripting->getVolumeLightCount());
+
+	return 1;
 }
 
 int scene_add_cube_scene_node(lua_State *L) {
 	printf("## addCubeSceneNode\n");
 	int argc = lua_gettop(L);
-	sceneScripting->addCubeSceneNode();
-	return 0;
+	s32 objectCount = sceneScripting->addCubeSceneNode();
+
+	lua_pushnumber(L, objectCount);
+
+	return 1;
 }
 int scene_add_sphere_scene_node(lua_State *L) {
 	printf("## addSphereSceneNode\n");
 	int argc = lua_gettop(L);
-	sceneScripting->addSphereSceneNode();
-	return 0;
+	s32 objectCount = sceneScripting->addSphereSceneNode();
+
+	lua_pushnumber(L, objectCount);
+
+	return 1;
 }
 int scene_add_plane_scene_node(lua_State *L) {
 	printf("## addPlaneSceneNode\n");
 	int argc = lua_gettop(L);
-	sceneScripting->addHillPlaneMesh();
-	return 0;
+	s32 objectCount = sceneScripting->addHillPlaneMesh();
+
+	lua_pushnumber(L, objectCount);
+
+	return 1;
 }
 int scene_add_billboard_scene_node(lua_State *L) {
 	printf("## addBillBoardSceneNode\n");
 	int argc = lua_gettop(L);
-	sceneScripting->addBillBoardSceneNode();
+	s32 objectCount = sceneScripting->addBillBoardSceneNode();
+
+	lua_pushnumber(L, objectCount);
+
+	return 1;
+}
+
+int scene_get_node_material_count(lua_State *L) {
+	int argc = lua_gettop(L);
+	s32 terrainID = lua_tointeger(L, 2);
+
+	u32 mcount = sceneScripting->getTerrainNodeMaterialCount(terrainID);
+
+	lua_pushnumber(L, mcount);
+	return 1;
+}
+
+int scene_get_terrain_by_name(lua_State *L) {
+	s32 i;
+
+	int argc = lua_gettop(L);
+	stringc name = lua_tostring(L, 2);
+
+	i = sceneScripting->getTerrainByName(name);
+
+	lua_pushnumber(L, i);
+	return 1;
+}
+int scene_get_terrain_material_name(lua_State *L) {
+	stringc name;
+
+	int argc = lua_gettop(L);
+	s32 terrainID = lua_tointeger(L, 2);
+	s32 materialID = lua_tointeger(L, 3);
+
+	name = sceneScripting->getTerrainMaterialName(terrainID, materialID);
+	name.make_upper();
+
+	lua_pushstring(L, name.c_str());
+	return 1;
+}
+int scene_set_terrain_material_number(lua_State *L) {
+	int argc = lua_gettop(L);
+	s32 terrainID = lua_tointeger(L, 2);
+	s32 materialID = lua_tointeger(L, 3);
+	s32 materialTypeID = lua_tointeger(L, 4);
+
+	sceneScripting->setTerrainMaterialNumber(terrainID, materialID, materialTypeID);
+
 	return 0;
+}
+int scene_get_material_id_by_name(lua_State *L) {
+	int argc = lua_gettop(L);
+	stringc name = lua_tostring(L, 2);
+
+	s32 i = sceneScripting->getMaterialIDByName(name);
+
+	lua_pushnumber(L, i);
+
+	return 1;
 }
 
 //---------------------------------------------------------------------------------------------

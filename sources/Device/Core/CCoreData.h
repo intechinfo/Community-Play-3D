@@ -110,6 +110,10 @@ private:
 
 struct SSWE_CORE_API STerrainsData {
 	
+	STerrainsData() {
+		STerrainsData(0, 0, "", 0, ESNT_UNKNOWN);
+	}
+
 	STerrainsData(IMesh *_mesh, ISceneNode *_node, stringw _path, u32 _minPolysPerNode=0, ESCENE_NODE_TYPE _type=ESNT_MESH) {
 		mesh = _mesh;
 		node = _node;
@@ -120,13 +124,13 @@ struct SSWE_CORE_API STerrainsData {
 
 	void setMesh(IMesh *_mesh) { mesh = _mesh; }
 	void setNode(ISceneNode *_node) { node = _node; }
-	void setPath(stringw _path) { path = _path; }
+	void setPath(stringc _path) { path = _path; }
 	void setMinPolysPerNode(u32 _minPolysPerNode) { minPolysPerNode = _minPolysPerNode; }
 	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
 
 	IMesh *getMesh() { return mesh; }
 	ISceneNode *getNode() { return node; }
-	stringw getPath() { return path; }
+	stringc getPath() { return path; }
 	u32 getMinPolysPerNode() { return minPolysPerNode; }
 	ESCENE_NODE_TYPE getType() { return type; }
 
@@ -134,7 +138,7 @@ private:
 	IMesh *mesh;
 	ISceneNode *node;
 	u32 minPolysPerNode;
-	stringw path;
+	stringc path;
 	ESCENE_NODE_TYPE type;
 };
 
@@ -486,10 +490,6 @@ public:
 	//-----------------------------------
 	//GET IRRLICHT NODES
 	array<STerrainsData> *getTerrainsData() { return &terrainsData; }
-	array<IMesh *> *getTerrainMeshes() { return &terrainMeshes; }
-	array<u32> *getTerrainMinPolysPerNode() { return &terrainMinPolysPerNode; }
-	array<ISceneNode *> *getTerrainNodes() { return &terrainNodes; }
-	array<stringw> *getTerrainPaths() { return &terrainPaths; }
 
 	array<STreesData> *getTreesData() { return &treesData; }
 
@@ -530,10 +530,6 @@ private:
 	//-----------------------------------
 	//IRRLICHT NODES
 	array<STerrainsData> terrainsData;
-	array<IMesh *> terrainMeshes;
-	array<u32> terrainMinPolysPerNode;
-	array<ISceneNode *> terrainNodes;
-	array<stringw> terrainPaths;
 
 	array<STreesData> treesData;
 

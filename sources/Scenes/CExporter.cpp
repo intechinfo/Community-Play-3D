@@ -78,7 +78,7 @@ void CExporter::exportScene(stringc file_path) {
 	std::string line;
 	while (std::getline(exported_file, line)) {
 		//std::cout << line;
-		if (line != "\n")
+		//if (line != "\n")
 			file_to_copy << line.c_str() << std::endl;
 	}
 
@@ -122,6 +122,7 @@ void CExporter::exportConfig() {
 	for (int i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
 		stringc path = "";
 		path = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
+		path.remove(devices->getWorkingDirectory().c_str());
 		//fprintf(export_file, "\t\t\t <postProcessingEffect path=\"%s\" />\n", path.c_str());
 		fprintf(export_file, "\t\t\t <postProcessingEffect>\n");
 		fprintf(export_file, "\t\t\t\t <file_path path=\"%s\" />\n", path.c_str());
@@ -152,21 +153,35 @@ void CExporter::exportConfig() {
 		fprintf(export_file, "\t\t\t </materialType>\n\n");
 	}
 	fprintf(export_file, "\n\t\t </materialTypes>\n\n");
+
+	//SCRIPTS
+	fprintf(export_file, "\t\t <scripts>\n\n");
+	for (int i=0; i < devices->getCoreData()->getScriptFiles()->size(); i++) {
+		fprintf(export_file, "\t\t\t <script>\n");
+        
+		fprintf(export_file, "\t\t\t\t <name value=\"%s\" /> \n", stringc(devices->getCoreData()->getScriptFiles()->operator[](i).getName()).c_str());
+		stringw file = devices->getCoreData()->getScriptFiles()->operator[](i).getFile();
+		file.replace("\"", "(%quot)");
+		fprintf(export_file, "\t\t\t\t <file value=\"%s\" /> \n", stringc(file.c_str()).c_str());
+        
+		fprintf(export_file, "\t\t\t </script>\n\n");
+	}
+	fprintf(export_file, "\n\t\t </scripts>\n\n");
     
 	//END CONFIG
 	fprintf(export_file, "\t</config>\n\n\n\n");
 }
 
 void CExporter::exportTerrains() {
-	for (int i=0; i < devices->getCoreData()->getTerrainNodes()->size(); i++) {
-        ISceneNode *node = devices->getCoreData()->getTerrainNodes()->operator[](i);
+	for (int i=0; i < devices->getCoreData()->getTerrainsData()->size(); i++) {
+		ISceneNode *node = devices->getCoreData()->getTerrainsData()->operator[](i).getNode();
         
-        devices->getCoreData()->getTerrainPaths()->operator[](i).remove(wd.c_str());
+		devices->getCoreData()->getTerrainsData()->operator[](i).getPath().remove(wd.c_str());
         
         fprintf(export_file, "\t\t <terrain>\n\n");
-        fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getTerrainPaths()->operator[](i).c_str());
+		fprintf(export_file, "\t\t\t <path file=\"%s\" />\n\n", devices->getCoreData()->getTerrainsData()->operator[](i).getPath().c_str());
         if (node->getType() == ESNT_OCTREE) {
-			fprintf(export_file, "\t\t\t <type esnt=\"octtree\" mppn=\"%u\" />\n\n", devices->getCoreData()->getTerrainMinPolysPerNode()->operator[](i));
+			fprintf(export_file, "\t\t\t <type esnt=\"octtree\" mppn=\"%u\" />\n\n", devices->getCoreData()->getTerrainsData()->operator[](i).getMinPolysPerNode());
 		} else if (node->getType() == ESNT_TERRAIN) {
 			fprintf(export_file, "\t\t\t <type esnt=\"heightMap\" />\n\n");
 		} else {

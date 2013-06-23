@@ -251,7 +251,7 @@ dimension2d<f32> CCore::getDimensionF32(std::string sizeW, std::string sizeH) {
 	return size;
 }
 
-s32 CCore::getS32(std::string values32) {
+s32 CCore::getS32(stringc values32) {
     s32 value_s32;
 	stringc value_s32_c = values32.c_str();
 	value_s32_c.replace(',', '.');
@@ -262,7 +262,7 @@ s32 CCore::getS32(std::string values32) {
 	return value_s32;
 }
 
-f32 CCore::getF32(std::string valuef32) {
+f32 CCore::getF32(stringc valuef32) {
 	f32 value_f32;
 	stringc value_f32_c = valuef32.c_str();
 	value_f32_c.replace(',', '.');
@@ -285,13 +285,23 @@ u32 CCore::getU32(stringc valueu32) {
 }
 
 u32 CCore::getNumberOfBuildInMaterialTypes() {
-	irr::video::sBuiltInMaterialTypeNames;
 	u32 builtInMatTypeNb=0;
 	while (irr::video::sBuiltInMaterialTypeNames[builtInMatTypeNb] != 0) {
 		builtInMatTypeNb++;
 	}
 
 	return builtInMatTypeNb;
+}
+
+array<stringc> CCore::getArrayOfBuildInMaterialTypes() {
+	array<stringc> builtInMatTypeArray;
+	u32 builtInMatTypeNb=0;
+	while (irr::video::sBuiltInMaterialTypeNames[builtInMatTypeNb] != 0) {
+		builtInMatTypeArray.push_back(irr::video::sBuiltInMaterialTypeNames[builtInMatTypeNb]);
+		builtInMatTypeNb++;
+	}
+
+	return builtInMatTypeArray;
 }
 
 stringc CCore::getStringcFromFile(stringc pathFile) {

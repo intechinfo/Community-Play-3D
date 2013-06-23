@@ -81,20 +81,14 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                             octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, minppn);
                         }
                     }
+					STerrainsData tdata;
 					//IF NODE SET VALUES
 					if (octTreeNode) {
-						if (octTreeNode->getType() != ESNT_TERRAIN) {
-							devices->getCoreData()->getTerrainMeshes()->push_back(octTreeMesh);
-						} else {
-							devices->getCoreData()->getTerrainMeshes()->push_back(0);
-						}
-						if (octTreeNode->getType() == ESNT_TERRAIN) {
-							devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
-						} else if (octTreeNode->getType() == ESNT_OCTREE) {
-							devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(minppn);
-						} else {
-							devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(0);
-						}
+						if (octTreeNode->getType() != ESNT_TERRAIN)
+							tdata.setMesh(octTreeMesh);
+
+						if (octTreeNode->getType() == ESNT_OCTREE)
+							tdata.setMinPolysPerNode(minppn);
 					}
 					//INITIALIZE NODE
                     if (octTreeNode) {
@@ -108,8 +102,9 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType(), ESM_BOTH);
                         devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
                         
-                        devices->getCoreData()->getTerrainNodes()->push_back(octTreeNode);
-                        devices->getCoreData()->getTerrainPaths()->push_back(path_file);
+						tdata.setNode(octTreeNode);
+						tdata.setPath(path_file.c_str());
+						devices->getCoreData()->getTerrainsData()->push_back(tdata);
                         
                         terrainsListBox->addItem(octTreeNodeName.c_str());
                         

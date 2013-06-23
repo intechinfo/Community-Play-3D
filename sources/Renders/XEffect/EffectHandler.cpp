@@ -65,7 +65,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		WhiteWashTAdd = gpu->addHighLevelShaderMaterial(
                                                         sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
                                                         sPP.ppShader(WHITE_WASH_P_ADD[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
-                                                        depthMC, video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+                                                        depthMC, video::EMT_TRANSPARENT_ADD_COLOR);
         
 		WhiteWashTAlpha = gpu->addHighLevelShaderMaterial(
                                                           sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,

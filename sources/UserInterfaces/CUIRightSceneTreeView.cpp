@@ -143,7 +143,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 		sceneView->setRelativePosition(rect<s32>(10, 25, 
 												 window->getRelativePosition().getWidth()-10, 
 												 window->getRelativePosition().getHeight()-10));
-		addChildrenBackWithArray(terrainsNode, worldCore->getTerrainNodes());
+		addChildrenBackWithArray(terrainsNode, &worldCore->getArrayOfTerrainNodes());
 		addChildrenBackWithArray(treesNode, &worldCore->getArrayOfTreeNodes());
 		addChildrenBackWithArray(objectsNode, &worldCore->getArrayOfObjectNodes());
 		addChildrenBackWithArray(lightsNode, &worldCore->getArrayOfLightNodes());

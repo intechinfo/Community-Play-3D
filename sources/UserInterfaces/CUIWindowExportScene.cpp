@@ -25,7 +25,7 @@ void CUIWindowExportScene::open() {
     
     devices->getGUIEnvironment()->addStaticText(L"Name : (#scene exportation)", 
                                                 rect<s32>(5, 25, 250, 85), false, false, exportSceneWindow, -1, false);
-    exportSceneEditBox = devices->getGUIEnvironment()->addEditBox(path_file.c_str(), rect<s32>(5, 50, 210, 80), true, 
+	exportSceneEditBox = devices->getGUIEnvironment()->addEditBox(devices->getProjectName().c_str(), rect<s32>(5, 50, 210, 80), true, 
                                                                   exportSceneWindow, -1);
     devices->getGUIEnvironment()->addButton(rect<s32>(5, 110, 70, 135), exportSceneWindow, 
                                             CXT_WINDOW_EXPORT_SCENE_EVENTS_ACCEPT, L"Export", 
@@ -88,6 +88,11 @@ bool CUIWindowExportScene::OnEvent(const SEvent &event) {
                     exporter->exportScene(pathExport.c_str());
                     delete exporter;
                     
+					pathExport.remove(".world");
+					pathExport.remove(devices->getDevice()->getFileSystem()->getFileDir(pathExport.c_str()));
+					pathExport.remove("/");
+					devices->setProjectName(pathExport.c_str());
+
                     window->remove();
                     
                     exportSceneWindow->remove();

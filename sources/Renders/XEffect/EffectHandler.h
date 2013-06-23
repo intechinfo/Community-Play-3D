@@ -96,20 +96,30 @@ struct SShadowLight
 	}
 
 	/// Sets the light's projection matrix.
-	void setProjectionMatrix(const irr::core::matrix4& matrix) { projMat = matrix; }
+	void setProjectionMatrix(const irr::core::matrix4& matrix) {
+		projMat = matrix;
+	}
 	irr::core::matrix4& getViewMatrix() { return viewMat; }
 	irr::core::matrix4& getProjectionMatrix() { return projMat; }
 
 	/// Gets the light's far value.
 	irr::f32 getFarValue() const { return farPlane; }
-    void setFarValue(const irr::f32 _farPlane) { farPlane = _farPlane; }
+    void setFarValue(const irr::f32 _farPlane) {
+		farPlane = _farPlane;
+		recalculate = true;
+	}
 
 	/// Gets the light's color.
 	const irr::video::SColorf& getLightColor() const { return diffuseColour; }
-	void setLightColor(const irr::video::SColorf& lightColour)  { diffuseColour = lightColour; }
+	void setLightColor(const irr::video::SColorf& lightColour)  {
+		diffuseColour = lightColour;
+	}
 
 	/// Sets the shadow map resolution for this light.
-	void setShadowMapResolution(irr::u32 shadowMapResolution) { mapRes = shadowMapResolution; }
+	void setShadowMapResolution(irr::u32 shadowMapResolution) {
+		mapRes = shadowMapResolution;
+		recalculate = true;
+	}
 	irr::u32& getShadowMapResolution() { return mapRes; }
 
 	/// Sets if we must recalculate shadow map

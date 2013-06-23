@@ -66,10 +66,8 @@ void CUINodeFactoryCreateMeshWithTangents::create() {
 
 	stringc prefix = devices->getCore()->getNodeNamePrefix(newNode);
 	if (prefix == "#map") {
-		devices->getCoreData()->getTerrainMeshes()->push_back(tangentsMesh);
-		devices->getCoreData()->getTerrainNodes()->push_back(newNode);
-		devices->getCoreData()->getTerrainMinPolysPerNode()->push_back(nodeMinPolysPerNode);
-		devices->getCoreData()->getTerrainPaths()->push_back(meshPath.c_str());
+		STerrainsData tdata(tangentsMesh, newNode, meshPath.c_str(), nodeMinPolysPerNode, nodeType);
+		devices->getCoreData()->getTerrainsData()->push_back(tdata);
 	} else if (prefix == "#tree") {
 		STreesData tdata(tangentsMesh, newNode, meshPath.c_str(), ESNT_OCTREE, nodeMinPolysPerNode);
 		devices->getCoreData()->getTreesData()->push_back(tdata);

@@ -25,6 +25,7 @@
 #include <irrlicht.h>
 
 #ifndef _IRR_OSX_PLATFORM_
+	#include <memory>
 	#include <thread>
 	#include <Windows.h>
 #endif
@@ -68,9 +69,9 @@ public:
 	dimension2d<u32> getDimensionU32(std::string sizeW, std::string sizeH);
 	dimension2d<f32> getDimensionF32(std::string sizeW, std::string sizeH);
 	
-	f32 getF32(std::string valuef32);
+	f32 getF32(stringc valuef32);
 	u32 getU32(stringc valueu32);
-    s32 getS32(std::string values32);
+    s32 getS32(stringc values32);
 
 	stringw getStrNumber(f32 value);
     stringw getStrNumberU32(u32 value);
@@ -101,6 +102,7 @@ public:
     
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();
+	array<stringc> getArrayOfBuildInMaterialTypes();
     
 private:
 	//--------------------------

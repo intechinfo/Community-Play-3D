@@ -102,8 +102,9 @@ bool CUIScriptEditor::OnEvent(const SEvent &event) {
 					devices->getScripting()->setScriptFile(devices->getCoreData()->getScriptFiles()->operator[](files->getSelected()).getFile());
 					devices->getScripting()->setScriptName(devices->getCoreData()->getScriptFiles()->operator[](files->getSelected()).getName());
 					CScripting *c = devices->getScripting();
-					std::thread runScript_t(&CScripting::runScript_t, *c);
-					runScript_t.detach();
+					//std::thread runScript_t(&CScripting::runScript_t, c);
+					//runScript_t.detach();
+					devices->getScripting()->runScript_t();
 				}
 			}
 		}
@@ -119,7 +120,7 @@ bool CUIScriptEditor::OnEvent(const SEvent &event) {
 			}
 		}
 
-		if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
+		if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
 			if (event.GUIEvent.Caller == fileName) {
 				if (files->getSelected() != -1) {
 					devices->getCoreData()->getScriptFiles()->operator[](files->getSelected()).setName(fileName->getText());

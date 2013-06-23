@@ -55,7 +55,11 @@ CCoreUserInterface::CCoreUserInterface() {
     
     windowSize = devices->getVideoDriver()->getScreenSize();
 
-	devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+	#ifdef SSWE_RELEASE
+		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+	#else
+		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+	#endif
 
     //-----------------------------------
 
