@@ -33,13 +33,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Misc\Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\CShaderPre.cpp">
+    <ClCompile Include="Renders\XEffect\CShaderPre.cpp">
       <Filter>Renders\XEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp">
+    <ClCompile Include="Renders\XEffect\EffectHandler.cpp">
       <Filter>Renders\XEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp">
+    <ClCompile Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp">
       <Filter>Renders\PostProcessor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,28 +56,28 @@
     <ClInclude Include="Resource.h">
       <Filter>Misc\Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h">
+    <ClInclude Include="Renders\XEffect\CScreenQuad.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\XEffect\CShaderPre.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\XEffect\EffectCB.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\XEffect\EffectHandler.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\XEffect\EffectShaders.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\XEffect\XEffects.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\PostProcessor\PostProcessMotionBlurhlsl.h">
       <Filter>Renders\PostProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\CScreenQuad.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\CShaderPre.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectCB.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectHandler.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectShaders.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\XEffects.h">
-      <Filter>Renders\XEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
+    <ClInclude Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
       <Filter>Renders\PostProcessor</Filter>
     </ClInclude>
   </ItemGroup>

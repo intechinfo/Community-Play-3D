@@ -122,12 +122,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
-      <FileType>CppCode</FileType>
-    </ClInclude>
-    <ClCompile Include="..\..\sources\Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp" />
-    <ClCompile Include="..\..\sources\Renders\XEffect\CShaderPre.cpp" />
-    <ClCompile Include="..\..\sources\Renders\XEffect\EffectHandler.cpp" />
+    <ClCompile Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp" />
+    <ClCompile Include="Renders\XEffect\CShaderPre.cpp" />
+    <ClCompile Include="Renders\XEffect\EffectHandler.cpp" />
     <ClCompile Include="SSWERenders.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -135,13 +132,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\sources\Renders\PostProcessor\PostProcessMotionBlurhlsl.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\CScreenQuad.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\CShaderPre.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectCB.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectHandler.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\EffectShaders.h" />
-    <ClInclude Include="..\..\sources\Renders\XEffect\XEffects.h" />
+    <ClInclude Include="Renders\PostProcessor\PostProcessMotionBlurhlsl.h" />
+    <ClInclude Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h" />
+    <ClInclude Include="Renders\XEffect\CScreenQuad.h" />
+    <ClInclude Include="Renders\XEffect\CShaderPre.h" />
+    <ClInclude Include="Renders\XEffect\EffectCB.h" />
+    <ClInclude Include="Renders\XEffect\EffectHandler.h" />
+    <ClInclude Include="Renders\XEffect\EffectShaders.h" />
+    <ClInclude Include="Renders\XEffect\XEffects.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWERenders.h" />
     <ClInclude Include="stdafx.h" />

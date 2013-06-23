@@ -3,7 +3,7 @@
 
 //#pragma once
 
-#include "../../sources/Device/Core/CCoreUserInterface.h"
+#include "SSWELib/Device/Core/CCoreUserInterface.h"
 
 #define SSWE_LIB_EXPORTS
 #ifdef SSWE_LIB_EXPORTS

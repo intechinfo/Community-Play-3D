@@ -16,92 +16,95 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="UserInterfaces">
+    <Filter Include="SSWELib">
+      <UniqueIdentifier>{e6465e47-a5d2-4979-af27-f3492852eb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\UserInterfaces">
       <UniqueIdentifier>{be2d5915-d836-4250-9141-65aa113d0901}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\MainWindow">
+    <Filter Include="SSWELib\UserInterfaces\MainWindow">
       <UniqueIdentifier>{9f700763-79b6-4df8-901f-29df86315496}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\MaterialEditor">
+    <Filter Include="SSWELib\UserInterfaces\MaterialEditor">
       <UniqueIdentifier>{f32e7b45-b380-4b7a-8379-0d177a5ff84a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\MaterialEditor\General">
+    <Filter Include="SSWELib\UserInterfaces\MaterialEditor\General">
       <UniqueIdentifier>{45149bf4-5500-4e3c-9d89-6b242df4aafd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\NodeFactory">
+    <Filter Include="SSWELib\UserInterfaces\NodeFactory">
       <UniqueIdentifier>{304b5d6e-9cd8-4459-a4bd-930d00703d09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\TexturesManager">
+    <Filter Include="SSWELib\UserInterfaces\TexturesManager">
       <UniqueIdentifier>{7a50049c-98b9-41f6-83d9-52c2dba0f8c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CharacterEdition">
-      <UniqueIdentifier>{39735d6f-d759-4ede-b080-fb1cc5f9fa40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CharacterEdition\ManualAnimation">
-      <UniqueIdentifier>{202af1c3-a195-4598-a667-4b652aff7745}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Device">
-      <UniqueIdentifier>{1a60a714-1339-417d-bc05-f11a0b9e270f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Device\Core">
-      <UniqueIdentifier>{153c5161-f04a-4939-abb9-6e63e7f12f43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUIExtension">
-      <UniqueIdentifier>{fe4d49a2-93fb-4264-9295-2db16d632ac8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUIExtension\CodeEditor">
-      <UniqueIdentifier>{d95a3e19-21b4-4f78-87da-2e6970b26851}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUIExtension\OpenFileDialog">
-      <UniqueIdentifier>{95a2901b-fd18-4419-a52a-9f5a1f592f3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUIExtension\ViewPort">
-      <UniqueIdentifier>{3fef2e35-3be5-4888-89ad-1c1cdf55b466}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renders">
-      <UniqueIdentifier>{7472f6da-8cf1-4977-acd7-c3df8e3b6b7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renders\HDR">
-      <UniqueIdentifier>{1053c6a2-20f8-4109-bfde-22dfa7adc983}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renders\XEffect">
-      <UniqueIdentifier>{e6f1a103-b4ee-4f34-8bd2-f91ea7f68378}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renders\XEffect\Interfaces">
-      <UniqueIdentifier>{e53f1f7a-d616-433a-8caa-16fa3f6294cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SceneNodes">
-      <UniqueIdentifier>{99936717-6375-4a8d-b44b-08f1409890e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SceneNodes\Camera">
-      <UniqueIdentifier>{2ef3fc22-89d5-4763-9f5e-60f3f0b6f305}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SceneNodes\WaterSurface">
-      <UniqueIdentifier>{503e9094-e48c-471b-87d5-108ff93ded11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SceneNodes\Animators">
-      <UniqueIdentifier>{6d9750eb-92d7-4cdd-82c4-48879ec89012}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{4ede1748-8d45-4768-85c4-ad643d74da27}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUIExtension\Graph2D">
-      <UniqueIdentifier>{14bafc0c-9d1b-47df-b532-6ee7f7d2f59a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUIExtension\ProgressBar">
-      <UniqueIdentifier>{adcd41e1-c8ea-4406-b7c7-4ec6f78ea75e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserInterfaces\ProcessesLogger">
+    <Filter Include="SSWELib\UserInterfaces\ProcessesLogger">
       <UniqueIdentifier>{91f397dc-8d06-41e6-aca2-274c80bf0d3c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\AnimatorsEditor">
+    <Filter Include="SSWELib\UserInterfaces\AnimatorsEditor">
       <UniqueIdentifier>{b25f4e1c-f8b9-4d38-8c0e-67d48f2b7cdf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterfaces\CodeEditor">
+    <Filter Include="SSWELib\UserInterfaces\CodeEditor">
       <UniqueIdentifier>{58076c09-b168-49cd-829f-5a35d1b90431}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Device\Core\Scripting">
+    <Filter Include="SSWELib\Renders">
+      <UniqueIdentifier>{7472f6da-8cf1-4977-acd7-c3df8e3b6b7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Renders\HDR">
+      <UniqueIdentifier>{1053c6a2-20f8-4109-bfde-22dfa7adc983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Renders\XEffect">
+      <UniqueIdentifier>{e6f1a103-b4ee-4f34-8bd2-f91ea7f68378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Renders\XEffect\Interfaces">
+      <UniqueIdentifier>{e53f1f7a-d616-433a-8caa-16fa3f6294cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\SceneNodes">
+      <UniqueIdentifier>{99936717-6375-4a8d-b44b-08f1409890e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\SceneNodes\Camera">
+      <UniqueIdentifier>{2ef3fc22-89d5-4763-9f5e-60f3f0b6f305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\SceneNodes\WaterSurface">
+      <UniqueIdentifier>{503e9094-e48c-471b-87d5-108ff93ded11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\SceneNodes\Animators">
+      <UniqueIdentifier>{6d9750eb-92d7-4cdd-82c4-48879ec89012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Scenes">
+      <UniqueIdentifier>{4ede1748-8d45-4768-85c4-ad643d74da27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension">
+      <UniqueIdentifier>{fe4d49a2-93fb-4264-9295-2db16d632ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\CodeEditor">
+      <UniqueIdentifier>{d95a3e19-21b4-4f78-87da-2e6970b26851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\OpenFileDialog">
+      <UniqueIdentifier>{95a2901b-fd18-4419-a52a-9f5a1f592f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\ViewPort">
+      <UniqueIdentifier>{3fef2e35-3be5-4888-89ad-1c1cdf55b466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\Graph2D">
+      <UniqueIdentifier>{14bafc0c-9d1b-47df-b532-6ee7f7d2f59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\ProgressBar">
+      <UniqueIdentifier>{adcd41e1-c8ea-4406-b7c7-4ec6f78ea75e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Device">
+      <UniqueIdentifier>{1a60a714-1339-417d-bc05-f11a0b9e270f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Device\Core">
+      <UniqueIdentifier>{153c5161-f04a-4939-abb9-6e63e7f12f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Device\Core\Scripting">
       <UniqueIdentifier>{ec5a244a-3189-4517-bb2b-013bb33a78bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\CharacterEdition">
+      <UniqueIdentifier>{39735d6f-d759-4ede-b080-fb1cc5f9fa40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\CharacterEdition\ManualAnimation">
+      <UniqueIdentifier>{202af1c3-a195-4598-a667-4b652aff7745}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,191 +114,191 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Misc\Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIRenderingInfos.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\CharacterEdition\CAction.cpp">
+      <Filter>SSWELib\CharacterEdition</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIRightSceneTreeView.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\CharacterEdition\CUICharacterWindow.cpp">
+      <Filter>SSWELib\CharacterEdition</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUISceneView.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\CharacterEdition\CUIEditBones.cpp">
+      <Filter>SSWELib\CharacterEdition</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\CharacterEdition\ManualAnimation\CAnimation.cpp">
+      <Filter>SSWELib\CharacterEdition\ManualAnimation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditLight.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\CharacterEdition\ManualAnimation\CFrame.cpp">
+      <Filter>SSWELib\CharacterEdition\ManualAnimation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditNode.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\CharacterEdition\ManualAnimation\CManualAction.cpp">
+      <Filter>SSWELib\CharacterEdition\ManualAnimation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowExportScene.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\Device\Core\Scripting\CFileSystemScripting.cpp">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\Device\Core\Scripting\CLuaBinds.cpp">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowsManager.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\Device\Core\Scripting\CSceneScripting.cpp">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\UIContextMenu.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.cpp">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\UIWindowRender.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\Device\Core\CCoreUserInterface.cpp">
+      <Filter>SSWELib\Device\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.cpp">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClCompile Include="SSWELib\Device\CDevices.cpp">
+      <Filter>SSWELib\Device</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.cpp">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClCompile Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.cpp">
+      <Filter>SSWELib\GUIExtension\CodeEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.cpp">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClCompile Include="SSWELib\GUIExtension\Graph2D\GraphKat.cpp">
+      <Filter>SSWELib\GUIExtension\Graph2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.cpp">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClCompile Include="SSWELib\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp">
+      <Filter>SSWELib\GUIExtension\OpenFileDialog</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClCompile Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.cpp">
+      <Filter>SSWELib\GUIExtension\ProgressBar</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\UIMainWindow.cpp">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClCompile Include="SSWELib\GUIExtension\ViewPort\CGUIViewPort.cpp">
+      <Filter>SSWELib\GUIExtension\ViewPort</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.cpp">
-      <Filter>UserInterfaces\MaterialEditor</Filter>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallback.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.cpp">
-      <Filter>UserInterfaces\MaterialEditor</Filter>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.cpp">
-      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CShaderCallback.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.cpp">
-      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditEffects.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp">
-      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp">
-      <Filter>UserInterfaces\NodeFactory</Filter>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp">
-      <Filter>UserInterfaces\NodeFactory</Filter>
+    <ClCompile Include="SSWELib\SceneNodes\LensFlareSceneNode.cpp">
+      <Filter>SSWELib\SceneNodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.cpp">
-      <Filter>UserInterfaces\TexturesManager</Filter>
+    <ClCompile Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.cpp">
+      <Filter>SSWELib\SceneNodes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\CharacterEdition\CAction.cpp">
-      <Filter>CharacterEdition</Filter>
+    <ClCompile Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.cpp">
+      <Filter>SSWELib\SceneNodes\WaterSurface</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\CharacterEdition\CUICharacterWindow.cpp">
-      <Filter>CharacterEdition</Filter>
+    <ClCompile Include="SSWELib\SceneNodes\Animators\CRotationAnimator.cpp">
+      <Filter>SSWELib\SceneNodes\Animators</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\CharacterEdition\CUIEditBones.cpp">
-      <Filter>CharacterEdition</Filter>
+    <ClCompile Include="SSWELib\Scenes\CExporter.cpp">
+      <Filter>SSWELib\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\CharacterEdition\ManualAnimation\CAnimation.cpp">
-      <Filter>CharacterEdition\ManualAnimation</Filter>
+    <ClCompile Include="SSWELib\Scenes\CImporter.cpp">
+      <Filter>SSWELib\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\CharacterEdition\ManualAnimation\CFrame.cpp">
-      <Filter>CharacterEdition\ManualAnimation</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUILoadNodesGroup.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\CharacterEdition\ManualAnimation\CManualAction.cpp">
-      <Filter>CharacterEdition\ManualAnimation</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIRenderingInfos.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\CDevices.cpp">
-      <Filter>Device</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIRightSceneTreeView.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\CCoreUserInterface.cpp">
-      <Filter>Device\Core</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUISceneView.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp">
-      <Filter>GUIExtension\CodeEditor</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowEditGrid.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp">
-      <Filter>GUIExtension\OpenFileDialog</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowEditLight.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.cpp">
-      <Filter>GUIExtension\ViewPort</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowEditNode.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.cpp">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowEditVolumeLight.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowEditWater.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CShaderCallback.cpp">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowExportScene.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.cpp">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowOpenScene.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CUIWindowsManager.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\UIContextMenu.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\SceneNodes\LensFlareSceneNode.cpp">
-      <Filter>SceneNodes</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\UIWindowRender.cpp">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.cpp">
-      <Filter>SceneNodes</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\SceneNodes\WaterSurface\CWaterSurface.cpp">
-      <Filter>SceneNodes\WaterSurface</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.cpp">
+      <Filter>SSWELib\UserInterfaces\CodeEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\SceneNodes\Animators\CRotationAnimator.cpp">
-      <Filter>SceneNodes\Animators</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddLight.cpp">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Scenes\CExporter.cpp">
-      <Filter>Scenes</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddObject.cpp">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Scenes\CImporter.cpp">
-      <Filter>Scenes</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddTerrain.cpp">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditWater.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddTree.cpp">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.cpp">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.cpp">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\GUIExtension\Graph2D\GraphKat.cpp">
-      <Filter>GUIExtension\Graph2D</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.cpp">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.cpp">
-      <Filter>GUIExtension\ProgressBar</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MainWindow\UIMainWindow.cpp">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.cpp">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor\General</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.cpp">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.cpp">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor\General</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor\General</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.cpp">
-      <Filter>UserInterfaces</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\CMaterialEditorFactory.cpp">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\CUIMaterialEditor.cpp">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\UserInterfaces\CodeEditor\CUICodeEditor.cpp">
-      <Filter>UserInterfaces\CodeEditor</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\Scripting\CLuaBinds.cpp">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\Scripting\CUIScriptEditor.cpp">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.cpp">
+      <Filter>SSWELib\UserInterfaces\ProcessesLogger</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\Scripting\CSceneScripting.cpp">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp">
+      <Filter>SSWELib\UserInterfaces\ProcessesLogger</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\Scripting\CFileSystemScripting.cpp">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.cpp">
+      <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -311,203 +314,203 @@
     <ClInclude Include="Resource.h">
       <Filter>Misc\Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIRenderingInfos.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\CharacterEdition\CAction.h">
+      <Filter>SSWELib\CharacterEdition</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIRightSceneTreeView.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\CharacterEdition\CUICharacterWindow.h">
+      <Filter>SSWELib\CharacterEdition</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUISceneView.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\CharacterEdition\CUIEditBones.h">
+      <Filter>SSWELib\CharacterEdition</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditGrid.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\CharacterEdition\ManualAnimation\CAnimation.h">
+      <Filter>SSWELib\CharacterEdition\ManualAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditLight.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\CharacterEdition\ManualAnimation\CFrame.h">
+      <Filter>SSWELib\CharacterEdition\ManualAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditNode.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\CharacterEdition\ManualAnimation\CManualAction.h">
+      <Filter>SSWELib\CharacterEdition\ManualAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowExportScene.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\Device\Core\Scripting\CFileSystemScripting.h">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowOpenScene.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\Device\Core\Scripting\CLuaBinds.h">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowsManager.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\Device\Core\Scripting\CSceneScripting.h">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\UIContextMenu.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.h">
+      <Filter>SSWELib\Device\Core\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\UIWindowRender.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\Device\Core\CCoreUserInterface.h">
+      <Filter>SSWELib\Device\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddLight.h">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClInclude Include="SSWELib\Device\CDevices.h">
+      <Filter>SSWELib\Device</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddObject.h">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClInclude Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.h">
+      <Filter>SSWELib\GUIExtension\CodeEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddTerrain.h">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClInclude Include="SSWELib\GUIExtension\Graph2D\GraphKat.h">
+      <Filter>SSWELib\GUIExtension\Graph2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddTree.h">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClInclude Include="SSWELib\GUIExtension\OpenFileDialog\CGUIFileSelector.h">
+      <Filter>SSWELib\GUIExtension\OpenFileDialog</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClInclude Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.h">
+      <Filter>SSWELib\GUIExtension\ProgressBar</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\UIMainWindow.h">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClInclude Include="SSWELib\GUIExtension\ViewPort\CGUIViewPort.h">
+      <Filter>SSWELib\GUIExtension\ViewPort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MaterialEditor\CMaterialEditorFactory.h">
-      <Filter>UserInterfaces\MaterialEditor</Filter>
+    <ClInclude Include="SSWELib\GUIExtension\ViewPort\IGUIViewPort.h">
+      <Filter>SSWELib\GUIExtension\ViewPort</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MaterialEditor\CUIMaterialEditor.h">
-      <Filter>UserInterfaces\MaterialEditor</Filter>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallback.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.h">
-      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallbackScripting.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.h">
-      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CShaderCallback.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h">
-      <Filter>UserInterfaces\MaterialEditor\General</Filter>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditEffects.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h">
-      <Filter>UserInterfaces\NodeFactory</Filter>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h">
-      <Filter>UserInterfaces\NodeFactory</Filter>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\TexturesManager\CUITexturesManager.h">
-      <Filter>UserInterfaces\TexturesManager</Filter>
+    <ClInclude Include="SSWELib\SceneNodes\LensFlareSceneNode.h">
+      <Filter>SSWELib\SceneNodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\CharacterEdition\CAction.h">
-      <Filter>CharacterEdition</Filter>
+    <ClInclude Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.h">
+      <Filter>SSWELib\SceneNodes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\CharacterEdition\CUICharacterWindow.h">
-      <Filter>CharacterEdition</Filter>
+    <ClInclude Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.h">
+      <Filter>SSWELib\SceneNodes\WaterSurface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\CharacterEdition\CUIEditBones.h">
-      <Filter>CharacterEdition</Filter>
+    <ClInclude Include="SSWELib\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h">
+      <Filter>SSWELib\SceneNodes\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\CharacterEdition\ManualAnimation\CAnimation.h">
-      <Filter>CharacterEdition\ManualAnimation</Filter>
+    <ClInclude Include="SSWELib\SceneNodes\Animators\CRotationAnimator.h">
+      <Filter>SSWELib\SceneNodes\Animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\CharacterEdition\ManualAnimation\CFrame.h">
-      <Filter>CharacterEdition\ManualAnimation</Filter>
+    <ClInclude Include="SSWELib\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h">
+      <Filter>SSWELib\SceneNodes\Animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\CharacterEdition\ManualAnimation\CManualAction.h">
-      <Filter>CharacterEdition\ManualAnimation</Filter>
+    <ClInclude Include="SSWELib\Scenes\CExporter.h">
+      <Filter>SSWELib\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\CDevices.h">
-      <Filter>Device</Filter>
+    <ClInclude Include="SSWELib\Scenes\CImporter.h">
+      <Filter>SSWELib\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\CCoreUserInterface.h">
-      <Filter>Device\Core</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUILoadNodesGroup.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.h">
-      <Filter>GUIExtension\CodeEditor</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIRenderingInfos.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h">
-      <Filter>GUIExtension\OpenFileDialog</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIRightSceneTreeView.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\ViewPort\CGUIViewPort.h">
-      <Filter>GUIExtension\ViewPort</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUISceneView.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\ViewPort\IGUIViewPort.h">
-      <Filter>GUIExtension\ViewPort</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowEditGrid.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallback.h">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowEditLight.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CRenderCallbackScripting.h">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowEditNode.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CShaderCallback.h">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowEditVolumeLight.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditEffects.h">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowEditWater.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowExportScene.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h">
-      <Filter>Renders\XEffect\Interfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowOpenScene.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\LensFlareSceneNode.h">
-      <Filter>SceneNodes</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CUIWindowsManager.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\SceneNodeAnimatorFollowCamera.h">
-      <Filter>SceneNodes</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\ITool.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h">
-      <Filter>SceneNodes\Camera</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\UIContextMenu.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\WaterSurface\CWaterSurface.h">
-      <Filter>SceneNodes\WaterSurface</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\UIWindowRender.h">
+      <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\Animators\CRotationAnimator.h">
-      <Filter>SceneNodes\Animators</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h">
-      <Filter>SceneNodes\Animators</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.h">
+      <Filter>SSWELib\UserInterfaces\CodeEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Scenes\CExporter.h">
-      <Filter>Scenes</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddLight.h">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Scenes\CImporter.h">
-      <Filter>Scenes</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddObject.h">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditWater.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddTerrain.h">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.h">
-      <Filter>UserInterfaces\MainWindow</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddTree.h">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ITool.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddVolumeLight.h">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\Graph2D\GraphKat.h">
-      <Filter>GUIExtension\Graph2D</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddWatersSurface.h">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\GUIExtension\ProgressBar\ProgressBar.h">
-      <Filter>GUIExtension\ProgressBar</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MainWindow\UIMainWindow.h">
+      <Filter>SSWELib\UserInterfaces\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUIWindowEditVolumeLight.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorColors.h">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor\General</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CProcess.h">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.h">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor\General</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h">
-      <Filter>UserInterfaces\ProcessesLogger</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor\General</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CUILoadNodesGroup.h">
-      <Filter>UserInterfaces</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\CMaterialEditorFactory.h">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h">
-      <Filter>UserInterfaces\AnimatorsEditor</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\CUIMaterialEditor.h">
+      <Filter>SSWELib\UserInterfaces\MaterialEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\UserInterfaces\CodeEditor\CUICodeEditor.h">
-      <Filter>UserInterfaces\CodeEditor</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\Scripting\CLuaBinds.h">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\Scripting\CUIScriptEditor.h">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.h">
+      <Filter>SSWELib\UserInterfaces\ProcessesLogger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\Scripting\CSceneScripting.h">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h">
+      <Filter>SSWELib\UserInterfaces\ProcessesLogger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\Scripting\CFileSystemScripting.h">
-      <Filter>Device\Core\Scripting</Filter>
+    <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.h">
+      <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

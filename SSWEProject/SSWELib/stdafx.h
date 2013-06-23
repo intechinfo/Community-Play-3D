@@ -8,8 +8,9 @@
 
 #include <SSWECore.h>
 
-#include "../../sources/Device/CDevices.h"
-#include "../../sources/Device/Core/CCore.h"
+#include "SSWELib/Device/CDevices.h"
+#include "SSWECore/Core/CCore.h"
+#include "SSWECore/Core/CCoreData.h"
 
 #include <iostream>
 #include <sstream>
