@@ -33,23 +33,20 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Misc\Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\CCore.cpp">
+    <ClCompile Include="SSWECore\Core\CCore.cpp">
       <Filter>SSWECore\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\CCoreData.cpp">
+    <ClCompile Include="SSWECore\Core\CCoreData.cpp">
       <Filter>SSWECore\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\CCoreObjectPlacement.cpp">
+    <ClCompile Include="SSWECore\Core\CCoreObjectPlacement.cpp">
       <Filter>SSWECore\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sources\Device\Core\CLuaBinds.cpp">
-      <Filter>SSWECore\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\Device\CCollisionManager.cpp">
-      <Filter>SSWECore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\SceneNodes\CGridSceneNode.cpp">
+    <ClCompile Include="SSWECore\SceneNodes\CGridSceneNode.cpp">
       <Filter>SSWECore\SceneNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\CCollisionManager.cpp">
+      <Filter>SSWECore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,23 +62,20 @@
     <ClInclude Include="Resource.h">
       <Filter>Misc\Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\CCore.h">
+    <ClInclude Include="SSWECore\Core\CCore.h">
       <Filter>SSWECore\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\CCoreData.h">
+    <ClInclude Include="SSWECore\Core\CCoreData.h">
       <Filter>SSWECore\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\CCoreObjectPlacement.h">
+    <ClInclude Include="SSWECore\Core\CCoreObjectPlacement.h">
       <Filter>SSWECore\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sources\Device\Core\CLuaBinds.h">
-      <Filter>SSWECore\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\Device\CCollisionManager.h">
-      <Filter>SSWECore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sources\SceneNodes\CGridSceneNode.h">
+    <ClInclude Include="SSWECore\SceneNodes\CGridSceneNode.h">
       <Filter>SSWECore\SceneNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\CCollisionManager.h">
+      <Filter>SSWECore</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

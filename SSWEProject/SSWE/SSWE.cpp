@@ -23,9 +23,6 @@ int main() {
 #endif
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
 	updateSSWEDevice(coreUserInterface);
-
-	return EXIT_SUCCESS;
-
 }
 
 //#include "../../sources/Device/Core/CCoreUserInterface.h"

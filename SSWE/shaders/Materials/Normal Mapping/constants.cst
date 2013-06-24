@@ -1,0 +1,80 @@
+vmatrix4 ModelViewProjectionMatrix 
+
+
+
+
+
+
+
+proj[1] view[1] world[1] dontMakeInverse
+
+
+
+
+
+
+
+
+
+vmatrix4 ModelViewMatrix 
+
+
+
+
+
+
+
+view[1] world[1] proj[0] dontMakeInverse
+
+
+
+vmatrix4 matWorldInverse 
+
+
+
+
+
+
+
+world[1] view[0] proj[0] makeInverse
+
+
+
+vfloat fLightStrength1 8
+
+vfloat fLightStrength2 8
+
+vfloat fLightStrength3 8
+
+vfloat fLightStrength4 8
+
+
+
+vvector3df fvLightPosition1 -7 272 -7
+
+vvector3df fvLightPosition2 -7 272 -7
+
+vvector3df fvLightPosition3 -7 272 -7
+
+vvector3df fvLightPosition4 -7 272 -7
+
+
+
+pSColor fvAmbient 1 0.2 0.2 0.2
+
+pSColor fvLight1Color 1 0.2 0.2 0.2
+
+pSColor fvLight2Color 1 0.2 0.2 0.2
+
+pSColor fvLight3Color 1 0.2 0.2 0.2
+
+pSColor fvLight4Color 1 0.2 0.2 0.2
+
+
+
+pfloat fSpecularPower 10
+
+pfloat fSpecularStrength 0.9
+
+pfloat fBumpStrength 5
+

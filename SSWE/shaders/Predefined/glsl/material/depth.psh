@@ -1,0 +1,12 @@
+varying vec3 WorldNormal;
+varying float Depth;
+
+uniform float MaxDistance;
+
+void main(void)
+{
+	// return the depth, calculated in vertex shader
+	gl_FragColor.rgb = WorldNormal;
+	gl_FragColor.a = Depth/MaxDistance;
+	gl_FragColor.rgb = vec3(gl_FragColor.a);
+}

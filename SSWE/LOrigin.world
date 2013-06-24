@@ -120,6 +120,11 @@ void pixelMain(float2 Uv: TEXCOORD0,	float3 EyeDir : TEXCOORD1,	float3 HalfAng
 
 
 		 </materialTypes>
+		 
+		 </scripts>
+
+
+		 </scripts>
 
 	</config>
 
