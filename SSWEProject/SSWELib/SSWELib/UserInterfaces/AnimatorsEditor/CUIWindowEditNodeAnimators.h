@@ -49,6 +49,7 @@ private:
     IGUIButton *applyButton;
 	IGUIButton *closeButton;
 
+	array<array<IGUIElement*>> arrayGUIElement;
 	IGUIEditBox *intEditBox;
 	IGUIEditBox *floatEditBox;
 	IGUIEditBox *stringEditBox;
