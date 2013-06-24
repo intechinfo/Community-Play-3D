@@ -154,6 +154,7 @@ public:
 
 	//-----------------------------------
 	//MONITOR
+	MonitorRegister *getMonitorRegister() { return monitorRegister; }
 	//-----------------------------------
 
 private:

@@ -10,6 +10,7 @@
 //
 
 #include "stdafx.h"
+#include "../SSWEGenericMonitor/CGenericMonitor.h"
 
 #ifdef SSWE_RELEASE
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
@@ -22,6 +23,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, 
 int main() {
 #endif
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
+
+	CDevices *devices = coreUserInterface->getDevices();
+	CGenericMonitor *genericMonitor = new CGenericMonitor();
+	genericMonitor->setGUIEnvironment(devices->getGUIEnvironment());
+	genericMonitor->setName("Generic Monitor");
+	genericMonitor->setToolsSceneManager(devices->getSecondSceneManager());
+	genericMonitor->setXEffect(devices->getXEffect());
+	devices->getMonitorRegister()->registerMonitor(genericMonitor);
+
 	updateSSWEDevice(coreUserInterface);
 }
 

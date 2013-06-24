@@ -4,19 +4,16 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // SSWEGENERICMONITOR_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifdef SSWEGENERICMONITOR_EXPORTS
-#define SSWEGENERICMONITOR_API __declspec(dllexport)
+#define SSWE_GENERIC_MONITOR_EXPORTS
+#ifdef SSWE_GENERIC_MONITOR_EXPORTS
+	#define SSWE_GENERIC_MONITOR_API __declspec(dllexport)
 #else
-#define SSWEGENERICMONITOR_API __declspec(dllimport)
+	#define SSWE_GENERIC_MONITOR_API __declspec(dllimport)
 #endif
 
-// This class is exported from the SSWEGenericMonitor.dll
-class SSWEGENERICMONITOR_API CSSWEGenericMonitor {
-public:
-	CSSWEGenericMonitor(void);
-	// TODO: add your methods here.
-};
+#if defined(_STDCALL_SUPPORTED)
+	#define SSWEGENERICMONITORCALLCONV __stdcall
+#else
+	#define SSWEGENERICMONITORCALLCONV __cdecl
+#endif
 
-extern SSWEGENERICMONITOR_API int nSSWEGenericMonitor;
-
-SSWEGENERICMONITOR_API int fnSSWEGenericMonitor(void);

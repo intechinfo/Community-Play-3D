@@ -474,6 +474,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //CONTEXT MENU RENDERS EVENT
 				case CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT: {
 					devices->setRenderFullPostTraitements(!devices->isRenderingFullPostTraitements());
+					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+						devices->getMonitorRegister()->getMonitor(i)->setRenderingXEffectFullTraitement(devices->isRenderingFullPostTraitements());
+					}
 				}
 					break;
                 case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
@@ -489,6 +492,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
                     devices->setXEffectDrawable(!devices->isXEffectDrawable());
+					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+						devices->getMonitorRegister()->getMonitor(i)->setXEffectRendered(devices->isXEffectDrawable());
+					}
                     break;
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT: {
@@ -910,6 +916,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case KEY_KEY_X:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
                         devices->setXEffectDrawable(!devices->isXEffectDrawable());
+						for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+							devices->getMonitorRegister()->getMonitor(i)->setXEffectRendered(devices->isXEffectDrawable());
+						}
                     }
                     break;
                     
