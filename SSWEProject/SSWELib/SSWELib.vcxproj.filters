@@ -106,6 +106,9 @@
     <Filter Include="SSWELib\CharacterEdition\ManualAnimation">
       <UniqueIdentifier>{202af1c3-a195-4598-a667-4b652aff7745}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\Device\Monitor">
+      <UniqueIdentifier>{a69cacc2-b7ca-4494-9fc4-4ca0b87daf8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -302,6 +305,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\Device\Monitor\MonitorRegister.cpp">
+      <Filter>SSWELib\Device\Monitor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -517,6 +523,15 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Monitor\IMonitor.h">
+      <Filter>SSWELib\Device\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Monitor\IMonitorRegisterer.h">
+      <Filter>SSWELib\Device\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Monitor\MonitorRegister.h">
+      <Filter>SSWELib\Device\Monitor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

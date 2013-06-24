@@ -1,5 +1,5 @@
 #ifndef MONITORREGISTER_H
-#define MONITORREGISTER
+#define MONITORREGISTER_H
 
 #include "IMonitorRegisterer.h"
 #include <vector>
@@ -11,12 +11,14 @@ public:
 	~MonitorRegister();
 
 	void registerMonitor(IMonitor *monitor);
+	void unregisterMonitor(int index);
+	void unregisterMonitorByName(irr::core::stringc name);
 	IMonitor* getMonitor(int index);
-	IMonitor* getMonitorByName(std::string name);
-	std::vector<IMonitor*> getRegisteredMonitors();
+	IMonitor* getMonitorByName(irr::core::stringc name);
+	irr::core::array<IMonitor*> getRegisteredMonitors();
 	int getMonitorCount();
 
 private:
-	std::vector<IMonitor*> *m_register;
+	irr::core::array<IMonitor*> *m_register;
 };
 #endif

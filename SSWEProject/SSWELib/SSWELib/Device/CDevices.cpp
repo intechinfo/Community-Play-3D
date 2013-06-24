@@ -17,6 +17,7 @@ CDevices::CDevices() {
     worldCoreData = new CCoreData();
 	processesLogger = 0;
 	scripting = 0;
+	monitorRegister = new MonitorRegister();
 
     //RENDERS
     effect = 0;
@@ -159,6 +160,10 @@ void CDevices::updateDevice() {
 	//#ifndef _IRR_OSX_PLATFORM_
 	//	EnterCriticalSection(&CriticalSection);
 	//#endif
+	ICameraSceneNode *activeCamera = smgrs[sceneManagerToDrawIndice]->getActiveCamera();
+
+	activeCamera->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+
 
 	#ifndef _IRR_OSX_PLATFORM_
 		/*if (renderScene) {
@@ -169,7 +174,28 @@ void CDevices::updateDevice() {
 		{
 			#pragma omp section
 			{
-				if (renderScene) 
+				for(int i = 0; i < monitorRegister->getMonitorCount(); i++)
+				{
+					IMonitor *monitor = monitorRegister->getMonitor(i);
+
+					if(renderScene)
+					{
+						monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
+						monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
+						monitor->drawScene();
+					}
+
+					if(renderFullPostTraitements && renderXEffect)
+					{
+						monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
+					}
+
+					if(renderGUI)
+						monitor->drawGUI();
+				}
+
+				//OLD CODE ! TOOOOOO OLD ! :D 
+				/*if (renderScene) 
 					drawScene();
 
 				if (renderFullPostTraitements && renderXEffect) {
@@ -177,7 +203,7 @@ void CDevices::updateDevice() {
 					driver->draw2DImage(effect->getScreenQuad().rt[1], rt1Rect, rt1Rect);
 				}
 
-				drawGUI();
+				drawGUI();*/
 			}
 		}
 	#else
@@ -198,7 +224,6 @@ void CDevices::updateDevice() {
 
 	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
 	//#ifndef _IRR_OSX_PLATFORM_
 	//	LeaveCriticalSection(&CriticalSection);
