@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <irrlicht.h>
-#include <Renders/XEffect/XEffects.h>
+#include "Renders/XEffect/XEffects.h"
 
 class IMonitor
 {
@@ -16,12 +16,13 @@ public:
 
 	virtual bool isEnabled() = 0;
 	virtual void setEnable(bool enable) = 0;
-	virtual void setRenderXEffect(bool enable) = 0;
+	virtual void setXEffectRendered(bool enable) = 0;
 	virtual bool isXEffectRendered() = 0;
-	virtual void setRenderXEffectFullTraitement(bool enable) = 0;
+	virtual void setRenderingXEffectFullTraitement(bool enable) = 0;
 	virtual bool isRenderingXEffectFullTraitement() = 0;
 
 	virtual void setActiveCamera(irr::scene::ICameraSceneNode *camera) =0;
+	virtual irr::scene::ICameraSceneNode* getActiveCamera() = 0;
 	virtual void setSceneManager(irr::scene::ISceneManager *sceneManager) =0;
 	virtual irr::scene::ISceneManager* getSceneManager() = 0;
 	virtual void setToolsSceneManager(irr::scene::ISceneManager *sceneManager) = 0;
