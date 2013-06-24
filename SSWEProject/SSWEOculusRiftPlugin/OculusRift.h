@@ -4,7 +4,10 @@
 #include <OVR.h>
 using namespace OVR;
 
-class OculusRift
+#include <irrlicht.h>
+#include <IMonitor.h>
+
+class OculusRift : IMonitor
 {
 public:
 	OculusRift();

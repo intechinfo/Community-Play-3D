@@ -10,12 +10,10 @@
 #define SSWEOCULUSRIFTPLUGIN_API __declspec(dllimport)
 #endif
 
-#include "OculusRift.h"
-
 // This class is exported from the SSWEOculusRiftPlugin.dll
 class SSWEOCULUSRIFTPLUGIN_API CSSWEOculusRiftPlugin {
 public:
-	CSSWEOculusRiftPlugin();
+	CSSWEOculusRiftPlugin(void);
 	// TODO: add your methods here.
 };
 
