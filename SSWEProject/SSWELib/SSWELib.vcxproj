@@ -65,6 +65,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -235,6 +236,7 @@
     <ClInclude Include="SSWELib\Device\Core\Scripting\CLuaBinds.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CSceneScripting.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.h" />
+    <ClInclude Include="SSWELib\Device\Monitor\DLLExport.h" />
     <ClInclude Include="SSWELib\Device\Monitor\IMonitor.h" />
     <ClInclude Include="SSWELib\Device\Monitor\IMonitorRegisterer.h" />
     <ClInclude Include="SSWELib\Device\Monitor\MonitorRegister.h" />

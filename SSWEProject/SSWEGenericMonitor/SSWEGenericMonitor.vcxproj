@@ -23,6 +23,7 @@
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
     <UseOfAtl>false</UseOfAtl>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -61,6 +62,7 @@
       <SDLCheck>false</SDLCheck>
       <OpenMPSupport>true</OpenMPSupport>
       <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\SSWELib\Device\Monitor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -104,13 +106,11 @@
   <ItemGroup>
     <ClInclude Include="CGenericMonitor.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SSWEGenericMonitor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGenericMonitor.cpp" />
-    <ClCompile Include="SSWEGenericMonitor.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

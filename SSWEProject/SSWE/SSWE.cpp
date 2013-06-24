@@ -10,22 +10,67 @@
 //
 
 #include "stdafx.h"
-#include "../SSWEGenericMonitor/CGenericMonitor.h"
+#include <CGenericMonitor.h>
 
 #ifdef SSWE_RELEASE
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
-#ifdef IS_ERIO_AND_RELOU
+#ifndef _IRR_OSX_PLATFORM_
 #include <Windows.h>
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow){
-#else
-int main() {
 #endif
+
+#ifdef IS_ERIO_AND_RELOU
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow) {
+#else
+int main(int argc, char* argv[]) {
+#endif
+
+	//WITHOUT DYNAMIC LOAD
+	/*CCoreUserInterface *coreUserInterface_ = createSSWEDevice();
+
+	CDevices *devices_ = coreUserInterface_->getDevices();
+	CGenericMonitor *generic_Monitor = new CGenericMonitor();
+	generic_Monitor->setGUIEnvironment(devices_->getGUIEnvironment());
+	generic_Monitor->setName("Generic Monitor");
+	generic_Monitor->setToolsSceneManager(devices_->getSecondSceneManager());
+	generic_Monitor->setXEffect(devices_->getXEffect());
+	devices_->getMonitorRegister()->registerMonitor(generic_Monitor);
+
+	updateSSWEDevice(coreUserInterface_);*/
+
+
+	//WITH DYNAMIC LOAD
+	HINSTANCE hdll = NULL;
+	IMonitor* genericMonitor = NULL;
+	typedef void* (*pvFunctv)();
+	pvFunctv CreateFoo;
+
+	//GET ADRESS OF THE FUNCTION
+	//createMonitor IS IN THE FILE DLLExport.h WHERE IT RENTURNS A POINTER TO OUR MONITOR
+	//BECAUSE GENERIC MONITOR IS THE DEFAULT MONITOR, CHECK IF WE ARE RELEASE OR DEBUG
+	#ifdef SSWE_RELEASE
+		hdll = LoadLibrary(L"SSWEGenericMonitor.dll"); //LOAD THE LIBRARY
+	#else
+		hdll = LoadLibrary(L"SSWEGenericMonitor_d.dll"); //LOAD THE LIBRARY
+	#endif
+	CreateFoo = reinterpret_cast < pvFunctv > (GetProcAddress( hdll, "createMonitor" ));
+
+	//CHECK IF THE PROCESS createMonitor EXISTS
+	if (CreateFoo == NULL) {
+		std::cout << "Le processus n'a pas été trouvé" << std::endl;
+		int a;
+		std::cin >> a;
+		exit(0);
+	}
+
+	//CAST THE PREVIOSU RETURNED MONITOR TO A IMONITOR POINTER
+	genericMonitor = static_cast < IMonitor* > (CreateFoo());
+
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
 
 	CDevices *devices = coreUserInterface->getDevices();
-	CGenericMonitor *genericMonitor = new CGenericMonitor();
+	genericMonitor->init();
 	genericMonitor->setGUIEnvironment(devices->getGUIEnvironment());
 	genericMonitor->setName("Generic Monitor");
 	genericMonitor->setToolsSceneManager(devices->getSecondSceneManager());
@@ -33,6 +78,10 @@ int main() {
 	devices->getMonitorRegister()->registerMonitor(genericMonitor);
 
 	updateSSWEDevice(coreUserInterface);
+
+	FreeLibrary(hdll);
+
+	return EXIT_SUCCESS;
 }
 
 //#include "../../sources/Device/Core/CCoreUserInterface.h"

@@ -4,16 +4,15 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // SSWEGENERICMONITOR_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#define SSWE_GENERIC_MONITOR_EXPORTS
-#ifdef SSWE_GENERIC_MONITOR_EXPORTS
-	#define SSWE_GENERIC_MONITOR_API __declspec(dllexport)
+#ifndef MONITOR_DLL_EXPORTS_H
+#define MONITOR_DLL_EXPORTS_H
+
+#ifdef __dll__
+#define MONITOR_EXPORT __declspec(dllexport)
 #else
-	#define SSWE_GENERIC_MONITOR_API __declspec(dllimport)
+#define MONITOR_EXPORT __declspec(dllimport)
 #endif
 
-#if defined(_STDCALL_SUPPORTED)
-	#define SSWEGENERICMONITORCALLCONV __stdcall
-#else
-	#define SSWEGENERICMONITORCALLCONV __cdecl
-#endif
+extern "C" MONITOR_EXPORT void* createMonitor();
 
+#endif

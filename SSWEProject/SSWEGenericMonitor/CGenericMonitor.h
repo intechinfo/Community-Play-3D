@@ -9,14 +9,13 @@
 #ifndef __C_GENERIC_MONITOR_H_INCLUDED__
 #define __C_GENERIC_MONITOR_H_INCLUDED__
 
-#include "SSWEGenericMonitor.h"
-
 #include <irrlicht.h>
 #include <Renders/XEffect/EffectHandler.h>
 
 #include <IMonitor.h>
+#include <DLLExport.h>
 
-class SSWE_GENERIC_MONITOR_API CGenericMonitor : public IMonitor {
+class CGenericMonitor : public IMonitor {
 public:
 
 	CGenericMonitor();

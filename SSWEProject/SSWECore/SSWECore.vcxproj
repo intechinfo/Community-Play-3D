@@ -61,6 +61,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Irrlicht\Irrlicht180\include;%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <OpenMPSupport>true</OpenMPSupport>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

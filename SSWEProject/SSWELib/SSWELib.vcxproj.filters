@@ -533,6 +533,9 @@
     <ClInclude Include="SSWELib\Device\Monitor\MonitorRegister.h">
       <Filter>SSWELib\Device\Monitor</Filter>
     </ClInclude>
+    <ClInclude Include="SSWELib\Device\Monitor\DLLExport.h">
+      <Filter>SSWELib\Device\Monitor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

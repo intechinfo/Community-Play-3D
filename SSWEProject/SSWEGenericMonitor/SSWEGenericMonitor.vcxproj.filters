@@ -27,18 +27,12 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SSWEGenericMonitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CGenericMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SSWEGenericMonitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CGenericMonitor.cpp">

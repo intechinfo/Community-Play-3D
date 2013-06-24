@@ -8,17 +8,24 @@
 #include "stdafx.h"
 #include "CGenericMonitor.h"
 
-CGenericMonitor::CGenericMonitor() {
-	enabled = true;
-	renderFullPostTraitements = false;
-	renderXEffect = true;
+void* createMonitor() {
+	return static_cast< void* > (new CGenericMonitor);
 }
+
+CGenericMonitor::CGenericMonitor() {
+
+}
+
 CGenericMonitor::~CGenericMonitor() {
 
 }
 
 void CGenericMonitor::init() {
 	monitorName = "Generic Monitor";
+
+	enabled = true;
+	renderFullPostTraitements = false;
+	renderXEffect = true;
 }
 
 void CGenericMonitor::setActiveCamera(irr::scene::ICameraSceneNode *camera) {
