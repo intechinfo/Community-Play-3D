@@ -153,6 +153,7 @@
     <ClCompile Include="..\..\sources\CharacterEdition\ManualAnimation\CManualAction.cpp" />
     <ClCompile Include="..\..\sources\Device\CDevices.cpp" />
     <ClCompile Include="..\..\sources\Device\Core\CCoreUserInterface.cpp" />
+    <ClCompile Include="..\..\sources\Device\Monitor\MonitorRegister.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\Graph2D\GraphKat.cpp" />
     <ClCompile Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
@@ -218,6 +219,9 @@
     <ClInclude Include="..\..\sources\CharacterEdition\ManualAnimation\CManualAction.h" />
     <ClInclude Include="..\..\sources\Device\CDevices.h" />
     <ClInclude Include="..\..\sources\Device\Core\CCoreUserInterface.h" />
+    <ClInclude Include="..\..\sources\Device\Monitor\IMonitor.h" />
+    <ClInclude Include="..\..\sources\Device\Monitor\IMonitorRegisterer.h" />
+    <ClInclude Include="..\..\sources\Device\Monitor\MonitorRegister.h" />
     <ClInclude Include="..\..\sources\GUIExtension\CodeEditor\CGUICodeEditor.h" />
     <ClInclude Include="..\..\sources\GUIExtension\Graph2D\GraphKat.h" />
     <ClInclude Include="..\..\sources\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />

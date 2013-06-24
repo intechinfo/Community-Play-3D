@@ -12,7 +12,7 @@
 
 CDevices::CDevices() {
     //DEVICE
-	oculusRift = NULL;
+	monitorRegister = new MonitorRegister();
 	Device = 0;
 	wolrdCore = new CCore();
     worldCoreData = new CCoreData();
@@ -153,7 +153,18 @@ void CDevices::updateDevice() {
 	#ifndef _IRR_OSX_PLATFORM_
 		EnterCriticalSection(&CriticalSection);
 	#endif
+	////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	for(int i = 0; i < monitorRegister->getMonitorCount(); i++)
+	{
+		IMonitor *monitor = monitorRegister->getMonitor(i);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////
 	#ifndef _IRR_OSX_PLATFORM_
 		if (renderScene) {
 			this->drawScene();
@@ -174,10 +185,6 @@ void CDevices::updateDevice() {
 			gui->drawAll();
 		}
 	#endif
-
-	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
 	#ifndef _IRR_OSX_PLATFORM_
 		LeaveCriticalSection(&CriticalSection);
@@ -478,9 +485,4 @@ bool CDevices::OnEvent(const SEvent &event) {
     }
     
     return false;
-}
-
-OculusRift *CDevices::getOculusRift()
-{
-	return oculusRift;
 }

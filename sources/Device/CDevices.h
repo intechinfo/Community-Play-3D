@@ -20,7 +20,7 @@
 
 #include "../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
-#include "OculusRift.h""
+#include "Device\Monitor\MonitorRegister.h"
 
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
@@ -144,8 +144,7 @@ public:
 	//-----------------------------------
 
 	//-----------------------------------
-	//OCULUS RIFT
-	OculusRift *getOculusRift();
+	//MONITORS
 	//-----------------------------------
 
 private:
@@ -225,8 +224,8 @@ private:
 	//-----------------------------------
 
 	//-----------------------------------
-	//OCULUS RIFT
-	OculusRift *oculusRift;
+	//MONITOR
+	MonitorRegister *monitorRegister;
 	//-----------------------------------
 };
 
