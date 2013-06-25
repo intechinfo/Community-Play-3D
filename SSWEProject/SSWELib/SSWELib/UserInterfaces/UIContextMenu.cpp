@@ -717,24 +717,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 		//NODE SELECTION IN MAIN WINDOW CHANGED, DOUBLE CLICK TO CONFIRM ARROWS, OR SINGLE CLICK ??????????
 		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN || event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
-			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
-			bool isAListBoxOfMainWindow = (parent == mainWindowInstance->getActiveListBox() && mainWindowInstance->getActiveListBox()->getItemCount() != 0);
-			if (isAListBoxOfMainWindow && devices->getObjectPlacement()->getArrowType() != CCoreObjectPlacement::Undefined) {
-				CCoreObjectPlacement *cobj = devices->getObjectPlacement();
-				/*if (cobj->isPlacing() && cobj->getArrowType() == movementType) {
-					cobj->setCollisionToNormal();
-					cobj->setNodeToPlace(0);
-					cobj->setArrowType(CCoreObjectPlacement::Undefined);
-					cobj->setArrowVisible(false);
-				} else {*/
+			if (event.GUIEvent.Caller == mainWindowInstance->getActiveListBox()) {
+				if (movementType != CCoreObjectPlacement::Undefined) {
+					CCoreObjectPlacement *cobj = devices->getObjectPlacement();
+					cobj->setArrowType(movementType);
 					cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
-					if (!cobj->getNodeToPlace()) {
-						devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-					} else {
-						cobj->setArrowType(movementType);
-						cobj->setArrowVisible(true);
-					}
-				//}
+					cobj->setArrowVisible(true);
+				}
 			}
 		}
         
@@ -743,6 +732,14 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         //-----------------------------------
         //BUTTON GUI EVENT
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+
+			IGUIElement *caller = event.GUIEvent.Caller;
+			if (caller == ibposition || caller == ibrotation || caller == ibscale) {
+				movementType = CCoreObjectPlacement::Undefined;
+				devices->getObjectPlacement()->setArrowType(movementType);
+				devices->getObjectPlacement()->setNodeToPlace(0);
+				devices->getObjectPlacement()->setArrowVisible(false);
+			}
 
 			//POSITION
 			if (event.GUIEvent.Caller == ibposition) {
@@ -778,12 +775,6 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				}
 				ibposition->setPressed(false);
 				ibrotation->setPressed(false);
-			}
-
-			//IF NO BUTTON PRESSED
-			if (!ibposition->isPressed() && !ibrotation->isPressed() && !ibscale->isPressed()) {
-				devices->getObjectPlacement()->setArrowType(CCoreObjectPlacement::Undefined);
-				devices->getObjectPlacement()->setArrowVisible(false);
 			}
 
             switch (id) {

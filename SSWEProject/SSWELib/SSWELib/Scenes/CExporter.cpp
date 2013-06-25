@@ -289,6 +289,7 @@ void CExporter::exportLights() {
         
         fprintf(export_file, "\t\t\t <radius value=\"%f\" />\n", ((ILightSceneNode *)node)->getRadius());
 		fprintf(export_file, "\t\t\t <farValue value=\"%f\" />\n", devices->getXEffect()->getShadowLight(i).getFarValue());
+		fprintf(export_file, "\t\t\t <autoRecalculate value=\"%u\" />\n", devices->getXEffect()->getShadowLight(i).isAutoRecalculate());
         
         fprintf(export_file, "\n\t\t\t <shadows resol=\"%u\" />\n\n", devices->getXEffect()->getShadowLight(i).getShadowMapResolution());
 

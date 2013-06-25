@@ -245,6 +245,9 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true, index));
 		devices->getGUIEnvironment()->addStaticText(L"Secondary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview2, -1, false);
 
+		autoRecalculate = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->getShadowLight(index).isAutoRecalculate(),
+																	rect<s32>(10, 330, 190, 350), shadowLightTab, -1, L"Set Auto Recalculate");
+
 		//WINDOW BUTTONS
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
 															  L"Apply", L"Apply the settings");
@@ -421,6 +424,10 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 		}
 
 		if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
+			//SHADOW LIGHTS CHECKBOX
+			if (event.GUIEvent.Caller == autoRecalculate) {
+				devices->getXEffect()->getShadowLight(index).setAutoRecalculate(autoRecalculate->isChecked());
+			}
 			//LENS FLARE CHECKBOX
 			if (event.GUIEvent.Caller == lensFlare) {
 				if (lensFlare->isChecked()) {

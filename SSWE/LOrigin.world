@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="180.728989" Y="230.665207" Z="-146.308121" />
-			 <rotation X="7.159973" Y="302.291687" Z="0.000000" />
+			 <position X="139.161255" Y="-0.124640" Z="0.530064" />
+			 <rotation X="0.000000" Y="270.000000" Z="0.000000" />
 
 		 </camera>
 
@@ -50,10 +50,10 @@
 			 <postProcessingEffect>
 				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/bin/Win32-VisualStudio/shaders/hlsl/desaturate.hlsl" />
 				 <values>
-					 <value name="Desaturation" val="setReturnedValueAsFloat()
-
-value =  -1.5
-
+					 <value name="Desaturation" val="setReturnedValueAsFloat()
+
+value =  -1.5
+
 returnValue(value, 1)" />
 				 </values>
 			 </postProcessingEffect>
@@ -105,23 +105,23 @@ returnValue(value, 1)" />
 				 <baseMaterial type="-842150451" /> 
 				 <name cname="NORMAL MAPPING CG" />
 				 <vertex shader=
-"float3 eyePosition;
-float4x4 WorldViewProj;
+"float3 eyePosition;
+float4x4 WorldViewProj;
 void vertexMain(float4 Position: POSITION,	float3 Normal: NORMAL,	float2 Uv: TEXCOORD0,	float3 Tangent: TEXCOORD1,	float3 Binormal: TEXCOORD2,	out float4 oPosition: POSITION,	out float2 oUv: TEXCOORD0,	out float3 oEyeDir: TEXCOORD1,	out float3 oHalfAngle: TEXCOORD2){	oPosition = mul(WorldViewProj, Position);	oUv = Uv;	float3 EyeDir = Position.xyz - eyePosition;	float3x3 TBN = float3x3(Tangent, Binormal, Normal);	EyeDir = normalize(mul(TBN,EyeDir));	oEyeDir = EyeDir;	oHalfAngle = normalize(EyeDir + EyeDir);}" />
 				 <pixel shader=
-"float3 LightDiffuse;
-
-sampler2D DecalMap : register(s0);
-sampler2D NormalMap : register(s1);sampler2D SpecularMap : register(s2);
-
+"float3 LightDiffuse;
+
+sampler2D DecalMap : register(s0);
+sampler2D NormalMap : register(s1);sampler2D SpecularMap : register(s2);
+
 void pixelMain(float2 Uv: TEXCOORD0,	float3 EyeDir : TEXCOORD1,	float3 HalfAngle : TEXCOORD2,	out float4 oColor : COLOR){	float3 Normal = 2.0 * tex2D (NormalMap, Uv).rgb - 1.0;	Normal = normalize (Normal);	float3 Diffuse = max (dot (EyeDir, Normal), 0.0) * LightDiffuse;	float3 DecalColor = tex2D (DecalMap, Uv).rgb;	float3 SpecularColor = tex2D(SpecularMap, Uv).rgb;	float Specular = max (dot (HalfAngle, Normal), 0.0);	Specular = pow (Specular, 8.0);	oColor = float4 (DecalColor * Diffuse + Specular * SpecularColor, 1.0);}" />
 				 <constants value="pvector3df LightDiffuse 1 1 1 1vvector3df eyePosition 30 30 30vmatrix4 WorldViewProj proj[0] view[0] world[0] dontMakeInverse" />
 			 </materialType>
 
 
 		 </materialTypes>
-		 
-		 </scripts>
+
+		 <scripts>
 
 
 		 </scripts>
@@ -1555,6 +1555,7 @@ void pixelMain(float2 Uv: TEXCOORD0,	float3 EyeDir : TEXCOORD1,	float3 HalfAng
 
 			 <radius value="900.000000" />
 			 <farValue value="1100.000000" />
+			 <autoRecalculate value="0" />
 
 			 <shadows resol="2048" />
 

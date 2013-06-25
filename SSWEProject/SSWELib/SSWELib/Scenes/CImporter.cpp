@@ -227,6 +227,8 @@ void CImporter::buildLight() {
 	node->setRadius(xmlReader->getAttributeValueAsFloat("value"));
 	read("farValue");
 	shadowLight.setFarValue(xmlReader->getAttributeValueAsFloat("value"));
+	read("autoRecalculate");
+	shadowLight.setAutoRecalculate(xmlReader->getAttributeValueAsInt("value"));
 
 	read("shadows");
 	shadowLight.setShadowMapResolution(xmlReader->getAttributeValueAsFloat("resol"));
@@ -276,7 +278,7 @@ void CImporter::buildLight() {
 		read("position");
 		lfNode->setPosition(buildVector3df());
 
-		devices->getXEffect()->addShadowToNode(lfMeshNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
+		//devices->getXEffect()->addShadowToNode(lfMeshNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
 		devices->getXEffect()->addShadowToNode(lfBillBoard, devices->getXEffectFilterType(), ESM_EXCLUDE);
 		devices->getXEffect()->addShadowToNode(lfNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
 
@@ -287,7 +289,6 @@ void CImporter::buildLight() {
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
-
 }
 
 void CImporter::buildVolumeLight() {

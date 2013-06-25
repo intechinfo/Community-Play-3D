@@ -36,4 +36,40 @@ public:
 	virtual void renderXEffectFullPostTraitement(irr::video::ITexture *texture) = 0;
 	virtual void drawGUI() = 0;
 };
+
+//! ARRAY HOLDING THE EXISTING METHODS INTO INonitor INTERFACE
+const char* const sIMonitorMethodsNames[] = {
+	"init",
+
+	"setName",
+	"getName",
+
+	"isEnabled",
+	"setEnable",
+
+	"setXEffectRendered",
+	"isXEffectRendered",
+
+	"setRenderingXEffectFullTraitement",
+	"isRenderingXEffectFullTraitement",
+
+	"setActiveCamera",
+	"getActiveCamera",
+
+	"setSceneManager",
+	"getSceneManager",
+	"setToolsSceneManager",
+
+	"setGUIEnvironment",
+	"getGUIEnvironment",
+
+	"setXEffect",
+	"getXEffect",
+
+	"drawScene",
+	"renderXEffectFullPostTraitement",
+
+	0
+};
+
 #endif

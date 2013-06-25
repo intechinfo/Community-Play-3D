@@ -38,6 +38,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 			#ifndef _IRR_OSX_PLATFORM_
 				EnterCriticalSection(&CriticalSection);
 			#endif
+
 			coreUserInterface->getDevices()->updateEntities();
 
             driver->beginScene(true, true, SColor(0x0));
@@ -45,6 +46,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
             coreUserInterface->update();
 
             driver->endScene();
+
 			#ifndef _IRR_OSX_PLATFORM_
 				LeaveCriticalSection(&CriticalSection);
 			#endif

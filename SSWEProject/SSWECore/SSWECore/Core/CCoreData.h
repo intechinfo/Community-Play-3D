@@ -320,11 +320,13 @@ private:
 
 			for(s32 i = 0; i < NumberOfPlanes; i++) {
 				vector3df position = vector3df(0, 0,-lightCamera->getNearValue() -i*DistanceBetweenPlanes);
-				IBillboardSceneNode *bb = lightCamera->getSceneManager()->addBillboardSceneNode();
+				//IBillboardSceneNode *bb = lightCamera->getSceneManager()->addBillboardSceneNode();
+				ISceneNode *bb = lightCamera->getSceneManager()->addCubeSceneNode();
 				bb->setParent(callback->lightCamera);
 				bb->setPosition(position);
-				bb->setSize(dimension2d<f32>(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep));
-				bb->setColor(SColor(255, 255, 255, 255));
+				bb->setScale(vector3df(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep, 0.5));
+				//bb->setSize(dimension2d<f32>(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep));
+				//bb->setColor(SColor(255, 255, 255, 255));
 				bb->setMaterialFlag(EMF_LIGHTING, false);
 				if (callback) {
 					//bb->setMaterialType((E_MATERIAL_TYPE)LightShafts);

@@ -49,6 +49,12 @@ namespace scene
 
 		//! Set the distance
 		virtual void setDistance(f32 distance) = 0;
+
+		//! Set if allow events
+		virtual void isEventsAllowed(bool allow) = 0;
+
+		//! Returns if the events are allowed
+		virtual bool setEventsAllowed() = 0;
 	};
 
 } // end namespace scene

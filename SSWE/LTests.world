@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="28.723898" Y="102.553085" Z="80.790894" />
-			 <rotation X="34.919006" Y="182.500000" Z="0.000000" />
+			 <position X="14.608907" Y="161.021255" Z="144.793381" />
+			 <rotation X="34.919014" Y="194.999985" Z="0.000000" />
 
 		 </camera>
 
@@ -263,6 +263,7 @@
 
 			 <radius value="100.000000" />
 			 <farValue value="550.000000" />
+			 <autoRecalculate value="0" />
 
 			 <shadows resol="4096" />
 

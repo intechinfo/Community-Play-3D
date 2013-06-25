@@ -545,7 +545,7 @@ void CUIWindowEditNode::createMaterialTypesComboBox(IGUIElement *element) {
     comboBox->addItem(L"FORCE_32BIT");*/
 
 	for (u32 i=0; i < devices->getCore()->getNumberOfBuildInMaterialTypes(); i++) {
-		stringw name = sBuiltInMaterialTypeNames[i];
+		stringw name = irr::video::sBuiltInMaterialTypeNames[i];
 		name.make_upper();
 		comboBox->addItem(name.c_str());
 	}

@@ -20,6 +20,54 @@
 #include <Windows.h>
 #endif
 
+struct SGenericMonitor {
+	HINSTANCE hdll;
+	IMonitor *genericMonitor;
+
+	void freeGenericMonitor() {
+		FreeLibrary(hdll);
+	}
+};
+
+SGenericMonitor getGenericMonitor() {
+	SGenericMonitor gm;
+
+	//WITH DYNAMIC LOAD
+	//DECLARE OUR DLL INSTANCE
+	HINSTANCE hdll = NULL;
+	//DECLARE OUR MONITOR
+	IMonitor* genericMonitor = NULL;
+	//TYPE DEFINITION FOR THE RETURNED POINTER OF GENERIC MONITOR IN DLL
+	typedef void* (*pvFunctv)();
+	pvFunctv CreateFoo;
+
+	//GET ADRESS OF THE FUNCTION
+	//createMonitor IS IN THE FILE DLLExport.h WHERE IT RENTURNS A POINTER TO OUR MONITOR
+	//BECAUSE GENERIC MONITOR IS THE DEFAULT MONITOR, CHECK IF WE ARE RELEASE OR DEBUG
+	#ifdef SSWE_RELEASE
+		hdll = LoadLibrary(L"SSWEGenericMonitor.dll"); //LOAD THE LIBRARY
+	#else
+		hdll = LoadLibrary(L"SSWEGenericMonitor_d.dll"); //LOAD THE LIBRARY
+	#endif
+	CreateFoo = reinterpret_cast < pvFunctv > (GetProcAddress( hdll, "createMonitor" ));
+
+	//CHECK IF THE PROCESS createMonitor EXISTS
+	if (CreateFoo == NULL) {
+		std::cout << "DLL was not found..." << std::endl;
+		int a;
+		std::cin >> a;
+		exit(EXIT_FAILURE);
+	}
+
+	//CAST THE PREVIOSU RETURNED MONITOR TO A IMONITOR POINTER
+	genericMonitor = static_cast < IMonitor* > (CreateFoo());
+
+	gm.genericMonitor = genericMonitor;
+	gm.hdll = hdll;
+
+	return gm;
+}
+
 #ifdef IS_ERIO_AND_RELOU
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow) {
 #else
@@ -39,33 +87,8 @@ int main(int argc, char* argv[]) {
 
 	updateSSWEDevice(coreUserInterface_);*/
 
-
-	//WITH DYNAMIC LOAD
-	HINSTANCE hdll = NULL;
-	IMonitor* genericMonitor = NULL;
-	typedef void* (*pvFunctv)();
-	pvFunctv CreateFoo;
-
-	//GET ADRESS OF THE FUNCTION
-	//createMonitor IS IN THE FILE DLLExport.h WHERE IT RENTURNS A POINTER TO OUR MONITOR
-	//BECAUSE GENERIC MONITOR IS THE DEFAULT MONITOR, CHECK IF WE ARE RELEASE OR DEBUG
-	#ifdef SSWE_RELEASE
-		hdll = LoadLibrary(L"SSWEGenericMonitor.dll"); //LOAD THE LIBRARY
-	#else
-		hdll = LoadLibrary(L"SSWEGenericMonitor_d.dll"); //LOAD THE LIBRARY
-	#endif
-	CreateFoo = reinterpret_cast < pvFunctv > (GetProcAddress( hdll, "createMonitor" ));
-
-	//CHECK IF THE PROCESS createMonitor EXISTS
-	if (CreateFoo == NULL) {
-		std::cout << "Le processus n'a pas été trouvé" << std::endl;
-		int a;
-		std::cin >> a;
-		exit(0);
-	}
-
-	//CAST THE PREVIOSU RETURNED MONITOR TO A IMONITOR POINTER
-	genericMonitor = static_cast < IMonitor* > (CreateFoo());
+	SGenericMonitor gm = getGenericMonitor();
+	IMonitor *genericMonitor = gm.genericMonitor;
 
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
 
@@ -79,7 +102,7 @@ int main(int argc, char* argv[]) {
 
 	updateSSWEDevice(coreUserInterface);
 
-	FreeLibrary(hdll);
+	gm.freeGenericMonitor();
 
 	return EXIT_SUCCESS;
 }
@@ -178,43 +201,4 @@ int main(int argc, char* argv[]) {
 //
 //    return EXIT_SUCCESS;
 //}
-//
-////#include "stdafx.h"
-////#include "CppUnitTest.h"
-////
-////#include "../../sources/Device/Core/CCore.h"
-////
-////using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-////
-////namespace NativeTests
-////{		
-////	TEST_CLASS(CCoreTests)
-////	{
-////	private:
-////		static CCore *core;
-////	public:
-////
-////		CCoreTests() {
-////
-////		}
-////
-////		TEST_CLASS_INITIALIZE(CCoreTestsInitialize) {
-////			core = new CCore();
-////		}
-////
-////		TEST_METHOD(getF32Test)
-////		{
-////			Assert::AreEqual(1.1f, core->getF32("1.1"), FLT_EPSILON, L"TEST", LINE_INFO());
-////		}
-////
-////		TEST_CLASS_CLEANUP(CCOreTestsTearDown) {
-////			delete core;
-////		}
-////
-////	};
-////
-////
-////}
-////
-////CCore * NativeTests::CCoreTests::core;
 //

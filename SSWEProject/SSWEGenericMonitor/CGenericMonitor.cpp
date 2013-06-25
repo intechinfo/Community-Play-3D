@@ -34,6 +34,7 @@ void CGenericMonitor::setActiveCamera(irr::scene::ICameraSceneNode *camera) {
 
 void CGenericMonitor::setSceneManager(irr::scene::ISceneManager *sceneManager) {
 	smgr = sceneManager;
+	driver = smgr->getVideoDriver();
 }
 
 void CGenericMonitor::drawScene() {

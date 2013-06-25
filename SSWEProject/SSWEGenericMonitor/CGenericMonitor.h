@@ -57,6 +57,7 @@ private:
 
 	//-----------------------------------
 	//RENDERS
+	irr::video::IVideoDriver *driver;
 	irr::scene::ISceneManager *smgr, *effectSmgr;
 	irr::gui::IGUIEnvironment *gui;
 	EffectHandler *effect;
