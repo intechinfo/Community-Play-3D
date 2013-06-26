@@ -20,6 +20,8 @@
 
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
+#include "../../../SSWELib/SSWELib/Device/Monitor/IMonitor.h"
+
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PLANAR MAPPING--------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -438,7 +440,7 @@ private:
 //----------------------------------SCRIPTS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SScriptFile {
+struct SSWE_CORE_API SScriptFile {
 	SScriptFile(stringw _file, stringw _name) {
 		file = _file;
 		name = _name;
@@ -455,6 +457,38 @@ struct SScriptFile {
 private:
 	stringw file;
 	stringw name;
+};
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------PLUGINS----------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SSWE_CORE_API SMonitor {
+	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
+		monitor = _monitor;
+		hdll = _hdll;
+	}
+
+	SMonitor() {
+		SMonitor(0, 0);
+	}
+
+	IMonitor *getMonitor() { return monitor; }
+	void setMonitor(IMonitor *_monitor) { monitor = _monitor; }
+
+	HINSTANCE getInstance() { return hdll; }
+	void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
+
+	void freeInstance() {
+		if (hdll) {
+			FreeLibrary(hdll);
+		}
+	}
+
+private:
+
+	IMonitor *monitor;
+	HINSTANCE hdll;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -527,6 +561,11 @@ public:
 	array<SScriptFile> *getScriptFiles() { return &scriptFiles; }
 	//-----------------------------------
 
+	//-----------------------------------
+	//PLUGINS
+	array<SMonitor> *getMonitors() { return &monitors; }
+	//-----------------------------------
+
 private:
 
 	//-----------------------------------
@@ -564,6 +603,11 @@ private:
 	//-----------------------------------
 	//SCRIPTS
 	array<SScriptFile> scriptFiles;
+	//-----------------------------------
+
+	//-----------------------------------
+	//PLUGINS
+	array<SMonitor> monitors;
 	//-----------------------------------
 
 };

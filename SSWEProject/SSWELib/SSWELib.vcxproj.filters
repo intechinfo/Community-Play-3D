@@ -109,6 +109,9 @@
     <Filter Include="SSWELib\Device\Monitor">
       <UniqueIdentifier>{a69cacc2-b7ca-4494-9fc4-4ca0b87daf8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\PluginsManager">
+      <UniqueIdentifier>{80c9630d-fda7-47e1-b8f1-c06627659ccd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -308,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\Device\Monitor\MonitorRegister.cpp">
       <Filter>SSWELib\Device\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\PluginsManager.cpp">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -535,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Device\Monitor\DLLExport.h">
       <Filter>SSWELib\Device\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\PluginsManager.h">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

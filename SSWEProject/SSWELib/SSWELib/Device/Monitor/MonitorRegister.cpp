@@ -20,7 +20,8 @@ void MonitorRegister::registerMonitor(IMonitor *monitor)
 
 void MonitorRegister::unregisterMonitor(int index)
 {
-	delete m_register->operator[](index);
+	//delete m_register->operator[](index);
+	m_register->operator[](index) = NULL;
 	m_register->erase(index);
 }
 	
