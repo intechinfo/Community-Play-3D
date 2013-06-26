@@ -211,7 +211,8 @@
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
-    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\PluginsManager.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
@@ -291,7 +292,8 @@
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />
-    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\PluginsManager.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h" />
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.h" />

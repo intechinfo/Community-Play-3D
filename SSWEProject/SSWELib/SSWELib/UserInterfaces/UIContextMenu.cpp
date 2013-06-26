@@ -297,6 +297,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	devices->setContextName("General");
 
 	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
+	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -340,6 +341,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 					stringw pluginname = fl->getFileName(j);
 					pluginname.remove(".dll");
+					pluginname.make_upper();
 					u32 itemID = monitorsMenu->addItem(pluginname.c_str(), -1, true, false, false, true);
 					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
 						if (devices->getMonitorRegister()->getMonitor(i)->getName() == pluginname) {
@@ -715,6 +717,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 												  EMBF_OK);
 					break;
 				//-----------------------------------
+
+				case CXT_MENU_EVENTS_PLUGINS_EDIT: {
+					CUIPluginsManager *uiPluginsManager = new CUIPluginsManager(devices, pluginsManager);
+				}
+					break;
                 default:
                     break;
             }

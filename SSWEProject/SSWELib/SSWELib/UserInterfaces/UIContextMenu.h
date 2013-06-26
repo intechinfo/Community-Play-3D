@@ -126,7 +126,8 @@ enum GUI_CXT_MENU_EVENTS {
 
 #include "../Device/Core/Scripting/CUIScriptEditor.h"
 
-#include "PluginsManager/PluginsManager.h"
+#include "PluginsManager/CPluginsManager.h"
+#include "PluginsManager/CUIPluginsManager.h"
 
 class CUIContextMenu : public IEventReceiver {
 

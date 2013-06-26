@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "PluginsManager.h"
+#include "CPluginsManager.h"
 
 
 CPluginsManager::CPluginsManager(CDevices *_devices) {
@@ -9,6 +9,26 @@ CPluginsManager::CPluginsManager(CDevices *_devices) {
 
 CPluginsManager::~CPluginsManager() {
 
+}
+
+array<stringc> CPluginsManager::getAllMonitorsPluginsNames() {
+	array<stringc> names;
+
+	stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory();
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "plugins/monitors").c_str());
+
+	IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
+	for (u32 j=0; j < fl->getFileCount(); j++) {
+		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
+			stringw pluginname = fl->getFileName(j);
+			pluginname.remove(".dll");
+			names.push_back(pluginname);
+		}
+	}
+
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(oldPath.c_str());
+
+	return names;
 }
 
 void CPluginsManager::loadMonitorPlugin(stringc path) {

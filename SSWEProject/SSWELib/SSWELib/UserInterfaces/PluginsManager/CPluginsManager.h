@@ -10,6 +10,8 @@ public:
 	CPluginsManager(CDevices *_devices);
 	~CPluginsManager();
 
+	array<stringc> getAllMonitorsPluginsNames();
+
 	void loadMonitorPlugin(stringc path);
 
 private:

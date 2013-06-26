@@ -190,6 +190,8 @@ void CDevices::updateDevice() {
 						monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
 					}
 
+					effectSmgr->drawAll();
+
 					if(renderGUI)
 						monitor->drawGUI();
 				}

@@ -117,7 +117,8 @@ void CImporter::buildTree() {
     ISceneNode *node = 0;
 
 	mesh = smgr->getMesh(path.c_str());
-	node = smgr->addOctreeSceneNode(mesh, 0, -1, 4096*16);
+	//node = smgr->addOctreeSceneNode(mesh, 0, -1, 4096*16);
+	node = smgr->addMeshSceneNode(mesh, 0, -1);
 
 	if (node) {
 		read("name");
