@@ -20,6 +20,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	nodeFactory = new CNodeFactory(devices);
 
+	pluginsManager = new CPluginsManager(devices);
+
     //-----------------------------------
     //MENU
     menu = devices->getGUIEnvironment()->addMenu();
@@ -35,6 +37,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	menu->addItem(L"Scripting", -1, true, true);
 	menu->addItem(L"Sounds", -1, true, true);
     menu->addItem(L"Window", -1, true, true);
+	menu->addItem(L"Plugins", -1, true, true);
     
     int i=0;
     
@@ -146,6 +149,23 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Draw/Hide Main Window", CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW);
 	submenu->addSeparator();
 	submenu->addItem(L"About...", CXT_MENU_EVENTS_HELP_ABOUT);
+
+	//PLUGINS
+	submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"Edit Plugins...", CXT_MENU_EVENTS_PLUGINS_EDIT);
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo("plugins/monitors");
+	submenu->addItem(L"Monitors", -1, true, true);
+	monitorsMenu = submenu->getSubMenu(1);
+	submenu = monitorsMenu;
+	IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
+	for (u32 j=0; j < fl->getFileCount(); j++) {
+		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
+			stringw pluginname = fl->getFileName(j);
+			pluginname.remove(".dll");
+			submenu->addItem(pluginname.c_str(), -1, true, false, false, true);
+		}
+	}
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo("../../");
     //-----------------------------------
 
     //-----------------------------------
@@ -277,6 +297,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	devices->setContextName("General");
 
 	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
+	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -310,6 +331,30 @@ void CUIContextMenu::update() {
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
 
+	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && devices->getGUIEnvironment()->getFocus() == menu) {
+			stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
+			devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "plugins/monitors").c_str());
+			IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
+			monitorsMenu->removeAllItems();
+			for (u32 j=0; j < fl->getFileCount(); j++) {
+				if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
+					stringw pluginname = fl->getFileName(j);
+					pluginname.remove(".dll");
+					pluginname.make_upper();
+					u32 itemID = monitorsMenu->addItem(pluginname.c_str(), -1, true, false, false, true);
+					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+						if (devices->getMonitorRegister()->getMonitor(i)->getName() == pluginname) {
+							monitorsMenu->setItemChecked(itemID, true);
+							break;
+						}
+					}
+				}
+			}
+			devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(oldPath.c_str());
+		}
+	}
+
     if (event.EventType == EET_GUI_EVENT) {
         s32 id = event.GUIEvent.Caller->getID();
         //-----------------------------------
@@ -317,6 +362,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
             
             IGUIContextMenu *tempMenu = (IGUIContextMenu *)event.GUIEvent.Caller;
+
+			if (tempMenu == monitorsMenu) {
+				pluginsManager->loadMonitorPlugin(monitorsMenu->getItemText(tempMenu->getSelectedItem()));
+			}
 
             switch (tempMenu->getItemCommandId(tempMenu->getSelectedItem())) {
 
@@ -668,6 +717,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 												  EMBF_OK);
 					break;
 				//-----------------------------------
+
+				case CXT_MENU_EVENTS_PLUGINS_EDIT: {
+					CUIPluginsManager *uiPluginsManager = new CUIPluginsManager(devices, pluginsManager);
+				}
+					break;
                 default:
                     break;
             }

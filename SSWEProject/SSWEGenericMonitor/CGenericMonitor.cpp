@@ -45,8 +45,6 @@ void CGenericMonitor::drawScene() {
     } else {
         smgr->drawAll();
     }
-
-    effectSmgr->drawAll();
 }
 
 void CGenericMonitor::renderXEffectFullPostTraitement(irr::video::ITexture *texture) {

@@ -88,7 +88,9 @@ enum GUI_CXT_MENU_EVENTS {
 
 	CXT_MENU_EVENTS_RENDERING_INFOS,
 	CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW,
-	CXT_MENU_EVENTS_HELP_ABOUT
+	CXT_MENU_EVENTS_HELP_ABOUT,
+
+	CXT_MENU_EVENTS_PLUGINS_EDIT
 };
 
 #include "../Device/CDevices.h"
@@ -123,6 +125,9 @@ enum GUI_CXT_MENU_EVENTS {
 #include "../Renders/XEffect/Interfaces/CUIWindowEditMaterials.h"
 
 #include "../Device/Core/Scripting/CUIScriptEditor.h"
+
+#include "PluginsManager/CPluginsManager.h"
+#include "PluginsManager/CUIPluginsManager.h"
 
 class CUIContextMenu : public IEventReceiver {
 
@@ -159,11 +164,13 @@ private:
 	CUIWindowExportScene *exportSceneInstance;
 
 	ITimer *timer;
+
+	CPluginsManager *pluginsManager;
 	//-----------------------------------
 
 	//-----------------------------------
 	//GUI ELEMENTS
-	IGUIContextMenu *menu, *submenu;
+	IGUIContextMenu *menu, *submenu, *monitorsMenu;
 	IGUIToolBar *bar, *infosBar;
 
 	IGUIButton *ibposition, *ibrotation, *ibscale;

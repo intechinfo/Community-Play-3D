@@ -451,8 +451,10 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
         if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && devices->isShiftPushed()) {
             if (previousNode) {
                 selectSelectedNode(previousNode);
-				devices->getObjectPlacement()->setNodeToPlace(previousNode);
-				devices->getObjectPlacement()->setArrowVisible(true);
+				if (devices->getObjectPlacement()->getArrowType() != CCoreObjectPlacement::Undefined) {
+					devices->getObjectPlacement()->setNodeToPlace(previousNode);
+					devices->getObjectPlacement()->setArrowVisible(true);
+				}
             }
         }
 
