@@ -36,3 +36,9 @@
 #include <atlstr.h>
 
 // TODO: reference additional headers your program requires here
+
+#include <OVR.h>
+using namespace OVR;
+
+#include <irrlicht.h>
+#include <IMonitor.h>

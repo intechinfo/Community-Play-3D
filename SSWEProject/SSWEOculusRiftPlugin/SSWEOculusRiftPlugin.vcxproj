@@ -43,9 +43,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)Output\</OutDir>
+    <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -54,14 +57,17 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SSWEOCULUSRIFTPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\SSWELib\Device\Monitor;$(SolutionDir)SSWERenders\Renders\XEffect;$(SolutionDir)OculusSDK\LibOVR\Include;$(SolutionDir)Irrlicht\Irrlicht180\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\SSWELib\Device\Monitor\;$(SolutionDir)SSWERenders\;$(SolutionDir)OculusSDK\LibOVR\Include\;$(SolutionDir)Irrlicht\Irrlicht180\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\Projets\Projects\Soganatsu\SSWEProject\OculusSDK\LibOVR\Lib\Win32;E:\Projets\Projects\Soganatsu\SSWEProject\Irrlicht\Irrlicht180\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>irrlicht_d.lib;libovr_d.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrlicht_d.lib;libovrd.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\Plugins\$(TargetName)$(TargetExt)" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -72,7 +78,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SSWEOCULUSRIFTPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\SSWELib\Device\Monitor;$(SolutionDir)SSWERenders\Renders\XEffect;$(SolutionDir)OculusSDK\LibOVR\Include;$(SolutionDir)Irrlicht\Irrlicht180\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\SSWELib\Device\Monitor\;$(SolutionDir)SSWERenders\;$(SolutionDir)OculusSDK\LibOVR\Include\;$(SolutionDir)Irrlicht\Irrlicht180\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,6 +88,9 @@
       <AdditionalLibraryDirectories>E:\Projets\Projects\Soganatsu\SSWEProject\OculusSDK\LibOVR\Lib\Win32;E:\Projets\Projects\Soganatsu\SSWEProject\Irrlicht\Irrlicht180\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>irrlicht.lib;libovr.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

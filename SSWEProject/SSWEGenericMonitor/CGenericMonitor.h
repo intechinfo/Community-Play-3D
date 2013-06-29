@@ -10,7 +10,6 @@
 #define __C_GENERIC_MONITOR_H_INCLUDED__
 
 #include <irrlicht.h>
-#include <Renders/XEffect/EffectHandler.h>
 
 #include <IMonitor.h>
 #include <DLLExport.h>

@@ -178,20 +178,23 @@ void CDevices::updateDevice() {
 				{
 					IMonitor *monitor = monitorRegister->getMonitor(i);
 
-					if(renderScene)
+					if(monitor->isEnabled())
 					{
-						monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
-						monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
-						monitor->drawScene();
-					}
+						if(renderScene)
+						{
+							monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
+							monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
+							monitor->drawScene();
+						}
 
-					if(renderFullPostTraitements && renderXEffect)
-					{
-						monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
-					}
+						if(renderFullPostTraitements && renderXEffect)
+						{
+							monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
+						}
 
-					if(renderGUI)
-						monitor->drawGUI();
+						if(renderGUI)
+							monitor->drawGUI();
+					}
 				}
 
 				//OLD CODE ! TOOOOOO OLD ! :D 
