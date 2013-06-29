@@ -87,22 +87,22 @@ int main(int argc, char* argv[]) {
 
 	updateSSWEDevice(coreUserInterface_);*/
 
-	SGenericMonitor gm = getGenericMonitor();
-	IMonitor *genericMonitor = gm.genericMonitor;
+	//SGenericMonitor gm = getGenericMonitor();
+	//IMonitor *genericMonitor = gm.genericMonitor;
 
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
 
-	CDevices *devices = coreUserInterface->getDevices();
+	/*CDevices *devices = coreUserInterface->getDevices();
 	genericMonitor->init();
 	genericMonitor->setGUIEnvironment(devices->getGUIEnvironment());
 	genericMonitor->setName("Generic Monitor");
 	genericMonitor->setToolsSceneManager(devices->getSecondSceneManager());
 	genericMonitor->setXEffect(devices->getXEffect());
-	devices->getMonitorRegister()->registerMonitor(genericMonitor);
+	devices->getMonitorRegister()->registerMonitor(genericMonitor);*/
 
 	updateSSWEDevice(coreUserInterface);
 
-	gm.freeGenericMonitor();
+	//gm.freeGenericMonitor();
 
 	return EXIT_SUCCESS;
 }
