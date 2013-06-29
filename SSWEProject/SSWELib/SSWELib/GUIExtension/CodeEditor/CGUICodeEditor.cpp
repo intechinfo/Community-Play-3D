@@ -1060,7 +1060,7 @@ void CGUIEditBoxIRB::draw()
 						// Find the end of this current word
 						u32 end = u;
 						for (u32 v = u; v < lineCStr.size(); v++) {
-							if (!isalnum(lineCStr.c_str()[v])) {
+							if (!iswalnum(lineCStr.c_str()[v])) {
 								end = v;
 								break;
 							}
@@ -2365,12 +2365,6 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
 	addKeyword("x", irr::video::SColor(255, 0, 0, 0), false);
 	addKeyword("y", irr::video::SColor(255, 0, 0, 0), false);
 	addKeyword("z", irr::video::SColor(255, 0, 0, 0), false);
-
-	addKeyword(" / ", irr::video::SColor(255, 0, 0, 0), false);
-	addKeyword(" + ", irr::video::SColor(255, 0, 0, 0), false);
-	addKeyword(" - ", irr::video::SColor(255, 0, 0, 0), false);
-	addKeyword(" * ", irr::video::SColor(255, 0, 0, 0), false);
-	addKeyword(" = ", irr::video::SColor(255, 0, 0, 0), false);
 
 	addKeyword("Pos", irr::video::SColor(255, 0, 0, 0), false);
 

@@ -11,7 +11,7 @@
 
 CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     devices = _devices;
-    
+
     mainWindowInstance = new CUIMainWindow(devices);
     sceneViewInstance = new CUISceneView(devices);
     editGridInstance = new CUIWindowEditGrid(devices);
@@ -21,6 +21,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	nodeFactory = new CNodeFactory(devices);
 
 	pluginsManager = new CPluginsManager(devices);
+
+	#ifdef SSWE_RELEASE
+		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
+	#else
+		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+	#endif
 
     //-----------------------------------
     //MENU
@@ -38,12 +44,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	menu->addItem(L"Sounds", -1, true, true);
     menu->addItem(L"Window", -1, true, true);
 	menu->addItem(L"Plugins", -1, true, true);
-    
+
     int i=0;
-    
+
 	//WORLD EDITOR
     submenu = menu->getSubMenu(i++);
-    
+
 	//FILE
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Open a script (CTRL+O)", CXT_MENU_EVENTS_OPEN_SCRIPT);
@@ -56,7 +62,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Render", CXT_MENU_EVENTS_FILE_RENDER);
 	submenu->addSeparator();
 	submenu->addItem(L"Quit", CXT_MENU_EVENTS_FILE_QUIT);
-    
+
 	//EDIT
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Edit Selected Node (CTRL+E)", CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE);
@@ -71,7 +77,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addSeparator();
 	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
 	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
-    
+
 	//VIEW
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Maya Camera (CTRL+SHIFT+M)", CXT_MENU_EVENTS_VIEW_MAYA_CAMERA);
@@ -82,10 +88,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addSeparator();
 	submenu->addItem(L"Wire Frame (CTRL+W)", CXT_MENU_EVENTS_VIEW_WIREFRAME, true, false, false, false);
     submenu->addItem(L"Point Cloud", CXT_MENU_EVENTS_VIEW_POINTCLOUD, true, false, false, false);
-    
+
 	//ANIMATORS
     submenu = menu->getSubMenu(i++);
-    
+
 	//RENDERS
     submenu = menu->getSubMenu(i);
     submenu->addItem(L"Post Processes", -1, true, true);
@@ -104,7 +110,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
 	submenu->addItem(L"Recalculate All Shadow Lights", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
 	i++;
-    
+
 	//SHADERS
     submenu = menu->getSubMenu(i++);
     submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
@@ -134,7 +140,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Create Mesh WIth Tangents...", CXT_MENU_EVENTS_NODE_FACTORY_CREATE_MESH_WITH_TANGENTS);
 	submenu->addItem(L"Scale Mesh...", -1);
 	submenu = menu->getSubMenu(i-1);
-    
+
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Open Script Editor", CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR);
@@ -178,9 +184,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	bar->addButton(CXT_MENU_EVENTS_EDIT_NODE, 0, L"Edit Selected Node", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/save.png");
 	bar->addButton(CXT_MENU_EVENTS_EXPORT_SCENE, 0, L"Export this scene", image, 0, false, true);
-    
+
     bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
-    
+
     image = devices->getVideoDriver()->getTexture("GUI/edit_ao.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_AO, 0, L"Edit Animated Object", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/animators.png");
@@ -198,9 +204,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	bar->addButton(CXT_MENU_EVENTS_MAKE_PLANAR_MAPPING, 0, L"Make planar mapping to node...", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/tangents.png");
 	bar->addButton(CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS, 0, L"Create mesh with tangents", image, 0, false, true);
-    
+
     //-----------------------------------
-    
+
     //-----------------------------------
     //INFORMATIONS BAR
     infosBar = devices->getGUIEnvironment()->addToolBar(0, -1);
