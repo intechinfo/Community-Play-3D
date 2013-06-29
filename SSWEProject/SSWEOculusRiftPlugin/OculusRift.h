@@ -63,7 +63,6 @@ private:
 	bool m_rendersXEffect;
 	bool m_rendersXEffectFullTraitement;
 
-	ICameraSceneNode *m_activeCamera;
 	ISceneManager *m_sceneMngr;
 	ISceneManager *m_toolsSceneMng;
 	IGUIEnvironment *m_guiEnv;
