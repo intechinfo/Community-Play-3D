@@ -1,29 +1,27 @@
 #include "stdafx.h"
 #include "OculusRift.h"
 
+void* createMonitor() {
+	return static_cast< void* > (new OculusRift);
+}
 
-OculusRift::OculusRift(ISceneManager *sceneManager, IGUIEnvironment *guiEnv, EffectHandler *xEffect, ICameraSceneNode *camera)
+OculusRift::OculusRift()
 {
 	m_deviceName = "Oculus Rift";
 
 	m_infoLoaded = false;
-	m_deviceEnabled = false;
+	m_deviceEnabled = true;
 	m_rendersXEffect = false;
 	m_rendersXEffectFullTraitement = false;
 	m_activeCamera = NULL;
 	m_sceneMngr = NULL;
 	m_guiEnv = NULL;
 	m_xEffect = NULL;
-
-	m_activeCamera = camera;
-	m_sceneMngr = sceneManager;
-	m_guiEnv = guiEnv;
-	m_xEffect = xEffect;
+	m_headCamera = NULL;
+	m_leftCamera = NULL;
+	m_rightCamera = NULL;
 
 	m_eyeSpace = 0.64;
-	m_headCamera = m_sceneMngr->addCameraSceneNode(0, vector3df(0, 0, 0), vector3df(0, 0, 10000), -1, false);
-	m_leftCamera = m_sceneMngr->addCameraSceneNode(m_headCamera, m_headCamera->getPosition() - vector3df(m_eyeSpace/2, 0, 0), vector3df(-m_eyeSpace/2, 0, 10000));
-	m_rightCamera = m_sceneMngr->addCameraSceneNode(m_headCamera, m_headCamera->getPosition() + vector3df(m_eyeSpace/2, 0, 0), vector3df(m_eyeSpace/2, 0, 10000));
 	m_leftViewport = rect<s32>(0, 0, 0, 0);
 	m_rightViewport = rect<s32>(0, 0, 0, 0);
 
@@ -68,6 +66,14 @@ void OculusRift::clear()
 HMDInfo OculusRift::getInfo()
 {
 	return m_info;
+}
+
+bool OculusRift::isOculusConnected()
+{
+	if(m_HMD)
+		return true;
+	else
+		return false;
 }
 
 void OculusRift::setName(stringc name)
@@ -117,6 +123,8 @@ void OculusRift::setRenderingXEffectFullTraitement(bool enable)
 void OculusRift::setActiveCamera(ICameraSceneNode *camera)
 {
 	m_activeCamera = camera;
+
+	m_headCamera->setPosition(m_camera->getPosition());
 }
 
 ICameraSceneNode* OculusRift::getActiveCamera()
@@ -127,6 +135,10 @@ ICameraSceneNode* OculusRift::getActiveCamera()
 void OculusRift::setSceneManager(ISceneManager *sceneMngr)
 {
 	m_sceneMngr = sceneMngr;
+
+	m_headCamera = m_sceneMngr->addCameraSceneNode(0, vector3df(0, 0, 0), vector3df(0, 0, 10000), -1, false);
+	m_leftCamera = m_sceneMngr->addCameraSceneNode(m_headCamera, m_headCamera->getPosition() - vector3df(m_eyeSpace/2, 0, 0), vector3df(-m_eyeSpace/2, 0, 10000));
+	m_rightCamera = m_sceneMngr->addCameraSceneNode(m_headCamera, m_headCamera->getPosition() + vector3df(m_eyeSpace/2, 0, 0), vector3df(m_eyeSpace/2, 0, 10000));
 }
 
 ISceneManager* OculusRift::getSceneManager()
@@ -163,26 +175,29 @@ EffectHandler* OculusRift::getXEffect()
 
 void OculusRift::drawScene()
 {
-	IVideoDriver *videoDriver = m_sceneMngr->getVideoDriver();
+	if(this->isOculusConnected())
+	{
+		IVideoDriver *videoDriver = m_sceneMngr->getVideoDriver();
 
-	m_leftViewport = rect<s32>(m_info.DesktopX + m_info.HResolution/2, m_info.DesktopY, m_info.DesktopX + m_info.HResolution, m_info.DesktopY + m_info.VResolution);
-	m_rightViewport = rect<s32>(m_info.DesktopX, m_info.DesktopY, m_info.DesktopX + m_info.HResolution/2, m_info.DesktopY + m_info.VResolution);
+		m_leftViewport = rect<s32>(m_info.DesktopX + m_info.HResolution/2, m_info.DesktopY, m_info.DesktopX + m_info.HResolution, m_info.DesktopY + m_info.VResolution);
+		m_rightViewport = rect<s32>(m_info.DesktopX, m_info.DesktopY, m_info.DesktopX + m_info.HResolution/2, m_info.DesktopY + m_info.VResolution);
 
-	m_headCamera->setPosition(m_camera->getPosition());
-	m_headCamera->setTarget(m_camera->getTarget());
-	m_headCamera->setRotation(vector3df(m_fusionResult.GetOrientation().x, m_fusionResult.GetOrientation().y, m_fusionResult.GetOrientation().z));
+		m_headCamera->setPosition(m_camera->getPosition());
+		m_headCamera->setTarget(m_camera->getTarget());
+		m_headCamera->setRotation(vector3df(m_fusionResult.GetOrientation().x, m_fusionResult.GetOrientation().y, m_fusionResult.GetOrientation().z));
 
-	videoDriver->beginScene(true, true, video::SColor(255, 0, 0, 0));
+		videoDriver->beginScene(true, true, video::SColor(255, 0, 0, 0));
 
-	videoDriver->setViewPort(m_leftViewport);
-	m_sceneMngr->setActiveCamera(m_leftCamera);
-	m_sceneMngr->drawAll();
+		videoDriver->setViewPort(m_leftViewport);
+		m_sceneMngr->setActiveCamera(m_leftCamera);
+		m_sceneMngr->drawAll();
 
-	videoDriver->setViewPort(m_rightViewport);
-	m_sceneMngr->setActiveCamera(m_rightCamera);
-	m_sceneMngr->drawAll();
+		videoDriver->setViewPort(m_rightViewport);
+		m_sceneMngr->setActiveCamera(m_rightCamera);
+		m_sceneMngr->drawAll();
 
-	videoDriver->endScene();
+		videoDriver->endScene();
+	}
 }
 
 void OculusRift::renderXEffectFullPostTraitement(ITexture *texture)

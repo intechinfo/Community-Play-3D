@@ -66,6 +66,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			newMonitor = static_cast < IMonitor* > (createMonitor());
 
 			newMonitor->init();
+			newMonitor->setSceneManager(devices->getRenderingSceneManager());
 			newMonitor->setGUIEnvironment(devices->getGUIEnvironment());
 			newMonitor->setName(path);
 			newMonitor->setToolsSceneManager(devices->getSecondSceneManager());

@@ -17,13 +17,15 @@ using namespace scene;
 class OculusRift : public IMonitor
 {
 public:
-	OculusRift(ISceneManager *sceneManager, IGUIEnvironment *guiEnv, EffectHandler *xEffect, ICameraSceneNode *camera);
+	OculusRift();
 	~OculusRift();
 
 	void init();
 	void clear();
 
 	HMDInfo getInfo();
+
+	bool isOculusConnected();
 
 	void setName(stringc name);
 	stringc getName();
