@@ -32,6 +32,8 @@ array<stringc> CPluginsManager::getAllMonitorsPluginsNames() {
 }
 
 void CPluginsManager::loadMonitorPlugin(stringc path) {
+	//SEARCH IF THE MONITORS EXISTS
+	//IF EXISTS, MEANS WE REMOVE IT
 	for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
 		if (path == devices->getMonitorRegister()->getMonitor(i)->getName()) {
 			IMonitor *existedMonitor = devices->getMonitorRegister()->getMonitor(i);
@@ -46,6 +48,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 		}
 	}
 
+	//IF MONITOR DOESN'T EXISTS, TRY AND LOAD IT
 	stringc ppath = devices->getWorkingDirectory().c_str();
 	ppath += "plugins/monitors/";
 	ppath += path;

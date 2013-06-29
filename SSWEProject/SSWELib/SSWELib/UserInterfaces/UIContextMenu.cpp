@@ -22,6 +22,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	pluginsManager = new CPluginsManager(devices);
 
+	//SETS GENERIC MONITOR AS DEFAULT
 	#ifdef SSWE_RELEASE
 		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
 	#else
