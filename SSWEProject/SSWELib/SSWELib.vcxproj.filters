@@ -318,6 +318,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.cpp">
       <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.cpp">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -550,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.h">
       <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.h">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

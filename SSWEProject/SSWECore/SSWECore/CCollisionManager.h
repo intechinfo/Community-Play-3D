@@ -12,8 +12,9 @@
 #include "stdafx.h"
 #include "Core/CCore.h"
 
-struct SFPSCameraSettings {
+class SSWE_CORE_API SFPSCameraSettings {
 
+public:
 	SFPSCameraSettings() {
 		ellipsoidRadius = core::vector3df(30,60,30);
 		gravityPerSecond = core::vector3df(0,-10.0f,0);
@@ -23,6 +24,9 @@ struct SFPSCameraSettings {
 
 		anim = 0;
 		cameraAnimator = 0;
+	}
+	~SFPSCameraSettings() {
+
 	}
 
 	//METHODS
@@ -42,15 +46,21 @@ struct SFPSCameraSettings {
 	}
 
 	//ELLIPSOID RADIUS
-	void setEllipsoidRadius(vector3df _ellipsoidRadius) { ellipsoidRadius = _ellipsoidRadius; }
+	void setEllipsoidRadius(vector3df _ellipsoidRadius) {
+		ellipsoidRadius = vector3df(_ellipsoidRadius.X, _ellipsoidRadius.Y, _ellipsoidRadius.Z);
+	}
 	vector3df getEllipsoidRadius() { return ellipsoidRadius; }
 
 	//GRAVITY
-	void setGravityPerSecond(vector3df _gravityPerSecond) { gravityPerSecond = _gravityPerSecond; }
-	vector3df getGravityPerSecond() { return ellipsoidRadius; }
+	void setGravityPerSecond(vector3df _gravityPerSecond) {
+		gravityPerSecond = vector3df(_gravityPerSecond.X, _gravityPerSecond.Y, _gravityPerSecond.Z);
+	}
+	vector3df getGravityPerSecond() { return gravityPerSecond; }
 
 	//ELLIPSOID TRANSLATION
-	void setEllipsoidTranslation(vector3df _ellipsoidTranslation) { ellipsoidTranslation = _ellipsoidTranslation; }
+	void setEllipsoidTranslation(vector3df _ellipsoidTranslation) {
+		ellipsoidTranslation = vector3df(_ellipsoidTranslation.X, _ellipsoidTranslation.Y, _ellipsoidTranslation.Z);
+	}
 	vector3df getEllipsoidTranslation() { return ellipsoidTranslation; }
 
 	//SLIDING VALUE
@@ -59,7 +69,9 @@ struct SFPSCameraSettings {
 
 	//ANIMATORS
 	ISceneNodeAnimator *getAnimator() { return anim; }
+
 	ISceneNodeAnimatorCameraFPS *getCameraAnimator() { return cameraAnimator; }
+	void setSceneNodeAnimatorCameraFPS(ISceneNodeAnimatorCameraFPS *_cameraAnimator) { cameraAnimator = _cameraAnimator; }
 
 private:
 
@@ -88,7 +100,7 @@ public:
     void setCollisionToAnAnimatedNode(ISceneNode *node);
     void setCollisionFromBoundingBox(ISceneNode *node);
     
-	SFPSCameraSettings getFPSCameraSettings() { return fpsCameraSettings; }
+	SFPSCameraSettings *getFPSCameraSettings() { return fpsCameraSettings; }
     void createAnimatorCollisionCamera(ISceneNode *camera);
     
     IMetaTriangleSelector *getMetaTriangleSelectors() { return meta; }
@@ -100,7 +112,7 @@ private:
     //DEVICE PROPERTIES
     ISceneManager *smgr;
 
-	SFPSCameraSettings fpsCameraSettings;
+	SFPSCameraSettings *fpsCameraSettings;
     //-----------------------------------
     
     //-----------------------------------

@@ -319,13 +319,13 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	keyMap[3].KeyCode = KEY_KEY_D;
 	keyMap[4].Action = EKA_JUMP_UP;
 	keyMap[4].KeyCode = KEY_SPACE;
-    
+
 	camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.09f, -1, keyMap, 5, true, 0.3f, false, true);
 	camera_fps->setTarget(vector3df(0.f, 5.f, 0.f));
 	camera_fps->setFarValue(42000.0f);
 	camera_fps->setName("editor:FPScamera");
 	camera_fps->setID(-1);
-	
+
 	camera_maya = smgr->addCameraSceneNodeMaya();
 	camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
 	camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
@@ -351,6 +351,9 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
     //3D INTERACTION
     collisionManager = new CCollisionManager(smgr);
+	core::list<ISceneNodeAnimator *>::ConstIterator fpsAnimators = camera_fps->getAnimators().begin();
+	collisionManager->getFPSCameraSettings()->setSceneNodeAnimatorCameraFPS(((ISceneNodeAnimatorCameraFPS *)*fpsAnimators));
+
 	objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);
 
 	//INIT EFFECTS

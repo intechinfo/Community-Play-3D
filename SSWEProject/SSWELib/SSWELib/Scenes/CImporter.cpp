@@ -392,12 +392,23 @@ void CImporter::readConfig() {
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
 	devices->getMayaCamera()->setPosition(position);
-                
+
 	read("rotation");
 	vector3df rotation = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
 	devices->getMayaCamera()->setRotation(rotation);
+
+	//FPS CAMERA SETTINGS
+	read("fpsCameraSettings");
+	read("ellipsoidRadius");
+	devices->getCollisionManager()->getFPSCameraSettings()->setEllipsoidRadius(buildVector3df());
+	read("gravityPerSecond");
+	devices->getCollisionManager()->getFPSCameraSettings()->setGravityPerSecond(buildVector3df());
+	read("ellipsoidTranslation");
+	devices->getCollisionManager()->getFPSCameraSettings()->setEllipsoidTranslation(buildVector3df());
+	read("slidingValue");
+	devices->getCollisionManager()->getFPSCameraSettings()->setSlidingValue(xmlReader->getAttributeValueAsFloat("value"));
 
 	//EFFECTS
 	readEffects();

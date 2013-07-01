@@ -203,10 +203,11 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
 
 			if (event.KeyInput.Key == KEY_KEY_F && devices->isCtrlPushed() && devices->isShiftPushed()) {
 				if (!devices->isEditBoxEntered()) {
-					devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
+					/*devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
 					devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
 					devices->getFPSCamera()->setPosition(devices->getMayaCamera()->getPosition());
-					devices->getDevice()->getCursorControl()->setVisible(false);
+					devices->getDevice()->getCursorControl()->setVisible(false);*/
+					CUIEditFPSCamera *editFPS = new CUIEditFPSCamera(devices);
 				}
 			}
         

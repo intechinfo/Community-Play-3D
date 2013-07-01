@@ -14,7 +14,7 @@ CCollisionManager::CCollisionManager(ISceneManager *_smgr) {
 
     meta = smgr->createMetaTriangleSelector();
 
-	fpsCameraSettings = SFPSCameraSettings();
+	fpsCameraSettings = new SFPSCameraSettings();
 }
 
 CCollisionManager::~CCollisionManager() {
@@ -51,13 +51,9 @@ void CCollisionManager::setCollisionFromBoundingBox(ISceneNode *node) {
 }
 
 void CCollisionManager::createAnimatorCollisionCamera(ISceneNode *camera) {
-	if (fpsCameraSettings.getAnimator()) {
-		fpsCameraSettings.unsetSettings(camera);
+	if (fpsCameraSettings->getAnimator()) {
+		fpsCameraSettings->unsetSettings(camera);
 	}
 
-	fpsCameraSettings.setEllipsoidRadius(vector3df(1.f, 1.f, 1.f));
-	fpsCameraSettings.setGravityPerSecond(vector3df(0.f, -0.981f, 0.f));
-	fpsCameraSettings.setEllipsoidTranslation(vector3df(0.f, 14.4f, 0.f));
-
-	fpsCameraSettings.setSettings(smgr, meta, camera);
+	fpsCameraSettings->setSettings(smgr, meta, camera);
 }

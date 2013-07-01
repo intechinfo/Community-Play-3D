@@ -16,10 +16,19 @@
 
 		 <camera>
 
-			 <position X="140.976196" Y="0.207290" Z="0.063983" />
-			 <rotation X="0.000000" Y="270.000000" Z="0.000000" />
+			 <position X="-21.487951" Y="178.885178" Z="-70.669304" />
+			 <rotation X="16.700375" Y="344.107300" Z="0.000000" />
 
 		 </camera>
+
+		 <fpsCameraSettings>
+
+			 <ellipsoidRadius X="3.000000" Y="10.000000" Z="3.000000" />
+			 <gravityPerSecond X="0.000000" Y="-1.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="10.000000" Z="0.000000" />
+			 <slidingValue value="0.050000" />
+
+		 </fpsCameraSettings>
 
 		 <effect>
 
@@ -44,10 +53,10 @@
 			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/brightpass.hlsl" />
 				 <values>
-					 <value name="multiplier" val="setReturnedValueAsFloat()
-
-value =  1
-
+					 <value name="multiplier" val="setReturnedValueAsFloat()
+
+value =  1
+
 returnValue(value, 1)" />
 				 </values>
 			 </postProcessingEffect>
@@ -67,10 +76,10 @@ returnValue(value, 1)" />
 			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/desaturate.hlsl" />
 				 <values>
-					 <value name="Desaturation" val="setReturnedValueAsFloat()
-
-value =  -1
-
+					 <value name="Desaturation" val="setReturnedValueAsFloat()
+
+value =  -1
+
 returnValue(value, 1)" />
 				 </values>
 			 </postProcessingEffect>
@@ -86,107 +95,107 @@ returnValue(value, 1)" />
 				 <baseMaterial type="-842150451" /> 
 				 <name cname="WATER" />
 				 <vertex shader=
-"float4x4 mWorldViewProj;
-float4x4 mWorld;
-float4   CamPos;
-float    Time;
-float    sinWave;
-float wavesHeight;
-
-struct VS_OUTPUT
-{
-  float4 Position   : POSITION0;
-  float4 waterpos   : TEXCOORD0;
-  float3 WorldView  : TEXCOORD1;
-  float2 TexCoords  : TEXCOORD2;
-  float3 MultiVar   : TEXCOORD3;
-};
-VS_OUTPUT vertexMain( float3 Position  : POSITION0,
-                      float2 TexCoords : TEXCOORD0 )
-{
-  VS_OUTPUT OUT = (VS_OUTPUT)0;
-  OUT.Position = mul(float4(Position.x,Position.y,Position.z,1.0), mWorldViewProj);
-  OUT.waterpos = float4(Position.x,Position.y,Position.z,1.0);
-  OUT.MultiVar.y = Time / 10000.0;
-  if (sinWave > 0.0)
-  {
-    OUT.MultiVar.x = (sin((Position.x/3.0) + (Time * 10.0 / 10000.0))) +
-                     (cos((Position.z/3.0) + (Time * 10.0 / 10000.0)));
-    OUT.Position.y += OUT.MultiVar.x * wavesHeight;
-  }
-  
-  OUT.MultiVar.z = CamPos.y;
-  float4 PosW = mul(float4(Position.x,Position.y,Position.z,1.0), mWorld);
-  OUT.WorldView = CamPos.xyz - PosW.xyz;
-  OUT.TexCoords = TexCoords + float2(OUT.MultiVar.y, OUT.MultiVar.y);
-  return(OUT);
-}
+"float4x4 mWorldViewProj;
+float4x4 mWorld;
+float4   CamPos;
+float    Time;
+float    sinWave;
+float wavesHeight;
+
+struct VS_OUTPUT
+{
+  float4 Position   : POSITION0;
+  float4 waterpos   : TEXCOORD0;
+  float3 WorldView  : TEXCOORD1;
+  float2 TexCoords  : TEXCOORD2;
+  float3 MultiVar   : TEXCOORD3;
+};
+VS_OUTPUT vertexMain( float3 Position  : POSITION0,
+                      float2 TexCoords : TEXCOORD0 )
+{
+  VS_OUTPUT OUT = (VS_OUTPUT)0;
+  OUT.Position = mul(float4(Position.x,Position.y,Position.z,1.0), mWorldViewProj);
+  OUT.waterpos = float4(Position.x,Position.y,Position.z,1.0);
+  OUT.MultiVar.y = Time / 10000.0;
+  if (sinWave > 0.0)
+  {
+    OUT.MultiVar.x = (sin((Position.x/3.0) + (Time * 10.0 / 10000.0))) +
+                     (cos((Position.z/3.0) + (Time * 10.0 / 10000.0)));
+    OUT.Position.y += OUT.MultiVar.x * wavesHeight;
+  }
+  
+  OUT.MultiVar.z = CamPos.y;
+  float4 PosW = mul(float4(Position.x,Position.y,Position.z,1.0), mWorld);
+  OUT.WorldView = CamPos.xyz - PosW.xyz;
+  OUT.TexCoords = TexCoords + float2(OUT.MultiVar.y, OUT.MultiVar.y);
+  return(OUT);
+}
 " />
 				 <pixel shader=
-"float4x4 mWorldViewProjP;
-float    sinWaveP;
-float    refractionP;
-float    seaLevel;
-
-sampler2D ReflectionTexture : register(s0);
-sampler2D NormalMap         : register(s1);
-sampler2D DUDVMap           : register(s2);
-
-float4 pixelMain( float4 waterpos   : TEXCOORD0,
-                  float3 WorldView  : TEXCOORD1,
-                  float2 TexCoord   : TEXCOORD2,
-                  float3 MultiVar   : TEXCOORD3
-                ) : COLOR0
-{
-  float4 projCoord = mul(waterpos, mWorldViewProjP);
-  projCoord.x = projCoord.x / projCoord.w / 2.0 + 0.5;
-  projCoord.y = projCoord.y / projCoord.w / 2.0 + 0.5;
-  if (sinWaveP > 0.0)
-  {
-    projCoord.x += sin(MultiVar.x * 5) * (2 / 1000.0);
-    projCoord.y += cos(MultiVar.x * 5) * (2 / 1000.0);
-    TexCoord.x  += sin(MultiVar.x * 5) * (5 / 1000.0);
-    TexCoord.y  += cos(MultiVar.x * 5) * (5 / 1000.0);
-  }
-  if (refractionP > 0.0)
-  {
-    float4 DUDVoffset = tex2D(DUDVMap,TexCoord);
-    projCoord.x += (DUDVoffset.x / 40.0) - (1.0 / 80.0);
-    projCoord.y += (DUDVoffset.y / 40.0) - (1.0 / 80.0);
-  }
-  projCoord = clamp(projCoord, 0.001, 0.999);
-  float4 normal = float4(0.0, 1.0, 0.0, 0.0);
-  if(MultiVar.z < seaLevel)
-    projCoord.y = 1.0 - projCoord.y;
-  float4 refTex = tex2D(ReflectionTexture,projCoord);
-  float facing = (1.0 - max(dot(normalize(WorldView), normalize(normal.xyz)), 0));
-  float4 MultCol = float4(0.4,0.7,1.0,0.0);
-  
-  refTex = (refTex + float4(0.0,0.0,0.1,0.0)) * MultCol;
-  float4 norMap =  tex2D(NormalMap,TexCoord);
-  float lightComp = 1.0 - max(dot(normalize(norMap.xyz),normalize(abs(WorldView))),0.0);
-  float4 finalCol = refTex;
-  if(MultiVar.z < seaLevel)
-    finalCol *= 0.8;
-  finalCol.a = 0.6 + (facing / 2.0);
-  finalCol += lightComp;
-  return(finalCol);
-};
+"float4x4 mWorldViewProjP;
+float    sinWaveP;
+float    refractionP;
+float    seaLevel;
+
+sampler2D ReflectionTexture : register(s0);
+sampler2D NormalMap         : register(s1);
+sampler2D DUDVMap           : register(s2);
+
+float4 pixelMain( float4 waterpos   : TEXCOORD0,
+                  float3 WorldView  : TEXCOORD1,
+                  float2 TexCoord   : TEXCOORD2,
+                  float3 MultiVar   : TEXCOORD3
+                ) : COLOR0
+{
+  float4 projCoord = mul(waterpos, mWorldViewProjP);
+  projCoord.x = projCoord.x / projCoord.w / 2.0 + 0.5;
+  projCoord.y = projCoord.y / projCoord.w / 2.0 + 0.5;
+  if (sinWaveP > 0.0)
+  {
+    projCoord.x += sin(MultiVar.x * 5) * (2 / 1000.0);
+    projCoord.y += cos(MultiVar.x * 5) * (2 / 1000.0);
+    TexCoord.x  += sin(MultiVar.x * 5) * (5 / 1000.0);
+    TexCoord.y  += cos(MultiVar.x * 5) * (5 / 1000.0);
+  }
+  if (refractionP > 0.0)
+  {
+    float4 DUDVoffset = tex2D(DUDVMap,TexCoord);
+    projCoord.x += (DUDVoffset.x / 40.0) - (1.0 / 80.0);
+    projCoord.y += (DUDVoffset.y / 40.0) - (1.0 / 80.0);
+  }
+  projCoord = clamp(projCoord, 0.001, 0.999);
+  float4 normal = float4(0.0, 1.0, 0.0, 0.0);
+  if(MultiVar.z < seaLevel)
+    projCoord.y = 1.0 - projCoord.y;
+  float4 refTex = tex2D(ReflectionTexture,projCoord);
+  float facing = (1.0 - max(dot(normalize(WorldView), normalize(normal.xyz)), 0));
+  float4 MultCol = float4(0.4,0.7,1.0,0.0);
+  
+  refTex = (refTex + float4(0.0,0.0,0.1,0.0)) * MultCol;
+  float4 norMap =  tex2D(NormalMap,TexCoord);
+  float lightComp = 1.0 - max(dot(normalize(norMap.xyz),normalize(abs(WorldView))),0.0);
+  float4 finalCol = refTex;
+  if(MultiVar.z < seaLevel)
+    finalCol *= 0.8;
+  finalCol.a = 0.6 + (facing / 2.0);
+  finalCol += lightComp;
+  return(finalCol);
+};
 " />
-				 <constants value="vmatrix4 mWorld world[0] 0 0 dontMakeInverse
-vmatrix4 mWorldViewProj proj[0] view[0] 0 mWorld
-pmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorld
-
-vvector3df CamPos camPos4
-
-vfloat wavesHeight 0.7
-
-vfloat Time + ctime realTime
-vfloat sinWave 1
-pfloat sinWaveP 1
-vfloat refractionP 1
-pfloat seaLevel -144
-
+				 <constants value="vmatrix4 mWorld world[0] 0 0 dontMakeInverse
+vmatrix4 mWorldViewProj proj[0] view[0] 0 mWorld
+pmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorld
+
+vvector3df CamPos camPos4
+
+vfloat wavesHeight 0.7
+
+vfloat Time + ctime realTime
+vfloat sinWave 1
+pfloat sinWaveP 1
+vfloat refractionP 1
+pfloat seaLevel -144
+
 " />
 			 </materialType>
 
@@ -196,116 +205,116 @@ pfloat seaLevel -144
 				 <baseMaterial type="12" /> 
 				 <name cname="FIRE" />
 				 <vertex shader=
-"float4x4 wvp;
-float time;
-struct VS_OUTPUT
-{
-   float4 Pos       : POSITION;
-   float2 TexCoord0 : TEXCOORD0;
-   float2 TexCoord1 : TEXCOORD1;
-   float2 TexCoord2 : TEXCOORD2;
-   float2 TexCoord3 : TEXCOORD3;
-};
-VS_OUTPUT vertexMain (float4 pos: POSITION, 
-                      float2 texCoord : TEXCOORD0)
-{
-   VS_OUTPUT Out;
-   Out.Pos = mul(pos, wvp);
-   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
-   
-   Out.TexCoord0 = texCoord;
-   Out.TexCoord0.y += 0.2;
-   Out.TexCoord1.x = texCoord.x;
-   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
-   Out.TexCoord2.x = texCoord.x;
-   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
-   Out.TexCoord3.x = texCoord.x;
-   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
-   
-   return Out;
-}
-sampler fire_base       : register(s0);
-sampler fire_distortion : register(s1);
-sampler fire_opacity    : register(s2);
-float4 bx2(float x)
-{
-   return 2.0f * x - 1.0f;
-}
-float4 pixelMain (float4 tc0 : TEXCOORD0, 
-                  float4 tc1 : TEXCOORD1,
-                  float4 tc2 : TEXCOORD2, 
-                  float4 tc3 : TEXCOORD3) : COLOR
-{
-   float distortion_amount0  = 0.092;
-   float distortion_amount1  = 0.092;
-   float distortion_amount2  = 0.092;
-   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
-   float4 noise0 = tex2D(fire_distortion, tc1);
-   float4 noise1 = tex2D(fire_distortion, tc2);
-   float4 noise2 = tex2D(fire_distortion, tc3);
-   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
-   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
-   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
-   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
-   return base * opacity;
-}
+"float4x4 wvp;
+float time;
+struct VS_OUTPUT
+{
+   float4 Pos       : POSITION;
+   float2 TexCoord0 : TEXCOORD0;
+   float2 TexCoord1 : TEXCOORD1;
+   float2 TexCoord2 : TEXCOORD2;
+   float2 TexCoord3 : TEXCOORD3;
+};
+VS_OUTPUT vertexMain (float4 pos: POSITION, 
+                      float2 texCoord : TEXCOORD0)
+{
+   VS_OUTPUT Out;
+   Out.Pos = mul(pos, wvp);
+   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
+   
+   Out.TexCoord0 = texCoord;
+   Out.TexCoord0.y += 0.2;
+   Out.TexCoord1.x = texCoord.x;
+   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
+   Out.TexCoord2.x = texCoord.x;
+   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
+   Out.TexCoord3.x = texCoord.x;
+   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
+   
+   return Out;
+}
+sampler fire_base       : register(s0);
+sampler fire_distortion : register(s1);
+sampler fire_opacity    : register(s2);
+float4 bx2(float x)
+{
+   return 2.0f * x - 1.0f;
+}
+float4 pixelMain (float4 tc0 : TEXCOORD0, 
+                  float4 tc1 : TEXCOORD1,
+                  float4 tc2 : TEXCOORD2, 
+                  float4 tc3 : TEXCOORD3) : COLOR
+{
+   float distortion_amount0  = 0.092;
+   float distortion_amount1  = 0.092;
+   float distortion_amount2  = 0.092;
+   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
+   float4 noise0 = tex2D(fire_distortion, tc1);
+   float4 noise1 = tex2D(fire_distortion, tc2);
+   float4 noise2 = tex2D(fire_distortion, tc3);
+   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
+   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
+   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
+   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
+   return base * opacity;
+}
 " />
 				 <pixel shader=
-"
-float4x4 wvp;
-float time;
-struct VS_OUTPUT
-{
-   float4 Pos       : POSITION;
-   float2 TexCoord0 : TEXCOORD0;
-   float2 TexCoord1 : TEXCOORD1;
-   float2 TexCoord2 : TEXCOORD2;
-   float2 TexCoord3 : TEXCOORD3;
-};
-VS_OUTPUT vertexMain (float4 pos: POSITION, 
-                      float2 texCoord : TEXCOORD0)
-{
-   VS_OUTPUT Out;
-   Out.Pos = mul(pos, wvp);
-   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
-   Out.TexCoord0 = texCoord;
-   Out.TexCoord0.y += 0.2;
-   Out.TexCoord1.x = texCoord.x;
-   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
-   Out.TexCoord2.x = texCoord.x;
-   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
-   Out.TexCoord3.x = texCoord.x;
-   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
-   return Out;
-   
-}
-sampler fire_base       : register(s0);
-sampler fire_distortion : register(s1);
-sampler fire_opacity    : register(s2);
-float4 bx2(float x)
-{
-   return 2.0f * x - 1.0f;
-}
-float4 pixelMain (float4 tc0 : TEXCOORD0, 
-                  float4 tc1 : TEXCOORD1,
-                  float4 tc2 : TEXCOORD2, 
-                  float4 tc3 : TEXCOORD3) : COLOR
-{
-   float distortion_amount0  = 0.092;
-   float distortion_amount1  = 0.092;
-   float distortion_amount2  = 0.092;
-   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
-   float4 noise0 = tex2D(fire_distortion, tc1);
-   float4 noise1 = tex2D(fire_distortion, tc2);
-   float4 noise2 = tex2D(fire_distortion, tc3);
-   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
-   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
-   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
-   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
-   return base * opacity;
-}
+"
+float4x4 wvp;
+float time;
+struct VS_OUTPUT
+{
+   float4 Pos       : POSITION;
+   float2 TexCoord0 : TEXCOORD0;
+   float2 TexCoord1 : TEXCOORD1;
+   float2 TexCoord2 : TEXCOORD2;
+   float2 TexCoord3 : TEXCOORD3;
+};
+VS_OUTPUT vertexMain (float4 pos: POSITION, 
+                      float2 texCoord : TEXCOORD0)
+{
+   VS_OUTPUT Out;
+   Out.Pos = mul(pos, wvp);
+   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
+   Out.TexCoord0 = texCoord;
+   Out.TexCoord0.y += 0.2;
+   Out.TexCoord1.x = texCoord.x;
+   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
+   Out.TexCoord2.x = texCoord.x;
+   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
+   Out.TexCoord3.x = texCoord.x;
+   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
+   return Out;
+   
+}
+sampler fire_base       : register(s0);
+sampler fire_distortion : register(s1);
+sampler fire_opacity    : register(s2);
+float4 bx2(float x)
+{
+   return 2.0f * x - 1.0f;
+}
+float4 pixelMain (float4 tc0 : TEXCOORD0, 
+                  float4 tc1 : TEXCOORD1,
+                  float4 tc2 : TEXCOORD2, 
+                  float4 tc3 : TEXCOORD3) : COLOR
+{
+   float distortion_amount0  = 0.092;
+   float distortion_amount1  = 0.092;
+   float distortion_amount2  = 0.092;
+   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
+   float4 noise0 = tex2D(fire_distortion, tc1);
+   float4 noise1 = tex2D(fire_distortion, tc2);
+   float4 noise2 = tex2D(fire_distortion, tc3);
+   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
+   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
+   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
+   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
+   return base * opacity;
+}
 " />
-				 <constants value="vmatrix4 wvp proj[0] view[0] world[0] dontMakeInversevfloat time + ctime 2
+				 <constants value="vmatrix4 wvp proj[0] view[0] world[0] dontMakeInversevfloat time + ctime 2
  " />
 			 </materialType>
 
@@ -315,176 +324,176 @@ float4 pixelMain (float4 tc0 : TEXCOORD0,
 				 <baseMaterial type="0" /> 
 				 <name cname="NORMAL MAP" />
 				 <vertex shader=
-"float4x4 matWorldInverse; 
-float4x4 ModelViewMatrix;
-float4x4 ModelViewProjectionMatrix;
-float3 fvLightPosition1; 
-float3 fvLightPosition2; 
-float3 fvLightPosition3; 
-float3 fvLightPosition4; 
-float fLightStrength1; 
-float fLightStrength2; 
-float fLightStrength3; 
-float fLightStrength4; 
-struct VS_OUTPUT
-{
-   float4 Position            : POSITION0;
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3; 
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float getLengthSQR (float3 vec) 
-{ 
-   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-}  
-struct VS_INPUT
-{
-   float3 Position         : POSITION0;
-   float3 Normal           : NORMAL;
-   float2 Texcoord         : TEXCOORD0;
-};
-VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-{    
-   VS_OUTPUT OUT = (VS_OUTPUT)0;
-   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   OUT.Texcoord = IN.Texcoord;
-   
-   float4x4 LightTransform= ModelViewMatrix; 
-   LightTransform= mul(matWorldInverse, LightTransform);
-   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-   
-   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-   
-   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-   float3 fvBinormal   = cross(fvTangent,IN.Normal);
-   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-   
-   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-   
-   return OUT;
-}
+"float4x4 matWorldInverse; 
+float4x4 ModelViewMatrix;
+float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; 
+float3 fvLightPosition2; 
+float3 fvLightPosition3; 
+float3 fvLightPosition4; 
+float fLightStrength1; 
+float fLightStrength2; 
+float fLightStrength3; 
+float fLightStrength4; 
+struct VS_OUTPUT
+{
+   float4 Position            : POSITION0;
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3; 
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float getLengthSQR (float3 vec) 
+{ 
+   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+}  
+struct VS_INPUT
+{
+   float3 Position         : POSITION0;
+   float3 Normal           : NORMAL;
+   float2 Texcoord         : TEXCOORD0;
+};
+VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+{    
+   VS_OUTPUT OUT = (VS_OUTPUT)0;
+   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   OUT.Texcoord = IN.Texcoord;
+   
+   float4x4 LightTransform= ModelViewMatrix; 
+   LightTransform= mul(matWorldInverse, LightTransform);
+   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+   
+   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+   
+   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+   float3 fvBinormal   = cross(fvTangent,IN.Normal);
+   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+   
+   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+   
+   return OUT;
+}
 " />
 				 <pixel shader=
-"float4 fvAmbient;
-float4 fvLight1Color; 
-float4 fvLight2Color; 
-float4 fvLight3Color; 
-float4 fvLight4Color; 
-float fSpecularPower; 
-float fSpecularStrength; 
-float fBumpStrength; 
-sampler2D baseMap      : register(s0); 
-sampler2D bumpMap      : register(s1); 
-struct PS_INPUT
-{   
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3;
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float4 pixelMain( in PS_INPUT IN ) : COLOR
-{
-   float4 color = float4(0,0,0,0);
-   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-   
-   fvNormal.xy*=2.0; 
-   fvNormal.xy-=1.0;
-   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-   fvNormal=normalize(fvNormal);
-   
-   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-   if(color.r>1.0){color.gb+=color.r-1.0;} 
-   if(color.g>1.0){color.rb+=color.g-1.0;} 
-   if(color.b>1.0){color.rg+=color.b-1.0;} 
-   
-   return color;
-}
+"float4 fvAmbient;
+float4 fvLight1Color; 
+float4 fvLight2Color; 
+float4 fvLight3Color; 
+float4 fvLight4Color; 
+float fSpecularPower; 
+float fSpecularStrength; 
+float fBumpStrength; 
+sampler2D baseMap      : register(s0); 
+sampler2D bumpMap      : register(s1); 
+struct PS_INPUT
+{   
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3;
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float4 pixelMain( in PS_INPUT IN ) : COLOR
+{
+   float4 color = float4(0,0,0,0);
+   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+   
+   fvNormal.xy*=2.0; 
+   fvNormal.xy-=1.0;
+   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+   if(color.r>1.0){color.gb+=color.r-1.0;} 
+   if(color.g>1.0){color.rb+=color.g-1.0;} 
+   if(color.b>1.0){color.rg+=color.b-1.0;} 
+   
+   return color;
+}
 " />
-				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
-vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
-vmatrix4 matWorldInverse world[0] 0 0 makeInverse
-
-vfloat fLightStrength1 80
-vfloat fLightStrength2 80
-vfloat fLightStrength3 80
-vfloat fLightStrength4 80
-
-vvector3df fvLightPosition1 150 240 -34
-vvector3df fvLightPosition2 150 240 -34
-vvector3df fvLightPosition3 150 240 -34
-vvector3df fvLightPosition4 150 240 -34
-
-pSColor fvAmbient 1 0.7 0.7 0.7
-pSColor fvLight1Color 1 0.02 0.02 0.02
-pSColor fvLight2Color 1 0.02 0.02 0.02
-pSColor fvLight3Color 1 0.02 0.02 0.02
-pSColor fvLight4Color 1 0.02 0.02 0.02
-
-pfloat fSpecularPower 20
-pfloat fSpecularStrength 0.9
-pfloat fBumpStrength 5
+				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
+vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+vfloat fLightStrength1 80
+vfloat fLightStrength2 80
+vfloat fLightStrength3 80
+vfloat fLightStrength4 80
+
+vvector3df fvLightPosition1 150 240 -34
+vvector3df fvLightPosition2 150 240 -34
+vvector3df fvLightPosition3 150 240 -34
+vvector3df fvLightPosition4 150 240 -34
+
+pSColor fvAmbient 1 0.7 0.7 0.7
+pSColor fvLight1Color 1 0.02 0.02 0.02
+pSColor fvLight2Color 1 0.02 0.02 0.02
+pSColor fvLight3Color 1 0.02 0.02 0.02
+pSColor fvLight4Color 1 0.02 0.02 0.02
+
+pfloat fSpecularPower 20
+pfloat fSpecularStrength 0.9
+pfloat fBumpStrength 5
 " />
 			 </materialType>
 
@@ -500,14 +509,7 @@ pfloat fBumpStrength 5
 
 			 <script>
 				 <name value="NORMAL_TO_SOLID" /> 
-				 <file value="sn = Scene.new()
-
-sp = sn:getTerrainByName((%quot)#map:sponza(%quot))
-
-for i=0,sn:getTerrainMaterialCount(sp) do
-    sn:setTerrainMaterialNumber(sp, i, sn:getMaterialIDByName((%quot)SOLID(%quot)))
-end
-" /> 
+				 <file value="sn = Scene.new()sp = sn:getTerrainByName((%quot)#map:sponza(%quot))for i=0,sn:getTerrainMaterialCount(sp) do    sn:setTerrainMaterialNumber(sp, i, sn:getMaterialIDByName((%quot)SOLID(%quot)))end" /> 
 			 </script>
 
 
@@ -536,7 +538,7 @@ end
 			 	 <material id="0">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -606,7 +608,7 @@ end
 			 	 <material id="2">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -641,7 +643,7 @@ end
 			 	 <material id="3">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/background.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/background.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -676,7 +678,7 @@ end
 			 	 <material id="4">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/lion.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/lion.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -711,7 +713,7 @@ end
 			 	 <material id="5">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -746,7 +748,7 @@ end
 			 	 <material id="6">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -781,7 +783,7 @@ end
 			 	 <material id="7">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -816,7 +818,7 @@ end
 			 	 <material id="8">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -851,7 +853,7 @@ end
 			 	 <material id="9">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -886,7 +888,7 @@ end
 			 	 <material id="10">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -921,7 +923,7 @@ end
 			 	 <material id="11">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -956,7 +958,7 @@ end
 			 	 <material id="12">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -991,7 +993,7 @@ end
 			 	 <material id="13">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1026,7 +1028,7 @@ end
 			 	 <material id="14">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1061,7 +1063,7 @@ end
 			 	 <material id="15">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1096,7 +1098,7 @@ end
 			 	 <material id="16">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1131,7 +1133,7 @@ end
 			 	 <material id="17">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1166,7 +1168,7 @@ end
 			 	 <material id="18">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1201,7 +1203,7 @@ end
 			 	 <material id="19">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1236,7 +1238,7 @@ end
 			 	 <material id="20">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1271,7 +1273,7 @@ end
 			 	 <material id="21">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1306,7 +1308,7 @@ end
 			 	 <material id="22">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1341,7 +1343,7 @@ end
 			 	 <material id="23">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1376,7 +1378,7 @@ end
 			 	 <material id="24">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1411,7 +1413,7 @@ end
 			 	 <material id="25">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1446,7 +1448,7 @@ end
 			 	 <material id="26">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1481,7 +1483,7 @@ end
 			 	 <material id="27">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1516,7 +1518,7 @@ end
 			 	 <material id="28">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1551,7 +1553,7 @@ end
 			 	 <material id="29">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1586,7 +1588,7 @@ end
 			 	 <material id="30">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1621,7 +1623,7 @@ end
 			 	 <material id="31">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1656,7 +1658,7 @@ end
 			 	 <material id="32">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1691,7 +1693,7 @@ end
 			 	 <material id="33">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1726,7 +1728,7 @@ end
 			 	 <material id="34">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1761,7 +1763,7 @@ end
 			 	 <material id="35">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1796,7 +1798,7 @@ end
 			 	 <material id="36">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1831,7 +1833,7 @@ end
 			 	 <material id="37">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1866,7 +1868,7 @@ end
 			 	 <material id="38">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1901,7 +1903,7 @@ end
 			 	 <material id="39">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1936,7 +1938,7 @@ end
 			 	 <material id="40">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1971,7 +1973,7 @@ end
 			 	 <material id="41">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2006,7 +2008,7 @@ end
 			 	 <material id="42">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2041,7 +2043,7 @@ end
 			 	 <material id="43">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2076,7 +2078,7 @@ end
 			 	 <material id="44">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2111,7 +2113,7 @@ end
 			 	 <material id="45">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2146,7 +2148,7 @@ end
 			 	 <material id="46">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2181,7 +2183,7 @@ end
 			 	 <material id="47">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2216,7 +2218,7 @@ end
 			 	 <material id="48">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2251,7 +2253,7 @@ end
 			 	 <material id="49">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2286,7 +2288,7 @@ end
 			 	 <material id="50">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2321,7 +2323,7 @@ end
 			 	 <material id="51">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2356,7 +2358,7 @@ end
 			 	 <material id="52">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2391,7 +2393,7 @@ end
 			 	 <material id="53">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2426,7 +2428,7 @@ end
 			 	 <material id="54">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2461,7 +2463,7 @@ end
 			 	 <material id="55">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2496,7 +2498,7 @@ end
 			 	 <material id="56">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2531,7 +2533,7 @@ end
 			 	 <material id="57">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2566,7 +2568,7 @@ end
 			 	 <material id="58">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2601,7 +2603,7 @@ end
 			 	 <material id="59">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2636,7 +2638,7 @@ end
 			 	 <material id="60">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2671,7 +2673,7 @@ end
 			 	 <material id="61">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2706,7 +2708,7 @@ end
 			 	 <material id="62">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2741,7 +2743,7 @@ end
 			 	 <material id="63">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2776,7 +2778,7 @@ end
 			 	 <material id="64">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2811,7 +2813,7 @@ end
 			 	 <material id="65">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2846,7 +2848,7 @@ end
 			 	 <material id="66">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/spnza_bricks_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/spnza_bricks_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2881,7 +2883,7 @@ end
 			 	 <material id="67">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2916,7 +2918,7 @@ end
 			 	 <material id="68">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2951,7 +2953,7 @@ end
 			 	 <material id="69">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2986,7 +2988,7 @@ end
 			 	 <material id="70">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_details_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_details_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3056,7 +3058,7 @@ end
 			 	 <material id="72">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/spnza_bricks_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/spnza_bricks_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3091,7 +3093,7 @@ end
 			 	 <material id="73">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_details_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_details_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3126,7 +3128,7 @@ end
 			 	 <material id="74">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/spnza_bricks_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/spnza_bricks_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3161,7 +3163,7 @@ end
 			 	 <material id="75">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_details_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_details_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3196,7 +3198,7 @@ end
 			 	 <material id="76">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_details_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_details_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3231,7 +3233,7 @@ end
 			 	 <material id="77">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/spnza_bricks_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/spnza_bricks_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3266,7 +3268,7 @@ end
 			 	 <material id="78">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3301,7 +3303,7 @@ end
 			 	 <material id="79">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3336,7 +3338,7 @@ end
 			 	 <material id="80">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3371,7 +3373,7 @@ end
 			 	 <material id="81">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3406,7 +3408,7 @@ end
 			 	 <material id="82">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3441,7 +3443,7 @@ end
 			 	 <material id="83">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3476,7 +3478,7 @@ end
 			 	 <material id="84">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3511,7 +3513,7 @@ end
 			 	 <material id="85">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3546,7 +3548,7 @@ end
 			 	 <material id="86">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3581,7 +3583,7 @@ end
 			 	 <material id="87">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3616,7 +3618,7 @@ end
 			 	 <material id="88">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3651,7 +3653,7 @@ end
 			 	 <material id="89">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3686,7 +3688,7 @@ end
 			 	 <material id="90">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3721,7 +3723,7 @@ end
 			 	 <material id="91">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3756,7 +3758,7 @@ end
 			 	 <material id="92">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3791,7 +3793,7 @@ end
 			 	 <material id="93">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3826,7 +3828,7 @@ end
 			 	 <material id="94">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3861,7 +3863,7 @@ end
 			 	 <material id="95">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3896,7 +3898,7 @@ end
 			 	 <material id="96">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3931,7 +3933,7 @@ end
 			 	 <material id="97">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3966,7 +3968,7 @@ end
 			 	 <material id="98">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4001,7 +4003,7 @@ end
 			 	 <material id="99">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4036,7 +4038,7 @@ end
 			 	 <material id="100">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4071,7 +4073,7 @@ end
 			 	 <material id="101">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4106,7 +4108,7 @@ end
 			 	 <material id="102">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4141,7 +4143,7 @@ end
 			 	 <material id="103">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4176,7 +4178,7 @@ end
 			 	 <material id="104">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4211,7 +4213,7 @@ end
 			 	 <material id="105">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4246,7 +4248,7 @@ end
 			 	 <material id="106">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4281,7 +4283,7 @@ end
 			 	 <material id="107">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4316,7 +4318,7 @@ end
 			 	 <material id="108">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4351,7 +4353,7 @@ end
 			 	 <material id="109">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4386,7 +4388,7 @@ end
 			 	 <material id="110">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4421,7 +4423,7 @@ end
 			 	 <material id="111">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4456,7 +4458,7 @@ end
 			 	 <material id="112">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4491,7 +4493,7 @@ end
 			 	 <material id="113">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4526,7 +4528,7 @@ end
 			 	 <material id="114">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4561,7 +4563,7 @@ end
 			 	 <material id="115">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4596,7 +4598,7 @@ end
 			 	 <material id="116">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4631,7 +4633,7 @@ end
 			 	 <material id="117">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4666,7 +4668,7 @@ end
 			 	 <material id="118">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/spnza_bricks_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/spnza_bricks_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4701,7 +4703,7 @@ end
 			 	 <material id="119">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4736,7 +4738,7 @@ end
 			 	 <material id="120">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4771,7 +4773,7 @@ end
 			 	 <material id="121">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4806,7 +4808,7 @@ end
 			 	 <material id="122">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4841,7 +4843,7 @@ end
 			 	 <material id="123">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4876,7 +4878,7 @@ end
 			 	 <material id="124">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4911,7 +4913,7 @@ end
 			 	 <material id="125">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4946,7 +4948,7 @@ end
 			 	 <material id="126">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4981,7 +4983,7 @@ end
 			 	 <material id="127">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5051,7 +5053,7 @@ end
 			 	 <material id="129">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5086,7 +5088,7 @@ end
 			 	 <material id="130">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5121,7 +5123,7 @@ end
 			 	 <material id="131">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5156,7 +5158,7 @@ end
 			 	 <material id="132">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5191,7 +5193,7 @@ end
 			 	 <material id="133">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5226,7 +5228,7 @@ end
 			 	 <material id="134">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5261,7 +5263,7 @@ end
 			 	 <material id="135">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5296,7 +5298,7 @@ end
 			 	 <material id="136">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5331,7 +5333,7 @@ end
 			 	 <material id="137">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5366,7 +5368,7 @@ end
 			 	 <material id="138">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5401,7 +5403,7 @@ end
 			 	 <material id="139">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5436,7 +5438,7 @@ end
 			 	 <material id="140">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5471,7 +5473,7 @@ end
 			 	 <material id="141">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5506,7 +5508,7 @@ end
 			 	 <material id="142">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5541,7 +5543,7 @@ end
 			 	 <material id="143">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5576,7 +5578,7 @@ end
 			 	 <material id="144">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5611,7 +5613,7 @@ end
 			 	 <material id="145">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5646,7 +5648,7 @@ end
 			 	 <material id="146">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5681,7 +5683,7 @@ end
 			 	 <material id="147">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5716,7 +5718,7 @@ end
 			 	 <material id="148">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5751,7 +5753,7 @@ end
 			 	 <material id="149">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5786,7 +5788,7 @@ end
 			 	 <material id="150">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5821,7 +5823,7 @@ end
 			 	 <material id="151">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5856,7 +5858,7 @@ end
 			 	 <material id="152">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5891,7 +5893,7 @@ end
 			 	 <material id="153">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5926,7 +5928,7 @@ end
 			 	 <material id="154">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5961,7 +5963,7 @@ end
 			 	 <material id="155">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5996,7 +5998,7 @@ end
 			 	 <material id="156">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6031,7 +6033,7 @@ end
 			 	 <material id="157">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6066,7 +6068,7 @@ end
 			 	 <material id="158">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6101,7 +6103,7 @@ end
 			 	 <material id="159">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6136,7 +6138,7 @@ end
 			 	 <material id="160">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6171,7 +6173,7 @@ end
 			 	 <material id="161">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6206,7 +6208,7 @@ end
 			 	 <material id="162">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6241,7 +6243,7 @@ end
 			 	 <material id="163">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6276,7 +6278,7 @@ end
 			 	 <material id="164">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6311,7 +6313,7 @@ end
 			 	 <material id="165">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6346,7 +6348,7 @@ end
 			 	 <material id="166">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6381,7 +6383,7 @@ end
 			 	 <material id="167">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6416,7 +6418,7 @@ end
 			 	 <material id="168">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6451,7 +6453,7 @@ end
 			 	 <material id="169">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6486,7 +6488,7 @@ end
 			 	 <material id="170">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6521,7 +6523,7 @@ end
 			 	 <material id="171">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6556,7 +6558,7 @@ end
 			 	 <material id="172">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6591,7 +6593,7 @@ end
 			 	 <material id="173">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6626,7 +6628,7 @@ end
 			 	 <material id="174">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6661,7 +6663,7 @@ end
 			 	 <material id="175">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6696,7 +6698,7 @@ end
 			 	 <material id="176">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6731,7 +6733,7 @@ end
 			 	 <material id="177">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6766,7 +6768,7 @@ end
 			 	 <material id="178">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6801,7 +6803,7 @@ end
 			 	 <material id="179">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6836,7 +6838,7 @@ end
 			 	 <material id="180">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6871,7 +6873,7 @@ end
 			 	 <material id="181">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6906,7 +6908,7 @@ end
 			 	 <material id="182">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6941,7 +6943,7 @@ end
 			 	 <material id="183">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6976,7 +6978,7 @@ end
 			 	 <material id="184">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7011,7 +7013,7 @@ end
 			 	 <material id="185">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7046,7 +7048,7 @@ end
 			 	 <material id="186">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7081,7 +7083,7 @@ end
 			 	 <material id="187">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7116,7 +7118,7 @@ end
 			 	 <material id="188">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7151,7 +7153,7 @@ end
 			 	 <material id="189">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7186,7 +7188,7 @@ end
 			 	 <material id="190">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7221,7 +7223,7 @@ end
 			 	 <material id="191">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7256,7 +7258,7 @@ end
 			 	 <material id="192">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7291,7 +7293,7 @@ end
 			 	 <material id="193">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7326,7 +7328,7 @@ end
 			 	 <material id="194">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7361,7 +7363,7 @@ end
 			 	 <material id="195">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7396,7 +7398,7 @@ end
 			 	 <material id="196">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7431,7 +7433,7 @@ end
 			 	 <material id="197">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7466,7 +7468,7 @@ end
 			 	 <material id="198">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7501,7 +7503,7 @@ end
 			 	 <material id="199">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7536,7 +7538,7 @@ end
 			 	 <material id="200">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7571,7 +7573,7 @@ end
 			 	 <material id="201">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7606,7 +7608,7 @@ end
 			 	 <material id="202">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7641,7 +7643,7 @@ end
 			 	 <material id="203">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7676,7 +7678,7 @@ end
 			 	 <material id="204">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7711,7 +7713,7 @@ end
 			 	 <material id="205">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7746,7 +7748,7 @@ end
 			 	 <material id="206">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7781,7 +7783,7 @@ end
 			 	 <material id="207">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7816,7 +7818,7 @@ end
 			 	 <material id="208">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7851,7 +7853,7 @@ end
 			 	 <material id="209">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7886,7 +7888,7 @@ end
 			 	 <material id="210">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7921,7 +7923,7 @@ end
 			 	 <material id="211">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7956,7 +7958,7 @@ end
 			 	 <material id="212">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7991,7 +7993,7 @@ end
 			 	 <material id="213">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8026,7 +8028,7 @@ end
 			 	 <material id="214">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8061,7 +8063,7 @@ end
 			 	 <material id="215">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8096,7 +8098,7 @@ end
 			 	 <material id="216">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8131,7 +8133,7 @@ end
 			 	 <material id="217">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8166,7 +8168,7 @@ end
 			 	 <material id="218">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8201,7 +8203,7 @@ end
 			 	 <material id="219">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8236,7 +8238,7 @@ end
 			 	 <material id="220">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8271,7 +8273,7 @@ end
 			 	 <material id="221">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8306,7 +8308,7 @@ end
 			 	 <material id="222">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8341,7 +8343,7 @@ end
 			 	 <material id="223">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8376,7 +8378,7 @@ end
 			 	 <material id="224">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8411,7 +8413,7 @@ end
 			 	 <material id="225">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8446,7 +8448,7 @@ end
 			 	 <material id="226">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8481,7 +8483,7 @@ end
 			 	 <material id="227">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8516,7 +8518,7 @@ end
 			 	 <material id="228">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8551,7 +8553,7 @@ end
 			 	 <material id="229">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8586,7 +8588,7 @@ end
 			 	 <material id="230">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8621,7 +8623,7 @@ end
 			 	 <material id="231">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8656,7 +8658,7 @@ end
 			 	 <material id="232">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8691,7 +8693,7 @@ end
 			 	 <material id="233">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8726,7 +8728,7 @@ end
 			 	 <material id="234">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8761,7 +8763,7 @@ end
 			 	 <material id="235">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8796,7 +8798,7 @@ end
 			 	 <material id="236">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8831,7 +8833,7 @@ end
 			 	 <material id="237">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8866,7 +8868,7 @@ end
 			 	 <material id="238">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8901,7 +8903,7 @@ end
 			 	 <material id="239">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8936,7 +8938,7 @@ end
 			 	 <material id="240">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8971,7 +8973,7 @@ end
 			 	 <material id="241">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9006,7 +9008,7 @@ end
 			 	 <material id="242">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9041,7 +9043,7 @@ end
 			 	 <material id="243">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9076,7 +9078,7 @@ end
 			 	 <material id="244">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9111,7 +9113,7 @@ end
 			 	 <material id="245">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9146,7 +9148,7 @@ end
 			 	 <material id="246">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9181,7 +9183,7 @@ end
 			 	 <material id="247">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9216,7 +9218,7 @@ end
 			 	 <material id="248">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9251,7 +9253,7 @@ end
 			 	 <material id="249">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9286,7 +9288,7 @@ end
 			 	 <material id="250">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9321,7 +9323,7 @@ end
 			 	 <material id="251">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9356,7 +9358,7 @@ end
 			 	 <material id="252">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9391,7 +9393,7 @@ end
 			 	 <material id="253">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9426,7 +9428,7 @@ end
 			 	 <material id="254">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9461,7 +9463,7 @@ end
 			 	 <material id="255">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9496,7 +9498,7 @@ end
 			 	 <material id="256">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9531,7 +9533,7 @@ end
 			 	 <material id="257">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9566,7 +9568,7 @@ end
 			 	 <material id="258">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_b_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_b_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9636,7 +9638,7 @@ end
 			 	 <material id="260">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/spnza_bricks_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/spnza_bricks_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9671,7 +9673,7 @@ end
 			 	 <material id="261">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9706,7 +9708,7 @@ end
 			 	 <material id="262">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9741,7 +9743,7 @@ end
 			 	 <material id="263">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9776,7 +9778,7 @@ end
 			 	 <material id="264">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9811,7 +9813,7 @@ end
 			 	 <material id="265">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9846,7 +9848,7 @@ end
 			 	 <material id="266">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9881,7 +9883,7 @@ end
 			 	 <material id="267">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9916,7 +9918,7 @@ end
 			 	 <material id="268">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9951,7 +9953,7 @@ end
 			 	 <material id="269">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9986,7 +9988,7 @@ end
 			 	 <material id="270">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10021,7 +10023,7 @@ end
 			 	 <material id="271">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10056,7 +10058,7 @@ end
 			 	 <material id="272">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10091,7 +10093,7 @@ end
 			 	 <material id="273">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10126,7 +10128,7 @@ end
 			 	 <material id="274">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10161,7 +10163,7 @@ end
 			 	 <material id="275">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10196,7 +10198,7 @@ end
 			 	 <material id="276">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10231,7 +10233,7 @@ end
 			 	 <material id="277">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10266,7 +10268,7 @@ end
 			 	 <material id="278">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10301,7 +10303,7 @@ end
 			 	 <material id="279">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10336,7 +10338,7 @@ end
 			 	 <material id="280">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10371,7 +10373,7 @@ end
 			 	 <material id="281">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10406,7 +10408,7 @@ end
 			 	 <material id="282">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10441,7 +10443,7 @@ end
 			 	 <material id="283">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_thorn_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_thorn_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10476,7 +10478,7 @@ end
 			 	 <material id="284">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_green_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_green_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10511,7 +10513,7 @@ end
 			 	 <material id="285">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_blue_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_blue_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10546,7 +10548,7 @@ end
 			 	 <material id="286">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10581,7 +10583,7 @@ end
 			 	 <material id="287">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_green_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_green_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10616,7 +10618,7 @@ end
 			 	 <material id="288">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_blue_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_blue_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10651,7 +10653,7 @@ end
 			 	 <material id="289">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_green_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_green_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10686,7 +10688,7 @@ end
 			 	 <material id="290">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10721,7 +10723,7 @@ end
 			 	 <material id="291">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_fabric_blue_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_fabric_blue_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10756,7 +10758,7 @@ end
 			 	 <material id="292">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10791,7 +10793,7 @@ end
 			 	 <material id="293">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10826,7 +10828,7 @@ end
 			 	 <material id="294">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10861,7 +10863,7 @@ end
 			 	 <material id="295">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10896,7 +10898,7 @@ end
 			 	 <material id="296">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10931,7 +10933,7 @@ end
 			 	 <material id="297">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10966,7 +10968,7 @@ end
 			 	 <material id="298">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11001,7 +11003,7 @@ end
 			 	 <material id="299">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11036,7 +11038,7 @@ end
 			 	 <material id="300">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11071,7 +11073,7 @@ end
 			 	 <material id="301">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11106,7 +11108,7 @@ end
 			 	 <material id="302">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11141,7 +11143,7 @@ end
 			 	 <material id="303">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11176,7 +11178,7 @@ end
 			 	 <material id="304">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11211,7 +11213,7 @@ end
 			 	 <material id="305">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11246,7 +11248,7 @@ end
 			 	 <material id="306">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11281,7 +11283,7 @@ end
 			 	 <material id="307">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11316,7 +11318,7 @@ end
 			 	 <material id="308">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11351,7 +11353,7 @@ end
 			 	 <material id="309">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11386,7 +11388,7 @@ end
 			 	 <material id="310">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11421,7 +11423,7 @@ end
 			 	 <material id="311">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11456,7 +11458,7 @@ end
 			 	 <material id="312">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11491,7 +11493,7 @@ end
 			 	 <material id="313">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11526,7 +11528,7 @@ end
 			 	 <material id="314">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11561,7 +11563,7 @@ end
 			 	 <material id="315">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11596,7 +11598,7 @@ end
 			 	 <material id="316">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11631,7 +11633,7 @@ end
 			 	 <material id="317">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11666,7 +11668,7 @@ end
 			 	 <material id="318">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11701,7 +11703,7 @@ end
 			 	 <material id="319">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11736,7 +11738,7 @@ end
 			 	 <material id="320">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11771,7 +11773,7 @@ end
 			 	 <material id="321">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_flagpole_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_flagpole_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11806,7 +11808,7 @@ end
 			 	 <material id="322">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_blue_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_blue_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11841,7 +11843,7 @@ end
 			 	 <material id="323">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11876,7 +11878,7 @@ end
 			 	 <material id="324">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_green_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_green_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11911,7 +11913,7 @@ end
 			 	 <material id="325">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11946,7 +11948,7 @@ end
 			 	 <material id="326">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_green_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_green_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11981,7 +11983,7 @@ end
 			 	 <material id="327">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12016,7 +12018,7 @@ end
 			 	 <material id="328">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_blue_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_blue_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12051,7 +12053,7 @@ end
 			 	 <material id="329">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_green_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_green_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12086,7 +12088,7 @@ end
 			 	 <material id="330">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12121,7 +12123,7 @@ end
 			 	 <material id="331">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_curtain_blue_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_curtain_blue_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12156,7 +12158,7 @@ end
 			 	 <material id="332">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12191,7 +12193,7 @@ end
 			 	 <material id="333">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12226,7 +12228,7 @@ end
 			 	 <material id="334">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12261,7 +12263,7 @@ end
 			 	 <material id="335">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12296,7 +12298,7 @@ end
 			 	 <material id="336">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12331,7 +12333,7 @@ end
 			 	 <material id="337">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12366,7 +12368,7 @@ end
 			 	 <material id="338">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12401,7 +12403,7 @@ end
 			 	 <material id="339">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12436,7 +12438,7 @@ end
 			 	 <material id="340">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12471,7 +12473,7 @@ end
 			 	 <material id="341">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12506,7 +12508,7 @@ end
 			 	 <material id="342">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12541,7 +12543,7 @@ end
 			 	 <material id="343">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12576,7 +12578,7 @@ end
 			 	 <material id="344">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12611,7 +12613,7 @@ end
 			 	 <material id="345">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12646,7 +12648,7 @@ end
 			 	 <material id="346">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12681,7 +12683,7 @@ end
 			 	 <material id="347">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12716,7 +12718,7 @@ end
 			 	 <material id="348">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12751,7 +12753,7 @@ end
 			 	 <material id="349">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12786,7 +12788,7 @@ end
 			 	 <material id="350">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12821,7 +12823,7 @@ end
 			 	 <material id="351">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12856,7 +12858,7 @@ end
 			 	 <material id="352">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12891,7 +12893,7 @@ end
 			 	 <material id="353">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12926,7 +12928,7 @@ end
 			 	 <material id="354">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12961,7 +12963,7 @@ end
 			 	 <material id="355">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -12996,7 +12998,7 @@ end
 			 	 <material id="356">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13031,7 +13033,7 @@ end
 			 	 <material id="357">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13066,7 +13068,7 @@ end
 			 	 <material id="358">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13101,7 +13103,7 @@ end
 			 	 <material id="359">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13136,7 +13138,7 @@ end
 			 	 <material id="360">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13171,7 +13173,7 @@ end
 			 	 <material id="361">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13206,7 +13208,7 @@ end
 			 	 <material id="362">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/chain_texture_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/chain_texture_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13241,7 +13243,7 @@ end
 			 	 <material id="363">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13276,7 +13278,7 @@ end
 			 	 <material id="364">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13311,7 +13313,7 @@ end
 			 	 <material id="365">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13346,7 +13348,7 @@ end
 			 	 <material id="366">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13381,7 +13383,7 @@ end
 			 	 <material id="367">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_hanging.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_hanging.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13416,7 +13418,7 @@ end
 			 	 <material id="368">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_plant_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_plant_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13451,7 +13453,7 @@ end
 			 	 <material id="369">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13486,7 +13488,7 @@ end
 			 	 <material id="370">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_plant_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_plant_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13521,7 +13523,7 @@ end
 			 	 <material id="371">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13556,7 +13558,7 @@ end
 			 	 <material id="372">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_plant_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_plant_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13591,7 +13593,7 @@ end
 			 	 <material id="373">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13626,7 +13628,7 @@ end
 			 	 <material id="374">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_plant_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_plant_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13661,7 +13663,7 @@ end
 			 	 <material id="375">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13696,7 +13698,7 @@ end
 			 	 <material id="376">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_plant_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_plant_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13731,7 +13733,7 @@ end
 			 	 <material id="377">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13766,7 +13768,7 @@ end
 			 	 <material id="378">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_plant_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_plant_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13801,7 +13803,7 @@ end
 			 	 <material id="379">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13836,7 +13838,7 @@ end
 			 	 <material id="380">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_plant_mask.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_plant_mask.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13871,7 +13873,7 @@ end
 			 	 <material id="381">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_round.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_round.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13906,7 +13908,7 @@ end
 			 	 <material id="382">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_dif.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_dif.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13941,7 +13943,7 @@ end
 			 	 <material id="383">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_dif.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_dif.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -13976,7 +13978,7 @@ end
 			 	 <material id="384">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_dif.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_dif.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14011,7 +14013,7 @@ end
 			 	 <material id="385">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/vase_dif.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/vase_dif.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14046,7 +14048,7 @@ end
 			 	 <material id="386">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/lion.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/lion.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14081,7 +14083,7 @@ end
 			 	 <material id="387">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/background.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/background.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14116,7 +14118,7 @@ end
 			 	 <material id="388">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/lion.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/lion.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14151,7 +14153,7 @@ end
 			 	 <material id="389">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/background.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/background.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14186,7 +14188,7 @@ end
 			 	 <material id="390">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_floor_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_floor_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14221,7 +14223,7 @@ end
 			 	 <material id="391">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_roof_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_roof_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14256,7 +14258,7 @@ end
 			 	 <material id="392">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_roof_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/sponza_roof_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14291,7 +14293,7 @@ end
 			 	 <material id="393">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/spnza_bricks_a_diff.tga" />
-						 <texture id="1" path="" />
+						 <texture id="1" path="data/Sponza/textures/spnza_bricks_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -14357,7 +14359,7 @@ end
 				 </mesh> 
 				 <bill> 
 					 <size Width="11.000000" Height="11.000000" />
-					 <texture path="shaders/textures/lf/sun.png" />
+					 <texture path="XEFFECTS_SM_4096_0_" />
 				 </bill> 
 				 <lfsn> 
 					 <strength value="200.000000" />
