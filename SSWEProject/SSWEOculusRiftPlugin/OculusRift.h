@@ -70,10 +70,8 @@ private:
 	EffectHandler *m_xEffect;
 
 	float m_eyeSpace;
-	ICameraSceneNode *m_headCamera;
-	ICameraSceneNode *m_leftCamera;
-	ICameraSceneNode *m_rightCamera;
 	ICameraSceneNode *m_camera;
+	ICameraSceneNode *m_projectionCamera;
 	rect<s32> m_leftViewport;
 	rect<s32> m_rightViewport;
 
@@ -90,26 +88,26 @@ private:
 	u16 m_planeIndices[6];
 	ITimer *m_timer;
 
-	OculusDistorsionCallback m_distortionCallback;
-};
-
-class OculusDistorsionCallback: public irr::video::IShaderConstantSetCallBack 
-{ 
-public:
-	f32 scale[2];
-	f32 scaleIn[2];
-	f32 lensCenter[2];
-	f32 screenCenter[2];
-	f32 hmdWarpParam[4];
-	virtual void OnSetConstants(IMaterialRendererServices* services, s32 userData) 
+	class OculusDistorsionCallback: public irr::video::IShaderConstantSetCallBack 
 	{ 
-		irr::video::IVideoDriver* driver = services->getVideoDriver();
-		services->setPixelShaderConstant("Scale", scale, 2);
-		services->setPixelShaderConstant("ScaleIn", scaleIn ,2);
-		services->setPixelShaderConstant("LensCenter", lensCenter ,2);
-		services->setPixelShaderConstant("ScreenCenter", screenCenter, 2);
-		services->setPixelShaderConstant("HmdWarpParam", hmdWarpParam ,4);
-	}
+	public:
+		f32 scale[2];
+		f32 scaleIn[2];
+		f32 lensCenter[2];
+		f32 screenCenter[2];
+		f32 hmdWarpParam[4];
+		virtual void OnSetConstants(IMaterialRendererServices* services, s32 userData) 
+		{ 
+			irr::video::IVideoDriver* driver = services->getVideoDriver();
+			services->setPixelShaderConstant("Scale", scale, 2);
+			services->setPixelShaderConstant("ScaleIn", scaleIn ,2);
+			services->setPixelShaderConstant("LensCenter", lensCenter ,2);
+			services->setPixelShaderConstant("ScreenCenter", screenCenter, 2);
+			services->setPixelShaderConstant("HmdWarpParam", hmdWarpParam ,4);
+		}
+	};
+
+	OculusDistorsionCallback m_distortionCallback;
 };
 
 #endif
