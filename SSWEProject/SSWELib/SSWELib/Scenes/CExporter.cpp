@@ -116,6 +116,23 @@ void CExporter::exportConfig() {
 	fprintf(export_file, "\t\t\t <rotation X=\"%f\" Y=\"%f\" Z=\"%f\" />\n\n", devices->getMayaCamera()->getRotation().X,
 			devices->getMayaCamera()->getRotation().Y, devices->getMayaCamera()->getRotation().Z);
 	fprintf(export_file, "\t\t </camera>\n\n");
+
+	//FPS CAMERA
+	fprintf(export_file, "\t\t <fpsCameraSettings>\n\n");
+	fprintf(export_file, "\t\t\t <ellipsoidRadius X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", 
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidRadius().X,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidRadius().Y,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidRadius().Z);
+	fprintf(export_file, "\t\t\t <gravityPerSecond X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", 
+			devices->getCollisionManager()->getFPSCameraSettings()->getGravityPerSecond().X,
+			devices->getCollisionManager()->getFPSCameraSettings()->getGravityPerSecond().Y,
+			devices->getCollisionManager()->getFPSCameraSettings()->getGravityPerSecond().Z);
+	fprintf(export_file, "\t\t\t <ellipsoidTranslation X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", 
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidTranslation().X,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidTranslation().Y,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidTranslation().Z);
+	fprintf(export_file, "\t\t\t <slidingValue value=\"%f\" />\n\n", devices->getCollisionManager()->getFPSCameraSettings()->getSlidingValue());
+	fprintf(export_file, "\t\t </fpsCameraSettings>\n\n");
     
 	//EFFECTS
 	fprintf(export_file, "\t\t <effect>\n\n");

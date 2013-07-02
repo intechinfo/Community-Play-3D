@@ -112,6 +112,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
 
 #include "AnimatorsEditor/CUIWindowEditNodeAnimators.h"
+#include "AnimatorsEditor/CUIEditFPSCamera.h"
 
 #include "CUISceneView.h"
 #include "TexturesManager/CUITexturesManager.h"
