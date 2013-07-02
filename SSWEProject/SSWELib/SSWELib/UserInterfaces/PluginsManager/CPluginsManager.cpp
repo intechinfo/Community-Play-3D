@@ -68,12 +68,13 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 		} else {
 			newMonitor = static_cast < IMonitor* > (createMonitor());
 
-			newMonitor->init();
+			newMonitor->init(devices->getDevice());
+			newMonitor->setActiveCamera(devices->getRenderingSceneManager()->getActiveCamera());
 			newMonitor->setSceneManager(devices->getRenderingSceneManager());
 			newMonitor->setGUIEnvironment(devices->getGUIEnvironment());
-			newMonitor->setName(path);
 			newMonitor->setToolsSceneManager(devices->getSecondSceneManager());
 			newMonitor->setXEffect(devices->getXEffect());
+			newMonitor->setName(path);
 
 			SMonitor m(newMonitor, hdll);
 			devices->getCoreData()->getMonitors()->push_back(m);

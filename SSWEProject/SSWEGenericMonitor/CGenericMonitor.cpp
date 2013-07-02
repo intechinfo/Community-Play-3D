@@ -20,7 +20,7 @@ CGenericMonitor::~CGenericMonitor() {
 
 }
 
-void CGenericMonitor::init() {
+void CGenericMonitor::init(irr::IrrlichtDevice *device) {
 	monitorName = "Generic Monitor";
 
 	enabled = true;

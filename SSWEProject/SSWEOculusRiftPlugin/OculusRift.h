@@ -20,7 +20,7 @@ public:
 	OculusRift();
 	~OculusRift();
 
-	void init();
+	void init(IrrlichtDevice *device);
 	void clear();
 
 	HMDInfo getInfo();
@@ -63,6 +63,7 @@ private:
 	bool m_rendersXEffect;
 	bool m_rendersXEffectFullTraitement;
 
+	IrrlichtDevice *m_device;
 	ISceneManager *m_sceneMngr;
 	ISceneManager *m_toolsSceneMng;
 	IGUIEnvironment *m_guiEnv;
@@ -75,6 +76,40 @@ private:
 	ICameraSceneNode *m_camera;
 	rect<s32> m_leftViewport;
 	rect<s32> m_rightViewport;
+
+	IVideoDriver* m_videoDriver;
+	ITexture* m_renderTexture;
+
+	f32 m_worldScale;
+	matrix4 m_projectionLeft;
+	matrix4 m_projectionRight;
+	f32 m_lensShift;
+
+	SMaterial m_renderMaterial;
+	S3DVertex m_planeVertices[4];
+	u16 m_planeIndices[6];
+	ITimer *m_timer;
+
+	OculusDistorsionCallback m_distortionCallback;
+};
+
+class OculusDistorsionCallback: public irr::video::IShaderConstantSetCallBack 
+{ 
+public:
+	f32 scale[2];
+	f32 scaleIn[2];
+	f32 lensCenter[2];
+	f32 screenCenter[2];
+	f32 hmdWarpParam[4];
+	virtual void OnSetConstants(IMaterialRendererServices* services, s32 userData) 
+	{ 
+		irr::video::IVideoDriver* driver = services->getVideoDriver();
+		services->setPixelShaderConstant("Scale", scale, 2);
+		services->setPixelShaderConstant("ScaleIn", scaleIn ,2);
+		services->setPixelShaderConstant("LensCenter", lensCenter ,2);
+		services->setPixelShaderConstant("ScreenCenter", screenCenter, 2);
+		services->setPixelShaderConstant("HmdWarpParam", hmdWarpParam ,4);
+	}
 };
 
 #endif

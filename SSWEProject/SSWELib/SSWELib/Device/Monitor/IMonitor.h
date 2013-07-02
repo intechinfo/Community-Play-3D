@@ -9,7 +9,7 @@ class IMonitor
 {
 public:
 
-	virtual void init() = 0;
+	virtual void init(irr::IrrlichtDevice *device) = 0;
 
 	virtual void setName(irr::core::stringc name) = 0;
 	virtual irr::core::stringc getName() = 0;

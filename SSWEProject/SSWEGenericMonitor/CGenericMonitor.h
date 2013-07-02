@@ -22,7 +22,7 @@ public:
 
 	//-----------------------------------
 	//IMONITOR
-	void init();
+	void init(irr::IrrlichtDevice *device);
 
 	void setName(irr::core::stringc name) { monitorName = name; }
 	irr::core::stringc getName() { return monitorName; }
