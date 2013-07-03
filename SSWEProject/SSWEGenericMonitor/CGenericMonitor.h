@@ -22,7 +22,8 @@ public:
 
 	//-----------------------------------
 	//IMONITOR
-	void init(irr::IrrlichtDevice *device);
+	void init();
+	void destroy() {}
 
 	void setName(irr::core::stringc name) { monitorName = name; }
 	irr::core::stringc getName() { return monitorName; }

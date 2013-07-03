@@ -82,7 +82,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\SSWELib\Device\Monitor\;$(SolutionDir)SSWERenders\;$(SolutionDir)OculusSDK\LibOVR\Include\;$(SolutionDir)Irrlicht\Irrlicht180\include\</AdditionalIncludeDirectories>
       <OpenMPSupport>false</OpenMPSupport>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

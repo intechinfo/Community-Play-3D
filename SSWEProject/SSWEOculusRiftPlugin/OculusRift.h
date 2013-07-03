@@ -20,8 +20,8 @@ public:
 	OculusRift();
 	~OculusRift();
 
-	void init(IrrlichtDevice *device);
-	void clear();
+	void init();
+	void destroy();
 
 	HMDInfo getInfo();
 
@@ -102,7 +102,7 @@ private:
 			services->setPixelShaderConstant("Scale", scale, 2);
 			services->setPixelShaderConstant("ScaleIn", scaleIn ,2);
 			services->setPixelShaderConstant("LensCenter", lensCenter ,2);
-			services->setPixelShaderConstant("ScreenCenter", screenCenter, 2);
+			//services->setPixelShaderConstant("ScreenCenter", screenCenter, 2);
 			services->setPixelShaderConstant("HmdWarpParam", hmdWarpParam ,4);
 		}
 	};

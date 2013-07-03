@@ -68,7 +68,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 		} else {
 			newMonitor = static_cast < IMonitor* > (createMonitor());
 
-			newMonitor->init(devices->getDevice());
+			newMonitor->init();
 			newMonitor->setActiveCamera(devices->getRenderingSceneManager()->getActiveCamera());
 			newMonitor->setSceneManager(devices->getRenderingSceneManager());
 			newMonitor->setGUIEnvironment(devices->getGUIEnvironment());
