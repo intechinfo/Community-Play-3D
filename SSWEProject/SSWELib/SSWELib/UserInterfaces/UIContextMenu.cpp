@@ -281,22 +281,22 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
-    
+
     //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
     //editEffects->open();
-    
+
     //CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, 0);
     //editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
-    
+
     //CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
 	//editMaterials->open();
-    
+
     //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
     //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
 
 	//CUICharacterWindow *editChar = new CUICharacterWindow(devices);
 	//editChar->open();
-	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](0).getNode(), 0);
+	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](3).getNode(), 3);
 
 	movementType = CCoreObjectPlacement::Undefined;
 	devices->getObjectPlacement()->setArrowType(movementType);
@@ -748,6 +748,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(8);
                     devices->getObjectPlacement()->getGridSceneNode()->SetSize(1024);
                     devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(8);
+
+					devices->getCollisionManager()->getMetaTriangleSelectors()->removeAllTriangleSelectors();
                     break;
                     
                 default:

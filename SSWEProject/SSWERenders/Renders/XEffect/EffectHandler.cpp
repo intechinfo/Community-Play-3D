@@ -143,9 +143,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		device->getLogger()->log("XEffects: Shader effects not supported on this system.");
 		shadowsUnsupported = true;
 	}
-    
-    currentShadowMapTexture = 0;
-	currentSecondaryShadowMap = 0;
 
 	motionBlur = new IPostProcessMotionBlur(smgr->getActiveCamera(), smgr, -2);
 	motionBlur->initiate(screenRTTSize.Width, screenRTTSize.Height, 0.6);
@@ -309,7 +306,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			// Blur the shadow map texture if we're using VSM filtering.
 			if (LightList[l].mustRecalculate() || LightList[l].isAutoRecalculate()) {
 				if(useVSM) {
-					currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true, l);
+					ITexture *currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true, l);
 
 					driver->setRenderTarget(currentSecondaryShadowMap, true, true, SColor(0xffffffff));
 					ScreenQuad.getMaterial().setTexture(0, currentShadowMapTexture);
@@ -554,24 +551,23 @@ irr::video::ITexture* EffectHandler::generateRandomVectorTexture(const irr::core
 	return randTexture;
 }
 
-
 EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename, 
                                                                                    irr::video::E_MATERIAL_TYPE baseMaterial)
 {
 	CShaderPreprocessor sPP(driver);
-    
+
 	sPP.addShaderDefine("SCREENX", core::stringc(ScreenRTTSize.Width));
 	sPP.addShaderDefine("SCREENY", core::stringc(ScreenRTTSize.Height));	
-	
+
 	video::E_VERTEX_SHADER_TYPE VertexLevel = driver->queryFeature(video::EVDF_VERTEX_SHADER_3_0) ? EVST_VS_3_0 : EVST_VS_2_0;
 	video::E_PIXEL_SHADER_TYPE PixelLevel = driver->queryFeature(video::EVDF_PIXEL_SHADER_3_0) ? EPST_PS_3_0 : EPST_PS_2_0;
-    
+
 	E_SHADER_EXTENSION shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ESE_HLSL : ESE_GLSL;
-    
+
 	video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices();
-    
+
 	const stringc shaderString = sPP.ppShaderFF(filename.c_str());
-    
+
 	ScreenQuadCB* SQCB = new ScreenQuadCB(this, true);
     
 	s32 PostMat = gpu->addHighLevelShaderMaterial(
@@ -586,6 +582,38 @@ EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromFi
 	return pPair;
 }
 
+EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromStrings(const irr::core::stringc& vertexShader, 
+																					  const irr::core::stringc& pixelShader, 
+																					  irr::video::E_MATERIAL_TYPE baseMaterial)
+{
+	CShaderPreprocessor sPP(driver);
+
+	sPP.addShaderDefine("SCREENX", core::stringc(ScreenRTTSize.Width));
+	sPP.addShaderDefine("SCREENY", core::stringc(ScreenRTTSize.Height));	
+
+	video::E_VERTEX_SHADER_TYPE VertexLevel = driver->queryFeature(video::EVDF_VERTEX_SHADER_3_0) ? EVST_VS_3_0 : EVST_VS_2_0;
+	video::E_PIXEL_SHADER_TYPE PixelLevel = driver->queryFeature(video::EVDF_PIXEL_SHADER_3_0) ? EPST_PS_3_0 : EPST_PS_2_0;
+
+	E_SHADER_EXTENSION shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ESE_HLSL : ESE_GLSL;
+
+	video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices();
+
+	const stringc& shaderProgram = vertexShader + stringc("\n") + pixelShader;
+	const stringc shaderString = sPP.ppShaderFF(shaderProgram.c_str());
+
+	ScreenQuadCB* SQCB = new ScreenQuadCB(this, true);
+    
+	s32 PostMat = gpu->addHighLevelShaderMaterial(
+                                                  sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", VertexLevel,
+                                                  shaderString.c_str(), "pixelMain", PixelLevel,
+                                                  SQCB, baseMaterial);
+	
+	SPostProcessingPair pPair(PostMat, SQCB);
+    
+	SQCB->drop();
+    
+	return pPair;
+}
 
 void EffectHandler::setPostProcessingEffectConstant(const irr::s32 materialType, const irr::core::stringc& name,
                                                     const f32* data, const irr::u32 count)
@@ -610,6 +638,23 @@ s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& fil
 	} else {
 		PostProcessingRoutines.push_front(pPair);
 	}
-    
+
+	return pPair.materialType;
+}
+
+s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc &vertexShader,
+										const irr::core::stringc pixelShader,
+										IPostProcessingRenderCallback *callback,
+										bool pushFront)
+{
+	SPostProcessingPair pPair = obtainScreenQuadMaterialFromStrings(vertexShader, pixelShader);
+	pPair.renderCallback = callback;
+
+	if (pushFront) {
+		PostProcessingRoutines.push_front(pPair);
+	} else {
+		PostProcessingRoutines.push_front(pPair);
+	}
+
 	return pPair.materialType;
 }

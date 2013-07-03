@@ -561,6 +561,8 @@ private:
 
 	SPostProcessingPair obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename, 
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
+	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& vertexShader, const irr::core::stringc& pixelShader, 
+		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
 
 	irr::IrrlichtDevice* device;
 	irr::video::IVideoDriver* driver;

@@ -298,3 +298,7 @@ core::stringc CShaderPreprocessor::ppShaderFF(core::stringc shaderProgram)
 {
 	return ppShader(getFileContent(shaderProgram.c_str()).c_str());
 }
+core::stringc CShaderPreprocessor::ppShaderFFS(core::stringc shaderProgram)
+{
+	return ppShader(shaderProgram.c_str());
+}

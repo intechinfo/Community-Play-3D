@@ -117,8 +117,8 @@ void CImporter::buildTree() {
     ISceneNode *node = 0;
 
 	mesh = smgr->getMesh(path.c_str());
-	//node = smgr->addOctreeSceneNode(mesh, 0, -1, 4096*16);
-	node = smgr->addMeshSceneNode(mesh, 0, -1);
+	node = smgr->addOctreeSceneNode(mesh, 0, -1, 4096*16);
+	//node = smgr->addMeshSceneNode(mesh, 0, -1);
 
 	if (node) {
 		read("name");
@@ -129,7 +129,7 @@ void CImporter::buildTree() {
 		readTransformations(node);
 		readViewModes(node);
 
-		devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
         STreesData tdata(mesh, node, path, ESNT_OCTREE, 1024);
 		devices->getCoreData()->getTreesData()->push_back(tdata);
 	}
@@ -191,6 +191,8 @@ void CImporter::buildObject() {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
 		} else if (path == "hillPlaneMesh") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		} else {
+			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
 		}
 
         SObjectsData odata(mesh, node, path);
