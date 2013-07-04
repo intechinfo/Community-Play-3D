@@ -44,6 +44,8 @@ private:
 
 	//-----------------------------------
 	//DEVICE
+	SIrrlichtCreationParameters params;
+
 	CDevices *devices;
 	IVideoDriver *driver;
 	ISceneManager *smgr;

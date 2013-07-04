@@ -20,89 +20,15 @@
 #include <Windows.h>
 #endif
 
-struct SGenericMonitor {
-	HINSTANCE hdll;
-	IMonitor *genericMonitor;
-
-	void freeGenericMonitor() {
-		FreeLibrary(hdll);
-	}
-};
-
-SGenericMonitor getGenericMonitor() {
-	SGenericMonitor gm;
-
-	//WITH DYNAMIC LOAD
-	//DECLARE OUR DLL INSTANCE
-	HINSTANCE hdll = NULL;
-	//DECLARE OUR MONITOR
-	IMonitor* genericMonitor = NULL;
-	//TYPE DEFINITION FOR THE RETURNED POINTER OF GENERIC MONITOR IN DLL
-	typedef void* (*pvFunctv)();
-	pvFunctv CreateFoo;
-
-	//GET ADRESS OF THE FUNCTION
-	//createMonitor IS IN THE FILE DLLExport.h WHERE IT RENTURNS A POINTER TO OUR MONITOR
-	//BECAUSE GENERIC MONITOR IS THE DEFAULT MONITOR, CHECK IF WE ARE RELEASE OR DEBUG
-	#ifdef SSWE_RELEASE
-		hdll = LoadLibrary(L"SSWEGenericMonitor.dll"); //LOAD THE LIBRARY
-	#else
-		hdll = LoadLibrary(L"SSWEGenericMonitor_d.dll"); //LOAD THE LIBRARY
-	#endif
-	CreateFoo = reinterpret_cast < pvFunctv > (GetProcAddress( hdll, "createMonitor" ));
-
-	//CHECK IF THE PROCESS createMonitor EXISTS
-	if (CreateFoo == NULL) {
-		std::cout << "DLL was not found..." << std::endl;
-		int a;
-		std::cin >> a;
-		exit(EXIT_FAILURE);
-	}
-
-	//CAST THE PREVIOSU RETURNED MONITOR TO A IMONITOR POINTER
-	genericMonitor = static_cast < IMonitor* > (CreateFoo());
-
-	gm.genericMonitor = genericMonitor;
-	gm.hdll = hdll;
-
-	return gm;
-}
-
 #ifdef IS_ERIO_AND_RELOU
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow) {
 #else
 int main(int argc, char* argv[]) {
 #endif
 
-	//WITHOUT DYNAMIC LOAD
-	/*CCoreUserInterface *coreUserInterface_ = createSSWEDevice();
-
-	CDevices *devices_ = coreUserInterface_->getDevices();
-	CGenericMonitor *generic_Monitor = new CGenericMonitor();
-	generic_Monitor->setGUIEnvironment(devices_->getGUIEnvironment());
-	generic_Monitor->setName("Generic Monitor");
-	generic_Monitor->setToolsSceneManager(devices_->getSecondSceneManager());
-	generic_Monitor->setXEffect(devices_->getXEffect());
-	devices_->getMonitorRegister()->registerMonitor(generic_Monitor);
-
-	updateSSWEDevice(coreUserInterface_);*/
-
-	//SGenericMonitor gm = getGenericMonitor();
-	//IMonitor *genericMonitor = gm.genericMonitor;
-
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
 
-	/*CDevices *devices = coreUserInterface->getDevices();
-	genericMonitor->init();
-	genericMonitor->setGUIEnvironment(devices->getGUIEnvironment());
-	genericMonitor->setName("Generic Monitor");
-	genericMonitor->setToolsSceneManager(devices->getSecondSceneManager());
-	genericMonitor->setXEffect(devices->getXEffect());
-	devices->getMonitorRegister()->registerMonitor(genericMonitor);*/
-
 	updateSSWEDevice(coreUserInterface);
-
-	//gm.freeGenericMonitor();
 
 	return EXIT_SUCCESS;
 }

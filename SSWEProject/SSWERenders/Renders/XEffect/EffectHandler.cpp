@@ -268,13 +268,14 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		const u32 LightListSize = LightList.size();
 		for(u32 l = 0;l < LightListSize;++l) {
 			// Set max distance constant for depth shader.
+			currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 			if (LightList[l].mustRecalculate() || LightList[l].isAutoRecalculate()) {
 				depthMC->FarLink = LightList[l].getFarValue();
 
 				driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
 				driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
 
-				currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
+				//currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 				driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
 
 				for(u32 i = 0;i < ShadowNodeArraySize;++i) {

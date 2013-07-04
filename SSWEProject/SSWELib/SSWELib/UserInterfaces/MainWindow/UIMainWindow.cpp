@@ -330,7 +330,11 @@ void CUIMainWindow::cloneNode() {
     stringw name = L"";
     s32 index;
 	if (getSelectedNode().getNode()) {
-		//node = getSelectedNode().getNode()->clone();
+		if (getSelectedNode().getNode()->getType() != ESNT_MESH && getSelectedNode().getNode()->getType() != ESNT_OCTREE
+			&& getSelectedNode().getNode()->getType() != ESNT_ANIMATED_MESH)
+		{
+			node = getSelectedNode().getNode()->clone();
+		}
         if (node) {
             //NODE WAS CLONED BY IRRLICHT
             node->setPosition(devices->getCursorPosition());
