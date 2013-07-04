@@ -71,7 +71,9 @@ private:
 
 	float m_eyeSpace;
 	ICameraSceneNode *m_camera;
-	ICameraSceneNode *m_projectionCamera;
+	ICameraSceneNode *m_headCamera;
+	ICameraSceneNode *m_leftCamera;
+	ICameraSceneNode *m_rightCamera;
 	rect<s32> m_leftViewport;
 	rect<s32> m_rightViewport;
 
