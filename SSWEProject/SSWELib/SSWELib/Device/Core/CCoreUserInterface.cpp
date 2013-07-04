@@ -57,7 +57,7 @@ CCoreUserInterface::CCoreUserInterface() {
 	#ifdef SSWE_RELEASE
 		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
 	#else
-		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
 	#endif
 
     //-----------------------------------
