@@ -113,6 +113,19 @@ private:
 	};
 
 	OculusDistorsionCallback m_distortionCallback;
+
+	//DRAW GUI METHODS
+	struct SGUIElement {
+		SGUIElement(rect<s32> _relativePosition, IGUIElement *_element) {
+			relativePosition = _relativePosition;
+			element = _element;
+		}
+
+		rect<s32> relativePosition;
+		IGUIElement *element;
+	};
+	array<SGUIElement> existedGUIElements;
+	void fillExistedGUIElements(IGUIElement *element);
 };
 
 #endif

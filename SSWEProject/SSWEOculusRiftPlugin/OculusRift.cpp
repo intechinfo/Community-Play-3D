@@ -248,7 +248,8 @@ ICameraSceneNode* OculusRift::getActiveCamera()
 void OculusRift::setSceneManager(ISceneManager *sceneMngr)
 {
 	m_sceneMngr = sceneMngr;
-	m_device->setInputReceivingSceneManager(sceneMngr);
+	if (m_device)
+		m_device->setInputReceivingSceneManager(sceneMngr);
 	IGPUProgrammingServices* gpu = m_sceneMngr->getVideoDriver()->getGPUProgrammingServices(); 
 	m_renderMaterial.MaterialType = (E_MATERIAL_TYPE)gpu->addHighLevelShaderMaterial(0, "main", EVST_VS_3_0, pixelShader, "main_fp", EPST_PS_3_0, &m_distortionCallback);
 }
@@ -333,13 +334,41 @@ void OculusRift::drawGUI()
 
 		videoDriver->setMaterial(m_renderMaterial);
 
+		//UPDATE GUI PROPORTIONS
+		existedGUIElements.clear();
+		fillExistedGUIElements(m_guiEnv->getRootGUIElement());
+		for (u32 i=0; i < existedGUIElements.size(); i++) {
+			rect<s32> currentRelativePosition = existedGUIElements[i].relativePosition;
+			s32 currentWidth = currentRelativePosition.getWidth();
+			s32 currentHeight = currentRelativePosition.getHeight();
+
+			rect<s32> newRelativePosition = rect<s32>(currentRelativePosition.UpperLeftCorner.X, currentRelativePosition.UpperLeftCorner.Y,
+													  (currentWidth*m_leftViewport.getWidth())/m_videoDriver->getScreenSize().Width,
+													  (currentHeight*m_leftViewport.getHeight())/m_videoDriver->getScreenSize().Height);
+			existedGUIElements[i].element->setRelativePosition(newRelativePosition);
+		}
+
 		videoDriver->setViewPort(m_leftViewport);
 		m_guiEnv->getRootGUIElement()->move(vector2d<s32>(100, 0));
 		m_guiEnv->drawAll();
+
 		videoDriver->setViewPort(m_rightViewport);
 		m_guiEnv->getRootGUIElement()->move(vector2d<s32>(-200,0));
 		m_guiEnv->drawAll();
 
 		m_guiEnv->getRootGUIElement()->move(vector2d<s32>(100,0));
+
+		//GIVE THE GUI THE OLD PROPORTIONS
+		for (u32 i=0; i < existedGUIElements.size(); i++) {
+			existedGUIElements[i].element->setRelativePosition(existedGUIElements[i].relativePosition);
+		}
+	}
+}
+
+void OculusRift::fillExistedGUIElements(IGUIElement *element) {
+	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
+	for (; it != element->getChildren().end(); ++it) {
+		existedGUIElements.push_back(SGUIElement((*it)->getRelativePosition(), *it));
+		fillExistedGUIElements(*it);
 	}
 }
