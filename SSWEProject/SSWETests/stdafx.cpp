@@ -6,6 +6,4 @@
 
 // TODO: faites référence aux en-têtes supplémentaires nécessaires dans STDAFX.H
 // absents de ce fichier
-#ifdef _MSC_VER
-#pragma comment(lib, "Irrlicht.lib")
-#endif
+
