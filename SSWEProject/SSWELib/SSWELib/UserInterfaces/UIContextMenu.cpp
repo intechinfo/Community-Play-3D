@@ -115,7 +115,6 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	//SHADERS
     submenu = menu->getSubMenu(i++);
     submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
-    submenu->addItem(L"Edit Selected Water Shader", -1);
 
 	//FACTORY
 	submenu = menu->getSubMenu(i++);
@@ -474,10 +473,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
                     break;
                     
-                case CXT_MENU_EVENTS_VIEW_FPS_CAMERA:
-                    devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
-                    devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
-					devices->getDevice()->getCursorControl()->setVisible(false);
+                case CXT_MENU_EVENTS_VIEW_FPS_CAMERA: {
+                    CUIEditFPSCamera *editFPS = new CUIEditFPSCamera(devices);
+				}
                     break;
                     
                 case CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW:

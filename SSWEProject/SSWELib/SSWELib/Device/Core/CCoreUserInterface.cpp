@@ -212,6 +212,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
 				if (!devices->isEditBoxEntered()) {
 					devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
 					devices->getDevice()->getCursorControl()->setVisible(true);
+					devices->getCursor()->setVisible(true);
 				}
 			}
 

@@ -75,6 +75,8 @@ bool CUIEditFPSCamera::OnEvent(const SEvent &event) {
 
 				devices->getEventReceiver()->RemoveEventReceiver(this);
 				window->remove();
+
+				devices->getCursor()->setVisible(false);
 				delete this;
 			}
 

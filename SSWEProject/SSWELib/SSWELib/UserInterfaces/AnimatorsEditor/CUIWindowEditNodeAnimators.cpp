@@ -570,6 +570,13 @@ bool CUIWindowEditNodeAnimators::isValid() {
 
 bool CUIWindowEditNodeAnimators::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_GUI_EVENT) {
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			saveChanges();
+            editWindow->remove();
+			devices->getEventReceiver()->RemoveEventReceiver(this);
+			return true;
+		}
+
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if(event.GUIEvent.Caller == addButton) {
 				saveChanges();

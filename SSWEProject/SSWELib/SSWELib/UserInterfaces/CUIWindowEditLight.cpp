@@ -94,6 +94,7 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		devices->getGUIEnvironment()->addStaticText(L"Resolution : ", rect<s32>(10, 5, 90, 25), true, true, advancedTab, -1, true);
 		resolutionComboBox = devices->getGUIEnvironment()->addComboBox(rect<s32>(95, 5, 195, 25), advancedTab,
 																	   CXT_EDIT_LIGHT_WINDOW_EVENTS_ADVANCED_RESOLUTION);
+		resolutionComboBox->addItem(L"1");
 		resolutionComboBox->addItem(L"128");
 		resolutionComboBox->addItem(L"256");
 		resolutionComboBox->addItem(L"512");
