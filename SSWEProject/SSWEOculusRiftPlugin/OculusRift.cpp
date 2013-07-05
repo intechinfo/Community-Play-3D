@@ -343,8 +343,8 @@ void OculusRift::drawGUI()
 			s32 currentHeight = currentRelativePosition.getHeight();
 
 			rect<s32> newRelativePosition = rect<s32>(currentRelativePosition.UpperLeftCorner.X, currentRelativePosition.UpperLeftCorner.Y,
-													  (currentWidth*m_leftViewport.getWidth())/m_videoDriver->getScreenSize().Width,
-													  (currentHeight*m_leftViewport.getHeight())/m_videoDriver->getScreenSize().Height);
+				currentRelativePosition.getWidth()+(currentWidth*m_leftViewport.getWidth())/m_videoDriver->getScreenSize().Width,
+				currentRelativePosition.getHeight()+(currentHeight*m_leftViewport.getHeight())/m_videoDriver->getScreenSize().Height);
 			existedGUIElements[i].element->setRelativePosition(newRelativePosition);
 		}
 
