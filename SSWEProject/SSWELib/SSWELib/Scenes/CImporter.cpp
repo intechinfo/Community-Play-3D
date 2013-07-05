@@ -709,13 +709,16 @@ void CImporter::newImportScene(stringc file_path) {
 	devices->getProcessesLogger()->addProcess(process);
 	u32 currentElementNumber = 0;
 
+	std::mutex mutex;
+	mutex.lock();
 	bool isXeffectDrawable = devices->isXEffectDrawable();
 	devices->setXEffectDrawable(false);
 	read("rootScene");
 	readConfig();
+	devices->setXEffectDrawable(isXeffectDrawable);
+	mutex.unlock();
 
 	while (xmlReader->read()) {
-
 		element = "";
 		if (xmlReader->getNodeType() == EXN_ELEMENT)
 			element = xmlReader->getNodeName();
@@ -735,6 +738,7 @@ void CImporter::newImportScene(stringc file_path) {
 		else if (element == "volumeLight")
 			buildVolumeLight();
 
+
 		currentElementNumber++;
 
 		if (numberOfObjects > 0)
@@ -743,10 +747,7 @@ void CImporter::newImportScene(stringc file_path) {
 	}
 
     read("rootScene");
-
     delete xmlReader;
 
 	process->setHasFinished(true);
-	devices->setXEffectDrawable(isXeffectDrawable);
-
 }

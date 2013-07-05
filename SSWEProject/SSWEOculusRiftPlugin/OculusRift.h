@@ -12,7 +12,9 @@ using namespace core;
 using namespace scene;
 
 #include <IMonitor.h>
+
 #include <DLLExport.h>
+#include <cmath>
 
 class OculusRift : public IMonitor
 {
@@ -24,6 +26,7 @@ public:
 	void destroy();
 
 	HMDInfo getInfo();
+	double degToRad(double deg);
 
 	bool isOculusConnected();
 

@@ -76,14 +76,14 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
                     devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
                     devices->updateDevice();
                     devices->getVideoDriver()->endScene();
-                    
+
                     devices->getDevice()->getLogger()->log(path_file.c_str());
                     if (devices->getDevice()->getFileSystem()->existFile(path_file.c_str())) {
                         devices->getDevice()->getLogger()->log("The file exists !");
                     } else {
                         devices->getDevice()->getLogger()->log("The file Doesn't exist !");
                     }
-                    
+
                     CImporter *importer = new CImporter(devices);
 					importer->setPathOfFile_t(path_file.c_str());
 					std::thread importer_t(&CImporter::import_t, *importer);

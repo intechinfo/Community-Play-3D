@@ -37,6 +37,42 @@ enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
 };
 
+struct SDevices {
+	SDevices(IrrlichtDevice *_device) {
+		device = _device;
+	}
+
+	IrrlichtDevice *createDevice() {
+		 SIrrlichtCreationParameters params;
+		#ifdef _IRR_OSX_PLATFORM_
+		params.DriverType=EDT_OPENGL;
+			//params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
+			params.WindowSize = dimension2d<u32>(1920, 1070);
+			//params.WindowSize = dimension2d<u32>(1280, 690);
+		#else
+		params.DriverType=EDT_DIRECT3D9;
+			params.WindowSize = dimension2d<u32>(800, 600);
+		#endif
+			params.Bits=32;
+		#ifdef _IRR_OSX_PLATFORM_
+			params.Fullscreen = false;
+		#else
+			params.Fullscreen = false;
+		#endif
+		params.Stencilbuffer=true;
+		params.Vsync=false;
+		params.AntiAlias=true; 
+		params.ZBufferBits = 32;
+		params.EventReceiver=0;
+		device = createDeviceEx(params);
+		return device;
+	}
+
+private:
+
+	IrrlichtDevice *device;
+};
+
 class CDevices : public IEventReceiver {
 
 public:

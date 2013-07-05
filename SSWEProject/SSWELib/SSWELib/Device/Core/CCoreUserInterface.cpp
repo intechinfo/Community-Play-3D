@@ -16,7 +16,6 @@ CCoreUserInterface::CCoreUserInterface() {
     //-----------------------------------
     //DEVICE
 
-    SIrrlichtCreationParameters params;
     #ifdef _IRR_OSX_PLATFORM_
     params.DriverType=EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
@@ -58,7 +57,7 @@ CCoreUserInterface::CCoreUserInterface() {
 	#ifdef SSWE_RELEASE
 		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
 	#else
-		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
 	#endif
 
     //-----------------------------------
@@ -181,7 +180,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
                 }
             }
         }
-        
+
         if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
             if (event.GUIEvent.Caller == logLevel) {
                 devices->getDevice()->getLogger()->setLogLevel((ELOG_LEVEL)logLevel->getSelected());
@@ -190,9 +189,11 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
     }
     
     if (event.EventType == EET_LOG_TEXT_EVENT && logListBox) {
-        stringw text = event.LogEvent.Text;
-        logListBox->addItem(text.c_str());
-        logListBox->setSelected(logListBox->getItemCount());
+		if (event.LogEvent.Text) {
+			stringw text = event.LogEvent.Text;
+			logListBox->addItem(text.c_str());
+			logListBox->setSelected(logListBox->getItemCount());
+		}
     }
 
     if (event.EventType == EET_KEY_INPUT_EVENT) {

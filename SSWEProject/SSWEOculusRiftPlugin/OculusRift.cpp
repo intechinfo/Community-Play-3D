@@ -71,7 +71,7 @@ void OculusRift::init()
 
 	if(m_infoLoaded)
 	{
-		m_device = createDevice(EDT_DIRECT3D9, dimension2d<u32>(m_info.HResolution, m_info.VResolution), 32);
+		m_device = createDevice(EDT_DIRECT3D9, dimension2d<u32>(m_info.HResolution, m_info.VResolution), 32, false, true, true);
 		m_device->setWindowCaption(L"SSWE Oculus Rift Plugin");
 		m_sceneMngr = m_device->getSceneManager();
 		m_videoDriver = m_device->getVideoDriver();
@@ -122,21 +122,14 @@ void OculusRift::init()
 		float distScale = (m_info.DistortionK[0] + m_info.DistortionK[1] * pow(r,2) + m_info.DistortionK[2] * pow(r,4) + m_info.DistortionK[3] * pow(r,6));
 		float fov = 2.0f*atan2(m_info.VScreenSize*distScale, 2.0f*m_info.EyeToScreenDistance);
 
-		// Compute camera projection matrices
-		matrix4 centerProjection = matrix4().buildProjectionMatrixPerspectiveFovLH (fov, aspect, 1, 10000);
-		float h = 4 * (m_info.HScreenSize/4 - m_info.InterpupillaryDistance/2) / m_info.HScreenSize;
-		m_projectionLeft = matrix4().setTranslation(vector3df(h, 0.0, 0.0)) * centerProjection;
-		m_projectionRight = matrix4().setTranslation(vector3df(-h, 0.0, 0.0)) * centerProjection;
-
 		// Compute camera offset
 		m_eyeSpace = m_worldScale * m_info.InterpupillaryDistance/2.0f;
 
 		// Compute Viewport
 		m_leftViewport = rect<s32>(0, 0, m_info.HResolution/2, m_info.VResolution);
-		m_leftViewport = rect<s32>(m_info.HResolution/2, 0, m_info.HResolution, m_info.VResolution);
+		m_rightViewport = rect<s32>(m_info.HResolution/2, 0, m_info.HResolution, m_info.VResolution);
 
 		// Distortion shader parameters
-		m_lensShift = 4.0f * (m_info.HScreenSize/4.0f - m_info.LensSeparationDistance/2.0f) / m_info.HScreenSize;
 
 		m_distortionCallback.scale[0] = 1.0f/distScale;
 		m_distortionCallback.scale[1] = 1.0f*aspect/distScale;
@@ -148,19 +141,6 @@ void OculusRift::init()
 		m_distortionCallback.hmdWarpParam[1] = m_info.DistortionK[1];
 		m_distortionCallback.hmdWarpParam[2] = m_info.DistortionK[2];
 		m_distortionCallback.hmdWarpParam[3] = m_info.DistortionK[3];
-
-		// Create render target
-		if (m_videoDriver->queryFeature(video::EVDF_RENDER_TO_TARGET))
-		{
-			if (m_renderTexture != NULL)
-				m_renderTexture->drop();
-			m_renderTexture = m_videoDriver->addRenderTargetTexture(dimension2d<u32>(m_info.HResolution*distScale/2.0f, m_info.VResolution*distScale));
-			m_renderMaterial.setTexture(0, m_renderTexture);
-		}
-		else {
-		// Render to target not supported
-		assert(0);
-		}
 	}
 }
 
@@ -178,6 +158,11 @@ void OculusRift::destroy()
 HMDInfo OculusRift::getInfo()
 {
 	return m_info;
+}
+
+double OculusRift::degToRad(double deg)
+{
+    return deg * 0.314 / 180.0;
 }
 
 bool OculusRift::isOculusConnected()
@@ -262,18 +247,10 @@ ICameraSceneNode* OculusRift::getActiveCamera()
 
 void OculusRift::setSceneManager(ISceneManager *sceneMngr)
 {
-	if(m_sceneMngr)
-	{
-		if(m_headCamera)
-			m_headCamera->remove();
-	}
-
-	m_device->setInputReceivingSceneManager(sceneMngr);
 	m_sceneMngr = sceneMngr;
-
-	m_headCamera = m_sceneMngr->addCameraSceneNode(0, vector3df(0,0,0), vector3df(0, 0, 10000));
-	m_leftCamera = m_sceneMngr->addCameraSceneNode(m_headCamera, m_headCamera->getPosition() - vector3df(-m_eyeSpace, 0, 0), m_headCamera->getTarget());
-	m_rightCamera = m_sceneMngr->addCameraSceneNode(m_headCamera, m_headCamera->getPosition() - vector3df(m_eyeSpace, 0, 0), m_headCamera->getTarget());
+	m_device->setInputReceivingSceneManager(sceneMngr);
+	IGPUProgrammingServices* gpu = m_sceneMngr->getVideoDriver()->getGPUProgrammingServices(); 
+	m_renderMaterial.MaterialType = (E_MATERIAL_TYPE)gpu->addHighLevelShaderMaterial(0, "main", EVST_VS_3_0, pixelShader, "main_fp", EPST_PS_3_0, &m_distortionCallback);
 }
 
 ISceneManager* OculusRift::getSceneManager()
@@ -314,24 +291,20 @@ void OculusRift::drawScene()
 	{
 		if(this->isOculusConnected())
 		{
-			int desktopX = m_info.DesktopX;
-			int desktopY = m_info.DesktopY;
-			int hRes = m_info.HResolution;
-			int vRes = m_info.VResolution;
+			IVideoDriver *videoDriver = m_sceneMngr->getVideoDriver();
 
-			m_leftViewport = rect<s32>(0, 0, m_info.HResolution/2, m_info.VResolution);
-			m_rightViewport = rect<s32>(m_info.HResolution/2, 0, m_info.HResolution, m_info.VResolution);
+			videoDriver->setMaterial(m_renderMaterial);
 
-			m_headCamera->setPosition(m_camera->getPosition());
-			m_headCamera->setTarget(m_camera->getTarget());
-			m_headCamera->setRotation(vector3df(m_fusionResult.GetOrientation().x, m_fusionResult.GetOrientation().y, m_fusionResult.GetOrientation().z));
+			ICameraSceneNode *camera = m_sceneMngr->addCameraSceneNode();
+			camera->setPosition(m_camera->getPosition());
 
-			m_videoDriver->setViewPort(m_leftViewport);
-			m_sceneMngr->setActiveCamera(m_leftCamera);
+			m_sceneMngr->setActiveCamera(camera);
+			videoDriver->setViewPort(m_leftViewport);
 			m_sceneMngr->drawAll();
 
-			m_videoDriver->setViewPort(m_rightViewport);
-			m_sceneMngr->setActiveCamera(m_rightCamera);
+			camera->setPosition(vector3df(m_camera->getPosition().X , m_camera->getPosition().Y , m_camera->getPosition().Z));
+
+			videoDriver->setViewPort(m_rightViewport);
 			m_sceneMngr->drawAll();
 
 			m_sceneMngr->setActiveCamera(m_camera);
@@ -356,11 +329,17 @@ void OculusRift::drawGUI()
 {
 	if(m_videoDriver)
 	{
-		m_videoDriver->setViewPort(m_leftViewport);
-		m_videoDriver->setRenderTarget(m_renderTexture);
+		IVideoDriver *videoDriver = m_sceneMngr->getVideoDriver();
+
+		videoDriver->setMaterial(m_renderMaterial);
+
+		videoDriver->setViewPort(m_leftViewport);
+		m_guiEnv->getRootGUIElement()->move(vector2d<s32>(100, 0));
 		m_guiEnv->drawAll();
-		m_videoDriver->setViewPort(m_rightViewport);
-		m_videoDriver->setRenderTarget(m_renderTexture);
+		videoDriver->setViewPort(m_rightViewport);
+		m_guiEnv->getRootGUIElement()->move(vector2d<s32>(-200,0));
 		m_guiEnv->drawAll();
+
+		m_guiEnv->getRootGUIElement()->move(vector2d<s32>(100,0));
 	}
 }

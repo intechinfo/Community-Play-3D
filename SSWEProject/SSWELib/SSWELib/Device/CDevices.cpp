@@ -182,6 +182,9 @@ void CDevices::updateDevice() {
 					{
 						if(renderScene)
 						{
+							monitor->setXEffectRendered(renderXEffect);
+
+
 							if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
 								monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
 							if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())

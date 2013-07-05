@@ -28,6 +28,7 @@
 	#include <memory>
 	#include <thread>
 	#include <Windows.h>
+	#include <mutex>
 #endif
 
 #include "../../../SSWERenders/Renders/XEffect/XEffects.h"
