@@ -85,10 +85,11 @@ bool CUIWindowsManager::OnEvent(const SEvent &event) {
 
 	if (window->isVisible()) {
 		IVideoDriver *driver = devices->getVideoDriver();
-		if (focusOn)
+		if (focusOn) {
 			window->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height-100, driver->getScreenSize().Width, driver->getScreenSize().Height));
-		else
+		} else {
 			window->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height-25, driver->getScreenSize().Width, driver->getScreenSize().Height));
+		}
 	}
 
 	return false;

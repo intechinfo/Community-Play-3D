@@ -100,6 +100,7 @@ public:
 	array<IGUIElement *> getArrayOfAListOfGUIElementChildren(IGUIElement *element);
 	void deactiveChildrenOfGUIElement(IGUIElement *element, bool visible);
 	void fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> *toFill, array<IGUIElement *> source);
+	void maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition);
     
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();

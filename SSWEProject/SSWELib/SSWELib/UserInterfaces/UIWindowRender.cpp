@@ -10,7 +10,7 @@
 
 CUIWindowRender::CUIWindowRender(CDevices *_devices) {
     devices = _devices;
-    
+
     devices->getEventReceiver()->AddEventReceiver(this);
 }
 
@@ -19,10 +19,10 @@ CUIWindowRender::~CUIWindowRender() {
 }
 
 void CUIWindowRender::open() {
-    renderWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(330, 20, 1000, 610), 
+    renderWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(330, 20, 1000, 610),
                                                      false, L"Render Window", 0, -1);
     renderWindow->getCloseButton()->remove();
-    
+
 	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 30, 660, 490), renderWindow, -1);
     if (viewPort) {
 		viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
@@ -30,8 +30,8 @@ void CUIWindowRender::open() {
     } else {
         devices->addErrorDialog(L"Error", L"Error when creating the view port", EMBF_OK);
     }
-    
-    saveAs = devices->getGUIEnvironment()->addEditBox(L"render.jpg", rect<s32>(450, 510, 660, 530), true, 
+
+    saveAs = devices->getGUIEnvironment()->addEditBox(L"render.jpg", rect<s32>(450, 510, 660, 530), true,
                                                       renderWindow, -1);
     devices->getGUIEnvironment()->addStaticText(L"Save as : ", rect<s32>(390, 510, 450, 530), false, false, 
                                                 renderWindow, -1, false);
@@ -43,7 +43,7 @@ void CUIWindowRender::open() {
     hdrE = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(10, 560, 110, 580),
                                                          renderWindow, -1, L"HDR");
                                                       
-    devices->getGUIEnvironment()->addButton(rect<s32>(560, 550, 660, 580), renderWindow, 
+    devices->getGUIEnvironment()->addButton(rect<s32>(560, 550, 660, 580), renderWindow,
                                             GUI_WINDOW_EVENTS_RENDER_CLOSE, L"Close", L"Close this window");
     devices->getGUIEnvironment()->addButton(rect<s32>(450, 550, 550, 580), renderWindow, 
                                             GUI_WINDOW_EVENTS_RENDER_SAVE, L"Save", L"Save the render (.jpg) to this name");
