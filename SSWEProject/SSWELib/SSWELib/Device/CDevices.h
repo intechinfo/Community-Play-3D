@@ -178,6 +178,10 @@ public:
 	//INPUT METHODS
 	bool isCtrlPushed() { return ctrlWasPushed; }
 	bool isShiftPushed() { return shiftWasPushed; }
+
+	SKeyMap getKeyMap(int i) { return keyMap[i]; }
+	void setKeyMap(SKeyMap _keyMap, int i) { keyMap[i] = _keyMap; }
+	void applyKeyMapOnFPSCamera() { animatorFPS->setKeyMap(keyMap, 5); }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -236,6 +240,8 @@ private:
 	//CAMERAS
 	SKeyMap keyMap[5];
 	ICameraSceneNode *camera_fps, *camera_maya;
+	ISceneNodeAnimatorCameraFPS *animatorFPS;
+
 	IBillboardSceneNode *cursorBillBoard;
 	//-----------------------------------
 

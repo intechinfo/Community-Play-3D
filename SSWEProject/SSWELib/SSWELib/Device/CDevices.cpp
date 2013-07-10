@@ -358,6 +358,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     collisionManager = new CCollisionManager(smgr);
 	core::list<ISceneNodeAnimator *>::ConstIterator fpsAnimators = camera_fps->getAnimators().begin();
 	collisionManager->getFPSCameraSettings()->setSceneNodeAnimatorCameraFPS(((ISceneNodeAnimatorCameraFPS *)*fpsAnimators));
+	animatorFPS = ((ISceneNodeAnimatorCameraFPS *)*fpsAnimators);
 
 	objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);
 

@@ -165,7 +165,7 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
 	bShaderType->setSelected((E_MATERIAL_TYPE)callback->getBaseMaterial());
 	//-----------------------------------
 
-	devices->getEventReceiver()->AddEventReceiver(this);
+	devices->getEventReceiver()->AddEventReceiver(this, editMaterialWindow);
 }
 
 void CUIWindowEditMaterialsCallback::resetCodeBox() {
@@ -212,7 +212,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == editMaterialWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 				if(editWaterAddon != NULL)
 					editWaterAddon->setVisible(true);
 			}
@@ -253,7 +253,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
             
 		//WINDOW PART
 		if (event.GUIEvent.Caller == editMaterialWindow->getMinimizeButton()) {
-			devices->getEventReceiver()->AddMinimizedWindow(this, editMaterialWindow);
+			//devices->getEventReceiver()->AddMinimizedWindow(this, editMaterialWindow);
 			devices->setRenderScene(true);
 			if(editWaterAddon != NULL)
 				editWaterAddon->setVisible(false);

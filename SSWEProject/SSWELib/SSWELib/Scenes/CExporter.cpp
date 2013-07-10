@@ -410,6 +410,33 @@ void CExporter::exporterWaterSurfaces() {
 		fprintf(export_file, "\t\t </waterSurface>\n\n");
 	}
 }
+
+//CONFIGS
+void CExporter::exportCamerasConfig() {
+	wd = devices->getWorkingDirectory().c_str();
+    wd+= "/";
+	export_file = fopen(stringc(wd + "Config/cameras.scfg").c_str(), "w");
+
+	//HEADER
+	fprintf(export_file, "<?xml version=\"1.0\"?>\n\n");
+    
+    //ROOT
+    fprintf(export_file, "<root>\n\n");
+
+	//CONFIG
+	fprintf(export_file, "\t<fpsCamera>\n\n");
+	//SCENE INFORMATION
+	fprintf(export_file, "\t\t <moveForward value=\"%u\" />\n", devices->getKeyMap(0).KeyCode);
+	fprintf(export_file, "\t\t <moveBackward value=\"%u\" />\n", devices->getKeyMap(1).KeyCode);
+	fprintf(export_file, "\t\t <strafeLeft value=\"%u\" />\n", devices->getKeyMap(2).KeyCode);
+	fprintf(export_file, "\t\t <strageRight value=\"%u\" />\n", devices->getKeyMap(3).KeyCode);
+	fprintf(export_file, "\t\t <jump value=\"%u\" />\n\n", devices->getKeyMap(4).KeyCode);
+	fprintf(export_file, "\t</fpsCamera>\n\n");
+
+	fprintf(export_file, "</root>\n\n");
+
+	fclose(export_file);
+}
 //---------------------------------------------------------------------------------------------
 //-----------------------------------INFORMATIONS EXPORTERS------------------------------------
 //---------------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ CSceneNodeAnimatorCameraMaya::CSceneNodeAnimatorCameraMaya(gui::ICursorControl* 
 
 	allKeysUp();
 
-	eventsAllowed = true;
+	eventsAllowed = false;
 }
 
 
@@ -52,8 +52,17 @@ CSceneNodeAnimatorCameraMaya::~CSceneNodeAnimatorCameraMaya()
 //! for changing their position, look at target or whatever.
 bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 {
-	if (event.EventType != EET_MOUSE_INPUT_EVENT)
+	if (event.EventType != EET_MOUSE_INPUT_EVENT && event.EventType != EET_KEY_INPUT_EVENT)
 		return false;
+
+	if (event.EventType == EET_KEY_INPUT_EVENT)
+	{
+		if (event.KeyInput.Control) {
+			eventsAllowed = true;
+		} else {
+			eventsAllowed = false;
+		}
+	}
 
 	switch(event.MouseInput.Event)
 	{

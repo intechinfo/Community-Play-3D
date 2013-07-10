@@ -26,6 +26,8 @@ public:
 	void importScene(stringc file_path);
 	void newImportScene(stringc file_path);
 
+	void importCamerasConfig();
+
 private:
 
 	//--------------------------

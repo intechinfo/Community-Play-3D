@@ -11,7 +11,6 @@
 
 CUIEditFPSCamera::CUIEditFPSCamera(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 	//-----------------------------------
     //GUI ELEMENTS
@@ -51,6 +50,8 @@ CUIEditFPSCamera::CUIEditFPSCamera(CDevices *_devices) {
 	accept = gui->addButton(rect<s32>(10, 300, 110, 330), window, -1, L"Accept", L"Accept");
 	close = gui->addButton(rect<s32>(130, 300, 230, 330), window, -1, L"Cancel", L"Cancel");
 	//-----------------------------------
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 CUIEditFPSCamera::~CUIEditFPSCamera() {

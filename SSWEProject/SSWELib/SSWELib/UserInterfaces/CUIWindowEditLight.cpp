@@ -10,7 +10,6 @@
 
 CUIWindowEditLight::CUIWindowEditLight(CDevices *_devices, s32 _index) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 	index = _index;
 
@@ -254,6 +253,8 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 															  L"Apply", L"Apply the settings");
 		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 430, 175, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON,
 															  L"Close", L"Close without effect");
+
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
 	}
 }
 
@@ -274,7 +275,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == editWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -293,7 +294,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
 			}
 
 			s32 id = event.GUIEvent.Caller->getID();

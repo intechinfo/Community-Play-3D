@@ -11,8 +11,6 @@
 CUISceneView::CUISceneView(CDevices *_devices) {
     devices = _devices;
     
-    devices->getEventReceiver()->AddEventReceiver(this);
-    
     windowSceneTreeNode = devices->getGUIEnvironment()->addWindow(rect<s32>(420, 80, 800, 530), false, L"Entire Tree View Nodes", 0, -1);
     windowSceneTreeNode->getMaximizeButton()->setVisible(true);
 
@@ -31,6 +29,8 @@ CUISceneView::CUISceneView(CDevices *_devices) {
     windowSceneTreeNode->setVisible(false);
     
     windowed = false;
+
+	devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 CUISceneView::~CUISceneView() {

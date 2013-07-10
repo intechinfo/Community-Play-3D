@@ -10,8 +10,6 @@
 
 CUIWindowEditGrid::CUIWindowEditGrid(CDevices *_devices) {
     devices = _devices;
-    
-    devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 CUIWindowEditGrid::~CUIWindowEditGrid() {
@@ -40,6 +38,8 @@ void CUIWindowEditGrid::open() {
     
     devices->getGUIEnvironment()->addButton(rect<s32>(5, 125, 90, 155), editGridWindow, CXT_EDIT_WINDOW_GRID_EVENTS_CLOSE, 
 											L"Close", L"Close This Window");
+
+	devices->getEventReceiver()->AddEventReceiver(this, editGridWindow);
 }
 
 bool CUIWindowEditGrid::OnEvent(const SEvent &event) {

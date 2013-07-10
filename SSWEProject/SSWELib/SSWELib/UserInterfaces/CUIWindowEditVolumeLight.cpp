@@ -11,7 +11,6 @@
 
 CUIWindowEditVolumeLight::CUIWindowEditVolumeLight(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 
 	nodeToEdit = 0;
@@ -81,6 +80,8 @@ void CUIWindowEditVolumeLight::open(ISceneNode *node, stringw prefix) {
 		
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(6, 273, 86, 300), editWindow, -1, L"Accept", L"Accept and add a light node");
 		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(96, 273, 176, 300), editWindow, -1, L"Close", L"Close this window");
+
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
 	}
 }
 

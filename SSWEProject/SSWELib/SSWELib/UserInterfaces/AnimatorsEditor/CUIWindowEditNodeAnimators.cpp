@@ -11,7 +11,6 @@
 
 CUIWindowEditNodeAnimators::CUIWindowEditNodeAnimators(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 	nodeToEdit = 0;
 	nodeToEditPrefix = L"";
@@ -560,6 +559,8 @@ void CUIWindowEditNodeAnimators::open(ISceneNode *node, stringw prefix) {
 		//Zone des bouttons Accept et Cancel
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(10, 420, 110, 450), editWindow, -1, L"Accept", L"Accept and apply modifications");
 		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(120, 420, 220, 450), editWindow, -1, L"Cancel", L"Close this window");
+
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
 	}
 }
 

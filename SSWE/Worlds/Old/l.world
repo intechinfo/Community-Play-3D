@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="1024" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="42.754742" Y="92.566368" Z="13.138378" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+
+		 </camera>
+
+		 <effect>
+
+			 <postProcessingEffect>
+				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/bin/Win32-VisualStudio/shaders/hlsl/colored_dream_vision.hlsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/bin/Win32-VisualStudio/shaders/hlsl/bloomp.hlsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="-842150451" /> 
+				 <name cname="WATER" />
+				 <vertex shader=
+"float4x4 mWorldViewProj;float4x4 mWorld;float4   CamPos;float    Time;float    sinWave;struct VS_OUTPUT{  float4 Position   : POSITION0;  float4 waterpos   : TEXCOORD0;  float3 WorldView  : TEXCOORD1;  float2 TexCoords  : TEXCOORD2;  float3 MultiVar   : TEXCOORD3;};VS_OUTPUT vertexMain( float3 Position  : POSITION0,                      float2 TexCoords : TEXCOORD0 ){  VS_OUTPUT OUT = (VS_OUTPUT)0;  OUT.Position = mul(float4(Position.x,Position.y,Position.z,1.0), mWorldViewProj);  OUT.waterpos = float4(Position.x,Position.y,Position.z,1.0);  OUT.MultiVar.y = Time / 10000.0;  if (sinWave > 0.0)  {    OUT.MultiVar.x = (sin((Position.x/3.0) + (Time * 10.0 / 10000.0))) +                     (cos((Position.z/3.0) + (Time * 10.0 / 10000.0)));    OUT.Position.y += OUT.MultiVar.x;  }    OUT.MultiVar.z = CamPos.y;  float4 PosW = mul(float4(Position.x,Position.y,Position.z,1.0), mWorld);  OUT.WorldView = CamPos.xyz - PosW.xyz;  OUT.TexCoords = TexCoords + float2(OUT.MultiVar.y, OUT.MultiVar.y);  return(OUT);}" />
+				 <pixel shader=
+"float4x4 mWorldViewProjP;float    sinWaveP;float    refractionP;float    seaLevel;sampler2D ReflectionTexture : register(s0);sampler2D NormalMap         : register(s1);sampler2D DUDVMap           : register(s2);float4 pixelMain( float4 waterpos   : TEXCOORD0,                  float3 WorldView  : TEXCOORD1,                  float2 TexCoord   : TEXCOORD2,                  float3 MultiVar   : TEXCOORD3                ) : COLOR0{  float4 projCoord = mul(waterpos, mWorldViewProjP);  projCoord.x = projCoord.x / projCoord.w / 2.0 + 0.5;  projCoord.y = projCoord.y / projCoord.w / 2.0 + 0.5;  if (sinWaveP > 0.0)  {    projCoord.x += sin(MultiVar.x * 5) * (2 / 1000.0);    projCoord.y += cos(MultiVar.x * 5) * (2 / 1000.0);    TexCoord.x  += sin(MultiVar.x * 5) * (5 / 1000.0);    TexCoord.y  += cos(MultiVar.x * 5) * (5 / 1000.0);  }  if (refractionP > 0.0)  {    float4 DUDVoffset = tex2D(DUDVMap,TexCoord);    projCoord.x += (DUDVoffset.x / 40.0) - (1.0 / 80.0);    projCoord.y += (DUDVoffset.y / 40.0) - (1.0 / 80.0);  }  projCoord = clamp(projCoord, 0.001, 0.999);  float4 normal = float4(0.0, 1.0, 0.0, 0.0);  if(MultiVar.z < seaLevel)    projCoord.y = 1.0 - projCoord.y;  float4 refTex = tex2D(ReflectionTexture,projCoord);  float facing = (1.0 - max(dot(normalize(WorldView), normalize(normal.xyz)), 0));  float4 MultCol = float4(0.4,0.7,1.0,0.0);    refTex = (refTex + float4(0.0,0.0,0.1,0.0)) * MultCol;  float4 norMap =  tex2D(NormalMap,TexCoord);  float lightComp = 1.0 - max(dot(normalize(norMap.xyz),normalize(abs(WorldView))),0.0);  float4 finalCol = refTex;  if(MultiVar.z < seaLevel)    finalCol *= 0.8;  finalCol.a = 0.6 + (facing / 2.0);  finalCol += lightComp;  return(finalCol);};" />
+				 <constants value="vmatrix4 mWorld world[0] 0 0 dontMakeInversevmatrix4 mWorldViewProj proj[0] view[0] 0 mWorldpmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorldvvector3df CamPos camPos4vfloat Time + ctime 1vfloat sinWave 20pfloat sinWaveP 20vfloat refractionP 20pfloat seaLevel 20" />
+			 </materialType>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="-842150451" /> 
+				 <name cname="FIRE" />
+				 <vertex shader=
+"float4x4 wvp;float time;struct VS_OUTPUT{   float4 Pos       : POSITION;   float2 TexCoord0 : TEXCOORD0;   float2 TexCoord1 : TEXCOORD1;   float2 TexCoord2 : TEXCOORD2;   float2 TexCoord3 : TEXCOORD3;};VS_OUTPUT vertexMain (float4 pos: POSITION,                       float2 texCoord : TEXCOORD0){   VS_OUTPUT Out;   Out.Pos = mul(pos, wvp);   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);      Out.TexCoord0 = texCoord;   Out.TexCoord0.y += 0.2;   Out.TexCoord1.x = texCoord.x;   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;   Out.TexCoord2.x = texCoord.x;   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;   Out.TexCoord3.x = texCoord.x;   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;      return Out;}sampler fire_base       : register(s0);sampler fire_distortion : register(s1);sampler fire_opacity    : register(s2);float4 bx2(float x){   return 2.0f * x - 1.0f;}float4 pixelMain (float4 tc0 : TEXCOORD0,                   float4 tc1 : TEXCOORD1,                  float4 tc2 : TEXCOORD2,                   float4 tc3 : TEXCOORD3) : COLOR{   float distortion_amount0  = 0.092;   float distortion_amount1  = 0.092;   float distortion_amount2  = 0.092;   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);   float4 noise0 = tex2D(fire_distortion, tc1);   float4 noise1 = tex2D(fire_distortion, tc2);   float4 noise2 = tex2D(fire_distortion, tc3);   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);   return base * opacity;}" />
+				 <pixel shader=
+"float4x4 wvp;float time;struct VS_OUTPUT{   float4 Pos       : POSITION;   float2 TexCoord0 : TEXCOORD0;   float2 TexCoord1 : TEXCOORD1;   float2 TexCoord2 : TEXCOORD2;   float2 TexCoord3 : TEXCOORD3;};VS_OUTPUT vertexMain (float4 pos: POSITION,                       float2 texCoord : TEXCOORD0){   VS_OUTPUT Out;   Out.Pos = mul(pos, wvp);   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);   Out.TexCoord0 = texCoord;   Out.TexCoord0.y += 0.2;   Out.TexCoord1.x = texCoord.x;   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;   Out.TexCoord2.x = texCoord.x;   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;   Out.TexCoord3.x = texCoord.x;   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;   return Out;   }sampler fire_base       : register(s0);sampler fire_distortion : register(s1);sampler fire_opacity    : register(s2);float4 bx2(float x){   return 2.0f * x - 1.0f;}float4 pixelMain (float4 tc0 : TEXCOORD0,                   float4 tc1 : TEXCOORD1,                  float4 tc2 : TEXCOORD2,                   float4 tc3 : TEXCOORD3) : COLOR{   float distortion_amount0  = 0.092;   float distortion_amount1  = 0.092;   float distortion_amount2  = 0.092;   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);   float4 noise0 = tex2D(fire_distortion, tc1);   float4 noise1 = tex2D(fire_distortion, tc2);   float4 noise2 = tex2D(fire_distortion, tc3);   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);   return base * opacity;}" />
+				 <constants value="vmatrix4 wvp proj[1] view[1] world[1]  dontMakeInversevfloat time + ctime 12 " />
+			 </materialType>
+
+			 <materialType>
+				 <pixelShaderType type="5" /> 
+				 <vertexShaderType type="2" /> 
+				 <baseMaterial type="-842150451" /> 
+				 <name cname="NORMAL MAP" />
+				 <vertex shader=
+"float4x4 matWorldInverse; float4x4 ModelViewMatrix;float4x4 ModelViewProjectionMatrix;float3 fvLightPosition1; float3 fvLightPosition2; float3 fvLightPosition3; float3 fvLightPosition4; float fLightStrength1; float fLightStrength2; float fLightStrength3; float fLightStrength4; struct VS_OUTPUT{   float4 Position            : POSITION0;   float2 Texcoord            : TEXCOORD0;   float3 ViewDirection      : TEXCOORD1;    float3 LightDirection1      : TEXCOORD2;    float3 LightDirection2      : TEXCOORD3;    float3 LightDirection3      : TEXCOORD4;    float3 LightDirection4      : TEXCOORD5;    float4 LightDistMultiplier  : TEXCOORD6;};float getLengthSQR (float3 vec) {    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); }  struct VS_INPUT{   float3 Position         : POSITION0;   float3 Normal           : NORMAL;   float2 Texcoord         : TEXCOORD0;};VS_OUTPUT vertexMain( in VS_INPUT IN ) {       VS_OUTPUT OUT = (VS_OUTPUT)0;   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);   OUT.Texcoord = IN.Texcoord;      float4x4 LightTransform= ModelViewMatrix;    LightTransform= mul(matWorldInverse, LightTransform);   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform);    float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform);    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform);    float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform);    float3 fvViewDirection  =  - fvObjectPosition.xyz;    float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz);    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz);    float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz);    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz);       OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0));    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0));    OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0));    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0));       float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0);    float3 fvBinormal   = cross(fvTangent,IN.Normal);   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix);    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix );    fvBinormal         = mul( fvBinormal, ModelViewMatrix );       OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection );    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection );    OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection );    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz );    OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz );    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz );    OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz );    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz );    OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz );    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz );    OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz );    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz );    OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz );    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz );    OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz );       return OUT;}" />
+				 <pixel shader=
+"float4 fvAmbient;float4 fvLight1Color; float4 fvLight2Color; float4 fvLight3Color; float4 fvLight4Color; float fSpecularPower; float fSpecularStrength; float fBumpStrength; sampler2D baseMap      : register(s0); sampler2D bumpMap      : register(s1); struct PS_INPUT{      float2 Texcoord            : TEXCOORD0;   float3 ViewDirection      : TEXCOORD1;    float3 LightDirection1      : TEXCOORD2;    float3 LightDirection2      : TEXCOORD3;   float3 LightDirection3      : TEXCOORD4;    float3 LightDirection4      : TEXCOORD5;    float4 LightDistMultiplier  : TEXCOORD6;};float4 pixelMain( in PS_INPUT IN ) : COLOR{   float4 color = float4(0,0,0,0);   float3  fvLightDirection1 = normalize( IN.LightDirection1 );    float3  fvLightDirection2 = normalize( IN.LightDirection2 );    float3  fvLightDirection3 = normalize( IN.LightDirection3 );    float3  fvLightDirection4 = normalize( IN.LightDirection4 );    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz;       fvNormal.xy*=2.0;    fvNormal.xy-=1.0;   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal;    fvNormal=normalize(fvNormal);      float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;     float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;     float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;     float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;     float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );     float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );     float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );     float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );     float3  fvViewDirection  = normalize( IN.ViewDirection );    float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) );    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) );    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) );    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) );    float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord );    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;     float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];     float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0];    fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];     fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];      fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];     fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];      fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];     fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];      color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));    if(color.r>1.0){color.gb+=color.r-1.0;}    if(color.g>1.0){color.rb+=color.g-1.0;}    if(color.b>1.0){color.rg+=color.b-1.0;}       return color;}" />
+				 <constants value="vmatrix4 ModelViewProjectionMatrixproj[0] view[0] world[0] dontMakeInversevmatrix4 ModelViewMatrixview[0] world[0] 0 dontMakeInversevmatrix4 matWorldInverseworld[0] 0 0 makeInversevfloat fLightStrength1 80vfloat fLightStrength2 80vfloat fLightStrength3 80vfloat fLightStrength4 80vvector3df fvLightPosition1 315 100 -7vvector3df fvLightPosition2 315 100 -7vvector3df fvLightPosition3 315 100 -7vvector3df fvLightPosition4 315 100 -7pSColor fvAmbient 1 0.02 0.02 0.02pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02pfloat fSpecularPower 20pfloat fSpecularStrength 0.9pfloat fBumpStrength 4" />
+			 </materialType>
+
+
+		 </materialTypes>
+
+	</config>
+
+
+
+	<scene>
+
+		 <object>
+
+			 <path file="C:/Users/JulienMM/Desktop/Soganatsu Studios/Git/bin/Win32-VisualStudio/data/characters/sintel/sintel_update.x" />
+
+			 <name c8name="#object:sintel" />
+
+			 <materials> 
+
+				 <material id="0" texture1="" texture2="" texture3="" texture4="" dca="255" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="1" texture1="" texture2="" texture3="" texture4="" dca="255" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="2" texture1="" texture2="" texture3="" texture4="" dca="255" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="3" texture1="" texture2="" texture3="" texture4="" dca="255" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="4" texture1="" texture2="" texture3="" texture4="" dca="255" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="5" texture1="data/characters/sintel/textures/sintel_diff.png" texture2="data/characters/sintel/textures/sintel_nrm.png" texture3="" texture4="" dca="0" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="6" texture1="data/characters/sintel/textures/wood_staff.jpg" texture2="data/characters/sintel/textures/wood_staff_nrm.png" texture3="" texture4="" dca="0" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="7" texture1="data/characters/sintel/textures/sintel_hair_diff.png" texture2="data/characters/sintel/textures/sintel_hair_nrm.png" texture3="" texture4="" dca="0" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="8" texture1="data/characters/sintel/textures/eye.png" texture2="" texture3="" texture4="" dca="0" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="9" texture1="data/characters/sintel/textures/sintel_diff.png" texture2="data/characters/sintel/textures/sintel_nrm.png" texture3="" texture4="" dca="0" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="10" texture1="data/characters/sintel/textures/wood_staff.jpg" texture2="data/characters/sintel/textures/wood_staff_nrm.png" texture3="" texture4="" dca="0" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+				 <material id="11" texture1="" texture2="" texture3="" texture4="" dca="0" dcr="163" dcg="163" dcb="163" aca="255" acr="255" acg="255" acb="255" sca="255" scr="0" scg="0" scb="0" eca="255" ecr="0" ecg="0" ecb="0" lighting="0" materialType="0" /> 
+
+			 </materials> 
+
+			 <position X="0.705620" Y="1.762802" Z="100.583397" />
+			 <rotation X="-90.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="20.000000" Y="20.000000" Z="20.000000" />
+		 </object>
+
+		 <object>
+
+			 <path file="hillPlaneMesh" />
+
+			 <name c8name="#object:new_hille_plane_mesh" />
+
+			 <materials> 
+
+				 <material id="0" texture1="data/nouveau dossier/4/pasbrick.jpg" texture2="data/nouveau dossier/4/pasbric1.jpg" texture3="" texture4="" dca="255" dcr="255" dcg="255" dcb="255" aca="255" acr="255" acg="255" acb="255" sca="255" scr="255" scg="255" scb="255" eca="0" ecr="0" ecg="0" ecb="0" lighting="0" materialType="45" /> 
+
+			 </materials> 
+
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+		 </object>
+
+		 <light>
+
+			 <name c8name="#light:1" />
+
+			 <position X="-134.932999" Y="128.106995" Z="211.230988" />
+			 <target X="23.416279" Y="0.500000" Z="84.246300" />
+
+			 <diffuseColor R="1.000000" G="1.000000" B="1.000000" />
+			 <ambiantColor R="0.000000" G="0.000000" B="0.000000" />
+			 <specularColor R="1.000000" G="1.000000" B="1.000000" />
+
+			 <radius value="1000.000000" />
+			 <farValue value="1000.000000" />
+
+			 <shadows resol="4096" />
+
+		 </light>
+
+
+	</scene>
+
+</rootScene>

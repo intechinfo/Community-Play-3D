@@ -751,3 +751,50 @@ void CImporter::newImportScene(stringc file_path) {
 
 	process->setHasFinished(true);
 }
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------LOAD CONFIGS----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+void CImporter::importCamerasConfig() {
+	stringc wd = devices->getWorkingDirectory().c_str();
+    wd += "/";
+    devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(wd.c_str());
+    
+    xmlReader = createIrrXMLReader("Config/cameras.scfg");
+	if (!xmlReader)
+		return;
+
+	read("root");
+
+	//FPS CAMERA
+	read("fpsCamera");
+	SKeyMap keyMap;
+	read("moveForward");
+	keyMap.Action = EKA_MOVE_FORWARD;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 0);
+	read("moveBackward");
+	keyMap.Action = EKA_MOVE_BACKWARD;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 1);
+	read("strafeLeft");
+	keyMap.Action = EKA_STRAFE_LEFT;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 2);
+	read("strageRight");
+	keyMap.Action = EKA_STRAFE_RIGHT;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 3);
+	read("jump");
+	keyMap.Action = EKA_JUMP_UP;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 4);
+	read("fpsCamera");
+
+	read("root");
+
+	devices->applyKeyMapOnFPSCamera();
+
+	delete xmlReader;
+}

@@ -3,7 +3,6 @@
 
 CUINodeFactoryCreateMeshWithTangents::CUINodeFactoryCreateMeshWithTangents(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 }
 CUINodeFactoryCreateMeshWithTangents::~CUINodeFactoryCreateMeshWithTangents() {
 
@@ -29,6 +28,8 @@ void CUINodeFactoryCreateMeshWithTangents::open(ISceneNode *node, IMesh *mesh) {
 	//BUTTONS
 	accept = gui->addButton(rect<s32>(10, 180, 110, 210), window, -1, L"Ok", L"Apply to the mesh");
 	cancel = gui->addButton(rect<s32>(120, 180, 220, 210), window, -1, L"Close", L"Close The Window");
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 void CUINodeFactoryCreateMeshWithTangents::create() {

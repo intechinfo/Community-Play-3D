@@ -6,8 +6,6 @@ CUIPluginsManager::CUIPluginsManager(CDevices *_devices, CPluginsManager *_plugi
 	devices = _devices;
 	pluginsManager = _pluginsManager;
 
-	devices->getEventReceiver()->AddEventReceiver(this);
-
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 
 	//-----------------------------------
@@ -28,6 +26,8 @@ CUIPluginsManager::CUIPluginsManager(CDevices *_devices, CPluginsManager *_plugi
 
 	close = gui->addButton(rect<s32>(10, 430, 110, 457), window, -1, L"Close", L"Close the window");
 	//-----------------------------------
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 CUIPluginsManager::~CUIPluginsManager() {
@@ -39,7 +39,7 @@ bool CUIPluginsManager::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == window->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -55,7 +55,7 @@ bool CUIPluginsManager::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == window->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, window);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, window);
 			}
 
 			if (event.GUIEvent.Caller == close) {

@@ -47,8 +47,6 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix, bool modal) {
 void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
     if (!node)
 		return;
-
-    devices->getEventReceiver()->AddEventReceiver(this);
     
     nodeToEdit = node;
     
@@ -413,7 +411,8 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
 
         //APPLY MATERIAL 0 DEFAULT VALUES
         setMaterialTextures();
-        
+
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
     }
 }
 
@@ -640,7 +639,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == editWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -695,7 +694,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             
 			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
 			}
 
             if (event.GUIEvent.Caller == editWindow->getMaximizeButton()) {

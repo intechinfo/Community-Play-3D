@@ -138,7 +138,7 @@ void CCoreUserInterface::update() {
 	windowsManagerInstance->update();
 	devices->getProcessesLogger()->update();
 
-    programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-97));
+    programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-97-20));
 
     if (logWindow) {
         if (logWindow->getRelativePosition().getHeight() == 520) {

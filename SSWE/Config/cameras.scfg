@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+
+	<fpsCamera>
+
+		 <moveForward value="87" />
+		 <moveBackward value="83" />
+		 <strafeLeft value="65" />
+		 <strageRight value="68" />
+		 <jump value="32" />
+
+	</fpsCamera>
+
+</root>
+

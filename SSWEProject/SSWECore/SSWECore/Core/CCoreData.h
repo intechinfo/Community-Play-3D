@@ -20,7 +20,7 @@
 
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
-#include "../../../SSWELib/SSWELib/Device/Monitor/IMonitor.h"
+#include <IMonitor.h>
 
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PLANAR MAPPING--------------------------------------------

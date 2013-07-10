@@ -78,6 +78,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addSeparator();
 	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
 	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
+	submenu->addSeparator();
+	submenu->addItem(L"Preferences...", CXT_MENU_EVENTS_EDIT_OPTIONS);
 
 	//VIEW
     submenu = menu->getSubMenu(i++);
@@ -278,6 +280,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 		printf("Importing scene number %u \n", i);
 	}
 
+	CImporter *impoterInstance = new CImporter(devices);
+	impoterInstance->importCamerasConfig();
+
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
 
@@ -304,6 +309,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
 	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
+
+	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -465,6 +472,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_EDIT_CLONE:
                     mainWindowInstance->cloneNode();
                     break;
+
+				case CXT_MENU_EVENTS_EDIT_OPTIONS: {
+					CUISSWEOptions *preferences = new CUISSWEOptions(devices);
+				}
+					break;
                 //-----------------------------------
                 
                 //-----------------------------------

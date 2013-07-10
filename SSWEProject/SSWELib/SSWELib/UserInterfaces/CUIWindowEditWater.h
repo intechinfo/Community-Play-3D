@@ -14,6 +14,7 @@ class CUIWindowEditWater : public IEventReceiver, public ITool
 
 		void resize(rect<s32> position);
 		void resize(position2di position);
+		IGUIElement *getWindow() { return m_window; }
 		void setVisible(bool visible);
 		void close();
 

@@ -19,6 +19,7 @@ public:
     ~CExporter();
     
     void exportScene(stringc file_path);
+	void exportCamerasConfig();
     
 private:
     

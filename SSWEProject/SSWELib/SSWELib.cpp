@@ -36,6 +36,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	while (device->run()) {
 
         //if (device->isWindowActive()) {
+		if (device->isWindowActive()) {
 			#ifndef _IRR_OSX_PLATFORM_
 				mutex.lock();
 				EnterCriticalSection(&CriticalSection);
@@ -53,7 +54,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 				mutex.unlock();
 				LeaveCriticalSection(&CriticalSection);
 			#endif
-        //}
+        }
 	}
 
 	DeleteCriticalSection(&CriticalSection);

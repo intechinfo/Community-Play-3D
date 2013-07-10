@@ -15,8 +15,6 @@ CUIMaterialEditor::CUIMaterialEditor(CDevices *_devices) {
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
     
-    devices->getEventReceiver()->AddEventReceiver(this);
-    
     selectedMaterial = 0;
 
 	mtFactory = new CMaterialEditorFactory(devices);
@@ -242,6 +240,8 @@ void CUIMaterialEditor::open(ISceneNode *node) {
     //---------------------------------------------------------------------------------------------------------
     
     close = gui->addButton(rect<s32>(1040, 690, 1140, 720), meWindow, -1, L"Close", L"Close The Window");
+
+	devices->getEventReceiver()->AddEventReceiver(this, meWindow);
 }
 
 void CUIMaterialEditor::updateElementsPositionsI(IGUIScrollBar *scroolbar) {
@@ -272,7 +272,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == meWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -314,7 +314,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 					maximize();
 				}
 				if (event.GUIEvent.Caller == meWindow->getMinimizeButton()) {
-					devices->getEventReceiver()->AddMinimizedWindow(this, meWindow);
+					//devices->getEventReceiver()->AddMinimizedWindow(this, meWindow);
 				}
 			}
 

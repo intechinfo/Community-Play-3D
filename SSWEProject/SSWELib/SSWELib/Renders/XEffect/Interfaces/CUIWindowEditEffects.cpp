@@ -11,8 +11,6 @@
 CUIWindowEditEffects::CUIWindowEditEffects(CDevices *_devices) {
     devices = _devices;
     
-    devices->getEventReceiver()->AddEventReceiver(this);
-    
     openingShader = false;
 }
 
@@ -111,6 +109,8 @@ void CUIWindowEditEffects::open() {
     
     //POINTER TO viewProj FOR EFFECTS
     matrix4 viewProj;
+
+	devices->getEventReceiver()->AddEventReceiver(this, editionWindow);
 }
 
 bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
@@ -118,7 +118,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == effectsWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -163,7 +163,7 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
             
 			//MAIN WINDOW
 			if (event.GUIEvent.Caller == effectsWindow->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, effectsWindow);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, effectsWindow);
 			}
 
             if (event.GUIEvent.Caller == oglRemove) {

@@ -10,8 +10,6 @@
 
 CUIWindowRender::CUIWindowRender(CDevices *_devices) {
     devices = _devices;
-
-    devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 CUIWindowRender::~CUIWindowRender() {
@@ -47,6 +45,8 @@ void CUIWindowRender::open() {
                                             GUI_WINDOW_EVENTS_RENDER_CLOSE, L"Close", L"Close this window");
     devices->getGUIEnvironment()->addButton(rect<s32>(450, 550, 550, 580), renderWindow, 
                                             GUI_WINDOW_EVENTS_RENDER_SAVE, L"Save", L"Save the render (.jpg) to this name");
+
+	devices->getEventReceiver()->AddEventReceiver(this, renderWindow);
 }
 
 bool CUIWindowRender::OnEvent(const SEvent &event) {

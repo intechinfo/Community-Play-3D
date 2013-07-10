@@ -17,6 +17,4 @@
 #include <vector>
 #include <cstdlib>
 
-#include <OVR.h>
-
 extern CRITICAL_SECTION CriticalSection;

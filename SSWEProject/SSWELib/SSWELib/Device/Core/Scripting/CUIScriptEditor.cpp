@@ -14,13 +14,12 @@ CUIScriptEditor::CUIScriptEditor(CDevices *_devices) {
 	devices = _devices;
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 
-	devices->getEventReceiver()->AddEventReceiver(this);
-
 	resizeCodeEditor = true;
 	//-----------------------------------
     //GUI ELEMENTS
 	window = gui->addWindow(rect<s32>(250, 110, 450, 700), false, L"Scripts", 0, -1);
 	window->getMaximizeButton()->setVisible(true);
+	window->getMinimizeButton()->setVisible(true);
 
 	runScript = gui->addButton(rect<s32>(10, 30, 180, 60), window, -1, L"Run Script", L"Runs the selected script");
 
@@ -42,6 +41,8 @@ CUIScriptEditor::CUIScriptEditor(CDevices *_devices) {
 		runScript->setEnabled(false);
 		fileName->setEnabled(false);
 	}
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 CUIScriptEditor::~CUIScriptEditor() {
@@ -49,6 +50,10 @@ CUIScriptEditor::~CUIScriptEditor() {
 }
 
 bool CUIScriptEditor::OnEvent(const SEvent &event) {
+
+	if (window) {
+		codeEditor->setVisible(window->isVisible());
+	}
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {

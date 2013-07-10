@@ -10,8 +10,6 @@
 
 CUIWindowEditMaterials::CUIWindowEditMaterials(CDevices *_devices) {
     devices = _devices;
-    
-    devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 CUIWindowEditMaterials::~CUIWindowEditMaterials() {
@@ -57,6 +55,8 @@ void CUIWindowEditMaterials::open() {
         materialName->setEnabled(false);
         editOGLMaterialShader->setEnabled(false);
     }
+
+	devices->getEventReceiver()->AddEventReceiver(this, materialsWindow);
 }
 
 bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
@@ -64,7 +64,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == materialsWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
