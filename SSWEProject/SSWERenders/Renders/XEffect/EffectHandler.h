@@ -472,6 +472,9 @@ public:
 	irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename,
 		IPostProcessingRenderCallback* callback = 0, bool pushFront=false);
 
+	irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc &vertexShader, const irr::core::stringc pixelShader,
+		IPostProcessingRenderCallback *callback = 0, bool pushFront=false);
+
 	/// Sets a shader parameter for a post-processing effect. The first parameter is the material type, the second
 	/// is the uniform paratmeter name, the third is a float pointer that points to the data and the last is the
 	/// component count of the data. Please note that the float pointer must remain valid during render time.
@@ -542,6 +545,8 @@ public:
 		LightList.clear();
 		DepthPassArray.clear();
 		PostProcessingRoutines.clear();
+		currentSecondaryShadowMap = 0;
+		currentShadowMapTexture = 0;
 	}
 
 private:
@@ -577,6 +582,8 @@ private:
 	};
 
 	SPostProcessingPair obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename, 
+		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
+	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& vertexShadern, const irr::core::stringc& pixelShader, 
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
 
 	irr::IrrlichtDevice* device;

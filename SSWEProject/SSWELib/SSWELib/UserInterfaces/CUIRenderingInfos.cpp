@@ -10,7 +10,6 @@
 
 CUIRenderingInfos::CUIRenderingInfos(CDevices *_devices) {
     devices = _devices;
-    devices->getEventReceiver()->AddEventReceiver(this);
     
     window = devices->getGUIEnvironment()->addWindow(rect<s32>(220, 110, 850, 450), false, L"Current Rendering Infos", 0, -1);
     
@@ -40,6 +39,8 @@ CUIRenderingInfos::CUIRenderingInfos(CDevices *_devices) {
 	moreInfos += "\nOperation System Version : ";
 	moreInfos += devices->getDevice()->getOSOperator()->getOperationSystemVersion();
 	devices->getGUIEnvironment()->addStaticText(moreInfos.c_str(), rect<s32>(10, 100, 620, 330), true, false, window, -1, true);
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 CUIRenderingInfos::~CUIRenderingInfos() {

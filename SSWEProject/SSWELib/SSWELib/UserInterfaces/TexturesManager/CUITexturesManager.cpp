@@ -12,7 +12,6 @@
 
 CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 	driver = devices->getVideoDriver();
 	gui = devices->getGUIEnvironment();
@@ -35,6 +34,8 @@ CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 
 	//FILL LIST BOX
 	OnEvent(getUpdateEvent());
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 CUITexturesManager::~CUITexturesManager() {
@@ -103,7 +104,7 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 		//REACTIVATE WINOW
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == window->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 		if (event.UserEvent.UserData1 == ECUE_TEXTURE_REMOVED && event.UserEvent.UserData2 == 0) {
@@ -133,7 +134,7 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			//IF MINIMIZE
 			if (event.GUIEvent.Caller == window->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, window);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, window);
 			}
 			//REMOVE SELECTED TEXTURE
 			if (event.GUIEvent.Caller == remove) {

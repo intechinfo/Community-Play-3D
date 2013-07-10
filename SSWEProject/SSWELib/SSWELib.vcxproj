@@ -59,12 +59,13 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)OculusSDK\LibOVR\Include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,7 +102,9 @@
       <OutputFile>Intermediate\$(Configuration)-$(PlatformTarget)\$(TargetName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y
+
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,8 +112,8 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)OculusSDK\LibOVR\Include\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;SSWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -129,7 +132,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;winmm.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;libovr.lib;winmm.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -143,7 +146,9 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y
+
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -163,6 +168,7 @@
     <ClCompile Include="SSWELib\Device\Core\Scripting\CLuaBinds.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CSceneScripting.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.cpp" />
+    <ClCompile Include="SSWELib\Device\Monitor\MonitorRegister.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\Graph2D\GraphKat.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp" />
@@ -180,6 +186,7 @@
     <ClCompile Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.cpp" />
     <ClCompile Include="SSWELib\Scenes\CExporter.cpp" />
     <ClCompile Include="SSWELib\Scenes\CImporter.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\CUILoadNodesGroup.cpp" />
@@ -209,6 +216,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
@@ -220,6 +230,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\DLLExport.h" />
+    <ClInclude Include="include\IMonitor.h" />
+    <ClInclude Include="include\IMonitorRegisterer.h" />
+    <ClInclude Include="include\ITool.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWELib.h" />
     <ClInclude Include="SSWELib\CharacterEdition\CAction.h" />
@@ -234,6 +248,7 @@
     <ClInclude Include="SSWELib\Device\Core\Scripting\CLuaBinds.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CSceneScripting.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.h" />
+    <ClInclude Include="SSWELib\Device\Monitor\MonitorRegister.h" />
     <ClInclude Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.h" />
     <ClInclude Include="SSWELib\GUIExtension\Graph2D\GraphKat.h" />
     <ClInclude Include="SSWELib\GUIExtension\OpenFileDialog\CGUIFileSelector.h" />
@@ -254,6 +269,7 @@
     <ClInclude Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.h" />
     <ClInclude Include="SSWELib\Scenes\CExporter.h" />
     <ClInclude Include="SSWELib\Scenes\CImporter.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.h" />
     <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CUILoadNodesGroup.h" />
@@ -268,7 +284,6 @@
     <ClInclude Include="SSWELib\UserInterfaces\CUIWindowExportScene.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CUIWindowOpenScene.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CUIWindowsManager.h" />
-    <ClInclude Include="SSWELib\UserInterfaces\ITool.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddLight.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddObject.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MainWindow\CUIWindowAddTerrain.h" />
@@ -284,6 +299,9 @@
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h" />
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.h" />

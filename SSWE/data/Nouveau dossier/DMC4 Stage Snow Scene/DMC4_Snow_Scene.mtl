@@ -1,0 +1,1065 @@
+newmtl scr\st105\stage\st105-t-cliffup2_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2alpha01_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2alpha01_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2alpha02_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2alpha02_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-moon_NOMIP_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-moon_NOMIP_BMout.png
+map_D Maps/st105-t-moon_NOMIP_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-mountain00_NOMIP_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-mountain00_NOMIP_BMout.png
+map_D Maps/st105-t-mountain00_NOMIP_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-mesh_NOMIP_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-mesh_NOMIP_NUKIout.png
+map_D Maps/st105-t-mesh_NOMIP_NUKIout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2snowfit_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2snowfit_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m11-land4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2_BM_st105-m11-land4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-mesh_NOMIP_NUKI_st105-m12-meshout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-mesh_NOMIP_NUKIout.png
+map_D Maps/st105-t-mesh_NOMIP_NUKIout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m13-land3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliff_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliff_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-door00_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-door00_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-tower_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-tower_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-towerwall_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-towerwall_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m14-archout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle_BM_st105-m15-hidetowerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM_st105-m15-hidetowerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-towerwall_BM_st105-m15-hidetowerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-towerwall_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-tower_BM_st105-m15-hidetowerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-tower_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m15-hidetowerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle_BM_st105-m16-towerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-towerwall_BM_st105-m16-towerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-towerwall_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m16-towerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM_st105-m16-towerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-tower_BM_st105-m16-towerout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-tower_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle_BM_st105-m18-bridge1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM_st105-m18-bridge1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m18-bridge1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-path_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-path_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-path2_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-path2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-bell_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bell_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m20-brokenout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2_BM_st105-m21-cliff01out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m21-cliff01out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2alpha01_BM_st105-m21-cliff01out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2alpha01_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2alpha02_BM_st105-m21-cliff01out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2alpha02_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle_BM_st105-m22-bridge2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM_st105-m22-bridge2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m22-bridge2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m23-bridge6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-tower_BM_st105-m23-bridge6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-tower_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-towerwall_BM_st105-m23-bridge6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-towerwall_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-towerwall_BM_st105-m24-bridge7out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-towerwall_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-bridgefloor_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bridgefloor_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m24-bridge7out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-meshedge_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-meshedge_BMout.png
+
+newmtl scr\st105\stage\st105-t-castle_BM_st105-m24-bridge7out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM_st105-m24-bridge7out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-bridgerail_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bridgerail_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-bridge01_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bridge01_BMout.png
+map_D Maps/st105-t-bridge01_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-bridge01_BM_st105-m25-bridge8out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bridge01_BMout.png
+map_D Maps/st105-t-bridge01_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-bridgerail_BM_st105-m25-bridge8out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bridgerail_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m25-bridge8out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-bridge01_BM_st105-m26-bridge9out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bridge01_BMout.png
+map_D Maps/st105-t-bridge01_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m26-bridge9out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-bridgerail_BM_st105-m26-bridge9out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-bridgerail_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle_BM_st105-m26-bridge9out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM_st105-m26-bridge9out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-kinomiki_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-kinomiki_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-treeleaf_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-treeleaf_BMout.png
+map_D Maps/st105-t-treeleaf_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-treeleaf_BM_st105-m30-hideout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-treeleaf_BMout.png
+map_D Maps/st105-t-treeleaf_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-kinomiki_BM_st105-m30-hideout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-kinomiki_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m30-hideout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-pillar_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-pillar_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m31-hide2pillarout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-kinomiki_BM_st105-m32-bigtreeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-kinomiki_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-kinomiki_BM_st105-m33-bigtree1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-kinomiki_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-treeleaf_BM_st105-m33-bigtree1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-treeleaf_BMout.png
+map_D Maps/st105-t-treeleaf_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-treeleaf_BM_st105-m36-bigtreeleafout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-treeleaf_BMout.png
+map_D Maps/st105-t-treeleaf_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-treeleaf_BM_st105-m37-bigtreeleaf2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-treeleaf_BMout.png
+map_D Maps/st105-t-treeleaf_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-pillar_BM_st105-m47-ruin1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-pillar_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-stone_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-stone_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-broken_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-broken_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m47-ruin1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-arch_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-arch_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-path_BM_st105-m47-ruin1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-path_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-path2_BM_st105-m47-ruin1out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-path2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-pillar_BM_st105-m48-hidebigpillarout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-pillar_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m48-hidebigpillarout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-pillar_BM_st105-m49-hidebigpillarout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-pillar_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m49-hidebigpillarout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m50-hidebigpillarout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-pillar_BM_st105-m50-hidebigpillarout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-pillar_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-pillar_BM_st105-m51out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-pillar_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m51out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-arch_BM_st105-m51out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-arch_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-broken_BM_st105-m51out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-broken_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-sky_NOMIP_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-sky_NOMIP_BMout.png
+map_D Maps/st105-t-sky_NOMIP_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-starlight01_NOMIP_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-starlight01_NOMIP_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-sky_NOMIP_BM_st105-m57-cloud2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-sky_NOMIP_BMout.png
+map_D Maps/st105-t-sky_NOMIP_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-ice_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-ice_BMout.png
+map_D Maps/st105-t-ice_BMout_mm.jpg
+
+newmtl scr\st105\stage\st105-t-sm_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-sm_NUKIout.png
+
+newmtl scr\st105\stage\st105-t-castle_BM_st105-m60-castleout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-castle2_BM_st105-m60-castleout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-castle2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-door00_BM_st105-m60-castleout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-door00_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m07-land3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliff_BM_st105-m07-land3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliff_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2snowfit_BM_st105-m07-land3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2snowfit_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-snow2_BM_st105-m09-land2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-snow2_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliff_BM_st105-m09-land2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliff_BMout.jpg
+
+newmtl scr\st105\stage\st105-t-cliffup2snowfit_BM_st105-m09-land2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st105-t-cliffup2snowfit_BMout.jpg
+

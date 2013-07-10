@@ -11,7 +11,6 @@
 
 CUIWindowEditVolumeLight::CUIWindowEditVolumeLight(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 
 	nodeToEdit = 0;
@@ -33,58 +32,56 @@ void CUIWindowEditVolumeLight::open(ISceneNode *node, stringw prefix) {
 													L"Please try again");
 	} else {
 		nodeToEditPrefix.append(prefix);
-		editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(450, 100, 750, 460), true, L"Add a volume light node", 0, -1);
+		editWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(134, 267, 550, 580), true, L"Add a volume light node", 0, -1);
 		//Name
 		stringc prefix = devices->getCore()->getNodeNamePrefix(nodeToEdit);
 		prefix += ':';
 		stringw nodeName = nodeToEdit->getName();
 		nodeName.remove(prefix);
-		devices->getGUIEnvironment()->addStaticText(L"Name : ", rect<s32>(5, 25, 55, 50), false, false, editWindow, -1, false);
-		volumeLightNameEditBox = devices->getGUIEnvironment()->addEditBox(nodeName.c_str(), rect<s32>(55, 25, 295, 45), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"Name : ", rect<s32>(6, 23, 66, 43), false, false, editWindow, -1, false);
+		volumeLightNameEditBox = devices->getGUIEnvironment()->addEditBox(nodeName.c_str(), rect<s32>(66, 23, 406, 43), true, editWindow, -1);
 
-		devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(1, 46, 298, 49), true, true, editWindow, -1, true);
 		//Parent
-		devices->getGUIEnvironment()->addStaticText(L"Parent : ", rect<s32>(5, 55, 65, 80), false, false, editWindow, -1, false);
-		volumeLightParentComboBox = devices->getGUIEnvironment()->addComboBox(rect<s32>(65, 50, 295, 75), editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"Parent : ", rect<s32>(6, 53, 66, 73), false, false, editWindow, -1, false);
+		volumeLightParentComboBox = devices->getGUIEnvironment()->addComboBox(rect<s32>(66, 53, 406, 73), editWindow, -1);
 		volumeLightParentComboBox->addItem(L"root", 0);
 		array<ISceneNode*> arrayLights = devices->getCoreData()->getArrayOfLightNodes();
 		for(u32 i = 0; i < arrayLights.size(); i++) {
 			volumeLightParentComboBox->addItem(stringw(arrayLights[i]->getName()).c_str(), 0);
 		}
 		//SubdivU
-		devices->getGUIEnvironment()->addStaticText(L"Subdiv U : ", rect<s32>(5, 85, 75, 110), false, false, editWindow, -1, false);
-		volumeLightSubdivUEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getSubDivideU()).c_str(), rect<s32>(75, 80, 122, 105), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"Subdiv U : ", rect<s32>(6, 113, 76, 133), false, false, editWindow, -1, false);
+		volumeLightSubdivUEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getSubDivideU()).c_str(), rect<s32>(76, 113, 196, 133), true, editWindow, -1);
 		
 		//SubdivV
-		devices->getGUIEnvironment()->addStaticText(L"Subdiv V : ", rect<s32>(5, 115, 75, 140), false, false, editWindow, -1, false);
-		volumeLightSubdivVEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getSubDivideV()).c_str(), rect<s32>(75, 110, 122, 135), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"Subdiv V : ", rect<s32>(206, 113, 276, 134), false, false, editWindow, -1, false);
+		volumeLightSubdivVEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getSubDivideV()).c_str(), rect<s32>(276, 113, 396, 133), true, editWindow, -1);
 
-		devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(1, 136, 298, 139), true, true, editWindow, -1, true);
 		//FootColor
-		devices->getGUIEnvironment()->addStaticText(L"Color Foot (Alpha, Red, Green, Blue) : ", rect<s32>(5, 140, 295, 160), false, false, editWindow, -1, false);
-		devices->getGUIEnvironment()->addStaticText(L"A : ", rect<s32>(5, 165, 27, 190), false, false, editWindow, -1, false);
-		volumeLightAFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getAlpha()).c_str(), rect<s32>(27, 160, 74, 185), true, editWindow, -1);
-		devices->getGUIEnvironment()->addStaticText(L"R : ", rect<s32>(79, 165, 101, 190), false, false, editWindow, -1, false);
-		volumeLightRFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getRed()).c_str(), rect<s32>(101, 160, 146, 185), true, editWindow, -1);
-		devices->getGUIEnvironment()->addStaticText(L"G : ", rect<s32>(151, 165, 173, 190), false, false, editWindow, -1, false);
-		volumeLightGFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getGreen()).c_str(), rect<s32>(173, 160, 218, 185), true, editWindow, -1);
-		devices->getGUIEnvironment()->addStaticText(L"B : ", rect<s32>(223, 165, 241, 190), false, false, editWindow, -1, false);
-		volumeLightBFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getBlue()).c_str(), rect<s32>(241, 160, 290, 185), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"Color Foot (Alpha, Red, Green, Blue) : ", rect<s32>(10, 160, 250, 180), false, false, editWindow, -1, false);
+		devices->getGUIEnvironment()->addStaticText(L"A : ", rect<s32>(10, 190, 40, 210), false, false, editWindow, -1, false);
+		volumeLightAFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getAlpha()).c_str(), rect<s32>(40, 190, 110, 210), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"R : ", rect<s32>(110, 190, 140, 210), false, false, editWindow, -1, false);
+		volumeLightRFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getRed()).c_str(), rect<s32>(140, 190, 210, 210), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"G : ", rect<s32>(210, 190, 240, 210), false, false, editWindow, -1, false);
+		volumeLightGFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getGreen()).c_str(), rect<s32>(240, 190, 310, 210), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"B : ", rect<s32>(310, 190, 340, 210), false, false, editWindow, -1, false);
+		volumeLightBFootColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getFootColor().getBlue()).c_str(), rect<s32>(340, 190, 410, 210), true, editWindow, -1);
 		//TailColor
-		devices->getGUIEnvironment()->addStaticText(L"Color Tail (Alpha, Red, Green, Blue) : ", rect<s32>(5, 190, 295, 210), false, false, editWindow, -1, false);
-		devices->getGUIEnvironment()->addStaticText(L"A : ", rect<s32>(5, 215, 27, 240), false, false, editWindow, -1, false);
-		volumeLightATailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getAlpha()).c_str(), rect<s32>(27, 210, 74, 235), true, editWindow, -1);
-		devices->getGUIEnvironment()->addStaticText(L"R : ", rect<s32>(79, 215, 101, 240), false, false, editWindow, -1, false);
-		volumeLightRTailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getRed()).c_str(), rect<s32>(101, 210, 146, 235), true, editWindow, -1);
-		devices->getGUIEnvironment()->addStaticText(L"G : ", rect<s32>(151, 215, 173, 240), false, false, editWindow, -1, false);
-		volumeLightGTailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getGreen()).c_str(), rect<s32>(173, 210, 218, 235), true, editWindow, -1);
-		devices->getGUIEnvironment()->addStaticText(L"B : ", rect<s32>(223, 215, 241, 240), false, false, editWindow, -1, false);
-		volumeLightBTailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getBlue()).c_str(), rect<s32>(241, 210, 290, 235), true, editWindow, -1);
-
-		devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(1, 236, 298, 239), true, true, editWindow, -1, true);
+		devices->getGUIEnvironment()->addStaticText(L"Color Tail (Alpha, Red, Green, Blue) : ", rect<s32>(10, 220, 250, 240), false, false, editWindow, -1, false);
+		devices->getGUIEnvironment()->addStaticText(L"A : ", rect<s32>(10, 240, 40, 260), false, false, editWindow, -1, false);
+		volumeLightATailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getAlpha()).c_str(), rect<s32>(40, 240, 110, 260), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"R : ", rect<s32>(110, 240, 140, 260), false, false, editWindow, -1, false);
+		volumeLightRTailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getRed()).c_str(), rect<s32>(140, 240, 210, 260), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"G : ", rect<s32>(210, 240, 240, 260), false, false, editWindow, -1, false);
+		volumeLightGTailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getGreen()).c_str(), rect<s32>(240, 240, 310, 260), true, editWindow, -1);
+		devices->getGUIEnvironment()->addStaticText(L"B : ", rect<s32>(310, 240, 340, 260), false, false, editWindow, -1, false);
+		volumeLightBTailColorEditBox = devices->getGUIEnvironment()->addEditBox(stringw(nodeToEdit->getTailColor().getBlue()).c_str(), rect<s32>(340, 240, 410, 260), true, editWindow, -1);
 		
-		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 330, 70, 355), editWindow, -1, L"Accept", L"Accept and add a light node");
-		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(80, 330, 145, 355), editWindow, -1, L"Cancel", L"Close this window");
+		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(6, 273, 86, 300), editWindow, -1, L"Accept", L"Accept and add a light node");
+		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(96, 273, 176, 300), editWindow, -1, L"Close", L"Close this window");
+
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
 	}
 }
 

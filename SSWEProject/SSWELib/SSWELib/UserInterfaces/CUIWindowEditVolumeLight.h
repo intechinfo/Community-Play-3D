@@ -60,9 +60,6 @@ private:
 	u32 rTailColor;
 	u32 gTailColor;
 	u32 bTailColor;
-	vector3df position;
-	vector3df rotation;
-	vector3df scale;
     //-----------------------------------
     
     //-----------------------------------

@@ -14,8 +14,6 @@ CUICodeEditor::CUICodeEditor(CDevices *_devices, stringw *code, bool _single) {
 	devices = _devices;
 	gui = devices->getGUIEnvironment();
 
-	devices->getEventReceiver()->AddEventReceiver(this);
-
 	textData = code;
 
 	autoSave = false;
@@ -68,6 +66,11 @@ CUICodeEditor::CUICodeEditor(CDevices *_devices, stringw *code, bool _single) {
 	if (textData != 0)
 		codeEditor->setText(textData->c_str());
 	//-----------------------------------
+	if (single)
+		devices->getEventReceiver()->AddEventReceiver(this, window);
+	else
+		devices->getEventReceiver()->AddEventReceiver(this);
+
 }
 
 CUICodeEditor::~CUICodeEditor() {
@@ -117,7 +120,7 @@ bool CUICodeEditor::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == window->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -126,7 +129,7 @@ bool CUICodeEditor::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
 			if (event.GUIEvent.Caller == window) {
-				devices->getEventReceiver()->RemoveEventReceiver(this);
+				//devices->getEventReceiver()->RemoveEventReceiver(this);
 				window->remove();
 				delete this;
 				return true;
@@ -135,7 +138,7 @@ bool CUICodeEditor::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == window->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, window);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, window);
 			}
 			if (event.GUIEvent.Caller == window->getMaximizeButton()) {
 				maximize(rect<s32>(0, 75, devices->getVideoDriver()->getScreenSize().Width,
@@ -211,6 +214,13 @@ void CUICodeEditor::resize(rect<s32> position) {
 
 void CUICodeEditor::resize(position2di position) {
 	window->setRelativePosition(position);
+}
+
+IGUIElement *CUICodeEditor::getWindow() {
+	if (window)
+		return window;
+	else
+		return 0;
 }
 
 void CUICodeEditor::setVisible(bool visible) {

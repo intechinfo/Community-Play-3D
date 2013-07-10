@@ -6,7 +6,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace SSWETests
 {
 	TEST_CLASS(CImporterTests) {
-		static CImporter *importer;
+
 	public:
 		
 		TEST_METHOD(importSceneTest) {
@@ -15,5 +15,3 @@ namespace SSWETests
 
 	};
 }
-
-CImporter *SSWETests::CImporterTests::importer;

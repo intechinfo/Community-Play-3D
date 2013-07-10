@@ -64,6 +64,18 @@ namespace scene
 		//! Set the distance
 		virtual void setDistance(f32 distance);
 
+		//! Set if allow events
+		virtual bool isEventsAllowed() const
+		{
+			return eventsAllowed;
+		}
+
+		//! Returns if the events are allowed
+		virtual void setEventsAllowed(bool allow)
+		{
+			eventsAllowed = allow;
+		}
+
 		//! This animator will receive events when attached to the active camera
 		virtual bool isEventReceiverEnabled() const
 		{
@@ -107,6 +119,8 @@ namespace scene
 		bool Rotating;
 		bool Moving;
 		bool Translating;
+
+		bool eventsAllowed;
 	};
 
 } // end namespace scene

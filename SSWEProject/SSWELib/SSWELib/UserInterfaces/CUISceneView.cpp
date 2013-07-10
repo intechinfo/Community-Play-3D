@@ -11,11 +11,9 @@
 CUISceneView::CUISceneView(CDevices *_devices) {
     devices = _devices;
     
-    devices->getEventReceiver()->AddEventReceiver(this);
-    
     windowSceneTreeNode = devices->getGUIEnvironment()->addWindow(rect<s32>(420, 80, 800, 530), false, L"Entire Tree View Nodes", 0, -1);
     windowSceneTreeNode->getMaximizeButton()->setVisible(true);
-    
+
 	nodeTreeView = devices->getGUIEnvironment()->addTreeView(rect<s32>(5, 30, 370, 400), windowSceneTreeNode, -1, true, true, false);
 	closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 410, 85, 440), windowSceneTreeNode, CXT_VIEW_SCENE_VIEW_CLOSE, L"Close", L"Close This Window");
 	windowSceneTreeNode->getCloseButton()->remove();
@@ -31,6 +29,8 @@ CUISceneView::CUISceneView(CDevices *_devices) {
     windowSceneTreeNode->setVisible(false);
     
     windowed = false;
+
+	devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 CUISceneView::~CUISceneView() {

@@ -12,6 +12,7 @@
 
 CDevices::CDevices() {
     //DEVICE
+	monitorRegister = new MonitorRegister();
 	Device = 0;
 	wolrdCore = new CCore();
     worldCoreData = new CCoreData();
@@ -159,7 +160,18 @@ void CDevices::updateDevice() {
 	//#ifndef _IRR_OSX_PLATFORM_
 	//	EnterCriticalSection(&CriticalSection);
 	//#endif
+	////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	for(int i = 0; i < monitorRegister->getMonitorCount(); i++)
+	{
+		IMonitor *monitor = monitorRegister->getMonitor(i);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////
 	#ifndef _IRR_OSX_PLATFORM_
 		/*if (renderScene) {
 			drawScene();
@@ -196,10 +208,6 @@ void CDevices::updateDevice() {
 		}
 	#endif
 
-	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-	smgrs[sceneManagerToDrawIndice]->getActiveCamera()->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-
 	//#ifndef _IRR_OSX_PLATFORM_
 	//	LeaveCriticalSection(&CriticalSection);
 	//#endif
@@ -229,15 +237,15 @@ void CDevices::drawScene() {
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 		effect->update(renderFullPostTraitements);
     } else {
-        smgrs[sceneManagerToDrawIndice]->drawAll();
+		smgrs[sceneManagerToDrawIndice]->drawAll();
     }
 
-    effectSmgr->drawAll();
+	effectSmgr->drawAll();
 }
 
 void CDevices::drawGUI() {
 	if (renderGUI) {
-        gui->drawAll();
+			gui->drawAll();
     }
 }
 
@@ -326,7 +334,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
 	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
-	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));

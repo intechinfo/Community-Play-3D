@@ -1,0 +1,1254 @@
+newmtl scr\st216\stage\st216-t-kaidan_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-kaidan_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-wall03_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-wall03_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-AFami_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-AFami_NUKIout.png
+map_D Maps/st216-t-AFami_NUKIout_mm.jpg
+
+newmtl scr\st216\stage\st216-t-alfa_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-alfa_NUKIout.png
+map_D Maps/st216-t-alfa_NUKIout_mm.jpg
+
+newmtl scr\st216\stage\st216-t-090_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-090_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-komono_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-komono_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-paipu_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-paipu_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-125_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-125_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-em005body_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-em005body_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-111_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-111_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m01-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-em005body_BM_st216-m02-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-em005body_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-111_BM_st216-m02-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-111_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m02-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-hito_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-hito_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-em005body_BM_st216-m03-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-em005body_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-em005body_BM_st216-m04-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-em005body_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-hito_BM_st216-m04-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-hito_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m05-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-hito_BM_st216-m05-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-hito_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m06-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-hito_BM_st216-m06-animeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-hito_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-115_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-115_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-127_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-127_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-126_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-126_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-122_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-122_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-114_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-114_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-125_BM_st216-m07-shasitukouout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-125_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-124_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-124_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-110_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-110_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-112_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-112_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-111_BM_st216-m08-kikaityuouout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-111_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-115_BM_st216-m08-kikaityuouout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-115_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-114_BM_st216-m08-kikaityuouout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-114_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-113_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-113_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-119_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-119_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-121_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/est216-t-121_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-120_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-120_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-117_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-117_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-122_BM_st216-m08-kikaityuouout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-122_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-044_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-044_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-090_BM_st216-m08-kikaityuouout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-090_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-032_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-032_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-117_BM_st216-m09-hikarisakuout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-117_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-116_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-116_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-005_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-005_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-082_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-082_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-094_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-094_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-005_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-005_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-kaidan_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-kaidan_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-083_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-083_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-032_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-032_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-117_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-117_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-082_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-082_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-092_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-092_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-116_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-116_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-komono_BM_st216-m10-tyuoukagoout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-komono_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-005_BM_st216-m12-tyuouout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-005_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-em005body_BM_st216-m13-tyuouanimeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-em005body_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-111_BM_st216-m13-tyuouanimeout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-111_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-wall03_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-wall03_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-000_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-000_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-092_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-092_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-kaidan_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-kaidan_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-komono_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-komono_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-yuka_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-yuka_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-paipu_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-paipu_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-044_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-044_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-090_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-090_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-032_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-032_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-tenjyou_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-tenjyou_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-em005body_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-em005body_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-083_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-083_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-112_BM_st216-m14-matome2out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-112_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-paipu_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-paipu_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-komono_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-komono_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-111_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-111_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-110_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-110_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-083_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-083_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-kaidan_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-kaidan_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-yuka_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-yuka_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-082_BM_st216-m15-matome3out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-082_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-083_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-083_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-110_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-110_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-kaidan_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-kaidan_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-komono_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-komono_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-paipu_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-paipu_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-wall03_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-wall03_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-120_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-120_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-116_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-116_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-005_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-005_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-032_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-032_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-090_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-090_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-111_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-111_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-095_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-095_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-093_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-093_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-094_BM_st216-m16-matome4out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-094_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-wall03_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-wall03_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-000_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-000_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-tenjyou_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-tenjyou_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-kaidan_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-kaidan_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-yuka_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-yuka_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-komono_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-komono_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-paipu_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-paipu_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-110_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-110_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-126_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-126_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-112_BM_st216-m17-matome5out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-112_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-kaidan_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-kaidan_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-paipu_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-paipu_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-komono_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-komono_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-123_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-123_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-093_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-093_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-095_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-095_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-090_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-090_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-094_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-094_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-wall03_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-wall03_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-em005body_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-em005body_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-alfa_NUKI_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-alfa_NUKIout.png
+map_D Maps/st216-t-alfa_NUKIout_mm.jpg
+
+newmtl scr\st216\stage\st216-t-112_BM_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-112_BMout.jpg
+
+newmtl scr\st216\stage\st216-t-AFami_NUKI_st216-m18-matome6out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.6 0.6 0.6
+Km 0
+map_Kd Maps/st216-t-AFami_NUKIout.png
+map_D Maps/st216-t-AFami_NUKIout_mm.jpg
+

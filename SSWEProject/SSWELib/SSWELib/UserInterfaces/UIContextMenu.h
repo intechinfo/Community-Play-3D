@@ -52,6 +52,9 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_NOT_LIGHTING,
 	CXT_MENU_EVENTS_EDIT_GRID_SCENE_NODE,
 	CXT_MENU_EVENTS_EDIT_CLONE,
+	CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION,
+	CXT_MENU_EVENTS_SIMPLE_EDITION,
+	CXT_MENU_EVENTS_EDIT_OPTIONS,
 
 	CXT_MENU_EVENTS_VIEW_MAYA_CAMERA,
 	CXT_MENU_EVENTS_VIEW_FPS_CAMERA,
@@ -70,9 +73,6 @@ enum GUI_CXT_MENU_EVENTS {
 
 	CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER,
 
-	CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION,
-	CXT_MENU_EVENTS_SIMPLE_EDITION,
-
 	CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE,
 	CXT_MENU_EVENTS_ADD_SPHERE_SCENE_NODE,
 	CXT_MENU_EVENTS_ADD_HILL_PLANE_MESH,
@@ -88,7 +88,9 @@ enum GUI_CXT_MENU_EVENTS {
 
 	CXT_MENU_EVENTS_RENDERING_INFOS,
 	CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW,
-	CXT_MENU_EVENTS_HELP_ABOUT
+	CXT_MENU_EVENTS_HELP_ABOUT,
+
+	CXT_MENU_EVENTS_PLUGINS_EDIT
 };
 
 #include "../Device/CDevices.h"
@@ -105,11 +107,14 @@ enum GUI_CXT_MENU_EVENTS {
 #include "CUIWindowEditVolumeLight.h"
 #include "CUIWindowEditGrid.h"
 
+#include "Options/CUISSWEOptions.h"
+
 #include "NodeFactory/CNodeFactory.h"
 #include "NodeFactory/CUINodeFactoryPlanarMapping.h"
 #include "NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
 
 #include "AnimatorsEditor/CUIWindowEditNodeAnimators.h"
+#include "AnimatorsEditor/CUIEditFPSCamera.h"
 
 #include "CUISceneView.h"
 #include "TexturesManager/CUITexturesManager.h"
@@ -123,6 +128,9 @@ enum GUI_CXT_MENU_EVENTS {
 #include "../Renders/XEffect/Interfaces/CUIWindowEditMaterials.h"
 
 #include "../Device/Core/Scripting/CUIScriptEditor.h"
+
+#include "PluginsManager/CPluginsManager.h"
+#include "PluginsManager/CUIPluginsManager.h"
 
 class CUIContextMenu : public IEventReceiver {
 
@@ -159,11 +167,13 @@ private:
 	CUIWindowExportScene *exportSceneInstance;
 
 	ITimer *timer;
+
+	CPluginsManager *pluginsManager;
 	//-----------------------------------
 
 	//-----------------------------------
 	//GUI ELEMENTS
-	IGUIContextMenu *menu, *submenu;
+	IGUIContextMenu *menu, *submenu, *monitorsMenu;
 	IGUIToolBar *bar, *infosBar;
 
 	IGUIButton *ibposition, *ibrotation, *ibscale;

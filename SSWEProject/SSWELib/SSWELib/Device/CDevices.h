@@ -22,10 +22,9 @@
 
 #include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
-#include <OVR.h>
-using namespace OVR;
-
 #include <omp.h>
+
+#include "Monitor/MonitorRegister.h"
 
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
@@ -36,6 +35,42 @@ using namespace OVR;
 enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE = 0x15000,
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
+};
+
+struct SDevices {
+	SDevices(IrrlichtDevice *_device) {
+		device = _device;
+	}
+
+	IrrlichtDevice *createDevice() {
+		 SIrrlichtCreationParameters params;
+		#ifdef _IRR_OSX_PLATFORM_
+		params.DriverType=EDT_OPENGL;
+			//params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
+			params.WindowSize = dimension2d<u32>(1920, 1070);
+			//params.WindowSize = dimension2d<u32>(1280, 690);
+		#else
+		params.DriverType=EDT_DIRECT3D9;
+			params.WindowSize = dimension2d<u32>(800, 600);
+		#endif
+			params.Bits=32;
+		#ifdef _IRR_OSX_PLATFORM_
+			params.Fullscreen = false;
+		#else
+			params.Fullscreen = false;
+		#endif
+		params.Stencilbuffer=true;
+		params.Vsync=false;
+		params.AntiAlias=true; 
+		params.ZBufferBits = 32;
+		params.EventReceiver=0;
+		device = createDeviceEx(params);
+		return device;
+	}
+
+private:
+
+	IrrlichtDevice *device;
 };
 
 class CDevices : public IEventReceiver {
@@ -143,6 +178,10 @@ public:
 	//INPUT METHODS
 	bool isCtrlPushed() { return ctrlWasPushed; }
 	bool isShiftPushed() { return shiftWasPushed; }
+
+	SKeyMap getKeyMap(int i) { return keyMap[i]; }
+	void setKeyMap(SKeyMap _keyMap, int i) { keyMap[i] = _keyMap; }
+	void applyKeyMapOnFPSCamera() { animatorFPS->setKeyMap(keyMap, 5); }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -151,6 +190,11 @@ public:
 	void setSkydome(ISceneNode *node) { skydome = node; }
 	ISceneNode *getSkyBox() { return skybox; }
 	void setSkyBox(ISceneNode *node) { skybox = node; }
+	//-----------------------------------
+
+	//-----------------------------------
+	//MONITOR
+	MonitorRegister *getMonitorRegister() { return monitorRegister; }
 	//-----------------------------------
 
 private:
@@ -196,6 +240,8 @@ private:
 	//CAMERAS
 	SKeyMap keyMap[5];
 	ICameraSceneNode *camera_fps, *camera_maya;
+	ISceneNodeAnimatorCameraFPS *animatorFPS;
+
 	IBillboardSceneNode *cursorBillBoard;
 	//-----------------------------------
 
@@ -233,10 +279,9 @@ private:
 	//-----------------------------------
 
 	//-----------------------------------
-	//OCULUS RIFT
-	bool isOculusRiftConnected;
-	Ptr<DeviceManager> oculusDeviceManagerPtr;
-	Ptr<HMDDevice> oculusHMDPtr;
+	//MONITOR
+	MonitorRegister *monitorRegister;
+	//-----------------------------------
 };
 
 #endif

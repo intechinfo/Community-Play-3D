@@ -28,6 +28,7 @@
 	#include <memory>
 	#include <thread>
 	#include <Windows.h>
+	#include <mutex>
 #endif
 
 #include "../../../SSWERenders/Renders/XEffect/XEffects.h"
@@ -99,6 +100,7 @@ public:
 	array<IGUIElement *> getArrayOfAListOfGUIElementChildren(IGUIElement *element);
 	void deactiveChildrenOfGUIElement(IGUIElement *element, bool visible);
 	void fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> *toFill, array<IGUIElement *> source);
+	void maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition);
     
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();
@@ -132,18 +134,46 @@ public:
     virtual bool OnEvent(const SEvent& mainEvent) {
         for (u32 i=0; i < mEventReceivers.size(); ++i) {
             mEventReceivers[i]->OnEvent(mainEvent);
+			if (i < mGuiWindows.size()) {
+				if (mGuiWindows[i] && mainEvent.EventType == EET_GUI_EVENT) {
+					if (mainEvent.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+						if (mainEvent.GUIEvent.Caller == ((IGUIWindow *)mGuiWindows[i])->getMinimizeButton()) {
+							mGuiWindows[i]->setVisible(false);
+						}
+					}
+				}
+			}
         }
         return false;
     }
     
-    void AddEventReceiver(IEventReceiver * receiver) {
+    void AddEventReceiver(IEventReceiver * receiver, IGUIWindow *window=0) {
         mEventReceivers.push_back(receiver);
+		if (window) {
+			IGUIStaticText *txt = gui->addStaticText(window->getText(), rect<s32>(0, 0, 0, 0), false, false, 0, -1, false);
+ 			txt->setToolTipText(window->getText());
+ 			txt->setOverrideColor(SColor(255, 255, 255, 255));
+ 			txt->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
+			txt->setID(mGuiWindows.size());
+			txt->setDrawBorder(false);
+			mNames.push_back(txt);
+			mGuiWindows.push_back(window);
+			if (window)
+				gui->setFocus(window);
+		} else {
+			mNames.push_back(0);
+			mGuiWindows.push_back(0);
+		}
     }
     
     bool RemoveEventReceiver(IEventReceiver * receiver) {
         for (unsigned int i=0; i < mEventReceivers.size(); ++i) {
             if (mEventReceivers[i] == receiver) {
                 mEventReceivers.erase(i);
+				mGuiWindows.erase(i);
+				if (mNames[i])
+					mNames[i]->remove();
+				mNames.erase(i);
             }
         }
         return false;
@@ -151,96 +181,26 @@ public:
 
 	//--------------------------
 	//MINIMIZED WINDOWS MANAGER
-	void ReactiveWindow(s32 referenceCounted) {
-		u32 rf = referenceCounted;
-		for (u32 i=0; i < smw.GUIImages.size(); i++) {
-			if (smw.GUIImages[i]->getReferenceCount() == referenceCounted) {
-				rf = smw.minimizedGUIWindows[i]->getReferenceCount();
-				break;
-			}
-		}
-		SEvent rcEvent;
-		rcEvent.EventType = EET_USER_EVENT;
-		rcEvent.UserEvent.UserData1 = ECUE_REACTIVE_MINIMIZED_WINDOW;
-		rcEvent.UserEvent.UserData2 = rf;
-		for (u32 i=0; i < smw.minimizedWindows.size(); ++i) {
-            smw.minimizedWindows[i]->OnEvent(rcEvent);
-        }
+	void ReactiveWindow(s32 ID) {
+		if (ID < 0 || ID >= mGuiWindows.size())
+			return;
+
+		mGuiWindows[ID]->setVisible(true);
+		gui->getRootGUIElement()->bringToFront(mGuiWindows[ID]);
 	}
 
-	void AddMinimizedWindow(IEventReceiver *rcv, IGUIWindow *window) {
-		IImage *scs = driver->createScreenShot();
-		IGUIImage *image = gui->addImage(rect<s32>(0, 0, scs->getDimension().Width, scs->getDimension().Height), 0, -1, window->getText());
-		ITexture *texture = driver->addTexture(stringc(stringc(window->getText()) + stringc(window->getReferenceCount())).c_str(), scs);
+	u32 GetMinimizedWindowsCount() { return mEventReceivers.size(); }
 
-		IGUIStaticText *txt = gui->addStaticText(window->getText(), rect<s32>(0, 0, 0, 0), false, false, 0, -1, false);
-		txt->setToolTipText(window->getText());
-		txt->setOverrideColor(SColor(255, 255, 255, 255));
-		txt->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
-		scs->grab();
-
-		image->setText(window->getText());
-		image->setToolTipText(window->getText());
-		image->setImage(texture);
-		image->setScaleImage(true);
-
-		window->setVisible(false);
-
-		smw.minimizedWindows.push_back(rcv);
-		smw.minimizedGUIWindows.push_back(window); 
-		smw.parent.push_back(window->getParent()); 
-		smw.relativePositions.push_back(window->getRelativePosition());
-		smw.images.push_back(texture);
-		smw.GUIImages.push_back(image);
-		smw.names.push_back(txt);
-	}
-
-	void RemoveMinimizedWindow(IEventReceiver *rcv) {
-		for (u32 i=0; i < smw.minimizedWindows.size(); ++i) {
-            if (smw.minimizedWindows[i] == rcv) {
-				smw.minimizedGUIWindows[i]->setVisible(true);
-				smw.parent[i]->addChild(smw.minimizedGUIWindows[i]);
-				smw.minimizedGUIWindows[i]->setRelativePosition(smw.relativePositions[i]);
-				
-				smw.GUIImages[i]->remove();
-				driver->removeTexture(smw.images[i]);
-				smw.names[i]->remove();
-
-				smw.minimizedWindows.erase(i);
-				smw.minimizedGUIWindows.erase(i);
-				smw.parent.erase(i);
-				smw.relativePositions.erase(i);
-				smw.images.erase(i);
-				smw.GUIImages.erase(i);
-				smw.names.erase(i);
-            }
-        }
-	}
-
-	u32 GetMinimizedWindowsCount() { return smw.minimizedWindows.size(); }
-
-	IEventReceiver *getErcv(u32 i) { return smw.minimizedWindows[i]; }
-	IGUIElement *getWindow(u32 i) { return smw.GUIImages[i]; }
-	IGUIElement *getWindowName(u32 i) { return smw.names[i]; }
-	IGUIWindow *getGUIWindow(u32 i) { return smw.minimizedGUIWindows[i]; }
-	IGUIElement *getParent(u32 i) { return smw.parent[i]; }
-	ITexture *getWindowTexture(u32 i) { return smw.images[i]; }
+	IGUIElement *getWindowName(u32 i) { return mNames[i]; }
 
 	void setDriver(IVideoDriver *_driver) { driver = _driver; }
 	void setGUI(IGUIEnvironment *_gui) { gui = _gui; }
     
 private:
-    array<IEventReceiver *> mEventReceivers;
 
-	struct SMinimizedWindows {
-		array<IEventReceiver *> minimizedWindows;
-		array<IGUIWindow *> minimizedGUIWindows;
-		array<IGUIElement *> parent;
-		array<rect<s32>> relativePositions;
-		array<ITexture *> images;
-		array<IGUIImage *> GUIImages;
-		array<IGUIStaticText *> names;
-	} smw;
+    array<IEventReceiver *> mEventReceivers;
+	array<IGUIWindow *> mGuiWindows;
+	array<IGUIStaticText *> mNames;
 
 	IVideoDriver *driver;
 	IGUIEnvironment *gui;

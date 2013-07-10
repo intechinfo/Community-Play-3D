@@ -20,6 +20,8 @@
 
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
+#include <IMonitor.h>
+
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PLANAR MAPPING--------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -320,11 +322,13 @@ private:
 
 			for(s32 i = 0; i < NumberOfPlanes; i++) {
 				vector3df position = vector3df(0, 0,-lightCamera->getNearValue() -i*DistanceBetweenPlanes);
-				IBillboardSceneNode *bb = lightCamera->getSceneManager()->addBillboardSceneNode();
+				//IBillboardSceneNode *bb = lightCamera->getSceneManager()->addBillboardSceneNode();
+				ISceneNode *bb = lightCamera->getSceneManager()->addCubeSceneNode();
 				bb->setParent(callback->lightCamera);
 				bb->setPosition(position);
-				bb->setSize(dimension2d<f32>(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep));
-				bb->setColor(SColor(255, 255, 255, 255));
+				bb->setScale(vector3df(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep, 0.5));
+				//bb->setSize(dimension2d<f32>(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep));
+				//bb->setColor(SColor(255, 255, 255, 255));
 				bb->setMaterialFlag(EMF_LIGHTING, false);
 				if (callback) {
 					//bb->setMaterialType((E_MATERIAL_TYPE)LightShafts);
@@ -436,7 +440,7 @@ private:
 //----------------------------------SCRIPTS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SScriptFile {
+struct SSWE_CORE_API SScriptFile {
 	SScriptFile(stringw _file, stringw _name) {
 		file = _file;
 		name = _name;
@@ -453,6 +457,38 @@ struct SScriptFile {
 private:
 	stringw file;
 	stringw name;
+};
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------PLUGINS----------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SSWE_CORE_API SMonitor {
+	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
+		monitor = _monitor;
+		hdll = _hdll;
+	}
+
+	SMonitor() {
+		SMonitor(0, 0);
+	}
+
+	IMonitor *getMonitor() { return monitor; }
+	void setMonitor(IMonitor *_monitor) { monitor = _monitor; }
+
+	HINSTANCE getInstance() { return hdll; }
+	void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
+
+	void freeInstance() {
+		if (hdll) {
+			FreeLibrary(hdll);
+		}
+	}
+
+private:
+
+	IMonitor *monitor;
+	HINSTANCE hdll;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -525,6 +561,11 @@ public:
 	array<SScriptFile> *getScriptFiles() { return &scriptFiles; }
 	//-----------------------------------
 
+	//-----------------------------------
+	//PLUGINS
+	array<SMonitor> *getMonitors() { return &monitors; }
+	//-----------------------------------
+
 private:
 
 	//-----------------------------------
@@ -562,6 +603,11 @@ private:
 	//-----------------------------------
 	//SCRIPTS
 	array<SScriptFile> scriptFiles;
+	//-----------------------------------
+
+	//-----------------------------------
+	//PLUGINS
+	array<SMonitor> monitors;
 	//-----------------------------------
 
 };

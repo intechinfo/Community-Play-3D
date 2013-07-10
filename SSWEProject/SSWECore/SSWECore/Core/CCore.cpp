@@ -17,6 +17,14 @@ CCore::~CCore() {
 
 }
 
+void CCore::maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition) {
+	if (window->getRelativePosition() != minRelativePosition) {
+		window->setRelativePosition(minRelativePosition);
+	} else {
+		window->setRelativePosition(rect<s32>(0, 75, device->getVideoDriver()->getScreenSize().Width, device->getVideoDriver()->getScreenSize().Height-20));
+	}
+}
+
 void CCore::deactiveChildrenOfGUIElement(IGUIElement *element, bool visible) {
 	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
 

@@ -14,7 +14,6 @@
 
 #include <SSWECore.h>
 
-#include "Device/Core/CCore.h"
-#include "Device/Core/CCoreData.h"
+#include "../SSWECore/SSWECore/Core/CCore.h"
+#include "../SSWECore/SSWECore/Core/CCoreData.h"
 
-#include "Scenes/CImporter.h"

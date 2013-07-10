@@ -65,8 +65,7 @@ private:
 	IGUIButton *addFrame, *removeFrame;
 	IGUIListBox *frames;
 	IGUIButton *previewFrame;
-	IGUITreeView *animations;
-	IGUITreeViewNode *rootAnimations;
+	IGUIListBox *animations;
 	IGUIButton *addAnimation, *removeAnimation;
 
 	//ANIMATIONS PARAMS WINDOW

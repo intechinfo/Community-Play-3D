@@ -116,6 +116,23 @@ void CExporter::exportConfig() {
 	fprintf(export_file, "\t\t\t <rotation X=\"%f\" Y=\"%f\" Z=\"%f\" />\n\n", devices->getMayaCamera()->getRotation().X,
 			devices->getMayaCamera()->getRotation().Y, devices->getMayaCamera()->getRotation().Z);
 	fprintf(export_file, "\t\t </camera>\n\n");
+
+	//FPS CAMERA
+	fprintf(export_file, "\t\t <fpsCameraSettings>\n\n");
+	fprintf(export_file, "\t\t\t <ellipsoidRadius X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", 
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidRadius().X,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidRadius().Y,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidRadius().Z);
+	fprintf(export_file, "\t\t\t <gravityPerSecond X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", 
+			devices->getCollisionManager()->getFPSCameraSettings()->getGravityPerSecond().X,
+			devices->getCollisionManager()->getFPSCameraSettings()->getGravityPerSecond().Y,
+			devices->getCollisionManager()->getFPSCameraSettings()->getGravityPerSecond().Z);
+	fprintf(export_file, "\t\t\t <ellipsoidTranslation X=\"%f\" Y=\"%f\" Z=\"%f\" />\n", 
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidTranslation().X,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidTranslation().Y,
+			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidTranslation().Z);
+	fprintf(export_file, "\t\t\t <slidingValue value=\"%f\" />\n\n", devices->getCollisionManager()->getFPSCameraSettings()->getSlidingValue());
+	fprintf(export_file, "\t\t </fpsCameraSettings>\n\n");
     
 	//EFFECTS
 	fprintf(export_file, "\t\t <effect>\n\n");
@@ -289,6 +306,7 @@ void CExporter::exportLights() {
         
         fprintf(export_file, "\t\t\t <radius value=\"%f\" />\n", ((ILightSceneNode *)node)->getRadius());
 		fprintf(export_file, "\t\t\t <farValue value=\"%f\" />\n", devices->getXEffect()->getShadowLight(i).getFarValue());
+		fprintf(export_file, "\t\t\t <autoRecalculate value=\"%u\" />\n", devices->getXEffect()->getShadowLight(i).isAutoRecalculate());
         
         fprintf(export_file, "\n\t\t\t <shadows resol=\"%u\" />\n\n", devices->getXEffect()->getShadowLight(i).getShadowMapResolution());
 
@@ -391,6 +409,33 @@ void CExporter::exporterWaterSurfaces() {
 
 		fprintf(export_file, "\t\t </waterSurface>\n\n");
 	}
+}
+
+//CONFIGS
+void CExporter::exportCamerasConfig() {
+	wd = devices->getWorkingDirectory().c_str();
+    wd+= "/";
+	export_file = fopen(stringc(wd + "Config/cameras.scfg").c_str(), "w");
+
+	//HEADER
+	fprintf(export_file, "<?xml version=\"1.0\"?>\n\n");
+    
+    //ROOT
+    fprintf(export_file, "<root>\n\n");
+
+	//CONFIG
+	fprintf(export_file, "\t<fpsCamera>\n\n");
+	//SCENE INFORMATION
+	fprintf(export_file, "\t\t <moveForward value=\"%u\" />\n", devices->getKeyMap(0).KeyCode);
+	fprintf(export_file, "\t\t <moveBackward value=\"%u\" />\n", devices->getKeyMap(1).KeyCode);
+	fprintf(export_file, "\t\t <strafeLeft value=\"%u\" />\n", devices->getKeyMap(2).KeyCode);
+	fprintf(export_file, "\t\t <strageRight value=\"%u\" />\n", devices->getKeyMap(3).KeyCode);
+	fprintf(export_file, "\t\t <jump value=\"%u\" />\n\n", devices->getKeyMap(4).KeyCode);
+	fprintf(export_file, "\t</fpsCamera>\n\n");
+
+	fprintf(export_file, "</root>\n\n");
+
+	fclose(export_file);
 }
 //---------------------------------------------------------------------------------------------
 //-----------------------------------INFORMATIONS EXPORTERS------------------------------------

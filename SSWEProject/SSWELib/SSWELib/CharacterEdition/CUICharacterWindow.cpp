@@ -230,7 +230,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == characterWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -292,7 +292,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == characterWindow->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, characterWindow);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, characterWindow);
 			}
 
 			if (event.GUIEvent.Caller == characterWindow->getMaximizeButton()) {

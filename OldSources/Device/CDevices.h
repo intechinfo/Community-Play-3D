@@ -22,8 +22,7 @@
 
 #include "../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
-#include <OVR.h>
-using namespace OVR;
+#include "Device\Monitor\MonitorRegister.h"
 
 #include <omp.h>
 
@@ -153,6 +152,10 @@ public:
 	void setSkyBox(ISceneNode *node) { skybox = node; }
 	//-----------------------------------
 
+	//-----------------------------------
+	//MONITORS
+	//-----------------------------------
+
 private:
 
 	//-----------------------------------
@@ -195,7 +198,7 @@ private:
 	//-----------------------------------
 	//CAMERAS
 	SKeyMap keyMap[5];
-	ICameraSceneNode *camera_fps, *camera_maya;
+	ICameraSceneNode *camera_fps, *camera_maya, *lcamera_fps, *rcamera_fps, *lcamera_maya, *rcamera_maya;
 	IBillboardSceneNode *cursorBillBoard;
 	//-----------------------------------
 
@@ -233,10 +236,9 @@ private:
 	//-----------------------------------
 
 	//-----------------------------------
-	//OCULUS RIFT
-	bool isOculusRiftConnected;
-	Ptr<DeviceManager> oculusDeviceManagerPtr;
-	Ptr<HMDDevice> oculusHMDPtr;
+	//MONITOR
+	MonitorRegister *monitorRegister;
+	//-----------------------------------
 };
 
 #endif

@@ -10,7 +10,6 @@
 
 CUIWindowEditLight::CUIWindowEditLight(CDevices *_devices, s32 _index) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 	index = _index;
 
@@ -94,6 +93,7 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		devices->getGUIEnvironment()->addStaticText(L"Resolution : ", rect<s32>(10, 5, 90, 25), true, true, advancedTab, -1, true);
 		resolutionComboBox = devices->getGUIEnvironment()->addComboBox(rect<s32>(95, 5, 195, 25), advancedTab,
 																	   CXT_EDIT_LIGHT_WINDOW_EVENTS_ADVANCED_RESOLUTION);
+		resolutionComboBox->addItem(L"1");
 		resolutionComboBox->addItem(L"128");
 		resolutionComboBox->addItem(L"256");
 		resolutionComboBox->addItem(L"512");
@@ -245,11 +245,16 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true, index));
 		devices->getGUIEnvironment()->addStaticText(L"Secondary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview2, -1, false);
 
+		autoRecalculate = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->getShadowLight(index).isAutoRecalculate(),
+																	rect<s32>(10, 330, 190, 350), shadowLightTab, -1, L"Set Auto Recalculate");
+
 		//WINDOW BUTTONS
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
 															  L"Apply", L"Apply the settings");
 		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 430, 175, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON,
 															  L"Close", L"Close without effect");
+
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
 	}
 }
 
@@ -270,7 +275,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == editWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -289,7 +294,7 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
-				devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
+				//devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
 			}
 
 			s32 id = event.GUIEvent.Caller->getID();
@@ -421,6 +426,10 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 		}
 
 		if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
+			//SHADOW LIGHTS CHECKBOX
+			if (event.GUIEvent.Caller == autoRecalculate) {
+				devices->getXEffect()->getShadowLight(index).setAutoRecalculate(autoRecalculate->isChecked());
+			}
 			//LENS FLARE CHECKBOX
 			if (event.GUIEvent.Caller == lensFlare) {
 				if (lensFlare->isChecked()) {

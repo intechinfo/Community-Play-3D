@@ -11,7 +11,7 @@
 
 CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     devices = _devices;
-    
+
     mainWindowInstance = new CUIMainWindow(devices);
     sceneViewInstance = new CUISceneView(devices);
     editGridInstance = new CUIWindowEditGrid(devices);
@@ -19,6 +19,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     exportSceneInstance = new CUIWindowExportScene(devices);
 
 	nodeFactory = new CNodeFactory(devices);
+
+	pluginsManager = new CPluginsManager(devices);
+
+	//SETS GENERIC MONITOR AS DEFAULT
+	#ifdef SSWE_RELEASE
+		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
+	#else
+		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+	#endif
 
     //-----------------------------------
     //MENU
@@ -35,12 +44,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	menu->addItem(L"Scripting", -1, true, true);
 	menu->addItem(L"Sounds", -1, true, true);
     menu->addItem(L"Window", -1, true, true);
-    
+	menu->addItem(L"Plugins", -1, true, true);
+
     int i=0;
-    
+
 	//WORLD EDITOR
     submenu = menu->getSubMenu(i++);
-    
+
 	//FILE
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Open a script (CTRL+O)", CXT_MENU_EVENTS_OPEN_SCRIPT);
@@ -53,7 +63,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Render", CXT_MENU_EVENTS_FILE_RENDER);
 	submenu->addSeparator();
 	submenu->addItem(L"Quit", CXT_MENU_EVENTS_FILE_QUIT);
-    
+
 	//EDIT
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Edit Selected Node (CTRL+E)", CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE);
@@ -68,7 +78,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addSeparator();
 	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
 	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
-    
+	submenu->addSeparator();
+	submenu->addItem(L"Preferences...", CXT_MENU_EVENTS_EDIT_OPTIONS);
+
 	//VIEW
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Maya Camera (CTRL+SHIFT+M)", CXT_MENU_EVENTS_VIEW_MAYA_CAMERA);
@@ -79,10 +91,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addSeparator();
 	submenu->addItem(L"Wire Frame (CTRL+W)", CXT_MENU_EVENTS_VIEW_WIREFRAME, true, false, false, false);
     submenu->addItem(L"Point Cloud", CXT_MENU_EVENTS_VIEW_POINTCLOUD, true, false, false, false);
-    
+
 	//ANIMATORS
     submenu = menu->getSubMenu(i++);
-    
+
 	//RENDERS
     submenu = menu->getSubMenu(i);
     submenu->addItem(L"Post Processes", -1, true, true);
@@ -101,11 +113,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
 	submenu->addItem(L"Recalculate All Shadow Lights", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
 	i++;
-    
+
 	//SHADERS
     submenu = menu->getSubMenu(i++);
     submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
-    submenu->addItem(L"Edit Selected Water Shader", -1);
 
 	//FACTORY
 	submenu = menu->getSubMenu(i++);
@@ -131,7 +142,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Create Mesh WIth Tangents...", CXT_MENU_EVENTS_NODE_FACTORY_CREATE_MESH_WITH_TANGENTS);
 	submenu->addItem(L"Scale Mesh...", -1);
 	submenu = menu->getSubMenu(i-1);
-    
+
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Open Script Editor", CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR);
@@ -146,6 +157,23 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Draw/Hide Main Window", CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW);
 	submenu->addSeparator();
 	submenu->addItem(L"About...", CXT_MENU_EVENTS_HELP_ABOUT);
+
+	//PLUGINS
+	submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"Edit Plugins...", CXT_MENU_EVENTS_PLUGINS_EDIT);
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo("plugins/monitors");
+	submenu->addItem(L"Monitors", -1, true, true);
+	monitorsMenu = submenu->getSubMenu(1);
+	submenu = monitorsMenu;
+	IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
+	for (u32 j=0; j < fl->getFileCount(); j++) {
+		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
+			stringw pluginname = fl->getFileName(j);
+			pluginname.remove(".dll");
+			submenu->addItem(pluginname.c_str(), -1, true, false, false, true);
+		}
+	}
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo("../../");
     //-----------------------------------
 
     //-----------------------------------
@@ -158,9 +186,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	bar->addButton(CXT_MENU_EVENTS_EDIT_NODE, 0, L"Edit Selected Node", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/save.png");
 	bar->addButton(CXT_MENU_EVENTS_EXPORT_SCENE, 0, L"Export this scene", image, 0, false, true);
-    
+
     bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
-    
+
     image = devices->getVideoDriver()->getTexture("GUI/edit_ao.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_AO, 0, L"Edit Animated Object", image, 0, false, true);
     image = devices->getVideoDriver()->getTexture("GUI/animators.png");
@@ -178,9 +206,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	bar->addButton(CXT_MENU_EVENTS_MAKE_PLANAR_MAPPING, 0, L"Make planar mapping to node...", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/tangents.png");
 	bar->addButton(CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS, 0, L"Create mesh with tangents", image, 0, false, true);
-    
+
     //-----------------------------------
-    
+
     //-----------------------------------
     //INFORMATIONS BAR
     infosBar = devices->getGUIEnvironment()->addToolBar(0, -1);
@@ -252,24 +280,27 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 		printf("Importing scene number %u \n", i);
 	}
 
+	CImporter *impoterInstance = new CImporter(devices);
+	impoterInstance->importCamerasConfig();
+
     //CUIWindowEditNode *edit = new CUIWindowEditNode(devices);
     //edit->open(devices->getCoreData()->getTerrainNodes()->operator[](0), L"#terrain:");
-    
+
     //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
     //editEffects->open();
-    
+
     //CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, 0);
     //editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
-    
+
     //CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
 	//editMaterials->open();
-    
+
     //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
     //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
 
 	//CUICharacterWindow *editChar = new CUICharacterWindow(devices);
 	//editChar->open();
-	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](0).getNode(), 0);
+	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](3).getNode(), 3);
 
 	movementType = CCoreObjectPlacement::Undefined;
 	devices->getObjectPlacement()->setArrowType(movementType);
@@ -277,6 +308,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	devices->setContextName("General");
 
 	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
+	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
+
+	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -310,6 +344,30 @@ void CUIContextMenu::update() {
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
 
+	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && devices->getGUIEnvironment()->getFocus() == menu) {
+			stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
+			devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "plugins/monitors").c_str());
+			IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
+			monitorsMenu->removeAllItems();
+			for (u32 j=0; j < fl->getFileCount(); j++) {
+				if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
+					stringw pluginname = fl->getFileName(j);
+					pluginname.remove(".dll");
+					pluginname.make_upper();
+					u32 itemID = monitorsMenu->addItem(pluginname.c_str(), -1, true, false, false, true);
+					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+						if (devices->getMonitorRegister()->getMonitor(i)->getName() == pluginname) {
+							monitorsMenu->setItemChecked(itemID, true);
+							break;
+						}
+					}
+				}
+			}
+			devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(oldPath.c_str());
+		}
+	}
+
     if (event.EventType == EET_GUI_EVENT) {
         s32 id = event.GUIEvent.Caller->getID();
         //-----------------------------------
@@ -317,6 +375,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
             
             IGUIContextMenu *tempMenu = (IGUIContextMenu *)event.GUIEvent.Caller;
+
+			if (tempMenu == monitorsMenu) {
+				pluginsManager->loadMonitorPlugin(monitorsMenu->getItemText(tempMenu->getSelectedItem()));
+			}
 
             switch (tempMenu->getItemCommandId(tempMenu->getSelectedItem())) {
 
@@ -410,6 +472,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_EDIT_CLONE:
                     mainWindowInstance->cloneNode();
                     break;
+
+				case CXT_MENU_EVENTS_EDIT_OPTIONS: {
+					CUISSWEOptions *preferences = new CUISSWEOptions(devices);
+				}
+					break;
                 //-----------------------------------
                 
                 //-----------------------------------
@@ -418,10 +485,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
                     break;
                     
-                case CXT_MENU_EVENTS_VIEW_FPS_CAMERA:
-                    devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
-                    devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
-					devices->getDevice()->getCursorControl()->setVisible(false);
+                case CXT_MENU_EVENTS_VIEW_FPS_CAMERA: {
+                    CUIEditFPSCamera *editFPS = new CUIEditFPSCamera(devices);
+				}
                     break;
                     
                 case CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW:
@@ -474,6 +540,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //CONTEXT MENU RENDERS EVENT
 				case CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT: {
 					devices->setRenderFullPostTraitements(!devices->isRenderingFullPostTraitements());
+					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+						devices->getMonitorRegister()->getMonitor(i)->setRenderingXEffectFullTraitement(devices->isRenderingFullPostTraitements());
+					}
 				}
 					break;
                 case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
@@ -489,6 +558,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
                     devices->setXEffectDrawable(!devices->isXEffectDrawable());
+					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+						devices->getMonitorRegister()->getMonitor(i)->setXEffectRendered(devices->isXEffectDrawable());
+					}
                     break;
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT: {
@@ -662,6 +734,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 												  EMBF_OK);
 					break;
 				//-----------------------------------
+
+				case CXT_MENU_EVENTS_PLUGINS_EDIT: {
+					CUIPluginsManager *uiPluginsManager = new CUIPluginsManager(devices, pluginsManager);
+				}
+					break;
                 default:
                     break;
             }
@@ -681,6 +758,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(8);
                     devices->getObjectPlacement()->getGridSceneNode()->SetSize(1024);
                     devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(8);
+
+					devices->getCollisionManager()->getMetaTriangleSelectors()->removeAllTriangleSelectors();
                     break;
                     
                 default:
@@ -711,24 +790,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 		//NODE SELECTION IN MAIN WINDOW CHANGED, DOUBLE CLICK TO CONFIRM ARROWS, OR SINGLE CLICK ??????????
 		if (event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN || event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
-			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
-			bool isAListBoxOfMainWindow = (parent == mainWindowInstance->getActiveListBox() && mainWindowInstance->getActiveListBox()->getItemCount() != 0);
-			if (isAListBoxOfMainWindow && devices->getObjectPlacement()->getArrowType() != CCoreObjectPlacement::Undefined) {
-				CCoreObjectPlacement *cobj = devices->getObjectPlacement();
-				/*if (cobj->isPlacing() && cobj->getArrowType() == movementType) {
-					cobj->setCollisionToNormal();
-					cobj->setNodeToPlace(0);
-					cobj->setArrowType(CCoreObjectPlacement::Undefined);
-					cobj->setArrowVisible(false);
-				} else {*/
+			if (event.GUIEvent.Caller == mainWindowInstance->getActiveListBox()) {
+				if (movementType != CCoreObjectPlacement::Undefined) {
+					CCoreObjectPlacement *cobj = devices->getObjectPlacement();
+					cobj->setArrowType(movementType);
 					cobj->setNodeToPlace(mainWindowInstance->getSelectedNode().getNode());
-					if (!cobj->getNodeToPlace()) {
-						devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-					} else {
-						cobj->setArrowType(movementType);
-						cobj->setArrowVisible(true);
-					}
-				//}
+					cobj->setArrowVisible(true);
+				}
 			}
 		}
         
@@ -737,6 +805,14 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         //-----------------------------------
         //BUTTON GUI EVENT
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+
+			IGUIElement *caller = event.GUIEvent.Caller;
+			if (caller == ibposition || caller == ibrotation || caller == ibscale) {
+				movementType = CCoreObjectPlacement::Undefined;
+				devices->getObjectPlacement()->setArrowType(movementType);
+				devices->getObjectPlacement()->setNodeToPlace(0);
+				devices->getObjectPlacement()->setArrowVisible(false);
+			}
 
 			//POSITION
 			if (event.GUIEvent.Caller == ibposition) {
@@ -772,12 +848,6 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				}
 				ibposition->setPressed(false);
 				ibrotation->setPressed(false);
-			}
-
-			//IF NO BUTTON PRESSED
-			if (!ibposition->isPressed() && !ibrotation->isPressed() && !ibscale->isPressed()) {
-				devices->getObjectPlacement()->setArrowType(CCoreObjectPlacement::Undefined);
-				devices->getObjectPlacement()->setArrowVisible(false);
 			}
 
             switch (id) {
@@ -910,6 +980,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case KEY_KEY_X:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
                         devices->setXEffectDrawable(!devices->isXEffectDrawable());
+						for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+							devices->getMonitorRegister()->getMonitor(i)->setXEffectRendered(devices->isXEffectDrawable());
+						}
                     }
                     break;
                     

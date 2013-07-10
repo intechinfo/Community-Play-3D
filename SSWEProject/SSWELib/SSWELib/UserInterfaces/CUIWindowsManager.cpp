@@ -32,26 +32,17 @@ CUIWindowsManager::~CUIWindowsManager() {
 
 void CUIWindowsManager::update() {
 	devices->getGUIEnvironment()->getRootGUIElement()->bringToFront(window);
-	EventReceiver *ercv = devices->getEventReceiver();
-	array<IGUIElement *> windowElements = devices->getCore()->getArrayOfAListOfGUIElementChildren(window);
-	for (u32 i=0; i < ercv->GetMinimizedWindowsCount(); i++) {
-		if (!devices->getCore()->elementIsInArrayOfElements(ercv->getWindow(i), windowElements)) {
-			//WORK ON ANIMATION HERE
-			window->addChild(ercv->getWindow(i));
-			window->addChild(ercv->getWindowName(i));
-		} else {
-			if (focusOn) {
-				ercv->getWindow(i)->setVisible(true);
-				ercv->getWindow(i)->setRelativePosition(rect<s32>(10+(150*i*1), 30, 150+(150*i+1), 80));
-				ercv->getWindowName(i)->setRelativePosition(rect<s32>(10+(150*i*1), 80, 150+(150*i+1), 100));
-				((IGUIStaticText *)ercv->getWindowName(i))->setDrawBackground(true);
-				((IGUIStaticText *)ercv->getWindowName(i))->setDrawBorder(true);
-			} else {
-				ercv->getWindow(i)->setVisible(false);
-				ercv->getWindowName(i)->setRelativePosition(rect<s32>(10+(150*i*1), 2, 150+(150*i+1), 23));
-				((IGUIStaticText *)ercv->getWindowName(i))->setDrawBackground(true);
-				((IGUIStaticText *)ercv->getWindowName(i))->setDrawBorder(true);
-			}
+	u32 numOfWindows = 0;
+	for (u32 i=0; i < devices->getEventReceiver()->GetMinimizedWindowsCount(); i++) {
+		if (devices->getEventReceiver()->getWindowName(i)) {
+			devices->getEventReceiver()->getWindowName(i)->setRelativePosition(rect<s32>(10+(150*numOfWindows*1), 2, 150+(150*numOfWindows+1), 23));
+			((IGUIStaticText *)devices->getEventReceiver()->getWindowName(i))->setDrawBackground(true);
+			if (devices->getGUIEnvironment()->getFocus() != devices->getEventReceiver()->getWindowName(i))
+				((IGUIStaticText *)devices->getEventReceiver()->getWindowName(i))->setDrawBorder(true);
+			else
+				((IGUIStaticText *)devices->getEventReceiver()->getWindowName(i))->setDrawBorder(false);
+			window->addChild(devices->getEventReceiver()->getWindowName(i));
+			numOfWindows++;
 		}
 	}
 }
@@ -63,7 +54,13 @@ bool CUIWindowsManager::OnEvent(const SEvent &event) {
 			if (devices->getCore()->elementIsInArrayOfElements(devices->getGUIEnvironment()->getFocus(),
 															   devices->getCore()->getArrayOfAListOfGUIElementChildren(window))) 
 			{
-				devices->getEventReceiver()->ReactiveWindow(devices->getGUIEnvironment()->getFocus()->getReferenceCount());
+				if (devices->getGUIEnvironment()->getFocus()) {
+					IGUIEnvironment *gui = devices->getGUIEnvironment();
+					if (gui->getFocus() != window && devices->getDevice()->getCursorControl()->getPosition().Y >= 20) {
+						devices->getEventReceiver()->ReactiveWindow(devices->getGUIEnvironment()->getFocus()->getID());
+						((IGUIStaticText *)devices->getGUIEnvironment()->getFocus())->setDrawBorder(false);
+					}
+				}
 			}
 		}
 
@@ -78,17 +75,18 @@ bool CUIWindowsManager::OnEvent(const SEvent &event) {
 				window->setVisible(true);
 			}
 			if (window->isVisible() && event.MouseInput.Y < devices->getVideoDriver()->getScreenSize().Height-25 && !focusOn) {
-				window->setVisible(false);
+				//window->setVisible(false);
 			}
 		}
 	}
 
 	if (window->isVisible()) {
 		IVideoDriver *driver = devices->getVideoDriver();
-		if (focusOn)
-			window->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height-100, driver->getScreenSize().Width, driver->getScreenSize().Height));
-		else
+		if (focusOn) {
+			//window->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height-100, driver->getScreenSize().Width, driver->getScreenSize().Height));
+		} else {
 			window->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height-25, driver->getScreenSize().Width, driver->getScreenSize().Height));
+		}
 	}
 
 	return false;

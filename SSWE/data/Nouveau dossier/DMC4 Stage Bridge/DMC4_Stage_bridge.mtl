@@ -1,0 +1,710 @@
+newmtl scr\st305\stage\st306-t-yuka16_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st306-t-yuka16_BMout.png
+map_D /Maps/st306-t-yuka16_BMout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ki005_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki005_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-ki009_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki009_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-ki012_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki012_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-ki006_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki006_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-yuka09_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka09_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-iwakabe03_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-iwakabe03_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-kabe02U_BM
+d 0.973154
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-kabe02U_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-kabe02_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-kabe02_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-iwakabe02_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-iwakabe02_BMout.jpg
+
+newmtl scr\st305\stage\st306-t-iwakabe001_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st306-t-iwakabe001_BMout.jpg
+
+newmtl scr\st305\stage\st306-t-iwakabe001U_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st306-t-iwakabe001U_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-kine005_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-kine005_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-kine006_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-kine006_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-kine009_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-kine009_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-kine012_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-kine012_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-yuka05_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka05_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-yuka04_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka04_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-yuka029_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka09_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-yuka09_BM_st305-m00-jimenout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka09_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-KURO_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-KURO_BMout.png
+map_D /Maps/st370-t-KURO_BMout_mm.jpg
+
+newmtl scr\st305\stage\st306-t-yuka15_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka09_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-yuka001_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka09_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-ha0082_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha0082_NUKIout.png
+map_D /Maps/st370-t-ha0082_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ha008_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha008_NUKIout.png
+map_D /Maps/st370-t-ha008_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ki005_BM_st305-m10e-ki005out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki005_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-tuta11_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-tuta11_NUKIout.png
+map_D /Maps/st370-t-tuta11_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-tutaJ92_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-tutaJ92_NUKIout.png
+map_D /Maps/st370-t-tutaJ92_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-tuta66_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-tuta66_NUKIout.png
+map_D /Maps/st370-t-tuta66_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ha001_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha001_NUKIout.png
+map_D /Maps/st370-t-ha001_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ha29_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha29_NUKIout.png
+map_D /Maps/st370-t-ha29_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ki006_BM_st305-m10e-ki006out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki006_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-ki009_BM_st305-m10e-ki009out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki009_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-ha001_NUKI_st305-m10e-ki009-HAout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha001_NUKIout.png
+map_D /Maps/st370-t-ha001_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ha29_NUKI_st305-m10e-ki009-HAout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha29_NUKIout.png
+map_D /Maps/st370-t-ha29_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ha0082_NUKI_st305-m10e-ki012-HAout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha0082_NUKIout.png
+map_D /Maps/st370-t-ha0082_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ha008_NUKI_st305-m10e-ki012-HAout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ha008_NUKIout.png
+map_D /Maps/st370-t-ha008_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-ki012_BM_st305-m10e-ki012out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-ki012_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-iwa05_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-iwa05_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-iwakabe02_BM_st305-m10-iwa02out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-iwakabe02_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-iwa06_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-iwa06_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-iwa07_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-iwa07_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-door01_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-door01_BMout.jpg
+
+newmtl scr\st305\stage\st303-t-kabe004_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st303-t-kabe004_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-enkei01_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-enkei01_BMout.png
+map_D /Maps/st305-t-enkei01_BMout_mm.jpg
+
+newmtl scr\st305\stage\st305-t-enkei01D_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-enkei01D_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-wat01_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-wat01_BMout.jpg
+
+newmtl scr\st305\stage\st306-t-iwakabe001U_BM_st305-m13-HIenkei01out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st306-t-iwakabe001U_BMout.jpg
+
+newmtl scr\st305\stage\st306-t-iwakabe001_BM_st305-m13-HIenkei01out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st306-t-iwakabe001_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-leaf07_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st300-t-leaf07_NUKIout.png
+map_D /Maps/st300-t-leaf07_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st305-t-leaf08_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st300-t-leaf08_NUKIout.png
+map_D /Maps/st300-t-leaf08_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st305-t-kabe03_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-kabe03_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-kabe00_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-kabe00_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-yuka02_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-yuka02_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-hasira033_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-hasira033_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-hasira007_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-hasira007_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-hasira008_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-hasira008_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-hasira007_BM_st305-m20-hasiTout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-hasira007_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-kabe00_BM_st305-m20-hasiTout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-kabe00_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-hasira008_BM_st305-m20-hasiTout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-hasira008_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-hasira033_BM_st305-m20-hasiTout
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-hasira033_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-ita01_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-ita01_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-hasira025_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-hasira025_BMout.jpg
+
+newmtl scr\st305\stage\st370-t-tuta02_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-tuta02_NUKIout.png
+map_D /Maps/st370-t-tuta02_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-tuta031_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-tuta031_NUKIout.png
+map_D /Maps/st370-t-tuta031_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st370-t-tuta03_NUKI
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st370-t-tuta03_NUKIout.png
+map_D /Maps/st370-t-tuta03_NUKIout_mm.jpg
+
+newmtl scr\st305\stage\st305-t-wat01_BM_st305-m60-mizu01out
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-wat01_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-wat02_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-wat02_BMout.jpg
+
+newmtl scr\st305\stage\st305-t-wat03_BM
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.0 0.0 0.0
+Km 0
+map_Kd /Maps/st305-t-wat03_BMout.png
+map_D /Maps/st305-t-wat03_BMout_mm.jpg
+

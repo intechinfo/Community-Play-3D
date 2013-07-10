@@ -4,21 +4,6 @@
     <Filter Include="include">
       <UniqueIdentifier>{b5bde5d3-f9e4-4036-8c28-2f4e8cd03846}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\video">
-      <UniqueIdentifier>{0b0937fb-2270-4e3e-a94f-f92bc0fa74ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\core">
-      <UniqueIdentifier>{67300400-93d5-4a7e-8b59-7c0d7b1f6d75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\io">
-      <UniqueIdentifier>{feb206b9-81b6-45c0-b4e5-9e637fe060e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\scene">
-      <UniqueIdentifier>{af459bf5-2849-4a0e-9a21-91acbbf1c6b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\gui">
-      <UniqueIdentifier>{aa649d49-922d-4118-8574-f05c13d67706}</UniqueIdentifier>
-    </Filter>
     <Filter Include="doc">
       <UniqueIdentifier>{a72cb2e5-a5c3-41bc-9c86-fdbdae8f7866}</UniqueIdentifier>
     </Filter>
@@ -105,462 +90,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\IEventReceiver.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ILogger.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IOSOperator.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IReferenceCounted.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IrrCompileConfig.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrlicht.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IrrlichtDevice.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrTypes.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ITimer.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Keycodes.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SIrrCreationParameters.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SKeyMap.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EDriverTypes.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGeometryCreator.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGPUProgrammingServices.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IImage.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IImageLoader.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMaterialRenderer.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMaterialRendererServices.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IShaderConstantSetCallBack.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ITexture.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IVideoDriver.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IVideoModeList.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\S3DVertex.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SColor.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SExposedVideoData.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SLight.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SMaterial.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SMaterialLayer.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\aabbox3d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\coreutil.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\dimension2d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\heapsort.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrAllocator.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrArray.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrList.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrMap.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrMath.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrString.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\line2d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\line3d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\matrix4.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\plane3d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\position2d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\quaternion.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\rect.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\triangle3d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\vector2d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\vector3d.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EAttributes.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IAttributeExchangingObject.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IAttributes.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IFileList.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IFileSystem.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IReadFile.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\irrXML.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IWriteFile.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IXMLReader.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IXMLWriter.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\path.h">
-      <Filter>include\io</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\CDynamicMeshBuffer.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\CIndexBuffer.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\CMeshBuffer.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\CVertexBuffer.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ECullingTypes.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EDebugSceneTypes.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EMeshWriterEnums.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EPrimitiveTypes.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ESceneNodeAnimatorTypes.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ESceneNodeTypes.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IAnimatedMesh.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IAnimatedMeshMD2.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IAnimatedMeshSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IBillboardSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ICameraSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IDummyTransformationSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ILightSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMesh.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMeshBuffer.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMeshCache.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMeshLoader.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMeshManipulator.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMeshSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMeshWriter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IMetaTriangleSelector.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleAffector.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleAnimatedMeshSceneNodeEmitter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleAttractionAffector.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleBoxEmitter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleCylinderEmitter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleEmitter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleFadeOutAffector.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleGravityAffector.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleMeshEmitter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleRingEmitter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleRotationAffector.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleSphereEmitter.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IParticleSystemSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IQ3LevelMesh.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IQ3Shader.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneCollisionManager.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneManager.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneNodeAnimator.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneNodeAnimatorCameraFPS.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneNodeAnimatorCameraMaya.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneNodeAnimatorCollisionResponse.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneNodeAnimatorFactory.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISceneNodeFactory.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IShadowVolumeSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ISkinnedMesh.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ITerrainSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ITextSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ITriangleSelector.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IVolumeLightSceneNode.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SAnimatedMesh.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SceneParameters.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SMesh.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SMeshBuffer.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SMeshBufferLightMap.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SMeshBufferTangents.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SParticle.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SSkinMeshBuffer.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SViewFrustum.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EGUIAlignment.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EGUIElementTypes.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EMessageBoxFlags.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ICursorControl.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIButton.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUICheckbox.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIComboBox.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIContextMenu.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIEditBox.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIElement.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIElementFactory.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIEnvironment.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIFileOpenDialog.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIFont.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIImage.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIImageList.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIInOutFader.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIListBox.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIMeshViewer.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIScrollBar.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUISkin.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUISpinBox.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUISpriteBank.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIStaticText.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUITabControl.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIToolbar.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUITreeView.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IGUIWindow.h">
-      <Filter>include\gui</Filter>
-    </ClInclude>
     <ClInclude Include="CDefaultSceneNodeAnimatorFactory.h">
       <Filter>Irrlicht\scene</Filter>
     </ClInclude>
@@ -1275,27 +804,12 @@
     <ClInclude Include="CGUIWindow.h">
       <Filter>Irrlicht\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\IAnimatedMeshMD3.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="CSceneLoaderIrr.h">
       <Filter>Irrlicht\scene\loaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\ISceneLoader.h">
-      <Filter>include\scene</Filter>
-    </ClInclude>
     <ClInclude Include="CSMFMeshFileLoader.h">
       <Filter>Irrlicht\scene\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EDriverFeatures.h">
-      <Filter>include\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\IRandomizer.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\EMaterialFlags.h">
-      <Filter>include\video</Filter>
     </ClInclude>
     <ClInclude Include="CD3D9CgMaterialRenderer.h">
       <Filter>Irrlicht\video\Direct3D9</Filter>
@@ -1305,6 +819,552 @@
     </ClInclude>
     <ClInclude Include="CCgMaterialRenderer.h">
       <Filter>Irrlicht\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\dimension2d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\driverChoice.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EAttributes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ECullingTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EDebugSceneTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EDeviceTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EDriverFeatures.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EDriverTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EGUIAlignment.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EGUIElementTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EHardwareBufferFlags.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EMaterialFlags.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EMaterialTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EMeshWriterEnums.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EMessageBoxFlags.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EPrimitiveTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ESceneNodeAnimatorTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ESceneNodeTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EShaderTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ETerrainElements.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\fast_atof.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\heapsort.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IAnimatedMesh.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IAnimatedMeshMD2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IAnimatedMeshMD3.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IAnimatedMeshSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IAttributeExchangingObject.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IAttributes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IBillboardSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IBillboardTextSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IBoneSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ICameraSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IColladaMeshWriter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ICursorControl.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IDummyTransformationSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IDynamicMeshBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IEventReceiver.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IFileArchive.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IFileList.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IFileSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGeometryCreator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGPUProgrammingServices.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIButton.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUICheckBox.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIColorSelectDialog.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIComboBox.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIContextMenu.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIEditBox.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIElement.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIElementFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIEnvironment.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIFileOpenDialog.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIFont.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIFontBitmap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIImage.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIImageList.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIInOutFader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIListBox.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIMeshViewer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIScrollBar.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUISkin.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUISpinBox.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUISpriteBank.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIStaticText.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUITabControl.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUITable.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIToolbar.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUITreeView.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IGUIWindow.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IImage.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IImageLoader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IImageWriter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IIndexBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ILightManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ILightSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ILogger.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMaterialRenderer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMaterialRendererServices.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMesh.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMeshBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMeshCache.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMeshLoader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMeshManipulator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMeshSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMeshWriter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMetaTriangleSelector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IOSOperator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleAffector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleAnimatedMeshSceneNodeEmitter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleAttractionAffector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleBoxEmitter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleCylinderEmitter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleEmitter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleFadeOutAffector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleGravityAffector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleMeshEmitter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleRingEmitter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleRotationAffector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleSphereEmitter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IParticleSystemSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IQ3LevelMesh.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IQ3Shader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IRandomizer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IReadFile.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IReferenceCounted.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrAllocator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrArray.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IrrCompileConfig.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrlicht.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IrrlichtDevice.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrList.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrMap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrMath.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrpack.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrString.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrTypes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrunpack.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\irrXML.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneCollisionManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneLoader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneNodeAnimator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneNodeAnimatorCameraFPS.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneNodeAnimatorCameraMaya.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneNodeAnimatorCollisionResponse.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneNodeAnimatorFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneNodeFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISceneUserDataSerializer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IShaderConstantSetCallBack.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IShadowVolumeSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISkinnedMesh.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ITerrainSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ITextSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ITexture.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ITimer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ITriangleSelector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IVertexBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IVideoDriver.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IVideoModeList.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IVolumeLightSceneNode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IWriteFile.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IXMLReader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IXMLWriter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Keycodes.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\line2d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\line3d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\matrix4.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\path.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\plane3d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\position2d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quaternion.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\S3DVertex.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SAnimatedMesh.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SceneParameters.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SColor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SExposedVideoData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SIrrCreationParameters.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SKeyMap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SLight.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SMaterial.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SMaterialLayer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SMesh.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SMeshBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SMeshBufferLightMap.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SMeshBufferTangents.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SParticle.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SSharedMeshBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SSkinMeshBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SVertexIndex.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SVertexManipulator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SViewFrustum.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\triangle3d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\vector2d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\vector3d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\aabbox3d.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CDynamicMeshBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CIndexBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CMeshBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\coreutil.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CVertexBuffer.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

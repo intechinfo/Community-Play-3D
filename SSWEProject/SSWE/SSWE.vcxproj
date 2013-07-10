@@ -59,8 +59,9 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWERenders\;$(SolutionDir)\OculusSDK\LibOVR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWEGenericMonitor\;$(SolutionDir)SSWELib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -69,7 +70,9 @@
       <AdditionalDependencies>SSWELib_d.lib;SSWECore_d.lib;SSWERenders_d.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;libovrd.lib;Irrlicht_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y
+
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,7 +82,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;SSWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWERenders\;$(SolutionDir)\OculusSDK\LibOVR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWEGenericMonitor\;$(SolutionDir)SSWELib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -93,12 +96,14 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SSWELib.lib;SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SSWELib.lib;SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;libovrd.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)SPARK\libs\;$(SolutionDir)Lua52\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWERenders\Output\;$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y
+
+copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(TargetName)$(TargetExt)" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

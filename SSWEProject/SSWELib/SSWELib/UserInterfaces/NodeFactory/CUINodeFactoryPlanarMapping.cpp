@@ -3,7 +3,6 @@
 
 CUINodeFactoryPlanarMapping::CUINodeFactoryPlanarMapping(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 	IMeshManipulator *meshMan = devices->getSceneManager()->getMeshManipulator();
 }
@@ -44,6 +43,8 @@ void CUINodeFactoryPlanarMapping::open(ISceneNode *node, IMesh *mesh) {
 	//BUTTONS
 	accept = gui->addButton(rect<s32>(240, 180, 340, 210), window, -1, L"Ok", L"Apply to the mesh");
 	cancel = gui->addButton(rect<s32>(350, 180, 450, 210), window, -1, L"Close", L"Close The Window");
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 bool CUINodeFactoryPlanarMapping::OnEvent(const SEvent &event) {

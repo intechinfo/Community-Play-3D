@@ -11,7 +11,7 @@
 
 #include "../../Device/CDevices.h"
 
-#include "../ITool.h"
+#include <ITool.h>
 #include "../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 
 class CUICodeEditor : public IEventReceiver, public ITool {
@@ -33,6 +33,7 @@ public:
 	//ITOOL
 	void resize(rect<s32> position);
 	void resize(position2di position);
+	IGUIElement *getWindow();
 	void setVisible(bool visible);
 	void close();
 

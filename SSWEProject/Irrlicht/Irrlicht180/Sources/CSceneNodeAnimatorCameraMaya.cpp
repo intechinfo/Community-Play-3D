@@ -32,6 +32,8 @@ CSceneNodeAnimatorCameraMaya::CSceneNodeAnimatorCameraMaya(gui::ICursorControl* 
 	}
 
 	allKeysUp();
+
+	eventsAllowed = false;
 }
 
 
@@ -50,8 +52,17 @@ CSceneNodeAnimatorCameraMaya::~CSceneNodeAnimatorCameraMaya()
 //! for changing their position, look at target or whatever.
 bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 {
-	if (event.EventType != EET_MOUSE_INPUT_EVENT)
+	if (event.EventType != EET_MOUSE_INPUT_EVENT && event.EventType != EET_KEY_INPUT_EVENT)
 		return false;
+
+	if (event.EventType == EET_KEY_INPUT_EVENT)
+	{
+		if (event.KeyInput.Control) {
+			eventsAllowed = true;
+		} else {
+			eventsAllowed = false;
+		}
+	}
 
 	switch(event.MouseInput.Event)
 	{
@@ -74,7 +85,9 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 		MouseKeys[1] = false;
 		break;
 	case EMIE_MOUSE_MOVED:
-		MousePos = CursorControl->getRelativePosition();
+		if (eventsAllowed) {
+			MousePos = CursorControl->getRelativePosition();
+		}
 		break;
 	case EMIE_MOUSE_WHEEL:
 	case EMIE_LMOUSE_DOUBLE_CLICK:
@@ -86,6 +99,11 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 	case EMIE_COUNT:
 		return false;
 	}
+
+	if (!eventsAllowed) {
+		MouseKeys[0] = false;
+	}
+
 	return true;
 }
 

@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="1024" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="59.406517" Y="142.069092" Z="-66.520950" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+
+		 </camera>
+
+		 <effect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="OCEAN" />
+				 <vertex shader=
+"uniform float4x4 worldViewProj_matrix;uniform float3 scale;uniform float2 waveSpeed;uniform float noiseSpeed;uniform float time_0_X;uniform float3 eyePosition;struct VS_OUTPUT {   float4 Pos:       POSITION;   float3 uvw:      TEXCOORD0;   float3 normal: TEXCOORD1;   float3 vVec:     TEXCOORD2;};VS_OUTPUT vertexMain(float4 Pos: POSITION, float3 normal: NORMAL){   VS_OUTPUT Out;
+      //Out.Pos = mul(worldViewProj_matrix, Pos);
+   Out.Pos = Pos;      Out.uvw = Pos.xyz * scale;   Out.uvw.xz += waveSpeed * time_0_X;   Out.uvw.y += Out.uvw.z + noiseSpeed * time_0_X;   Out.vVec = Pos.xyz - eyePosition;   Out.normal = normal;   return Out;}" />
+				 <pixel shader=
+"uniform float fadeBias;uniform float fadeExp;uniform float4 waterColor;uniform sampler Noise : register(s0);uniform sampler skyBox : register(s1);float4  pixelMain(float3 uvw: TEXCOORD0, float3 normal: TEXCOORD1, float3 vVec: TEXCOORD2) : COLOR{   float3 noisy = tex3D(Noise, uvw).xyz;   float3 bump = 2 * noisy - 1;   bump.xz *= 0.15;   bump.y = 0.8 * abs(bump.y) + 0.2;   bump = normalize(normal + bump);   float3 normView = normalize(vVec);   float3 reflVec = reflect(normView, bump);   reflVec.z = -reflVec.z;   float4 refl = texCUBE(skyBox, reflVec);   float lrp = 1 - dot(-normView, bump);   return lerp(waterColor, refl, saturate(fadeBias + pow(lrp, fadeExp)));}" />
+				 <constants value="pfloat fadeBias 0.336pfloat fadeExp 5.546pSColor waterColor 0.0 0.244 0.395 1.0vmatrix4 worldViewProj_matrix world[0] view[0] proj[0] dontMakeInversevvector3df scale 0.012 0.005 0.03vvector2df waveSpeed 0.0 0.168vfloat noiseSpeed 0.155vfloat time_0_X + ctime 1000vvector3df eyePosition camPos" />
+			 </materialType>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="-842150451" /> 
+				 <name cname="FRESNEL" />
+				 <vertex shader=
+"float4x4 worldViewProjMatrix;
+float3 eyePosition; // object space
+float timeVal;
+float scale;  // the amount to scale the noise texture by
+float scroll; // the amount by which to scroll the noise
+float noise;  // the noise perturb as a factor of the  time
+
+// Vertex program for fresnel reflections / refractions
+void vertexMain(
+		float4 pos			: POSITION,
+		float4 normal		: NORMAL,
+		float2 tex			: TEXCOORD0,
+		
+		out float4 oPos		: POSITION,
+		out float3 noiseCoord : TEXCOORD0,
+		out float4 projectionCoord : TEXCOORD1,
+		out float3 oEyeDir : TEXCOORD2, 
+		out float3 oNormal : TEXCOORD3)
+{
+	oPos = mul(worldViewProjMatrix, pos);
+	// Projective texture coordinates, adjust for mapping
+	float4x4 scalemat = float4x4(0.5,   0,   0, 0.5, 
+	                                               0,-0.5,   0, 0.5,
+								                                        0,   0, 0.5, 0.5,
+								                                        0,   0,   0,   1);
+	projectionCoord = mul(scalemat, oPos);
+	// Noise map coords
+	noiseCoord.xy = (tex + (timeVal * scroll)) * scale;
+	noiseCoord.z = noise * timeVal;
+
+	oEyeDir = normalize(pos.xyz - eyePosition); 
+	oNormal = normal.rgb; 
+	
+}
+
+" />
+				 <pixel shader=
+"float4 tintColour;
+float noiseScale;
+float fresnelBias;
+float fresnelScale;
+float fresnelPower;
+sampler noiseMap : register(s0);
+sampler reflectMap : register(s1);
+sampler refractMap : register(s2);
+
+// Fragment program for distorting a texture using a 3D noise texture
+void pixelMain(
+		float3 noiseCoord			: TEXCOORD0,
+		float4 projectionCoord		: TEXCOORD1,
+		float3 eyeDir				: TEXCOORD2,
+		float3 normal				: TEXCOORD3,
+		out float4 col		: COLOR)
+{
+	// Do the tex projection manually so we can distort _after_
+	float2 final = projectionCoord.xy / projectionCoord.w;
+
+	// Noise
+	float3 noiseNormal = (tex2D(noiseMap, (noiseCoord.xy / 5)).rgb - 0.5).rbg * noiseScale;
+	final += noiseNormal.xz;
+
+	// Fresnel
+	//normal = normalize(normal + noiseNormal.xz);
+	float fresnel = fresnelBias + fresnelScale * pow(1 + dot(eyeDir, normal), fresnelPower);
+
+	// Reflection / refraction
+	float4 reflectionColour = tex2D(reflectMap, final);
+	float4 refractionColour = tex2D(refractMap, final) + tintColour;
+
+	// Final colour
+	col = lerp(refractionColour, reflectionColour, fresnel);
+
+
+}
+
+" />
+				 <constants value="
+vmatrix4 worldViewProjMatrix world[1] view[1] proj[1] dontvvector3df eyePosition camPos4vfloat timeVal + ctime 10000vfloat scale 1vfloat scroll 1vfloat noise 1pSColor tintColour 0.0 1.0 1.0 0.0pfloat noiseScale 1pfloat fresnelBias 1pfloat fresnelScale 1pfloat fresnelPower 1 " />
+			 </materialType>
+
+
+		 </materialTypes>
+
+	</config>
+
+
+
+	<scene>
+
+		 <object>
+
+			 <path file="hillPlaneMesh" />
+
+			 <name c8name="#object:new_hille_plane_mesh" />
+
+			 <materials> 
+
+				 <material id="0" texture1="shaders/textures/water/clouds.jpg" texture2="shaders/textures/water/voronoi.png" texture3="" texture4="" dca="255" dcr="255" dcg="255" dcb="255" aca="255" acr="255" acg="255" acb="255" sca="255" scr="255" scg="255" scb="255" eca="0" ecr="0" ecg="0" ecb="0" lighting="0" materialType="59" /> 
+
+			 </materials> 
+
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+		 </object>
+
+
+	</scene>
+
+</rootScene>

@@ -12,7 +12,6 @@
 
 CUILoadNodesGroup::CUILoadNodesGroup(CDevices *_devices) {
 	devices = _devices;
-	devices->getEventReceiver()->AddEventReceiver(this);
 
 	//-----------------------------------
     //GUI ELEMENTS
@@ -31,6 +30,8 @@ CUILoadNodesGroup::CUILoadNodesGroup(CDevices *_devices) {
 	accept = gui->addButton(rect<s32>(210, 110, 310, 140), window, -1, L"Accept", L"Accept");
 	cancel = gui->addButton(rect<s32>(100, 110, 200, 140), window, -1, L"Cancel", L"Cancel");
 	//-----------------------------------
+
+	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
 
 CUILoadNodesGroup::~CUILoadNodesGroup() {

@@ -15,8 +15,6 @@ CUIMaterialEditor::CUIMaterialEditor(CDevices *_devices) {
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
     
-    devices->getEventReceiver()->AddEventReceiver(this);
-    
     selectedMaterial = 0;
 
 	mtFactory = new CMaterialEditorFactory(devices);
@@ -44,8 +42,8 @@ void CUIMaterialEditor::maximize() {
 		materialsView->remove();
 		materialsView = gui->addTreeView(rect<s32>(10, 70, 280, 540), meWindow, -1, true, true, false);
 
-		meWindow->setRelativePosition(rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
-											    driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2));
+		devices->getCore()->maximizeWindow(meWindow, rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
+													 driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2));
 		tabctrl->setRelativePosition(rect<int>(310, 70, 1140, 680));
 		close->setRelativePosition(rect<s32>(1040, 690, 1140, 720));
 		viewPort->setRelativePosition(rect<s32>(10, 550, 280, 710));
@@ -58,7 +56,8 @@ void CUIMaterialEditor::maximize() {
 		s32 lastWindowHeight = meWindow->getRelativePosition().getHeight();
 		s32 offsetUpperLower = materialsView->getRelativePosition().UpperLeftCorner.Y;
 
-		meWindow->setRelativePosition(rect<s32>(0, 74, driver->getScreenSize().Width+2, driver->getScreenSize().Height+1));
+		devices->getCore()->maximizeWindow(meWindow, rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
+													 driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2));
 		tabctrl->setRelativePosition(rect<s32>(meWindow->getRelativePosition().getWidth()-offsetWindowTabCtrl-tabctrl->getRelativePosition().getWidth(),
 											   positionTabCtrl.Y,
 											   meWindow->getRelativePosition().getWidth()-offsetWindowTabCtrl,
@@ -241,6 +240,8 @@ void CUIMaterialEditor::open(ISceneNode *node) {
     //---------------------------------------------------------------------------------------------------------
     
     close = gui->addButton(rect<s32>(1040, 690, 1140, 720), meWindow, -1, L"Close", L"Close The Window");
+
+	devices->getEventReceiver()->AddEventReceiver(this, meWindow);
 }
 
 void CUIMaterialEditor::updateElementsPositionsI(IGUIScrollBar *scroolbar) {
@@ -271,7 +272,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == meWindow->getReferenceCount()) {
-				devices->getEventReceiver()->RemoveMinimizedWindow(this);
+				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
 	}
@@ -313,7 +314,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 					maximize();
 				}
 				if (event.GUIEvent.Caller == meWindow->getMinimizeButton()) {
-					devices->getEventReceiver()->AddMinimizedWindow(this, meWindow);
+					//devices->getEventReceiver()->AddMinimizedWindow(this, meWindow);
 				}
 			}
 

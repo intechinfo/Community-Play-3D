@@ -10,19 +10,27 @@
 //
 
 #include "stdafx.h"
+#include <CGenericMonitor.h>
 
 #ifdef SSWE_RELEASE
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
-#ifdef IS_ERIO_AND_RELOU
+#ifndef _IRR_OSX_PLATFORM_
 #include <Windows.h>
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow){
-#else
-int main() {
 #endif
+
+#ifdef IS_ERIO_AND_RELOU
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow) {
+#else
+int main(int argc, char* argv[]) {
+#endif
+
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
+
 	updateSSWEDevice(coreUserInterface);
+
+	return EXIT_SUCCESS;
 }
 
 //#include "../../sources/Device/Core/CCoreUserInterface.h"
@@ -119,43 +127,4 @@ int main() {
 //
 //    return EXIT_SUCCESS;
 //}
-//
-////#include "stdafx.h"
-////#include "CppUnitTest.h"
-////
-////#include "../../sources/Device/Core/CCore.h"
-////
-////using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-////
-////namespace NativeTests
-////{		
-////	TEST_CLASS(CCoreTests)
-////	{
-////	private:
-////		static CCore *core;
-////	public:
-////
-////		CCoreTests() {
-////
-////		}
-////
-////		TEST_CLASS_INITIALIZE(CCoreTestsInitialize) {
-////			core = new CCore();
-////		}
-////
-////		TEST_METHOD(getF32Test)
-////		{
-////			Assert::AreEqual(1.1f, core->getF32("1.1"), FLT_EPSILON, L"TEST", LINE_INFO());
-////		}
-////
-////		TEST_CLASS_CLEANUP(CCOreTestsTearDown) {
-////			delete core;
-////		}
-////
-////	};
-////
-////
-////}
-////
-////CCore * NativeTests::CCoreTests::core;
 //

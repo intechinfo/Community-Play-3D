@@ -106,6 +106,18 @@
     <Filter Include="SSWELib\CharacterEdition\ManualAnimation">
       <UniqueIdentifier>{202af1c3-a195-4598-a667-4b652aff7745}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\Device\Monitor">
+      <UniqueIdentifier>{a69cacc2-b7ca-4494-9fc4-4ca0b87daf8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\UserInterfaces\PluginsManager">
+      <UniqueIdentifier>{80c9630d-fda7-47e1-b8f1-c06627659ccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{97d81519-9b63-4266-891a-1672d9dc20bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\UserInterfaces\Options">
+      <UniqueIdentifier>{17d6ae91-fe75-4c07-ad04-c79bd27a23fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -303,6 +315,21 @@
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\Device\Monitor\MonitorRegister.cpp">
+      <Filter>SSWELib\Device\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.cpp">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.cpp">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.cpp">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp">
+      <Filter>SSWELib\UserInterfaces\Options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -449,9 +476,6 @@
     <ClInclude Include="SSWELib\UserInterfaces\CUIWindowsManager.h">
       <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="SSWELib\UserInterfaces\ITool.h">
-      <Filter>SSWELib\UserInterfaces</Filter>
-    </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\UIContextMenu.h">
       <Filter>SSWELib\UserInterfaces</Filter>
     </ClInclude>
@@ -517,6 +541,33 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Monitor\MonitorRegister.h">
+      <Filter>SSWELib\Device\Monitor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.h">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.h">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.h">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DLLExport.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IMonitor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IMonitorRegisterer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ITool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h">
+      <Filter>SSWELib\UserInterfaces\Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

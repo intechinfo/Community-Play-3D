@@ -118,6 +118,7 @@ void CImporter::buildTree() {
 
 	mesh = smgr->getMesh(path.c_str());
 	node = smgr->addOctreeSceneNode(mesh, 0, -1, 4096*16);
+	//node = smgr->addMeshSceneNode(mesh, 0, -1);
 
 	if (node) {
 		read("name");
@@ -128,7 +129,7 @@ void CImporter::buildTree() {
 		readTransformations(node);
 		readViewModes(node);
 
-		devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
         STreesData tdata(mesh, node, path, ESNT_OCTREE, 1024);
 		devices->getCoreData()->getTreesData()->push_back(tdata);
 	}
@@ -190,6 +191,8 @@ void CImporter::buildObject() {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
 		} else if (path == "hillPlaneMesh") {
 			devices->getCollisionManager()->setCollisionFromBoundingBox(node);
+		} else {
+			devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
 		}
 
         SObjectsData odata(mesh, node, path);
@@ -227,6 +230,8 @@ void CImporter::buildLight() {
 	node->setRadius(xmlReader->getAttributeValueAsFloat("value"));
 	read("farValue");
 	shadowLight.setFarValue(xmlReader->getAttributeValueAsFloat("value"));
+	read("autoRecalculate");
+	shadowLight.setAutoRecalculate(xmlReader->getAttributeValueAsInt("value"));
 
 	read("shadows");
 	shadowLight.setShadowMapResolution(xmlReader->getAttributeValueAsFloat("resol"));
@@ -276,7 +281,7 @@ void CImporter::buildLight() {
 		read("position");
 		lfNode->setPosition(buildVector3df());
 
-		devices->getXEffect()->addShadowToNode(lfMeshNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
+		//devices->getXEffect()->addShadowToNode(lfMeshNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
 		devices->getXEffect()->addShadowToNode(lfBillBoard, devices->getXEffectFilterType(), ESM_EXCLUDE);
 		devices->getXEffect()->addShadowToNode(lfNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
 
@@ -287,7 +292,6 @@ void CImporter::buildLight() {
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
-
 }
 
 void CImporter::buildVolumeLight() {
@@ -390,12 +394,23 @@ void CImporter::readConfig() {
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
 	devices->getMayaCamera()->setPosition(position);
-                
+
 	read("rotation");
 	vector3df rotation = vector3df(devices->getCore()->getF32(xmlReader->getAttributeValue("X")),
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Y")),
 									devices->getCore()->getF32(xmlReader->getAttributeValue("Z")));
 	devices->getMayaCamera()->setRotation(rotation);
+
+	//FPS CAMERA SETTINGS
+	read("fpsCameraSettings");
+	read("ellipsoidRadius");
+	devices->getCollisionManager()->getFPSCameraSettings()->setEllipsoidRadius(buildVector3df());
+	read("gravityPerSecond");
+	devices->getCollisionManager()->getFPSCameraSettings()->setGravityPerSecond(buildVector3df());
+	read("ellipsoidTranslation");
+	devices->getCollisionManager()->getFPSCameraSettings()->setEllipsoidTranslation(buildVector3df());
+	read("slidingValue");
+	devices->getCollisionManager()->getFPSCameraSettings()->setSlidingValue(xmlReader->getAttributeValueAsFloat("value"));
 
 	//EFFECTS
 	readEffects();
@@ -694,13 +709,16 @@ void CImporter::newImportScene(stringc file_path) {
 	devices->getProcessesLogger()->addProcess(process);
 	u32 currentElementNumber = 0;
 
+	std::mutex mutex;
+	mutex.lock();
 	bool isXeffectDrawable = devices->isXEffectDrawable();
 	devices->setXEffectDrawable(false);
 	read("rootScene");
 	readConfig();
+	devices->setXEffectDrawable(isXeffectDrawable);
+	mutex.unlock();
 
 	while (xmlReader->read()) {
-
 		element = "";
 		if (xmlReader->getNodeType() == EXN_ELEMENT)
 			element = xmlReader->getNodeName();
@@ -720,6 +738,7 @@ void CImporter::newImportScene(stringc file_path) {
 		else if (element == "volumeLight")
 			buildVolumeLight();
 
+
 		currentElementNumber++;
 
 		if (numberOfObjects > 0)
@@ -728,10 +747,54 @@ void CImporter::newImportScene(stringc file_path) {
 	}
 
     read("rootScene");
-
     delete xmlReader;
 
 	process->setHasFinished(true);
-	devices->setXEffectDrawable(isXeffectDrawable);
+}
 
+//---------------------------------------------------------------------------------------------
+//-----------------------------------LOAD CONFIGS----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+void CImporter::importCamerasConfig() {
+	stringc wd = devices->getWorkingDirectory().c_str();
+    wd += "/";
+    devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(wd.c_str());
+    
+    xmlReader = createIrrXMLReader("Config/cameras.scfg");
+	if (!xmlReader)
+		return;
+
+	read("root");
+
+	//FPS CAMERA
+	read("fpsCamera");
+	SKeyMap keyMap;
+	read("moveForward");
+	keyMap.Action = EKA_MOVE_FORWARD;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 0);
+	read("moveBackward");
+	keyMap.Action = EKA_MOVE_BACKWARD;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 1);
+	read("strafeLeft");
+	keyMap.Action = EKA_STRAFE_LEFT;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 2);
+	read("strageRight");
+	keyMap.Action = EKA_STRAFE_RIGHT;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 3);
+	read("jump");
+	keyMap.Action = EKA_JUMP_UP;
+	keyMap.KeyCode = (EKEY_CODE)xmlReader->getAttributeValueAsInt("value");
+	devices->setKeyMap(keyMap, 4);
+	read("fpsCamera");
+
+	read("root");
+
+	devices->applyKeyMapOnFPSCamera();
+
+	delete xmlReader;
 }

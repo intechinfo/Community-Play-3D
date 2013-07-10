@@ -8,8 +8,11 @@ class SSWE_RENDERS_API CShaderPreprocessor
 {
 public:
 	CShaderPreprocessor(irr::video::IVideoDriver* driverIn);
+
 	irr::core::stringc ppShader(irr::core::stringc shaderProgram);
 	irr::core::stringc ppShaderFF(irr::core::stringc shaderProgram);
+	irr::core::stringc ppShaderFFS(irr::core::stringc shaderProgram);
+
 	void addShaderDefine(const irr::core::stringc name, const irr::core::stringc value = "");
 	void removeShaderDefine(const irr::core::stringc name);
 
