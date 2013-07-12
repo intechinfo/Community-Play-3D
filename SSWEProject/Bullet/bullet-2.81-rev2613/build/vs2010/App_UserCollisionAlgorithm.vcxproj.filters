@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Demos">
+      <UniqueIdentifier>{05C9A119-0043-AF41-AB65-E31F16B80E90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Demos\UserCollisionAlgorithm">
+      <UniqueIdentifier>{74D8BB14-E389-3047-96D6-8A361F554173}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Demos\UserCollisionAlgorithm\UserCollisionAlgorithm.h">
+      <Filter>Demos\UserCollisionAlgorithm</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Demos\UserCollisionAlgorithm\UserCollisionAlgorithm.cpp">
+      <Filter>Demos\UserCollisionAlgorithm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\bullet.rc" />
+  </ItemGroup>
+</Project>

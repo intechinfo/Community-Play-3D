@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Demos">
+      <UniqueIdentifier>{E3D249B1-2267-ED43-9E32-92ADFB70B445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Demos\InternalEdgeDemo">
+      <UniqueIdentifier>{48F6267E-BEED-2D40-A073-012CD0DBAA4F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Demos\InternalEdgeDemo\InternalEdgeDemo.h">
+      <Filter>Demos\InternalEdgeDemo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Demos\InternalEdgeDemo\InternalEdgeDemo.cpp">
+      <Filter>Demos\InternalEdgeDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\InternalEdgeDemo\main.cpp">
+      <Filter>Demos\InternalEdgeDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\InternalEdgeDemo\Win32InternalEdgeDemo.cpp">
+      <Filter>Demos\InternalEdgeDemo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\bullet.rc" />
+  </ItemGroup>
+</Project>

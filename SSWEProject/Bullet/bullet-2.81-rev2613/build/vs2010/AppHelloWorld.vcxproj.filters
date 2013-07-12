@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Demos">
+      <UniqueIdentifier>{27A6A8A6-477F-A947-A45F-9556400B0B5B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Demos\HelloWorld">
+      <UniqueIdentifier>{9E5EC2F4-6791-4C48-97E0-03983DE4FED9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Demos\HelloWorld\HelloWorld.cpp">
+      <Filter>Demos\HelloWorld</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
