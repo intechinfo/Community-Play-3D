@@ -31,10 +31,17 @@
 	#include <mutex>
 #endif
 
+//RENDERS
 #include "../../../SSWERenders/Renders/XEffect/XEffects.h"
 
+//SCENE NODES
 #include "../../../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h"
+
+//BULLET
+#include "src/Bullet-C-Api.h"
+#include "src/btBulletDynamicsCommon.h"
+#include "src/btBulletCollisionCommon.h"
 
 using namespace irr;
 using namespace video;
@@ -105,6 +112,9 @@ public:
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();
 	array<stringc> getArrayOfBuildInMaterialTypes();
+
+	//BULLET METHODS
+	btVector3 getBtVector3(vector3df vector) { return btVector3(vector.X, vector.Y, vector.Z); }
     
 private:
 	//--------------------------

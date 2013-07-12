@@ -25,6 +25,9 @@
     <Filter Include="SSWECore\SceneNodes">
       <UniqueIdentifier>{1da195f4-f808-4438-b121-a4af9b00e85d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{89054a41-ca4e-4639-bf08-cc4733e64064}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWECore.cpp">

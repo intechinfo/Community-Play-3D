@@ -25,3 +25,7 @@
 	#include <Windows.h>
 	#include <mutex>
 #endif
+
+#include "src/Bullet-C-Api.h"
+#include "src/btBulletDynamicsCommon.h"
+#include "src/btBulletCollisionCommon.h"
