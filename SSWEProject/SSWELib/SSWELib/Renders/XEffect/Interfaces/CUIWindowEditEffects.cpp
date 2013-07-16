@@ -110,7 +110,7 @@ void CUIWindowEditEffects::open() {
     //POINTER TO viewProj FOR EFFECTS
     matrix4 viewProj;
 
-	devices->getEventReceiver()->AddEventReceiver(this, editionWindow);
+	devices->getEventReceiver()->AddEventReceiver(this, effectsWindow);
 }
 
 bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
@@ -270,11 +270,11 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 #ifdef _IRR_OSX_PLATFORM_
                     name.remove(devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str());
                 #else
-                    stringw windowsName = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
-                    windowsName.make_lower();
-                    name.remove(windowsName);
+                    //stringw windowsName = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
+                    //windowsName.make_lower();
+                    //name.remove(windowsName);
+					name.remove(devices->getWorkingDirectory().c_str());
                 #endif
-                name.remove('/');
                 
                 stringw path = L"";
                 path = dialog->getFileName();

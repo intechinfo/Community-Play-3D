@@ -168,6 +168,8 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				rightClickCxtMenu->addItem(L"Make Planar Texture Mapping...", 3, true, false, false, false);
 				rightClickCxtMenu->addItem(L"Create Mesh With Tangents...", 4, true, false, false, false);
 				rightClickCxtMenu->addItem(L"Scale Mesh", 5, true, false, false, false);
+				rightClickCxtMenu->addSeparator();
+				rightClickCxtMenu->addItem(L"Apply Physic", 6, true, false, false, true);
 			}
 		}
 

@@ -111,7 +111,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
-	submenu->addItem(L"Recalculate All Shadow Lights", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
+	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
 	i++;
 
 	//SHADERS

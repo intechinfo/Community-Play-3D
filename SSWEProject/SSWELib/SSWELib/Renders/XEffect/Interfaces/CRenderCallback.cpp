@@ -44,6 +44,7 @@ void CEffectRenderCallback::OnPreRender(EffectHandler* effect) {
 
 void CEffectRenderCallback::modifyPixelValue(u32 i, CDevices *devices) { 
 	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &pixelValues[i]);
+	codeEditor->setAlwaysBringToFront(false);
 	codeEditor->setAutoSave(true);
 }
 

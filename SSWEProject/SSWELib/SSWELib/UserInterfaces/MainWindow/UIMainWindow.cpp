@@ -501,13 +501,16 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 }
             }
             
-            if (event.KeyInput.Key == KEY_KEY_L && devices->isCtrlPushed()) {
-				ISceneNode *node = getSelectedNode().getNode();
+			if (event.KeyInput.Key == KEY_KEY_L && devices->isCtrlPushed() && devices->isShiftPushed()) {
+				/*ISceneNode *node = getSelectedNode().getNode();
                 if (node) {
                     node->setMaterialFlag(EMF_LIGHTING, !node->getMaterial(0).Lighting);
                 } else {
                     devices->addWarningDialog(L"Warning", L"Please Select A Node Before...", EMBF_OK);
-                }
+                }*/
+				for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
+					devices->getXEffect()->getShadowLight(i).setRecalculate(true);
+				}
             }
             
 			if (event.KeyInput.Key == KEY_KEY_C && devices->isCtrlPushed() && devices->isShiftPushed()) {

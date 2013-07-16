@@ -4,9 +4,9 @@
 
 	<fpsCamera>
 
-		 <moveForward value="87" />
+		 <moveForward value="90" />
 		 <moveBackward value="83" />
-		 <strafeLeft value="65" />
+		 <strafeLeft value="81" />
 		 <strageRight value="68" />
 		 <jump value="32" />
 

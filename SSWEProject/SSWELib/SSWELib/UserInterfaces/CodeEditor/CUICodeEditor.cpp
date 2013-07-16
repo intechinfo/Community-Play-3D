@@ -113,7 +113,7 @@ bool CUICodeEditor::OnEvent(const SEvent &event) {
 		}
 	}
 
-	if (alwaysBringToFront) {
+	if (alwaysBringToFront && !single) {
 		devices->getGUIEnvironment()->getRootGUIElement()->bringToFront(window);
 	}
 
@@ -129,7 +129,7 @@ bool CUICodeEditor::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
 			if (event.GUIEvent.Caller == window) {
-				//devices->getEventReceiver()->RemoveEventReceiver(this);
+				devices->getEventReceiver()->RemoveEventReceiver(this);
 				window->remove();
 				delete this;
 				return true;

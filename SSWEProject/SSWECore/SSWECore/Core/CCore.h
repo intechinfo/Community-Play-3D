@@ -71,33 +71,31 @@ public:
     //CORE METHODS AND FUNCTIONS
 	std::string convertToString(stringw _textToConvert);
     
-	vector3df getVector3df(std::string X, std::string Y, std::string Z);
+	vector3df getVector3df(std::string X, std::string Y, std::string Z); //VECTORS
     vector3df getVector3df(stringw X, stringw Y, stringw Z);
 	
-	dimension2d<u32> getDimensionU32(std::string sizeW, std::string sizeH);
+	dimension2d<u32> getDimensionU32(std::string sizeW, std::string sizeH); //DIMENSIONS
 	dimension2d<f32> getDimensionF32(std::string sizeW, std::string sizeH);
 	
-	f32 getF32(stringc valuef32);
+	f32 getF32(stringc valuef32); //NUMBERS
 	u32 getU32(stringc valueu32);
     s32 getS32(stringc values32);
 
-	stringw getStrNumber(f32 value);
+	stringw getStrNumber(f32 value); //STRINGS
     stringw getStrNumberU32(u32 value);
 	stringw getStrVector3df(vector3df v);
 
-	stringc getStringcFromFile(stringc pathFile);
+	stringc getStringcFromFile(stringc pathFile); //FILES
 	stringc getStringcFromIReadFile(stringc pathFile);
 	
 	stringw changeTextWithValue(const wchar_t *text, s32 value);
 
-    stringw getTexturePath(ITexture *texture);
-
-	stringc getNodeNamePrefix(ISceneNode *node);
-
 	//DRIVER METHODS
+	stringw getTexturePath(ITexture *texture);
 	s32 textureAlreadyExists(stringc name, IVideoDriver *driver);
 
 	//SCENE METHODS
+	stringc getNodeNamePrefix(ISceneNode *node);
 	ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
 	s32 nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node);
 	array<ISceneNode *> *getArrayOfAListOfNodeChildren(ISceneNode *node);
