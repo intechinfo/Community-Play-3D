@@ -1,0 +1,4 @@
+76.30.68.100:3306
+user name is: Administrator
+Password is: e4G.+LEf2
+76.30.68.100
