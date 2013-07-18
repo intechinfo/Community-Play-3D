@@ -125,7 +125,7 @@ struct SSWE_CORE_API STerrainsData {
 		minPolysPerNode = _minPolysPerNode;
 		type = _type;
 	}
-
+	
 	void setMesh(IMesh *_mesh) { mesh = _mesh; }
 	void setNode(ISceneNode *_node) { node = _node; }
 	void setPath(stringc _path) { path = _path; }

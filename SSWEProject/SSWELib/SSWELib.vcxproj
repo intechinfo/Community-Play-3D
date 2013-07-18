@@ -183,6 +183,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\SceneNodes\Animators\CRotationAnimator.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\LensFlareSceneNode.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainSceneNode.cpp" />
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainTriangleSelector.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.cpp" />
     <ClCompile Include="SSWELib\Scenes\CExporter.cpp" />
     <ClCompile Include="SSWELib\Scenes\CImporter.cpp" />
@@ -266,6 +268,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h" />
     <ClInclude Include="SSWELib\SceneNodes\LensFlareSceneNode.h" />
     <ClInclude Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.h" />
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainSceneNode.h" />
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainTriangleSelector.h" />
     <ClInclude Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.h" />
     <ClInclude Include="SSWELib\Scenes\CExporter.h" />
     <ClInclude Include="SSWELib\Scenes\CImporter.h" />

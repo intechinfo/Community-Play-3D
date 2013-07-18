@@ -118,6 +118,9 @@
     <Filter Include="SSWELib\UserInterfaces\Options">
       <UniqueIdentifier>{17d6ae91-fe75-4c07-ad04-c79bd27a23fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\SceneNodes\Terrains">
+      <UniqueIdentifier>{b19b81f9-6de4-4f71-947c-cb4b02b49656}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -329,6 +332,12 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp">
       <Filter>SSWELib\UserInterfaces\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainSceneNode.cpp">
+      <Filter>SSWELib\SceneNodes\Terrains</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainTriangleSelector.cpp">
+      <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +577,12 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h">
       <Filter>SSWELib\UserInterfaces\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainSceneNode.h">
+      <Filter>SSWELib\SceneNodes\Terrains</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainTriangleSelector.h">
+      <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

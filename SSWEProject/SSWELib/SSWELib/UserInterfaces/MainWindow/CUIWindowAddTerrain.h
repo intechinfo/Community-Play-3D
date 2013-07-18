@@ -10,11 +10,10 @@
 #define __C_UI_WINDOW_ADD_OCT_TREE_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
+#include "../../SceneNodes/Terrains/CTerrainSceneNode.h"
 
 enum GUI_WINDOW_EVENTS_ADD_OCT_TREE {
-    CXT_WINDOW_ADD_OCT_TREE_EVENTS_CLOSE = 0x30000,
-    CXT_WINDOW_ADD_OCT_TREE_EVENTS_SELECT,
-    CXT_WINDOW_ADD_OCT_TREE_EVENTS_ACCEPT
+    CXT_WINDOW_ADD_OCT_TREE_EVENTS_CLOSE = 0x30000
 };
 
 class CUIWindowAddOctTree : public IEventReceiver {
@@ -23,25 +22,54 @@ public:
     
     CUIWindowAddOctTree(CDevices *_devices, IGUIListBox *_terrainsListBox);
     ~CUIWindowAddOctTree();
-    
+
     void open();
-    
+
     bool OnEvent(const SEvent &event);
-    
+
 private:
     
+	//-----------------------------------
+    //DEVICES AND DATAS
     CDevices *devices;
+	//-----------------------------------
     
-    IGUIListBox *terrainsListBox;
-    
-    IGUIWindow *addOctTreeWindow;
-    IGUIEditBox *addOctTreeEditBox;
-    
+	//-----------------------------------
+    //GUI ELEMENTS
+	IGUIListBox *terrainsListBox;
+
+	IGUIWindow *addOctTreeWindow;
+	IGUIComboBox *terrainTypecb;
+	IGUIButton *accept, *close;
+
+	IGUIEditBox *addOctTreeEditBox;
+	IGUIButton *selectMesh;
+
+	//MESH
     IGUICheckBox *asMeshSceneNode;
+	IGUIStaticText *minPolysPerNodeTxt;
     IGUIEditBox *minPolysPerNode;
+	IGUIFileOpenDialog *openMesh;
+
+	//TERRAIN
+	IGUIComboBox *terrainPatchSizecb;
+	IGUIEditBox *terrainMaxLODeb;
+	IGUIEditBox *terrainSmoothFactoreb;
+	//-----------------------------------
     
+	//-----------------------------------
+    //DATAS
     stringw path_file;
-    bool isOpenFileDialogOpened;
+	//-----------------------------------
+
+	//-----------------------------------
+    //ENUMS
+	enum ELOAD_TERRAIN_TYPE {
+		ELTT_MESH = 0,
+		ELTT_TERRAIN,
+		ELTT_TERRAIN_MESH
+	} terrainType;
+	//-----------------------------------
     
 };
 
