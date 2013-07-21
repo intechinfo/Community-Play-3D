@@ -312,39 +312,41 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
 							c8 *terrain_texture_c8 = strdup(stringc(path_terrains_texture).c_str());
 							createTilesForImage(terrain_height_map_c8, "heightmaps/map", devices->getVideoDriver(), true);
 							createTilesForImage(terrain_texture_c8, "textures/color", devices->getVideoDriver(), false);
-							c8 * listeMap[16] = { "heightmaps/map13.png",
-												"heightmaps/map14.png", 
-												"heightmaps/map15.png", 
-												"heightmaps/map16.png", 
-												"heightmaps/map9.png",
-												"heightmaps/map10.png",
-												"heightmaps/map11.png",
-												"heightmaps/map12.png",
-												"heightmaps/map5.png", 
-												"heightmaps/map6.png",
-												"heightmaps/map7.png",
-												"heightmaps/map8.png",
-												"heightmaps/map1.png",
-												"heightmaps/map2.png",
-												"heightmaps/map3.png",
-												"heightmaps/map4.png"};
-							c8 * colorMap[16] = { "textures/color13.png",
-												"textures/color14.png", 
-												"textures/color15.png", 
-												"textures/color16.png", 
-												"textures/color9.png", 
-												"textures/color10.png",
-												"textures/color11.png",
-												"textures/color12.png", 
-												"textures/color5.png", 
-												"textures/color6.png",
-												"textures/color7.png",
-												"textures/color8.png",
-												"textures/color1.png",
-												"textures/color2.png",
-												"textures/color3.png",
-												"textures/color4.png"};
-							// Terrain pager parameters
+
+							array<stringc> listeMap;
+							listeMap.push_back("heightmaps/map13.png");
+							listeMap.push_back("heightmaps/map14.png"); 
+							listeMap.push_back("heightmaps/map15.png");
+							listeMap.push_back("heightmaps/map16.png");
+							listeMap.push_back("heightmaps/map9.png");
+							listeMap.push_back("heightmaps/map10.png");
+							listeMap.push_back("heightmaps/map11.png");
+							listeMap.push_back("heightmaps/map12.png");
+							listeMap.push_back("heightmaps/map5.png");
+							listeMap.push_back("heightmaps/map6.png");
+							listeMap.push_back("heightmaps/map7.png");
+							listeMap.push_back("heightmaps/map8.png");
+							listeMap.push_back("heightmaps/map1.png");
+							listeMap.push_back("heightmaps/map2.png");
+							listeMap.push_back("heightmaps/map3.png");
+							listeMap.push_back("heightmaps/map4.png");
+							array<stringc> colorMap;
+							colorMap.push_back("textures/color13.png");
+							colorMap.push_back("textures/color14.png");
+							colorMap.push_back("textures/color15.png");
+							colorMap.push_back("textures/color16.png");
+							colorMap.push_back("textures/color9.png");
+							colorMap.push_back("textures/color10.png");
+							colorMap.push_back("textures/color11.png");
+							colorMap.push_back("textures/color12.png");
+							colorMap.push_back("textures/color5.png");
+							colorMap.push_back("textures/color6.png");
+							colorMap.push_back("textures/color7.png");
+							colorMap.push_back("textures/color8.png");
+							colorMap.push_back("textures/color1.png");
+							colorMap.push_back("textures/color2.png");
+							colorMap.push_back("textures/color3.png");
+							colorMap.push_back("textures/color4.png");
 							STerrainParameters param2;
 							param2.MapSize = devices->getCore()->getF32(terrainsMapSizeeb->getText());
 							param2.Dimension = dimension2di(devices->getCore()->getS32(terrainsDimensioneb->getText()),
@@ -363,8 +365,6 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
 							param2.Fog = terrainsEnableFog->isChecked();	
 							param2.Debug = true;
 							param2.detailTexturePath = "detail.jpg";
-
-							// create Terrain pager
 							octTreeNode = new  CTerrainPager(param2, devices->getSceneManager()->getRootSceneNode(), devices->getSceneManager(), -1, 
 																		 devices->getCollisionManager()->getMetaTriangleSelectors());
 

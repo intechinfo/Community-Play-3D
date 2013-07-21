@@ -3,48 +3,42 @@
 
 #include <irrlicht.h>
 #include "CTerrain.h"
-#include <vector>	// TODO : use irr collection
+#include <vector>	// TODO : USE IRR COLLECTION
 
 using namespace irr;
 
 class CCollisionManager;
 
 //--------------------------------------------------------------------------------------
-// Terrain Pager parameters
+//TERRAIN PAGER PARAMETERS
 //--------------------------------------------------------------------------------------
 struct STerrainParameters
 {
-	c8 ** MapListFileName;
-	c8 ** ColorMapListFileName;
+	core::array<core::stringc> MapListFileName;
+	core::array<core::stringc> ColorMapListFileName;
 	core::stringc detailTexturePath;
 	CTerrain::E_TERRAIN_QUALITY Quality;
 	f32 MapSize;
 	core::vector3df Position;
-	core::vector3df Scale;	
+	core::vector3df Scale;
 	f32 LodTextureScale;
-	core::dimension2di Dimension;	
+	core::dimension2di Dimension;
 	f32 DistanceLoad;
 	f32 DistanceUnload;
 	f32 DistanceMaxRender;
 	bool Fog;
 	bool Debug;
-
-	void setListeMap(c8 *listeMap, u32 size) {
-		for (u32 i=0; i < size; i++) {
-
-		}
-	}
 };
 
 
 //--------------------------------------------------------------------------------------
-// buffer class to store terrain informations
+//BUFFER CLASS TO STORE TERRAIN INFORMATIONS
 //--------------------------------------------------------------------------------------
 class CBufferZone : public scene::ISceneNode
 {
 public:
 
-	// create buffer zone
+	//CREATE BUFFER ZONE
 	CBufferZone(f32 size, core::vector3df pos, core::vector3df scale,  scene::ISceneNode* parent,scene::ISceneManager* smgr,s32 id) : scene::ISceneNode(parent, smgr, id)
 	{
 		SceneManager = smgr;		
@@ -58,8 +52,7 @@ public:
 		setAutomaticCulling(scene::EAC_OFF);
 	}	
 	
-
-	// render bounding box of buffer zone
+	//RENDER BOUNDING BOX OF BUFFER ZONE
 	virtual void render() 
 	{
  		if (DebugDataVisible & scene::EDS_BBOX)
@@ -93,7 +86,7 @@ private:
 
 
 //--------------------------------------------------------------------------------------
-// Terrain Pager Class
+//TERRAIN PAGER CLASS
 //--------------------------------------------------------------------------------------
 class CTerrainPager : public scene::ISceneNode
 {

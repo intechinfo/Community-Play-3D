@@ -1,21 +1,3 @@
-/*
-original code by Copland (original source) : http://forum.irrlicht.fr/viewtopic.php?id=336
-modified version of _CTerrain by fredakilla@gmail.com
-
-Modified version :
-- change map loader for support 2^N+1 heightmap size 
-- add internally VBO support
-- add VBO destuction (for paging)
-- add colormap destruction (for paging)
-- improve render method and add render debug data
-- change bounding box calculation and remove it by default (not necessary for paging)
-- add clamping on color textures (don't work with opengl - irrlicht bug ?)
-- add possibility to change material type or flag externally
-- remove normals recalculation (improve loading time for pager)
-- remove splatting shader data and functions => changed by setShader to accept generic shader
-- generals and minors code organisations
-*/
-
 #ifndef _CTerrain
 #define _CTerrain
 
@@ -25,14 +7,12 @@ using namespace irr;
 
 
 //----------------------------------------------------------------------------------------
-// Tiled Terrain Class
+//TILED TERRAIN CLASS
 //----------------------------------------------------------------------------------------
-class CTerrain : public scene::ISceneNode
-{
+class CTerrain : public scene::ISceneNode {
 public:
 
-	const enum E_TERRAIN_QUALITY 
-	{
+	const enum E_TERRAIN_QUALITY {
 		ETQ_HIGH = 1,
 		ETQ_MEDIUM = 2,
 		ETQ_LOW = 4,
@@ -74,7 +54,7 @@ private:
 
 
 //----------------------------------------------------------------------------------------
-// shader callback
+//SHADER CALLBACK
 //----------------------------------------------------------------------------------------
 class MyShaderCallBack : public video::IShaderConstantSetCallBack
 {
