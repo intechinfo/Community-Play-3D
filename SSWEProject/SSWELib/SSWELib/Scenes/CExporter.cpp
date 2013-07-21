@@ -231,7 +231,7 @@ void CExporter::exportObjects() {
         
         fprintf(export_file, "\t\t <object>\n\n");
         
-		fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getObjectsData()->operator[](i).getPath().c_str());
+		fprintf(export_file, "\t\t\t <path file=\"%s\" />\n\n", devices->getCoreData()->getObjectsData()->operator[](i).getPath().c_str());
         fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
         
 		exportMaterials("\t\t\t", node);
@@ -260,7 +260,7 @@ void CExporter::exportTrees() {
         
         fprintf(export_file, "\t\t <tree>\n\n");
         
-		fprintf(export_file, "\t\t\t <path file=\"%ls\" />\n\n", devices->getCoreData()->getTreesData()->operator[](i).getPath().c_str());
+		fprintf(export_file, "\t\t\t <path file=\"%s\" />\n\n", devices->getCoreData()->getTreesData()->operator[](i).getPath().c_str());
         fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
         
 		exportMaterials("\t\t\t", node);
@@ -390,7 +390,7 @@ void CExporter::exporterWaterSurfaces() {
 	for (u32 i=0; i < devices->getCoreData()->getWaterSurfaces()->size(); i++) {
 		CWaterSurface *surf = devices->getCoreData()->getWaterSurfaces()->operator[](i).getWaterSurface();
 		ISceneNode *node = devices->getCoreData()->getWaterSurfaces()->operator[](i).getNode();
-		stringw surfpath = devices->getCoreData()->getWaterSurfaces()->operator[](i).getMeshPath();
+		stringc surfpath = devices->getCoreData()->getWaterSurfaces()->operator[](i).getPath();
 
 		fprintf(export_file, "\t\t <waterSurface>\n\n");
 

@@ -10,7 +10,6 @@
 #define __C_UI_WINDOW_ADD_OCT_TREE_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
-#include "../../SceneNodes/Terrains/CTerrainPager.h"
 
 enum GUI_WINDOW_EVENTS_ADD_OCT_TREE {
     CXT_WINDOW_ADD_OCT_TREE_EVENTS_CLOSE = 0x30000
@@ -76,7 +75,7 @@ private:
 	IGUIFileOpenDialog *openTerrainsTexture;
 	stringw path_terrains_texture;
 	//-----------------------------------
-    
+
 	//-----------------------------------
     //DATAS
     stringw path_file;

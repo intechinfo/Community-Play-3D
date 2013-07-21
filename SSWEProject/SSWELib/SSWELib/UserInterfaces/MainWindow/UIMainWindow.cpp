@@ -245,7 +245,7 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
         if (waterSurfacesListBox->getSelected() != -1) {
 			mesh = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getMesh();
 			node = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getNode();
-			path = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getMeshPath();
+			path = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getPath();
         }
     }
     

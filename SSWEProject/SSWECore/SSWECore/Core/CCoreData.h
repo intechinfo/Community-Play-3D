@@ -17,12 +17,43 @@
 #include "../../../SSWERenders/Renders/XEffect/EffectCB.h"
 
 #include "../../../SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.h"
+#include "../../../SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.h"
 
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
 #include <IMonitor.h>
 
 #include "CCorePhysics.h"
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------HERITANCES--------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SSWE_CORE_API SData {
+
+	SData(ISceneNode *_node, IMesh *_mesh, stringc _path, ESCENE_NODE_TYPE _type) {
+		node = _node;
+		mesh = _mesh;
+		path = _path;
+		type = _type;
+	}
+
+	ISceneNode *getNode() { return node; }
+	IMesh *getMesh() { return mesh; }
+	stringc getPath() { return path; }
+	ESCENE_NODE_TYPE getType() { return type; }
+
+	void setNode(ISceneNode *_node) { node = _node; }
+	void setMesh(IMesh *_mesh) { mesh = _mesh; }
+	void setPath(stringw _path) { path = _path; }
+	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
+
+private:
+	ISceneNode *node;
+	IMesh *mesh;
+	stringc path;
+	ESCENE_NODE_TYPE type;
+};
 
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PLANAR MAPPING--------------------------------------------
@@ -112,101 +143,66 @@ private:
 //----------------------------------TERRAINS--------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API STerrainsData {
+struct SSWE_CORE_API STerrainsData : SData {
 	
-	STerrainsData() {
+	STerrainsData() : SData(0, 0, "", ESNT_UNKNOWN) {
 		STerrainsData(0, 0, "", 0, ESNT_UNKNOWN);
 	}
 
-	STerrainsData(IMesh *_mesh, ISceneNode *_node, stringw _path, u32 _minPolysPerNode=0, ESCENE_NODE_TYPE _type=ESNT_MESH) {
-		mesh = _mesh;
-		node = _node;
-		path = _path;
+	STerrainsData(IMesh *_mesh, ISceneNode *_node, stringw _path, u32 _minPolysPerNode=0, ESCENE_NODE_TYPE _type=ESNT_MESH)
+		: SData(_node, _mesh, _path, _type)
+	{
 		minPolysPerNode = _minPolysPerNode;
-		type = _type;
 	}
-	
-	void setMesh(IMesh *_mesh) { mesh = _mesh; }
-	void setNode(ISceneNode *_node) { node = _node; }
-	void setPath(stringc _path) { path = _path; }
-	void setMinPolysPerNode(u32 _minPolysPerNode) { minPolysPerNode = _minPolysPerNode; }
-	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
 
-	IMesh *getMesh() { return mesh; }
-	ISceneNode *getNode() { return node; }
-	stringc getPath() { return path; }
+	void setMinPolysPerNode(u32 _minPolysPerNode) { minPolysPerNode = _minPolysPerNode; }
+
 	u32 getMinPolysPerNode() { return minPolysPerNode; }
-	ESCENE_NODE_TYPE getType() { return type; }
 
 private:
-	IMesh *mesh;
-	ISceneNode *node;
 	u32 minPolysPerNode;
-	stringc path;
-	ESCENE_NODE_TYPE type;
-
-	CCorePhysics *physics;
 };
 
 //---------------------------------------------------------------------------------------------
 //----------------------------------TREES---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API STreesData {
-	STreesData(IMesh *_mesh, ISceneNode *_node, stringw _path, ESCENE_NODE_TYPE _type=ESNT_OCTREE, u32 _minPolysPerNode=0) {
-		mesh = _mesh;
-		node = _node;
-		path = _path;
-		type = _type;
+struct SSWE_CORE_API STreesData : SData {
+
+	STreesData(IMesh *_mesh, ISceneNode *_node, stringw _path, ESCENE_NODE_TYPE _type=ESNT_OCTREE, u32 _minPolysPerNode=0)
+		: SData(_node, _mesh, _path, _type)
+	{
+		SData::setNode(_node);
+		SData::setMesh(_mesh);
+		SData::setPath(_path);
+		SData::setType(_type);
 		minPolysPerNode = _minPolysPerNode;
 	}
 
-	STreesData(STerrainsData terrainData) {
-		mesh = terrainData.getMesh();
-		node = terrainData.getNode();
+	STreesData(STerrainsData terrainData) : SData(terrainData.getNode(), terrainData.getMesh(), terrainData.getPath(), terrainData.getType()) {
 		minPolysPerNode = terrainData.getMinPolysPerNode();
-		path = terrainData.getPath();
-
-		type = ESNT_OCTREE;
 	}
 
-	void setMesh(IMesh *_mesh) { mesh = _mesh; }
-	void setNode(ISceneNode *_node) { node = _node; }
-	void setPath(stringw _path) { path = _path; }
 	void setMinPolysPerNode(u32 _minPolysPerNode) { minPolysPerNode = _minPolysPerNode; }
-	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
 
-	IMesh *getMesh() { return mesh; }
-	ISceneNode *getNode() { return node; }
 	u32 getMinPolysPerNode() { return minPolysPerNode; }
-	stringw getPath() { return path; }
-	ESCENE_NODE_TYPE getType() { return type; }
 
 private:
-	IMesh *mesh;
-	ISceneNode *node;
 	u32 minPolysPerNode;
-	stringw path;
-	ESCENE_NODE_TYPE type;
 };
 
 //---------------------------------------------------------------------------------------------
 //----------------------------------OBJECTS---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SObjectsData {
+struct SSWE_CORE_API SObjectsData : SData {
 
-	SObjectsData(IMesh *_mesh, ISceneNode *_node, stringw _path) {
-		mesh = _mesh;
-		node = _node;
-		path = _path;
-
+	SObjectsData(IMesh *_mesh, ISceneNode *_node, stringw _path)
+		: SData(_node, _mesh, _path, ESNT_ANIMATED_MESH)
+	{
 		actions.clear();
 	}
 
-	void setMesh(IMesh *_mesh) { mesh = _mesh; }
-	void setNode(ISceneNode *_node) { node = _node; }
-	void setPath(stringw _path) { path = _path; }
 	void setActions(array<CAction *> *_actions) {
 		actions.clear();
 		for (u32 i=0; i < _actions->size(); i++) {
@@ -214,17 +210,9 @@ struct SSWE_CORE_API SObjectsData {
 		}
 	}
 
-	IMesh *getMesh() { return mesh; }
-	ISceneNode *getNode() { return node; }
-	stringw getPath() { return path; }
-
 	array<CAction *> *getActions() { return &actions; }
 
 private:
-	IMesh *mesh;
-	ISceneNode *node;
-	stringw path;
-
 	array<CAction *> actions;
 };
 
@@ -232,26 +220,24 @@ private:
 //----------------------------------LIGHTS-----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SLightsData {
+struct SSWE_CORE_API SLightsData : SData {
 
-	SLightsData(ISceneNode *_node, IMeshSceneNode *_lensFlareMeshSceneNode=0, IBillboardSceneNode *_lensFlareBillBoardSceneNode=0,
-				CLensFlareSceneNode *_lensFlareSceneNode=0) {
-
-		node = _node;
-
+	SLightsData(ISceneNode *_node, IMeshSceneNode *_lensFlareMeshSceneNode=0, 
+				IBillboardSceneNode *_lensFlareBillBoardSceneNode=0,
+				CLensFlareSceneNode *_lensFlareSceneNode=0)
+				: SData(_node, 0, L"", ESNT_LIGHT)
+	{
 		lfdata.setLensFlareMeshSceneNode(_lensFlareMeshSceneNode);
 		lfdata.setLensFlareBillboardSceneNode(_lensFlareBillBoardSceneNode);
 		lfdata.setLensFlareSceneNode(_lensFlareSceneNode);
 	}
 
 	// LENS FLARE
-	ISceneNode *getNode() { return node; }
 	IMeshSceneNode *getLensFlareMeshSceneNode() { return lfdata.getLensFlareMeshSceneNode(); }
 	IBillboardSceneNode *getLensFlareBillBoardSceneNode() { return lfdata.getLensFlareBillBoardSceneNode(); }
 	CLensFlareSceneNode *getLensFlareSceneNode() { return lfdata.getLensFlareSceneNode(); }
 	f32 getLensFlareStrengthFactor() { return lfdata.getStrengthFactor(); }
 
-	void setLight(ISceneNode *_node) { node = _node; }
 	void setLensFlareMeshSceneNode(IMeshSceneNode *_node) { lfdata.setLensFlareMeshSceneNode(_node); }
 	void setLensFlareBillboardSceneNode(IBillboardSceneNode *_node) { lfdata.setLensFlareBillboardSceneNode(_node); }
 	void setLensFlareSceneNode(CLensFlareSceneNode *_node) { lfdata.setLensFlareSceneNode(_node); }
@@ -392,15 +378,12 @@ private:
 //----------------------------------VOLUME LIGHTS---------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SVolumeLightsData {
+struct SSWE_CORE_API SVolumeLightsData : SData {
 
-	SVolumeLightsData(IVolumeLightSceneNode *_node) {
+	SVolumeLightsData(IVolumeLightSceneNode *_node) : SData(_node, 0, L"", ESNT_VOLUME_LIGHT)
+	{
 		node = _node;
 	}
-
-	ISceneNode *getNode() { return node; }
-	
-	void setNode(ISceneNode *_node) { node = _node; }
 
 private:
 	ISceneNode *node;
@@ -410,34 +393,29 @@ private:
 //----------------------------------WATER SURFACES--------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SWaterSurfacesData {
+struct SSWE_CORE_API SWaterSurfacesData : SData {
 public:
-	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"") {
+	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"")
+		: SData(_waterSurface->getWaterNode(), _waterSurface->getWaterMesh(), _meshPath, ESNT_WATER_SURFACE)
+	{
 		waterSurface = _waterSurface;
 		callback = _callback;
 		packagePath = _packagePath;
-		meshPath = _meshPath;
     }
 
-	void remove() { delete this; }
+	//void remove() { delete this; }
 	void setwaterSurface(CWaterSurface *_waterSurface) { waterSurface = _waterSurface; }
 	void setCallback(CShaderCallback *_callback) { callback = _callback; }
 	void setPackagePath(stringw _packagePath) { packagePath = _packagePath; }
-	void setMeshPath(stringw _meshPath) { meshPath = _meshPath; }
 
 	CWaterSurface *getWaterSurface() { return waterSurface; }
-	IMesh *getMesh() { return waterSurface->getWaterMesh(); }
-	ISceneNode *getNode() { return waterSurface->getWaterNode(); }
 	CShaderCallback *getShaderCallback() { return callback; }
-	stringw getMeshPath() { return meshPath; }
 	stringw getPackagePath() { return packagePath; }
 
 private:
 	CWaterSurface *waterSurface;
 	CShaderCallback *callback;
 	stringw packagePath;
-	stringw meshPath;
-
 };
 
 //---------------------------------------------------------------------------------------------
