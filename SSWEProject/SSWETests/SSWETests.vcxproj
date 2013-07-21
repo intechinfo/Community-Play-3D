@@ -58,7 +58,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWELib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -67,7 +67,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Irrlicht_d.lib;SSWECore_d.lib;SSWELib_d.lib;SSWERenders_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Irrlicht_d.lib;SSWECore_d.lib;SSWELib_d.lib;SSWERenders_d.lib;SSWEGenericMonitor_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
@@ -78,7 +78,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWELib\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)..\sources\;$(SolutionDir)SSWECore\;$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>

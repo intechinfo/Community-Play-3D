@@ -12,6 +12,8 @@
 #include "stdafx.h"
 #include "Core/CCore.h"
 
+#include "../../../SSWELib/SSWELib/SceneNodes/Terrains/CTerrain.h"
+
 class SSWE_CORE_API SFPSCameraSettings {
 
 public:
@@ -96,6 +98,7 @@ public:
 	
     //-----------------------------------
     //METHODS
+	void setCollisionToAnUnknownNode(IMesh *mesh, ISceneNode *node);
     void setCollisionToAnOctTreeNode(ISceneNode *node);
     void setCollisionToAnAnimatedNode(ISceneNode *node);
     void setCollisionFromBoundingBox(ISceneNode *node);

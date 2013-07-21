@@ -333,10 +333,10 @@
     <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp">
       <Filter>SSWELib\UserInterfaces\Options</Filter>
     </ClCompile>
-    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainSceneNode.cpp">
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrain.cpp">
       <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClCompile>
-    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainTriangleSelector.cpp">
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainPager.cpp">
       <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClCompile>
   </ItemGroup>
@@ -578,10 +578,10 @@
     <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h">
       <Filter>SSWELib\UserInterfaces\Options</Filter>
     </ClInclude>
-    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainSceneNode.h">
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrain.h">
       <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClInclude>
-    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainTriangleSelector.h">
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainPager.h">
       <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClInclude>
   </ItemGroup>

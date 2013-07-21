@@ -8,6 +8,79 @@
 #include "stdafx.h"
 #include "CUIWindowAddTerrain.h"
 
+void createTilesForImage(c8* ImageFileName, c8 * TileName, irr::video::IVideoDriver * Driver, bool IsHeightMap) {
+	/* Les tiles sont créés et nommés dans l'ordre suivant :
+
+		1 - 2 - 3 - 4
+		|   |   |   |
+		5 - 6 - 7 - 8
+		|   |   |   |
+		9 -10 -11 -12
+		|   |   |   |
+		13 -14 -15 -16
+	*/
+
+
+	u16 TileSize = 256;	
+	u16 TileSize2 = TileSize;
+	core::dimension2du dim;
+	
+	// si c'est une heightmap on forme des tiles de 2^n+1 (257)
+	if(IsHeightMap) {
+		//TileSize = 256;
+		//TileSize2 = TileSize;
+		TileSize2++;
+		dim.Height = TileSize2;
+		dim.Width = TileSize2;
+	}
+	else {
+		TileSize = 256;
+		TileSize2 = TileSize;
+		dim.Height = TileSize;
+		dim.Width = TileSize;
+	}
+
+	video::IImage * image = Driver->createImageFromFile(ImageFileName);
+	s32 * data = new s32[dim.Height * dim.Width * 3];
+	video::IImage * tile  = Driver->createImageFromData(video::ECF_R8G8B8, dim, data);
+
+	int n = 1;
+	int xx = 0;
+	int yy = 0;
+	for(int j=0; j<4; j++) {
+		for(int p=0; p<4; p++) {
+			for(int y=0; y<=TileSize2; y++) {
+				for(int x=0; x<=TileSize2; x++) {				
+					tile->setPixel(x, y, image->getPixel(x+xx,y+yy));		
+				}			
+			}
+
+			//core::stringc str = L"Media2/map";
+			core::stringc str(TileName);
+			str += n;
+			str +=  ".png";
+			n++;
+
+
+			Driver->writeImageToFile(tile, str.c_str(), 0 ); 			
+			if(IsHeightMap)
+				xx+=TileSize;
+			else
+				xx+=TileSize-1;
+		}
+		xx=0;
+		if(IsHeightMap)
+			yy+=TileSize;
+		else
+			yy+=TileSize-1;
+	} 
+	
+
+
+	image->drop();
+	tile->drop();
+}
+
 CUIWindowAddOctTree::CUIWindowAddOctTree(CDevices *_devices, IGUIListBox *_terrainsListBox) {
     devices = _devices;
 
@@ -15,6 +88,9 @@ CUIWindowAddOctTree::CUIWindowAddOctTree(CDevices *_devices, IGUIListBox *_terra
 
     path_file = L"";
 	addOctTreeWindow = 0;
+
+	path_terrains_hgtmap = L"";
+	path_terrains_texture = L"";
 
 	terrainType = ELTT_MESH;
 }
@@ -38,6 +114,7 @@ void CUIWindowAddOctTree::open() {
 	terrainTypecb->addItem(L"MESH");
 	terrainTypecb->addItem(L"TERRAIN");
 	terrainTypecb->addItem(L"TERRAIN_MESH");
+	terrainTypecb->setSelected(terrainType);
 	devices->getGUIEnvironment()->addStaticText(L"Name : (#map: will be added automatically)", rect<s32>(10, 60, 290, 80), false, false, addOctTreeWindow, -1, false);
 
 	if (terrainType == ELTT_MESH) {
@@ -81,6 +158,48 @@ void CUIWindowAddOctTree::open() {
 														L"Close this window");
 	}
 
+	if (terrainType == ELTT_TERRAIN_SPLATTING) {
+		addOctTreeWindow->setRelativePosition(rect<s32>(440, 130, 990, 500));
+		addOctTreeEditBox = devices->getGUIEnvironment()->addEditBox(L"myName", rect<s32>(10, 80, 190, 100), true, addOctTreeWindow, -1);
+		terrainsOpenHeightMap =devices->getGUIEnvironment()->addButton(rect<s32>(190, 80, 290, 100), addOctTreeWindow, -1, L"Select Hgtmap", L"Select the Height Map");
+
+		devices->getGUIEnvironment()->addStaticText(L"Map Size :", rect<s32>(10, 110, 90, 130), true, false, addOctTreeWindow, -1, false);
+		terrainsMapSizeeb = devices->getGUIEnvironment()->addEditBox(L"256", rect<s32>(90, 110, 290, 130), true, addOctTreeWindow, -1);
+
+		devices->getGUIEnvironment()->addStaticText(L"Dimension :", rect<s32>(10, 130, 160, 150), true, false, addOctTreeWindow, -1, false);
+		terrainsDimensioneb = devices->getGUIEnvironment()->addEditBox(L"4", rect<s32>(160, 130, 290, 150), true, addOctTreeWindow, -1);
+
+		devices->getGUIEnvironment()->addStaticText(L"LOD Texture Scale :", rect<s32>(10, 150, 160, 170), true, false, addOctTreeWindow, -1, false);
+		terrainsLODTextureScaleeb = devices->getGUIEnvironment()->addEditBox(L"100.0", rect<s32>(160, 150, 290, 170), true, addOctTreeWindow, -1);
+
+		devices->getGUIEnvironment()->addStaticText(L"Terrain Scale :", rect<s32>(10, 170, 140, 190), true, false, addOctTreeWindow, -1, false);
+		terrainsScale = devices->getGUIEnvironment()->addEditBox(L"10", rect<s32>(140, 170, 290, 190), true, addOctTreeWindow, -1);
+
+		devices->getGUIEnvironment()->addStaticText(L"Quality :", rect<s32>(10, 190, 90, 210), true, false, addOctTreeWindow, -1, false);
+		terrainsQualitycb = devices->getGUIEnvironment()->addComboBox(rect<s32>(90, 190, 290, 210), addOctTreeWindow, -1);
+
+		devices->getGUIEnvironment()->addStaticText(L"Distance Max Render :", rect<s32>(10, 210, 150, 230), true, false, addOctTreeWindow, -1, false);
+		terrainsDistanceMaxRendereb = devices->getGUIEnvironment()->addEditBox(L"180.0", rect<s32>(150, 210, 290, 230), true, addOctTreeWindow, -1);
+
+		devices->getGUIEnvironment()->addStaticText(L"Distance Load :", rect<s32>(10, 230, 150, 250), true, false, addOctTreeWindow, -1, false);
+		terrainsDistanceLoadeb = devices->getGUIEnvironment()->addEditBox(L"1.38", rect<s32>(150, 230, 290, 250), true, addOctTreeWindow, -1);
+
+		devices->getGUIEnvironment()->addStaticText(L"Distance Load :", rect<s32>(10, 250, 150, 270), true, false, addOctTreeWindow, -1, false);
+		terrainsDistanceUnloadeb = devices->getGUIEnvironment()->addEditBox(L"1.05", rect<s32>(150, 250, 290, 270), true, addOctTreeWindow, -1);
+
+		terrainsEnableFog = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(10, 270, 290, 290), addOctTreeWindow, -1, L"Enable Fog");
+
+		terrainsTexturePath = devices->getGUIEnvironment()->addEditBox(L"myName", rect<s32>(10, 300, 190, 320), true, addOctTreeWindow, -1);
+		terrainsSelectTexture =devices->getGUIEnvironment()->addButton(rect<s32>(190, 300, 290, 320), addOctTreeWindow, -1, L"Select Texture", L"Select the Height Map");
+
+		//PLEASE ADD THE BIG TEXTURE
+
+		accept = devices->getGUIEnvironment()->addButton(rect<s32>(10, 340, 110, 360), addOctTreeWindow, -1, L"Accept", 
+														 L"Accept and add the selected mesh");
+		close = devices->getGUIEnvironment()->addButton(rect<s32>(120, 340, 220, 360), addOctTreeWindow, -1, L"Cancel", 
+														L"Close this window");
+	}
+
 }
 
 bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
@@ -119,11 +238,22 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
 				openMesh->setMaxSize(dimension2du(1280, 800));
 			}
 
+			if (event.GUIEvent.Caller == terrainsOpenHeightMap) {
+				openTerrainsHeightMap = devices->createFileOpenDialog(L"Select the height map", 0);
+				openTerrainsHeightMap->setMaxSize(dimension2du(1280, 800));
+			}
+
+			if (event.GUIEvent.Caller == terrainsSelectTexture) {
+				openTerrainsTexture = devices->createFileOpenDialog(L"Select the height map", 0);
+				openTerrainsTexture->setMaxSize(dimension2du(1280, 800));
+			}
+
 			if (event.GUIEvent.Caller == accept) {
                     IMesh *octTreeMesh = 0;
                     ISceneNode *octTreeNode = 0;
 					STerrainsData tdata;
 
+					//IF MESH
 					u32 minppn = -1;
 					if (terrainType == ELTT_MESH) {
 						if (!asMeshSceneNode->isChecked()) {
@@ -139,9 +269,11 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         } else {
                             octTreeNode = devices->getSceneManager()->addOctreeSceneNode(octTreeMesh, 0, -1, minppn);
                         }
+						if (octTreeNode)
+							devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
 					}
                     
-					//LOAD MESH AND ADD NODE
+					//IF TERRAIN
                     if (terrainType == ELTT_TERRAIN) {
 						u32 terrainPatchSize = devices->getCore()->getU32(terrainPatchSizecb->getItem(terrainPatchSizecb->getSelected()));
 
@@ -159,10 +291,92 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
 																					  terrainMaxLOD,
 																					  (E_TERRAIN_PATCH_SIZE)terrainPatchSize,
 																					  smoothFactor);
-						/*octTreeNode = new CTerrainSceneNode(0, devices->getDevice(), devices->getDevice()->getFileSystem(), -1, terrainMaxLOD, 
-															(E_TERRAIN_PATCH_SIZE)terrainPatchSize);
-						io::IReadFile* file = devices->getDevice()->getFileSystem()->createAndOpenFile(path_file.c_str());
-						((CTerrainSceneNode *)octTreeNode)->loadHeightMap(file, SColor (255, 255, 255, 255), smoothFactor);*/
+						if (octTreeNode)
+							devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
+                    }
+
+					//IF TERRAIN SPLATTING
+					if (terrainType == ELTT_TERRAIN_SPLATTING) {
+						if (path_terrains_hgtmap != L"" && path_terrains_texture != L"") {
+							stringc hgtmapDir = devices->getDevice()->getFileSystem()->getFileDir(path_terrains_hgtmap.c_str());
+							hgtmapDir += "/";
+							devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(hgtmapDir);
+							printf("%s\n", hgtmapDir.c_str());
+							#ifndef _IRR_OSX_PLATFORM
+								system("mkdir heightmaps");
+								system("mkdir textures");
+							#else
+
+							#endif
+							c8 *terrain_height_map_c8 = strdup(stringc(path_terrains_hgtmap).c_str());
+							c8 *terrain_texture_c8 = strdup(stringc(path_terrains_texture).c_str());
+							createTilesForImage(terrain_height_map_c8, "heightmaps/map", devices->getVideoDriver(), true);
+							createTilesForImage(terrain_texture_c8, "textures/color", devices->getVideoDriver(), false);
+							c8 * listeMap[16] = { "heightmaps/map13.png",
+												"heightmaps/map14.png", 
+												"heightmaps/map15.png", 
+												"heightmaps/map16.png", 
+												"heightmaps/map9.png",
+												"heightmaps/map10.png",
+												"heightmaps/map11.png",
+												"heightmaps/map12.png",
+												"heightmaps/map5.png", 
+												"heightmaps/map6.png",
+												"heightmaps/map7.png",
+												"heightmaps/map8.png",
+												"heightmaps/map1.png",
+												"heightmaps/map2.png",
+												"heightmaps/map3.png",
+												"heightmaps/map4.png"};
+							c8 * colorMap[16] = { "textures/color13.png",
+												"textures/color14.png", 
+												"textures/color15.png", 
+												"textures/color16.png", 
+												"textures/color9.png", 
+												"textures/color10.png",
+												"textures/color11.png",
+												"textures/color12.png", 
+												"textures/color5.png", 
+												"textures/color6.png",
+												"textures/color7.png",
+												"textures/color8.png",
+												"textures/color1.png",
+												"textures/color2.png",
+												"textures/color3.png",
+												"textures/color4.png"};
+							// Terrain pager parameters
+							STerrainParameters param2;
+							param2.MapSize = devices->getCore()->getF32(terrainsMapSizeeb->getText());
+							param2.Dimension = dimension2di(devices->getCore()->getS32(terrainsDimensioneb->getText()),
+															devices->getCore()->getS32(terrainsDimensioneb->getText()));
+							param2.LodTextureScale = devices->getCore()->getF32(terrainsLODTextureScaleeb->getText());
+							param2.MapListFileName = listeMap;
+							param2.ColorMapListFileName = colorMap;
+							param2.Position = core::vector3df(0,0,0);
+							param2.Scale = core::vector3df(devices->getCore()->getF32(terrainsScale->getText()),
+														   devices->getCore()->getF32(terrainsScale->getText()),
+														   devices->getCore()->getF32(terrainsScale->getText()));
+							param2.Quality = CTerrain::ETQ_MEDIUM;
+							param2.DistanceMaxRender = devices->getCore()->getF32(terrainsDistanceMaxRendereb->getText());
+							param2.DistanceLoad = param2.MapSize * devices->getCore()->getF32(terrainsDistanceLoadeb->getText()) * param2.Scale.X;
+							param2.DistanceUnload = param2.DistanceLoad * devices->getCore()->getF32(terrainsDistanceUnloadeb->getText());
+							param2.Fog = terrainsEnableFog->isChecked();	
+							param2.Debug = true;
+							param2.detailTexturePath = "detail.jpg";
+
+							// create Terrain pager
+							octTreeNode = new  CTerrainPager(param2, devices->getSceneManager()->getRootSceneNode(), devices->getSceneManager(), -1, 
+																		 devices->getCollisionManager()->getMetaTriangleSelectors());
+
+							f32 minFog = 400;
+							f32 maxFog = param2.DistanceMaxRender * param2.Scale.X * 0.85f;
+							video::SColor fogColor = video::SColor(0,150,150,255);
+							devices->getVideoDriver()->setFog(fogColor, EFT_FOG_EXP2, minFog, maxFog, 0.00999999999, false, true);
+						} else {
+							devices->addWarningDialog(L"Informations", 
+                                                  L"Please select an Height Map \n\n"
+                                                  L"Please select a Texture \n", EMBF_OK);
+						}
                     }
 					//IF NODE SET VALUES
 					if (octTreeNode) {
@@ -183,7 +397,6 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         octTreeNode->setName(octTreeNodeName.c_str());
                         
                         devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType(), ESM_BOTH);
-                        devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
                         
 						tdata.setNode(octTreeNode);
 						tdata.setPath(path_file.c_str());
@@ -213,6 +426,14 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                 path_file = L"";
                 path_file.append(openMesh->getFileName());
             }
+			if (event.GUIEvent.Caller == openTerrainsHeightMap) {
+				path_terrains_hgtmap = L"";
+                path_terrains_hgtmap.append(openTerrainsHeightMap->getFileName());
+			}
+			if (event.GUIEvent.Caller == openTerrainsTexture) {
+				path_terrains_texture = L"";
+                path_terrains_texture.append(openTerrainsTexture->getFileName());
+			}
         }
     }
     

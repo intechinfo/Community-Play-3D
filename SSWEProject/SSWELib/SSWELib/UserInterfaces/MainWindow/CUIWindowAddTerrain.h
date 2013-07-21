@@ -10,7 +10,7 @@
 #define __C_UI_WINDOW_ADD_OCT_TREE_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
-#include "../../SceneNodes/Terrains/CTerrainSceneNode.h"
+#include "../../SceneNodes/Terrains/CTerrainPager.h"
 
 enum GUI_WINDOW_EVENTS_ADD_OCT_TREE {
     CXT_WINDOW_ADD_OCT_TREE_EVENTS_CLOSE = 0x30000
@@ -55,6 +55,26 @@ private:
 	IGUIComboBox *terrainPatchSizecb;
 	IGUIEditBox *terrainMaxLODeb;
 	IGUIEditBox *terrainSmoothFactoreb;
+
+	//TERRAIN SPLATTING
+	IGUIButton *terrainsOpenHeightMap;
+	IGUIFileOpenDialog *openTerrainsHeightMap;
+	stringw path_terrains_hgtmap;
+
+	IGUIEditBox *terrainsMapSizeeb;
+	IGUIEditBox *terrainsDimensioneb;
+	IGUIEditBox *terrainsLODTextureScaleeb;
+	IGUIEditBox *terrainsScale;
+	IGUIComboBox *terrainsQualitycb;
+	IGUIEditBox *terrainsDistanceMaxRendereb;
+	IGUIEditBox *terrainsDistanceLoadeb;
+	IGUIEditBox *terrainsDistanceUnloadeb;
+	IGUICheckBox *terrainsEnableFog;
+
+	IGUIEditBox *terrainsTexturePath;
+	IGUIButton *terrainsSelectTexture;
+	IGUIFileOpenDialog *openTerrainsTexture;
+	stringw path_terrains_texture;
 	//-----------------------------------
     
 	//-----------------------------------
@@ -67,7 +87,7 @@ private:
 	enum ELOAD_TERRAIN_TYPE {
 		ELTT_MESH = 0,
 		ELTT_TERRAIN,
-		ELTT_TERRAIN_MESH
+		ELTT_TERRAIN_SPLATTING
 	} terrainType;
 	//-----------------------------------
     
