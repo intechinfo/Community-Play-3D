@@ -34,10 +34,6 @@
 //RENDERS
 #include "../../../SSWERenders/Renders/XEffect/XEffects.h"
 
-//SCENE NODES
-#include "../../../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h"
-#include "../../../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h"
-
 //BULLET
 #include "src/Bullet-C-Api.h"
 #include "src/btBulletDynamicsCommon.h"

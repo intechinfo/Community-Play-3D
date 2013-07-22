@@ -702,7 +702,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 if (isWindowed) {
                     editWindow->setRelativePosition(rect<s32>(devices->getVideoDriver()->getScreenSize().Width-420, 75, 
                                                               devices->getVideoDriver()->getScreenSize().Width, 
-                                                              devices->getVideoDriver()->getScreenSize().Height));
+                                                              devices->getVideoDriver()->getScreenSize().Height-20));
                     
                     tabCtrl->setRelativePosition(rect<int>(5, 20, 415, editWindow->getRelativePosition().getHeight()-50));
                     
