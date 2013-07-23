@@ -61,6 +61,11 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 			eventsAllowed = true;
 		else
 			eventsAllowed = false;*/
+		if (!event.KeyInput.Control) {
+			MouseKeys[0] = false;
+			MouseKeys[2] = false;
+			MouseKeys[1] = false;
+		}
 	}
 
 	switch(event.MouseInput.Event)

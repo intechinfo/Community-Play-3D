@@ -207,6 +207,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	image = devices->getVideoDriver()->getTexture("GUI/tangents.png");
 	bar->addButton(CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS, 0, L"Create mesh with tangents", image, 0, false, true);
 
+	IGUIEnvironment *gui = devices->getGUIEnvironment();
+	IVideoDriver *driver = devices->getVideoDriver();
+	contextNameText = gui->addStaticText(L"", rect<s32>(bar->getRelativePosition().getWidth()-400, 5,
+														bar->getRelativePosition().getWidth(), 25), 
+										true, true, bar, -1, true);
+	contextNameText->setBackgroundColor(SColor(255, 0, 0, 0));
+	contextNameText->setOverrideColor(SColor(255, 255, 255, 255));
+	contextNameText->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+
     //-----------------------------------
 
     //-----------------------------------
@@ -246,14 +255,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	image = devices->getVideoDriver()->getTexture("GUI/light.png");
 	infosBar->addButton(CXT_MENU_EVENTS_CREATE_LIGHT, 0, L"Add a light scene node", image, 0, false, true);
 
-	IGUIEnvironment *gui = devices->getGUIEnvironment();
-	IVideoDriver *driver = devices->getVideoDriver();
-	contextNameText = gui->addStaticText(L"", rect<s32>(infosBar->getRelativePosition().getWidth()-400, 5,
-														infosBar->getRelativePosition().getWidth(), 25), 
-										true, true, infosBar, -1, true);
-	contextNameText->setBackgroundColor(SColor(255, 0, 0, 0));
-	contextNameText->setOverrideColor(SColor(255, 255, 255, 255));
-	contextNameText->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+	comboModecb = devices->getGUIEnvironment()->addComboBox(rect<s32>(infosBar->getRelativePosition().getWidth()-400, 5,
+																	  infosBar->getRelativePosition().getWidth(), 25),
+															0, -1);
+	comboModecb->addItem(L"Render Mode");
+	comboModecb->addItem(L"Full Mode");
+	comboModecb->addItem(L"Edit Mode");
+	comboModecb->setSubElement(false);
 
     //-----------------------------------
 
@@ -318,8 +326,6 @@ CUIContextMenu::~CUIContextMenu() {
 }
 
 void CUIContextMenu::update() {
-    //if (timer->getTime() / 3000 == 0 ) {
-        //timer->setTime(0);
 	if (devices->getContextName() == "General") {
 		if (mainWindowInstance->getMainWindow()->isVisible())
 			mainWindowInstance->getMainWindow()->setVisible(true);
@@ -329,17 +335,19 @@ void CUIContextMenu::update() {
 		mainWindowInstance->getMainWindow()->setVisible(false);
 		devices->getCore()->deactiveChildrenOfGUIElement(bar, false);
 	}
-    //}
 
 	if (devices->getDevice()->getCursorControl()->getPosition().Y < 75) {
 		contextNameText->setVisible(true);
-		contextNameText->setRelativePosition(rect<s32>(infosBar->getRelativePosition().getWidth()-200, 5,
-													   infosBar->getRelativePosition().getWidth(), 25));
+		contextNameText->setRelativePosition(rect<s32>(bar->getRelativePosition().getWidth()-200, 5,
+													   bar->getRelativePosition().getWidth(), 25));
 		contextNameText->setText(stringw(stringw("Context : ") + devices->getContextName().c_str()).c_str());
 		contextNameText->setToolTipText(stringw(stringw("Context : ") + devices->getContextName().c_str()).c_str());
 	} else {
 		contextNameText->setVisible(false);
 	}
+
+	comboModecb->setRelativePosition(rect<s32>(infosBar->getRelativePosition().getWidth()-200, infosBar->getRelativePosition().UpperLeftCorner.Y+5,
+											   infosBar->getRelativePosition().getWidth(), infosBar->getRelativePosition().UpperLeftCorner.Y+25));
 }
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {

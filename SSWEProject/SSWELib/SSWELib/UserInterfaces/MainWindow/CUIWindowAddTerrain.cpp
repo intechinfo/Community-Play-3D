@@ -291,8 +291,11 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
 																					  terrainMaxLOD,
 																					  (E_TERRAIN_PATCH_SIZE)terrainPatchSize,
 																					  smoothFactor);
-						if (octTreeNode)
+
+						if (octTreeNode) {
 							devices->getCollisionManager()->setCollisionToAnOctTreeNode(octTreeNode);
+							octTreeNode->setPosition(vector3df(0) - ((ITerrainSceneNode *)octTreeNode)->getTerrainCenter());
+						}
                     }
 
 					//IF TERRAIN SPLATTING

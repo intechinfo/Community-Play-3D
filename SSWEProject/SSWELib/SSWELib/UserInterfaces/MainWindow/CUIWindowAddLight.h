@@ -17,7 +17,7 @@ enum GUI_WINDOW_EVENTS_ADD_LIGHT {
 };
 
 class CUIWindowAddLight : public IEventReceiver {
-    
+
 public:
     
     CUIWindowAddLight(CDevices *_devices, IGUIListBox *_lightsListBox);

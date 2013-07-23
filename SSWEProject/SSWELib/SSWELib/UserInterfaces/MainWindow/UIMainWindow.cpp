@@ -466,7 +466,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
 			bool isAListBoxOfMainWindow = (parent == getActiveListBox());
 			if (isAListBoxOfMainWindow) {
-				if (mainWindow->isVisible() && mainWindow->isPointInside(devices->getDevice()->getCursorControl()->getPosition())) {
+				if (mainWindow->isVisible() && mainWindow->isPointInside(devices->getDevice()->getCursorControl()->getPosition()) && getSelectedNode().getNode()) {
 					IGUIEnvironment *gui = devices->getGUIEnvironment();
 					ICursorControl *cursor = devices->getDevice()->getCursorControl();
 
@@ -484,6 +484,10 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					rightClickCxtMenum->addItem(L"Make Planar Texture Mapping...", 3, true, false, false, false);
 					rightClickCxtMenum->addItem(L"Create Mesh With Tangents...", 4, true, false, false, false);
 					rightClickCxtMenum->addItem(L"Scale Mesh", 5, true, false, false, false);
+					if (tabCtrl->getActiveTab() == terrainsTab->getNumber() && getSelectedNode().getNode()->getType() == ESNT_TERRAIN) {
+						rightClickCxtMenum->addSeparator();
+						rightClickCxtMenum->addItem(L"Terrain Painting...");
+					}
 				}
 			}
 		}
