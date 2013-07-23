@@ -327,7 +327,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		if (element == editMaterialWindow->getMaximizeButton()) {
 			if (editMaterialWindow->getRelativePosition().getWidth() != devices->getVideoDriver()->getScreenSize().Width) {
 				editMaterialWindow->setRelativePosition(rect<s32>(0, 75, devices->getVideoDriver()->getScreenSize().Width,
-																	devices->getVideoDriver()->getScreenSize().Height));
+																	devices->getVideoDriver()->getScreenSize().Height-20));
 				editMaterialWindow->setDraggable(false);
 
 				viewPort->setRelativePosition(rect<s32>(editMaterialWindow->getRelativePosition().getWidth()-500,

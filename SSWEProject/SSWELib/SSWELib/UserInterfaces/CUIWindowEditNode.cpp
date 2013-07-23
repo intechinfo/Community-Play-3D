@@ -702,7 +702,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 if (isWindowed) {
                     editWindow->setRelativePosition(rect<s32>(devices->getVideoDriver()->getScreenSize().Width-420, 75, 
                                                               devices->getVideoDriver()->getScreenSize().Width, 
-                                                              devices->getVideoDriver()->getScreenSize().Height));
+                                                              devices->getVideoDriver()->getScreenSize().Height-20));
                     
                     tabCtrl->setRelativePosition(rect<int>(5, 20, 415, editWindow->getRelativePosition().getHeight()-50));
                     
@@ -777,19 +777,19 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					}
                     if (!stringw(ebTextureLayerPath1->getText()).equals_ignore_case(L"Empty")) {
                     nodeToEdit->setMaterialTexture(0, 
-                                devices->getVideoDriver()->getTexture(devices->getCore()->convertToString(ebTextureLayerPath1->getText()).c_str()));
+                                devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath1->getText()).c_str()));
                     }
                     if (!stringw(ebTextureLayerPath2->getText()).equals_ignore_case(L"Empty")) {
                     nodeToEdit->setMaterialTexture(1, 
-                                devices->getVideoDriver()->getTexture(devices->getCore()->convertToString(ebTextureLayerPath2->getText()).c_str()));
+                                devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath2->getText()).c_str()));
                     }
                     if (!stringw(ebTextureLayerPath3->getText()).equals_ignore_case(L"Empty")) {
                     nodeToEdit->setMaterialTexture(2, 
-                                devices->getVideoDriver()->getTexture(devices->getCore()->convertToString(ebTextureLayerPath3->getText()).c_str()));
+                                devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath3->getText()).c_str()));
                     }
                     if (!stringw(ebTextureLayerPath4->getText()).equals_ignore_case(L"Empty")) {
                     nodeToEdit->setMaterialTexture(3, 
-                                devices->getVideoDriver()->getTexture(devices->getCore()->convertToString(ebTextureLayerPath4->getText()).c_str()));
+                                devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath4->getText()).c_str()));
                     }
                     
                     if (nodeToEdit->getType() == ESNT_TERRAIN) {

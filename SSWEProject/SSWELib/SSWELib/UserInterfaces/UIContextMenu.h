@@ -182,6 +182,7 @@ private:
 	IGUIContextMenu *skydomeMenu, *skyboxMenu;
 
 	IGUIStaticText *contextNameText;
+	IGUIComboBox *comboModecb;
 	//-----------------------------------
 
 };

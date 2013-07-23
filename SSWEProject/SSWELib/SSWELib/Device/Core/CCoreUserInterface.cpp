@@ -132,6 +132,7 @@ CCoreUserInterface::~CCoreUserInterface() {
 }
 
 void CCoreUserInterface::update() {
+
     devices->updateDevice();
 
     contextMenuInstance->update();
@@ -147,6 +148,14 @@ void CCoreUserInterface::update() {
             logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-1000, driver->getScreenSize().Height-600));
         }
     }
+
+	core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
+	if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
+		if (gui->getFocus() == 0 && devices->isCtrlPushed())
+			((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
+		else
+			((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+	}
 }
 
 bool CCoreUserInterface::OnEvent(const SEvent &event) {

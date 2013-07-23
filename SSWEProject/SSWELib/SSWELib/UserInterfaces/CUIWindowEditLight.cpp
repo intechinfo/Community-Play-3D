@@ -319,40 +319,29 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 				case CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON:
 					//GENERAL
 					nodeToEdit->setName(ebNodeName->getText());
-					nodeToEdit->setPosition(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodePositionX->getText()),
-																			 devices->getCore()->convertToString(ebNodePositionY->getText()),
-																			 devices->getCore()->convertToString(ebNodePositionZ->getText())));
-					nodeToEdit->setRotation(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeTargetX->getText()),
-																			 devices->getCore()->convertToString(ebNodeTargetY->getText()),
-																			 devices->getCore()->convertToString(ebNodeTargetZ->getText())));
-					nodeToEdit->setRadius(devices->getCore()->getF32(devices->getCore()->convertToString(ebNodeRadius->getText()).c_str()));
+					nodeToEdit->setPosition(devices->getCore()->getVector3df(stringc(ebNodePositionX->getText()),
+																			 stringc(ebNodePositionY->getText()),
+																			 stringc(ebNodePositionZ->getText())));
+					nodeToEdit->setRotation(devices->getCore()->getVector3df(stringc(ebNodeTargetX->getText()),
+																			 stringc(ebNodeTargetY->getText()),
+																			 stringc(ebNodeTargetZ->getText())));
+					nodeToEdit->setRadius(devices->getCore()->getF32(stringc(ebNodeRadius->getText()).c_str()));
 
 					//ADVANCED DIFFUSE
-					nodeToEdit->getLightData().DiffuseColor.r = devices->getCore()->getF32(devices->getCore()->convertToString(ebNodeDiffuseColorR->getText()).c_str());
-					nodeToEdit->getLightData().DiffuseColor.g = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeDiffuseColorG->getText()).c_str());
-					nodeToEdit->getLightData().DiffuseColor.b = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeDiffuseColorB->getText()).c_str());
-					nodeToEdit->getLightData().DiffuseColor.a = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeDiffuseColorA->getText()).c_str());
+					nodeToEdit->getLightData().DiffuseColor.r = devices->getCore()->getF32(stringc(ebNodeDiffuseColorR->getText()).c_str());
+					nodeToEdit->getLightData().DiffuseColor.g = devices->getCore()->getF32(stringc(ebNodeDiffuseColorG->getText()).c_str());
+					nodeToEdit->getLightData().DiffuseColor.b = devices->getCore()->getF32(stringc(ebNodeDiffuseColorB->getText()).c_str());
+					nodeToEdit->getLightData().DiffuseColor.a = devices->getCore()->getF32(stringc(ebNodeDiffuseColorA->getText()).c_str());
 					//ADVANCED AMBIANT
-					nodeToEdit->getLightData().AmbientColor.r = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeAmbiantColorR->getText()).c_str());
-					nodeToEdit->getLightData().AmbientColor.g = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeAmbiantColorG->getText()).c_str());
-					nodeToEdit->getLightData().AmbientColor.b = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeAmbiantColorB->getText()).c_str());
-					nodeToEdit->getLightData().AmbientColor.a = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeAmbiantColorA->getText()).c_str());
+					nodeToEdit->getLightData().AmbientColor.r = devices->getCore()->getF32(stringc(ebNodeAmbiantColorR->getText()).c_str());
+					nodeToEdit->getLightData().AmbientColor.g = devices->getCore()->getF32(stringc(ebNodeAmbiantColorG->getText()).c_str());
+					nodeToEdit->getLightData().AmbientColor.b = devices->getCore()->getF32(stringc(ebNodeAmbiantColorB->getText()).c_str());
+					nodeToEdit->getLightData().AmbientColor.a = devices->getCore()->getF32(stringc(ebNodeAmbiantColorA->getText()).c_str());
 					//ADVANCED SPECULAR
-					nodeToEdit->getLightData().SpecularColor.r = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeSpecularColorR->getText()).c_str());
-					nodeToEdit->getLightData().SpecularColor.g = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeSpecularColorG->getText()).c_str());
-					nodeToEdit->getLightData().SpecularColor.b = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeSpecularColorB->getText()).c_str());
-					nodeToEdit->getLightData().SpecularColor.a = devices->getCore()->getF32(
-																devices->getCore()->convertToString(ebNodeSpecularColorA->getText()).c_str());
+					nodeToEdit->getLightData().SpecularColor.r = devices->getCore()->getF32(stringc(ebNodeSpecularColorR->getText()).c_str());
+					nodeToEdit->getLightData().SpecularColor.g = devices->getCore()->getF32(stringc(ebNodeSpecularColorG->getText()).c_str());
+					nodeToEdit->getLightData().SpecularColor.b = devices->getCore()->getF32(stringc(ebNodeSpecularColorB->getText()).c_str());
+					nodeToEdit->getLightData().SpecularColor.a = devices->getCore()->getF32(stringc(ebNodeSpecularColorA->getText()).c_str());
 
 					break;
 

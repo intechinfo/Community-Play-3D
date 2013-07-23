@@ -22,11 +22,18 @@ CCollisionManager::~CCollisionManager() {
 	meta->drop();
 }
 
+void CCollisionManager::setCollisionToAnUnknownNode(IMesh *mesh, ISceneNode *node) {
+	ITriangleSelector *selector = 0;
+	node->setTriangleSelector(selector);
+    meta->addTriangleSelector(selector);
+	selector->drop();
+}
+
 void CCollisionManager::setCollisionToAnOctTreeNode(ISceneNode *node) {
 	ITriangleSelector *selector = 0;
 	if (node->getType() == ESNT_OCTREE || node->getType() == ESNT_MESH) {
 		selector = smgr->createOctreeTriangleSelector(((IMeshSceneNode*)node)->getMesh(), node);
-	} else {
+	} else if (node->getType() == ESNT_TERRAIN) {
 		selector = smgr->createTerrainTriangleSelector((ITerrainSceneNode*)node);
 	}
 	node->setTriangleSelector(selector);
@@ -36,7 +43,7 @@ void CCollisionManager::setCollisionToAnOctTreeNode(ISceneNode *node) {
 
 void CCollisionManager::setCollisionToAnAnimatedNode(ISceneNode *node) {
 	ITriangleSelector *selector = 0;
-    selector = smgr->createTriangleSelector((IAnimatedMeshSceneNode *)node);
+	selector = smgr->createTriangleSelector((IAnimatedMeshSceneNode*)node);
 	node->setTriangleSelector(selector);
     meta->addTriangleSelector(selector);
 	selector->drop();

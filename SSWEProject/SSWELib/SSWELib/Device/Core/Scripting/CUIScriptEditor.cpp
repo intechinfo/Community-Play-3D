@@ -77,7 +77,7 @@ bool CUIScriptEditor::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == window->getMaximizeButton()) {
 				codeEditor->maximize(rect<s32>(0, 75, devices->getVideoDriver()->getScreenSize().Width,
-											   devices->getVideoDriver()->getScreenSize().Height));
+											   devices->getVideoDriver()->getScreenSize().Height-20));
 				resizeCodeEditor = !resizeCodeEditor;
 			}
 

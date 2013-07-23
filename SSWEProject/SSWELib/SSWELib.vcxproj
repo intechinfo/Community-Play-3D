@@ -72,7 +72,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SSWECore_d.lib;SSWERenders_d.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;winmm.lib;libovrd.lib;Irrlicht_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SSWECore_d.lib;SSWERenders_d.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;winmm.lib;Irrlicht_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RegisterOutput>false</RegisterOutput>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -132,7 +132,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;libovr.lib;winmm.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK_debug.lib;SPARK_IRR_debug.lib;winmm.lib;Irrlicht.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -183,6 +183,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\SceneNodes\Animators\CRotationAnimator.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\LensFlareSceneNode.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrain.cpp" />
+    <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainPager.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.cpp" />
     <ClCompile Include="SSWELib\Scenes\CExporter.cpp" />
     <ClCompile Include="SSWELib\Scenes\CImporter.cpp" />
@@ -266,6 +268,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h" />
     <ClInclude Include="SSWELib\SceneNodes\LensFlareSceneNode.h" />
     <ClInclude Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.h" />
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrain.h" />
+    <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainPager.h" />
     <ClInclude Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.h" />
     <ClInclude Include="SSWELib\Scenes\CExporter.h" />
     <ClInclude Include="SSWELib\Scenes\CImporter.h" />
