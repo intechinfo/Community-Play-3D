@@ -6,6 +6,11 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+//http://www.youtube.com/watch?v=mR27LmNEWZs
+//http://www.youtube.com/watch?v=zRkB8toh_jg
+//http://www.youtube.com/watch?v=WGa4asme5EI
+
+
 #ifndef __C_CORE_H_INCLUDED__
 #define __C_CORE_H_INCLUDED__
 
@@ -129,12 +134,24 @@ private:
 //--------------------------
 //MULTIPLE EVENT RECEIVERS CLASS
 
-class EventReceiver : public IEventReceiver {
+class IUpdate : IEventReceiver {
+public:
+	virtual void update() = 0;
+};
+
+class EventReceiver : public IEventReceiver, IUpdate {
 
 public:
     
 	//--------------------------
 	//MULTIPLE EVENTS MANAGER
+	void update() {
+		for (u32 i=0; i < mEventReceivers.size(); i++) {
+			if (mEventReceiversUpdate[i])
+				mEventReceiversUpdate[i]->update();
+		}
+	}
+
     virtual bool OnEvent(const SEvent& mainEvent) {
         for (u32 i=0; i < mEventReceivers.size(); ++i) {
             mEventReceivers[i]->OnEvent(mainEvent);
@@ -151,8 +168,9 @@ public:
         return false;
     }
     
-    void AddEventReceiver(IEventReceiver * receiver, IGUIWindow *window=0) {
+    void AddEventReceiver(IEventReceiver * receiver, IGUIWindow *window=0, IUpdate *autoUpdate=0) {
         mEventReceivers.push_back(receiver);
+		mEventReceiversUpdate.push_back(autoUpdate);
 		if (window) {
 			IGUIStaticText *txt = gui->addStaticText(window->getText(), rect<s32>(0, 0, 0, 0), false, false, 0, -1, false);
  			txt->setToolTipText(window->getText());
@@ -178,6 +196,7 @@ public:
 				if (mNames[i])
 					mNames[i]->remove();
 				mNames.erase(i);
+				mEventReceiversUpdate.erase(i);
             }
         }
         return false;
@@ -203,6 +222,7 @@ public:
 private:
 
     array<IEventReceiver *> mEventReceivers;
+	array<IUpdate *> mEventReceiversUpdate;
 	array<IGUIWindow *> mGuiWindows;
 	array<IGUIStaticText *> mNames;
 

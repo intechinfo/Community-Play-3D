@@ -216,6 +216,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp" />
@@ -233,6 +234,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\DLLExport.h" />
+    <ClInclude Include="include\IGraphicTool.h" />
     <ClInclude Include="include\IMonitor.h" />
     <ClInclude Include="include\IMonitorRegisterer.h" />
     <ClInclude Include="include\ITool.h" />
@@ -301,6 +303,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorFlags.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MaterialEditor\General\CUIMaterialEditorTextures.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />
     <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h" />

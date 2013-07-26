@@ -50,6 +50,7 @@ bool CUIWindowEditGrid::OnEvent(const SEvent &event) {
             s32 id = event.GUIEvent.Caller->getID();
             if (id == CXT_EDIT_WINDOW_GRID_EVENTS_CLOSE) {
                 editGridWindow->remove();
+				devices->getEventReceiver()->RemoveEventReceiver(this);
             }
             
         }

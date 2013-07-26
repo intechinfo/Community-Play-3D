@@ -140,6 +140,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWECore\Core\CCoreData.cpp" />
     <ClCompile Include="SSWECore\Core\CCoreObjectPlacement.cpp" />
     <ClCompile Include="SSWECore\Core\CCorePhysics.cpp" />
+    <ClCompile Include="SSWECore\DecaleSystem\CBatchingMesh.cpp" />
+    <ClCompile Include="SSWECore\DecaleSystem\DecalManager.cpp" />
+    <ClCompile Include="SSWECore\DecaleSystem\DecalSceneNode.cpp" />
     <ClCompile Include="SSWECore\SceneNodes\CGridSceneNode.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -154,6 +157,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWECore\Core\CCoreData.h" />
     <ClInclude Include="SSWECore\Core\CCoreObjectPlacement.h" />
     <ClInclude Include="SSWECore\Core\CCorePhysics.h" />
+    <ClInclude Include="SSWECore\DecaleSystem\CBatchingMesh.h" />
+    <ClInclude Include="SSWECore\DecaleSystem\DecalManager.h" />
+    <ClInclude Include="SSWECore\DecaleSystem\DecalSceneNode.h" />
     <ClInclude Include="SSWECore\SceneNodes\CGridSceneNode.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

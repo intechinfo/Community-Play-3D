@@ -486,7 +486,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					rightClickCxtMenum->addItem(L"Scale Mesh", 5, true, false, false, false);
 					if (tabCtrl->getActiveTab() == terrainsTab->getNumber() && getSelectedNode().getNode()->getType() == ESNT_TERRAIN) {
 						rightClickCxtMenum->addSeparator();
-						rightClickCxtMenum->addItem(L"Terrain Painting...");
+						rightClickCxtMenum->addItem(L"Terrain Painting...", 6, true, false, false, false);
 					}
 				}
 			}
@@ -618,6 +618,13 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 							}
 						} else {
 							devices->addInformationDialog(L"Informations", L"You cannot use a light", EMBF_OK, 0);
+						}
+					}
+					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 6) {
+						if (getSelectedNode().getNode()->getType() == ESNT_TERRAIN) {
+							u32 tindex = terrainsListBox->getSelected();
+							if (tindex != -1)
+								CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](tindex), this);
 						}
 					}
 				} else {
