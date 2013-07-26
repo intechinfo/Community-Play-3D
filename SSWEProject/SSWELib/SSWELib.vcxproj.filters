@@ -339,6 +339,9 @@
     <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainPager.cpp">
       <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -583,6 +586,12 @@
     </ClInclude>
     <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainPager.h">
       <Filter>SSWELib\SceneNodes\Terrains</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IGraphicTool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -69,6 +69,7 @@ const char* const sIMonitorMethodsNames[] = {
 
 	"drawScene",
 	"renderXEffectFullPostTraitement",
+	"drawGUI",
 
 	0
 };

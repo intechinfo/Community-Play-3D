@@ -28,6 +28,9 @@
     <Filter Include="libs">
       <UniqueIdentifier>{89054a41-ca4e-4639-bf08-cc4733e64064}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWECore\DecaleSystem">
+      <UniqueIdentifier>{c8acba02-ba81-4157-8ec1-69f087f56dcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWECore.cpp">
@@ -53,6 +56,15 @@
     </ClCompile>
     <ClCompile Include="SSWECore\Core\CCorePhysics.cpp">
       <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\DecaleSystem\CBatchingMesh.cpp">
+      <Filter>SSWECore\DecaleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\DecaleSystem\DecalManager.cpp">
+      <Filter>SSWECore\DecaleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\DecaleSystem\DecalSceneNode.cpp">
+      <Filter>SSWECore\DecaleSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +97,15 @@
     </ClInclude>
     <ClInclude Include="SSWECore\Core\CCorePhysics.h">
       <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\DecaleSystem\CBatchingMesh.h">
+      <Filter>SSWECore\DecaleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\DecaleSystem\DecalManager.h">
+      <Filter>SSWECore\DecaleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\DecaleSystem\DecalSceneNode.h">
+      <Filter>SSWECore\DecaleSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

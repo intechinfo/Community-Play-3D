@@ -74,7 +74,7 @@ void CImporter::buildTerrain() {
 	if (type == "heightMap") {
 		node = smgr->addTerrainSceneNode(path.c_str(), 0, -1, vector3df(0.f, 0.f, 0.f),
                                                 vector3df(0.f, 0.f, 0.f), vector3df(1.f, 0.1f, 1.f),
-                                                SColor (255, 255, 255, 255), 5, ETPS_17, 4);
+												SColor (255, 255, 255, 255), 1024, ETPS_17, 50);
 		tdata.setMinPolysPerNode(0);
 	} else if (type == "octtree") {
 		minPolysPerNode = xmlReader->getAttributeValueAsInt("mppn");

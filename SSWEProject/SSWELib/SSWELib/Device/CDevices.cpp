@@ -204,6 +204,8 @@ void CDevices::updateDevice() {
 					}
 				}
 
+				receiver.update();
+
 				//OLD CODE ! TOOOOOO OLD ! :D 
 				/*if (renderScene) 
 					drawScene();

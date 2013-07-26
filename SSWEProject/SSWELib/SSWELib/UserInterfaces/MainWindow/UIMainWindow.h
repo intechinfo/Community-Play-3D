@@ -23,8 +23,10 @@
 #include "../CUIWindowEditWater.h"
 #include "../MaterialEditor/CUIMaterialEditor.h"
 #include "../CUIWindowEditLight.h"
+
 #include "../../Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.h"
 
+#include "../NodeFactory/CUITerrainPainter.h"
 #include "../NodeFactory/CUINodeFactoryPlanarMapping.h"
 #include "../NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
 
