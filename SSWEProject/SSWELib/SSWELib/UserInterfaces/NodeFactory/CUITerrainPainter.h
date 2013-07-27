@@ -49,8 +49,12 @@ private:
 	ITerrainSceneNode *node;
 	STerrainsData tdata;
 	ITriangleSelector* terrainSelector;
+
+	vector3df oldTerrainScale, oldTerrainRotation, oldTerrainPosition;
 	s32 vertexIndex;
-	s32 terrainSize;
+	s32 terrainSizeWidth, terrainSizeHeight;
+	f32 minHeight, maxHeight, heightInterval;
+
 	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
 
 	//TOOLS
@@ -58,10 +62,24 @@ private:
 	ISceneNode* arrow;
 	stringc circlePath;
 	ITexture *circleTex;
+
+	//TERRAIN PAINTING VALUES
+	u32 currentStep;
+	f32 currentRadius;
+
 	//-----------------------------------
 
 	//-----------------------------------
 	//GUI ELEMENTS
+	IGUIWindow *window;
+
+	IGUIToolBar *bar;
+	IGUIButton *exportHeightMapbtn;
+
+	IGUIEditBox *stepValueeb, *radiusValueeb;
+	IGUIScrollBar *stepsb, *radiussb;
+
+	IGUIButton *cancel, *accept;
 	//-----------------------------------
 
 };

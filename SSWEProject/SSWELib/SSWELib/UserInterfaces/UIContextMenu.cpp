@@ -288,6 +288,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 		printf("Importing scene number %u \n", i);
 	}
 
+	CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
+
 	CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importCamerasConfig();
 
@@ -820,6 +822,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				devices->getObjectPlacement()->setArrowType(movementType);
 				devices->getObjectPlacement()->setNodeToPlace(0);
 				devices->getObjectPlacement()->setArrowVisible(false);
+
+				devices->getGUIEnvironment()->setFocus(devices->getGUIEnvironment()->getRootGUIElement());
 			}
 
 			//POSITION
