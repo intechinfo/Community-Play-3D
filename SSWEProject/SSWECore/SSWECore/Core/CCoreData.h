@@ -514,6 +514,7 @@ public:
 	//-----------------------------------
 	//GET IRRLICHT NODES
 	array<STerrainsData> *getTerrainsData() { return &terrainsData; }
+	u32 getTerrainsCount() { return terrainsData.size(); }
 
 	array<STreesData> *getTreesData() { return &treesData; }
 

@@ -22,6 +22,7 @@ CDevices::CDevices() {
     //RENDERS
     effect = 0;
 	renderCallbacks = 0;
+	dof = 0;
 
 	renderScene = true;
 
@@ -174,26 +175,23 @@ void CDevices::updateDevice() {
 		{
 			#pragma omp section
 			{
-				for(int i = 0; i < monitorRegister->getMonitorCount(); i++)
-				{
+				for(int i = 0; i < monitorRegister->getMonitorCount(); i++) {
 					IMonitor *monitor = monitorRegister->getMonitor(i);
 
-					if(monitor->isEnabled())
-					{
-						if(renderScene)
-						{
+					if(monitor->isEnabled()) {
+						if(renderScene) {
 							monitor->setXEffectRendered(renderXEffect);
-
 
 							if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
 								monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
+
 							if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
 								monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
+
 							monitor->drawScene();
 						}
 
-						if(renderFullPostTraitements && renderXEffect)
-						{
+						if(renderFullPostTraitements && renderXEffect) {
 							monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
 						}
 
@@ -202,9 +200,20 @@ void CDevices::updateDevice() {
 						if(renderGUI)
 							monitor->drawGUI();
 					}
-				}
+					
+					if (activeCamera == camera_fps) {
+						if (activeCamera->getRotation() != oldRotation) {
+							effect->setUseDepthOfField(true);
+							effect->setUseMotionBlur(true);
+							oldRotation = activeCamera->getRotation();
+						} else {
+							effect->setUseDepthOfField(false);
+							effect->setUseMotionBlur(false);
+						}
+					}
 
-				receiver.update();
+					receiver.update();
+				}
 
 				//OLD CODE ! TOOOOOO OLD ! :D 
 				/*if (renderScene) 
@@ -341,6 +350,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_maya->setName("editor:MayaCamera");
 	camera_maya->setID(-1);
 	camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+	oldRotation = vector3df(0);
+
     
 	smgr->setActiveCamera(camera_maya);
 	effectSmgr->setActiveCamera(camera_maya);
@@ -377,7 +388,11 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
 	effect->enableDepthPass(true);
+
+	dof = effect->getDOF();
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
+
+
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_EXCLUDE);
 
 	//ADD EVENTS

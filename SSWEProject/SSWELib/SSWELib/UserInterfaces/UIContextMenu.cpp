@@ -101,6 +101,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Effects", -1, true, true);
     submenu = submenu->getSubMenu(0);
 	submenu->addItem(L"Draw Full Post-Traitement", CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT, true, false, devices->isRenderingFullPostTraitements(), true);
+	submenu->addItem(L"Draw Depth Of Field", CXT_MENU_EVENTS_RENDERS_DOF_DRAW, true, false, devices->getXEffect()->isUsingDepthOfField(), true);
     submenu->addItem(L"Draw Motion Blur", CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW, true, false,
 					devices->getXEffect()->isUsingMotionBlur(), true);
 	submenu->addItem(L"Draw SSAO", CXT_MENU_EVENTS_RENDERS_SSAO, true, false, devices->getRenderCallbacks()->getSSAORenderCallback(), true);
@@ -269,26 +270,30 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	for (u32 i=0; i < 1; i++) {
-		//devices->getCoreData()->clear();
-		//devices->getCoreData()->clearAllTheArrays();
-		//devices->getXEffect()->clearAll();
+	#ifndef SSWE_RELEASE
+		for (u32 i=0; i < 1; i++) {
+			//devices->getCoreData()->clear();
+			//devices->getCoreData()->clearAllTheArrays();
+			//devices->getXEffect()->clearAll();
 
-		stringw scene_to_import = L"L.world";
-		CImporter *impoterInstance = new CImporter(devices);
-		impoterInstance->importScene(scene_to_import.c_str());
-		/*impoterInstance->setPathOfFile_t(scene_to_import.c_str());
-		std::thread importer_t(&CImporter::import_t, *impoterInstance);
-		importer_t.detach();*/
+			stringw scene_to_import = L"L.world";
+			CImporter *impoterInstance = new CImporter(devices);
+			impoterInstance->importScene(scene_to_import.c_str());
+			/*impoterInstance->setPathOfFile_t(scene_to_import.c_str());
+			std::thread importer_t(&CImporter::import_t, *impoterInstance);
+			importer_t.detach();*/
 
-		scene_to_import.remove(L".world");
-		exportSceneInstance->setPathFile(scene_to_import.c_str());
-		delete impoterInstance;
+			scene_to_import.remove(L".world");
+			exportSceneInstance->setPathFile(scene_to_import.c_str());
+			delete impoterInstance;
 
-		printf("Importing scene number %u \n", i);
-	}
+			printf("Importing scene number %u \n", i);
+		}
 
-	CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
+		if (devices->getCoreData()->getTerrainsCount() > 0)
+			if (devices->getCoreData()->getTerrainsData()->operator[](0).getNode()->getType() == ESNT_TERRAIN)
+				CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
+	#endif
 
 	CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importCamerasConfig();
@@ -554,6 +559,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						devices->getMonitorRegister()->getMonitor(i)->setRenderingXEffectFullTraitement(devices->isRenderingFullPostTraitements());
 					}
 				}
+					break;
+				case CXT_MENU_EVENTS_RENDERS_DOF_DRAW:
+					devices->getXEffect()->setUseDepthOfField(!devices->getXEffect()->isUsingDepthOfField());
 					break;
                 case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
 					devices->getXEffect()->setUseMotionBlur(!devices->getXEffect()->isUsingMotionBlur());

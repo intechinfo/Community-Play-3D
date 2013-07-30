@@ -34,6 +34,7 @@ private:
 	//-----------------------------------
 	//METHODS
 	void RaiseTerrainVertex(s32 index, f32 step, bool up);
+	void smoothTerrain(IMeshBuffer* mb, s32 smoothFactor);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -55,8 +56,6 @@ private:
 	s32 terrainSizeWidth, terrainSizeHeight;
 	f32 minHeight, maxHeight, heightInterval;
 
-	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
-
 	//TOOLS
 	DecalManager *decalMgr;
 	ISceneNode* arrow;
@@ -66,6 +65,31 @@ private:
 	//TERRAIN PAINTING VALUES
 	u32 currentStep;
 	f32 currentRadius;
+
+	struct SVerticesBeginInformations {
+		SVerticesBeginInformations() {
+			againUp = true;
+		}
+
+		S3DVertex2TCoords *vertice;
+		bool againUp;
+	};
+	struct SVerticesInformations {
+		SVerticesInformations(S3DVertex2TCoords *_vertice, vector2di _position, bool _againUp) {
+			vertice = _vertice;
+			position = _position;
+			againUp = _againUp;
+		}
+
+		S3DVertex2TCoords *vertice;
+		vector2di position;
+		bool againUp;
+	};
+	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
+	array<array<SVerticesBeginInformations>> terrainVerticesBeginLines;
+
+	bool canPaint;
+	f32 positionYTo;
 
 	//-----------------------------------
 
