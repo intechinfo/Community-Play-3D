@@ -137,9 +137,9 @@ s32 CUIRightSceneTreeView::getImageListIndexForNodeType(ESCENE_NODE_TYPE type) {
 bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 
 	if (window->isVisible()) {
-		window->setRelativePosition(rect<s32>(driver->getScreenSize().Width - 500, 75, 
+		window->setRelativePosition(rect<s32>(driver->getScreenSize().Width - 400, 75, 
 											  driver->getScreenSize().Width, 
-											  driver->getScreenSize().Height));
+											  driver->getScreenSize().Height-20));
 		sceneView->setRelativePosition(rect<s32>(10, 25, 
 												 window->getRelativePosition().getWidth()-10, 
 												 window->getRelativePosition().getHeight()-10));

@@ -107,7 +107,7 @@ bool CUINodeFactoryCreateMeshWithTangents::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.EventType == EGET_MESSAGEBOX_OK) {
 			if (event.GUIEvent.Caller == sure) {
 				std::thread create_t(&CUINodeFactoryCreateMeshWithTangents::create, *this);
-				create_t.detach();
+				create_t.join();
 
 				devices->getEventReceiver()->RemoveEventReceiver(this);
 				delete this;

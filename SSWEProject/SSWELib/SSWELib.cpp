@@ -24,6 +24,7 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	coreUserInterface->getDevices()->setSkydome(skydome);
 	ISceneNodeAnimator *anim = smgr->createRotationAnimator(vector3df(0, 0.01f, 0));
 	skydome->addAnimator(anim);
+	coreUserInterface->getDevices()->getDOF()->add(skydome);
 
 	driver->beginScene(true, true, SColor(0x0));
 	driver->endScene();

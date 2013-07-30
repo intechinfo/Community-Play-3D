@@ -201,7 +201,7 @@ void CDevices::updateDevice() {
 							monitor->drawGUI();
 					}
 					
-					if (activeCamera == camera_fps) {
+					/*if (activeCamera == camera_fps) {
 						if (activeCamera->getRotation() != oldRotation) {
 							effect->setUseDepthOfField(true);
 							effect->setUseMotionBlur(true);
@@ -210,7 +210,7 @@ void CDevices::updateDevice() {
 							effect->setUseDepthOfField(false);
 							effect->setUseMotionBlur(false);
 						}
-					}
+					}*/
 
 					receiver.update();
 				}
@@ -493,6 +493,31 @@ bool CDevices::OnEvent(const SEvent &event) {
                 shiftWasPushed = true;
             }
         }
+
+		//if (event.KeyInput.PressedDown) {
+		//	switch(event.KeyInput.Key) {
+		//		case KEY_KEY_R:
+		//			dof->range += .1f;
+		//		case KEY_KEY_E:
+		//			dof->range -= .1f;
+		//		case KEY_KEY_G:
+		//			dof->focus += .02f;
+		//		case KEY_KEY_F:
+		//			dof->focus -= .02f;
+		//		case KEY_KEY_P:
+		//			dof->sampleDist0 += .0001f;
+		//			dof->sampleDist1 += .0001f;
+		//		case KEY_KEY_O:
+		//			dof->sampleDist0 -= .0001f;
+		//			dof->sampleDist1 -= .0001f;
+		//			return true;
+		//		case KEY_KEY_M:
+		//			dof->distanceScale += .00001f;
+		//			return true;
+		//		case KEY_KEY_L:
+		//			dof->distanceScale -= .00001f;
+		//	}
+		//}
     }
     
     if (event.EventType == EET_GUI_EVENT) {

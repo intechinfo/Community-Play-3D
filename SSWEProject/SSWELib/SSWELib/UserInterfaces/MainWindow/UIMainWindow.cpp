@@ -367,14 +367,16 @@ void CUIMainWindow::cloneNode() {
         } else {
             //CLONING MANUALLY THE NODE
             ISceneNode *clonedNode;
-            stringw path;
+            stringw path = "";
             
-            if (getActiveListBox() == terrainsListBox) {
+            if (getActiveListBox() == terrainsListBox)
 				path = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getPath().c_str();
-            }
-            if (getActiveListBox() == treesListBox) {
+
+            if (getActiveListBox() == treesListBox)
 				path = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getPath().c_str();
-            }
+
+			if (getActiveListBox() == objectsListBox)
+				path = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getPath().c_str();
             
 			clonedNode = devices->getCore()->clone(getSelectedNode().getNode(), path.c_str(), devices->getSceneManager());
             
@@ -389,6 +391,10 @@ void CUIMainWindow::cloneNode() {
 					STreesData tdata(0, clonedNode, path.c_str());
                     devices->getCoreData()->getTreesData()->push_back(tdata);
                 }
+				if (getActiveListBox() == objectsListBox) {
+					SObjectsData odata(getSelectedNode().getMesh(), clonedNode, path);
+					devices->getCoreData()->getObjectsData()->push_back(odata);
+				}
                 
                 devices->addInformationDialog(L"Information", L"The node was cloned\n"
                                               L"But it wasn't cloned thanks to the irrlicht engine clone function\n"
