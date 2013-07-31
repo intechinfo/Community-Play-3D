@@ -197,6 +197,8 @@ void CDevices::updateDevice() {
 
 						effectSmgr->drawAll();
 
+						receiver.update();
+
 						if(renderGUI)
 							monitor->drawGUI();
 					}
@@ -211,8 +213,6 @@ void CDevices::updateDevice() {
 							effect->setUseMotionBlur(false);
 						}
 					}*/
-
-					receiver.update();
 				}
 
 				//OLD CODE ! TOOOOOO OLD ! :D 

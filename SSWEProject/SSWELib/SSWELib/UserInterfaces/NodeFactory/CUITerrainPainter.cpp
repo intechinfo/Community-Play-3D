@@ -25,14 +25,6 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	rightClickDown = false;
 
 	timer = devices->getDevice()->getTimer();
-	then = 0, then30 = 0;
-
-	//INIT DECALE MANAGER
-	decalMgr = new DecalManager(devices->getSceneManager());
-	decalMgr->setTerrain(node);
-
-	circlePath = devices->getWorkingDirectory() + "GUI/terrain_painting_circle.png";
-	circleTex = devices->getVideoDriver()->getTexture(circlePath.c_str());
 
 	//CONFIGURE ARROW
 	arrow = devices->getSceneManager()->addAnimatedMeshSceneNode(devices->getSceneManager()->addArrowMesh("arrow", 
@@ -47,28 +39,25 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 
 	IMesh* pMesh = node->getMesh(); 
 	for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
+
+		array<S3DVertex2TCoords *> newVertices;
+		array<bool> newAgainUpVertices;
+		terrainVerticesLines.push_back(newVertices);
+		againUpVertices.push_back(newAgainUpVertices);
+
 		IMeshBuffer* pMeshBuffer = pMesh->getMeshBuffer(b); 
 		if (pMeshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
 		S3DVertex2TCoords* pVertices = (S3DVertex2TCoords*)pMeshBuffer->getVertices();
-		u32 currentLine = 0;
-		array<S3DVertex2TCoords *> newVertices;
-		array<SVerticesBeginInformations> newBeginVertices;
-		terrainVerticesLines.push_back(newVertices);
-		terrainVerticesBeginLines.push_back(newBeginVertices);
+
 		for (u32 i=0; i < pMesh->getMeshBuffer(b)->getVertexCount(); i++) {
-			if (i == terrainSizeWidth * currentLine+1) {
-				currentLine++;
-				terrainVerticesLines.push_back(newVertices);
-				terrainVerticesBeginLines.push_back(newBeginVertices);
-			}
 			if (pVertices[i].Pos.Y < minHeight)
 				minHeight = pVertices[i].Pos.Y;
 
 			if (pVertices[i].Pos.Y > maxHeight)
 				maxHeight = pVertices[i].Pos.Y;
 
-			terrainVerticesLines[currentLine].push_back(&pVertices[i]);
-			terrainVerticesBeginLines[currentLine].push_back(SVerticesBeginInformations());
+			terrainVerticesLines[b].push_back(&pVertices[i]);
+			againUpVertices[b].push_back(true);
 		}
 	}
 	heightInterval = (minHeight >= 0) ? maxHeight - minHeight : maxHeight + minHeight;
@@ -80,7 +69,6 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	oldTerrainScale = node->getScale();
 
 	canPaint = true;
-	positionYTo = 0.f;
 
 	//GUI ELEMENTS
 	stringc workingPath = devices->getWorkingDirectory().c_str();
@@ -104,7 +92,7 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	radiusValueeb = gui->addEditBox(L"", rect<s32>(70, 110, 170, 130), true, window, -1);
 	radiussb = gui->addScrollBar(true, rect<s32>(10, 130, 350, 150), window, -1);
 	radiussb->setMin(1);
-	radiussb->setMax((terrainSizeHeight) / 16);
+	radiussb->setMax((terrainSizeHeight) / 8);
 	radiussb->setSmallStep(1);
 	radiussb->setLargeStep(1);
 
@@ -133,7 +121,7 @@ CUITerrainPainter::~CUITerrainPainter() {
 
 }
 
-void CUITerrainPainter::smoothTerrain(IMeshBuffer* mb, s32 smoothFactor)
+void CUITerrainPainter::smoothTerrain(IMeshBuffer* mb, u32 indice, s32 smoothFactor)
 {
 	S3DVertex2TCoords *mbv = (S3DVertex2TCoords *)mb->getVertices();
 	for (s32 run = 0; run < smoothFactor; ++run) {
@@ -141,94 +129,49 @@ void CUITerrainPainter::smoothTerrain(IMeshBuffer* mb, s32 smoothFactor)
 		for (s32 y = 1; y < terrainSizeWidth - 1; ++y) {
 			for (s32 x = 1; x < terrainSizeWidth - 1; ++x) {
 				mbv[x + yd].Pos.Y =
-					(mbv[x-1 + yd].Pos.Y + //LEFT
-					mbv[x+1 + yd].Pos.Y + //RIGHT
-					mbv[x + yd - terrainSizeWidth].Pos.Y + //ABOVE
-					mbv[x + yd + terrainSizeWidth].Pos.Y) * 0.25f; //BELOW
+									(mbv[x-1 + yd].Pos.Y + //LEFT
+									mbv[x+1 + yd].Pos.Y + //RIGHT
+									mbv[x + yd - terrainSizeWidth].Pos.Y + //ABOVE
+									mbv[x + yd + terrainSizeWidth].Pos.Y) * 0.25f; //BELOW
 			}
 			yd += terrainSizeWidth;
 		}
 	}
 }
 
-void CUITerrainPainter::RaiseTerrainVertex(s32 index, f32 step, bool up) {
-	IMesh* pMesh = node->getMesh(); 
+void CUITerrainPainter::RaiseTerrainVertex(vector3df clickPos, f32 step, bool up) {
+	f32 nodescale = node->getBoundingBox().getExtent().X;
 
-	for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
-		IMeshBuffer* pMeshBuffer = pMesh->getMeshBuffer(b); 
+	for (u32 i=0; i < node->getMesh()->getMeshBufferCount(); i++) {
 
-		if (pMeshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
+		IMeshBuffer* meshBuffer = node->getMesh()->getMeshBuffer(i);
+		if (meshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
+		S3DVertex2TCoords* mb_vertices = (S3DVertex2TCoords*) meshBuffer->getVertices();
 
-		S3DVertex2TCoords* pVertices = (S3DVertex2TCoords*)pMeshBuffer->getVertices();
+		for (u32 j = 0; j < meshBuffer->getVertexCount(); j += 1) {
+			if (!againUpVertices[i][j]) continue;
 
-		array<array<SVerticesInformations>> selectedVertices;
+			vector3df realPos = mb_vertices[j].Pos;//*(node->getScale()/nodescale) + (node->getPosition()-node->getTerrainCenter());
+			clickPos.Y = realPos.Y;
 
-		u32 indexInterval = currentRadius;
-
-		//GET 2D ARRAY OF SELECTED VERTICES
-		if (index >= indexInterval && index < terrainSizeWidth * terrainSizeHeight) {
-			u32 selectedLine = (index / devices->getVideoDriver()->getTexture(tdata.getPath().c_str())->getOriginalSize().Width);
-			for (u32 i=selectedLine-indexInterval; i < selectedLine+indexInterval; i++) {
-				array<SVerticesInformations> selectedVerticesLine;
-				for (u32 j=index-(selectedLine*terrainSizeWidth)-indexInterval; j < index-(selectedLine*terrainSizeWidth)+indexInterval; j++) {
-					selectedVerticesLine.push_back(SVerticesInformations(terrainVerticesLines[i][j], 
-																		 vector2di(selectedLine-i, index-(selectedLine*terrainSizeWidth)-indexInterval),
-																		 terrainVerticesBeginLines[i][j].againUp));
-					terrainVerticesBeginLines[i][j].againUp = false;
-				}
-				selectedVertices.push_back(selectedVerticesLine);
+			if(realPos.getDistanceFrom(clickPos) < currentRadius) {
+				//f32 ratio = sin(radius - realPos.getDistanceFrom(clickPos));
+				f32 ratio = currentRadius - realPos.getDistanceFrom(clickPos);
+				mb_vertices[j].Pos.Y += (currentStep * (ratio));///(node->getScale().X/nodescale));
+				againUpVertices[i][j] = false;
 			}
-		} else {
-			u32 selectedLine = (index / devices->getVideoDriver()->getTexture(tdata.getPath().c_str())->getOriginalSize().Width);
-			for (u32 i=0; i < indexInterval; i++) {
-				array<SVerticesInformations> selectedVerticesLine;
-				for (u32 j=index-(selectedLine*terrainSizeWidth)-indexInterval; j < index-(selectedLine*terrainSizeWidth)+indexInterval; j++) {
-					selectedVerticesLine.push_back(SVerticesInformations(terrainVerticesLines[i][j], 
-																		 vector2di(i, index-(selectedLine*terrainSizeWidth)-indexInterval-j),
-																		 terrainVerticesBeginLines[i][j].againUp));
-					terrainVerticesBeginLines[i][j].againUp = false;
-				}
-				selectedVertices.push_back(selectedVerticesLine);
-			}
+
+			//if(mb_vertices[j].Pos.Y > nodescale/4) mb_vertices[j].Pos.Y = nodescale/4;
+			//if(mb_vertices[j].Pos.Y < -(nodescale*0.1f)) mb_vertices[j].Pos.Y = -(nodescale*0.1f);
 		}
 
-		//GIVE SELECTED VERTICES A HIGHER POSITION IF againUP
-		u32 centerLeftCornerLength = indexInterval;
-		u32 multiplier = 1000;
-		for (u32 i=0; i < selectedVertices.size(); i++) {
-			for (u32 j=0; j < selectedVertices[i].size(); j++) {
-				if (i != selectedVertices.size() && j != selectedVertices[i].size()) {
-					if (canPaint)
-						positionYTo = selectedVertices[i][j].vertice->Pos.Y + (up) ? (step*multiplier)/((centerLeftCornerLength+1)*selectedVertices[i][j].position.getLength()) 
-																				   : -((step*multiplier)/((centerLeftCornerLength+1)*selectedVertices[i][j].position.getLength()));
+		//devices->getSceneManager()->getMeshManipulator()->recalculateNormals(node->getMesh(),true);
+		//terrainSelector = devices->getSceneManager()->createTriangleSelector(node->getMesh(), 0);
 
-
-					if (selectedVertices[i][j].vertice->Pos.Y < positionYTo - (up) ? (step*multiplier)/((centerLeftCornerLength+1)*selectedVertices[i][j].position.getLength()) 
-																				   : -((step*multiplier)/((centerLeftCornerLength+1)*selectedVertices[i][j].position.getLength()))
-																				   && selectedVertices[i][j].againUp)
-					{
-						selectedVertices[i][j].vertice->Pos.Y += (up) ? (step*multiplier)/((centerLeftCornerLength+1)*selectedVertices[i][j].position.getLength()) 
-																	  : -((step*multiplier)/((centerLeftCornerLength+1)*selectedVertices[i][j].position.getLength()));
-						
-					}
-				} else {
-					if (canPaint)
-						positionYTo = selectedVertices[i][j].vertice->Pos.Y + (up) ? step : -step;
-
-					if (selectedVertices[i][j].vertice->Pos.Y < positionYTo - (up) ? step : -step && selectedVertices[i][j].againUp)
-						selectedVertices[i][j].vertice->Pos.Y += (up) ? step : -step;
-				}
-			}
-		}
-
-		canPaint = false;
-
-		for (u32 i=0; i < selectedVertices.size(); i++)
-			selectedVertices[i].clear();
-
-		selectedVertices.clear();
+		//node->getMesh()->setDirty();
 	}
 
+	canPaint = false;
 	node->setPosition(node->getPosition());
 
 }
@@ -248,41 +191,30 @@ void CUITerrainPainter::update() {
 	}
 
 	u32 now = timer->getTime();
-	if (then30 < now) {
-		//GET SELECTED VERTEX
-		const position2di clickPosition = devices->getDevice()->getCursorControl()->getPosition(); 
-		const line3df ray = devices->getSceneManager()->getSceneCollisionManager()->getRayFromScreenCoordinates(clickPosition, devices->getSceneManager()->getActiveCamera());
-		vector3df pos;
-		triangle3df Tri;
-		ISceneNode *outNode;
-		if (devices->getSceneManager()->getSceneCollisionManager()->getCollisionPoint(ray, terrainSelector, pos, Tri, outNode)) {
-			static const s32 scale = node->getScale().X;
-			static const s32 size = terrainSizeWidth;
-			s32 x = (s32)(pos.X / scale);
-			s32 z = (s32)(pos.Z / scale);
-			s32 index = x * size + z * size;
-			if (decalMgr->getDecals(circlePath.c_str()).size() == 0) {
-				decalMgr->addDecal(circlePath.c_str(), pos, vector3df(currentRadius), ray.start - ray.end, 
-									0, 0, 0, devices->getSceneManager()->getActiveCamera()->getFarValue(), true);
-			}
+	//GET SELECTED VERTEX
+	const position2di clickPosition = devices->getDevice()->getCursorControl()->getPosition(); 
+	const line3df ray = devices->getSceneManager()->getSceneCollisionManager()->getRayFromScreenCoordinates(clickPosition, devices->getSceneManager()->getActiveCamera());
+	vector3df pos;
+	triangle3df Tri;
+	ISceneNode *outNode;
+	if (devices->getSceneManager()->getSceneCollisionManager()->getCollisionPoint(ray, terrainSelector, pos, Tri, outNode)) {
+		static const s32 scale = node->getScale().X;
+		static const s32 size = terrainSizeWidth;
+		s32 x = (s32)(pos.X / scale);
+		s32 z = (s32)(pos.Z / scale);
+		s32 index = x * size + z * size;
 
-			vertexIndex = x * size + z;
+		vertexIndex = x * size + z;
 
-			if ((leftClickDown || rightClickDown) && !devices->isCtrlPushed() && then < now
-				&& devices->getGUIEnvironment()->getFocus() == 0)
-			{
-				RaiseTerrainVertex(vertexIndex, currentStep, leftClickDown);
-				then = now + 100;
-			}
-
-			x *= scale;
-			z *= scale;
-
-			decalMgr->getDecals(circlePath.c_str())[0]->setPosition(vector3df(x, node->getHeight(x, z) + decalMgr->getDecals(circlePath.c_str())[0]->getScale().X, z));
-			arrow->setPosition(vector3df(x, node->getHeight(x, z) + 5, z));
+		if ((leftClickDown || rightClickDown) && !devices->isCtrlPushed() && devices->getGUIEnvironment()->getFocus() == 0) {
+			RaiseTerrainVertex(pos, currentStep, leftClickDown);
 		}
 
-		then30 = now + 30; //30 HERTZ
+		x *= scale;
+		z *= scale;
+
+		arrow->setPosition(vector3df(x, node->getHeight(x, z) + 5, z));
+		drawBrush(vector3df(x, node->getHeight(x, z) + 5, z));
 	}
 }
 
@@ -290,28 +222,12 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
-			//CHANGE RADIUS
-			if (decalMgr->getDecals(circlePath.c_str()).size() > 0 && currentRadius < radiussb->getMax()) {
-				currentRadius += event.MouseInput.Wheel * 0.1;
-				decalMgr->getDecals(circlePath.c_str())[0]->setScale(vector3df(currentRadius));
-				radiussb->setPos(currentRadius);
-				radiusValueeb->setText(stringw(radiussb->getPos()).c_str());
-			}
+			currentRadius += event.MouseInput.Wheel*0.1f;
+			radiusValueeb->setText(stringw(currentRadius).c_str());
+			radiussb->setPos(currentRadius);
 		}
 		if ((event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN || event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) && !devices->isCtrlPushed()) {
-			//PLACE THE CIRCLE AT FOCUS
-			if (decalMgr->getDecals(circlePath.c_str()).size() > 0) {
-				const position2di clickPosition = devices->getDevice()->getCursorControl()->getPosition(); 
-				const line3df ray = devices->getSceneManager()->getSceneCollisionManager()->getRayFromScreenCoordinates(clickPosition, devices->getSceneManager()->getActiveCamera());
-				vector3df pos;
-				triangle3df Tri;
-				ISceneNode *outNode;
-				if (devices->getSceneManager()->getSceneCollisionManager()->getCollisionPoint(ray, terrainSelector, pos, Tri, outNode)) {
-					decalMgr->getDecals(circlePath.c_str())[0]->remove();
-					decalMgr->addDecal(circlePath.c_str(), pos, vector3df(currentRadius), ray.start - ray.end, 
-										0, 0, 0, devices->getSceneManager()->getActiveCamera()->getFarValue(), true);
-				}
-			}
+
 		}
 		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
 			leftClickDown = true;
@@ -322,22 +238,14 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 		if ((event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP || event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) && !devices->isCtrlPushed()
 			&& devices->getGUIEnvironment()->getFocus() == 0)
 		{
-			//SMOOTH BACK THE TERRAIN
-			IMesh* pMesh = node->getMesh(); 
-			for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
-				IMeshBuffer* pMeshBuffer = pMesh->getMeshBuffer(b); 
-				if (pMeshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
-				smoothTerrain(pMeshBuffer, 20);
-			}
-
 			//RECALCULATE TRIANGLES FOR COLLISIONS
 			if (!devices->isCtrlPushed())
 				terrainSelector = devices->getSceneManager()->createTerrainTriangleSelector(node, 0);
 
-			//ALL THE VERTICES CAN againUp
-			for (u32 i=0; i < terrainVerticesBeginLines.size(); i++)
-				for (u32 j=0; j < terrainVerticesBeginLines[i].size(); j++)
-					terrainVerticesBeginLines[i][j].againUp = true;
+			//RESET AGAIN UP
+			for (u32 i=0; i < againUpVertices.size(); i++)
+				for (u32 j=0; j < againUpVertices[i].size(); j++)
+					againUpVertices[i][j] = true;
 
 			node->setPosition(node->getPosition());
 
@@ -356,8 +264,6 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == window) {
 				window->remove();
 				devices->getEventReceiver()->RemoveEventReceiver(this);
-				decalMgr->getDecals(circlePath.c_str())[0]->remove();
-				delete decalMgr;
 				arrow->remove();
 				delete this;
 			}
@@ -367,8 +273,6 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == cancel) {
 				window->remove();
 				devices->getEventReceiver()->RemoveEventReceiver(this);
-				decalMgr->getDecals(circlePath.c_str())[0]->remove();
-				delete decalMgr;
 				arrow->remove();
 				delete this;
 			}
@@ -386,7 +290,7 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 				for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
 					IMeshBuffer* pMeshBuffer = pMesh->getMeshBuffer(b); 
 					if (pMeshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
-					smoothTerrain(pMeshBuffer, smoothFactors32);
+					smoothTerrain(pMeshBuffer, b, smoothFactors32);
 				}
 
 				//RECALCULATE TRIANGLES FOR COLLISIONS
@@ -405,11 +309,123 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == radiussb) {
 				currentRadius = radiussb->getPos();
 				radiusValueeb->setText(stringw(radiussb->getPos()).c_str());
-				if (decalMgr->getDecals(circlePath.c_str()).size() > 0)
-					decalMgr->getDecals(circlePath.c_str())[0]->setScale(vector3df(currentRadius));
 			}
 		}
 	}
 
 	return false;
+}
+
+void CUITerrainPainter::drawBrush(vector3df pos) {
+	f32 radius = currentRadius;
+
+	vector3df position = pos;//this->getMousePosition3D(100).pickedPos;
+
+	if (position==vector3df(0,0,0))
+		return;
+
+	SMaterial m;
+	m.Lighting=false;
+	devices->getVideoDriver()->setMaterial(m);
+	devices->getVideoDriver()->setTransform(video::ETS_WORLD, core::matrix4());
+
+	// Render the size of the brush.
+	f32 framesize = 5;
+	int step=10;
+	for (int i=0; i<(360); i=i+step) {
+		float degInRad = i*DEGTORAD;
+		vector3df pos=position;
+		pos.X+=cos(degInRad)*radius;
+		pos.Z+=sin(degInRad)*radius;
+		pos.Y=getHeightAt(pos)+5;
+
+		float degInRad2 = (i+step)*DEGTORAD;
+		vector3df pos2=position;
+		pos2.X+=cos(degInRad2)*radius;
+		pos2.Z+=sin(degInRad2)*radius;
+		pos2.Y=getHeightAt(pos2)+5;
+		//driver->draw3DLine(pos,pos2,video::SColor(255,255,255,0));
+
+		vector3df pos3=position;
+		pos3.X+=cos(degInRad)*(radius+framesize);
+		pos3.Z+=sin(degInRad)*(radius+framesize);
+		pos3.Y=pos.Y;
+
+		vector3df pos4=position;
+		pos4.X+=cos(degInRad2)*(radius+framesize);
+		pos4.Z+=sin(degInRad2)*(radius+framesize);
+		pos4.Y=pos2.Y;
+
+		devices->getVideoDriver()->draw3DTriangle(triangle3df(pos4,pos3,pos),video::SColor(255,255,255,255));
+		devices->getVideoDriver()->draw3DTriangle(triangle3df(pos,pos2,pos4),video::SColor(255,255,255,255));
+	}
+
+	// Center circle for the brush give the center
+	radius=5;
+	framesize = 2;
+	step=15;
+	for (int i=0; i<(360); i=i+step) {
+		float degInRad = i*DEGTORAD;
+		vector3df pos=position;
+		pos.X+=cos(degInRad)*radius;
+		pos.Z+=sin(degInRad)*radius;
+		pos.Y=getHeightAt(pos)+5;
+
+		float degInRad2 = (i+step)*DEGTORAD;
+		vector3df pos2=position;
+		pos2.X+=cos(degInRad2)*radius;
+		pos2.Z+=sin(degInRad2)*radius;
+		pos2.Y=getHeightAt(pos2)+5;
+		//driver->draw3DLine(pos,pos2,video::SColor(255,255,255,0));
+
+		vector3df pos3=position;
+		pos3.X+=cos(degInRad)*(radius+framesize);
+		pos3.Z+=sin(degInRad)*(radius+framesize);
+		pos3.Y=pos.Y;
+
+		vector3df pos4=position;
+		pos4.X+=cos(degInRad2)*(radius+framesize);
+		pos4.Z+=sin(degInRad2)*(radius+framesize);
+		pos4.Y=pos2.Y;
+
+		devices->getVideoDriver()->draw3DTriangle(triangle3df(pos4,pos3,pos),video::SColor(255,255,255,255));
+		devices->getVideoDriver()->draw3DTriangle(triangle3df(pos,pos2,pos4),video::SColor(255,255,255,255));
+	}
+}
+
+f32 CUITerrainPainter::getHeightAt(vector3df pos) {
+	scene::ISceneCollisionManager* collMan = devices->getSceneManager()->getSceneCollisionManager();
+	core::line3d<f32> ray;
+    ray.start = pos+vector3df(0,+250,0);
+    ray.end = ray.start + (pos+vector3df(0,-250.0f,0) - ray.start).normalize() * 1000.0f;
+	core::vector3df intersection;
+    core::triangle3df hitTriangle;
+	scene::ISceneNode * selectedSceneNode =
+    collMan->getSceneNodeAndCollisionPointFromRay(
+		ray,
+		intersection,
+		hitTriangle,
+		100,
+		0);
+
+	if (selectedSceneNode)
+		return intersection.Y;
+	else
+		return 0;
+
+    IMeshBuffer* meshBuffer = ((IMeshSceneNode*)node)->getMesh()->getMeshBuffer(0);
+	S3DVertex* mb_vertices = (S3DVertex*) meshBuffer->getVertices();
+	f32 height = 0;
+	vector3df nearestVertex = vector3df(1000,1000,1000);
+
+	for (unsigned int j = 0; j < meshBuffer->getVertexCount(); j += 1) {
+		vector3df realPos = mb_vertices[j].Pos*(node->getScale()/node->getBoundingBox().getExtent().X) + node->getPosition();
+
+	    if(pos.getDistanceFrom(vector3df(realPos.X,0,realPos.Z)) < pos.getDistanceFrom(vector3df(nearestVertex.X,0,nearestVertex.Z))) {
+	        nearestVertex = realPos;
+	        height = realPos.Y;
+	    }
+	}
+
+	return height;
 }

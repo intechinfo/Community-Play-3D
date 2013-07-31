@@ -9,13 +9,11 @@
 #ifndef __C_UI_TERRAIN_PAINTER_H_INCLUDED__
 #define __C_UI_TERRAIN_PAINTER_H_INCLUDED__
 
-#include <IGraphicTool.h>
-
 #include "../../Device/CDevices.h"
 
 class CUIMainWindow;
 
-class CUITerrainPainter : public IGraphicTool, public IEventReceiver, public IUpdate {
+class CUITerrainPainter : public IUpdate, public IEventReceiver {
 
 public:
 
@@ -26,15 +24,15 @@ public:
 
 	bool OnEvent(const SEvent &event);
 
-	virtual void setDecalManager(DecalManager *decalManager) { decalMgr = decalManager; }
-	virtual DecalManager *getDecalManager() const { return decalMgr; }
-
 private:
 
 	//-----------------------------------
 	//METHODS
-	void RaiseTerrainVertex(s32 index, f32 step, bool up);
-	void smoothTerrain(IMeshBuffer* mb, s32 smoothFactor);
+	void RaiseTerrainVertex(vector3df clickPos, f32 step, bool up);
+	void smoothTerrain(IMeshBuffer* mb, u32 indice, s32 smoothFactor);
+
+	void drawBrush(vector3df pos);
+	f32 getHeightAt(vector3df pos);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -44,7 +42,6 @@ private:
 
 	//TIMER
 	ITimer* timer;
-	u32 then, then30;
 
 	//TERRAIN INFORMATIONS
 	ITerrainSceneNode *node;
@@ -57,39 +54,16 @@ private:
 	f32 minHeight, maxHeight, heightInterval;
 
 	//TOOLS
-	DecalManager *decalMgr;
 	ISceneNode* arrow;
-	stringc circlePath;
-	ITexture *circleTex;
 
 	//TERRAIN PAINTING VALUES
 	u32 currentStep;
 	f32 currentRadius;
 
-	struct SVerticesBeginInformations {
-		SVerticesBeginInformations() {
-			againUp = true;
-		}
-
-		S3DVertex2TCoords *vertice;
-		bool againUp;
-	};
-	struct SVerticesInformations {
-		SVerticesInformations(S3DVertex2TCoords *_vertice, vector2di _position, bool _againUp) {
-			vertice = _vertice;
-			position = _position;
-			againUp = _againUp;
-		}
-
-		S3DVertex2TCoords *vertice;
-		vector2di position;
-		bool againUp;
-	};
 	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
-	array<array<SVerticesBeginInformations>> terrainVerticesBeginLines;
+	array<array<bool>> againUpVertices;
 
 	bool canPaint;
-	f32 positionYTo;
 
 	//-----------------------------------
 
