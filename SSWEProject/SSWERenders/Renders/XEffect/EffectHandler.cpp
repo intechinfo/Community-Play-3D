@@ -148,7 +148,11 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	motionBlur->initiate(screenRTTSize.Width, screenRTTSize.Height, 0.6);
 	useMotionBlur = false;
 
-	dof = new ShaderGroup(device, smgr);
+	dof = new ShaderGroup(device, smgr, device->getVideoModeList()->getDesktopResolution());
+	dof->focus = 0.22f;
+	dof->distanceScale = 0.0002f;
+	dof->range = 4.6f;
+	
 	useDOF = false;
 }
 
@@ -545,7 +549,7 @@ irr::video::ITexture* EffectHandler::generateRandomVectorTexture(const irr::core
 	{
 		for(u32 y = 0;y < dimensions.Height;++y)
 		{
-			vector3df randVec; 
+			vector3df randVec;
 			
 			// Reject vectors outside the unit sphere to get a uniform distribution.
 			do {randVec = vector3df((f32)rand() / (f32)RAND_MAX, (f32)rand() / (f32)RAND_MAX, (f32)rand() / (f32)RAND_MAX);}

@@ -103,6 +103,9 @@ private:
 	IGUIEditBox *stepValueeb, *radiusValueeb;
 	IGUIScrollBar *stepsb, *radiussb;
 
+	IGUIEditBox *smoothFactor;
+	IGUIButton *runSmoothing;
+
 	IGUIButton *cancel, *accept;
 	//-----------------------------------
 

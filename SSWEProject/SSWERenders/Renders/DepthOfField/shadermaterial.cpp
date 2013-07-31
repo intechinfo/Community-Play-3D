@@ -29,7 +29,7 @@ ShaderMaterial::~ShaderMaterial() {}
 
 void ShaderMaterial::init(c8* vsFileName, c8* psFileName, video::IShaderConstantSetCallBack* callback, s32 userData)
 {
-	printf("shadermaterial %s %s \n",  vsFileName, psFileName );
+	//printf("shadermaterial %s %s \n",  vsFileName, psFileName );
 	video::IVideoDriver* driver = device->getVideoDriver();
 	scene::ISceneManager* smgr = device->getSceneManager();
 	gui::IGUIEnvironment* gui = device->getGUIEnvironment();

@@ -96,7 +96,7 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	stepValueeb = gui->addEditBox(L"", rect<s32>(70, 70, 170, 90), true, window, -1);
 	stepsb = gui->addScrollBar(true, rect<s32>(10, 90, 350, 110), window, -1);
 	stepsb->setMin(1);
-	stepsb->setMax(maxHeight);
+	stepsb->setMax(maxHeight+500);
 	stepsb->setSmallStep(1);
 	stepsb->setLargeStep(1);
 
@@ -104,9 +104,13 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	radiusValueeb = gui->addEditBox(L"", rect<s32>(70, 110, 170, 130), true, window, -1);
 	radiussb = gui->addScrollBar(true, rect<s32>(10, 130, 350, 150), window, -1);
 	radiussb->setMin(1);
-	radiussb->setMax((terrainSizeHeight) / 32);
+	radiussb->setMax((terrainSizeHeight) / 16);
 	radiussb->setSmallStep(1);
 	radiussb->setLargeStep(1);
+
+	gui->addStaticText(L"Smooth :", rect<s32>(10, 180, 80, 200), true, true, window, -1, false);
+	smoothFactor = gui->addEditBox(L"20", rect<s32>(80, 180, 180, 200), true, window, -1);
+	runSmoothing = gui->addButton(rect<s32>(180, 180, 280, 200), window, -1, L"Run", L"Run smoothing");
 
 	cancel = gui->addButton(rect<s32>(250, 190, 350, 220), window, -1, L"Cancel", L"Close and discard changes");
 	accept = gui->addButton(rect<s32>(140, 190, 240, 220), window, -1, L"Accept", L"Close and save changes");
@@ -218,14 +222,22 @@ void CUITerrainPainter::RaiseTerrainVertex(s32 index, f32 step, bool up) {
 		}
 
 		canPaint = false;
+
+		for (u32 i=0; i < selectedVertices.size(); i++)
+			selectedVertices[i].clear();
+
+		selectedVertices.clear();
 	}
 
 	node->setPosition(node->getPosition());
+
 }
 
 void CUITerrainPainter::update() {
 	window->setRelativePosition(rect<s32>(devices->getVideoDriver()->getScreenSize().Width-window->getRelativePosition().getWidth(), 75,
 										  devices->getVideoDriver()->getScreenSize().Width, devices->getVideoDriver()->getScreenSize().Height-20));
+	cancel->setRelativePosition(position2di(250, window->getRelativePosition().getHeight()-40));
+	accept->setRelativePosition(position2di(140, window->getRelativePosition().getHeight()-40));
 
 	//RECALCULATE TRIANGLES IF TERRAIN'S TRANSFORMATION CHANGES
 	if (oldTerrainScale != node->getScale() || oldTerrainPosition != node->getPosition() || oldTerrainRotation != node->getRotation()) {
@@ -310,10 +322,6 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 		if ((event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP || event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) && !devices->isCtrlPushed()
 			&& devices->getGUIEnvironment()->getFocus() == 0)
 		{
-			//RECALCULATE TRIANGLES FOR COLLISIONS
-			if (!devices->isCtrlPushed())
-				terrainSelector = devices->getSceneManager()->createTerrainTriangleSelector(node, 0);
-
 			//SMOOTH BACK THE TERRAIN
 			IMesh* pMesh = node->getMesh(); 
 			for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
@@ -321,6 +329,10 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 				if (pMeshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
 				smoothTerrain(pMeshBuffer, 20);
 			}
+
+			//RECALCULATE TRIANGLES FOR COLLISIONS
+			if (!devices->isCtrlPushed())
+				terrainSelector = devices->getSceneManager()->createTerrainTriangleSelector(node, 0);
 
 			//ALL THE VERTICES CAN againUp
 			for (u32 i=0; i < terrainVerticesBeginLines.size(); i++)
@@ -363,6 +375,26 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == accept) {
 
 			}
+
+			if (event.GUIEvent.Caller == runSmoothing) {
+				//SMOOTH BACK THE TERRAIN
+				s32 smoothFactors32 = devices->getCore()->getS32(smoothFactor->getText());
+				if (smoothFactors32 <= 0)
+					smoothFactors32 = 1;
+
+				IMesh* pMesh = node->getMesh(); 
+				for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
+					IMeshBuffer* pMeshBuffer = pMesh->getMeshBuffer(b); 
+					if (pMeshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
+					smoothTerrain(pMeshBuffer, smoothFactors32);
+				}
+
+				//RECALCULATE TRIANGLES FOR COLLISIONS
+				if (!devices->isCtrlPushed())
+					terrainSelector = devices->getSceneManager()->createTerrainTriangleSelector(node, 0);
+
+				node->setPosition(node->getPosition());
+			}
 		}
 
 		if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
@@ -373,7 +405,8 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == radiussb) {
 				currentRadius = radiussb->getPos();
 				radiusValueeb->setText(stringw(radiussb->getPos()).c_str());
-				decalMgr->getDecals(circlePath.c_str())[0]->setScale(vector3df(currentRadius));
+				if (decalMgr->getDecals(circlePath.c_str()).size() > 0)
+					decalMgr->getDecals(circlePath.c_str())[0]->setScale(vector3df(currentRadius));
 			}
 		}
 	}

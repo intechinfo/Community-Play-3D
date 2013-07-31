@@ -51,7 +51,7 @@ public:
 
 
 
-ShaderGroup::ShaderGroup(IrrlichtDevice* m_device, scene::ISceneManager* m_smgr)
+ShaderGroup::ShaderGroup(IrrlichtDevice* m_device, scene::ISceneManager* m_smgr, core::dimension2du resolution)
 {
     range = 4.6f;  // 1.5, 9.9
     focus = .22f;  // .16, .4
@@ -67,7 +67,7 @@ ShaderGroup::ShaderGroup(IrrlichtDevice* m_device, scene::ISceneManager* m_smgr)
     postProcessorNode->setMaterialFlag(video::EMF_LIGHTING, false);
 
     //rt = driver->createRenderTargetTexture(core::dimension2d<s32>(512,512));
-	rt = driver->addRenderTargetTexture(core::dimension2d<u32>(512, 512));
+	rt = driver->addRenderTargetTexture(resolution, "depth_of_field_rt");
 
     gpu = driver->getGPUProgrammingServices();
     ShaderCallBack* mc = new ShaderCallBack(this);

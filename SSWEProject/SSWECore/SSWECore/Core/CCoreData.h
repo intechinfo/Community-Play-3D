@@ -144,7 +144,7 @@ private:
 //---------------------------------------------------------------------------------------------
 //----------------------------------TERRAINS--------------------------------------------------
 //---------------------------------------------------------------------------------------------
-
+//MESHES
 struct SSWE_CORE_API STerrainsData : SData {
 	
 	STerrainsData() : SData(0, 0, "", ESNT_UNKNOWN) {
@@ -158,11 +158,30 @@ struct SSWE_CORE_API STerrainsData : SData {
 	}
 
 	void setMinPolysPerNode(u32 _minPolysPerNode) { minPolysPerNode = _minPolysPerNode; }
-
 	u32 getMinPolysPerNode() { return minPolysPerNode; }
 
 private:
 	u32 minPolysPerNode;
+};
+
+//HEIGHT MAPS
+struct SSWE_CORE_API STerrainHMData : STerrainsData {
+
+	STerrainHMData() : STerrainsData(0, 0, "", ESNT_UNKNOWN) {
+		STerrainHMData(0, 0, "", ETPS_9);
+	}
+
+	STerrainHMData(IMesh *_mesh, ITerrainSceneNode *_node, stringw _path, E_TERRAIN_PATCH_SIZE _patchSize)
+		: STerrainsData(_mesh, _node, _path, ESNT_TERRAIN)
+	{
+		patchSize = _patchSize;
+	}
+
+	void setPatchSize(E_TERRAIN_PATCH_SIZE _patchSize) { patchSize = _patchSize; }
+	E_TERRAIN_PATCH_SIZE getPatchSize() { return patchSize; }
+
+private:
+	E_TERRAIN_PATCH_SIZE patchSize;
 };
 
 //---------------------------------------------------------------------------------------------

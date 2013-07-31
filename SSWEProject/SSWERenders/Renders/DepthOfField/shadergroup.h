@@ -17,7 +17,7 @@ class SSWE_RENDERS_API ShaderGroup
         float focus;
         float distanceScale;
 
-        ShaderGroup(IrrlichtDevice* m_device, scene::ISceneManager* m_smgr);
+        ShaderGroup(IrrlichtDevice* m_device, scene::ISceneManager* m_smgr, core::dimension2du resolution = core::dimension2du(512, 512));
         virtual ~ShaderGroup();
         int render(bool render);
         void add(scene::ISceneNode* node);

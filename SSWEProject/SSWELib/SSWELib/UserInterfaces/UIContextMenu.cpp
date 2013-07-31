@@ -105,14 +105,14 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Draw Motion Blur", CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW, true, false,
 					devices->getXEffect()->isUsingMotionBlur(), true);
 	submenu->addItem(L"Draw SSAO", CXT_MENU_EVENTS_RENDERS_SSAO, true, false, devices->getRenderCallbacks()->getSSAORenderCallback(), true);
-    submenu->addSeparator();
-    submenu->addItem(L"...", CXT_MENU_EVENTS_RENDERS_HDR_EDIT);
     submenu = menu->getSubMenu(i);
 	submenu = submenu->getSubMenu(1);
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
 	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
+	submenu->addSeparator();
+	submenu->addItem(L"Edit Depth Of Field...", CXT_MENU_EVENTS_RENDERS_EDIT_DOF);
 	i++;
 
 	//SHADERS
@@ -137,12 +137,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	skydomeMenu->addItem(L"Edit...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME);
 	skydomeMenu->addItem(L"Edit Materials...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME);
 	submenu = menu->getSubMenu(i-1);
+	submenu->addSeparator();
 	submenu->addItem(L"Mesh Manipulator", -1, true, true);
-	submenu = submenu->getSubMenu(6);
+	submenu = submenu->getSubMenu(7);
 	submenu->addItem(L"Make Planar Texture Mapping...", CXT_MENU_EVENTS_NODE_FACTORY_PLANAR_TEXTURE_MAPPING);
 	submenu->addItem(L"Create Mesh WIth Tangents...", CXT_MENU_EVENTS_NODE_FACTORY_CREATE_MESH_WITH_TANGENTS);
 	submenu->addItem(L"Scale Mesh...", -1);
 	submenu = menu->getSubMenu(i-1);
+	submenu->addSeparator();
+	submenu->addItem(L"New Terrain...", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
 
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
@@ -592,6 +595,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
                     break;
+				case CXT_MENU_EVENTS_RENDERS_EDIT_DOF: {
+					CUIWindowEditDOF *editDOF = new CUIWindowEditDOF(devices);
+				}
+					break;
                 //-----------------------------------
 
                 //-----------------------------------
@@ -722,6 +729,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					} else {
 						devices->addWarningDialog(L"Warning", L"Please select a node before...", EMBF_OK);
 					}
+				}
+					break;
+
+				case CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN: {
+					CUIWindowAddNewTerrain *newTerrain = new CUIWindowAddNewTerrain(devices);
 				}
 					break;
 
