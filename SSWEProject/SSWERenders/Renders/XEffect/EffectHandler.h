@@ -6,6 +6,9 @@
 #include "CShaderPre.h"
 #include "CScreenQuad.h"
 
+#include "../DepthOfField/shadergroup.h"
+#include "../DepthOfField/shadermaterial.h"
+
 #include "../../Renders/PostProcessor/PostProcessMotionBlurhlsl.h"
 
 /// Shadow mode enums, sets whether a node recieves shadows, casts shadows, or both.
@@ -36,7 +39,8 @@ enum E_SHADOW_LIGHT_TYPE
 {
 	ESLT_SPOT = 0,
 	ESLT_DIRECTIONAL,
-	ESLT_POINT
+	ESLT_POINT,
+	ESLT_PSSM
 };
 
 struct SShadowLight
@@ -535,6 +539,11 @@ public:
 	bool isUsingMotionBlur() { return useMotionBlur; }
 	IPostProcessMotionBlur *getPostProcessMotionBlur() { return motionBlur; }
 
+	/// Sets if use Depth Of Field
+	void setUseDepthOfField(bool use) { useDOF = use; }
+	bool isUsingDepthOfField() { return useDOF; }
+	ShaderGroup *getDOF() { return dof; }
+
 	/// Sets if use VSM shadows
 	void setUseVSMShadows(bool use) { useVSM = use; }
 	bool isUsingVSMShadows() { return useVSM; }
@@ -627,6 +636,9 @@ private:
 	bool use32BitDepth;
 	bool useVSM;
 	bool DepthPass;
+
+	ShaderGroup *dof;
+	bool useDOF;
 
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;

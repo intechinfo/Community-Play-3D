@@ -653,6 +653,8 @@ void CImporter::readViewModes(ISceneNode *_node) {
 	shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
 	if (shadowMode != ESM_NO_SHADOW)
 		devices->getXEffect()->addShadowToNode(_node, devices->getXEffectFilterType(), shadowMode);
+
+	devices->getDOF()->add(_node);
 }
 
 //---------------------------------------------------------------------------------------------

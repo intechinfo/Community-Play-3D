@@ -50,8 +50,8 @@ void createTilesForImage(c8* ImageFileName, c8 * TileName, irr::video::IVideoDri
 	for(int j=0; j<4; j++) {
 		for(int p=0; p<4; p++) {
 			for(int y=0; y<=TileSize2; y++) {
-				for(int x=0; x<=TileSize2; x++) {				
-					tile->setPixel(x, y, image->getPixel(x+xx,y+yy));		
+				for(int x=0; x<=TileSize2; x++) {
+					tile->setPixel(x, y, image->getPixel(x+xx,y+yy));
 				}			
 			}
 

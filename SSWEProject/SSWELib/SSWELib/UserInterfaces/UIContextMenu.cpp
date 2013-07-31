@@ -101,17 +101,18 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Effects", -1, true, true);
     submenu = submenu->getSubMenu(0);
 	submenu->addItem(L"Draw Full Post-Traitement", CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT, true, false, devices->isRenderingFullPostTraitements(), true);
+	submenu->addItem(L"Draw Depth Of Field", CXT_MENU_EVENTS_RENDERS_DOF_DRAW, true, false, devices->getXEffect()->isUsingDepthOfField(), true);
     submenu->addItem(L"Draw Motion Blur", CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW, true, false,
 					devices->getXEffect()->isUsingMotionBlur(), true);
 	submenu->addItem(L"Draw SSAO", CXT_MENU_EVENTS_RENDERS_SSAO, true, false, devices->getRenderCallbacks()->getSSAORenderCallback(), true);
-    submenu->addSeparator();
-    submenu->addItem(L"...", CXT_MENU_EVENTS_RENDERS_HDR_EDIT);
     submenu = menu->getSubMenu(i);
 	submenu = submenu->getSubMenu(1);
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
 	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
+	submenu->addSeparator();
+	submenu->addItem(L"Edit Depth Of Field...", CXT_MENU_EVENTS_RENDERS_EDIT_DOF);
 	i++;
 
 	//SHADERS
@@ -136,12 +137,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	skydomeMenu->addItem(L"Edit...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME);
 	skydomeMenu->addItem(L"Edit Materials...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME);
 	submenu = menu->getSubMenu(i-1);
+	submenu->addSeparator();
 	submenu->addItem(L"Mesh Manipulator", -1, true, true);
-	submenu = submenu->getSubMenu(6);
+	submenu = submenu->getSubMenu(7);
 	submenu->addItem(L"Make Planar Texture Mapping...", CXT_MENU_EVENTS_NODE_FACTORY_PLANAR_TEXTURE_MAPPING);
 	submenu->addItem(L"Create Mesh WIth Tangents...", CXT_MENU_EVENTS_NODE_FACTORY_CREATE_MESH_WITH_TANGENTS);
 	submenu->addItem(L"Scale Mesh...", -1);
 	submenu = menu->getSubMenu(i-1);
+	submenu->addSeparator();
+	submenu->addItem(L"New Terrain...", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
 
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
@@ -269,24 +273,30 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	for (u32 i=0; i < 1; i++) {
-		//devices->getCoreData()->clear();
-		//devices->getCoreData()->clearAllTheArrays();
-		//devices->getXEffect()->clearAll();
+	#ifndef SSWE_RELEASE
+		for (u32 i=0; i < 1; i++) {
+			//devices->getCoreData()->clear();
+			//devices->getCoreData()->clearAllTheArrays();
+			//devices->getXEffect()->clearAll();
 
-		stringw scene_to_import = L"L.world";
-		CImporter *impoterInstance = new CImporter(devices);
-		impoterInstance->importScene(scene_to_import.c_str());
-		/*impoterInstance->setPathOfFile_t(scene_to_import.c_str());
-		std::thread importer_t(&CImporter::import_t, *impoterInstance);
-		importer_t.detach();*/
+			stringw scene_to_import = L"L.world";
+			CImporter *impoterInstance = new CImporter(devices);
+			impoterInstance->importScene(scene_to_import.c_str());
+			/*impoterInstance->setPathOfFile_t(scene_to_import.c_str());
+			std::thread importer_t(&CImporter::import_t, *impoterInstance);
+			importer_t.detach();*/
 
-		scene_to_import.remove(L".world");
-		exportSceneInstance->setPathFile(scene_to_import.c_str());
-		delete impoterInstance;
+			scene_to_import.remove(L".world");
+			exportSceneInstance->setPathFile(scene_to_import.c_str());
+			delete impoterInstance;
 
-		printf("Importing scene number %u \n", i);
-	}
+			printf("Importing scene number %u \n", i);
+		}
+
+		if (devices->getCoreData()->getTerrainsCount() > 0)
+			if (devices->getCoreData()->getTerrainsData()->operator[](0).getNode()->getType() == ESNT_TERRAIN)
+				CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
+	#endif
 
 	CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importCamerasConfig();
@@ -553,6 +563,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
 					break;
+				case CXT_MENU_EVENTS_RENDERS_DOF_DRAW:
+					devices->getXEffect()->setUseDepthOfField(!devices->getXEffect()->isUsingDepthOfField());
+					break;
                 case CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW:
 					devices->getXEffect()->setUseMotionBlur(!devices->getXEffect()->isUsingMotionBlur());
                     break;
@@ -582,6 +595,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
                     break;
+				case CXT_MENU_EVENTS_RENDERS_EDIT_DOF: {
+					CUIWindowEditDOF *editDOF = new CUIWindowEditDOF(devices);
+				}
+					break;
                 //-----------------------------------
 
                 //-----------------------------------
@@ -715,6 +732,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				}
 					break;
 
+				case CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN: {
+					CUIWindowAddNewTerrain *newTerrain = new CUIWindowAddNewTerrain(devices);
+				}
+					break;
+
 				//-----------------------------------
 
 				case CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR: {
@@ -820,6 +842,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				devices->getObjectPlacement()->setArrowType(movementType);
 				devices->getObjectPlacement()->setNodeToPlace(0);
 				devices->getObjectPlacement()->setArrowVisible(false);
+
+				devices->getGUIEnvironment()->setFocus(devices->getGUIEnvironment()->getRootGUIElement());
 			}
 
 			//POSITION

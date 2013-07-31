@@ -49,9 +49,6 @@
     <Filter Include="SSWELib\Renders">
       <UniqueIdentifier>{7472f6da-8cf1-4977-acd7-c3df8e3b6b7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SSWELib\Renders\HDR">
-      <UniqueIdentifier>{1053c6a2-20f8-4109-bfde-22dfa7adc983}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SSWELib\Renders\XEffect">
       <UniqueIdentifier>{e6f1a103-b4ee-4f34-8bd2-f91ea7f68378}</UniqueIdentifier>
     </Filter>
@@ -120,6 +117,9 @@
     </Filter>
     <Filter Include="SSWELib\SceneNodes\Terrains">
       <UniqueIdentifier>{b19b81f9-6de4-4f71-947c-cb4b02b49656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Renders\DepthOfField">
+      <UniqueIdentifier>{70822ee8-74ca-4c9f-a87a-def908fe52e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +341,12 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.cpp">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowAddNewTerrain.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\Renders\DepthOfField\CUIWindowEditDOF.cpp">
+      <Filter>SSWELib\Renders\DepthOfField</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -592,6 +598,12 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.h">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowAddNewTerrain.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Renders\DepthOfField\CUIWindowEditDOF.h">
+      <Filter>SSWELib\Renders\DepthOfField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

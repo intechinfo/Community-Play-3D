@@ -107,6 +107,7 @@ public:
 	void deactiveChildrenOfGUIElement(IGUIElement *element, bool visible);
 	void fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> *toFill, array<IGUIElement *> source);
 	void maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition);
+	void centerWindow(IGUIWindow *window, dimension2du screenSize);
     
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();

@@ -25,6 +25,9 @@
     <Filter Include="Renders\XEffect">
       <UniqueIdentifier>{188826f9-5f8d-4287-9350-c673ded28add}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renders\DepthOfField">
+      <UniqueIdentifier>{cce20349-480c-4ab6-bb86-8e9f7c7f4253}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWERenders.cpp">
@@ -41,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp">
       <Filter>Renders\PostProcessor</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\DepthOfField\shadergroup.cpp">
+      <Filter>Renders\DepthOfField</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\DepthOfField\shadermaterial.cpp">
+      <Filter>Renders\DepthOfField</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h">
       <Filter>Renders\PostProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\DepthOfField\shadergroup.h">
+      <Filter>Renders\DepthOfField</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\DepthOfField\shadermaterial.h">
+      <Filter>Renders\DepthOfField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

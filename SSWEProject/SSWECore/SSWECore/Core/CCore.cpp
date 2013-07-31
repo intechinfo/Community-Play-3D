@@ -25,6 +25,15 @@ void CCore::maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition) {
 	}
 }
 
+void CCore::centerWindow(IGUIWindow *window, dimension2du screenSize) {
+	rect<s32> rp = window->getRelativePosition();
+
+	window->setRelativePosition(rect<s32>(screenSize.Width/2-window->getRelativePosition().getWidth()/2,
+										  screenSize.Height/2-window->getRelativePosition().getHeight()/2,
+										  screenSize.Width/2+window->getRelativePosition().getWidth()/2,
+										  screenSize.Height/2+window->getRelativePosition().getHeight()/2));
+}
+
 void CCore::deactiveChildrenOfGUIElement(IGUIElement *element, bool visible) {
 	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
 

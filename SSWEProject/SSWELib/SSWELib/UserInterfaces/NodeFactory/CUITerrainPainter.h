@@ -34,6 +34,7 @@ private:
 	//-----------------------------------
 	//METHODS
 	void RaiseTerrainVertex(s32 index, f32 step, bool up);
+	void smoothTerrain(IMeshBuffer* mb, s32 smoothFactor);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -49,19 +50,63 @@ private:
 	ITerrainSceneNode *node;
 	STerrainsData tdata;
 	ITriangleSelector* terrainSelector;
+
+	vector3df oldTerrainScale, oldTerrainRotation, oldTerrainPosition;
 	s32 vertexIndex;
-	s32 terrainSize;
-	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
+	s32 terrainSizeWidth, terrainSizeHeight;
+	f32 minHeight, maxHeight, heightInterval;
 
 	//TOOLS
 	DecalManager *decalMgr;
 	ISceneNode* arrow;
 	stringc circlePath;
 	ITexture *circleTex;
+
+	//TERRAIN PAINTING VALUES
+	u32 currentStep;
+	f32 currentRadius;
+
+	struct SVerticesBeginInformations {
+		SVerticesBeginInformations() {
+			againUp = true;
+		}
+
+		S3DVertex2TCoords *vertice;
+		bool againUp;
+	};
+	struct SVerticesInformations {
+		SVerticesInformations(S3DVertex2TCoords *_vertice, vector2di _position, bool _againUp) {
+			vertice = _vertice;
+			position = _position;
+			againUp = _againUp;
+		}
+
+		S3DVertex2TCoords *vertice;
+		vector2di position;
+		bool againUp;
+	};
+	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
+	array<array<SVerticesBeginInformations>> terrainVerticesBeginLines;
+
+	bool canPaint;
+	f32 positionYTo;
+
 	//-----------------------------------
 
 	//-----------------------------------
 	//GUI ELEMENTS
+	IGUIWindow *window;
+
+	IGUIToolBar *bar;
+	IGUIButton *exportHeightMapbtn;
+
+	IGUIEditBox *stepValueeb, *radiusValueeb;
+	IGUIScrollBar *stepsb, *radiussb;
+
+	IGUIEditBox *smoothFactor;
+	IGUIButton *runSmoothing;
+
+	IGUIButton *cancel, *accept;
 	//-----------------------------------
 
 };
