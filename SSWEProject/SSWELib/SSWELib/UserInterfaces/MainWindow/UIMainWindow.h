@@ -52,17 +52,19 @@ enum GUI_MAIN_WINDOW_EVENTS {
 
 struct SSelectedNode {
 
-	SSelectedNode(ISceneNode *node, IMesh *mesh, u32 minPolysPerNode, stringc path) {
+	SSelectedNode(ISceneNode *node, IMesh *mesh, u32 minPolysPerNode, stringc path, SData *data) {
 		selectedNode = node;
 		selectedMesh = mesh;
 		selectedNodeMinPolysPerNode = minPolysPerNode;
 		selectedNodePath = path.c_str();
+		selectedData = data;
 	}
 
 	ISceneNode *getNode() { return selectedNode; }
 	IMesh *getMesh() { return selectedMesh; }
 	u32 getMinPolysPerNode() { return selectedNodeMinPolysPerNode; }
 	stringc getPath() { return selectedNodePath; }
+	SData *getData() { return selectedData; }
 
 private:
 
@@ -70,6 +72,7 @@ private:
 	IMesh *selectedMesh;
 	u32 selectedNodeMinPolysPerNode;
 	stringc selectedNodePath;
+	SData *selectedData;
 
 };
 
@@ -98,6 +101,11 @@ private:
     
     IGUIWindow *mainWindow;
     bool isWindowed, isMinimized;
+
+	//-----------------------------------
+    //METHODS
+
+	//-----------------------------------
     
     //-----------------------------------
     //WINDOW GUI ELEMENTS

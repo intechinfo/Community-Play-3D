@@ -18,7 +18,8 @@
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
 
-#include "../GUIExtension/OpenFileDialog/CGUIFileSelector.h"
+//#include "../GUIExtension/OpenFileDialog/CGUIFileSelector.h"
+#include "../GUIExtension/FileSelector/CGUIFileSelector.h"
 
 #include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
@@ -170,8 +171,8 @@ public:
 	//-----------------------------------
 	//UI ADVANCED DIALOG METHODS
 	IGUIFileOpenDialog *createFileOpenDialog(stringw title, IGUIElement *parent);
-	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type);
-	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent);
+	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal=false);
+	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal=false);
 
 	IGUIWindow *addInformationDialog(stringw title, stringw text, s32 flag, bool modal=true, IGUIElement *parent=0);
 	IGUIWindow *addErrorDialog(stringw title, stringw text, s32 flag);

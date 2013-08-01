@@ -161,6 +161,8 @@ bool CUIWindowAddVolumeLight::OnEvent(const SEvent &event) {
 						devices->getCoreData()->getVolumeLightsData()->push_back(SVolumeLightsData(volumeLight));
 						volumeLightsListBox->addItem(volumeLightNodeName.c_str());
 						addVolumeLightWindow->remove();
+
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 					}
 					return true;
 				}

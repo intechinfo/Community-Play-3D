@@ -152,12 +152,13 @@ void CUITerrainPainter::RaiseTerrainVertex(vector3df clickPos, f32 step, bool up
 			if (!againUpVertices[i][j]) continue;
 
 			vector3df realPos = mb_vertices[j].Pos;//*(node->getScale()/nodescale) + (node->getPosition()-node->getTerrainCenter());
+			realPos = mb_vertices[j].Pos + (node->getPosition()-node->getTerrainCenter()) - currentRadius;
 			clickPos.Y = realPos.Y;
 
 			if(realPos.getDistanceFrom(clickPos) < currentRadius) {
 				//f32 ratio = sin(radius - realPos.getDistanceFrom(clickPos));
 				f32 ratio = currentRadius - realPos.getDistanceFrom(clickPos);
-				mb_vertices[j].Pos.Y += (currentStep * (ratio));///(node->getScale().X/nodescale));
+				mb_vertices[j].Pos.Y += (up) ? (currentStep * (ratio)) : -(currentStep *(ratio));///(node->getScale().X/nodescale));
 				againUpVertices[i][j] = false;
 			}
 
@@ -166,9 +167,7 @@ void CUITerrainPainter::RaiseTerrainVertex(vector3df clickPos, f32 step, bool up
 		}
 
 		//devices->getSceneManager()->getMeshManipulator()->recalculateNormals(node->getMesh(),true);
-		//terrainSelector = devices->getSceneManager()->createTriangleSelector(node->getMesh(), 0);
-
-		//node->getMesh()->setDirty();
+		//terrainSelector = devices->getSceneManager()->createTerrainTriangleSelector(node, 0);
 	}
 
 	canPaint = false;
@@ -214,7 +213,7 @@ void CUITerrainPainter::update() {
 		z *= scale;
 
 		arrow->setPosition(vector3df(x, node->getHeight(x, z) + 5, z));
-		drawBrush(vector3df(x, node->getHeight(x, z) + 5, z));
+		drawBrush(arrow->getPosition());
 	}
 }
 
@@ -295,7 +294,7 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 
 				//RECALCULATE TRIANGLES FOR COLLISIONS
 				if (!devices->isCtrlPushed())
-					terrainSelector = devices->getSceneManager()->createTerrainTriangleSelector(node, 0);
+					terrainSelector = devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
 
 				node->setPosition(node->getPosition());
 			}

@@ -86,9 +86,9 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == fileMenu) {
 				s32 itemMenuID = fileMenu->getItemCommandId(fileMenu->getSelectedItem());
 				if (itemMenuID == 1) {
-					openShaderPackage = devices->createFileOpenDialog(L"", CGUIFileSelector::EFST_OPEN_DIALOG, materialsWindow);
+					openShaderPackage = devices->createFileOpenDialog(L"", CGUIFileSelector::EFST_OPEN_DIALOG, devices->getGUIEnvironment()->getRootGUIElement(), true);
 				} else if (itemMenuID == 2) {
-					saveShaderPackage = devices->createFileOpenDialog(L"", CGUIFileSelector::EFST_SAVE_DIALOG, materialsWindow);
+					saveShaderPackage = devices->createFileOpenDialog(L"", CGUIFileSelector::EFST_SAVE_DIALOG, devices->getGUIEnvironment()->getRootGUIElement(), true);
 				} else if (itemMenuID == 3) {
 					materialsWindow->remove();
 					materialsWindow = 0;

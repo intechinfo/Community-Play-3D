@@ -8,8 +8,6 @@
 #include "stdafx.h"
 #include "CUITexturesManager.h"
 
-
-
 CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 	devices = _devices;
 

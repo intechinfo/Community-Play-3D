@@ -54,6 +54,9 @@ using namespace io;
 enum E_CORE_USER_EVENTS {
 	ECUE_REACTIVE_MINIMIZED_WINDOW = 0,
 
+	ECUE_NODE_ADDED,
+	ECUE_NODE_REMOVED,
+
 	ECUE_TEXTURE_REMOVED
 };
 
@@ -68,6 +71,7 @@ public:
 	~CCore();
 
 	void setDevice(IrrlichtDevice *_device) { device = _device; }
+	IrrlichtDevice *getDevice() { return device; }
     
     //CORE METHODS AND FUNCTIONS
 	std::string convertToString(stringw _textToConvert);
@@ -146,6 +150,13 @@ public:
     
 	//--------------------------
 	//MULTIPLE EVENTS MANAGER
+	void sendUserEvent(E_CORE_USER_EVENTS event) {
+		SEvent ev;
+		ev.EventType = EET_USER_EVENT;
+		ev.UserEvent.UserData1 = event;
+		OnEvent(ev);
+	}
+
 	void update() {
 		for (u32 i=0; i < mEventReceivers.size(); i++) {
 			if (mEventReceiversUpdate[i])

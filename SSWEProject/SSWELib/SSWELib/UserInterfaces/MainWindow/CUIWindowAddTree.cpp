@@ -52,7 +52,7 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
             s32 id = event.GUIEvent.Caller->getID();
             switch (id) {
                 case CXT_WINDOW_ADD_TREE_EVENTS_SELECT:
-                    devices->createFileOpenDialog(L"Select the mesh", 0);
+					devices->createFileOpenDialog(L"Select the mesh", CGUIFileSelector::EFST_OPEN_DIALOG, devices->getGUIEnvironment()->getRootGUIElement(), true);
                     isOpenFileDialogOpened = true;
                     break;
                     
@@ -77,6 +77,8 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
                         treesListBox->addItem(treeNodeName.c_str());
                         
                         addTreeWindow->remove();
+
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
                     } else {
                         devices->addWarningDialog(L"Warning", 
                                                   L"Error when loading the selected mesh \n"

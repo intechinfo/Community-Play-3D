@@ -54,7 +54,9 @@ private:
 	s32 getImageListIndexForNodeType(ESCENE_NODE_TYPE type);
 
 	void addChildrenBackWithArray(IGUITreeViewNode *treeNode, array<ISceneNode *> *nodes);
+	void addChildrenBackWithSDataArray(IGUITreeViewNode *treeNode, array<SData> *nodes);
 	void addChildrenBackRecursively(IGUITreeViewNode *treeNode, ISceneNode *node);
+	void addChildrenBackSDataRecursively(IGUITreeViewNode *treeNode, SData node);
 	//-----------------------------------
 };
 

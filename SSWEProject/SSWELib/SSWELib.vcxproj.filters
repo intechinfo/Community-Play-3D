@@ -76,9 +76,6 @@
     <Filter Include="SSWELib\GUIExtension\CodeEditor">
       <UniqueIdentifier>{d95a3e19-21b4-4f78-87da-2e6970b26851}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SSWELib\GUIExtension\OpenFileDialog">
-      <UniqueIdentifier>{95a2901b-fd18-4419-a52a-9f5a1f592f3a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SSWELib\GUIExtension\ViewPort">
       <UniqueIdentifier>{3fef2e35-3be5-4888-89ad-1c1cdf55b466}</UniqueIdentifier>
     </Filter>
@@ -120,6 +117,9 @@
     </Filter>
     <Filter Include="SSWELib\Renders\DepthOfField">
       <UniqueIdentifier>{70822ee8-74ca-4c9f-a87a-def908fe52e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\FileSelector">
+      <UniqueIdentifier>{27c5263b-6f8f-4e5f-b57d-1a65f554580a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +170,6 @@
     </ClCompile>
     <ClCompile Include="SSWELib\GUIExtension\Graph2D\GraphKat.cpp">
       <Filter>SSWELib\GUIExtension\Graph2D</Filter>
-    </ClCompile>
-    <ClCompile Include="SSWELib\GUIExtension\OpenFileDialog\CGUIFileSelector.cpp">
-      <Filter>SSWELib\GUIExtension\OpenFileDialog</Filter>
     </ClCompile>
     <ClCompile Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.cpp">
       <Filter>SSWELib\GUIExtension\ProgressBar</Filter>
@@ -348,6 +345,9 @@
     <ClCompile Include="SSWELib\Renders\DepthOfField\CUIWindowEditDOF.cpp">
       <Filter>SSWELib\Renders\DepthOfField</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\GUIExtension\FileSelector\CGUIFileSelector.cpp">
+      <Filter>SSWELib\GUIExtension\FileSelector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -403,9 +403,6 @@
     </ClInclude>
     <ClInclude Include="SSWELib\GUIExtension\Graph2D\GraphKat.h">
       <Filter>SSWELib\GUIExtension\Graph2D</Filter>
-    </ClInclude>
-    <ClInclude Include="SSWELib\GUIExtension\OpenFileDialog\CGUIFileSelector.h">
-      <Filter>SSWELib\GUIExtension\OpenFileDialog</Filter>
     </ClInclude>
     <ClInclude Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.h">
       <Filter>SSWELib\GUIExtension\ProgressBar</Filter>
@@ -604,6 +601,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Renders\DepthOfField\CUIWindowEditDOF.h">
       <Filter>SSWELib\Renders\DepthOfField</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\GUIExtension\FileSelector\CGUIFileSelector.h">
+      <Filter>SSWELib\GUIExtension\FileSelector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

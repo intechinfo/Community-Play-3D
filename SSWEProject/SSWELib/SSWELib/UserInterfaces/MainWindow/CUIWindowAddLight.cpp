@@ -63,6 +63,8 @@ bool CUIWindowAddLight::OnEvent(const SEvent &event) {
                         lightsListBox->addItem(lightNodeName.c_str());
                         
                         addLightWindow->remove();
+
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
                     } else {
                         devices->addWarningDialog(L"Warning", 
                                                   L"Error when adding a light \n"

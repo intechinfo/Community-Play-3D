@@ -1,6 +1,12 @@
 #ifndef INC_CGUIFILESELECTOR_H
 #define INC_CGUIFILESELECTOR_H
 
+#ifdef WIN32
+   #include <windows.h>
+	#include <Shlobj.h>
+   #include <iostream>
+#endif
+
 #include <irrlicht.h>
 
 using namespace irr;
@@ -9,7 +15,7 @@ using namespace gui;
 /** Class for opening/saving files. */
 class CGUIFileSelector : public IGUIFileOpenDialog {
       
-	public:
+   public:
         /** Enum to specify the usage of the instance of the class */   
         enum E_FILESELECTOR_TYPE {
           EFST_OPEN_DIALOG, //<! For opening files
@@ -18,46 +24,46 @@ class CGUIFileSelector : public IGUIFileOpenDialog {
         };
                   
         /** 
-		\brief Constructor
-		\param title - The title of the dialog
-		\pararm environment - The GUI environment to be used
-		\param parent - The parent of the dialog
-		\param id - The ID of the dialog
-		\param type - The type of dialog
-		*/
-		CGUIFileSelector(const wchar_t* title, IGUIEnvironment* environment, IGUIElement* parent, s32 id, E_FILESELECTOR_TYPE type);
+      \brief Constructor
+      \param title - The title of the dialog
+      \pararm environment - The GUI environment to be used
+      \param parent - The parent of the dialog
+      \param id - The ID of the dialog
+      \param type - The type of dialog
+      */
+      CGUIFileSelector(const wchar_t* title, IGUIEnvironment* environment, IGUIElement* parent, s32 id, E_FILESELECTOR_TYPE type);
 
-		/**
+      /**
         \brief Destructor
         */
-		virtual ~CGUIFileSelector();
-		
-		/**
+      virtual ~CGUIFileSelector();
+      
+      /**
         \brief Returns the filename of the selected file. Returns NULL, if no file was selected.
         \return a const wchar_t*
         */
-		virtual const wchar_t* getFileName() const;
-    
-        virtual const io::path& getDirectoryName();
+      virtual const wchar_t* getFileName() const;
 
-		/**
+	  inline core::stringw getResultFile() { fullpathname.replace(L'/','\\'); return fullpathname;}
+
+      /**
         \brief called if an event happened.
         \param even - the event that happened
         \return a bool
         */
-		virtual bool OnEvent(const SEvent& event);
+      virtual bool OnEvent(const SEvent& event);
 
-		/**
-		\brief Render function
-		*/
-		virtual void draw();
-		
-		/**
-		\brief Returns the current file filter selected or "All Files" if no filter is applied
-		\return a stringw
-		*/
-		inline core::stringw getFileFilter() const {
-               if (FilterComboBox->getSelected() >= FileFilters.size()) return core::stringw("All Files"); 
+      /**
+      \brief Render function
+      */
+      virtual void draw();
+      
+      /**
+      \brief Returns the current file filter selected or "All Files" if no filter is applied
+      \return a stringw
+      */
+      inline core::stringw getFileFilter() const {
+               if (FilterComboBox->getSelected() >= (s32)FileFilters.size()) return core::stringw("All Files"); 
                else return FileFilters[FilterComboBox->getSelected()].FileExtension;
         }
         
@@ -74,6 +80,9 @@ class CGUIFileSelector : public IGUIFileOpenDialog {
         \param texture - The icon texture
         */
         void addFileFilter(wchar_t* name, wchar_t* ext, video::ITexture* texture);
+
+		// To add to the list of prefered paths
+		void addPlacePaths(wchar_t* name, wchar_t* path, video::ITexture* texture);
         
         /**
         \brief Set an icon to use to display unknown files
@@ -100,7 +109,22 @@ class CGUIFileSelector : public IGUIFileOpenDialog {
         */
         inline void setDirectoryChoosable(bool choosable) { IsDirectoryChoosable = choosable; }
 
-	protected:
+		//! Returns the directory of the selected file. Returns NULL, if no directory was selected.
+	  virtual const io::path& getDirectoryName();
+
+	  // Device 
+	  inline void setDevice(irr::IrrlichtDevice * device) { this->device=device;}
+
+	  inline bool isSaver() { if (DialogType==EFST_SAVE_DIALOG) return true; else return false;}
+
+	  void populateWindowsFAV();
+
+	  void populateLinuxFAV();
+
+	  void setStartingPath(core::stringw path);
+
+
+   protected:
 
         /**
         \brief Returns true if the file extension is one of the registered filters
@@ -116,24 +140,28 @@ class CGUIFileSelector : public IGUIFileOpenDialog {
         */
         bool matchesFileFilter(core::stringw s, core::stringw f);
         
-		/**
+      /**
         \brief Fills the listbox with files.
         */
-		void fillListBox();
+      void fillListBox();
 
-		/**
+      /**
         \brief Sends the event that the file has been selected.
         */
-		void sendSelectedEvent();
+      void sendSelectedEvent();
 
-		/**
+      /**
         \brief Sends the event that the file choose process has been canceld
         */
-		void sendCancelEvent();
-		
-		u32 addIcon(video::ITexture* texture);
-				
-		/** Struct to describe file filters to use when displaying files in directories */
+      void sendCancelEvent();
+      
+      u32 addIcon(video::ITexture* texture);
+
+	  void populatePCDrives();
+
+	 
+            
+      /** Struct to describe file filters to use when displaying files in directories */
         struct SFileFilter {
           /*
           \brief Constructor
@@ -159,28 +187,40 @@ class CGUIFileSelector : public IGUIFileOpenDialog {
           u32 FileIconIdx;
         };
 
-		core::position2d<s32> DragStart;
-		bool Dragging;
-		bool IsDirectoryChoosable;
-		s32 FileIconIdx;
-		s32 DirectoryIconIdx;
-		IGUIButton* CloseButton;
-		IGUIButton* OKButton;
-		IGUIButton* CancelButton;
-		IGUIEditBox* FileNameText;
-		IGUIListBox* FileBox;
-		IGUIComboBox* FilterComboBox;
-		IGUIElement* EventParent;
-		IGUISpriteBank* SpriteBank;
-		io::IFileSystem* FileSystem;
-		io::IFileList* FileList;
-		core::array<SFileFilter> FileFilters;
-		E_FILESELECTOR_TYPE DialogType;
-		core::stringc prev_working_dir;
-        io::path FileDirectory;
-		
-		static s32 numFileSelectors;
-			
+      core::position2d<s32> DragStart;
+      bool Dragging;
+      bool IsDirectoryChoosable;
+      s32 FileIconIdx;
+      s32 DirectoryIconIdx;
+      IGUIButton* CloseButton;
+      IGUIButton* OKButton;
+      IGUIButton* CancelButton;
+      IGUIEditBox* FileNameText;
+	  IGUIEditBox* PathNameText;
+      IGUIListBox* FileBox;
+	  IGUIListBox* PlacesBox;
+      IGUIComboBox* DriveBox;
+      IGUIComboBox* FilterComboBox;
+      IGUIElement* EventParent;
+      IGUISpriteBank* SpriteBank;
+      io::IFileSystem* FileSystem;
+      io::IFileList* FileList;
+      core::array<SFileFilter> FileFilters;
+      E_FILESELECTOR_TYPE DialogType;
+      core::stringc prev_working_dir;
+	  core::stringc default_project_dir;
+	  core::stringw fullpathname; 
+      
+	  core::array<core::stringw> placespaths;
+      static s32 numFileSelectors;
+
+	  io::path FileDirectory;
+
+	  private:
+		  core::stringw translateDOS(core::stringw input);
+		  bool stretchbottom, stretchtop, stretchright, stretchleft;
+		  irr::IrrlichtDevice * device;
+         
 };
 
 #endif /* INC_CGUIFILESELECTOR_H */

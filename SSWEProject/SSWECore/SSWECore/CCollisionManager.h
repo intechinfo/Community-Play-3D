@@ -99,7 +99,7 @@ public:
     //-----------------------------------
     //METHODS
 	void setCollisionToAnUnknownNode(IMesh *mesh, ISceneNode *node);
-    void setCollisionToAnOctTreeNode(ISceneNode *node);
+    ITriangleSelector *setCollisionToAnOctTreeNode(ISceneNode *node);
     void setCollisionToAnAnimatedNode(ISceneNode *node);
     void setCollisionFromBoundingBox(ISceneNode *node);
     

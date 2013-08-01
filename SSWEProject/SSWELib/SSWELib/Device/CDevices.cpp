@@ -426,16 +426,25 @@ IGUIFileOpenDialog *CDevices::createFileOpenDialog(stringw title, IGUIElement *p
 	return dialog;
 }
 
-CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type) {
-	return this->createFileOpenDialog(title, type, gui->getRootGUIElement());
+CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal) {
+	return this->createFileOpenDialog(title, type, gui->getRootGUIElement(), modal);
 }
 
-CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent) {
+CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal) {
     CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, parent, 1, type);
-    selector->setRelativePosition(rect<s32>(0, 20, 560, 440));
     
     selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
     selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
+
+	const wchar_t *rootPath = stringw(workingDirectory).c_str();
+	selector->addPlacePaths(L"SSWE", (wchar_t*)rootPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+	const wchar_t *currentPath = stringw(Device->getFileSystem()->getWorkingDirectory()).c_str();
+	selector->addPlacePaths(L"CURRENT", (wchar_t*)currentPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+
+	if (modal) {
+		IGUIElement *modalg = gui->addModalScreen(parent);
+		modalg->addChild(selector);
+	}
     
     return selector;
 }
@@ -493,31 +502,6 @@ bool CDevices::OnEvent(const SEvent &event) {
                 shiftWasPushed = true;
             }
         }
-
-		//if (event.KeyInput.PressedDown) {
-		//	switch(event.KeyInput.Key) {
-		//		case KEY_KEY_R:
-		//			dof->range += .1f;
-		//		case KEY_KEY_E:
-		//			dof->range -= .1f;
-		//		case KEY_KEY_G:
-		//			dof->focus += .02f;
-		//		case KEY_KEY_F:
-		//			dof->focus -= .02f;
-		//		case KEY_KEY_P:
-		//			dof->sampleDist0 += .0001f;
-		//			dof->sampleDist1 += .0001f;
-		//		case KEY_KEY_O:
-		//			dof->sampleDist0 -= .0001f;
-		//			dof->sampleDist1 -= .0001f;
-		//			return true;
-		//		case KEY_KEY_M:
-		//			dof->distanceScale += .00001f;
-		//			return true;
-		//		case KEY_KEY_L:
-		//			dof->distanceScale -= .00001f;
-		//	}
-		//}
     }
     
     if (event.EventType == EET_GUI_EVENT) {
@@ -525,18 +509,28 @@ bool CDevices::OnEvent(const SEvent &event) {
             s32 id = event.GUIEvent.Caller->getID();
             
             switch (id) {
-                case DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE:
-                    window->remove();
+                case DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE: {
+					SEvent ev;
+					ev.EventType = EET_GUI_EVENT;
+					ev.GUIEvent.EventType = EGET_FILE_CHOOSE_DIALOG_CANCELLED;
+					ev.GUIEvent.Caller = dialog;
+					ev.GUIEvent.Element = dialog;
+					receiver.OnEvent(ev);
+
                     window = 0;
+				}
                     break;
                     
-                case DEVICES_FILE_OPEN_DIALOG_EVENTS_OK:
-                    //window->remove();
-                    addInformationDialog(L"Information",
-                                         L"Not implanted yet, please click \"Ok\" in the file open dialog child \n\n"
-                                         L"Work in progress...\n", EMBF_OK);
+                case DEVICES_FILE_OPEN_DIALOG_EVENTS_OK: {
+					SEvent ev;
+					ev.EventType = EET_GUI_EVENT;
+					ev.GUIEvent.EventType = EGET_FILE_SELECTED;
+					ev.GUIEvent.Caller = dialog;
+					ev.GUIEvent.Element = dialog;
+					receiver.OnEvent(ev);
+				}
                     break;
-                    
+
                 default:
                     break;
             }

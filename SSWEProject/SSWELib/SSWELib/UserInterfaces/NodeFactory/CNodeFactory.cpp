@@ -26,6 +26,8 @@ void CNodeFactory::createCubeSceneNode() {
 	SObjectsData odata(cube->getMesh(), cube, "cube");
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
+
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }
 
 void CNodeFactory::createSphereSceneNode() {
@@ -36,6 +38,8 @@ void CNodeFactory::createSphereSceneNode() {
 	SObjectsData odata(sphere->getMesh(), sphere, "sphere");
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
+
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }
 
 void CNodeFactory::createPlaneMeshSceneNode() {
@@ -49,6 +53,8 @@ void CNodeFactory::createPlaneMeshSceneNode() {
 	SObjectsData odata(planeMesh, planeNode, "hillPlaneMesh");
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
+
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }
 
 void CNodeFactory::createBillBoardSceneNode() {
@@ -58,6 +64,8 @@ void CNodeFactory::createBillBoardSceneNode() {
 	devices->getXEffect()->addShadowToNode(billboard, devices->getXEffectFilterType(), ESM_EXCLUDE);
 	SObjectsData odata(0, billboard, "billboard");
 	devices->getCoreData()->getObjectsData()->push_back(odata);
+
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }
 
 void CNodeFactory::createLightSceneNode() {
@@ -69,5 +77,7 @@ void CNodeFactory::createLightSceneNode() {
 
 		SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
 		devices->getXEffect()->addShadowLight(shadowLight);
+
+		devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 	}
 }

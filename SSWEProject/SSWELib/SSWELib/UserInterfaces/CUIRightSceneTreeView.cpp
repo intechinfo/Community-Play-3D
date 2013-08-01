@@ -47,13 +47,19 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	}
 
 	//SET UP TREE VIEW NODES
-	//TERRAINS
 	terrainsNode = rootNode->addChildBack(L"TERRAINS", L"", 2, -1);
 	treesNode = rootNode->addChildBack(L"TREES", L"", 2, -1);
 	objectsNode = rootNode->addChildBack(L"OBJECTS", L"", 2, -1);
 	lightsNode = rootNode->addChildBack(L"LIGHTS", L"", 2, -1);
 	volumeLightsNode = rootNode->addChildBack(L"VOLUME LIGHTS", L"", 2, -1);
 	waterSurfacesNode = rootNode->addChildBack(L"WATER SURFACES", L"", 2, -1);
+
+	addChildrenBackWithSDataArray(terrainsNode, worldCore->getTerrainsSData());
+	addChildrenBackWithSDataArray(treesNode, worldCore->getTreesSData());
+	addChildrenBackWithSDataArray(objectsNode, worldCore->getObjectsSData());
+	addChildrenBackWithSDataArray(lightsNode, worldCore->getLightsSData());
+	addChildrenBackWithSDataArray(volumeLightsNode, worldCore->getVolumeLightsSData());
+	addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
 
 }
 
@@ -113,6 +119,69 @@ void CUIRightSceneTreeView::addChildrenBackRecursively(IGUITreeViewNode *treeNod
 	}
 }
 
+void CUIRightSceneTreeView::addChildrenBackWithSDataArray(IGUITreeViewNode *treeNode, array<SData> *nodes) {
+	IGUITreeViewNode *nextNode = treeNode->getFirstChild();
+	IGUITreeViewNode *nextNextNode;
+	if (sceneView->getSelected())
+		whoIstreeNodeSelected = (ISceneNode *)sceneView->getSelected()->getData();
+
+	treeNode->clearChildren();
+
+	for (u32 i=0; i < nodes->size(); i++) {
+		ISceneNode *nnode = nodes->operator[](i).getNode();
+		if (nnode) {
+			IGUITreeViewNode *newTreeNode = treeNode->addChildBack(stringw(nodes->operator[](i).getNode()->getName()).c_str(), L"", 
+																   getImageListIndexForNodeType(nodes->operator[](i).getType()), -1);
+			newTreeNode->setData(nodes->operator[](i).getNode());
+			newTreeNode->setExpanded(true);
+			if (whoIstreeNodeSelected == nodes->operator[](i).getNode()) {
+				newTreeNode->setSelected(true);
+			}
+			addChildrenBackSDataRecursively(newTreeNode, nodes->operator[](i));
+		}
+	}
+}
+void CUIRightSceneTreeView::addChildrenBackSDataRecursively(IGUITreeViewNode *treeNode, SData node) {
+	s32 imageIndex;
+	IGUITreeViewNode *nodeTreeView;
+	treeNode->clearChildren();
+
+	if (node.getClonedNodeCount() > 0) {
+		IGUITreeViewNode *clonedNodeTreeNode = treeNode->addChildBack(L"Clones", L"", getImageListIndexForNodeType(ESNT_UNKNOWN), -1, node.getNode());
+		ISceneNodeList::Iterator it = node.getClonedNodeList()->begin();
+		for (; it != node.getClonedNodeList()->end(); ++it) {
+			IGUITreeViewNode *newNode = clonedNodeTreeNode->addChildBack(stringw((*it)->getName()).c_str(), L"",
+																		 getImageListIndexForNodeType((*it)->getType()), -1, (ISceneNode*)(*it));
+		}
+	}
+
+	core::list<ISceneNode *>::ConstIterator it = node.getNode()->getChildren().begin();
+	for (; it != node.getNode()->getChildren().end(); ++it) {
+		imageIndex = getImageListIndexForNodeType((*it)->getType());
+		
+		nodeTreeView = treeNode->addChildBack(stringw((*it)->getName()).c_str(), 0, imageIndex);
+		nodeTreeView->setData(*it);
+
+		if (whoIstreeNodeSelected) {
+			if (*it == whoIstreeNodeSelected) {
+				nodeTreeView->setSelected(true);
+			}
+		}
+
+		nodeTreeView->setExpanded(true);
+		
+		core::list<ISceneNodeAnimator*>::ConstIterator ait = (*it)->getAnimators().begin();
+		for (; ait != (*it)->getAnimators().end(); ++ait) {
+			imageIndex = 10;
+
+			nodeTreeView->addChildBack(stringw(devices->getDevice()->getSceneManager()->getAnimatorTypeName((*ait)->getType())).c_str(), 0, imageIndex);
+			nodeTreeView->setData(*ait);
+		}
+
+        addChildrenBackRecursively(nodeTreeView, *(it));
+	}
+}
+
 s32 CUIRightSceneTreeView::getImageListIndexForNodeType(ESCENE_NODE_TYPE type) {
 	s32 index;
 	switch (type) {
@@ -143,12 +212,17 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 		sceneView->setRelativePosition(rect<s32>(10, 25, 
 												 window->getRelativePosition().getWidth()-10, 
 												 window->getRelativePosition().getHeight()-10));
-		addChildrenBackWithArray(terrainsNode, &worldCore->getArrayOfTerrainNodes());
-		addChildrenBackWithArray(treesNode, &worldCore->getArrayOfTreeNodes());
-		addChildrenBackWithArray(objectsNode, &worldCore->getArrayOfObjectNodes());
-		addChildrenBackWithArray(lightsNode, &worldCore->getArrayOfLightNodes());
-		addChildrenBackWithArray(volumeLightsNode, &worldCore->getArrayOfVolumeLightNodes());
-		addChildrenBackWithArray(waterSurfacesNode, &worldCore->getArrayOfWaterSurfaceNodes());
+	}
+
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_NODE_REMOVED || event.UserEvent.UserData1 == ECUE_NODE_ADDED) {
+			addChildrenBackWithSDataArray(terrainsNode, worldCore->getTerrainsSData());
+			addChildrenBackWithSDataArray(treesNode, worldCore->getTreesSData());
+			addChildrenBackWithSDataArray(objectsNode, worldCore->getObjectsSData());
+			addChildrenBackWithSDataArray(lightsNode, worldCore->getLightsSData());
+			addChildrenBackWithSDataArray(volumeLightsNode, worldCore->getVolumeLightsSData());
+			addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
+		}
 	}
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
@@ -197,6 +271,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				ISceneNode *node = (ISceneNode *)sceneView->getSelected()->getData();
 				if (node) {
 					cxtMenu->getMainWindow()->selectSelectedNode(node);
+					devices->getObjectPlacement()->setNodeToPlace(node);
 				}
 			}
 		}
