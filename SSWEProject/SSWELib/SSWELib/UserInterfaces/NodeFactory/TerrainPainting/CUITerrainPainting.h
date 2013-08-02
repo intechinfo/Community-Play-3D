@@ -64,6 +64,7 @@ private:
 	IGUITabControl *tabctrl;
 	IGUITab *painting;
 	IGUITab *grassPainting;
+	IGUITab *treePainting;
 
 	//TERRAIN
 	IGUIEditBox *stepValueeb, *radiusValueeb;
@@ -73,6 +74,10 @@ private:
 	//GRASS
 	IGUIEditBox *grassScaleValueeb, *grassQualityeb, *grassSpaceeb;
 	IGUIScrollBar *grassScalesb, *grassQualitysb, *grassSpacesb;
+
+	IGUIButton *grassAddTexture, *grassRemoveTexture;
+	IGUIListBox *grassTextures;
+	IGUIFileOpenDialog *grassChooseTexture;
 	//WINDOW
 	IGUIButton *cancel, *accept;
 	//-----------------------------------

@@ -377,7 +377,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
-	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
+	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;

@@ -54,6 +54,7 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	tabctrl = gui->addTabControl(rect<s32>(0, 30, 10, 10), window, true, true, -1);
 	painting = tabctrl->addTab(L"Terrain", -1);
 	grassPainting = tabctrl->addTab(L"Grass", -1);
+	treePainting = tabctrl->addTab(L"Tree", -1);
 
 	//---------------------------------------------------------------------------------------------
 	//------------------------------------------TERRAIN--------------------------------------------
@@ -113,6 +114,11 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	grassSpacesb->setMax(1000);
 	grassSpacesb->setSmallStep(1);
 	grassSpacesb->setLargeStep(1);
+
+	gui->addStaticText(L"Textures :", rect<s32>(10, 200, 310, 220), true, true, grassPainting, -1, false);
+	grassRemoveTexture = gui->addButton(rect<s32>(310, 200, 330, 220), grassPainting, -1, L"-", L"Remove selected texture");
+	grassAddTexture = gui->addButton(rect<s32>(330, 200, 350, 220), grassPainting, -1, L"+", L"Add a grass texture");
+	grassTextures = gui->addListBox(rect<s32>(10, 220, 350, 360), grassPainting, -1, true);
 
 	//---------------------------------------------------------------------------------------------
 	//----------------------------------------------GUI--------------------------------------------
@@ -229,6 +235,8 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 
 				node->setPosition(node->getPosition());
 			}
+
+			devices->getXEffect()->setAllShadowLightsRecalculate();
 		}
 		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && devices->getGUIEnvironment()->getFocus() == 0) {
 			leftClickDown = false;
@@ -283,8 +291,19 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			//---------------------------------------------------------------------------------------------
 			//------------------------------------------GRASS----------------------------------------------
 			//---------------------------------------------------------------------------------------------
+			if (event.GUIEvent.Caller == grassAddTexture) {
+				grassChooseTexture = devices->createFileOpenDialog(L"Choose Grass Texture", CGUIFileSelector::EFST_OPEN_DIALOG, 
+																   devices->getGUIEnvironment()->getRootGUIElement(), true);
+			}
+			if (event.GUIEvent.Caller == grassRemoveTexture) {
+				if (grassTextures->getSelected() != -1) {
+					grassPainter->getTextures()->erase(grassTextures->getSelected());
+					grassTextures->removeItem(grassTextures->getSelected());
+				}
+			}
 		}
 
+		//SCROLL BARS
 		if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
 			//TERRAIn
 			if (event.GUIEvent.Caller == stepsb) {
@@ -311,12 +330,36 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			}
 		}
 
+		//TABS
 		if (event.GUIEvent.EventType == EGET_TAB_CHANGED) {
 			if (event.GUIEvent.Caller == tabctrl) {
 				if (tabctrl->getActiveTab() == painting->getNumber())
 					paintingType = EPT_TERRAIN;
 				else if (tabctrl->getActiveTab() == grassPainting->getNumber())
 					paintingType = EPT_GRASS;
+			}
+		}
+
+		//LIST BOXES
+		if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
+			if (event.GUIEvent.Caller == grassTextures) {
+				if (grassTextures->getSelected() != -1)
+					grassPainter->setTextureIndex(grassTextures->getSelected());
+			}
+		}
+
+		//FILES SELECTED
+		if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
+			if (event.GUIEvent.Caller == grassChooseTexture) {
+				ITexture *texture = devices->getVideoDriver()->getTexture(grassChooseTexture->getFileName());
+				if (texture) {
+					grassPainter->getTextures()->push_back(texture);
+					grassTextures->addItem(stringw(grassChooseTexture->getFileName()).c_str());
+					grassTextures->setSelected(grassTextures->getItemCount()-1);
+					grassPainter->setTextureIndex(grassTextures->getSelected());
+				} else {
+					devices->addErrorDialog(L"Error", L"Cannot load the texture, wrong format or not a texture.", EMBF_OK);
+				}
 			}
 		}
 	}
