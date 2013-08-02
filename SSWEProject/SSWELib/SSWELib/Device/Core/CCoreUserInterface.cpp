@@ -36,6 +36,7 @@ CCoreUserInterface::CCoreUserInterface() {
 	params.AntiAlias=true; 
     params.ZBufferBits = 32;
 	params.EventReceiver=0;
+	params.DriverMultithreaded = true;
 	
 	if (params.Fullscreen) {
 		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);

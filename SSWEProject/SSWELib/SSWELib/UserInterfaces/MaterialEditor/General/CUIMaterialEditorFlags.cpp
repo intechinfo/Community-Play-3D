@@ -82,6 +82,7 @@ CUIMaterialEditorFlags::CUIMaterialEditorFlags(CDevices *_devices, IGUIElement *
 
 	zbuffer = gui->addCheckBox(false, rect<s32>(26, 283, 166, 303), parent, -1, L"ZBuffer");
 	zwriteEnable = gui->addCheckBox(false, rect<s32>(186, 283, 326, 303), parent, -1, L"ZWrite Enable");
+	enableFog = gui->addCheckBox(false, rect<s32>(336, 283, 476, 303), parent, -1, L"Enable Fog");
 
 	gui->addStaticText(L"", rect<s32>(9, 353, 788, 452), true, true, parent, -1, false)->setBackgroundColor(SColor(255, 50, 50, 50));
     
@@ -95,10 +96,16 @@ CUIMaterialEditorFlags::CUIMaterialEditorFlags(CDevices *_devices, IGUIElement *
 	gui->addStaticText(L"", rect<s32>(776, 363, 786, 443), true, true, parent, -1, false);
 	gui->addStaticText(L"", rect<s32>(6, 443, 788, 452), true, true, parent, -1, false);
 
+	//PARAMS
 	gui->addStaticText(L"Material Type Parameter 1", rect<s32>(26, 383, 206, 403), true, true, parent, -1, false);
 	materialTypeParam1 = gui->addEditBox(L"", rect<s32>(206, 383, 346, 403), true, parent, -1);
 	gui->addStaticText(L"Material Type Parameter 2", rect<s32>(26, 403, 206, 423), true, true, parent, -1, false);
 	materialTypeParam2 = gui->addEditBox(L"", rect<s32>(206, 403, 346, 423), true, parent, -1);
+
+	gui->addStaticText(L"Shininess : ", rect<s32>(356, 383, 456, 403), true, true, parent, -1, false);
+	shininess = gui->addEditBox(L"", rect<s32>(456, 383, 596, 403), true, parent, -1);
+	gui->addStaticText(L"Thickness : ", rect<s32>(356, 403, 456, 423), true, true, parent, -1, false);
+	thickness = gui->addEditBox(L"", rect<s32>(456, 403, 596, 423), true, parent, -1);
 	//---------------------------------------------------------------------------------------------------------
 }
 CUIMaterialEditorFlags::~CUIMaterialEditorFlags() {
@@ -119,9 +126,13 @@ void CUIMaterialEditorFlags::update(SMaterial *material) {
 	textureWrap->setChecked(material->getFlag(EMF_TEXTURE_WRAP));
 	zbuffer->setChecked(material->getFlag(EMF_ZBUFFER));
 	zwriteEnable->setChecked(material->getFlag(EMF_ZWRITE_ENABLE));
+	enableFog->setChecked(material->getFlag(EMF_FOG_ENABLE));
 
 	materialTypeParam1->setText(devices->getCore()->getStrNumber(material->MaterialTypeParam).c_str());
 	materialTypeParam2->setText(devices->getCore()->getStrNumber(material->MaterialTypeParam2).c_str());
+
+	shininess->setText(devices->getCore()->getStrNumber(material->Shininess).c_str());
+	thickness->setText(devices->getCore()->getStrNumber(material->Thickness).c_str());
 
 	//UPDATE MATERIAL POINTER
 	materialToEdit = material;
@@ -168,6 +179,9 @@ bool CUIMaterialEditorFlags::OnEvent(const SEvent &event) {
 			if(chb == zwriteEnable) {
 				nodeToEdit->setMaterialFlag(EMF_ZWRITE_ENABLE, chb->isChecked());
 			}
+			if (chb == enableFog) {
+				nodeToEdit->setMaterialFlag(EMF_FOG_ENABLE, chb->isChecked());
+			}
 			//UPDATE
 			update(materialToEdit);
 		}
@@ -178,6 +192,12 @@ bool CUIMaterialEditorFlags::OnEvent(const SEvent &event) {
 			}
 			if (event.GUIEvent.Caller == materialTypeParam2) {
 				materialToEdit->MaterialTypeParam2 = devices->getCore()->getF32(stringc(materialTypeParam2->getText()).c_str());
+			}
+			if (event.GUIEvent.Caller == shininess) {
+				materialToEdit->Shininess = devices->getCore()->getF32(stringc(shininess->getText()).c_str());
+			}
+			if (event.GUIEvent.Caller == thickness) {
+				materialToEdit->Thickness = devices->getCore()->getF32(stringc(thickness->getText()).c_str());
 			}
 		}
 

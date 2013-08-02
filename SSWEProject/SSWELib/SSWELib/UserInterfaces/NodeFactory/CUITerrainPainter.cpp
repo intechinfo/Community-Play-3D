@@ -80,11 +80,11 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 	exportHeightMapbtn = bar->addButton(-1, L"", L"", devices->getVideoDriver()->getTexture(workingPath + "GUI/save.png"), 
 										0, false, true);
 
-	gui->addStaticText(L"Step :", rect<s32>(10, 70, 70, 90), true, true, window, -1, false);
+	gui->addStaticText(L"Strength :", rect<s32>(10, 70, 70, 90), true, true, window, -1, false);
 	stepValueeb = gui->addEditBox(L"", rect<s32>(70, 70, 170, 90), true, window, -1);
 	stepsb = gui->addScrollBar(true, rect<s32>(10, 90, 350, 110), window, -1);
 	stepsb->setMin(1);
-	stepsb->setMax(maxHeight+500);
+	stepsb->setMax(maxHeight*2);
 	stepsb->setSmallStep(1);
 	stepsb->setLargeStep(1);
 
@@ -108,7 +108,7 @@ CUITerrainPainter::CUITerrainPainter(CDevices *_devices, STerrainsData _tdata, C
 
 	//INITIALIZING TERRAIN PAINTING DATAS
 	currentStep = (maxHeight > 0) ? 1 : 0;
-	currentRadius = 1;
+	currentRadius = 2;
 
 	stepsb->setPos(currentStep);
 	radiussb->setPos(currentRadius);
@@ -151,8 +151,8 @@ void CUITerrainPainter::RaiseTerrainVertex(vector3df clickPos, f32 step, bool up
 		for (u32 j = 0; j < meshBuffer->getVertexCount(); j += 1) {
 			if (!againUpVertices[i][j]) continue;
 
-			vector3df realPos = mb_vertices[j].Pos;//*(node->getScale()/nodescale) + (node->getPosition()-node->getTerrainCenter());
-			realPos = mb_vertices[j].Pos + (node->getPosition()-node->getTerrainCenter()) - currentRadius;
+			//vector3df realPos = mb_vertices[j].Pos;//*(node->getScale()/nodescale) + (node->getPosition()-node->getTerrainCenter());
+			vector3df realPos = mb_vertices[j].Pos + node->getPosition();
 			clickPos.Y = realPos.Y;
 
 			if(realPos.getDistanceFrom(clickPos) < currentRadius) {
@@ -221,9 +221,11 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
-			currentRadius += event.MouseInput.Wheel*0.1f;
-			radiusValueeb->setText(stringw(currentRadius).c_str());
-			radiussb->setPos(currentRadius);
+			if (currentRadius < radiussb->getMax() && currentRadius > radiussb->getMin()) {
+				currentRadius += event.MouseInput.Wheel*0.1f;
+				radiusValueeb->setText(stringw(currentRadius).c_str());
+				radiussb->setPos(currentRadius);
+			}
 		}
 		if ((event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN || event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) && !devices->isCtrlPushed()) {
 
@@ -238,15 +240,16 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			&& devices->getGUIEnvironment()->getFocus() == 0)
 		{
 			//RECALCULATE TRIANGLES FOR COLLISIONS
-			if (!devices->isCtrlPushed())
-				terrainSelector = devices->getSceneManager()->createTerrainTriangleSelector(node, 0);
+			if (!devices->isCtrlPushed()) {
+				devices->getSceneManager()->getMeshManipulator()->recalculateNormals(node->getMesh(), true);
+				node->setPosition(node->getPosition());
+				terrainSelector = devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
+			}
 
 			//RESET AGAIN UP
 			for (u32 i=0; i < againUpVertices.size(); i++)
 				for (u32 j=0; j < againUpVertices[i].size(); j++)
 					againUpVertices[i][j] = true;
-
-			node->setPosition(node->getPosition());
 
 			canPaint = true;
 		}
@@ -293,10 +296,11 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 				}
 
 				//RECALCULATE TRIANGLES FOR COLLISIONS
-				if (!devices->isCtrlPushed())
+				if (!devices->isCtrlPushed()) {
+					devices->getSceneManager()->getMeshManipulator()->recalculateNormals(node->getMesh(), true);
+					node->setPosition(node->getPosition());
 					terrainSelector = devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
-
-				node->setPosition(node->getPosition());
+				}
 			}
 		}
 
@@ -317,6 +321,7 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 
 void CUITerrainPainter::drawBrush(vector3df pos) {
 	f32 radius = currentRadius;
+	const int heightMore = 5;
 
 	vector3df position = pos;//this->getMousePosition3D(100).pickedPos;
 
@@ -336,14 +341,14 @@ void CUITerrainPainter::drawBrush(vector3df pos) {
 		vector3df pos=position;
 		pos.X+=cos(degInRad)*radius;
 		pos.Z+=sin(degInRad)*radius;
-		pos.Y=getHeightAt(pos)+5;
+		pos.Y=getHeightAt(pos)+heightMore;
 
 		float degInRad2 = (i+step)*DEGTORAD;
 		vector3df pos2=position;
 		pos2.X+=cos(degInRad2)*radius;
 		pos2.Z+=sin(degInRad2)*radius;
-		pos2.Y=getHeightAt(pos2)+5;
-		//driver->draw3DLine(pos,pos2,video::SColor(255,255,255,0));
+		pos2.Y=getHeightAt(pos2)+heightMore;
+		//devices->getVideoDriver()->draw3DLine(pos,pos2,video::SColor(255,255,255,0));
 
 		vector3df pos3=position;
 		pos3.X+=cos(degInRad)*(radius+framesize);
@@ -368,14 +373,14 @@ void CUITerrainPainter::drawBrush(vector3df pos) {
 		vector3df pos=position;
 		pos.X+=cos(degInRad)*radius;
 		pos.Z+=sin(degInRad)*radius;
-		pos.Y=getHeightAt(pos)+5;
+		pos.Y=getHeightAt(pos)+heightMore;
 
 		float degInRad2 = (i+step)*DEGTORAD;
 		vector3df pos2=position;
 		pos2.X+=cos(degInRad2)*radius;
 		pos2.Z+=sin(degInRad2)*radius;
-		pos2.Y=getHeightAt(pos2)+5;
-		//driver->draw3DLine(pos,pos2,video::SColor(255,255,255,0));
+		pos2.Y=getHeightAt(pos2)+heightMore;
+		//devices->getVideoDriver()->draw3DLine(pos,pos2,video::SColor(255,255,255,0));
 
 		vector3df pos3=position;
 		pos3.X+=cos(degInRad)*(radius+framesize);

@@ -20,7 +20,9 @@ class SSWE_RENDERS_API ShaderGroup
         ShaderGroup(IrrlichtDevice* m_device, scene::ISceneManager* m_smgr, core::dimension2du resolution = core::dimension2du(512, 512));
         virtual ~ShaderGroup();
         int render(bool render);
+
         void add(scene::ISceneNode* node);
+		void remove(scene::ISceneNode *node);
 
     protected:
     private:

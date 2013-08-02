@@ -148,6 +148,7 @@ void CUIRightSceneTreeView::addChildrenBackSDataRecursively(IGUITreeViewNode *tr
 
 	if (node.getClonedNodeCount() > 0) {
 		IGUITreeViewNode *clonedNodeTreeNode = treeNode->addChildBack(L"Clones", L"", getImageListIndexForNodeType(ESNT_UNKNOWN), -1, node.getNode());
+		clonedNodeTreeNode->setExpanded(true);
 		ISceneNodeList::Iterator it = node.getClonedNodeList()->begin();
 		for (; it != node.getClonedNodeList()->end(); ++it) {
 			IGUITreeViewNode *newNode = clonedNodeTreeNode->addChildBack(stringw((*it)->getName()).c_str(), L"",
@@ -244,6 +245,8 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				rightClickCxtMenu->addItem(L"Scale Mesh", 5, true, false, false, false);
 				rightClickCxtMenu->addSeparator();
 				rightClickCxtMenu->addItem(L"Apply Physic", 6, true, false, false, true);
+				rightClickCxtMenu->addSeparator();
+				rightClickCxtMenu->addItem(L"Remove", 7, true, false, false, true);
 			}
 		}
 

@@ -399,6 +399,7 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         octTreeNodeName += addOctTreeEditBox->getText();
                         octTreeNode->setName(octTreeNodeName.c_str());
                         
+						devices->getDOF()->add(octTreeNode);
                         devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType(), ESM_BOTH);
                         
 						tdata.setNode(octTreeNode);

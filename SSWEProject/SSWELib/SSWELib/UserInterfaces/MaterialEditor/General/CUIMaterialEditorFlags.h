@@ -46,9 +46,10 @@ private:
 	IGUICheckBox *backFaceCulling, *frontFaceCulling;
 
 	IGUICheckBox *colorMask, *colorMaterial, *textureWrap;
-	IGUICheckBox *zbuffer, *zwriteEnable;
+	IGUICheckBox *zbuffer, *zwriteEnable, *enableFog;
 
 	IGUIEditBox *materialTypeParam1, *materialTypeParam2;
+	IGUIEditBox *shininess, *thickness;
     //-----------------------------------
     
 };

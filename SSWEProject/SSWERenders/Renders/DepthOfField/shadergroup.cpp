@@ -106,6 +106,11 @@ void ShaderGroup::add(scene::ISceneNode* node)
     shaded.push_back(node);
 }
 
+void ShaderGroup::remove(scene::ISceneNode *node)
+{
+	shaded.remove(node);
+}
+
 int ShaderGroup::render(bool render)
 {
 	if (render) {
@@ -121,10 +126,18 @@ int ShaderGroup::render(bool render)
 		std::list<scene::ISceneNode*>::const_iterator shadedIter;
 		for(shadedIter=shaded.begin();shadedIter!=shaded.end(); ++shadedIter) {
 			scene::ISceneNode* node = (*shadedIter);
+
+			const u32 CurrentMaterialCount = node->getMaterialCount();
+			core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
+			BufferMaterialList.set_used(0);
+
 			video::E_MATERIAL_TYPE tempMat = node->getMaterial(0).MaterialType;
 			node->setMaterialType((video::E_MATERIAL_TYPE) distance->material);
 			node->render();
-			node->setMaterialType(tempMat);
+
+			const u32 BufferMaterialListSize = BufferMaterialList.size();
+			for(u32 m = 0;m < BufferMaterialListSize;++m)
+				node->getMaterial(m).MaterialType = (video::E_MATERIAL_TYPE)BufferMaterialList[m];
 
 		}
 		postProcessorNode->setVisible(true);

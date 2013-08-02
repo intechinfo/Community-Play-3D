@@ -2526,6 +2526,8 @@ void CGUIEditBoxIRB::addConstantsShaderKeyWords(irr::video::SColor keywordColor,
     addKeyword("pmatrix4", irr::video::SColor(180, 180, 180, 64), true);
     addKeyword("vSColor", irr::video::SColor(180, 180, 180, 64), true);
     addKeyword("pSColor", irr::video::SColor(180, 180, 180, 64), true);
+	addKeyword("vSColori", irr::video::SColor(180, 180, 180, 64), true);
+    addKeyword("pSColori", irr::video::SColor(180, 180, 180, 64), true);
 }
 
 //! adds keyword info

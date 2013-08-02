@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="7" />
+		 <numberOfObjects value="2" />
 
 		 <grid>
 
@@ -16,45 +16,21 @@
 
 		 <camera>
 
-			 <position X="145.518524" Y="142.029495" Z="57.774963" />
-			 <rotation X="25.835878" Y="228.928589" Z="0.000000" />
+			 <position X="-82.648636" Y="44.626427" Z="-17.700905" />
+			 <rotation X="36.474342" Y="185.178497" Z="0.000000" />
 
 		 </camera>
 
 		 <fpsCameraSettings>
 
-			 <ellipsoidRadius X="5.000000" Y="30.000000" Z="5.000000" />
-			 <gravityPerSecond X="0.000000" Y="-19.809999" Z="0.000000" />
-			 <ellipsoidTranslation X="0.000000" Y="30.000000" Z="0.000000" />
-			 <slidingValue value="0.050000" />
+			 <ellipsoidRadius X="5.000000" Y="2.000000" Z="5.000000" />
+			 <gravityPerSecond X="0.000000" Y="-0.100000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="2.000000" Z="0.000000" />
+			 <slidingValue value="0.000500" />
 
 		 </fpsCameraSettings>
 
 		 <effect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/bw_shader.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/blurhp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/blurvp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/brightpass.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
 
 			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/bloomp.hlsl" />
@@ -77,30 +53,191 @@
 				 <pixelShaderType type="7" /> 
 				 <vertexShaderType type="3" /> 
 				 <baseMaterial type="0" /> 
-				 <name cname="NORMAL MAPPING" />
+				 <name cname="normal_mapping_package.spkg" />
 				 <vertex shader=
-"float4x4 matWorldInverse; float4x4 ModelViewMatrix;float4x4 ModelViewProjectionMatrix;
-float3 fvLightPosition1; float3 fvLightPosition2; float3 fvLightPosition3; float3 fvLightPosition4; 
-float fLightStrength1; float fLightStrength2; float fLightStrength3; float fLightStrength4; 
-struct VS_OUTPUT{   float4 Position            : POSITION0;   float2 Texcoord            : TEXCOORD0;   float3 ViewDirection      : TEXCOORD1;    float3 LightDirection1      : TEXCOORD2;    float3 LightDirection2      : TEXCOORD3;    float3 LightDirection3      : TEXCOORD4;    float3 LightDirection4      : TEXCOORD5;    float4 LightDistMultiplier  : TEXCOORD6;};
-float getLengthSQR (float3 vec) {    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); }  
-struct VS_INPUT{   float3 Position         : POSITION0;   float3 Normal           : NORMAL;   float2 Texcoord         : TEXCOORD0;};
-VS_OUTPUT vertexMain( in VS_INPUT IN ) {       VS_OUTPUT OUT = (VS_OUTPUT)0;   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);   OUT.Texcoord = IN.Texcoord;      float4x4 LightTransform= ModelViewMatrix;    LightTransform= mul(matWorldInverse, LightTransform);   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform);    float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform);    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform);    float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform);    float3 fvViewDirection  =  - fvObjectPosition.xyz;    float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz);    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz);    float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz);    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz);       OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0));    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0));    OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0));    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0));       float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0);    float3 fvBinormal   = cross(fvTangent,IN.Normal);   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix);    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix );    fvBinormal         = mul( fvBinormal, ModelViewMatrix );       OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection );    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection );    OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection );    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz );    OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz );    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz );    OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz );    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz );    OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz );    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz );    OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz );    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz );    OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz );    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz );    OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz );       return OUT;}" />
+"float4x4 matWorldInverse; 
+float4x4 ModelViewMatrix;
+float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; 
+float3 fvLightPosition2; 
+float3 fvLightPosition3; 
+float3 fvLightPosition4; 
+float fLightStrength1; 
+float fLightStrength2; 
+float fLightStrength3; 
+float fLightStrength4; 
+struct VS_OUTPUT
+{
+   float4 Position            : POSITION0;
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3; 
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float getLengthSQR (float3 vec) 
+{ 
+   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+}  
+struct VS_INPUT
+{
+   float3 Position         : POSITION0;
+   float3 Normal           : NORMAL;
+   float2 Texcoord         : TEXCOORD0;
+};
+VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+{    
+   VS_OUTPUT OUT = (VS_OUTPUT)0;
+   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   OUT.Texcoord = IN.Texcoord;
+   
+   float4x4 LightTransform= ModelViewMatrix; 
+   LightTransform= mul(matWorldInverse, LightTransform);
+   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+   
+   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+   
+   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+   float3 fvBinormal   = cross(fvTangent,IN.Normal);
+   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+   
+   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+   
+   return OUT;
+}
+" />
 				 <pixel shader=
-"float4 fvAmbient;float4 fvLight1Color; float4 fvLight2Color; float4 fvLight3Color; float4 fvLight4Color; float fSpecularPower; float fSpecularStrength; float fBumpStrength; sampler2D baseMap      : register(s0); sampler2D bumpMap      : register(s1); struct PS_INPUT{      float2 Texcoord            : TEXCOORD0;   float3 ViewDirection      : TEXCOORD1;    float3 LightDirection1      : TEXCOORD2;    float3 LightDirection2      : TEXCOORD3;   float3 LightDirection3      : TEXCOORD4;    float3 LightDirection4      : TEXCOORD5;    float4 LightDistMultiplier  : TEXCOORD6;};float4 pixelMain( in PS_INPUT IN ) : COLOR{   float4 color = float4(0,0,0,0);      float3  fvLightDirection1 = normalize( IN.LightDirection1 );    float3  fvLightDirection2 = normalize( IN.LightDirection2 );    float3  fvLightDirection3 = normalize( IN.LightDirection3 );    float3  fvLightDirection4 = normalize( IN.LightDirection4 );    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz;       fvNormal.xy*=2.0;    fvNormal.xy-=1.0;   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal;    fvNormal=normalize(fvNormal);      float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;     float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;     float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;     float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;        float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );     float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );     float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );     float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );     float3  fvViewDirection  = normalize( IN.ViewDirection );       float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) );    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) );    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) );    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) );       float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord );    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;     float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];     float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0];       fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];     fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];      fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];     fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];      fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];     fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];         color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));       if(color.r>1.0){color.gb+=color.r-1.0;}    if(color.g>1.0){color.rb+=color.g-1.0;}    if(color.b>1.0){color.rg+=color.b-1.0;}       return color;}" />
-				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInversevmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInversevmatrix4 matWorldInverse world[0] 0 0 makeInversevfloat fLightStrength1 80vfloat fLightStrength2 80vfloat fLightStrength3 80vfloat fLightStrength4 20vvector3df fvLightPosition1 150 240 -34vvector3df fvLightPosition2 150 240 -34vvector3df fvLightPosition3 150 240 -34vvector3df fvLightPosition4 150 240 -34pSColor fvAmbient 1 0.7 0.7 0.7pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02pfloat fSpecularPower 20pfloat fSpecularStrength 2pfloat fBumpStrength 50" />
+"float4 fvAmbient;
+float4 fvLight1Color; 
+float4 fvLight2Color; 
+float4 fvLight3Color; 
+float4 fvLight4Color; 
+float fSpecularPower; 
+float fSpecularStrength; 
+float fBumpStrength; 
+sampler2D baseMap      : register(s0); 
+sampler2D bumpMap      : register(s1); 
+struct PS_INPUT
+{   
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3;
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float4 pixelMain( in PS_INPUT IN ) : COLOR
+{
+   float4 color = float4(0,0,0,0);
+   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+   
+   fvNormal.xy*=2.0; 
+   fvNormal.xy-=1.0;
+   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+   if(color.r>1.0){color.gb+=color.r-1.0;} 
+   if(color.g>1.0){color.rb+=color.g-1.0;} 
+   if(color.b>1.0){color.rg+=color.b-1.0;} 
+   
+   return color;
+}
+" />
+				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
+vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+vfloat fLightStrength1 80
+vfloat fLightStrength2 80
+vfloat fLightStrength3 80
+vfloat fLightStrength4 80
+
+vvector3df fvLightPosition1 150 240 -34
+vvector3df fvLightPosition2 150 240 -34
+vvector3df fvLightPosition3 150 240 -34
+vvector3df fvLightPosition4 150 240 -34
+
+pSColor fvAmbient 1 0.7 0.7 0.7
+pSColor fvLight1Color 1 0.02 0.02 0.02
+pSColor fvLight2Color 1 0.02 0.02 0.02
+pSColor fvLight3Color 1 0.02 0.02 0.02
+pSColor fvLight4Color 1 0.02 0.02 0.02
+
+pfloat fSpecularPower 20
+pfloat fSpecularStrength 0.9
+pfloat fBumpStrength 5
+" />
 			 </materialType>
 
 			 <materialType>
-				 <pixelShaderType type="4" /> 
-				 <vertexShaderType type="1" /> 
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
 				 <baseMaterial type="0" /> 
-				 <name cname="EXAMPLE" />
+				 <name cname="triplanar_nm_package.spkg" />
 				 <vertex shader=
-"float4x4 World;float4x4 View;float4x4 Projection;struct VertexShaderInput{    float4 Position : POSITION0;};struct VertexShaderOutput{    float4 Position : POSITION0;};VertexShaderOutput vertexMain(VertexShaderInput input){    VertexShaderOutput output;    float4 worldPosition = mul(input.Position, World);    float4 viewPosition = mul(worldPosition, View);    output.Position = mul(viewPosition, Projection);    return output;}" />
+"float4x4 matWorldViewProjection;float4x4 matWorld;float tileSize;float3 viewPos;struct VS_INPUT {   float4 Position : POSITION0;   float2 Texcoord : TEXCOORD0;   float3 Normal :   NORMAL0; };struct VS_OUTPUT {   float4 Position :        POSITION0;   float  Fog		:       FOG0;   float2 TexcoordX :       TEXCOORD0;   float2 TexcoordY :       TEXCOORD1;   float2 TexcoordZ :       TEXCOORD2;   float3 viewDirection   : TEXCOORD3;      float3x3 tangentSpace :  TEXCOORD4;};VS_OUTPUT vertexMain( VS_INPUT Input ){   VS_OUTPUT Output;   Output.Position         = mul( Input.Position, matWorldViewProjection );   float3 realPos          = mul( Input.Position,matWorld).xyz;      Output.viewDirection = realPos-viewPos;      Output.TexcoordX         = realPos.zy/tileSize;   Output.TexcoordY         = realPos.xz/tileSize;   Output.TexcoordZ         = realPos.xy/tileSize;      float3 worldNormal = normalize(Input.Normal);   float3 n = worldNormal;   n*=n;      float3 xtan,ytan,ztan;   float3 xbin,ybin,zbin;      xtan = float3(0,0,1);   xbin = float3(0,1,0);      ytan = float3(1,0,0);   ybin = float3(0,0,1);      ztan = float3(1,0,0);   zbin = float3(0,1,0);      float3 worldBinormal = normalize(xbin*n.x+ybin*n.y+zbin*n.z);   float3 worldTangent = normalize(xtan*n.x+ytan*n.y+ztan*n.z);      worldNormal = mul(matWorld,worldNormal);   worldBinormal = mul(matWorld,worldBinormal);   worldTangent = mul(matWorld,worldTangent);      Output.tangentSpace[0]   = worldTangent;   Output.tangentSpace[1]   = worldBinormal;    Output.tangentSpace[2]   = worldNormal;   Output.Fog = Output.Position.z/Output.Position.w;         return( Output );   }" />
 				 <pixel shader=
-"float4 AmbientColor = float4(1, 1, 1, 1);float AmbientIntensity = 0.1;struct VertexShaderOutput{    float4 Position : POSITION0;};float4 pixelMain(VertexShaderOutput input) : COLOR0{    float4 color = AmbientColor * AmbientIntensity;    return color;}" />
-				 <constants value="vmatrix4 World world[0] 0 0 0vmatrix4 View view[0] 0 0 0vmatrix4 Projection proj[0] 0 0 0pSColor AmbientColor 1 1 1 1pSColor AmbientIntensity 0.5" />
+"float4 ambient;float4 specular;float4 diffuse;float specularPower;float3 lightDirection;sampler2D baseX : register(s0);sampler2D baseY : register(s1);sampler2D normalX : register(s2);sampler2D normalY : register(s3);struct PS_INPUT {   float4 Position :        POSITION0;   float2 TexcoordX :       TEXCOORD0;   float2 TexcoordY :       TEXCOORD1;   float2 TexcoordZ :       TEXCOORD2;   float3 viewDirection   : TEXCOORD3;      float3x3 tangentSpace :  TEXCOORD4;};float4 pixelMain( PS_INPUT Input ) : COLOR0{         float3 fvLightDirection = normalize( lightDirection );   float3 fvNormal         = normalize( Input.tangentSpace[2]);   float3 fvViewDirection  = normalize( Input.viewDirection );       float3 n                = fvNormal;   n*=n;      float4 fvBaseColor      = tex2D( baseX, Input.TexcoordX )*n.x+                             tex2D( baseY, Input.TexcoordY )*n.y+                             tex2D( baseX, Input.TexcoordZ )*n.z;   float4 fvBaseNormal     = tex2D( normalX, Input.TexcoordX )*n.x+                             tex2D( normalY, Input.TexcoordY )*n.y+                             tex2D( normalX, Input.TexcoordZ )*n.z;                                float3 normal           = normalize(mul(2.0*fvBaseNormal.xyz-1.0,Input.tangentSpace));           float  fNDotL           = max(0.0,dot( normal, fvLightDirection ));    float3 fvReflection     = reflect(fvLightDirection,normal);   float  fRDotV           = max(0.0, dot( fvReflection, fvViewDirection ) );                                float4 fvTotalAmbient   = ambient * fvBaseColor;    float4 fvTotalDiffuse   = diffuse * fNDotL * fvBaseColor;    float4 fvTotalSpecular  = specular * pow( fRDotV, specularPower )*fvBaseColor;      return( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );      }" />
+				 <constants value="vmatrix4 matWorldViewProjection proj[0] view[0] world[0] 0vmatrix4 matWorld world[0] 0 0 0vvector3df viewPos camPos4pvector3df lightDirection -10.1 10.0 10.1pSColori ambiant 255 118 86 86pSColori specular 255 205 209 86pSColori diffuse 255 118 132 204vfloat tileSize 10pfloat specularPower 1" />
 			 </materialType>
 
 
@@ -119,40 +256,37 @@
 
 		 <terrain>
 
-			 <path file="data/turbo/subway/ecleposs subway opj  xsi.obj" />
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/height_maps/julie_is_gay_1.png" />
 
-			 <type esnt="mesh" />
+			 <type esnt="heightMap" />
 
 			 <factory> 
 
-				 <primitive type="planar" options="general" /> 
-					 <resolutionS value="0.020000" /> 
-				 </primitive> 
 
 			 </factory> 
 
-			 <name c8name="#map:subway" />
+			 <name c8name="#map:terrain" />
 
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
+						 <texture id="0" path="height_maps/rock.png" />
+						 <texture id="1" path="height_maps/grass.png" />
+						 <texture id="2" path="height_maps/rockn.png" />
+						 <texture id="3" path="height_maps/grassn.png" />
 					 <textures>
 
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
+					 <diffuseColor r="118" g="132" b="204" a="255" />
+					 <ambiantColor r="118" g="86" b="86" a="255" />
+					 <specularColor r="205" g="209" b="96" a="255" />
 					 <emissiveColor r="0" g="0" b="0" a="0" />
 
 					 <lighting value="0" />
 
-					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam1 value="100.000000" />
 					 <materialTypeParam2 value="0.000000" />
 
-					 <shininess value="0.000000" />
+					 <shininess value="4.000000" />
 					 <thickness value="1.000000" />
 
 					 <antiAliasing value="1" />
@@ -166,5229 +300,24 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="2">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="3">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="4">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="5">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="6">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="7">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="8">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="9">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="10">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="11">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="12">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="13">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="14">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="15">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="16">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="17">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="18">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="19">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="20">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="21">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="22">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="23">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="24">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="25">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="26">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="27">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="28">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="29">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="30">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="31">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="32">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="33">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="34">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="35">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="36">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="37">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="38">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="39">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="40">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="41">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="42">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="43">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="44">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="45">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="46">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="47">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="48">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="49">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="50">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="51">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="52">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="53">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="54">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="55">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="56">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="57">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="58">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="59">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="60">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="61">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="62">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="63">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="64">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="65">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="66">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="67">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="68">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="69">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="70">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="71">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="72">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="73">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="74">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="75">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="76">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="77">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="78">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="79">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="80">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="81">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="82">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="83">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="84">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="85">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="86">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="87">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="88">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="89">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="90">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="91">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="92">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="93">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="94">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="95">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="96">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="97">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="98">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="99">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="100">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="101">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="102">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="103">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="104">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="105">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="106">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="107">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="108">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="109">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="110">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="111">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="112">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="113">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="114">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="115">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="116">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="117">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="118">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="119">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="120">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="121">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="122">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="123">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="124">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="125">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="126">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="127">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="128">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="129">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="130">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="131">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="132">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="133">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="134">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="135">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="136">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="137">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
-						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
+					 <materianType value="-2" />
 
 			 	 </material>
 			 </materials>
-			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <position X="-319.360687" Y="0.500000" Z="-327.284302" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.800000" Y="1.800000" Z="1.800000" />
+			 <scale X="1.000000" Y="0.200000" Z="1.000000" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 
 		 </terrain>
 
-		 <object>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/statu_lowpoly/statu_lowpoly.obj" />
-
-			 <name c8name="#object:status" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="data/statu_lowpoly/Ground.jpg" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="0" g="0" b="0" a="255" />
-					 <specularColor r="127" g="127" b="127" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="12.298039" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="data/statu_lowpoly/Statu_texture.jpg" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="0" g="0" b="0" a="255" />
-					 <specularColor r="127" g="127" b="127" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="12.298039" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 </materials>
-			 <position X="40.587242" Y="-18.495323" Z="-0.447514" />
-			 <rotation X="0.000000" Y="96.323090" Z="0.000000" />
-			 <scale X="18.200001" Y="18.200001" Z="18.200001" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="2" />
-			 <actions>
-			 </actions>
-
-		 </object>
-
-		 <object>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/turbo/benches/bench.3ds" />
-
-			 <name c8name="#object:bench" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="data/turbo/benches/WOOD.PNG" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="149" g="149" b="149" a="255" />
-					 <ambiantColor r="149" g="149" b="149" a="255" />
-					 <specularColor r="229" g="229" b="229" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="115.199997" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="data/turbo/benches/MARBLE.PNG" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="149" g="149" b="149" a="255" />
-					 <ambiantColor r="149" g="149" b="149" a="255" />
-					 <specularColor r="229" g="229" b="229" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="115.199997" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="2">
-					 <textures>
-						 <texture id="0" path="data/turbo/benches/STEEL.PNG" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="149" g="149" b="149" a="255" />
-					 <ambiantColor r="149" g="149" b="149" a="255" />
-					 <specularColor r="229" g="229" b="229" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="115.199997" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 </materials>
-			 <position X="50.844864" Y="0.500000" Z="-64.425606" />
-			 <rotation X="0.000000" Y="269.513214" Z="0.000000" />
-			 <scale X="0.866667" Y="0.866667" Z="0.866667" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="2" />
-			 <actions>
-			 </actions>
-
-		 </object>
-
-		 <object>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/turbo/benches/bench.3ds" />
-
-			 <name c8name="#object:bench:cloned" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="data/turbo/benches/WOOD.PNG" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="149" g="149" b="149" a="255" />
-					 <ambiantColor r="149" g="149" b="149" a="255" />
-					 <specularColor r="229" g="229" b="229" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="115.199997" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="data/turbo/benches/MARBLE.PNG" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="149" g="149" b="149" a="255" />
-					 <ambiantColor r="149" g="149" b="149" a="255" />
-					 <specularColor r="229" g="229" b="229" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="115.199997" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="2">
-					 <textures>
-						 <texture id="0" path="data/turbo/benches/STEEL.PNG" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="149" g="149" b="149" a="255" />
-					 <ambiantColor r="149" g="149" b="149" a="255" />
-					 <specularColor r="229" g="229" b="229" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="115.199997" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 </materials>
-			 <position X="48.926720" Y="0.500000" Z="63.121178" />
-			 <rotation X="0.000000" Y="269.513214" Z="0.000000" />
-			 <scale X="0.866667" Y="0.866667" Z="0.866667" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="2" />
-			 <actions>
-			 </actions>
-
-		 </object>
-
-		 <tree>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/trees/palm_tree_v2/palm_tree.obj" />
-
-			 <name c8name="#tree:palm_tree" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="data/trees/palm_tree_v2/diffus.tga" />
-						 <texture id="1" path="data/trees/palm_tree_v2/normal.tga" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 </materials>
-			 <position X="-65.315514" Y="0.500000" Z="-182.465454" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="0.400000" Y="0.400000" Z="0.400000" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="2" />
-		 </tree>
-
 		 <light>
 
 			 <name c8name="#light:1" />
 
-			 <position X="-59.014389" Y="34.231552" Z="124.725204" />
-			 <target X="-37.784073" Y="-26.580391" Z="-252.597046" />
-
-			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
-			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
-			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
-
-			 <radius value="100.000000" />
-			 <farValue value="1000.000000" />
-			 <autoRecalculate value="0" />
-
-			 <shadows resol="2048" />
-
-			 <lensFlare>
-			 </lensFlare>
-
-		 </light>
-
-		 <light>
-
-			 <name c8name="#light:2" />
-
-			 <position X="-179.252106" Y="168.914063" Z="36.484665" />
+			 <position X="-473.318756" Y="280.000000" Z="-416.091125" />
 			 <target X="0.000000" Y="0.000000" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
@@ -5396,27 +325,13 @@
 			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 
 			 <radius value="100.000000" />
-			 <farValue value="1000.000000" />
+			 <farValue value="1400.000000" />
 			 <autoRecalculate value="0" />
 
-			 <shadows resol="2048" />
+			 <shadows resol="4096" />
 
 			 <lensFlare>
-				 <mesh> 
-					 <scale X="15.000000" Y="15.000000" Z="15.000000" />
-					 <texture path="shaders/textures/lf/mesh.png" />
-				 </mesh> 
-				 <bill> 
-					 <size Width="15.000000" Height="15.000000" />
-					 <texture path="shaders/textures/lf/sun.png" />
-				 </bill> 
-				 <lfsn> 
-					 <strength value="300.000000" />
-					 <texture path="shaders/textures/lf/flare.png" />
-					 <falseOcclusion value="1" />
-				 </lfsn> 
-				 <position X="0.000000" Y="0.000000" Z="0.000000" />
- 			 </lensFlare>
+			 </lensFlare>
 
 		 </light>
 

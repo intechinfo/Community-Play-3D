@@ -67,6 +67,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				waterSurfaceName += m_nameEditBox->getText();
 				waterNode->setName(waterSurfaceName.c_str());
 
+				m_devices->getDOF()->add(waterNode);
 				m_devices->getXEffect()->addShadowToNode(waterNode, m_devices->getXEffectFilterType(), ESM_RECEIVE);
 				m_devices->getCollisionManager()->setCollisionToAnAnimatedNode(waterNode);
 

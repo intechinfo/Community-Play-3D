@@ -224,6 +224,27 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             int value = std::atof(sub.c_str());
             integers.push_back(value);
         }
+
+		if (sub == "vSColori" || sub == "pSColori") {
+            irr::video::SColor color;
+            if (sub.c_str()[0] == 'v') {
+                colors_st.push_back(EST_VERTEX);
+            } else {
+                colors_st.push_back(EST_PIXEL);
+            }
+			colors_t.push_back(ECT_SCOLOR);
+            iss >> sub;
+            colors_c.push_back(sub.c_str());
+            iss >> sub;
+			color.setAlpha(atof(sub.c_str()));
+            iss >> sub;
+			color.setRed(atof(sub.c_str()));
+            iss >> sub;
+			color.setGreen(atof(sub.c_str()));
+            iss >> sub;
+			color.setBlue(atof(sub.c_str()));
+            colors.push_back(color);
+        }
         
         if (sub == "vSColor" || sub == "pSColor") {
             irr::video::SColorf color;
@@ -232,6 +253,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             } else {
                 colors_st.push_back(EST_PIXEL);
             }
+			colors_t.push_back(ECT_SCOLORF);
             iss >> sub;
             colors_c.push_back(sub.c_str());
             iss >> sub;

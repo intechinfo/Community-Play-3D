@@ -148,7 +148,10 @@ ISceneNode *CCore::clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr
     IMesh *clonedMesh;
     
     clonedMesh = smgr->getMesh(meshPath.c_str());
-    clonedNode = smgr->addOctreeSceneNode(clonedMesh);
+	if (node->getType() == ESNT_OCTREE)
+		clonedNode = smgr->addOctreeSceneNode(clonedMesh);
+	else
+		clonedNode = smgr->addMeshSceneNode(clonedMesh);
     
     if (clonedNode) {
         clonedNode->setRotation(node->getRotation());

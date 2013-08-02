@@ -212,7 +212,7 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 	IMesh *mesh = 0;
 	u32 minPolysPerNode = 0;
 	stringc path = stringc("");
-	SData *data;
+	SData *data = 0;
 
     if (tabCtrl->getActiveTab() == terrainsTab->getNumber()) {
         if (terrainsListBox->getSelected() != -1) {
@@ -348,6 +348,7 @@ void CUIMainWindow::cloneNode() {
             if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_RECEIVE)) {
                 devices->getXEffect()->addShadowToNode(clonednode, devices->getXEffectFilterType(), ESM_RECEIVE);
             }
+			devices->getDOF()->add(clonednode);
 		}
 	}
  //   ISceneNode *node = 0;
@@ -798,6 +799,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (terrainsListBox->getSelected() != -1) {
                     devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(getSelectedNode().getNode());
+
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getNode()->remove();
@@ -821,6 +824,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (treesListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(getSelectedNode().getNode());
+
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode()->remove();
@@ -844,6 +849,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (objectsListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(getSelectedNode().getNode());
+
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode()->remove();
@@ -893,6 +900,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (volumeLightsListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode());
+
 					devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getVolumeLightsData()->erase(volumeLightsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
@@ -915,8 +924,11 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             case CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE:
 				if(waterSurfacesListBox->getSelected() != -1) {
 					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
+
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface()->getWaterNode());
+
 					devices->getObjectPlacement()->setNodeToPlace(0);
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
