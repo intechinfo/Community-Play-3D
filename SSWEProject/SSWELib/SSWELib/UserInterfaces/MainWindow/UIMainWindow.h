@@ -26,7 +26,7 @@
 
 #include "../../Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.h"
 
-#include "../NodeFactory/CUITerrainPainter.h"
+#include "../NodeFactory/TerrainPainting/CUITerrainPainting.h"
 #include "../NodeFactory/CUINodeFactoryPlanarMapping.h"
 #include "../NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
 

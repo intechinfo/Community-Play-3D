@@ -6,10 +6,13 @@
 //
 //
 
-#ifndef __C_UI_TERRAIN_PAINTER_H_INCLUDED__
-#define __C_UI_TERRAIN_PAINTER_H_INCLUDED__
+#ifndef __C_UI_TERRAIN_PAINTING_H_INCLUDED__
+#define __C_UI_TERRAIN_PAINTING_H_INCLUDED__
 
-#include "../../Device/CDevices.h"
+#include "../../../Device/CDevices.h"
+
+#include "CTerrainPainter.h"
+#include "CGrassPainter.h"
 
 class CUIMainWindow;
 
@@ -28,17 +31,16 @@ private:
 
 	//-----------------------------------
 	//METHODS
-	void RaiseTerrainVertex(vector3df clickPos, f32 step, bool up);
-	void smoothTerrain(IMeshBuffer* mb, u32 indice, s32 smoothFactor);
 
-	void drawBrush(vector3df pos);
-	f32 getHeightAt(vector3df pos);
 	//-----------------------------------
 
 	//-----------------------------------
 	//DEVICES AND DATA
 	CDevices *devices;
 	bool leftClickDown, rightClickDown;
+
+	CTerrainPainter *terrainPainter;
+	CGrassPainter *grassPainter;
 
 	//TIMER
 	ITimer* timer;
@@ -49,21 +51,9 @@ private:
 	ITriangleSelector* terrainSelector;
 
 	vector3df oldTerrainScale, oldTerrainRotation, oldTerrainPosition;
-	s32 vertexIndex;
-	s32 terrainSizeWidth, terrainSizeHeight;
-	f32 minHeight, maxHeight, heightInterval;
 
 	//TOOLS
 	ISceneNode* arrow;
-
-	//TERRAIN PAINTING VALUES
-	u32 currentStep;
-	f32 currentRadius;
-
-	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
-	array<array<bool>> againUpVertices;
-
-	bool canPaint;
 
 	//-----------------------------------
 
@@ -71,17 +61,26 @@ private:
 	//GUI ELEMENTS
 	IGUIWindow *window;
 
-	IGUIToolBar *bar;
-	IGUIButton *exportHeightMapbtn;
+	IGUITabControl *tabctrl;
+	IGUITab *painting;
+	IGUITab *grassPainting;
 
+	//TERRAIN
 	IGUIEditBox *stepValueeb, *radiusValueeb;
 	IGUIScrollBar *stepsb, *radiussb;
-
 	IGUIEditBox *smoothFactor;
 	IGUIButton *runSmoothing;
-
+	//GRASS
+	IGUIEditBox *grassScaleValueeb, *grassQualityeb, *grassSpaceeb;
+	IGUIScrollBar *grassScalesb, *grassQualitysb, *grassSpacesb;
+	//WINDOW
 	IGUIButton *cancel, *accept;
 	//-----------------------------------
+
+	enum E_PAINTING_TYPE {
+		EPT_TERRAIN,
+		EPT_GRASS
+	} paintingType;
 
 };
 

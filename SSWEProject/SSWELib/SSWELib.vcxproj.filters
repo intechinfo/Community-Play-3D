@@ -121,6 +121,9 @@
     <Filter Include="SSWELib\GUIExtension\FileSelector">
       <UniqueIdentifier>{27c5263b-6f8f-4e5f-b57d-1a65f554580a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting">
+      <UniqueIdentifier>{fcb59585-bb7b-4bf5-a99a-e4a0654b9290}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -336,9 +339,6 @@
     <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainPager.cpp">
       <Filter>SSWELib\SceneNodes\Terrains</Filter>
     </ClCompile>
-    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.cpp">
-      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
-    </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowAddNewTerrain.cpp">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClCompile>
@@ -347,6 +347,15 @@
     </ClCompile>
     <ClCompile Include="SSWELib\GUIExtension\FileSelector\CGUIFileSelector.cpp">
       <Filter>SSWELib\GUIExtension\FileSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CGrassPainter.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -593,9 +602,6 @@
     <ClInclude Include="include\IGraphicTool.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUITerrainPainter.h">
-      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
-    </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowAddNewTerrain.h">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClInclude>
@@ -604,6 +610,15 @@
     </ClInclude>
     <ClInclude Include="SSWELib\GUIExtension\FileSelector\CGUIFileSelector.h">
       <Filter>SSWELib\GUIExtension\FileSelector</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CGrassPainter.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
