@@ -11,6 +11,7 @@
 
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"
+#include "Core/CRenderCore.h"
 
 #include "Core/Scripting/CLuaBinds.h"
 
@@ -18,7 +19,6 @@
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
 
-//#include "../GUIExtension/OpenFileDialog/CGUIFileSelector.h"
 #include "../GUIExtension/FileSelector/CGUIFileSelector.h"
 
 #include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
@@ -240,6 +240,8 @@ private:
 	bool renderScene;
 	bool renderXEffect, renderGUI;
 	bool renderFullPostTraitements;
+
+	CRenderCore *renderCore;
 	//-----------------------------------
 
 	//-----------------------------------

@@ -28,6 +28,15 @@ private:
 	//-----------------------------------
 
 	//-----------------------------------
+	//METHODS
+	ITexture *noise(bool colored, s32 w, s32 h, double zoom, s32 octaves, f32 persistance, s32 r, s32 g, s32 b);
+	double interpolateNoise(int seed, double x, double y);
+	double smoothNoise(int seed, double x,double y);
+	double findNoise(int seed, double x,double y);
+	double interpolate(double a,double b,double x);
+	//-----------------------------------
+
+	//-----------------------------------
 	//GUI ELEMENTS
 	IGUIWindow *window;
 

@@ -357,6 +357,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.cpp">
       <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\Device\Core\CRenderCore.cpp">
+      <Filter>SSWELib\Device\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -619,6 +622,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.h">
       <Filter>SSWELib\UserInterfaces\NodeFactory\TerrainPainting</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Core\CRenderCore.h">
+      <Filter>SSWELib\Device\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

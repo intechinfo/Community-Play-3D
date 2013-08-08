@@ -164,6 +164,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\CharacterEdition\ManualAnimation\CManualAction.cpp" />
     <ClCompile Include="SSWELib\Device\CDevices.cpp" />
     <ClCompile Include="SSWELib\Device\Core\CCoreUserInterface.cpp" />
+    <ClCompile Include="SSWELib\Device\Core\CRenderCore.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CFileSystemScripting.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CLuaBinds.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CSceneScripting.cpp" />
@@ -252,6 +253,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\CharacterEdition\ManualAnimation\CManualAction.h" />
     <ClInclude Include="SSWELib\Device\CDevices.h" />
     <ClInclude Include="SSWELib\Device\Core\CCoreUserInterface.h" />
+    <ClInclude Include="SSWELib\Device\Core\CRenderCore.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CFileSystemScripting.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CLuaBinds.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CSceneScripting.h" />

@@ -189,6 +189,8 @@ void CUITerrainPainter::update() {
 		arrow->setPosition(vector3df(x, node->getHeight(x, z) + 5, z));
 		if (paintingType == EPT_TERRAIN)
 			terrainPainter->drawBrush(vector3df(arrow->getPosition().X, arrow->getPosition().Y-5, arrow->getPosition().Z));
+		else if (paintingType == EPT_GRASS)
+			grassPainter->drawPreview(vector3df(arrow->getPosition().X, arrow->getPosition().Y-5, arrow->getPosition().Z));
 	}
 }
 

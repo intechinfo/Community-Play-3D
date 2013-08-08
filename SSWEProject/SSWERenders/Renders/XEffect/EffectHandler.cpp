@@ -244,7 +244,6 @@ void EffectHandler::addNodeToDepthPass(irr::scene::ISceneNode *node)
     }
 }
 
-
 void EffectHandler::removeNodeFromDepthPass(irr::scene::ISceneNode *node)
 {
 	s32 i = DepthPassArray.binary_search(node);

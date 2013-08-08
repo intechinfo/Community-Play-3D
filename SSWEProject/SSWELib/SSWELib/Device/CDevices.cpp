@@ -178,6 +178,8 @@ void CDevices::updateDevice() {
 				for(int i = 0; i < monitorRegister->getMonitorCount(); i++) {
 					IMonitor *monitor = monitorRegister->getMonitor(i);
 
+					//renderCore->update();
+
 					if(monitor->isEnabled()) {
 						if(renderScene) {
 							monitor->setXEffectRendered(renderXEffect);
@@ -392,8 +394,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	dof = effect->getDOF();
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
 
+	renderCore = new CRenderCore(this);
 
-	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_EXCLUDE);
+
+	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
 
 	//ADD EVENTS
     receiver.AddEventReceiver(objPlacement);

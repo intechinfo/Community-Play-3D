@@ -18,6 +18,9 @@ CTerrainPainter::CTerrainPainter(CDevices *_devices, ITerrainSceneNode *_node, d
 	minHeight = 0;
 	maxHeight = 0;
 
+	terrainSizeHeight = terrainSize.Height;
+	terrainSizeWidth = terrainSize.Width;
+
 	IMesh* pMesh = node->getMesh(); 
 	for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
 
@@ -54,7 +57,7 @@ CTerrainPainter::~CTerrainPainter() {
 
 void CTerrainPainter::applyTransform(s32 smoothFactor) {
 	IMesh* pMesh = node->getMesh(); 
-	for (u32 b=0; b<pMesh->getMeshBufferCount(); ++b)  {
+	for (u32 b=0; b < pMesh->getMeshBufferCount(); b++)  {
 		IMeshBuffer* pMeshBuffer = pMesh->getMeshBuffer(b); 
 		if (pMeshBuffer->getVertexType() != video::EVT_2TCOORDS) continue; 
 		smoothTerrain(pMeshBuffer, b, smoothFactor);

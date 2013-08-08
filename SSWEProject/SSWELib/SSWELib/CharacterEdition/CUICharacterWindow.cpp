@@ -66,7 +66,7 @@ void CUICharacterWindow::open() {
     bar = devices->getGUIEnvironment()->addToolBar(characterWindow, -1);
     bar->setRelativePosition(position2di(0, 40));
     bar->setRelativePosition(rect<s32>(0, 43, 795, 70));
-    
+
 	ITexture* image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/folder.png"));
 	bar->addButton(CXT_EDIT_WINDOW_CHARACTER_EVENTS_OPEN, 0, L"Open Saved Animation Configuration", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/edit.png"));
@@ -283,6 +283,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 					editBones->open();
 					cameraMaya->setUpVector(camera->getPosition());
 					cameraMaya->setTarget(node->getPosition());
+					devices->setRenderScene(true);
 					break;
                     
                 default:
@@ -293,6 +294,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == characterWindow->getMinimizeButton()) {
 				//devices->getEventReceiver()->AddMinimizedWindow(this, characterWindow);
+				devices->setRenderScene(true);
 			}
 
 			if (event.GUIEvent.Caller == characterWindow->getMaximizeButton()) {

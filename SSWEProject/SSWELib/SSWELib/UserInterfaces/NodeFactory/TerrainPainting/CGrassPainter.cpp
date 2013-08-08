@@ -241,20 +241,47 @@ CGrassPainter::CGrassPainter(CDevices *_devices, ITerrainSceneNode * _node) {
 	mesh->addMeshBuffer(buffer);
 
 	devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
-	grassShaderCallback = new CGrassShaderCallback(devices->getDevice(), vector3df(100, 100, 100));
+	grassShaderCallback = new CGrassShaderCallback(devices->getDevice(), vector3df(0, 500, 0));
 	CShaderPreprocessor shaderPreprocessor(devices->getVideoDriver());
 	shaderPreprocessor.addShaderDefine("PPLighting");
-	shaderPreprocessor.addShaderDefine("D_RAY_DEPTH", "9");
+	shaderPreprocessor.addShaderDefine("D_RAY_DEPTH", "1");
 	material = devices->getVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterial(
 												shaderPreprocessor.ppShader(pixelGrass).c_str(), "vertexMain", EVST_VS_3_0,
 												shaderPreprocessor.ppShader(pixelGrass).c_str(), "pixelMain", EPST_PS_3_0,
 												grassShaderCallback, video::EMT_SOLID);
 	devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+
+	plPreview = devices->getSceneManager()->addHillPlaneMesh(stringc(stringc("plPreview") + stringc(currentQuality)).c_str(), 
+															 dimension2df(currentQuality, currentQuality),
+															 dimension2du(currentQuality, currentQuality));
+	plPreviewNode = devices->getSceneManager()->addMeshSceneNode(plPreview);
+	plPreviewNode->setMaterialFlag(EMF_LIGHTING, false);
 }
 
 CGrassPainter::~CGrassPainter() {
 	buffer->drop();
 	mesh->drop();
+
+	plPreview->drop();
+	plPreviewNode->remove();
+}
+
+void CGrassPainter::setCurrentQuality(s32 _currentQuality) {
+	currentQuality = _currentQuality;
+	plPreviewNode->remove();
+	plPreview = devices->getSceneManager()->addHillPlaneMesh(stringc(stringc("plPreview") + stringc(currentQuality)).c_str(), 
+															 dimension2df(currentQuality, currentQuality),
+															 dimension2du(currentQuality, currentQuality));
+	plPreviewNode = devices->getSceneManager()->addMeshSceneNode(plPreview);
+}
+
+void CGrassPainter::setCurrentScale(s32 _currentScale) {
+	currentScale = _currentScale;
+	plPreviewNode->setScale(vector3df(currentScale/100));
+}
+
+void CGrassPainter::drawPreview(vector3df pos) {
+	plPreviewNode->setPosition(pos);
 }
 
 void CGrassPainter::paint(vector3df pos, s32 scale, s32 quality, s32 distance, bool remove) {
@@ -269,14 +296,12 @@ void CGrassPainter::paint(vector3df pos, s32 scale, s32 quality, s32 distance, b
 	for (; grassData != grassList.end(); ++grassData) {
 		ISceneNode *gdnode = (*grassData)->node;
 
-		if (gdnode->getPosition().getDistanceFrom(vector3df(pos.X, pos.Y+(scalef/2), pos.Z)) < space) {
+		if (gdnode->getPosition().getDistanceFrom(pos) < space) {
 			canPaint = false;
 			if (remove) {
-				for (u32 i=0; i < (*grassData)->nodes.size(); i++) {
-					devices->getXEffect()->removeShadowFromNode((*grassData)->nodes[i]);
-					devices->getXEffect()->removeNodeFromDepthPass((*grassData)->nodes[i]);
-					(*grassData)->nodes[i]->remove();
-				}
+				devices->getXEffect()->removeShadowFromNode((*grassData)->node);
+				devices->getXEffect()->removeNodeFromDepthPass((*grassData)->node);
+				(*grassData)->node->remove();
 				delete *grassData;
 				grassList.erase(grassData);
 				break;
@@ -284,41 +309,36 @@ void CGrassPainter::paint(vector3df pos, s32 scale, s32 quality, s32 distance, b
 		}
 	}
 
-	if (!remove && textures.size() != 0) {
+	if (!remove && textures.size() == 0) {
 		if (canPaint) {
 			SGrassData *gdata = new SGrassData(0, pos, scale, quality);
-			f32 rotation = 180.f/qualityf;
-			for(u32 i=0; i < quality; i++) {
-				IMeshSceneNode *gnode = devices->getSceneManager()->addOctreeSceneNode(mesh, 0, -1, 1, false);
-				//IAnimatedMesh *pl = devices->getSceneManager()->addHillPlaneMesh("pl", dimension2df(25, 25), dimension2du(25, 25));
-				//IMeshSceneNode *gnode = devices->getSceneManager()->addMeshSceneNode(pl);
 
-				if (gnode) {
-					gnode->setMaterialFlag(EMF_LIGHTING, false);
-					gnode->setMaterialType((E_MATERIAL_TYPE)EMT_TRANSPARENT_ALPHA_CHANNEL);
-					gnode->setMaterialFlag(EMF_BACK_FACE_CULLING, false);
-					
-					ITexture * texture = textures[textureIndex];
-					gnode->setMaterialTexture(0, texture);
-					//devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
-					//gnode->setMaterialTexture(0, devices->getVideoDriver()->getTexture("m_grassblades.png"));
-					//gnode->setMaterialTexture(1, devices->getVideoDriver()->getTexture("m_grass_ground.png"));
-					//gnode->setMaterialTexture(2, devices->getVideoDriver()->getTexture("windnoise.png"));
-					//devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+			IAnimatedMesh *pl = devices->getSceneManager()->addHillPlaneMesh(stringc(stringc("pl") + stringc(quality)).c_str(), 
+																			 dimension2df(quality, quality), dimension2du(quality, quality));
+			IMeshSceneNode *gnode = devices->getSceneManager()->addMeshSceneNode(pl);
 
-					gnode->setScale(vector3df(scalef));
-					gnode->setPosition(vector3df(pos.X, pos.Y+(scalef/2), pos.Z));
-					gnode->setRotation(vector3df(180, rotation*i, 0));
+			if (gnode) {
+				gnode->setMaterialFlag(EMF_LIGHTING, false);
+				gnode->setMaterialType((E_MATERIAL_TYPE)material);
+				gnode->setMaterialFlag(EMF_BACK_FACE_CULLING, false);
 
-					for (u32 j=0; j < gnode->getMesh()->getMeshBufferCount(); j++)
-						gnode->getMesh()->getMeshBuffer(j)->recalculateBoundingBox();
+				//ITexture * texture = textures[textureIndex];
+				//gnode->setMaterialTexture(0, texture);
+				gnode->setMaterialTexture(0, devices->getVideoDriver()->getTexture("m_grassblades.png"));
+				gnode->setMaterialTexture(1, devices->getVideoDriver()->getTexture("m_grass_ground.png"));
+				gnode->setMaterialTexture(2, devices->getVideoDriver()->getTexture("windnoise.png"));
 
-					devices->getXEffect()->addShadowToNode(gnode, devices->getXEffectFilterType(), ESM_EXCLUDE);
-					gdata->node = gnode;
-					gdata->nodes.push_back(gnode);
-				}
+				gnode->setScale(vector3df(scalef/100.f));
+				gnode->setPosition(vector3df(pos.X, pos.Y, pos.Z));
+				gnode->setRotation(vector3df(180, 0, 0));
+
+				for (u32 j=0; j < gnode->getMesh()->getMeshBufferCount(); j++)
+					gnode->getMesh()->getMeshBuffer(j)->recalculateBoundingBox();
+
+				devices->getXEffect()->addShadowToNode(gnode, devices->getXEffectFilterType(), ESM_EXCLUDE);
+				gdata->node = gnode;
+				grassList.push_back(gdata);
 			}
-			grassList.push_back(gdata);
 		}
 	}
 }

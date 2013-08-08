@@ -21,10 +21,10 @@ public:
 	//-----------------------------------
 	//METHODS
 	s32 getCurrentQuality() { return currentQuality; }
-	void setCurrentQuality(s32 _currentQuality) { currentQuality = _currentQuality; }
+	void setCurrentQuality(s32 _currentQuality);
 
 	s32 getCurrentScale() { return currentScale; }
-	void setCurrentScale(s32 _currentScale) { currentScale = _currentScale; }
+	void setCurrentScale(s32 _currentScale);
 
 	s32 getCurrentDistance() { return currentDistance; }
 	void setCurrentDistance(s32 _currentDistance) { currentDistance = _currentDistance; }
@@ -35,6 +35,7 @@ public:
 	//-----------------------------------
 
 	void paint(vector3df pos, s32 scale, s32 quality, s32 distance, bool remove);
+	void drawPreview(vector3df pos);
 
 private:
 
@@ -57,7 +58,6 @@ private:
 		s32 scale;
 		s32 quality;
 		ISceneNode *node;
-		array<ISceneNode *> nodes;
 	};
 	//-----------------------------------
 
@@ -70,6 +70,8 @@ private:
 	SMeshBuffer *buffer;
 	SMesh *mesh;
 
+	IAnimatedMesh *plPreview;
+	IMeshSceneNode *plPreviewNode;
 	s32 material;
 
 	//EDITING VALUES
@@ -100,15 +102,15 @@ private:
 			worldViewProj = driver->getTransform(ETS_WORLD);
 			services->setVertexShaderConstant("mWorld", worldViewProj.pointer(), 16);
 
-			irr::f32 camPos[3];
-			device->getSceneManager()->getActiveCamera()->getAbsolutePosition().getAs3Values(&camPos[0]);
-            services->setVertexShaderConstant("eyePositionO", &camPos[0], 3);
+			irr::f32 camPos[4];
+			device->getSceneManager()->getActiveCamera()->getAbsolutePosition().getAs4Values(&camPos[0]);
+            services->setVertexShaderConstant("eyePositionO", &camPos[0], 4);
 
-			irr::f32 lightPos[3];
-			lightPosv.getAs3Values(&lightPos[0]);
-            services->setVertexShaderConstant("LightPos", &lightPos[0], 3);
+			irr::f32 lightPos[4];
+			lightPosv.getAs4Values(&lightPos[0]);
+            services->setVertexShaderConstant("LightPos", &lightPos[0], 4);
 
-			f32 time = device->getTimer()->getTime();
+			f32 time = device->getTimer()->getTime()/1000.f;
 			services->setVertexShaderConstant("time", &time, 1);
 
 			//PIXEL
