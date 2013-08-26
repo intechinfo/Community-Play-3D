@@ -185,6 +185,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\SceneNodes\Animators\CRotationAnimator.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\LensFlareSceneNode.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
+    <ClCompile Include="SSWELib\SceneNodes\TerrainSystem\CTerrainSystem.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrain.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\Terrains\CTerrainPager.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.cpp" />
@@ -229,6 +230,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\UIContextMenu.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\UIWindowRender.cpp" />
@@ -277,6 +279,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h" />
     <ClInclude Include="SSWELib\SceneNodes\LensFlareSceneNode.h" />
     <ClInclude Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.h" />
+    <ClInclude Include="SSWELib\SceneNodes\TerrainSystem\CTerrainSystem.h" />
     <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrain.h" />
     <ClInclude Include="SSWELib\SceneNodes\Terrains\CTerrainPager.h" />
     <ClInclude Include="SSWELib\SceneNodes\WaterSurface\CWaterSurface.h" />
@@ -321,6 +324,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.h" />
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\UIContextMenu.h" />
     <ClInclude Include="SSWELib\UserInterfaces\UIWindowRender.h" />

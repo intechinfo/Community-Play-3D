@@ -18,10 +18,12 @@ CCore::~CCore() {
 }
 
 void CCore::maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition) {
-	if (window->getRelativePosition() != minRelativePosition) {
+	if (window->getRelativePosition().getWidth() != minRelativePosition.getWidth() || window->getRelativePosition().getHeight() != minRelativePosition.getHeight()) {
 		window->setRelativePosition(minRelativePosition);
+		window->setDraggable(true);
 	} else {
 		window->setRelativePosition(rect<s32>(0, 75, device->getVideoDriver()->getScreenSize().Width, device->getVideoDriver()->getScreenSize().Height-20));
+		window->setDraggable(false);
 	}
 }
 
@@ -322,6 +324,28 @@ array<stringc> CCore::getArrayOfBuildInMaterialTypes() {
 	}
 
 	return builtInMatTypeArray;
+}
+
+ITexture *CCore::copyTexture(stringc nameOfTexture, ITexture *texture, IVideoDriver *driver) {
+	if (texture->isRenderTarget())
+		return 0;
+
+	ITexture *tex = driver->addTexture(dimension2du(texture->getOriginalSize().Width, texture->getOriginalSize().Height), 
+													nameOfTexture.c_str(), texture->getColorFormat());
+	u8* pixelsTex = (u8 *)tex->lock();
+	u8 *pixelsTexm = (u8 *)texture->lock();
+
+	for(u32 ui = 0; ui < tex->getOriginalSize().Width * tex->getOriginalSize().Height; ui++) {
+		for (u32 uj=0; uj < 3; uj++) {
+			*pixelsTex = *pixelsTexm;
+			pixelsTex++; pixelsTexm++;
+		}
+		pixelsTex++; pixelsTexm++;
+	}
+	tex->unlock();
+	texture->unlock();
+
+	return tex;
 }
 
 stringc CCore::getStringcFromFile(stringc pathFile) {

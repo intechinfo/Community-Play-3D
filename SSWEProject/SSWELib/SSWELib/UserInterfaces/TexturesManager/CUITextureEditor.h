@@ -6,25 +6,19 @@
 //
 //
 
-#ifndef __C_UI_TEXTURES_MANAGER_H_INCLUDED__
-#define __C_UI_TEXTURES_MANAGER_H_INCLUDED__
+#ifndef __C_UI_TEXTURES_EDITOR_H_INCLUDED__
+#define __C_UI_TEXTURES_EDITOR_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
 
-#include "CUITextureEditor.h"
-
-class CUITexturesManager : public IEventReceiver {
+class CUITextureEditor: public IEventReceiver {
 
 public:
 
-	CUITexturesManager(CDevices *_devices);
-	~CUITexturesManager();
+	CUITextureEditor(CDevices *_devices, ITexture *texture);
+	~CUITextureEditor();
 
 	bool OnEvent(const SEvent &event);
-
-	//GET ARRAY OF NODES THAT USE THE TEXTURE
-	array<ISceneNode *> whoUseThisTexture(ITexture *tex);
-	void removeTexture(ITexture *tex);
 
 private:
 
@@ -33,20 +27,29 @@ private:
 	CDevices *devices;
 	IVideoDriver *driver;
 	IGUIEnvironment *gui;
+
+	ITexture *textureToEdit, *tempTexture;
+
+	SColor selectedPixelColor;
 	//-----------------------------------
 
 	//-----------------------------------
 	//METHODS
-	SEvent getUpdateEvent();
+
 	//-----------------------------------
 
 	//-----------------------------------
 	//USER INTERFACE ELEMENTS
 	IGUIWindow *window;
+	IGUIImage *image;
 
-	IGUIListBox *textures;
-	IGUIImage *texturePreview;
-	IGUIButton *edit, *whoUse, *remove, *refresh;
+	//TOOL BAR
+	IGUIStaticText *toolbartxt;
+
+	IGUICheckBox *scaleImagecb;
+	IGUIStaticText *selectedColorst;
+	IGUICheckBox *useAlphaChannelcb;
+	IGUIButton *setSelectedColorAlphabtn;
 	//-----------------------------------
 
 };

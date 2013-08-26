@@ -116,6 +116,7 @@ public:
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();
 	array<stringc> getArrayOfBuildInMaterialTypes();
+	ITexture *copyTexture(stringc nameOfTexture, ITexture *texture, IVideoDriver *driver);
 
 	//BULLET METHODS
 	btVector3 getBtVector3(vector3df vector) { return btVector3(vector.X, vector.Y, vector.Z); }

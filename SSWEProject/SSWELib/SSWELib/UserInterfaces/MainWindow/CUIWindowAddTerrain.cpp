@@ -93,6 +93,8 @@ CUIWindowAddOctTree::CUIWindowAddOctTree(CDevices *_devices, IGUIListBox *_terra
 	path_terrains_texture = L"";
 
 	terrainType = ELTT_MESH;
+
+	//ISceneNode *oc = new CTerrainSystem(devices->getSceneManager(), "Big Height Maps/Test/bigmap.png", 8);
 }
 
 CUIWindowAddOctTree::~CUIWindowAddOctTree() {

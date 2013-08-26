@@ -162,6 +162,10 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == refresh) {
 				OnEvent(getUpdateEvent());
 			}
+			//EDIT TEXTURE
+			if (event.GUIEvent.Caller == edit) {
+				CUITextureEditor *editor = new CUITextureEditor(devices, driver->getTextureByIndex(textures->getSelected()));
+			}
 		}
 
 		if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {

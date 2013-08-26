@@ -11,6 +11,8 @@
 
 #include "../../Device/CDevices.h"
 
+#include "../../SceneNodes/TerrainSystem/CTerrainSystem.h"
+
 enum GUI_WINDOW_EVENTS_ADD_OCT_TREE {
     CXT_WINDOW_ADD_OCT_TREE_EVENTS_CLOSE = 0x30000
 };

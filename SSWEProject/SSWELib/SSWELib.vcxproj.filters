@@ -124,6 +124,9 @@
     <Filter Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting">
       <UniqueIdentifier>{fcb59585-bb7b-4bf5-a99a-e4a0654b9290}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\SceneNodes\TerrainSystem">
+      <UniqueIdentifier>{5c54df01-3cf2-42d0-9056-d238f9438e20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -359,6 +362,12 @@
     </ClCompile>
     <ClCompile Include="SSWELib\Device\Core\CRenderCore.cpp">
       <Filter>SSWELib\Device\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\TerrainSystem\CTerrainSystem.cpp">
+      <Filter>SSWELib\SceneNodes\TerrainSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.cpp">
+      <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -625,6 +634,12 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Device\Core\CRenderCore.h">
       <Filter>SSWELib\Device\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\TerrainSystem\CTerrainSystem.h">
+      <Filter>SSWELib\SceneNodes\TerrainSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.h">
+      <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
