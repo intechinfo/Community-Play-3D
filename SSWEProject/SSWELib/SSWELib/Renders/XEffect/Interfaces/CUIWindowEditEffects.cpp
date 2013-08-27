@@ -43,7 +43,7 @@ void CUIWindowEditEffects::open() {
     enableDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassEnabled(), rect<s32>(10, 50, 160, 70), effectsWindow, 
                                                                 -1, L"Enable Depth Pass");
     
-	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 500, 430), effectsWindow, -1);
+	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 500, 430), effectsWindow, -1, L"Render", false);
 	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
 	viewPort->setScaleImage(true);
     /*viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 

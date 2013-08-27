@@ -127,6 +127,9 @@
     <Filter Include="SSWELib\SceneNodes\TerrainSystem">
       <UniqueIdentifier>{5c54df01-3cf2-42d0-9056-d238f9438e20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\SceneNodes\Clouds">
+      <UniqueIdentifier>{60ddbbf1-673f-480c-9d20-537e138334e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.cpp">
       <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\Clouds\CloudSceneNode.cpp">
+      <Filter>SSWELib\SceneNodes\Clouds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -640,6 +646,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.h">
       <Filter>SSWELib\UserInterfaces\TexturesManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\Clouds\CloudSceneNode.h">
+      <Filter>SSWELib\SceneNodes\Clouds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

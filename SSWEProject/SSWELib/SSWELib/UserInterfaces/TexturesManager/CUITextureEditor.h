@@ -31,6 +31,8 @@ private:
 	ITexture *textureToEdit, *tempTexture;
 
 	SColor selectedPixelColor;
+	vector2di colorPosition;
+	vector2di lastColorPosition;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -41,6 +43,8 @@ private:
 	//-----------------------------------
 	//USER INTERFACE ELEMENTS
 	IGUIWindow *window;
+	IGUIButton *save;
+
 	IGUIImage *image;
 
 	//TOOL BAR

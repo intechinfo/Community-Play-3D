@@ -26,8 +26,9 @@ CUITextureEditor::CUITextureEditor(CDevices *_devices, ITexture *texture) {
 	devices->getCore()->centerWindow(window, driver->getScreenSize());
 	window->getMaximizeButton()->setVisible(true);
 	window->getMinimizeButton()->setVisible(true);
+	save = gui->addButton(rect<s32>(470, 0, 560, 20), window, -1, L"Save", L"Save this current texture");
 
-	image = gui->addImage(rect<s32>(150, 30, 630, 440), window, -1, L"Texture to edit", true);
+	image = gui->addImage(rect<s32>(150, 30, 630, 440), window, -1, L"Texture to edit", false);
 	image->setImage(tempTexture);
 	image->setScaleImage(true);
 
@@ -39,7 +40,7 @@ CUITextureEditor::CUITextureEditor(CDevices *_devices, ITexture *texture) {
 	gui->addStaticText(L"Selected Pixel :", rect<s32>(0, 30, 110, 50), true, true, toolbartxt, -1, true);
 	selectedColorst = gui->addStaticText(L"", rect<s32>(110, 30, 130, 50), true, true, toolbartxt, -1, true);
 
-	useAlphaChannelcb = gui->addCheckBox(true, rect<s32>(0, 60, 130, 80), toolbartxt, -1, L"Use Alpha Ch.");
+	useAlphaChannelcb = gui->addCheckBox(image->isAlphaChannelUsed(), rect<s32>(0, 60, 130, 80), toolbartxt, -1, L"Use Alpha Ch.");
 
 	setSelectedColorAlphabtn = gui->addButton(rect<s32>(0, 90, 130, 110), toolbartxt, -1, L"Set Color Alpha", L"Set selected color as alpha for the texture");
 
@@ -55,24 +56,28 @@ bool CUITextureEditor::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP) {
-			if (gui->getFocus() == image) {
+			if (gui->getFocus() == image && tempTexture != 0) {
 				position2di cursorPosition = position2di(event.MouseInput.X - window->getRelativePosition().UpperLeftCorner.X - image->getRelativePosition().UpperLeftCorner.X,
-														event.MouseInput.Y - window->getRelativePosition().UpperLeftCorner.Y - image->getRelativePosition().UpperLeftCorner.Y);
+														 event.MouseInput.Y - window->getRelativePosition().UpperLeftCorner.Y - image->getRelativePosition().UpperLeftCorner.Y);
+				if (cursorPosition.X > tempTexture->getOriginalSize().Width || cursorPosition.Y > tempTexture->getOriginalSize().Height)
+					return false;
 
 				u32 pitch = tempTexture->getPitch();
 				ECOLOR_FORMAT format = tempTexture->getColorFormat();
 				u32 bytes = video::IImage::getBitsPerPixelFromFormat(format) / 8;
 
 				unsigned char *buffer = (unsigned char *)tempTexture->lock();
+				colorPosition = vector2di(cursorPosition.X * bytes, cursorPosition.Y * pitch);
+
 				if (buffer) {
 					if (image->isImageScaled()) {
-						selectedPixelColor = SColor(*(unsigned int*)(buffer + ((cursorPosition.Y * pitch)) + ((cursorPosition.X * bytes))));
+						selectedPixelColor = SColor(*(unsigned int*)(buffer + ((colorPosition.Y)) + ((colorPosition.X))));
 					} else {
-						selectedPixelColor = SColor(*(unsigned int*)(buffer + (cursorPosition.Y * pitch) + (cursorPosition.X * bytes)));
+						selectedPixelColor = SColor(*(unsigned int*)(buffer + (colorPosition.Y) + (colorPosition.X)));
 					}
-					tempTexture->unlock();
 					selectedColorst->setBackgroundColor(selectedPixelColor);
 				}
+				tempTexture->unlock();
 			}
 		}
 	}
@@ -84,6 +89,7 @@ bool CUITextureEditor::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == window) {
 				window->remove();
 				devices->getEventReceiver()->RemoveEventReceiver(this);
+				driver->removeTexture(tempTexture);
 				delete this;
 			}
 		}
@@ -102,7 +108,25 @@ bool CUITextureEditor::OnEvent(const SEvent &event) {
 			}
 
 			if (event.GUIEvent.Caller == setSelectedColorAlphabtn) {
+				driver->makeColorKeyTexture(tempTexture, colorPosition, false);
+				lastColorPosition = colorPosition;
+			}
 
+			if (event.GUIEvent.Caller == save) {
+				u8 *tpdata = (u8 *)tempTexture->lock();
+				u8 *ttedata = (u8 *)textureToEdit->lock();
+				for (u32 i=0; i < tempTexture->getOriginalSize().Width * tempTexture->getOriginalSize().Height; i++) {
+					for (u32 uj=0; uj < 3; uj++) {
+						*ttedata = *tpdata;
+						ttedata++; tpdata++;
+					}
+					ttedata++; tpdata++;
+				}
+
+				tempTexture->unlock();
+				textureToEdit->unlock();
+
+				driver->makeColorKeyTexture(textureToEdit, lastColorPosition, false);
 			}
 		}
 
