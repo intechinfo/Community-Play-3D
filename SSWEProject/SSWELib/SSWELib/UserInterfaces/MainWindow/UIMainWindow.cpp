@@ -212,6 +212,7 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 	IMesh *mesh = 0;
 	u32 minPolysPerNode = 0;
 	stringc path = stringc("");
+	SData *data = 0;
 
     if (tabCtrl->getActiveTab() == terrainsTab->getNumber()) {
         if (terrainsListBox->getSelected() != -1) {
@@ -219,6 +220,7 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 			mesh = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getMesh();
 			minPolysPerNode = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getMinPolysPerNode();
 			path = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getPath();
+			data = &devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected());
         }
     } else if (tabCtrl->getActiveTab() == treesTab->getNumber()) {
         if (treesListBox->getSelected() != -1) {
@@ -226,30 +228,35 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 			mesh = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getMesh();
 			minPolysPerNode = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getMinPolysPerNode();
 			path = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getPath();
+			data = &devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected());
         }
     } else if (tabCtrl->getActiveTab() == objectsTab->getNumber()) {
         if (objectsListBox->getSelected() != -1) {
 			mesh = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getMesh();
 			node = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode();
 			path = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getPath().c_str();
+			data = &devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected());
         }
     } else if (tabCtrl->getActiveTab() == lightsTab->getNumber()) {
         if (lightsListBox->getSelected() != -1) {
 			node = devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected()).getNode();
+			data = &devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected());
         }
 	} else if (tabCtrl->getActiveTab() == dynamicLightsTab->getNumber()) {
 		if (volumeLightsListBox->getSelected() != -1) {
 			node = devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode();
+			data = &devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected());
 		}
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         if (waterSurfacesListBox->getSelected() != -1) {
 			mesh = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getMesh();
 			node = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getNode();
 			path = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getPath();
+			data = &devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected());
         }
     }
     
-    return SSelectedNode(node, mesh, minPolysPerNode, path);
+    return SSelectedNode(node, mesh, minPolysPerNode, path, data);
 }
 
 void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
@@ -326,106 +333,124 @@ stringc CUIMainWindow::getSelectedNodePrefix(ISceneNode *node) {
 }
 
 void CUIMainWindow::cloneNode() {
-    ISceneNode *node = 0;
-    stringw name = L"";
-    s32 index;
 	if (getSelectedNode().getNode()) {
-		if (getSelectedNode().getNode()->getType() != ESNT_MESH && getSelectedNode().getNode()->getType() != ESNT_OCTREE
-			&& getSelectedNode().getNode()->getType() != ESNT_ANIMATED_MESH)
-		{
-			node = getSelectedNode().getNode()->clone();
-		}
-        if (node) {
-            //NODE WAS CLONED BY IRRLICHT
-            node->setPosition(devices->getCursorPosition());
-            
-			if (getActiveListBox() == terrainsListBox) {
-				STerrainsData tdata(getSelectedNode().getMesh(), node, getSelectedNode().getPath(), getSelectedNode().getMinPolysPerNode(), node->getType());
-				devices->getCoreData()->getTerrainsData()->push_back(tdata);
-            }
-            if (getActiveListBox() == treesListBox) {
-				STreesData tdata(getSelectedNode().getMesh(), node, getSelectedNode().getPath());
-                devices->getCoreData()->getTreesData()->push_back(tdata);
-            }
-
-            if (getActiveListBox() == objectsListBox) {
-                index = objectsListBox->getSelected();
-				SObjectsData odata(getSelectedNode().getMesh(), getSelectedNode().getNode(), devices->getCoreData()->getObjectsData()->operator[](index).getPath());
-				devices->getCoreData()->getObjectsData()->push_back(odata);
-                objectsListBox->addItem(name.c_str());
-            }
-            
-            if (getActiveListBox() == lightsListBox) {
-                index = lightsListBox->getSelected();
-                
-				SLightsData ldata(node);
-                devices->getCoreData()->getLightsData()->push_back(ldata);
-                devices->getXEffect()->addShadowLight(devices->getXEffect()->getShadowLight(index));
-                
-                lightsListBox->addItem(name.c_str());
-            }
-        } else {
-            //CLONING MANUALLY THE NODE
-            ISceneNode *clonedNode;
-            stringw path = "";
-            
-            if (getActiveListBox() == terrainsListBox)
-				path = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getPath().c_str();
-
-            if (getActiveListBox() == treesListBox)
-				path = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getPath().c_str();
-
-			if (getActiveListBox() == objectsListBox)
-				path = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getPath().c_str();
-            
-			clonedNode = devices->getCore()->clone(getSelectedNode().getNode(), path.c_str(), devices->getSceneManager());
-            
-            if (clonedNode) {
-                clonedNode->setPosition(devices->getCursorPosition());
-                
-                if (getActiveListBox() == terrainsListBox) {
-					STerrainsData tdata(getSelectedNode().getMesh(), clonedNode, path, getSelectedNode().getMinPolysPerNode(), node->getType());
-					devices->getCoreData()->getTerrainsData()->push_back(tdata);
-                }
-                if (getActiveListBox() == treesListBox) {
-					STreesData tdata(0, clonedNode, path.c_str());
-                    devices->getCoreData()->getTreesData()->push_back(tdata);
-                }
-				if (getActiveListBox() == objectsListBox) {
-					SObjectsData odata(getSelectedNode().getMesh(), clonedNode, path);
-					devices->getCoreData()->getObjectsData()->push_back(odata);
-				}
-                
-                devices->addInformationDialog(L"Information", L"The node was cloned\n"
-                                              L"But it wasn't cloned thanks to the irrlicht engine clone function\n"
-                                              L"Possibile error(s)...", EMBF_OK);
-                
-            } else {
-                devices->addErrorDialog(L"Error", L"The node wasn't cloned", EMBF_OK);
-            }
-        }
-        if (node) {
-            //SETTING COLLISIONS
-            if (node->getType() == ESNT_OCTREE) {
-                devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
-            }
-            if (node->getType() == ESNT_ANIMATED_MESH) {
-                devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
-            }
-            //SETTING SHADOWS
+		ISceneNode *clonednode = getSelectedNode().getData()->cloneNode(devices->getCursorPosition(), devices->getCore());
+		if (!clonednode) {
+			devices->addErrorDialog(L"Error", L"Error when cloned the selected node", EMBF_OK);
+		} else {
+			devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 			if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_BOTH)) {
-                devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_BOTH);
+				devices->getXEffect()->addShadowToNode(clonednode, devices->getXEffectFilterType(), ESM_BOTH);
             }
 			if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_CAST)) {
-                devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_CAST);
+                devices->getXEffect()->addShadowToNode(clonednode, devices->getXEffectFilterType(), ESM_CAST);
             }
             if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_RECEIVE)) {
-                devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_RECEIVE);
+                devices->getXEffect()->addShadowToNode(clonednode, devices->getXEffectFilterType(), ESM_RECEIVE);
             }
-        }
-    } else {
-        devices->addInformationDialog(L"Information", L"Please select an item before", EMBF_OK);
-    }
+			devices->getDOF()->add(clonednode);
+		}
+	}
+ //   ISceneNode *node = 0;
+ //   stringw name = L"";
+ //   s32 index;
+	//if (getSelectedNode().getNode()) {
+	//	if (getSelectedNode().getNode()->getType() != ESNT_MESH && getSelectedNode().getNode()->getType() != ESNT_OCTREE
+	//		&& getSelectedNode().getNode()->getType() != ESNT_ANIMATED_MESH)
+	//	{
+	//		node = getSelectedNode().getNode()->clone();
+	//	}
+ //       if (node) {
+ //           //NODE WAS CLONED BY IRRLICHT
+ //           node->setPosition(devices->getCursorPosition());
+ //           
+	//		if (getActiveListBox() == terrainsListBox) {
+	//			STerrainsData tdata(getSelectedNode().getMesh(), node, getSelectedNode().getPath(), getSelectedNode().getMinPolysPerNode(), node->getType());
+	//			devices->getCoreData()->getTerrainsData()->push_back(tdata);
+ //           }
+ //           if (getActiveListBox() == treesListBox) {
+	//			STreesData tdata(getSelectedNode().getMesh(), node, getSelectedNode().getPath());
+ //               devices->getCoreData()->getTreesData()->push_back(tdata);
+ //           }
+
+ //           if (getActiveListBox() == objectsListBox) {
+ //               index = objectsListBox->getSelected();
+	//			SObjectsData odata(getSelectedNode().getMesh(), getSelectedNode().getNode(), devices->getCoreData()->getObjectsData()->operator[](index).getPath());
+	//			devices->getCoreData()->getObjectsData()->push_back(odata);
+ //               objectsListBox->addItem(name.c_str());
+ //           }
+ //           
+ //           if (getActiveListBox() == lightsListBox) {
+ //               index = lightsListBox->getSelected();
+ //               
+	//			SLightsData ldata(node);
+ //               devices->getCoreData()->getLightsData()->push_back(ldata);
+ //               devices->getXEffect()->addShadowLight(devices->getXEffect()->getShadowLight(index));
+ //               
+ //               lightsListBox->addItem(name.c_str());
+ //           }
+ //       } else {
+ //           //CLONING MANUALLY THE NODE
+ //           ISceneNode *clonedNode;
+ //           stringw path = "";
+ //           
+ //           if (getActiveListBox() == terrainsListBox)
+	//			path = devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getPath().c_str();
+
+ //           if (getActiveListBox() == treesListBox)
+	//			path = devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getPath().c_str();
+
+	//		if (getActiveListBox() == objectsListBox)
+	//			path = devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getPath().c_str();
+ //           
+	//		clonedNode = devices->getCore()->clone(getSelectedNode().getNode(), path.c_str(), devices->getSceneManager());
+ //           
+ //           if (clonedNode) {
+ //               clonedNode->setPosition(devices->getCursorPosition());
+ //               
+ //               if (getActiveListBox() == terrainsListBox) {
+	//				STerrainsData tdata(getSelectedNode().getMesh(), clonedNode, path, getSelectedNode().getMinPolysPerNode(), node->getType());
+	//				devices->getCoreData()->getTerrainsData()->push_back(tdata);
+ //               }
+ //               if (getActiveListBox() == treesListBox) {
+	//				STreesData tdata(0, clonedNode, path.c_str());
+ //                   devices->getCoreData()->getTreesData()->push_back(tdata);
+ //               }
+	//			if (getActiveListBox() == objectsListBox) {
+	//				SObjectsData odata(getSelectedNode().getMesh(), clonedNode, path);
+	//				devices->getCoreData()->getObjectsData()->push_back(odata);
+	//			}
+ //               
+ //               devices->addInformationDialog(L"Information", L"The node was cloned\n"
+ //                                             L"But it wasn't cloned thanks to the irrlicht engine clone function\n"
+ //                                             L"Possibile error(s)...", EMBF_OK);
+ //               
+ //           } else {
+ //               devices->addErrorDialog(L"Error", L"The node wasn't cloned", EMBF_OK);
+ //           }
+ //       }
+ //       if (node) {
+ //           //SETTING COLLISIONS
+ //           if (node->getType() == ESNT_OCTREE) {
+ //               devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
+ //           }
+ //           if (node->getType() == ESNT_ANIMATED_MESH) {
+ //               devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+ //           }
+ //           //SETTING SHADOWS
+	//		if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_BOTH)) {
+ //               devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_BOTH);
+ //           }
+	//		if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_CAST)) {
+ //               devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_CAST);
+ //           }
+ //           if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_RECEIVE)) {
+ //               devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_RECEIVE);
+ //           }
+ //       }
+ //   } else {
+ //       devices->addInformationDialog(L"Information", L"Please select an item before", EMBF_OK);
+ //   }
 }
 
 bool CUIMainWindow::OnEvent(const SEvent &event) {
@@ -774,12 +799,16 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (terrainsListBox->getSelected() != -1) {
                     devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(getSelectedNode().getNode());
+
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getTerrainsData()->operator[](terrainsListBox->getSelected()).getNode()->remove();
 					devices->getCoreData()->getTerrainsData()->erase(terrainsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     terrainsListBox->removeItem(terrainsListBox->getSelected());
+
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -795,12 +824,16 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (treesListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(getSelectedNode().getNode());
+
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getTreesData()->operator[](treesListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getTreesData()->erase(treesListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     treesListBox->removeItem(treesListBox->getSelected());
+
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -816,12 +849,16 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (objectsListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(getSelectedNode().getNode());
+
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getObjectsData()->operator[](objectsListBox->getSelected()).getNode()->remove();
 					devices->getCoreData()->getObjectsData()->erase(objectsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     objectsListBox->removeItem(objectsListBox->getSelected());
+
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -846,6 +883,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     
                     lightsListBox->removeItem(lightsListBox->getSelected());
                     lightsListBox->setSelected(-1);
+
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -861,12 +900,16 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (volumeLightsListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode());
+
 					devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getVolumeLightsData()->erase(volumeLightsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     
                     volumeLightsListBox->removeItem(lightsListBox->getSelected());
                     volumeLightsListBox->setSelected(-1);
+
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
                 } else {
                     devices->addInformationDialog(L"Information",
                                                   L"Please select a node before...", EMBF_OK);
@@ -881,13 +924,18 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
             case CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE:
 				if(waterSurfacesListBox->getSelected() != -1) {
 					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
+
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getDOF()->remove(devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface()->getWaterNode());
+
 					devices->getObjectPlacement()->setNodeToPlace(0);
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
 					devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface()->remove();
 					devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
+
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
                 }
                 else
                 {

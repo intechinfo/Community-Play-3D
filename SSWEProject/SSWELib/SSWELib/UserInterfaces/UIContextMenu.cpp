@@ -293,9 +293,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			printf("Importing scene number %u \n", i);
 		}
 
-		if (devices->getCoreData()->getTerrainsCount() > 0)
-			if (devices->getCoreData()->getTerrainsData()->operator[](0).getNode()->getType() == ESNT_TERRAIN)
+		if (devices->getCoreData()->getTerrainsCount() > 0) {
+			if (devices->getCoreData()->getTerrainsData()->operator[](0).getNode()->getType() == ESNT_TERRAIN) {
 				CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
+			}
+		}
 	#endif
 
 	CImporter *impoterInstance = new CImporter(devices);
@@ -325,7 +327,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	devices->setContextName("General");
 
-	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
+	CUITexturesManager *texmgr = new CUITexturesManager(devices);
 	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);

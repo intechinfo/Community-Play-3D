@@ -11,6 +11,7 @@
 
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"
+#include "Core/CRenderCore.h"
 
 #include "Core/Scripting/CLuaBinds.h"
 
@@ -18,7 +19,7 @@
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
 
-#include "../GUIExtension/OpenFileDialog/CGUIFileSelector.h"
+#include "../GUIExtension/FileSelector/CGUIFileSelector.h"
 
 #include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
@@ -35,42 +36,6 @@
 enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE = 0x15000,
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
-};
-
-struct SDevices {
-	SDevices(IrrlichtDevice *_device) {
-		device = _device;
-	}
-
-	IrrlichtDevice *createDevice() {
-		 SIrrlichtCreationParameters params;
-		#ifdef _IRR_OSX_PLATFORM_
-		params.DriverType=EDT_OPENGL;
-			//params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
-			params.WindowSize = dimension2d<u32>(1920, 1070);
-			//params.WindowSize = dimension2d<u32>(1280, 690);
-		#else
-		params.DriverType=EDT_DIRECT3D9;
-			params.WindowSize = dimension2d<u32>(800, 600);
-		#endif
-			params.Bits=32;
-		#ifdef _IRR_OSX_PLATFORM_
-			params.Fullscreen = false;
-		#else
-			params.Fullscreen = false;
-		#endif
-		params.Stencilbuffer=true;
-		params.Vsync=false;
-		params.AntiAlias=true; 
-		params.ZBufferBits = 32;
-		params.EventReceiver=0;
-		device = createDeviceEx(params);
-		return device;
-	}
-
-private:
-
-	IrrlichtDevice *device;
 };
 
 class CDevices : public IEventReceiver {
@@ -170,8 +135,8 @@ public:
 	//-----------------------------------
 	//UI ADVANCED DIALOG METHODS
 	IGUIFileOpenDialog *createFileOpenDialog(stringw title, IGUIElement *parent);
-	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type);
-	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent);
+	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal=false);
+	CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal=false);
 
 	IGUIWindow *addInformationDialog(stringw title, stringw text, s32 flag, bool modal=true, IGUIElement *parent=0);
 	IGUIWindow *addErrorDialog(stringw title, stringw text, s32 flag);
@@ -239,6 +204,8 @@ private:
 	bool renderScene;
 	bool renderXEffect, renderGUI;
 	bool renderFullPostTraitements;
+
+	CRenderCore *renderCore;
 	//-----------------------------------
 
 	//-----------------------------------

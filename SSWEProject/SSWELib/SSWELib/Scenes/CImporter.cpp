@@ -752,6 +752,8 @@ void CImporter::newImportScene(stringc file_path) {
     delete xmlReader;
 
 	process->setHasFinished(true);
+
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }
 
 //---------------------------------------------------------------------------------------------

@@ -99,11 +99,18 @@ ShaderGroup::ShaderGroup(IrrlichtDevice* m_device, scene::ISceneManager* m_smgr,
     combine = new ShaderMaterial(device, vertPost, fragCombine, 3, mc);
 }
 
-ShaderGroup::~ShaderGroup() {}
+ShaderGroup::~ShaderGroup() {
+
+}
 
 void ShaderGroup::add(scene::ISceneNode* node)
 {
     shaded.push_back(node);
+}
+
+void ShaderGroup::remove(scene::ISceneNode *node)
+{
+	shaded.remove(node);
 }
 
 int ShaderGroup::render(bool render)
@@ -111,20 +118,28 @@ int ShaderGroup::render(bool render)
 	if (render) {
 		video::IVideoDriver* driver = device->getVideoDriver();
 
-		//driver->beginScene(true, true, 0);
-
 		postProcessorNode->setVisible(false);
 		driver->setRenderTarget(rt, true, true, video::SColor(0,0,0,0));
 		smgr->drawAll();
-		//rt = input;
+
 		driver->setRenderTarget(distance->texture, true, true, video::SColor(0,0,0,0));
 		std::list<scene::ISceneNode*>::const_iterator shadedIter;
 		for(shadedIter=shaded.begin();shadedIter!=shaded.end(); ++shadedIter) {
 			scene::ISceneNode* node = (*shadedIter);
+
+			const u32 CurrentMaterialCount = node->getMaterialCount();
+			core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
+			BufferMaterialList.set_used(0);
+			for (u32 m=0; m < CurrentMaterialCount; m++)
+				BufferMaterialList.push_back(node->getMaterial(m).MaterialType);
+
 			video::E_MATERIAL_TYPE tempMat = node->getMaterial(0).MaterialType;
 			node->setMaterialType((video::E_MATERIAL_TYPE) distance->material);
 			node->render();
-			node->setMaterialType(tempMat);
+
+			const u32 BufferMaterialListSize = BufferMaterialList.size();
+			for(u32 m=0; m < BufferMaterialListSize; m++)
+				node->getMaterial(m).MaterialType = (video::E_MATERIAL_TYPE)BufferMaterialList[m];
 
 		}
 		postProcessorNode->setVisible(true);
@@ -147,10 +162,6 @@ int ShaderGroup::render(bool render)
 
 		postProcessorNode->setMaterialType((video::E_MATERIAL_TYPE) combine->material);
 		postProcessorNode->render();
-
-		//env->drawAll();
-
-		//driver->endScene();
 	} else {
 		postProcessorNode->setVisible(false);
 	}

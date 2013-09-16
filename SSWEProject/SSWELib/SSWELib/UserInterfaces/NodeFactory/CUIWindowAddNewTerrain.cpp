@@ -60,9 +60,13 @@ bool CUIWindowAddNewTerrain::OnEvent(const SEvent &event) {
 					u32 goodSize = size;
 					IImage* tmpImage = devices->getVideoDriver()->createImage(irr::video::ECF_A8R8G8B8, dimension2du(goodSize, goodSize));
 
-					for (u32 i=0; i < goodSize; i++)
-						for (u32 j=0; j < goodSize; j++)
-							tmpImage->setPixel(i, j, SColor(0, 0, 0, 0), true);
+					if (randomHillscb->isChecked()) {
+						//noise(true, goodSize, goodSize, 1.0, 100, 100, 255, 255, 255);
+					} else {
+						for (u32 i=0; i < goodSize; i++)
+							for (u32 j=0; j < goodSize; j++)
+								tmpImage->setPixel(i, j, SColor(0, 0, 0, 0), true);
+					}
 
 					devices->getVideoDriver()->writeImageToFile(tmpImage, stringc(devices->getWorkingDirectory() + "newterrain.bmp"));
 

@@ -558,6 +558,12 @@ public:
 		currentShadowMapTexture = 0;
 	}
 
+	/// Restart shadows
+	void setAllShadowLightsRecalculate() {
+		for (u32 i=0; i < LightList.size(); i++)
+			LightList[i].setRecalculate(true);
+	}
+
 private:
 
 	struct SShadowNode

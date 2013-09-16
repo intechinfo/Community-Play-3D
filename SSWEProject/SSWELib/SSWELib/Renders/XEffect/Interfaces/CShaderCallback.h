@@ -19,6 +19,11 @@ enum ESHADER_TYPE {
 	EST_PIXEL
 };
 
+enum ECOLOR_TYPE {
+	ECT_SCOLORF = 0,
+	ECT_SCOLOR
+};
+
 class CShaderCallback : public irr::video::IShaderConstantSetCallBack {
 
 public:
@@ -56,6 +61,7 @@ public:
 	irr::core::array<irr::video::SColorf> colors;
 	irr::core::array<irr::core::stringc> colors_c;
 	irr::core::array<ESHADER_TYPE> colors_st;
+	irr::core::array<ECOLOR_TYPE> colors_t;
 
 	//MATERIAL METHODS
 	void buildMaterial(irr::video::IVideoDriver *driver);

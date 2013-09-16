@@ -11,6 +11,8 @@
 
 #include "../../Device/CDevices.h"
 
+#include "CUITextureEditor.h"
+
 class CUITexturesManager : public IEventReceiver {
 
 public:

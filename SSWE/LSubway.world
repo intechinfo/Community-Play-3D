@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="3" />
+		 <numberOfObjects value="7" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-55.345692" Y="111.461838" Z="118.984146" />
-			 <rotation X="31.915073" Y="190.535706" Z="0.000000" />
+			 <position X="145.518524" Y="142.029495" Z="57.774963" />
+			 <rotation X="25.835878" Y="228.928589" Z="0.000000" />
 
 		 </camera>
 
@@ -31,15 +31,6 @@
 		 </fpsCameraSettings>
 
 		 <effect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/brightpass.hlsl" />
-				 <values>
-					 <value name="multiplier" val="setReturnedValueAsFloat()
-value =  1
-returnValue(value, 1)" />
-				 </values>
-			 </postProcessingEffect>
 
 			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/bw_shader.hlsl" />
@@ -60,6 +51,12 @@ returnValue(value, 1)" />
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
+				 <file_path path="shaders/hlsl/brightpass.hlsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/bloomp.hlsl" />
 				 <values>
 				 </values>
@@ -68,17 +65,6 @@ returnValue(value, 1)" />
 			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/hdr.hlsl" />
 				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/desaturate.hlsl" />
-				 <values>
-					 <value name="Desaturation" val="setReturnedValueAsFloat()
-
-value =  -1
-
-returnValue(value, 1)" />
 				 </values>
 			 </postProcessingEffect>
 
@@ -93,12 +79,12 @@ returnValue(value, 1)" />
 				 <baseMaterial type="0" /> 
 				 <name cname="NORMAL MAPPING" />
 				 <vertex shader=
-"float4x4 matWorldInverse; float4x4 ModelViewMatrix;float4x4 ModelViewProjectionMatrix;
-float3 fvLightPosition1; float3 fvLightPosition2; float3 fvLightPosition3; float3 fvLightPosition4; 
-float fLightStrength1; float fLightStrength2; float fLightStrength3; float fLightStrength4; 
-struct VS_OUTPUT{   float4 Position            : POSITION0;   float2 Texcoord            : TEXCOORD0;   float3 ViewDirection      : TEXCOORD1;    float3 LightDirection1      : TEXCOORD2;    float3 LightDirection2      : TEXCOORD3;    float3 LightDirection3      : TEXCOORD4;    float3 LightDirection4      : TEXCOORD5;    float4 LightDistMultiplier  : TEXCOORD6;};
-float getLengthSQR (float3 vec) {    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); }  
-struct VS_INPUT{   float3 Position         : POSITION0;   float3 Normal           : NORMAL;   float2 Texcoord         : TEXCOORD0;};
+"float4x4 matWorldInverse; float4x4 ModelViewMatrix;float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; float3 fvLightPosition2; float3 fvLightPosition3; float3 fvLightPosition4; 
+float fLightStrength1; float fLightStrength2; float fLightStrength3; float fLightStrength4; 
+struct VS_OUTPUT{   float4 Position            : POSITION0;   float2 Texcoord            : TEXCOORD0;   float3 ViewDirection      : TEXCOORD1;    float3 LightDirection1      : TEXCOORD2;    float3 LightDirection2      : TEXCOORD3;    float3 LightDirection3      : TEXCOORD4;    float3 LightDirection4      : TEXCOORD5;    float4 LightDistMultiplier  : TEXCOORD6;};
+float getLengthSQR (float3 vec) {    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); }  
+struct VS_INPUT{   float3 Position         : POSITION0;   float3 Normal           : NORMAL;   float2 Texcoord         : TEXCOORD0;};
 VS_OUTPUT vertexMain( in VS_INPUT IN ) {       VS_OUTPUT OUT = (VS_OUTPUT)0;   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);   OUT.Texcoord = IN.Texcoord;      float4x4 LightTransform= ModelViewMatrix;    LightTransform= mul(matWorldInverse, LightTransform);   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform);    float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform);    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform);    float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform);    float3 fvViewDirection  =  - fvObjectPosition.xyz;    float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz);    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz);    float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz);    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz);       OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0));    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0));    OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0));    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0));       float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0);    float3 fvBinormal   = cross(fvTangent,IN.Normal);   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix);    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix );    fvBinormal         = mul( fvBinormal, ModelViewMatrix );       OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection );    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection );    OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection );    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz );    OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz );    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz );    OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz );    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz );    OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz );    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz );    OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz );    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz );    OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz );    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz );    OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz );       return OUT;}" />
 				 <pixel shader=
 "float4 fvAmbient;float4 fvLight1Color; float4 fvLight2Color; float4 fvLight3Color; float4 fvLight4Color; float fSpecularPower; float fSpecularStrength; float fBumpStrength; sampler2D baseMap      : register(s0); sampler2D bumpMap      : register(s1); struct PS_INPUT{      float2 Texcoord            : TEXCOORD0;   float3 ViewDirection      : TEXCOORD1;    float3 LightDirection1      : TEXCOORD2;    float3 LightDirection2      : TEXCOORD3;   float3 LightDirection3      : TEXCOORD4;    float3 LightDirection4      : TEXCOORD5;    float4 LightDistMultiplier  : TEXCOORD6;};float4 pixelMain( in PS_INPUT IN ) : COLOR{   float4 color = float4(0,0,0,0);      float3  fvLightDirection1 = normalize( IN.LightDirection1 );    float3  fvLightDirection2 = normalize( IN.LightDirection2 );    float3  fvLightDirection3 = normalize( IN.LightDirection3 );    float3  fvLightDirection4 = normalize( IN.LightDirection4 );    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz;       fvNormal.xy*=2.0;    fvNormal.xy-=1.0;   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal;    fvNormal=normalize(fvNormal);      float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;     float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;     float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;     float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;        float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );     float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );     float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );     float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );     float3  fvViewDirection  = normalize( IN.ViewDirection );       float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) );    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) );    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) );    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) );       float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord );    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;     float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];     float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0];       fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];     fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];      fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];     fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];      fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];     fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];         color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));       if(color.r>1.0){color.gb+=color.r-1.0;}    if(color.g>1.0){color.rb+=color.g-1.0;}    if(color.b>1.0){color.rg+=color.b-1.0;}       return color;}" />
@@ -139,6 +125,9 @@ returnValue(value, 1)" />
 
 			 <factory> 
 
+				 <primitive type="planar" options="general" /> 
+					 <resolutionS value="0.020000" /> 
+				 </primitive> 
 
 			 </factory> 
 
@@ -177,7 +166,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
@@ -212,7 +201,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -247,7 +236,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="3">
@@ -282,7 +271,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="4">
@@ -317,7 +306,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="5">
@@ -352,7 +341,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -387,7 +376,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="7">
@@ -422,7 +411,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="8">
@@ -457,7 +446,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="9">
@@ -492,7 +481,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="10">
@@ -527,7 +516,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="11">
@@ -562,7 +551,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="12">
@@ -597,7 +586,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="13">
@@ -632,7 +621,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="14">
@@ -667,7 +656,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="15">
@@ -702,7 +691,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="16">
@@ -737,7 +726,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="17">
@@ -772,7 +761,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="18">
@@ -807,7 +796,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="19">
@@ -842,7 +831,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="20">
@@ -877,7 +866,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="21">
@@ -912,7 +901,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="22">
@@ -947,7 +936,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="23">
@@ -982,7 +971,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="24">
@@ -1017,7 +1006,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="25">
@@ -1052,7 +1041,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="26">
@@ -1087,7 +1076,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="27">
@@ -1122,7 +1111,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="28">
@@ -1157,7 +1146,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="29">
@@ -1192,7 +1181,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="30">
@@ -1227,7 +1216,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="31">
@@ -1262,7 +1251,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="32">
@@ -1297,7 +1286,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="33">
@@ -1332,7 +1321,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="34">
@@ -1367,7 +1356,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="35">
@@ -1402,7 +1391,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="36">
@@ -1437,7 +1426,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="37">
@@ -1472,7 +1461,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="38">
@@ -1507,7 +1496,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="39">
@@ -1542,7 +1531,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="40">
@@ -1577,7 +1566,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="41">
@@ -1612,7 +1601,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="42">
@@ -1647,7 +1636,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="43">
@@ -1682,7 +1671,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="44">
@@ -1717,7 +1706,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="45">
@@ -1752,7 +1741,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="46">
@@ -1787,7 +1776,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="47">
@@ -1822,7 +1811,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="48">
@@ -1857,7 +1846,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="49">
@@ -1892,7 +1881,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="50">
@@ -1927,7 +1916,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="51">
@@ -1962,7 +1951,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="52">
@@ -1997,7 +1986,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="53">
@@ -2032,7 +2021,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="54">
@@ -2067,7 +2056,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="55">
@@ -2102,7 +2091,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="56">
@@ -2137,7 +2126,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="57">
@@ -2172,7 +2161,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="58">
@@ -2207,7 +2196,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="59">
@@ -2242,7 +2231,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="60">
@@ -2277,7 +2266,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="61">
@@ -2312,7 +2301,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="62">
@@ -2347,7 +2336,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="63">
@@ -2382,7 +2371,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="64">
@@ -2417,7 +2406,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="65">
@@ -2452,7 +2441,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="66">
@@ -2487,7 +2476,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="67">
@@ -2522,7 +2511,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="68">
@@ -2557,7 +2546,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="69">
@@ -2592,7 +2581,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="70">
@@ -2627,7 +2616,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="71">
@@ -2662,7 +2651,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="72">
@@ -2697,7 +2686,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="73">
@@ -2732,7 +2721,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="74">
@@ -2767,7 +2756,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="75">
@@ -2802,7 +2791,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="76">
@@ -2837,7 +2826,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="77">
@@ -2872,7 +2861,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="78">
@@ -2907,7 +2896,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="79">
@@ -2942,7 +2931,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="80">
@@ -2977,7 +2966,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="81">
@@ -3012,7 +3001,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="82">
@@ -3047,7 +3036,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="83">
@@ -3082,7 +3071,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="84">
@@ -3117,7 +3106,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="85">
@@ -3152,7 +3141,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="86">
@@ -3187,7 +3176,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="87">
@@ -3222,7 +3211,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="88">
@@ -3257,7 +3246,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="89">
@@ -3292,7 +3281,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="90">
@@ -3327,7 +3316,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="91">
@@ -3362,7 +3351,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="92">
@@ -3397,7 +3386,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="93">
@@ -3432,7 +3421,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="94">
@@ -3467,7 +3456,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="95">
@@ -3502,7 +3491,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="96">
@@ -3537,7 +3526,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="97">
@@ -3572,7 +3561,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="98">
@@ -3607,7 +3596,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="99">
@@ -3642,7 +3631,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="100">
@@ -3677,7 +3666,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="101">
@@ -3712,7 +3701,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="102">
@@ -3747,7 +3736,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="103">
@@ -3782,7 +3771,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="104">
@@ -3817,7 +3806,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="105">
@@ -3852,7 +3841,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="106">
@@ -3887,7 +3876,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="107">
@@ -3922,7 +3911,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="108">
@@ -3957,7 +3946,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="109">
@@ -3992,7 +3981,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="110">
@@ -4027,7 +4016,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="111">
@@ -4062,7 +4051,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="112">
@@ -4097,7 +4086,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="113">
@@ -4132,7 +4121,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="114">
@@ -4167,7 +4156,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="115">
@@ -4202,7 +4191,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="116">
@@ -4237,7 +4226,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="117">
@@ -4272,7 +4261,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="118">
@@ -4307,7 +4296,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="119">
@@ -4342,7 +4331,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="120">
@@ -4377,7 +4366,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="121">
@@ -4412,7 +4401,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="122">
@@ -4447,7 +4436,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="123">
@@ -4482,7 +4471,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="124">
@@ -4517,7 +4506,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="125">
@@ -4552,7 +4541,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="126">
@@ -4587,7 +4576,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="127">
@@ -4622,7 +4611,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="128">
@@ -4657,7 +4646,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="129">
@@ -4692,7 +4681,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="130">
@@ -4727,7 +4716,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="131">
@@ -4762,7 +4751,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="132">
@@ -4797,7 +4786,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="133">
@@ -4832,7 +4821,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="134">
@@ -4867,7 +4856,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="135">
@@ -4902,7 +4891,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="136">
@@ -4937,7 +4926,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="137">
@@ -4972,7 +4961,7 @@ returnValue(value, 1)" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
@@ -4985,12 +4974,422 @@ returnValue(value, 1)" />
 
 		 </terrain>
 
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/statu_lowpoly/statu_lowpoly.obj" />
+
+			 <name c8name="#object:status" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/statu_lowpoly/Ground.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="0" g="0" b="0" a="255" />
+					 <specularColor r="127" g="127" b="127" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="12.298039" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/statu_lowpoly/Statu_texture.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="0" g="0" b="0" a="255" />
+					 <specularColor r="127" g="127" b="127" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="12.298039" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="40.587242" Y="-18.495323" Z="-0.447514" />
+			 <rotation X="0.000000" Y="96.323090" Z="0.000000" />
+			 <scale X="18.200001" Y="18.200001" Z="18.200001" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/turbo/benches/bench.3ds" />
+
+			 <name c8name="#object:bench" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/turbo/benches/WOOD.PNG" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="149" g="149" b="149" a="255" />
+					 <ambiantColor r="149" g="149" b="149" a="255" />
+					 <specularColor r="229" g="229" b="229" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="115.199997" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/turbo/benches/MARBLE.PNG" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="149" g="149" b="149" a="255" />
+					 <ambiantColor r="149" g="149" b="149" a="255" />
+					 <specularColor r="229" g="229" b="229" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="115.199997" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/turbo/benches/STEEL.PNG" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="149" g="149" b="149" a="255" />
+					 <ambiantColor r="149" g="149" b="149" a="255" />
+					 <specularColor r="229" g="229" b="229" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="115.199997" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="50.844864" Y="0.500000" Z="-64.425606" />
+			 <rotation X="0.000000" Y="269.513214" Z="0.000000" />
+			 <scale X="0.866667" Y="0.866667" Z="0.866667" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/turbo/benches/bench.3ds" />
+
+			 <name c8name="#object:bench:cloned" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/turbo/benches/WOOD.PNG" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="149" g="149" b="149" a="255" />
+					 <ambiantColor r="149" g="149" b="149" a="255" />
+					 <specularColor r="229" g="229" b="229" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="115.199997" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/turbo/benches/MARBLE.PNG" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="149" g="149" b="149" a="255" />
+					 <ambiantColor r="149" g="149" b="149" a="255" />
+					 <specularColor r="229" g="229" b="229" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="115.199997" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/turbo/benches/STEEL.PNG" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="149" g="149" b="149" a="255" />
+					 <ambiantColor r="149" g="149" b="149" a="255" />
+					 <specularColor r="229" g="229" b="229" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="115.199997" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="48.926720" Y="0.500000" Z="63.121178" />
+			 <rotation X="0.000000" Y="269.513214" Z="0.000000" />
+			 <scale X="0.866667" Y="0.866667" Z="0.866667" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <tree>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/trees/palm_tree_v2/palm_tree.obj" />
+
+			 <name c8name="#tree:palm_tree" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/trees/palm_tree_v2/diffus.tga" />
+						 <texture id="1" path="data/trees/palm_tree_v2/normal.tga" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-65.315514" Y="0.500000" Z="-182.465454" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="0.400000" Y="0.400000" Z="0.400000" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+		 </tree>
+
 		 <light>
 
 			 <name c8name="#light:1" />
 
 			 <position X="-59.014389" Y="34.231552" Z="124.725204" />
 			 <target X="-37.784073" Y="-26.580391" Z="-252.597046" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="100.000000" />
+			 <farValue value="1000.000000" />
+			 <autoRecalculate value="0" />
+
+			 <shadows resol="2048" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
+
+		 <light>
+
+			 <name c8name="#light:2" />
+
+			 <position X="-179.252106" Y="168.914063" Z="36.484665" />
+			 <target X="0.000000" Y="0.000000" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
@@ -5018,28 +5417,6 @@ returnValue(value, 1)" />
 				 </lfsn> 
 				 <position X="0.000000" Y="0.000000" Z="0.000000" />
  			 </lensFlare>
-
-		 </light>
-
-		 <light>
-
-			 <name c8name="#light:2" />
-
-			 <position X="-179.252106" Y="168.914063" Z="36.484665" />
-			 <target X="0.000000" Y="0.000000" Z="0.000000" />
-
-			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
-			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
-			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
-
-			 <radius value="100.000000" />
-			 <farValue value="1000.000000" />
-			 <autoRecalculate value="0" />
-
-			 <shadows resol="2048" />
-
-			 <lensFlare>
-			 </lensFlare>
 
 		 </light>
 

@@ -52,7 +52,7 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
             s32 id = event.GUIEvent.Caller->getID();
             switch (id) {
                 case CXT_WINDOW_ADD_TREE_EVENTS_SELECT:
-                    devices->createFileOpenDialog(L"Select the mesh", 0);
+					devices->createFileOpenDialog(L"Select the mesh", CGUIFileSelector::EFST_OPEN_DIALOG, devices->getGUIEnvironment()->getRootGUIElement(), true);
                     isOpenFileDialogOpened = true;
                     break;
                     
@@ -68,7 +68,9 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
                         treeNodeName += addTreeEditBox->getText();
                         treeNode->setName(treeNodeName.c_str());
                         
+						devices->getDOF()->add(treeNode);
                         devices->getXEffect()->addShadowToNode(treeNode, devices->getXEffectFilterType(), ESM_BOTH);
+
                         devices->getCollisionManager()->setCollisionToAnOctTreeNode(treeNode);
                         STreesData tdata(octTreeMesh, treeNode, path_file.c_str());
 
@@ -77,6 +79,8 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
                         treesListBox->addItem(treeNodeName.c_str());
                         
                         addTreeWindow->remove();
+
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
                     } else {
                         devices->addWarningDialog(L"Warning", 
                                                   L"Error when loading the selected mesh \n"

@@ -8,8 +8,6 @@
 #include "stdafx.h"
 #include "CUITexturesManager.h"
 
-
-
 CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 	devices = _devices;
 
@@ -163,6 +161,10 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 			//REFRESH LIST
 			if (event.GUIEvent.Caller == refresh) {
 				OnEvent(getUpdateEvent());
+			}
+			//EDIT TEXTURE
+			if (event.GUIEvent.Caller == edit) {
+				CUITextureEditor *editor = new CUITextureEditor(devices, driver->getTextureByIndex(textures->getSelected()));
 			}
 		}
 

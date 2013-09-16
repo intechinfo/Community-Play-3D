@@ -2,6 +2,6 @@
 
 <rootAnim>
 
-	<action start="19" end="54" name="Test" speed="5.000000" /> 
+	<action start="20" end="54" name="preview" speed="10.000000" /> 
 
 </rootAnim>

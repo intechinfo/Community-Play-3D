@@ -93,6 +93,8 @@ CUIWindowAddOctTree::CUIWindowAddOctTree(CDevices *_devices, IGUIListBox *_terra
 	path_terrains_texture = L"";
 
 	terrainType = ELTT_MESH;
+
+	//ISceneNode *oc = new CTerrainSystem(devices->getSceneManager(), "Big Height Maps/Test/bigmap.png", 8);
 }
 
 CUIWindowAddOctTree::~CUIWindowAddOctTree() {
@@ -234,7 +236,7 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
 
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == selectMesh) {
-				openMesh = devices->createFileOpenDialog(L"Select the mesh", 0);
+				openMesh = devices->createFileOpenDialog(L"Select the height map", 0);
 				openMesh->setMaxSize(dimension2du(1280, 800));
 			}
 
@@ -399,6 +401,7 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         octTreeNodeName += addOctTreeEditBox->getText();
                         octTreeNode->setName(octTreeNodeName.c_str());
                         
+						devices->getDOF()->add(octTreeNode);
                         devices->getXEffect()->addShadowToNode(octTreeNode, devices->getXEffectFilterType(), ESM_BOTH);
                         
 						tdata.setNode(octTreeNode);
@@ -410,6 +413,8 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
                         addOctTreeWindow->remove();
 						addOctTreeWindow = 0;
 						devices->getEventReceiver()->RemoveEventReceiver(this);
+
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
                     } else {
                         devices->addWarningDialog(L"Warning", 
                                                   L"Error when loading the selected mesh \n\n"

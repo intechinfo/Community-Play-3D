@@ -16,6 +16,7 @@
 #include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
 #include "../../../SSWERenders/Renders/XEffect/EffectCB.h"
 
+#include "../../../SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.h"
@@ -28,18 +29,24 @@
 #include "CCorePhysics.h"
 
 //---------------------------------------------------------------------------------------------
-//-----------------------------------HERITANCES--------------------------------------------
+//-----------------------------------HERITANCES------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
 struct SSWE_CORE_API SData {
+
+	SData() {
+		SData(0, 0, "", ESNT_UNKNOWN);
+	}
 
 	SData(ISceneNode *_node, IMesh *_mesh, stringc _path, ESCENE_NODE_TYPE _type) {
 		node = _node;
 		mesh = _mesh;
 		path = _path;
 		type = _type;
+		clonedNodes.clear();
 	}
 
+	//MAIN METHODS
 	ISceneNode *getNode() { return node; }
 	IMesh *getMesh() { return mesh; }
 	stringc getPath() { return path; }
@@ -50,11 +57,59 @@ struct SSWE_CORE_API SData {
 	void setPath(stringw _path) { path = _path; }
 	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
 
+	//CLONED NODES METHODS
+	ISceneNode *cloneNode(vector3df position, CCore *core=0) {
+		ISceneNode *cnode = 0;
+		if (core)
+			cnode = core->clone(node, path, core->getDevice()->getSceneManager());
+		else
+			cnode = node->clone();
+		
+		if (cnode) {
+			cnode->setPosition(position);
+			clonedNodes.push_back(cnode);
+		}
+
+		return cnode;
+	}
+	void addClonedNode(ISceneNode *cnode) {
+		clonedNodes.push_back(cnode);
+	}
+	void removeClonedNode(ISceneNode *cnode) {
+		ISceneNodeList::Iterator it = clonedNodes.begin();
+		for (; it != clonedNodes.end(); ++it)
+			if ((*it) == cnode) {
+				(*it)->remove();
+				clonedNodes.erase(it);
+				break;
+			}
+	}
+	ISceneNode *getClonedNode(ISceneNode *cnode) {
+		ISceneNodeList::Iterator it = clonedNodes.begin();
+		for (; it != clonedNodes.end(); ++it)
+			if ((*it) == cnode) {
+				return *it;
+				break;
+			}
+	}
+	ISceneNode *getClonedNode(u32 index) {
+		u32 currentIndex;
+		ISceneNodeList::Iterator it = clonedNodes.begin();
+		for (currentIndex = 0; it != clonedNodes.end() && currentIndex < index; ++it)
+			currentIndex++;
+
+		return (*it);
+	}
+	u32 getClonedNodeCount() { return clonedNodes.size(); }
+	ISceneNodeList *getClonedNodeList() { return &clonedNodes; }
+
 private:
 	ISceneNode *node;
 	IMesh *mesh;
 	stringc path;
 	ESCENE_NODE_TYPE type;
+
+	ISceneNodeList clonedNodes;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -145,7 +200,7 @@ private:
 //----------------------------------TERRAINS--------------------------------------------------
 //---------------------------------------------------------------------------------------------
 //MESHES
-struct SSWE_CORE_API STerrainsData : SData {
+struct SSWE_CORE_API STerrainsData : public SData {
 	
 	STerrainsData() : SData(0, 0, "", ESNT_UNKNOWN) {
 		STerrainsData(0, 0, "", 0, ESNT_UNKNOWN);
@@ -205,7 +260,6 @@ struct SSWE_CORE_API STreesData : SData {
 	}
 
 	void setMinPolysPerNode(u32 _minPolysPerNode) { minPolysPerNode = _minPolysPerNode; }
-
 	u32 getMinPolysPerNode() { return minPolysPerNode; }
 
 private:
@@ -217,6 +271,10 @@ private:
 //---------------------------------------------------------------------------------------------
 
 struct SSWE_CORE_API SObjectsData : SData {
+
+	SObjectsData() : SData(0, 0, "", ESNT_UNKNOWN) {
+		SObjectsData(0, 0, "");
+	}
 
 	SObjectsData(IMesh *_mesh, ISceneNode *_node, stringw _path)
 		: SData(_node, _mesh, _path, ESNT_ANIMATED_MESH)
@@ -403,11 +461,11 @@ struct SSWE_CORE_API SVolumeLightsData : SData {
 
 	SVolumeLightsData(IVolumeLightSceneNode *_node) : SData(_node, 0, L"", ESNT_VOLUME_LIGHT)
 	{
-		node = _node;
+
 	}
 
 private:
-	ISceneNode *node;
+
 };
 
 //---------------------------------------------------------------------------------------------
@@ -532,19 +590,65 @@ public:
 
 	//-----------------------------------
 	//GET IRRLICHT NODES
+	//TERRAINS
 	array<STerrainsData> *getTerrainsData() { return &terrainsData; }
+	array<SData> *getTerrainsSData() {
+		array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < terrainsData.size(); i++)
+			datas->push_back(terrainsData[i]);
+
+		return datas;
+	}
 	u32 getTerrainsCount() { return terrainsData.size(); }
 
+	//TREES
 	array<STreesData> *getTreesData() { return &treesData; }
+	array<SData> *getTreesSData() {
+		array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < treesData.size(); i++)
+			datas->push_back(treesData[i]);
 
+		return datas;
+	}
+
+	//OBJECTS
 	array<SObjectsData> *getObjectsData() { return &objectsData; }
+	array<SData> *getObjectsSData() {
+		array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < objectsData.size(); i++)
+			datas->push_back(objectsData[i]);
+
+		return datas;
+	}
 	u32 getObjectNodeIndice(ISceneNode *node);
 
+	//LIGHTS
 	array<SLightsData> *getLightsData() { return &lightsData; }
+	array<SData> *getLightsSData() {
+		array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < lightsData.size(); i++)
+			datas->push_back(lightsData[i]);
+
+		return datas;
+	}
 
 	array<SVolumeLightsData> *getVolumeLightsData() { return &volumeLightsData; }
+	array<SData> *getVolumeLightsSData() {
+		array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < volumeLightsData.size(); i++)
+			datas->push_back(volumeLightsData[i]);
+
+		return datas;
+	}
 
 	array<SWaterSurfacesData> *getWaterSurfaces() { return &waterSurfaces; }
+	array<SData> *getWaterSurfacesSData() {
+		array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < waterSurfaces.size(); i++)
+			datas->push_back(waterSurfaces[i]);
+
+		return datas;
+	}
 
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
 	//-----------------------------------

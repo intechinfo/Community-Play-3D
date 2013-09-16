@@ -6,7 +6,7 @@
 //   Color += f(Color)
 //-------------------------------
 
-sampler RT: register(s0)
+sampler2D RT: register(s0);
 
 float4 pixelMain(float2 texCoord: TEXCOORD0) : COLOR {
 	float4 tex = tex2D(RT,   texCoord);

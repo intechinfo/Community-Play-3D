@@ -791,10 +791,19 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     nodeToEdit->setMaterialTexture(3, 
                                 devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath4->getText()).c_str()));
                     }
-                    
+
                     if (nodeToEdit->getType() == ESNT_TERRAIN) {
-                        nodeToEdit->setMaterialType(EMT_DETAIL_MAP);
+						devices->getSceneManager()->getMeshManipulator()->recalculateNormals(((ITerrainSceneNode*)nodeToEdit)->getMesh(), true, true);
+						devices->getSceneManager()->getMeshManipulator()->recalculateTangents(((ITerrainSceneNode*)nodeToEdit)->getMesh(), true, true, true);
+						nodeToEdit->setPosition(nodeToEdit->getPosition());
+						((ITerrainSceneNode *)nodeToEdit)->getMesh()->setDirty();
                     }
+
+					if (nodeToEdit->getType() == ESNT_TERRAIN || nodeToEdit->getType() == ESNT_OCTREE || nodeToEdit->getType() == ESNT_MESH)
+						devices->getCollisionManager()->setCollisionToAnOctTreeNode(nodeToEdit);
+					if (nodeToEdit->getType() == ESNT_ANIMATED_MESH)
+						devices->getCollisionManager()->setCollisionToAnAnimatedNode(nodeToEdit);
+
                     
                     break;
                     

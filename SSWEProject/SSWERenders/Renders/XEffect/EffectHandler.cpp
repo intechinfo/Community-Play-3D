@@ -97,7 +97,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
         
 		// Set resolution preprocessor defines.
 		sPP.addShaderDefine("SCREENX", core::stringc(ScreenRTTSize.Width));
-		sPP.addShaderDefine("SCREENY", core::stringc(ScreenRTTSize.Height));	
+		sPP.addShaderDefine("SCREENY", core::stringc(ScreenRTTSize.Height));
         
 		// Create screen quad shader callback.
 		ScreenQuadCB* SQCB = new ScreenQuadCB(this, true);
@@ -243,7 +243,6 @@ void EffectHandler::addNodeToDepthPass(irr::scene::ISceneNode *node)
         printf("Node already depth passed\n");
     }
 }
-
 
 void EffectHandler::removeNodeFromDepthPass(irr::scene::ISceneNode *node)
 {

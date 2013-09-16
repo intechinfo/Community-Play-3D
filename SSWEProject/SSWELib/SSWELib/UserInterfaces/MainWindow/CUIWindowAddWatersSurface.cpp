@@ -42,7 +42,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 	{
 		if(event.GUIEvent.Caller == m_selectButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
-			m_devices->createFileOpenDialog(L"Select Base Mesh", 0);
+			m_devices->createFileOpenDialog(L"Select Base Mesh", CGUIFileSelector::EFST_OPEN_DIALOG, m_devices->getGUIEnvironment()->getRootGUIElement(), true);
 			m_isFileDialogOpen = true;
 		}
 		else if(event.GUIEvent.Caller == m_acceptButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
@@ -67,6 +67,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				waterSurfaceName += m_nameEditBox->getText();
 				waterNode->setName(waterSurfaceName.c_str());
 
+				m_devices->getDOF()->add(waterNode);
 				m_devices->getXEffect()->addShadowToNode(waterNode, m_devices->getXEffectFilterType(), ESM_RECEIVE);
 				m_devices->getCollisionManager()->setCollisionToAnAnimatedNode(waterNode);
 
@@ -99,6 +100,8 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				m_devices->getCoreData()->getWaterSurfaces()->push_back(SWaterSurfacesData(waterSurface, callback,filename + extension));
 
 				m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
+
+				m_devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 			}
 
 			m_isFileDialogOpen = false;
