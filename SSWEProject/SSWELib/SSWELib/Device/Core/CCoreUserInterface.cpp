@@ -31,8 +31,8 @@ CCoreUserInterface::CCoreUserInterface() {
     #else
         params.Fullscreen = false;
     #endif
-	params.Stencilbuffer=true;
-	params.Vsync=false;
+	params.Stencilbuffer=false;
+	params.Vsync=true;
 	params.AntiAlias=true; 
     params.ZBufferBits = 32;
 	params.EventReceiver=0;

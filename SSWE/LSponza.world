@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-40.376266" Y="70.902275" Z="45.802391" />
-			 <rotation X="17.689817" Y="155.535400" Z="0.000000" />
+			 <position X="125.416412" Y="77.765121" Z="43.897659" />
+			 <rotation X="25.471127" Y="220.356873" Z="0.000000" />
 
 		 </camera>
 
@@ -33,12 +33,6 @@
 		 <effect>
 
 			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/sepia_toon_shader.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/blurhp.hlsl" />
 				 <values>
 				 </values>
@@ -51,24 +45,13 @@
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/brightpass.hlsl" />
+				 <file_path path="shaders/hlsl/colored_dream_vision.hlsl" />
 				 <values>
-					 <value name="multiplier" val="setReturnedValueAsFloat()
-
-value =  1
-
-returnValue(value, 1)" />
 				 </values>
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
 				 <file_path path="shaders/hlsl/bloomp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/hdr.hlsl" />
 				 <values>
 				 </values>
 			 </postProcessingEffect>
@@ -84,107 +67,107 @@ returnValue(value, 1)" />
 				 <baseMaterial type="-842150451" /> 
 				 <name cname="WATER" />
 				 <vertex shader=
-"float4x4 mWorldViewProj;
-float4x4 mWorld;
-float4   CamPos;
-float    Time;
-float    sinWave;
-float wavesHeight;
-
-struct VS_OUTPUT
-{
-  float4 Position   : POSITION0;
-  float4 waterpos   : TEXCOORD0;
-  float3 WorldView  : TEXCOORD1;
-  float2 TexCoords  : TEXCOORD2;
-  float3 MultiVar   : TEXCOORD3;
-};
-VS_OUTPUT vertexMain( float3 Position  : POSITION0,
-                      float2 TexCoords : TEXCOORD0 )
-{
-  VS_OUTPUT OUT = (VS_OUTPUT)0;
-  OUT.Position = mul(float4(Position.x,Position.y,Position.z,1.0), mWorldViewProj);
-  OUT.waterpos = float4(Position.x,Position.y,Position.z,1.0);
-  OUT.MultiVar.y = Time / 10000.0;
-  if (sinWave > 0.0)
-  {
-    OUT.MultiVar.x = (sin((Position.x/3.0) + (Time * 10.0 / 10000.0))) +
-                     (cos((Position.z/3.0) + (Time * 10.0 / 10000.0)));
-    OUT.Position.y += OUT.MultiVar.x * wavesHeight;
-  }
-  
-  OUT.MultiVar.z = CamPos.y;
-  float4 PosW = mul(float4(Position.x,Position.y,Position.z,1.0), mWorld);
-  OUT.WorldView = CamPos.xyz - PosW.xyz;
-  OUT.TexCoords = TexCoords + float2(OUT.MultiVar.y, OUT.MultiVar.y);
-  return(OUT);
-}
+"float4x4 mWorldViewProj;
+float4x4 mWorld;
+float4   CamPos;
+float    Time;
+float    sinWave;
+float wavesHeight;
+
+struct VS_OUTPUT
+{
+  float4 Position   : POSITION0;
+  float4 waterpos   : TEXCOORD0;
+  float3 WorldView  : TEXCOORD1;
+  float2 TexCoords  : TEXCOORD2;
+  float3 MultiVar   : TEXCOORD3;
+};
+VS_OUTPUT vertexMain( float3 Position  : POSITION0,
+                      float2 TexCoords : TEXCOORD0 )
+{
+  VS_OUTPUT OUT = (VS_OUTPUT)0;
+  OUT.Position = mul(float4(Position.x,Position.y,Position.z,1.0), mWorldViewProj);
+  OUT.waterpos = float4(Position.x,Position.y,Position.z,1.0);
+  OUT.MultiVar.y = Time / 10000.0;
+  if (sinWave > 0.0)
+  {
+    OUT.MultiVar.x = (sin((Position.x/3.0) + (Time * 10.0 / 10000.0))) +
+                     (cos((Position.z/3.0) + (Time * 10.0 / 10000.0)));
+    OUT.Position.y += OUT.MultiVar.x * wavesHeight;
+  }
+  
+  OUT.MultiVar.z = CamPos.y;
+  float4 PosW = mul(float4(Position.x,Position.y,Position.z,1.0), mWorld);
+  OUT.WorldView = CamPos.xyz - PosW.xyz;
+  OUT.TexCoords = TexCoords + float2(OUT.MultiVar.y, OUT.MultiVar.y);
+  return(OUT);
+}
 " />
 				 <pixel shader=
-"float4x4 mWorldViewProjP;
-float    sinWaveP;
-float    refractionP;
-float    seaLevel;
-
-sampler2D ReflectionTexture : register(s0);
-sampler2D NormalMap         : register(s1);
-sampler2D DUDVMap           : register(s2);
-
-float4 pixelMain( float4 waterpos   : TEXCOORD0,
-                  float3 WorldView  : TEXCOORD1,
-                  float2 TexCoord   : TEXCOORD2,
-                  float3 MultiVar   : TEXCOORD3
-                ) : COLOR0
-{
-  float4 projCoord = mul(waterpos, mWorldViewProjP);
-  projCoord.x = projCoord.x / projCoord.w / 2.0 + 0.5;
-  projCoord.y = projCoord.y / projCoord.w / 2.0 + 0.5;
-  if (sinWaveP > 0.0)
-  {
-    projCoord.x += sin(MultiVar.x * 5) * (2 / 1000.0);
-    projCoord.y += cos(MultiVar.x * 5) * (2 / 1000.0);
-    TexCoord.x  += sin(MultiVar.x * 5) * (5 / 1000.0);
-    TexCoord.y  += cos(MultiVar.x * 5) * (5 / 1000.0);
-  }
-  if (refractionP > 0.0)
-  {
-    float4 DUDVoffset = tex2D(DUDVMap,TexCoord);
-    projCoord.x += (DUDVoffset.x / 40.0) - (1.0 / 80.0);
-    projCoord.y += (DUDVoffset.y / 40.0) - (1.0 / 80.0);
-  }
-  projCoord = clamp(projCoord, 0.001, 0.999);
-  float4 normal = float4(0.0, 1.0, 0.0, 0.0);
-  if(MultiVar.z < seaLevel)
-    projCoord.y = 1.0 - projCoord.y;
-  float4 refTex = tex2D(ReflectionTexture,projCoord);
-  float facing = (1.0 - max(dot(normalize(WorldView), normalize(normal.xyz)), 0));
-  float4 MultCol = float4(0.4,0.7,1.0,0.0);
-  
-  refTex = (refTex + float4(0.0,0.0,0.1,0.0)) * MultCol;
-  float4 norMap =  tex2D(NormalMap,TexCoord);
-  float lightComp = 1.0 - max(dot(normalize(norMap.xyz),normalize(abs(WorldView))),0.0);
-  float4 finalCol = refTex;
-  if(MultiVar.z < seaLevel)
-    finalCol *= 0.8;
-  finalCol.a = 0.6 + (facing / 2.0);
-  finalCol += lightComp;
-  return(finalCol);
-};
+"float4x4 mWorldViewProjP;
+float    sinWaveP;
+float    refractionP;
+float    seaLevel;
+
+sampler2D ReflectionTexture : register(s0);
+sampler2D NormalMap         : register(s1);
+sampler2D DUDVMap           : register(s2);
+
+float4 pixelMain( float4 waterpos   : TEXCOORD0,
+                  float3 WorldView  : TEXCOORD1,
+                  float2 TexCoord   : TEXCOORD2,
+                  float3 MultiVar   : TEXCOORD3
+                ) : COLOR0
+{
+  float4 projCoord = mul(waterpos, mWorldViewProjP);
+  projCoord.x = projCoord.x / projCoord.w / 2.0 + 0.5;
+  projCoord.y = projCoord.y / projCoord.w / 2.0 + 0.5;
+  if (sinWaveP > 0.0)
+  {
+    projCoord.x += sin(MultiVar.x * 5) * (2 / 1000.0);
+    projCoord.y += cos(MultiVar.x * 5) * (2 / 1000.0);
+    TexCoord.x  += sin(MultiVar.x * 5) * (5 / 1000.0);
+    TexCoord.y  += cos(MultiVar.x * 5) * (5 / 1000.0);
+  }
+  if (refractionP > 0.0)
+  {
+    float4 DUDVoffset = tex2D(DUDVMap,TexCoord);
+    projCoord.x += (DUDVoffset.x / 40.0) - (1.0 / 80.0);
+    projCoord.y += (DUDVoffset.y / 40.0) - (1.0 / 80.0);
+  }
+  projCoord = clamp(projCoord, 0.001, 0.999);
+  float4 normal = float4(0.0, 1.0, 0.0, 0.0);
+  if(MultiVar.z < seaLevel)
+    projCoord.y = 1.0 - projCoord.y;
+  float4 refTex = tex2D(ReflectionTexture,projCoord);
+  float facing = (1.0 - max(dot(normalize(WorldView), normalize(normal.xyz)), 0));
+  float4 MultCol = float4(0.4,0.7,1.0,0.0);
+  
+  refTex = (refTex + float4(0.0,0.0,0.1,0.0)) * MultCol;
+  float4 norMap =  tex2D(NormalMap,TexCoord);
+  float lightComp = 1.0 - max(dot(normalize(norMap.xyz),normalize(abs(WorldView))),0.0);
+  float4 finalCol = refTex;
+  if(MultiVar.z < seaLevel)
+    finalCol *= 0.8;
+  finalCol.a = 0.6 + (facing / 2.0);
+  finalCol += lightComp;
+  return(finalCol);
+};
 " />
-				 <constants value="vmatrix4 mWorld world[0] 0 0 dontMakeInverse
-vmatrix4 mWorldViewProj proj[0] view[0] 0 mWorld
-pmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorld
-
-vvector3df CamPos camPos4
-
-vfloat wavesHeight 0.7
-
-vfloat Time + ctime realTime
-vfloat sinWave 1
-pfloat sinWaveP 1
-vfloat refractionP 1
-pfloat seaLevel -144
-
+				 <constants value="vmatrix4 mWorld world[0] 0 0 dontMakeInverse
+vmatrix4 mWorldViewProj proj[0] view[0] 0 mWorld
+pmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorld
+
+vvector3df CamPos camPos4
+
+vfloat wavesHeight 0.7
+
+vfloat Time + ctime realTime
+vfloat sinWave 1
+pfloat sinWaveP 1
+vfloat refractionP 1
+pfloat seaLevel -144
+
 " />
 			 </materialType>
 
@@ -194,116 +177,116 @@ pfloat seaLevel -144
 				 <baseMaterial type="12" /> 
 				 <name cname="FIRE" />
 				 <vertex shader=
-"float4x4 wvp;
-float time;
-struct VS_OUTPUT
-{
-   float4 Pos       : POSITION;
-   float2 TexCoord0 : TEXCOORD0;
-   float2 TexCoord1 : TEXCOORD1;
-   float2 TexCoord2 : TEXCOORD2;
-   float2 TexCoord3 : TEXCOORD3;
-};
-VS_OUTPUT vertexMain (float4 pos: POSITION, 
-                      float2 texCoord : TEXCOORD0)
-{
-   VS_OUTPUT Out;
-   Out.Pos = mul(pos, wvp);
-   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
-   
-   Out.TexCoord0 = texCoord;
-   Out.TexCoord0.y += 0.2;
-   Out.TexCoord1.x = texCoord.x;
-   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
-   Out.TexCoord2.x = texCoord.x;
-   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
-   Out.TexCoord3.x = texCoord.x;
-   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
-   
-   return Out;
-}
-sampler fire_base       : register(s0);
-sampler fire_distortion : register(s1);
-sampler fire_opacity    : register(s2);
-float4 bx2(float x)
-{
-   return 2.0f * x - 1.0f;
-}
-float4 pixelMain (float4 tc0 : TEXCOORD0, 
-                  float4 tc1 : TEXCOORD1,
-                  float4 tc2 : TEXCOORD2, 
-                  float4 tc3 : TEXCOORD3) : COLOR
-{
-   float distortion_amount0  = 0.092;
-   float distortion_amount1  = 0.092;
-   float distortion_amount2  = 0.092;
-   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
-   float4 noise0 = tex2D(fire_distortion, tc1);
-   float4 noise1 = tex2D(fire_distortion, tc2);
-   float4 noise2 = tex2D(fire_distortion, tc3);
-   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
-   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
-   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
-   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
-   return base * opacity;
-}
+"float4x4 wvp;
+float time;
+struct VS_OUTPUT
+{
+   float4 Pos       : POSITION;
+   float2 TexCoord0 : TEXCOORD0;
+   float2 TexCoord1 : TEXCOORD1;
+   float2 TexCoord2 : TEXCOORD2;
+   float2 TexCoord3 : TEXCOORD3;
+};
+VS_OUTPUT vertexMain (float4 pos: POSITION, 
+                      float2 texCoord : TEXCOORD0)
+{
+   VS_OUTPUT Out;
+   Out.Pos = mul(pos, wvp);
+   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
+   
+   Out.TexCoord0 = texCoord;
+   Out.TexCoord0.y += 0.2;
+   Out.TexCoord1.x = texCoord.x;
+   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
+   Out.TexCoord2.x = texCoord.x;
+   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
+   Out.TexCoord3.x = texCoord.x;
+   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
+   
+   return Out;
+}
+sampler fire_base       : register(s0);
+sampler fire_distortion : register(s1);
+sampler fire_opacity    : register(s2);
+float4 bx2(float x)
+{
+   return 2.0f * x - 1.0f;
+}
+float4 pixelMain (float4 tc0 : TEXCOORD0, 
+                  float4 tc1 : TEXCOORD1,
+                  float4 tc2 : TEXCOORD2, 
+                  float4 tc3 : TEXCOORD3) : COLOR
+{
+   float distortion_amount0  = 0.092;
+   float distortion_amount1  = 0.092;
+   float distortion_amount2  = 0.092;
+   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
+   float4 noise0 = tex2D(fire_distortion, tc1);
+   float4 noise1 = tex2D(fire_distortion, tc2);
+   float4 noise2 = tex2D(fire_distortion, tc3);
+   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
+   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
+   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
+   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
+   return base * opacity;
+}
 " />
 				 <pixel shader=
-"
-float4x4 wvp;
-float time;
-struct VS_OUTPUT
-{
-   float4 Pos       : POSITION;
-   float2 TexCoord0 : TEXCOORD0;
-   float2 TexCoord1 : TEXCOORD1;
-   float2 TexCoord2 : TEXCOORD2;
-   float2 TexCoord3 : TEXCOORD3;
-};
-VS_OUTPUT vertexMain (float4 pos: POSITION, 
-                      float2 texCoord : TEXCOORD0)
-{
-   VS_OUTPUT Out;
-   Out.Pos = mul(pos, wvp);
-   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
-   Out.TexCoord0 = texCoord;
-   Out.TexCoord0.y += 0.2;
-   Out.TexCoord1.x = texCoord.x;
-   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
-   Out.TexCoord2.x = texCoord.x;
-   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
-   Out.TexCoord3.x = texCoord.x;
-   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
-   return Out;
-   
-}
-sampler fire_base       : register(s0);
-sampler fire_distortion : register(s1);
-sampler fire_opacity    : register(s2);
-float4 bx2(float x)
-{
-   return 2.0f * x - 1.0f;
-}
-float4 pixelMain (float4 tc0 : TEXCOORD0, 
-                  float4 tc1 : TEXCOORD1,
-                  float4 tc2 : TEXCOORD2, 
-                  float4 tc3 : TEXCOORD3) : COLOR
-{
-   float distortion_amount0  = 0.092;
-   float distortion_amount1  = 0.092;
-   float distortion_amount2  = 0.092;
-   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
-   float4 noise0 = tex2D(fire_distortion, tc1);
-   float4 noise1 = tex2D(fire_distortion, tc2);
-   float4 noise2 = tex2D(fire_distortion, tc3);
-   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
-   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
-   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
-   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
-   return base * opacity;
-}
+"
+float4x4 wvp;
+float time;
+struct VS_OUTPUT
+{
+   float4 Pos       : POSITION;
+   float2 TexCoord0 : TEXCOORD0;
+   float2 TexCoord1 : TEXCOORD1;
+   float2 TexCoord2 : TEXCOORD2;
+   float2 TexCoord3 : TEXCOORD3;
+};
+VS_OUTPUT vertexMain (float4 pos: POSITION, 
+                      float2 texCoord : TEXCOORD0)
+{
+   VS_OUTPUT Out;
+   Out.Pos = mul(pos, wvp);
+   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
+   Out.TexCoord0 = texCoord;
+   Out.TexCoord0.y += 0.2;
+   Out.TexCoord1.x = texCoord.x;
+   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
+   Out.TexCoord2.x = texCoord.x;
+   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
+   Out.TexCoord3.x = texCoord.x;
+   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
+   return Out;
+   
+}
+sampler fire_base       : register(s0);
+sampler fire_distortion : register(s1);
+sampler fire_opacity    : register(s2);
+float4 bx2(float x)
+{
+   return 2.0f * x - 1.0f;
+}
+float4 pixelMain (float4 tc0 : TEXCOORD0, 
+                  float4 tc1 : TEXCOORD1,
+                  float4 tc2 : TEXCOORD2, 
+                  float4 tc3 : TEXCOORD3) : COLOR
+{
+   float distortion_amount0  = 0.092;
+   float distortion_amount1  = 0.092;
+   float distortion_amount2  = 0.092;
+   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
+   float4 noise0 = tex2D(fire_distortion, tc1);
+   float4 noise1 = tex2D(fire_distortion, tc2);
+   float4 noise2 = tex2D(fire_distortion, tc3);
+   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
+   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
+   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
+   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
+   return base * opacity;
+}
 " />
-				 <constants value="vmatrix4 wvp proj[0] view[0] world[0] dontMakeInversevfloat time + ctime 2
+				 <constants value="vmatrix4 wvp proj[0] view[0] world[0] dontMakeInversevfloat time + ctime 2
  " />
 			 </materialType>
 
@@ -313,154 +296,154 @@ float4 pixelMain (float4 tc0 : TEXCOORD0,
 				 <baseMaterial type="0" /> 
 				 <name cname="NORMAL MAP" />
 				 <vertex shader=
-"float4x4 matWorldInverse; 
-float4x4 ModelViewMatrix;
-float4x4 ModelViewProjectionMatrix;
-float3 fvLightPosition1; 
-float3 fvLightPosition2; 
-float3 fvLightPosition3; 
-float3 fvLightPosition4; 
-float fLightStrength1; 
-float fLightStrength2; 
-float fLightStrength3; 
-float fLightStrength4; 
-struct VS_OUTPUT
-{
-   float4 Position            : POSITION0;
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3; 
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float getLengthSQR (float3 vec) 
-{ 
-   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-}  
-struct VS_INPUT
-{
-   float3 Position         : POSITION0;
-   float3 Normal           : NORMAL;
-   float2 Texcoord         : TEXCOORD0;
-};
-VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-{    
-   VS_OUTPUT OUT = (VS_OUTPUT)0;
-   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   OUT.Texcoord = IN.Texcoord;
-   
-   float4x4 LightTransform= ModelViewMatrix; 
-   LightTransform= mul(matWorldInverse, LightTransform);
-   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-   
-   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-   
-   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-   float3 fvBinormal   = cross(fvTangent,IN.Normal);
-   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-   
-   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-   
-   return OUT;
-}
+"float4x4 matWorldInverse; 
+float4x4 ModelViewMatrix;
+float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; 
+float3 fvLightPosition2; 
+float3 fvLightPosition3; 
+float3 fvLightPosition4; 
+float fLightStrength1; 
+float fLightStrength2; 
+float fLightStrength3; 
+float fLightStrength4; 
+struct VS_OUTPUT
+{
+   float4 Position            : POSITION0;
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3; 
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float getLengthSQR (float3 vec) 
+{ 
+   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+}  
+struct VS_INPUT
+{
+   float3 Position         : POSITION0;
+   float3 Normal           : NORMAL;
+   float2 Texcoord         : TEXCOORD0;
+};
+VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+{    
+   VS_OUTPUT OUT = (VS_OUTPUT)0;
+   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   OUT.Texcoord = IN.Texcoord;
+   
+   float4x4 LightTransform= ModelViewMatrix; 
+   LightTransform= mul(matWorldInverse, LightTransform);
+   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+   
+   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+   
+   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+   float3 fvBinormal   = cross(fvTangent,IN.Normal);
+   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+   
+   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+   
+   return OUT;
+}
 " />
 				 <pixel shader=
-"float4 fvAmbient;
-float4 fvLight1Color; 
-float4 fvLight2Color; 
-float4 fvLight3Color; 
-float4 fvLight4Color; 
-float fSpecularPower; 
-float fSpecularStrength; 
-float fBumpStrength; 
-sampler2D baseMap      : register(s0); 
-sampler2D bumpMap      : register(s1); 
-struct PS_INPUT
-{   
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3;
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float4 pixelMain( in PS_INPUT IN ) : COLOR
-{
-   float4 color = float4(0,0,0,0);
-   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-   
-   fvNormal.xy*=2.0; 
-   fvNormal.xy-=1.0;
-   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-   fvNormal=normalize(fvNormal);
-   
-   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-   if(color.r>1.0){color.gb+=color.r-1.0;} 
-   if(color.g>1.0){color.rb+=color.g-1.0;} 
-   if(color.b>1.0){color.rg+=color.b-1.0;} 
-   
-   return color;
-}
+"float4 fvAmbient;
+float4 fvLight1Color; 
+float4 fvLight2Color; 
+float4 fvLight3Color; 
+float4 fvLight4Color; 
+float fSpecularPower; 
+float fSpecularStrength; 
+float fBumpStrength; 
+sampler2D baseMap      : register(s0); 
+sampler2D bumpMap      : register(s1); 
+struct PS_INPUT
+{   
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3;
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float4 pixelMain( in PS_INPUT IN ) : COLOR
+{
+   float4 color = float4(0,0,0,0);
+   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+   
+   fvNormal.xy*=2.0; 
+   fvNormal.xy-=1.0;
+   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+   if(color.r>1.0){color.gb+=color.r-1.0;} 
+   if(color.g>1.0){color.rb+=color.g-1.0;} 
+   if(color.b>1.0){color.rg+=color.b-1.0;} 
+   
+   return color;
+}
 " />
-				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInversevmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInversevmatrix4 matWorldInverse world[0] 0 0 makeInversevfloat fLightStrength1 80vfloat fLightStrength2 80vfloat fLightStrength3 80vfloat fLightStrength4 80vvector3df fvLightPosition1 0 200 0vvector3df fvLightPosition2 0 200 0vvector3df fvLightPosition3 0 200 0vvector3df fvLightPosition4 0 200 0pSColor fvAmbient 1 0.7 0.7 0.7pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02pfloat fSpecularPower 20pfloat fSpecularStrength 0.9pfloat fBumpStrength 3" />
+				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInversevmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInversevmatrix4 matWorldInverse world[0] 0 0 makeInversevfloat fLightStrength1 5vfloat fLightStrength2 5vfloat fLightStrength3 5vfloat fLightStrength4 5vvector3df fvLightPosition1 0 200 0vvector3df fvLightPosition2 0 200 0vvector3df fvLightPosition3 0 200 0vvector3df fvLightPosition4 0 200 0pSColor fvAmbient 1 1 1 1pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02pfloat fSpecularPower 2pfloat fSpecularStrength 0.9pfloat fBumpStrength 100" />
 			 </materialType>
 
 
@@ -533,7 +516,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
@@ -568,7 +551,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -603,7 +586,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="3">
@@ -638,7 +621,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="4">
@@ -673,7 +656,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="5">
@@ -708,7 +691,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -743,7 +726,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="7">
@@ -778,7 +761,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="8">
@@ -813,7 +796,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="9">
@@ -848,7 +831,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="10">
@@ -883,7 +866,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="11">
@@ -918,7 +901,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="12">
@@ -953,7 +936,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="13">
@@ -988,7 +971,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="14">
@@ -1023,7 +1006,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="15">
@@ -1058,7 +1041,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="16">
@@ -1093,7 +1076,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="17">
@@ -1128,7 +1111,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="18">
@@ -1163,13 +1146,13 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="19">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_ceiling_a_diff.tga" />
-						 <texture id="1" path="data/Sponza/textures/sponza_column_a_ddn.tga" />
+						 <texture id="1" path="data/Sponza/textures/sponza_ceiling_a_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1198,13 +1181,13 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="20">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_arch_diff.tga" />
-						 <texture id="1" path="data/sponza/textures/sponza_arch_ddn.tga" />
+						 <texture id="1" path="data/Sponza/textures/sponza_arch_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1233,7 +1216,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="21">
@@ -1268,13 +1251,13 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="22">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="data/Sponza/textures/sponza_column_c_ddn.tga" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1303,7 +1286,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="23">
@@ -1338,7 +1321,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="24">
@@ -1373,7 +1356,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="25">
@@ -1408,7 +1391,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="26">
@@ -1443,7 +1426,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="27">
@@ -1478,13 +1461,13 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="28">
 					 <textures>
 						 <texture id="0" path="data/Sponza/textures/sponza_column_c_diff.tga" />
-						 <texture id="1" path="data/Sponza/textures/sponza_column_c_ddn.tga" />
+						 <texture id="1" path="data/Sponza/textures/sponza_column_c_diff.tga_copy" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1513,7 +1496,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="29">
@@ -1548,7 +1531,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="30">
@@ -1583,7 +1566,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="31">
@@ -1618,7 +1601,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="32">
@@ -1653,7 +1636,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="33">
@@ -1688,7 +1671,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="34">
@@ -1723,7 +1706,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="35">
@@ -1758,7 +1741,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="36">
@@ -1793,7 +1776,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="37">
@@ -1828,7 +1811,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="38">
@@ -1863,7 +1846,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="39">
@@ -1898,7 +1881,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="40">
@@ -1933,7 +1916,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="41">
@@ -1968,7 +1951,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="42">
@@ -2003,7 +1986,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="43">
@@ -2038,7 +2021,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="44">
@@ -2073,7 +2056,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="45">
@@ -2108,7 +2091,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="46">
@@ -2143,7 +2126,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="47">
@@ -2178,7 +2161,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="48">
@@ -2213,7 +2196,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="49">
@@ -2248,7 +2231,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="50">
@@ -2283,7 +2266,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="51">
@@ -2318,7 +2301,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="52">
@@ -2353,7 +2336,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="53">
@@ -2388,7 +2371,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="54">
@@ -2423,7 +2406,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="55">
@@ -2458,7 +2441,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="56">
@@ -2493,7 +2476,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="57">
@@ -2528,7 +2511,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="58">
@@ -2563,7 +2546,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="59">
@@ -2598,7 +2581,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="60">
@@ -2633,7 +2616,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="61">
@@ -2668,7 +2651,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="62">
@@ -2703,7 +2686,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="63">
@@ -2738,7 +2721,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="64">
@@ -2773,7 +2756,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="65">
@@ -2808,7 +2791,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="66">
@@ -2843,7 +2826,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="67">
@@ -2878,7 +2861,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="68">
@@ -2913,7 +2896,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="69">
@@ -2948,7 +2931,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="70">
@@ -2983,7 +2966,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="71">
@@ -3018,7 +3001,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="72">
@@ -3053,7 +3036,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="73">
@@ -3088,7 +3071,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="74">
@@ -3123,7 +3106,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="75">
@@ -3158,7 +3141,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="76">
@@ -3193,7 +3176,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="77">
@@ -3228,7 +3211,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="78">
@@ -3263,7 +3246,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="79">
@@ -3298,7 +3281,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="80">
@@ -3333,7 +3316,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="81">
@@ -3368,7 +3351,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="82">
@@ -3403,7 +3386,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="83">
@@ -3438,7 +3421,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="84">
@@ -3473,7 +3456,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="85">
@@ -3508,7 +3491,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="86">
@@ -3543,7 +3526,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="87">
@@ -3578,7 +3561,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="88">
@@ -3613,7 +3596,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="89">
@@ -3648,7 +3631,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="90">
@@ -3683,7 +3666,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="91">
@@ -3718,7 +3701,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="92">
@@ -3753,7 +3736,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="93">
@@ -3788,7 +3771,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="94">
@@ -3823,7 +3806,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="95">
@@ -3858,7 +3841,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="96">
@@ -3893,7 +3876,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="97">
@@ -3928,7 +3911,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="98">
@@ -3963,7 +3946,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="99">
@@ -3998,7 +3981,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="100">
@@ -4033,7 +4016,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="101">
@@ -4068,7 +4051,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="102">
@@ -4103,7 +4086,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="103">
@@ -4138,7 +4121,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="104">
@@ -4173,7 +4156,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="105">
@@ -4208,7 +4191,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="106">
@@ -4243,7 +4226,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="107">
@@ -4278,7 +4261,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="108">
@@ -4313,7 +4296,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="109">
@@ -4348,7 +4331,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="110">
@@ -4383,7 +4366,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="111">
@@ -4418,7 +4401,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="112">
@@ -4453,7 +4436,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="113">
@@ -4488,7 +4471,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="114">
@@ -4523,7 +4506,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="115">
@@ -4558,7 +4541,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="116">
@@ -4593,7 +4576,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="117">
@@ -4628,7 +4611,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="118">
@@ -4663,7 +4646,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="119">
@@ -4698,7 +4681,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="120">
@@ -4733,7 +4716,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="121">
@@ -4768,7 +4751,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="122">
@@ -4803,7 +4786,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="123">
@@ -4838,7 +4821,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="124">
@@ -4873,7 +4856,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="125">
@@ -4908,7 +4891,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="126">
@@ -4943,7 +4926,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="127">
@@ -4978,7 +4961,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="128">
@@ -5013,7 +4996,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="129">
@@ -5048,7 +5031,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="130">
@@ -5083,7 +5066,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="131">
@@ -5118,7 +5101,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="132">
@@ -5153,7 +5136,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="133">
@@ -5188,7 +5171,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="134">
@@ -5223,7 +5206,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="135">
@@ -5258,7 +5241,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="136">
@@ -5293,7 +5276,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="137">
@@ -5328,7 +5311,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="138">
@@ -5363,7 +5346,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="139">
@@ -5398,7 +5381,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="140">
@@ -5433,7 +5416,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="141">
@@ -5468,7 +5451,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="142">
@@ -5503,7 +5486,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="143">
@@ -5538,7 +5521,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="144">
@@ -5573,7 +5556,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="145">
@@ -5608,7 +5591,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="146">
@@ -5643,7 +5626,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="147">
@@ -5678,7 +5661,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="148">
@@ -5713,7 +5696,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="149">
@@ -5748,7 +5731,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="150">
@@ -5783,7 +5766,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="151">
@@ -5818,7 +5801,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="152">
@@ -5853,7 +5836,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="153">
@@ -5888,7 +5871,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="154">
@@ -5923,7 +5906,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="155">
@@ -5958,7 +5941,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="156">
@@ -5993,7 +5976,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="157">
@@ -6028,7 +6011,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="158">
@@ -6063,7 +6046,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="159">
@@ -6098,7 +6081,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="160">
@@ -6133,7 +6116,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="161">
@@ -6168,7 +6151,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="162">
@@ -6203,7 +6186,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="163">
@@ -6238,7 +6221,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="164">
@@ -6273,7 +6256,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="165">
@@ -6308,7 +6291,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="166">
@@ -6343,7 +6326,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="167">
@@ -6378,7 +6361,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="168">
@@ -6413,7 +6396,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="169">
@@ -6448,7 +6431,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="170">
@@ -6483,7 +6466,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="171">
@@ -6518,7 +6501,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="172">
@@ -6553,7 +6536,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="173">
@@ -6588,7 +6571,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="174">
@@ -6623,7 +6606,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="175">
@@ -6658,7 +6641,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="176">
@@ -6693,7 +6676,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="177">
@@ -6728,7 +6711,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="178">
@@ -6763,7 +6746,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="179">
@@ -6798,7 +6781,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="180">
@@ -6833,7 +6816,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="181">
@@ -6868,7 +6851,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="182">
@@ -6903,7 +6886,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="183">
@@ -6938,7 +6921,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="184">
@@ -6973,7 +6956,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="185">
@@ -7008,7 +6991,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="186">
@@ -7043,7 +7026,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="187">
@@ -7078,7 +7061,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="188">
@@ -7113,7 +7096,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="189">
@@ -7148,7 +7131,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="190">
@@ -7183,7 +7166,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="191">
@@ -7218,7 +7201,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="192">
@@ -7253,7 +7236,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="193">
@@ -7288,7 +7271,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="194">
@@ -7323,7 +7306,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="195">
@@ -7358,7 +7341,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="196">
@@ -7393,7 +7376,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="197">
@@ -7428,7 +7411,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="198">
@@ -7463,7 +7446,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="199">
@@ -7498,7 +7481,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="200">
@@ -7533,7 +7516,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="201">
@@ -7568,7 +7551,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="202">
@@ -7603,7 +7586,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="203">
@@ -7638,7 +7621,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="204">
@@ -7673,7 +7656,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="205">
@@ -7708,7 +7691,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="206">
@@ -7743,7 +7726,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="207">
@@ -7778,7 +7761,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="208">
@@ -7813,7 +7796,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="209">
@@ -7848,7 +7831,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="210">
@@ -7883,7 +7866,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="211">
@@ -7918,7 +7901,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="212">
@@ -7953,7 +7936,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="213">
@@ -7988,7 +7971,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="214">
@@ -8023,7 +8006,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="215">
@@ -8058,7 +8041,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="216">
@@ -8093,7 +8076,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="217">
@@ -8128,7 +8111,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="218">
@@ -8163,7 +8146,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="219">
@@ -8198,7 +8181,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="220">
@@ -8233,7 +8216,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="221">
@@ -8268,7 +8251,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="222">
@@ -8303,7 +8286,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="223">
@@ -8338,7 +8321,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="224">
@@ -8373,7 +8356,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="225">
@@ -8408,7 +8391,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="226">
@@ -8443,7 +8426,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="227">
@@ -8478,7 +8461,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="228">
@@ -8513,7 +8496,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="229">
@@ -8548,7 +8531,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="230">
@@ -8583,7 +8566,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="231">
@@ -8618,7 +8601,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="232">
@@ -8653,7 +8636,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="233">
@@ -8688,7 +8671,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="234">
@@ -8723,7 +8706,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="235">
@@ -8758,7 +8741,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="236">
@@ -8793,7 +8776,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="237">
@@ -8828,7 +8811,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="238">
@@ -8863,7 +8846,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="239">
@@ -8898,7 +8881,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="240">
@@ -8933,7 +8916,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="241">
@@ -8968,7 +8951,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="242">
@@ -9003,7 +8986,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="243">
@@ -9038,7 +9021,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="244">
@@ -9073,7 +9056,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="245">
@@ -9108,7 +9091,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="246">
@@ -9143,7 +9126,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="247">
@@ -9178,7 +9161,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="248">
@@ -9213,7 +9196,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="249">
@@ -9248,7 +9231,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="250">
@@ -9283,7 +9266,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="251">
@@ -9318,7 +9301,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="252">
@@ -9353,7 +9336,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="253">
@@ -9388,7 +9371,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="254">
@@ -9423,7 +9406,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="255">
@@ -9458,7 +9441,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="256">
@@ -9493,7 +9476,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="257">
@@ -9528,7 +9511,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="258">
@@ -9563,7 +9546,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="259">
@@ -9598,7 +9581,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="260">
@@ -9633,7 +9616,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="261">
@@ -9668,7 +9651,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="262">
@@ -9703,7 +9686,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="263">
@@ -9738,7 +9721,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="264">
@@ -9773,7 +9756,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="265">
@@ -9808,7 +9791,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="266">
@@ -9843,7 +9826,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="267">
@@ -9878,7 +9861,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="268">
@@ -9913,7 +9896,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="269">
@@ -9948,7 +9931,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="270">
@@ -9983,7 +9966,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="271">
@@ -10018,7 +10001,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="272">
@@ -10053,7 +10036,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="273">
@@ -10088,7 +10071,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="274">
@@ -10123,7 +10106,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="275">
@@ -10158,7 +10141,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="276">
@@ -10193,7 +10176,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="277">
@@ -10228,7 +10211,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="278">
@@ -10263,7 +10246,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="279">
@@ -10298,7 +10281,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="280">
@@ -10333,7 +10316,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="281">
@@ -10368,7 +10351,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="282">
@@ -10403,7 +10386,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="283">
@@ -10438,7 +10421,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="284">
@@ -10473,7 +10456,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="285">
@@ -10508,7 +10491,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="286">
@@ -10543,7 +10526,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="287">
@@ -10578,7 +10561,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="288">
@@ -10613,7 +10596,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="289">
@@ -10648,7 +10631,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="290">
@@ -10683,7 +10666,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="291">
@@ -10718,7 +10701,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="292">
@@ -10753,7 +10736,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="293">
@@ -10788,7 +10771,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="294">
@@ -10823,7 +10806,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="295">
@@ -10858,7 +10841,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="296">
@@ -10893,7 +10876,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="297">
@@ -10928,7 +10911,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="298">
@@ -10963,7 +10946,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="299">
@@ -10998,7 +10981,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="300">
@@ -11033,7 +11016,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="301">
@@ -11068,7 +11051,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="302">
@@ -11103,7 +11086,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="303">
@@ -11138,7 +11121,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="304">
@@ -11173,7 +11156,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="305">
@@ -11208,7 +11191,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="306">
@@ -11243,7 +11226,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="307">
@@ -11278,7 +11261,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="308">
@@ -11313,7 +11296,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="309">
@@ -11348,7 +11331,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="310">
@@ -11383,7 +11366,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="311">
@@ -11418,7 +11401,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="312">
@@ -11453,7 +11436,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="313">
@@ -11488,7 +11471,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="314">
@@ -11523,7 +11506,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="315">
@@ -11558,7 +11541,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="316">
@@ -11593,7 +11576,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="317">
@@ -11628,7 +11611,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="318">
@@ -11663,7 +11646,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="319">
@@ -11698,7 +11681,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="320">
@@ -11733,7 +11716,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="321">
@@ -11768,7 +11751,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="322">
@@ -11803,7 +11786,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="323">
@@ -11838,7 +11821,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="324">
@@ -11873,7 +11856,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="325">
@@ -11908,7 +11891,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="326">
@@ -11943,7 +11926,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="327">
@@ -11978,7 +11961,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="328">
@@ -12013,7 +11996,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="329">
@@ -12048,7 +12031,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="330">
@@ -12083,7 +12066,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="331">
@@ -12118,7 +12101,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="332">
@@ -12153,7 +12136,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="333">
@@ -12188,7 +12171,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="334">
@@ -12223,7 +12206,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="335">
@@ -12258,7 +12241,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="336">
@@ -12293,7 +12276,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="337">
@@ -12328,7 +12311,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="338">
@@ -12363,7 +12346,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="339">
@@ -12398,7 +12381,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="340">
@@ -12433,7 +12416,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="341">
@@ -12468,7 +12451,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="342">
@@ -12503,7 +12486,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="343">
@@ -12538,7 +12521,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="344">
@@ -12573,7 +12556,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="345">
@@ -12608,7 +12591,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="346">
@@ -12643,7 +12626,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="347">
@@ -12678,7 +12661,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="348">
@@ -12713,7 +12696,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="349">
@@ -12748,7 +12731,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="350">
@@ -12783,7 +12766,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="351">
@@ -12818,7 +12801,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="352">
@@ -12853,7 +12836,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="353">
@@ -12888,7 +12871,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="354">
@@ -12923,7 +12906,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="355">
@@ -12958,7 +12941,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="356">
@@ -12993,7 +12976,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="357">
@@ -13028,7 +13011,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="358">
@@ -13063,7 +13046,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="359">
@@ -13098,7 +13081,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="360">
@@ -13133,7 +13116,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="361">
@@ -13168,7 +13151,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="362">
@@ -13203,7 +13186,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="363">
@@ -13238,7 +13221,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="364">
@@ -13273,7 +13256,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="365">
@@ -13308,7 +13291,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="366">
@@ -13343,7 +13326,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="367">
@@ -13378,7 +13361,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="368">
@@ -13413,7 +13396,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="369">
@@ -13448,7 +13431,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="370">
@@ -13483,7 +13466,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="371">
@@ -13518,7 +13501,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="372">
@@ -13553,7 +13536,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="373">
@@ -13588,7 +13571,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="374">
@@ -13623,7 +13606,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="375">
@@ -13658,7 +13641,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="376">
@@ -13693,7 +13676,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="377">
@@ -13728,7 +13711,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="378">
@@ -13763,7 +13746,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="379">
@@ -13798,7 +13781,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="380">
@@ -13833,7 +13816,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="381">
@@ -13868,7 +13851,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="382">
@@ -13903,7 +13886,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="383">
@@ -13938,7 +13921,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="384">
@@ -13973,7 +13956,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="385">
@@ -14008,7 +13991,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="386">
@@ -14043,7 +14026,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="387">
@@ -14078,7 +14061,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="388">
@@ -14113,7 +14096,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="389">
@@ -14148,7 +14131,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="390">
@@ -14183,7 +14166,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="391">
@@ -14218,7 +14201,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="392">
@@ -14253,7 +14236,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="393">
@@ -14288,7 +14271,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-3" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
@@ -14316,7 +14299,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 			 <farValue value="400.000000" />
 			 <autoRecalculate value="0" />
 
-			 <shadows resol="2048" />
+			 <shadows resol="4096" />
 
 			 <lensFlare>
 				 <mesh> 
