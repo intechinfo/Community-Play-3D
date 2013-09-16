@@ -69,9 +69,12 @@ bool CUIEditFPSCamera::OnEvent(const SEvent &event) {
 				devices->getCollisionManager()->getFPSCameraSettings()->setSlidingValue(devices->getCore()->getF32(sv->getText()));
 				devices->getCollisionManager()->getFPSCameraSettings()->getCameraAnimator()->setMoveSpeed(devices->getCore()->getF32(ms->getText()));
 
-				devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
-				devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
-				devices->getFPSCamera()->setPosition(devices->getMayaCamera()->getPosition());
+				//devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
+				devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getCameraRig()->getCameraSceneNode());
+				//devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
+				devices->getSceneManager()->setActiveCamera(devices->getCameraRig()->getCameraSceneNode());
+				//devices->getFPSCamera()->setPosition(devices->getMayaCamera()->getPosition());
+				devices->getCameraRig()->getCameraSceneNode()->setPosition(devices->getMayaCamera()->getPosition());
 				devices->getDevice()->getCursorControl()->setVisible(false);
 
 				devices->getEventReceiver()->RemoveEventReceiver(this);
