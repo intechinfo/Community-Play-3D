@@ -375,6 +375,9 @@
     <ClCompile Include="SSWELib\SceneNodes\Clouds\CloudSceneNode.cpp">
       <Filter>SSWELib\SceneNodes\Clouds</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\Camera\CRiggedCamera.cpp">
+      <Filter>SSWELib\SceneNodes\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -649,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\SceneNodes\Clouds\CloudSceneNode.h">
       <Filter>SSWELib\SceneNodes\Clouds</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\Camera\CRiggedCamera.h">
+      <Filter>SSWELib\SceneNodes\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

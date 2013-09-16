@@ -40,6 +40,8 @@ CDevices::CDevices() {
     ctrlWasPushed = false;
     shiftWasPushed = false;
 
+	camera_rig = 0;
+
 	skydome = 0;
 	skybox = 0;
 
@@ -162,9 +164,10 @@ void CDevices::updateDevice() {
 	//	EnterCriticalSection(&CriticalSection);
 	//#endif
 	ICameraSceneNode *activeCamera = smgrs[sceneManagerToDrawIndice]->getActiveCamera();
-
 	activeCamera->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
+	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode())
+		camera_rig->OnAnimate(Device->getTimer()->getRealTime());
 
 	#ifndef _IRR_OSX_PLATFORM_
 		/*if (renderScene) {
@@ -318,6 +321,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		workingDirectory += "/";
 	#endif
 
+	camera_rig = new CCameraRig(Device);
+    camera_rig->createFPSrig();
+	camera_rig->rigstate(L"still");
+
 	//DRAW SPLASH SCREEN
 	ITexture *splashScreen = driver->getTexture("GUI/scs/sc1.png");
 	driver->beginScene(true, true, SColor(0x0));
@@ -353,7 +360,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_maya->setID(-1);
 	camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	oldRotation = vector3df(0);
-
     
 	smgr->setActiveCamera(camera_maya);
 	effectSmgr->setActiveCamera(camera_maya);
@@ -395,7 +401,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
 
 	renderCore = new CRenderCore(this);
-
 
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
 
@@ -472,6 +477,9 @@ IGUIWindow *CDevices::addWarningDialog(stringw title, stringw text, s32 flag) {
 }
 
 bool CDevices::OnEvent(const SEvent &event) {
+
+	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode())
+		camera_rig->OnEvent(event);
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         if (!event.KeyInput.PressedDown) {

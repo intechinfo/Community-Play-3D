@@ -18,14 +18,15 @@
 #include "../../../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
-
 #include "../GUIExtension/FileSelector/CGUIFileSelector.h"
 
 #include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
-#include <omp.h>
-
 #include "Monitor/MonitorRegister.h"
+
+#include "../SceneNodes/Camera/CRiggedCamera.h"
+
+#include <omp.h>
 
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
@@ -113,6 +114,7 @@ public:
 	//CAMERAS
 	ICameraSceneNode *getFPSCamera() { return camera_fps; }
 	ICameraSceneNode *getMayaCamera() { return camera_maya; }
+	CCameraRig *getCameraRig() { return camera_rig; }
 	vector3df oldRotation;
 	//-----------------------------------
 
@@ -212,6 +214,7 @@ private:
 	//CAMERAS
 	SKeyMap keyMap[5];
 	ICameraSceneNode *camera_fps, *camera_maya;
+	CCameraRig *camera_rig;
 	ISceneNodeAnimatorCameraFPS *animatorFPS;
 
 	IBillboardSceneNode *cursorBillBoard;
