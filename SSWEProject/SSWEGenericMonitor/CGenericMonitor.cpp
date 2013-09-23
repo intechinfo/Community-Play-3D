@@ -48,11 +48,11 @@ void CGenericMonitor::drawScene() {
 }
 
 void CGenericMonitor::renderXEffectFullPostTraitement(irr::video::ITexture *texture) {
-	if (renderFullPostTraitements && renderXEffect) {
+	//if (renderFullPostTraitements && renderXEffect) {
 		//irr::video::IVideoDriver *driver = smgr->getVideoDriver();
 		//irr::core::rect<s32> rt1Rect = irr::core::rect<s32>(0, 0, texture->getSize().Width, texture->getSize().Height);
 		//driver->draw2DImage(texture, rt1Rect, rt1Rect);
-	}
+	//}
 }
 
 void CGenericMonitor::drawGUI() {

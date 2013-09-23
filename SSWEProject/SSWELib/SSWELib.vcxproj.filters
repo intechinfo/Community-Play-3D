@@ -656,6 +656,9 @@
     <ClInclude Include="SSWELib\SceneNodes\Camera\CRiggedCamera.h">
       <Filter>SSWELib\SceneNodes\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="include\IDevices.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

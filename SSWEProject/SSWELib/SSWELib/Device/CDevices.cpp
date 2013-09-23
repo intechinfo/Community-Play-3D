@@ -292,7 +292,7 @@ void CDevices::drawGUI() {
     }
 }
 
-void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
+IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
 
 	Device = createDeviceEx(parameters);
@@ -415,6 +415,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	scripting = new CScripting(this);
 	scripting->initializeSceneScripting();
 	scripting->initializeFileSystemScripting();
+
+	return Device;
 }
 
 void CDevices::rebuildXEffect() {

@@ -243,6 +243,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\DLLExport.h" />
+    <ClInclude Include="include\IDevices.h" />
     <ClInclude Include="include\IGraphicTool.h" />
     <ClInclude Include="include\IMonitor.h" />
     <ClInclude Include="include\IMonitorRegisterer.h" />

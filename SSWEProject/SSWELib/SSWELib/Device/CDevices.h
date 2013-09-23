@@ -9,6 +9,8 @@
 #ifndef __C_DEVICES_H_INCLUDED__
 #define __C_DEVICES_H_INCLUDED__
 
+#include <IDevices.h>
+
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"
 #include "Core/CRenderCore.h"
@@ -39,7 +41,7 @@ enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
 };
 
-class CDevices : public IEventReceiver {
+class CDevices : public IDevices, IEventReceiver {
 
 public:
 
@@ -120,7 +122,7 @@ public:
 
 	//-----------------------------------
 	//METHODS
-	void createDevice(SIrrlichtCreationParameters parameters);
+	IrrlichtDevice *createDevice(SIrrlichtCreationParameters parameters);
 
 	vector3df getCursorPosition() { return cursorBillBoard->getPosition(); }
 	ISceneNode *getCursor() { return cursorBillBoard; }

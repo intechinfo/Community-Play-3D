@@ -1,5 +1,5 @@
-#ifndef ITOOL_H
-#define ITOOL_H
+#ifndef __I_TOOLS_H_INCLUDED__
+#define __I_TOOLS_H_INCLUDED__
 
 #include <irrlicht.h>
 
