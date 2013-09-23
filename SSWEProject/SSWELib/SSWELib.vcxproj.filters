@@ -659,6 +659,9 @@
     <ClInclude Include="include\IDevices.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\ISSWELibPlugin.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

@@ -22,7 +22,12 @@ CUIPluginsManager::CUIPluginsManager(CDevices *_devices, CPluginsManager *_plugi
 		monitors->addItem(stringw(pluginsManager->getAllMonitorsPluginsNames()[i]).c_str());
 	}
 
-	tabcrtl->addTab(L"Other", -1);
+	sswetab = tabcrtl->addTab(L"SSWE", -1);
+	ssweplugins = gui->addListBox(rect<s32>(10, 0, 490, 290), sswetab, -1, true);
+	for (u32 i=0; i < pluginsManager->getAllSSWEPluginsNames().size(); i++) {
+		ssweplugins->addItem(stringw(pluginsManager->getAllSSWEPluginsNames()[i]).c_str());
+	}
+	runssweplugin = gui->addButton(rect<s32>(10, 290, 490, 310), sswetab, -1, L"Run", L"Run the plugin");
 
 	close = gui->addButton(rect<s32>(10, 430, 110, 457), window, -1, L"Close", L"Close the window");
 	//-----------------------------------
@@ -90,6 +95,14 @@ bool CUIPluginsManager::OnEvent(const SEvent &event) {
 				stringc monitorName =  monitors->getListItem(monitors->getSelected());
 				monitorName.make_upper();
 				pluginsManager->loadMonitorPlugin(monitorName);
+			}
+		}
+
+		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+			if (event.GUIEvent.Caller == runssweplugin) {
+				stringc pluginname = ssweplugins->getListItem(ssweplugins->getSelected());
+				pluginname.make_upper();
+				pluginsManager->loadSSWEPlugin(pluginname);
 			}
 		}
 	}

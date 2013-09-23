@@ -10,6 +10,7 @@
 #define __C_DEVICES_H_INCLUDED__
 
 #include <IDevices.h>
+#include <ISSWELibPlugin.h>
 
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"

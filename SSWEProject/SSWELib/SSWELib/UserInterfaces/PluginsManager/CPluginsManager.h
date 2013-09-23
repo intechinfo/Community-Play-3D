@@ -11,8 +11,10 @@ public:
 	~CPluginsManager();
 
 	array<stringc> getAllMonitorsPluginsNames();
+	array<stringc> getAllSSWEPluginsNames();
 
 	void loadMonitorPlugin(stringc path);
+	void loadSSWEPlugin(stringc path);
 
 private:
 

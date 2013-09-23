@@ -31,6 +31,26 @@ array<stringc> CPluginsManager::getAllMonitorsPluginsNames() {
 	return names;
 }
 
+array<stringc> CPluginsManager::getAllSSWEPluginsNames() {
+	array<stringc> names;
+
+	stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory();
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "plugins/SSWE").c_str());
+
+	IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
+	for (u32 j=0; j < fl->getFileCount(); j++) {
+		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
+			stringw pluginname = fl->getFileName(j);
+			pluginname.remove(".dll");
+			names.push_back(pluginname);
+		}
+	}
+
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(oldPath.c_str());
+
+	return names;
+}
+
 void CPluginsManager::loadMonitorPlugin(stringc path) {
 	//SEARCH IF THE MONITORS EXISTS
 	//IF EXISTS, MEANS WE REMOVE IT
@@ -79,6 +99,34 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			SMonitor m(newMonitor, hdll);
 			devices->getCoreData()->getMonitors()->push_back(m);
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
+		}
+	}
+}
+
+void CPluginsManager::loadSSWEPlugin(stringc path) {
+	//IF MONITOR DOESN'T EXISTS, TRY AND LOAD IT
+	stringc ppath = devices->getWorkingDirectory().c_str();
+	ppath += "plugins/sswe/";
+	ppath += path;
+	ppath += ".dll";
+
+	HINSTANCE hdll = NULL;
+	ISSWELibPlugin* newPlugin = NULL;
+	typedef void* (*pvFunctv)();
+	pvFunctv createSSWELibPlugin;
+	hdll = LoadLibrary(stringw(ppath).c_str());
+
+	if (hdll == NULL) {
+		devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
+	} else {
+		createSSWELibPlugin = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createSSWELibPlugin"));
+		if (createSSWELibPlugin == NULL) {
+			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createSSWELibPlugin\" into the DLL").c_str(), EMBF_OK);
+		} else {
+			newPlugin = static_cast < ISSWELibPlugin* > (createSSWELibPlugin());
+
+			newPlugin->setDevices(devices);
+			newPlugin->open();
 		}
 	}
 }
