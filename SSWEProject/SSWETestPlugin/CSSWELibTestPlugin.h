@@ -14,16 +14,18 @@
 #include <ISSWELibPlugin.h>
 #include <DLLExport.h>
 
-class CSSWELibTestPlugin : ISSWELibPlugin {
+class CSSWELibTestPlugin : ISSWELibPlugin, IEventReceiver {
 public:
 
 	CSSWELibTestPlugin();
 	~CSSWELibTestPlugin();
 
+	bool OnEvent(const SEvent &event);
+
 	//-----------------------------------
 	//ISSWELibPlugin
 
-	void setDevices(IDevices *_devices) { devices = _devices; }
+	void setDevices(IDevices *_devices);
 	IDevices *getDevices() { return devices; }
 
 	void close();
@@ -34,8 +36,14 @@ public:
 private:
 
 	//-----------------------------------
-	//OTHERS
+	//DATAS
 	IDevices *devices;
+	//-----------------------------------
+
+	//-----------------------------------
+	//GUI ELEMENTS
+	IGUIWindow *window;
+	IGUIButton *closeWindow;
 	//-----------------------------------
 
 };

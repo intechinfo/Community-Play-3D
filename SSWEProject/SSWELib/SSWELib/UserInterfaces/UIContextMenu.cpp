@@ -327,8 +327,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	devices->setContextName("General");
 
-	CUITexturesManager *texmgr = new CUITexturesManager(devices);
-	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
+	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
+	CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
 }
