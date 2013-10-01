@@ -279,12 +279,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"L.world";
+			stringw scene_to_import = L".world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
-			/*impoterInstance->setPathOfFile_t(scene_to_import.c_str());
-			std::thread importer_t(&CImporter::import_t, *impoterInstance);
-			importer_t.detach();*/
+			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
+			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
+			//importer_t.detach();
 
 			scene_to_import.remove(L".world");
 			exportSceneInstance->setPathFile(scene_to_import.c_str());

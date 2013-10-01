@@ -157,7 +157,7 @@ public :
     
 	}
 	~Gamecontroller() {
-		delete keyMap;
+		//delete keyMap;
 	}
 
 private:

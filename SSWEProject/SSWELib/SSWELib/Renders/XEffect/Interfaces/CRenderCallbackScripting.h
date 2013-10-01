@@ -15,7 +15,7 @@
 #include <sstream>
 
 #ifdef _IRR_OSX_PLATFORM_
-	#include "../../../../Frameworks/Lua/lua.hpp"
+	#include <lua.hpp>
 #elif defined(IS_ERIO_AND_RELOU)
     #include "../../../Lua/lua.hpp"
 #else

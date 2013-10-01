@@ -421,7 +421,7 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 			core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
 			if(selectedArrow != NULL && nodeToPlace != gridSceneNode) {
 				if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
-					((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+					((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
 				}
 				if(selectedArrow == arrowYLineNode) {
 					if(findAndSetMousePositionInPlane()) {

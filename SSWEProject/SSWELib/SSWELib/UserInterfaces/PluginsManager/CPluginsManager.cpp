@@ -74,6 +74,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 	ppath += path;
 	ppath += ".dll";
 
+    #ifndef _IRR_OSX_PLATFORM_
 	HINSTANCE hdll = NULL;
 	IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();
@@ -101,6 +102,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
 		}
 	}
+    #endif
 }
 
 void CPluginsManager::loadSSWEPlugin(stringc path) {
@@ -110,6 +112,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 	ppath += path;
 	ppath += ".dll";
 
+    #ifndef _IRR_OSX_PLATFORM_
 	HINSTANCE hdll = NULL;
 	ISSWELibPlugin* newPlugin = NULL;
 	typedef void* (*pvFunctv)();
@@ -129,4 +132,5 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 			newPlugin->open();
 		}
 	}
+    #endif
 }

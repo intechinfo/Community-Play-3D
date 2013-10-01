@@ -4,11 +4,19 @@
 #include "stdafx.h"
 #include "SSWELib.h"
 
+#ifndef _IRR_OSX_PLATFORM_
 SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice() {
+#else
+CCoreUserInterface* createSSWEDevice() {
+#endif
 	return new CCoreUserInterface();
 }
 
+#ifndef _IRR_OSX_PLATFORM_
 SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
+#else
+void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
+#endif
 
 	IrrlichtDevice *device = coreUserInterface->getDevices()->getDevice();
     IVideoDriver *driver = coreUserInterface->getVideoDriver();
@@ -63,10 +71,13 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 
 	coreUserInterface->getDevices()->getRenderingSceneManager()->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
 
+    #ifndef _IRR_OSX_PLATFORM_
 	if (!InitializeCriticalSectionAndSpinCount(&CriticalSection,  0x00000400))
 		return;
+    #endif
 
 	std::mutex mutex;
+    
 	while (device->run()) {
 
         //if (device->isWindowActive()) {
@@ -91,7 +102,9 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
         }
 	}
 
+    #ifndef _IRR_OSX_PLATFORM_
 	DeleteCriticalSection(&CriticalSection);
+    #endif
 
     device->drop();
 

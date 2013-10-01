@@ -17,4 +17,6 @@
 #include <vector>
 #include <cstdlib>
 
+#ifndef _IRR_OSX_PLATFORM_
 extern CRITICAL_SECTION CriticalSection;
+#endif

@@ -12,15 +12,15 @@ using namespace irr;
 class CTerrain : public scene::ISceneNode {
 public:
 
-	const enum E_TERRAIN_QUALITY {
+	enum E_TERRAIN_QUALITY {
 		ETQ_HIGH = 1,
 		ETQ_MEDIUM = 2,
 		ETQ_LOW = 4,
 		ETQ_EXTRALOW = 8
 	};
 
-	CTerrain::CTerrain(c8* HeightmapFile,E_TERRAIN_QUALITY Quality,f32 ScaleTexture,scene::ISceneNode* parent,scene::ISceneManager* smgr,s32 id);
-	virtual CTerrain::~CTerrain();
+	CTerrain(c8* HeightmapFile,E_TERRAIN_QUALITY Quality,f32 ScaleTexture,scene::ISceneNode* parent,scene::ISceneManager* smgr,s32 id);
+	virtual ~CTerrain();
 	void setColorTexture(c8* FileName);
 	void setDetailTexture(c8* FileName);
 	void setRenderDistance(f32 Distance);

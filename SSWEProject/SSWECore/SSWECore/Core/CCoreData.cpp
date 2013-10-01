@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "CCoreData.h"
 
-#include "../../../SSWERenders/Renders/XEffect/EffectShaders.h"
+//#include "../../../SSWERenders/Renders/XEffect/EffectShaders.h"
 
 CCoreData::CCoreData() {
     clearAllTheArrays();
@@ -253,7 +253,7 @@ void SLightsData::createLightShafts(EffectHandler *effect, const u32 numberOfPla
 	lightCamera->OnRegisterSceneNode();
 	lightCamera->render();
 
-	lsdata.create(lightCamera, numberOfPlanes, LIGHT_SHAFTS_V[ESE_HLSL], LIGHT_SHAFTS_P[ESE_HLSL]);
+	//lsdata.create(lightCamera, numberOfPlanes, LIGHT_SHAFTS_V[ESE_HLSL], LIGHT_SHAFTS_P[ESE_HLSL]);
 
 	//lightCamera->remove();
 	effect->getActiveSceneManager()->setActiveCamera(initialCam);

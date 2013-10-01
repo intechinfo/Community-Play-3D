@@ -29,20 +29,23 @@
 
 #include <irrlicht.h>
 
+#include <memory>
+#include <thread>
+#include <mutex>
+
 #ifndef _IRR_OSX_PLATFORM_
-	#include <memory>
-	#include <thread>
 	#include <Windows.h>
-	#include <mutex>
 #endif
 
 //RENDERS
-#include "../../../SSWERenders/Renders/XEffect/XEffects.h"
+//#include "../../../SSWERenders/Renders/XEffect/XEffects.h"
 
 //BULLET
+
 #include "src/Bullet-C-Api.h"
 #include "src/btBulletDynamicsCommon.h"
 #include "src/btBulletCollisionCommon.h"
+
 
 using namespace irr;
 using namespace video;
@@ -140,12 +143,12 @@ private:
 //--------------------------
 //MULTIPLE EVENT RECEIVERS CLASS
 
-class IUpdate : IEventReceiver {
+class IUpdate {
 public:
 	virtual void update() = 0;
 };
 
-class EventReceiver : public IEventReceiver, IUpdate {
+class EventReceiver : public irr::IEventReceiver, IUpdate {
 
 public:
     

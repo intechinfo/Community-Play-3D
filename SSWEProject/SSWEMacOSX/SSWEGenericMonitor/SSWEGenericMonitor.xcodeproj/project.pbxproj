@@ -1,0 +1,280 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2EFCC13817FB733000000709 /* CGenericMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCC13417FB733000000709 /* CGenericMonitor.cpp */; };
+		2EFCC13917FB733000000709 /* CGenericMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFCC13517FB733000000709 /* CGenericMonitor.h */; };
+		2EFCC13A17FB733000000709 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCC13617FB733000000709 /* stdafx.cpp */; };
+		2EFCC13B17FB733000000709 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFCC13717FB733000000709 /* stdafx.h */; };
+		2EFCC13F17FB73A300000709 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFCC13E17FB73A300000709 /* libSSWERenders.a */; };
+		2EFCC14317FB73DB00000709 /* IrrFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFCC14217FB73DB00000709 /* IrrFramework.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2EFCC12717FB730100000709 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EFCC13417FB733000000709 /* CGenericMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGenericMonitor.cpp; path = ../../SSWEGenericMonitor/CGenericMonitor.cpp; sourceTree = "<group>"; };
+		2EFCC13517FB733000000709 /* CGenericMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGenericMonitor.h; path = ../../SSWEGenericMonitor/CGenericMonitor.h; sourceTree = "<group>"; };
+		2EFCC13617FB733000000709 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../SSWEGenericMonitor/stdafx.cpp; sourceTree = "<group>"; };
+		2EFCC13717FB733000000709 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../SSWEGenericMonitor/stdafx.h; sourceTree = "<group>"; };
+		2EFCC13E17FB73A300000709 /* libSSWERenders.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSWERenders.a; path = ../SSWERenders/build/Debug/libSSWERenders.a; sourceTree = "<group>"; };
+		2EFCC14217FB73DB00000709 /* IrrFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IrrFramework.framework; path = ../../Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug/IrrFramework.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2EFCC12417FB730100000709 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EFCC14317FB73DB00000709 /* IrrFramework.framework in Frameworks */,
+				2EFCC13F17FB73A300000709 /* libSSWERenders.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2EFCC11E17FB730100000709 = {
+			isa = PBXGroup;
+			children = (
+				2EFCC14217FB73DB00000709 /* IrrFramework.framework */,
+				2EFCC13E17FB73A300000709 /* libSSWERenders.a */,
+				2EFCC13417FB733000000709 /* CGenericMonitor.cpp */,
+				2EFCC13517FB733000000709 /* CGenericMonitor.h */,
+				2EFCC13617FB733000000709 /* stdafx.cpp */,
+				2EFCC13717FB733000000709 /* stdafx.h */,
+				2EFCC12817FB730100000709 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2EFCC12817FB730100000709 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2EFCC12717FB730100000709 /* libSSWEGenericMonitor.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2EFCC12517FB730100000709 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EFCC13B17FB733000000709 /* stdafx.h in Headers */,
+				2EFCC13917FB733000000709 /* CGenericMonitor.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2EFCC12617FB730100000709 /* SSWEGenericMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2EFCC12B17FB730100000709 /* Build configuration list for PBXNativeTarget "SSWEGenericMonitor" */;
+			buildPhases = (
+				2EFCC12317FB730100000709 /* Sources */,
+				2EFCC12417FB730100000709 /* Frameworks */,
+				2EFCC12517FB730100000709 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SSWEGenericMonitor;
+			productName = SSWEGenericMonitor;
+			productReference = 2EFCC12717FB730100000709 /* libSSWEGenericMonitor.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2EFCC11F17FB730100000709 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Julien Moreau-Mathis";
+			};
+			buildConfigurationList = 2EFCC12217FB730100000709 /* Build configuration list for PBXProject "SSWEGenericMonitor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2EFCC11E17FB730100000709;
+			productRefGroup = 2EFCC12817FB730100000709 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2EFCC12617FB730100000709 /* SSWEGenericMonitor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2EFCC12317FB730100000709 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EFCC13817FB733000000709 /* CGenericMonitor.cpp in Sources */,
+				2EFCC13A17FB733000000709 /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2EFCC12917FB730100000709 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2EFCC12A17FB730100000709 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2EFCC12C17FB730100000709 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/build/Debug",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../Irrlicht/libs/include,
+					../../SSWERenders/,
+					../../SSWELib/include,
+				);
+				INSTALL_PATH = ../../SSWE/Plugins/Monitors/;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/SSWERenders/build/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				SYMROOT = build;
+			};
+			name = Debug;
+		};
+		2EFCC12D17FB730100000709 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/build/Debug",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../Irrlicht/libs/include,
+					../../SSWERenders/,
+					../../SSWELib/include,
+				);
+				INSTALL_PATH = ../../SSWE/Plugins/Monitors/;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/SSWERenders/build/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				SYMROOT = build;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2EFCC12217FB730100000709 /* Build configuration list for PBXProject "SSWEGenericMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EFCC12917FB730100000709 /* Debug */,
+				2EFCC12A17FB730100000709 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2EFCC12B17FB730100000709 /* Build configuration list for PBXNativeTarget "SSWEGenericMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EFCC12C17FB730100000709 /* Debug */,
+				2EFCC12D17FB730100000709 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2EFCC11F17FB730100000709 /* Project object */;
+}

@@ -84,7 +84,7 @@ private:
 
 	class CGrassShaderCallback : public IShaderConstantSetCallBack {
 	public:
-		CGrassShaderCallback::CGrassShaderCallback(IrrlichtDevice *_device, vector3df _lightPosv) {
+		CGrassShaderCallback(IrrlichtDevice *_device, vector3df _lightPosv) {
 			device = _device;
 			lightPosv = _lightPosv;
 		}

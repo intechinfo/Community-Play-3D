@@ -29,7 +29,9 @@
 
 #include "../SceneNodes/Camera/CRiggedCamera.h"
 
-#include <omp.h>
+#ifndef _IRR_OSX_PLATFORM_
+    #include <omp.h>
+#endif
 
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility

@@ -215,371 +215,188 @@
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
 		2E6BEEED17FA2DBF00E9BD87 /* aabbox3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3617FA2DBC00E9BD87 /* aabbox3d.h */; };
-		2E6BEEEE17FA2DBF00E9BD87 /* aabbox3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3617FA2DBC00E9BD87 /* aabbox3d.h */; };
 		2E6BEEEF17FA2DBF00E9BD87 /* CDynamicMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3717FA2DBC00E9BD87 /* CDynamicMeshBuffer.h */; };
-		2E6BEEF017FA2DBF00E9BD87 /* CDynamicMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3717FA2DBC00E9BD87 /* CDynamicMeshBuffer.h */; };
 		2E6BEEF117FA2DBF00E9BD87 /* CIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3817FA2DBC00E9BD87 /* CIndexBuffer.h */; };
-		2E6BEEF217FA2DBF00E9BD87 /* CIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3817FA2DBC00E9BD87 /* CIndexBuffer.h */; };
 		2E6BEEF317FA2DBF00E9BD87 /* CMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3917FA2DBC00E9BD87 /* CMeshBuffer.h */; };
-		2E6BEEF417FA2DBF00E9BD87 /* CMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3917FA2DBC00E9BD87 /* CMeshBuffer.h */; };
 		2E6BEEF517FA2DBF00E9BD87 /* coreutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3A17FA2DBC00E9BD87 /* coreutil.h */; };
-		2E6BEEF617FA2DBF00E9BD87 /* coreutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3A17FA2DBC00E9BD87 /* coreutil.h */; };
 		2E6BEEF717FA2DBF00E9BD87 /* CVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3B17FA2DBC00E9BD87 /* CVertexBuffer.h */; };
-		2E6BEEF817FA2DBF00E9BD87 /* CVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3B17FA2DBC00E9BD87 /* CVertexBuffer.h */; };
 		2E6BEEF917FA2DBF00E9BD87 /* dimension2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3C17FA2DBC00E9BD87 /* dimension2d.h */; };
-		2E6BEEFA17FA2DBF00E9BD87 /* dimension2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3C17FA2DBC00E9BD87 /* dimension2d.h */; };
 		2E6BEEFB17FA2DBF00E9BD87 /* driverChoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3D17FA2DBC00E9BD87 /* driverChoice.h */; };
-		2E6BEEFC17FA2DBF00E9BD87 /* driverChoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3D17FA2DBC00E9BD87 /* driverChoice.h */; };
 		2E6BEEFD17FA2DBF00E9BD87 /* EAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3E17FA2DBC00E9BD87 /* EAttributes.h */; };
-		2E6BEEFE17FA2DBF00E9BD87 /* EAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3E17FA2DBC00E9BD87 /* EAttributes.h */; };
 		2E6BEEFF17FA2DBF00E9BD87 /* ECullingTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3F17FA2DBC00E9BD87 /* ECullingTypes.h */; };
-		2E6BEF0017FA2DBF00E9BD87 /* ECullingTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3F17FA2DBC00E9BD87 /* ECullingTypes.h */; };
 		2E6BEF0117FA2DBF00E9BD87 /* EDebugSceneTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4017FA2DBC00E9BD87 /* EDebugSceneTypes.h */; };
-		2E6BEF0217FA2DBF00E9BD87 /* EDebugSceneTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4017FA2DBC00E9BD87 /* EDebugSceneTypes.h */; };
 		2E6BEF0317FA2DBF00E9BD87 /* EDeviceTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4117FA2DBC00E9BD87 /* EDeviceTypes.h */; };
-		2E6BEF0417FA2DBF00E9BD87 /* EDeviceTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4117FA2DBC00E9BD87 /* EDeviceTypes.h */; };
 		2E6BEF0517FA2DBF00E9BD87 /* EDriverFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4217FA2DBC00E9BD87 /* EDriverFeatures.h */; };
-		2E6BEF0617FA2DBF00E9BD87 /* EDriverFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4217FA2DBC00E9BD87 /* EDriverFeatures.h */; };
 		2E6BEF0717FA2DBF00E9BD87 /* EDriverTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4317FA2DBC00E9BD87 /* EDriverTypes.h */; };
-		2E6BEF0817FA2DBF00E9BD87 /* EDriverTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4317FA2DBC00E9BD87 /* EDriverTypes.h */; };
 		2E6BEF0917FA2DBF00E9BD87 /* EGUIAlignment.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4417FA2DBC00E9BD87 /* EGUIAlignment.h */; };
-		2E6BEF0A17FA2DBF00E9BD87 /* EGUIAlignment.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4417FA2DBC00E9BD87 /* EGUIAlignment.h */; };
 		2E6BEF0B17FA2DBF00E9BD87 /* EGUIElementTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4517FA2DBC00E9BD87 /* EGUIElementTypes.h */; };
-		2E6BEF0C17FA2DBF00E9BD87 /* EGUIElementTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4517FA2DBC00E9BD87 /* EGUIElementTypes.h */; };
 		2E6BEF0D17FA2DBF00E9BD87 /* EHardwareBufferFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4617FA2DBC00E9BD87 /* EHardwareBufferFlags.h */; };
-		2E6BEF0E17FA2DBF00E9BD87 /* EHardwareBufferFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4617FA2DBC00E9BD87 /* EHardwareBufferFlags.h */; };
 		2E6BEF0F17FA2DBF00E9BD87 /* EMaterialFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4717FA2DBC00E9BD87 /* EMaterialFlags.h */; };
-		2E6BEF1017FA2DBF00E9BD87 /* EMaterialFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4717FA2DBC00E9BD87 /* EMaterialFlags.h */; };
 		2E6BEF1117FA2DBF00E9BD87 /* EMaterialTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4817FA2DBC00E9BD87 /* EMaterialTypes.h */; };
-		2E6BEF1217FA2DBF00E9BD87 /* EMaterialTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4817FA2DBC00E9BD87 /* EMaterialTypes.h */; };
 		2E6BEF1317FA2DBF00E9BD87 /* EMeshWriterEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4917FA2DBC00E9BD87 /* EMeshWriterEnums.h */; };
-		2E6BEF1417FA2DBF00E9BD87 /* EMeshWriterEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4917FA2DBC00E9BD87 /* EMeshWriterEnums.h */; };
 		2E6BEF1517FA2DBF00E9BD87 /* EMessageBoxFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4A17FA2DBC00E9BD87 /* EMessageBoxFlags.h */; };
-		2E6BEF1617FA2DBF00E9BD87 /* EMessageBoxFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4A17FA2DBC00E9BD87 /* EMessageBoxFlags.h */; };
 		2E6BEF1717FA2DBF00E9BD87 /* EPrimitiveTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4B17FA2DBC00E9BD87 /* EPrimitiveTypes.h */; };
-		2E6BEF1817FA2DBF00E9BD87 /* EPrimitiveTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4B17FA2DBC00E9BD87 /* EPrimitiveTypes.h */; };
 		2E6BEF1917FA2DBF00E9BD87 /* ESceneNodeAnimatorTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4C17FA2DBC00E9BD87 /* ESceneNodeAnimatorTypes.h */; };
-		2E6BEF1A17FA2DBF00E9BD87 /* ESceneNodeAnimatorTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4C17FA2DBC00E9BD87 /* ESceneNodeAnimatorTypes.h */; };
 		2E6BEF1B17FA2DBF00E9BD87 /* ESceneNodeTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4D17FA2DBC00E9BD87 /* ESceneNodeTypes.h */; };
-		2E6BEF1C17FA2DBF00E9BD87 /* ESceneNodeTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4D17FA2DBC00E9BD87 /* ESceneNodeTypes.h */; };
 		2E6BEF1D17FA2DBF00E9BD87 /* EShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4E17FA2DBC00E9BD87 /* EShaderTypes.h */; };
-		2E6BEF1E17FA2DBF00E9BD87 /* EShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4E17FA2DBC00E9BD87 /* EShaderTypes.h */; };
 		2E6BEF1F17FA2DBF00E9BD87 /* ETerrainElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4F17FA2DBC00E9BD87 /* ETerrainElements.h */; };
-		2E6BEF2017FA2DBF00E9BD87 /* ETerrainElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4F17FA2DBC00E9BD87 /* ETerrainElements.h */; };
 		2E6BEF2117FA2DBF00E9BD87 /* fast_atof.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5017FA2DBC00E9BD87 /* fast_atof.h */; };
-		2E6BEF2217FA2DBF00E9BD87 /* fast_atof.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5017FA2DBC00E9BD87 /* fast_atof.h */; };
 		2E6BEF2317FA2DBF00E9BD87 /* heapsort.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5117FA2DBC00E9BD87 /* heapsort.h */; };
-		2E6BEF2417FA2DBF00E9BD87 /* heapsort.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5117FA2DBC00E9BD87 /* heapsort.h */; };
 		2E6BEF2517FA2DBF00E9BD87 /* IAnimatedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5217FA2DBC00E9BD87 /* IAnimatedMesh.h */; };
-		2E6BEF2617FA2DBF00E9BD87 /* IAnimatedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5217FA2DBC00E9BD87 /* IAnimatedMesh.h */; };
 		2E6BEF2717FA2DBF00E9BD87 /* IAnimatedMeshMD2.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5317FA2DBC00E9BD87 /* IAnimatedMeshMD2.h */; };
-		2E6BEF2817FA2DBF00E9BD87 /* IAnimatedMeshMD2.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5317FA2DBC00E9BD87 /* IAnimatedMeshMD2.h */; };
 		2E6BEF2917FA2DBF00E9BD87 /* IAnimatedMeshMD3.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5417FA2DBC00E9BD87 /* IAnimatedMeshMD3.h */; };
-		2E6BEF2A17FA2DBF00E9BD87 /* IAnimatedMeshMD3.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5417FA2DBC00E9BD87 /* IAnimatedMeshMD3.h */; };
 		2E6BEF2B17FA2DBF00E9BD87 /* IAnimatedMeshSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5517FA2DBC00E9BD87 /* IAnimatedMeshSceneNode.h */; };
-		2E6BEF2C17FA2DBF00E9BD87 /* IAnimatedMeshSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5517FA2DBC00E9BD87 /* IAnimatedMeshSceneNode.h */; };
 		2E6BEF2D17FA2DBF00E9BD87 /* IAttributeExchangingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5617FA2DBC00E9BD87 /* IAttributeExchangingObject.h */; };
-		2E6BEF2E17FA2DBF00E9BD87 /* IAttributeExchangingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5617FA2DBC00E9BD87 /* IAttributeExchangingObject.h */; };
 		2E6BEF2F17FA2DBF00E9BD87 /* IAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5717FA2DBC00E9BD87 /* IAttributes.h */; };
-		2E6BEF3017FA2DBF00E9BD87 /* IAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5717FA2DBC00E9BD87 /* IAttributes.h */; };
 		2E6BEF3117FA2DBF00E9BD87 /* IBillboardSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5817FA2DBC00E9BD87 /* IBillboardSceneNode.h */; };
-		2E6BEF3217FA2DBF00E9BD87 /* IBillboardSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5817FA2DBC00E9BD87 /* IBillboardSceneNode.h */; };
 		2E6BEF3317FA2DBF00E9BD87 /* IBillboardTextSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5917FA2DBC00E9BD87 /* IBillboardTextSceneNode.h */; };
-		2E6BEF3417FA2DBF00E9BD87 /* IBillboardTextSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5917FA2DBC00E9BD87 /* IBillboardTextSceneNode.h */; };
 		2E6BEF3517FA2DBF00E9BD87 /* IBoneSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5A17FA2DBC00E9BD87 /* IBoneSceneNode.h */; };
-		2E6BEF3617FA2DBF00E9BD87 /* IBoneSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5A17FA2DBC00E9BD87 /* IBoneSceneNode.h */; };
 		2E6BEF3717FA2DBF00E9BD87 /* ICameraSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5B17FA2DBC00E9BD87 /* ICameraSceneNode.h */; };
-		2E6BEF3817FA2DBF00E9BD87 /* ICameraSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5B17FA2DBC00E9BD87 /* ICameraSceneNode.h */; };
 		2E6BEF3917FA2DBF00E9BD87 /* IColladaMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5C17FA2DBC00E9BD87 /* IColladaMeshWriter.h */; };
-		2E6BEF3A17FA2DBF00E9BD87 /* IColladaMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5C17FA2DBC00E9BD87 /* IColladaMeshWriter.h */; };
 		2E6BEF3B17FA2DBF00E9BD87 /* ICursorControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5D17FA2DBD00E9BD87 /* ICursorControl.h */; };
-		2E6BEF3C17FA2DBF00E9BD87 /* ICursorControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5D17FA2DBD00E9BD87 /* ICursorControl.h */; };
 		2E6BEF3D17FA2DBF00E9BD87 /* IDummyTransformationSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5E17FA2DBD00E9BD87 /* IDummyTransformationSceneNode.h */; };
-		2E6BEF3E17FA2DBF00E9BD87 /* IDummyTransformationSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5E17FA2DBD00E9BD87 /* IDummyTransformationSceneNode.h */; };
 		2E6BEF3F17FA2DBF00E9BD87 /* IDynamicMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5F17FA2DBD00E9BD87 /* IDynamicMeshBuffer.h */; };
-		2E6BEF4017FA2DBF00E9BD87 /* IDynamicMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5F17FA2DBD00E9BD87 /* IDynamicMeshBuffer.h */; };
 		2E6BEF4117FA2DBF00E9BD87 /* IEventReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6017FA2DBD00E9BD87 /* IEventReceiver.h */; };
-		2E6BEF4217FA2DBF00E9BD87 /* IEventReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6017FA2DBD00E9BD87 /* IEventReceiver.h */; };
 		2E6BEF4317FA2DBF00E9BD87 /* IFileArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6117FA2DBD00E9BD87 /* IFileArchive.h */; };
-		2E6BEF4417FA2DBF00E9BD87 /* IFileArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6117FA2DBD00E9BD87 /* IFileArchive.h */; };
 		2E6BEF4517FA2DBF00E9BD87 /* IFileList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6217FA2DBD00E9BD87 /* IFileList.h */; };
-		2E6BEF4617FA2DBF00E9BD87 /* IFileList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6217FA2DBD00E9BD87 /* IFileList.h */; };
 		2E6BEF4717FA2DBF00E9BD87 /* IFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6317FA2DBD00E9BD87 /* IFileSystem.h */; };
-		2E6BEF4817FA2DBF00E9BD87 /* IFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6317FA2DBD00E9BD87 /* IFileSystem.h */; };
 		2E6BEF4917FA2DBF00E9BD87 /* IGeometryCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6417FA2DBD00E9BD87 /* IGeometryCreator.h */; };
-		2E6BEF4A17FA2DBF00E9BD87 /* IGeometryCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6417FA2DBD00E9BD87 /* IGeometryCreator.h */; };
 		2E6BEF4B17FA2DBF00E9BD87 /* IGPUProgrammingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6517FA2DBD00E9BD87 /* IGPUProgrammingServices.h */; };
-		2E6BEF4C17FA2DBF00E9BD87 /* IGPUProgrammingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6517FA2DBD00E9BD87 /* IGPUProgrammingServices.h */; };
 		2E6BEF4D17FA2DBF00E9BD87 /* IGUIButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6617FA2DBD00E9BD87 /* IGUIButton.h */; };
-		2E6BEF4E17FA2DBF00E9BD87 /* IGUIButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6617FA2DBD00E9BD87 /* IGUIButton.h */; };
 		2E6BEF4F17FA2DBF00E9BD87 /* IGUICheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6717FA2DBD00E9BD87 /* IGUICheckBox.h */; };
-		2E6BEF5017FA2DBF00E9BD87 /* IGUICheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6717FA2DBD00E9BD87 /* IGUICheckBox.h */; };
 		2E6BEF5117FA2DBF00E9BD87 /* IGUIColorSelectDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6817FA2DBD00E9BD87 /* IGUIColorSelectDialog.h */; };
-		2E6BEF5217FA2DBF00E9BD87 /* IGUIColorSelectDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6817FA2DBD00E9BD87 /* IGUIColorSelectDialog.h */; };
 		2E6BEF5317FA2DBF00E9BD87 /* IGUIComboBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6917FA2DBD00E9BD87 /* IGUIComboBox.h */; };
-		2E6BEF5417FA2DBF00E9BD87 /* IGUIComboBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6917FA2DBD00E9BD87 /* IGUIComboBox.h */; };
 		2E6BEF5517FA2DBF00E9BD87 /* IGUIContextMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6A17FA2DBD00E9BD87 /* IGUIContextMenu.h */; };
-		2E6BEF5617FA2DBF00E9BD87 /* IGUIContextMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6A17FA2DBD00E9BD87 /* IGUIContextMenu.h */; };
 		2E6BEF5717FA2DBF00E9BD87 /* IGUIEditBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6B17FA2DBD00E9BD87 /* IGUIEditBox.h */; };
-		2E6BEF5817FA2DBF00E9BD87 /* IGUIEditBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6B17FA2DBD00E9BD87 /* IGUIEditBox.h */; };
 		2E6BEF5917FA2DBF00E9BD87 /* IGUIElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6C17FA2DBD00E9BD87 /* IGUIElement.h */; };
-		2E6BEF5A17FA2DBF00E9BD87 /* IGUIElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6C17FA2DBD00E9BD87 /* IGUIElement.h */; };
 		2E6BEF5B17FA2DBF00E9BD87 /* IGUIElementFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6D17FA2DBD00E9BD87 /* IGUIElementFactory.h */; };
-		2E6BEF5C17FA2DBF00E9BD87 /* IGUIElementFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6D17FA2DBD00E9BD87 /* IGUIElementFactory.h */; };
 		2E6BEF5D17FA2DBF00E9BD87 /* IGUIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6E17FA2DBD00E9BD87 /* IGUIEnvironment.h */; };
-		2E6BEF5E17FA2DBF00E9BD87 /* IGUIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6E17FA2DBD00E9BD87 /* IGUIEnvironment.h */; };
 		2E6BEF5F17FA2DBF00E9BD87 /* IGUIFileOpenDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6F17FA2DBD00E9BD87 /* IGUIFileOpenDialog.h */; };
-		2E6BEF6017FA2DBF00E9BD87 /* IGUIFileOpenDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6F17FA2DBD00E9BD87 /* IGUIFileOpenDialog.h */; };
 		2E6BEF6117FA2DBF00E9BD87 /* IGUIFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7017FA2DBD00E9BD87 /* IGUIFont.h */; };
-		2E6BEF6217FA2DBF00E9BD87 /* IGUIFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7017FA2DBD00E9BD87 /* IGUIFont.h */; };
 		2E6BEF6317FA2DBF00E9BD87 /* IGUIFontBitmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7117FA2DBD00E9BD87 /* IGUIFontBitmap.h */; };
-		2E6BEF6417FA2DBF00E9BD87 /* IGUIFontBitmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7117FA2DBD00E9BD87 /* IGUIFontBitmap.h */; };
 		2E6BEF6517FA2DBF00E9BD87 /* IGUIImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7217FA2DBD00E9BD87 /* IGUIImage.h */; };
-		2E6BEF6617FA2DBF00E9BD87 /* IGUIImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7217FA2DBD00E9BD87 /* IGUIImage.h */; };
 		2E6BEF6717FA2DBF00E9BD87 /* IGUIImageList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7317FA2DBD00E9BD87 /* IGUIImageList.h */; };
-		2E6BEF6817FA2DBF00E9BD87 /* IGUIImageList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7317FA2DBD00E9BD87 /* IGUIImageList.h */; };
 		2E6BEF6917FA2DBF00E9BD87 /* IGUIInOutFader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7417FA2DBD00E9BD87 /* IGUIInOutFader.h */; };
-		2E6BEF6A17FA2DBF00E9BD87 /* IGUIInOutFader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7417FA2DBD00E9BD87 /* IGUIInOutFader.h */; };
 		2E6BEF6B17FA2DBF00E9BD87 /* IGUIListBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7517FA2DBD00E9BD87 /* IGUIListBox.h */; };
-		2E6BEF6C17FA2DBF00E9BD87 /* IGUIListBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7517FA2DBD00E9BD87 /* IGUIListBox.h */; };
 		2E6BEF6D17FA2DBF00E9BD87 /* IGUIMeshViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7617FA2DBD00E9BD87 /* IGUIMeshViewer.h */; };
-		2E6BEF6E17FA2DBF00E9BD87 /* IGUIMeshViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7617FA2DBD00E9BD87 /* IGUIMeshViewer.h */; };
 		2E6BEF6F17FA2DBF00E9BD87 /* IGUIScrollBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7717FA2DBD00E9BD87 /* IGUIScrollBar.h */; };
-		2E6BEF7017FA2DBF00E9BD87 /* IGUIScrollBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7717FA2DBD00E9BD87 /* IGUIScrollBar.h */; };
 		2E6BEF7117FA2DBF00E9BD87 /* IGUISkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7817FA2DBD00E9BD87 /* IGUISkin.h */; };
-		2E6BEF7217FA2DBF00E9BD87 /* IGUISkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7817FA2DBD00E9BD87 /* IGUISkin.h */; };
 		2E6BEF7317FA2DBF00E9BD87 /* IGUISpinBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7917FA2DBD00E9BD87 /* IGUISpinBox.h */; };
-		2E6BEF7417FA2DBF00E9BD87 /* IGUISpinBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7917FA2DBD00E9BD87 /* IGUISpinBox.h */; };
 		2E6BEF7517FA2DBF00E9BD87 /* IGUISpriteBank.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7A17FA2DBD00E9BD87 /* IGUISpriteBank.h */; };
-		2E6BEF7617FA2DBF00E9BD87 /* IGUISpriteBank.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7A17FA2DBD00E9BD87 /* IGUISpriteBank.h */; };
 		2E6BEF7717FA2DBF00E9BD87 /* IGUIStaticText.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7B17FA2DBD00E9BD87 /* IGUIStaticText.h */; };
-		2E6BEF7817FA2DBF00E9BD87 /* IGUIStaticText.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7B17FA2DBD00E9BD87 /* IGUIStaticText.h */; };
 		2E6BEF7917FA2DBF00E9BD87 /* IGUITabControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7C17FA2DBD00E9BD87 /* IGUITabControl.h */; };
-		2E6BEF7A17FA2DBF00E9BD87 /* IGUITabControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7C17FA2DBD00E9BD87 /* IGUITabControl.h */; };
 		2E6BEF7B17FA2DBF00E9BD87 /* IGUITable.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7D17FA2DBD00E9BD87 /* IGUITable.h */; };
-		2E6BEF7C17FA2DBF00E9BD87 /* IGUITable.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7D17FA2DBD00E9BD87 /* IGUITable.h */; };
 		2E6BEF7D17FA2DBF00E9BD87 /* IGUIToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7E17FA2DBD00E9BD87 /* IGUIToolbar.h */; };
-		2E6BEF7E17FA2DBF00E9BD87 /* IGUIToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7E17FA2DBD00E9BD87 /* IGUIToolbar.h */; };
 		2E6BEF7F17FA2DBF00E9BD87 /* IGUITreeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7F17FA2DBD00E9BD87 /* IGUITreeView.h */; };
-		2E6BEF8017FA2DBF00E9BD87 /* IGUITreeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7F17FA2DBD00E9BD87 /* IGUITreeView.h */; };
 		2E6BEF8117FA2DBF00E9BD87 /* IGUIWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8017FA2DBD00E9BD87 /* IGUIWindow.h */; };
-		2E6BEF8217FA2DBF00E9BD87 /* IGUIWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8017FA2DBD00E9BD87 /* IGUIWindow.h */; };
 		2E6BEF8317FA2DBF00E9BD87 /* IImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8117FA2DBD00E9BD87 /* IImage.h */; };
-		2E6BEF8417FA2DBF00E9BD87 /* IImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8117FA2DBD00E9BD87 /* IImage.h */; };
 		2E6BEF8517FA2DBF00E9BD87 /* IImageLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8217FA2DBD00E9BD87 /* IImageLoader.h */; };
-		2E6BEF8617FA2DBF00E9BD87 /* IImageLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8217FA2DBD00E9BD87 /* IImageLoader.h */; };
 		2E6BEF8717FA2DBF00E9BD87 /* IImageWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8317FA2DBD00E9BD87 /* IImageWriter.h */; };
-		2E6BEF8817FA2DBF00E9BD87 /* IImageWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8317FA2DBD00E9BD87 /* IImageWriter.h */; };
 		2E6BEF8917FA2DBF00E9BD87 /* IIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8417FA2DBD00E9BD87 /* IIndexBuffer.h */; };
-		2E6BEF8A17FA2DBF00E9BD87 /* IIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8417FA2DBD00E9BD87 /* IIndexBuffer.h */; };
 		2E6BEF8B17FA2DBF00E9BD87 /* ILightManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8517FA2DBD00E9BD87 /* ILightManager.h */; };
-		2E6BEF8C17FA2DBF00E9BD87 /* ILightManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8517FA2DBD00E9BD87 /* ILightManager.h */; };
 		2E6BEF8D17FA2DBF00E9BD87 /* ILightSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8617FA2DBD00E9BD87 /* ILightSceneNode.h */; };
-		2E6BEF8E17FA2DBF00E9BD87 /* ILightSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8617FA2DBD00E9BD87 /* ILightSceneNode.h */; };
 		2E6BEF8F17FA2DBF00E9BD87 /* ILogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8717FA2DBD00E9BD87 /* ILogger.h */; };
-		2E6BEF9017FA2DBF00E9BD87 /* ILogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8717FA2DBD00E9BD87 /* ILogger.h */; };
 		2E6BEF9117FA2DBF00E9BD87 /* IMaterialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8817FA2DBD00E9BD87 /* IMaterialRenderer.h */; };
-		2E6BEF9217FA2DBF00E9BD87 /* IMaterialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8817FA2DBD00E9BD87 /* IMaterialRenderer.h */; };
 		2E6BEF9317FA2DBF00E9BD87 /* IMaterialRendererServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8917FA2DBD00E9BD87 /* IMaterialRendererServices.h */; };
-		2E6BEF9417FA2DBF00E9BD87 /* IMaterialRendererServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8917FA2DBD00E9BD87 /* IMaterialRendererServices.h */; };
 		2E6BEF9517FA2DBF00E9BD87 /* IMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8A17FA2DBD00E9BD87 /* IMesh.h */; };
-		2E6BEF9617FA2DBF00E9BD87 /* IMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8A17FA2DBD00E9BD87 /* IMesh.h */; };
 		2E6BEF9717FA2DBF00E9BD87 /* IMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8B17FA2DBD00E9BD87 /* IMeshBuffer.h */; };
-		2E6BEF9817FA2DBF00E9BD87 /* IMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8B17FA2DBD00E9BD87 /* IMeshBuffer.h */; };
 		2E6BEF9917FA2DBF00E9BD87 /* IMeshCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8C17FA2DBD00E9BD87 /* IMeshCache.h */; };
-		2E6BEF9A17FA2DBF00E9BD87 /* IMeshCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8C17FA2DBD00E9BD87 /* IMeshCache.h */; };
 		2E6BEF9B17FA2DBF00E9BD87 /* IMeshLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8D17FA2DBD00E9BD87 /* IMeshLoader.h */; };
-		2E6BEF9C17FA2DBF00E9BD87 /* IMeshLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8D17FA2DBD00E9BD87 /* IMeshLoader.h */; };
 		2E6BEF9D17FA2DBF00E9BD87 /* IMeshManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8E17FA2DBD00E9BD87 /* IMeshManipulator.h */; };
-		2E6BEF9E17FA2DBF00E9BD87 /* IMeshManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8E17FA2DBD00E9BD87 /* IMeshManipulator.h */; };
 		2E6BEF9F17FA2DBF00E9BD87 /* IMeshSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8F17FA2DBD00E9BD87 /* IMeshSceneNode.h */; };
-		2E6BEFA017FA2DBF00E9BD87 /* IMeshSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8F17FA2DBD00E9BD87 /* IMeshSceneNode.h */; };
 		2E6BEFA117FA2DBF00E9BD87 /* IMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9017FA2DBD00E9BD87 /* IMeshWriter.h */; };
-		2E6BEFA217FA2DBF00E9BD87 /* IMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9017FA2DBD00E9BD87 /* IMeshWriter.h */; };
 		2E6BEFA317FA2DBF00E9BD87 /* IMetaTriangleSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9117FA2DBD00E9BD87 /* IMetaTriangleSelector.h */; };
-		2E6BEFA417FA2DBF00E9BD87 /* IMetaTriangleSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9117FA2DBD00E9BD87 /* IMetaTriangleSelector.h */; };
 		2E6BEFA517FA2DBF00E9BD87 /* IOSOperator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9217FA2DBD00E9BD87 /* IOSOperator.h */; };
-		2E6BEFA617FA2DBF00E9BD87 /* IOSOperator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9217FA2DBD00E9BD87 /* IOSOperator.h */; };
 		2E6BEFA717FA2DBF00E9BD87 /* IParticleAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9317FA2DBD00E9BD87 /* IParticleAffector.h */; };
-		2E6BEFA817FA2DBF00E9BD87 /* IParticleAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9317FA2DBD00E9BD87 /* IParticleAffector.h */; };
 		2E6BEFA917FA2DBF00E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9417FA2DBD00E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h */; };
-		2E6BEFAA17FA2DBF00E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9417FA2DBD00E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h */; };
 		2E6BEFAB17FA2DBF00E9BD87 /* IParticleAttractionAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9517FA2DBD00E9BD87 /* IParticleAttractionAffector.h */; };
-		2E6BEFAC17FA2DBF00E9BD87 /* IParticleAttractionAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9517FA2DBD00E9BD87 /* IParticleAttractionAffector.h */; };
 		2E6BEFAD17FA2DBF00E9BD87 /* IParticleBoxEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9617FA2DBD00E9BD87 /* IParticleBoxEmitter.h */; };
-		2E6BEFAE17FA2DBF00E9BD87 /* IParticleBoxEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9617FA2DBD00E9BD87 /* IParticleBoxEmitter.h */; };
 		2E6BEFAF17FA2DBF00E9BD87 /* IParticleCylinderEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9717FA2DBD00E9BD87 /* IParticleCylinderEmitter.h */; };
-		2E6BEFB017FA2DBF00E9BD87 /* IParticleCylinderEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9717FA2DBD00E9BD87 /* IParticleCylinderEmitter.h */; };
 		2E6BEFB117FA2DBF00E9BD87 /* IParticleEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9817FA2DBD00E9BD87 /* IParticleEmitter.h */; };
-		2E6BEFB217FA2DBF00E9BD87 /* IParticleEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9817FA2DBD00E9BD87 /* IParticleEmitter.h */; };
 		2E6BEFB317FA2DBF00E9BD87 /* IParticleFadeOutAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9917FA2DBD00E9BD87 /* IParticleFadeOutAffector.h */; };
-		2E6BEFB417FA2DBF00E9BD87 /* IParticleFadeOutAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9917FA2DBD00E9BD87 /* IParticleFadeOutAffector.h */; };
 		2E6BEFB517FA2DBF00E9BD87 /* IParticleGravityAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9A17FA2DBD00E9BD87 /* IParticleGravityAffector.h */; };
-		2E6BEFB617FA2DBF00E9BD87 /* IParticleGravityAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9A17FA2DBD00E9BD87 /* IParticleGravityAffector.h */; };
 		2E6BEFB717FA2DBF00E9BD87 /* IParticleMeshEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9B17FA2DBD00E9BD87 /* IParticleMeshEmitter.h */; };
-		2E6BEFB817FA2DBF00E9BD87 /* IParticleMeshEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9B17FA2DBD00E9BD87 /* IParticleMeshEmitter.h */; };
 		2E6BEFB917FA2DBF00E9BD87 /* IParticleRingEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9C17FA2DBD00E9BD87 /* IParticleRingEmitter.h */; };
-		2E6BEFBA17FA2DBF00E9BD87 /* IParticleRingEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9C17FA2DBD00E9BD87 /* IParticleRingEmitter.h */; };
 		2E6BEFBB17FA2DBF00E9BD87 /* IParticleRotationAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9D17FA2DBE00E9BD87 /* IParticleRotationAffector.h */; };
-		2E6BEFBC17FA2DBF00E9BD87 /* IParticleRotationAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9D17FA2DBE00E9BD87 /* IParticleRotationAffector.h */; };
 		2E6BEFBD17FA2DBF00E9BD87 /* IParticleSphereEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9E17FA2DBE00E9BD87 /* IParticleSphereEmitter.h */; };
-		2E6BEFBE17FA2DBF00E9BD87 /* IParticleSphereEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9E17FA2DBE00E9BD87 /* IParticleSphereEmitter.h */; };
 		2E6BEFBF17FA2DBF00E9BD87 /* IParticleSystemSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9F17FA2DBE00E9BD87 /* IParticleSystemSceneNode.h */; };
-		2E6BEFC017FA2DBF00E9BD87 /* IParticleSystemSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9F17FA2DBE00E9BD87 /* IParticleSystemSceneNode.h */; };
 		2E6BEFC117FA2DBF00E9BD87 /* IQ3LevelMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA017FA2DBE00E9BD87 /* IQ3LevelMesh.h */; };
-		2E6BEFC217FA2DBF00E9BD87 /* IQ3LevelMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA017FA2DBE00E9BD87 /* IQ3LevelMesh.h */; };
 		2E6BEFC317FA2DBF00E9BD87 /* IQ3Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA117FA2DBE00E9BD87 /* IQ3Shader.h */; };
-		2E6BEFC417FA2DBF00E9BD87 /* IQ3Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA117FA2DBE00E9BD87 /* IQ3Shader.h */; };
 		2E6BEFC517FA2DBF00E9BD87 /* IRandomizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA217FA2DBE00E9BD87 /* IRandomizer.h */; };
-		2E6BEFC617FA2DBF00E9BD87 /* IRandomizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA217FA2DBE00E9BD87 /* IRandomizer.h */; };
 		2E6BEFC717FA2DBF00E9BD87 /* IReadFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA317FA2DBE00E9BD87 /* IReadFile.h */; };
-		2E6BEFC817FA2DBF00E9BD87 /* IReadFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA317FA2DBE00E9BD87 /* IReadFile.h */; };
 		2E6BEFC917FA2DBF00E9BD87 /* IReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA417FA2DBE00E9BD87 /* IReferenceCounted.h */; };
-		2E6BEFCA17FA2DBF00E9BD87 /* IReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA417FA2DBE00E9BD87 /* IReferenceCounted.h */; };
 		2E6BEFCB17FA2DBF00E9BD87 /* irrAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA517FA2DBE00E9BD87 /* irrAllocator.h */; };
-		2E6BEFCC17FA2DBF00E9BD87 /* irrAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA517FA2DBE00E9BD87 /* irrAllocator.h */; };
 		2E6BEFCD17FA2DBF00E9BD87 /* irrArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA617FA2DBE00E9BD87 /* irrArray.h */; };
-		2E6BEFCE17FA2DBF00E9BD87 /* irrArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA617FA2DBE00E9BD87 /* irrArray.h */; };
 		2E6BEFCF17FA2DBF00E9BD87 /* IrrCompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA717FA2DBE00E9BD87 /* IrrCompileConfig.h */; };
-		2E6BEFD017FA2DBF00E9BD87 /* IrrCompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA717FA2DBE00E9BD87 /* IrrCompileConfig.h */; };
 		2E6BEFD117FA2DBF00E9BD87 /* irrlicht.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA817FA2DBE00E9BD87 /* irrlicht.h */; };
-		2E6BEFD217FA2DBF00E9BD87 /* irrlicht.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA817FA2DBE00E9BD87 /* irrlicht.h */; };
 		2E6BEFD317FA2DBF00E9BD87 /* IrrlichtDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA917FA2DBE00E9BD87 /* IrrlichtDevice.h */; };
-		2E6BEFD417FA2DBF00E9BD87 /* IrrlichtDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA917FA2DBE00E9BD87 /* IrrlichtDevice.h */; };
 		2E6BEFD517FA2DBF00E9BD87 /* irrList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAA17FA2DBE00E9BD87 /* irrList.h */; };
-		2E6BEFD617FA2DBF00E9BD87 /* irrList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAA17FA2DBE00E9BD87 /* irrList.h */; };
 		2E6BEFD717FA2DBF00E9BD87 /* irrMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAB17FA2DBE00E9BD87 /* irrMap.h */; };
-		2E6BEFD817FA2DBF00E9BD87 /* irrMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAB17FA2DBE00E9BD87 /* irrMap.h */; };
 		2E6BEFD917FA2DBF00E9BD87 /* irrMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAC17FA2DBE00E9BD87 /* irrMath.h */; };
-		2E6BEFDA17FA2DBF00E9BD87 /* irrMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAC17FA2DBE00E9BD87 /* irrMath.h */; };
 		2E6BEFDB17FA2DBF00E9BD87 /* irrpack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAD17FA2DBE00E9BD87 /* irrpack.h */; };
-		2E6BEFDC17FA2DBF00E9BD87 /* irrpack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAD17FA2DBE00E9BD87 /* irrpack.h */; };
 		2E6BEFDD17FA2DBF00E9BD87 /* irrString.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAE17FA2DBE00E9BD87 /* irrString.h */; };
-		2E6BEFDE17FA2DBF00E9BD87 /* irrString.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAE17FA2DBE00E9BD87 /* irrString.h */; };
 		2E6BEFDF17FA2DBF00E9BD87 /* irrTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAF17FA2DBE00E9BD87 /* irrTypes.h */; };
-		2E6BEFE017FA2DBF00E9BD87 /* irrTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAF17FA2DBE00E9BD87 /* irrTypes.h */; };
 		2E6BEFE117FA2DBF00E9BD87 /* irrunpack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB017FA2DBE00E9BD87 /* irrunpack.h */; };
-		2E6BEFE217FA2DBF00E9BD87 /* irrunpack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB017FA2DBE00E9BD87 /* irrunpack.h */; };
 		2E6BEFE317FA2DBF00E9BD87 /* irrXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB117FA2DBE00E9BD87 /* irrXML.h */; };
-		2E6BEFE417FA2DBF00E9BD87 /* irrXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB117FA2DBE00E9BD87 /* irrXML.h */; };
 		2E6BEFE517FA2DBF00E9BD87 /* ISceneCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB217FA2DBE00E9BD87 /* ISceneCollisionManager.h */; };
-		2E6BEFE617FA2DBF00E9BD87 /* ISceneCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB217FA2DBE00E9BD87 /* ISceneCollisionManager.h */; };
 		2E6BEFE717FA2DBF00E9BD87 /* ISceneLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB317FA2DBE00E9BD87 /* ISceneLoader.h */; };
-		2E6BEFE817FA2DBF00E9BD87 /* ISceneLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB317FA2DBE00E9BD87 /* ISceneLoader.h */; };
 		2E6BEFE917FA2DBF00E9BD87 /* ISceneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB417FA2DBE00E9BD87 /* ISceneManager.h */; };
-		2E6BEFEA17FA2DBF00E9BD87 /* ISceneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB417FA2DBE00E9BD87 /* ISceneManager.h */; };
 		2E6BEFEB17FA2DBF00E9BD87 /* ISceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB517FA2DBE00E9BD87 /* ISceneNode.h */; };
-		2E6BEFEC17FA2DBF00E9BD87 /* ISceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB517FA2DBE00E9BD87 /* ISceneNode.h */; };
 		2E6BEFED17FA2DBF00E9BD87 /* ISceneNodeAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB617FA2DBE00E9BD87 /* ISceneNodeAnimator.h */; };
-		2E6BEFEE17FA2DBF00E9BD87 /* ISceneNodeAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB617FA2DBE00E9BD87 /* ISceneNodeAnimator.h */; };
 		2E6BEFEF17FA2DBF00E9BD87 /* ISceneNodeAnimatorCameraFPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB717FA2DBE00E9BD87 /* ISceneNodeAnimatorCameraFPS.h */; };
-		2E6BEFF017FA2DBF00E9BD87 /* ISceneNodeAnimatorCameraFPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB717FA2DBE00E9BD87 /* ISceneNodeAnimatorCameraFPS.h */; };
 		2E6BEFF117FA2DBF00E9BD87 /* ISceneNodeAnimatorCameraMaya.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB817FA2DBE00E9BD87 /* ISceneNodeAnimatorCameraMaya.h */; };
-		2E6BEFF217FA2DBF00E9BD87 /* ISceneNodeAnimatorCameraMaya.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB817FA2DBE00E9BD87 /* ISceneNodeAnimatorCameraMaya.h */; };
 		2E6BEFF317FA2DBF00E9BD87 /* ISceneNodeAnimatorCollisionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB917FA2DBE00E9BD87 /* ISceneNodeAnimatorCollisionResponse.h */; };
-		2E6BEFF417FA2DBF00E9BD87 /* ISceneNodeAnimatorCollisionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB917FA2DBE00E9BD87 /* ISceneNodeAnimatorCollisionResponse.h */; };
 		2E6BEFF517FA2DBF00E9BD87 /* ISceneNodeAnimatorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBA17FA2DBE00E9BD87 /* ISceneNodeAnimatorFactory.h */; };
-		2E6BEFF617FA2DBF00E9BD87 /* ISceneNodeAnimatorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBA17FA2DBE00E9BD87 /* ISceneNodeAnimatorFactory.h */; };
 		2E6BEFF717FA2DBF00E9BD87 /* ISceneNodeFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBB17FA2DBE00E9BD87 /* ISceneNodeFactory.h */; };
-		2E6BEFF817FA2DBF00E9BD87 /* ISceneNodeFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBB17FA2DBE00E9BD87 /* ISceneNodeFactory.h */; };
 		2E6BEFF917FA2DBF00E9BD87 /* ISceneUserDataSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBC17FA2DBE00E9BD87 /* ISceneUserDataSerializer.h */; };
-		2E6BEFFA17FA2DBF00E9BD87 /* ISceneUserDataSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBC17FA2DBE00E9BD87 /* ISceneUserDataSerializer.h */; };
 		2E6BEFFB17FA2DBF00E9BD87 /* IShaderConstantSetCallBack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBD17FA2DBE00E9BD87 /* IShaderConstantSetCallBack.h */; };
-		2E6BEFFC17FA2DBF00E9BD87 /* IShaderConstantSetCallBack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBD17FA2DBE00E9BD87 /* IShaderConstantSetCallBack.h */; };
 		2E6BEFFD17FA2DBF00E9BD87 /* IShadowVolumeSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBE17FA2DBE00E9BD87 /* IShadowVolumeSceneNode.h */; };
-		2E6BEFFE17FA2DBF00E9BD87 /* IShadowVolumeSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBE17FA2DBE00E9BD87 /* IShadowVolumeSceneNode.h */; };
 		2E6BEFFF17FA2DBF00E9BD87 /* ISkinnedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBF17FA2DBE00E9BD87 /* ISkinnedMesh.h */; };
-		2E6BF00017FA2DBF00E9BD87 /* ISkinnedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBF17FA2DBE00E9BD87 /* ISkinnedMesh.h */; };
 		2E6BF00117FA2DBF00E9BD87 /* ITerrainSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC017FA2DBE00E9BD87 /* ITerrainSceneNode.h */; };
-		2E6BF00217FA2DBF00E9BD87 /* ITerrainSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC017FA2DBE00E9BD87 /* ITerrainSceneNode.h */; };
 		2E6BF00317FA2DBF00E9BD87 /* ITextSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC117FA2DBE00E9BD87 /* ITextSceneNode.h */; };
-		2E6BF00417FA2DBF00E9BD87 /* ITextSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC117FA2DBE00E9BD87 /* ITextSceneNode.h */; };
 		2E6BF00517FA2DBF00E9BD87 /* ITexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC217FA2DBE00E9BD87 /* ITexture.h */; };
-		2E6BF00617FA2DBF00E9BD87 /* ITexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC217FA2DBE00E9BD87 /* ITexture.h */; };
 		2E6BF00717FA2DBF00E9BD87 /* ITimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC317FA2DBE00E9BD87 /* ITimer.h */; };
-		2E6BF00817FA2DBF00E9BD87 /* ITimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC317FA2DBE00E9BD87 /* ITimer.h */; };
 		2E6BF00917FA2DBF00E9BD87 /* ITriangleSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC417FA2DBE00E9BD87 /* ITriangleSelector.h */; };
-		2E6BF00A17FA2DBF00E9BD87 /* ITriangleSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC417FA2DBE00E9BD87 /* ITriangleSelector.h */; };
 		2E6BF00B17FA2DBF00E9BD87 /* IVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC517FA2DBE00E9BD87 /* IVertexBuffer.h */; };
-		2E6BF00C17FA2DBF00E9BD87 /* IVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC517FA2DBE00E9BD87 /* IVertexBuffer.h */; };
 		2E6BF00D17FA2DBF00E9BD87 /* IVideoDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC617FA2DBE00E9BD87 /* IVideoDriver.h */; };
-		2E6BF00E17FA2DBF00E9BD87 /* IVideoDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC617FA2DBE00E9BD87 /* IVideoDriver.h */; };
 		2E6BF00F17FA2DBF00E9BD87 /* IVideoModeList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC717FA2DBE00E9BD87 /* IVideoModeList.h */; };
-		2E6BF01017FA2DBF00E9BD87 /* IVideoModeList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC717FA2DBE00E9BD87 /* IVideoModeList.h */; };
 		2E6BF01117FA2DBF00E9BD87 /* IVolumeLightSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC817FA2DBE00E9BD87 /* IVolumeLightSceneNode.h */; };
-		2E6BF01217FA2DBF00E9BD87 /* IVolumeLightSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC817FA2DBE00E9BD87 /* IVolumeLightSceneNode.h */; };
 		2E6BF01317FA2DBF00E9BD87 /* IWriteFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC917FA2DBE00E9BD87 /* IWriteFile.h */; };
-		2E6BF01417FA2DBF00E9BD87 /* IWriteFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC917FA2DBE00E9BD87 /* IWriteFile.h */; };
 		2E6BF01517FA2DBF00E9BD87 /* IXMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECA17FA2DBE00E9BD87 /* IXMLReader.h */; };
-		2E6BF01617FA2DBF00E9BD87 /* IXMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECA17FA2DBE00E9BD87 /* IXMLReader.h */; };
 		2E6BF01717FA2DBF00E9BD87 /* IXMLWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECB17FA2DBE00E9BD87 /* IXMLWriter.h */; };
-		2E6BF01817FA2DBF00E9BD87 /* IXMLWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECB17FA2DBE00E9BD87 /* IXMLWriter.h */; };
 		2E6BF01917FA2DBF00E9BD87 /* Keycodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECC17FA2DBE00E9BD87 /* Keycodes.h */; };
-		2E6BF01A17FA2DBF00E9BD87 /* Keycodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECC17FA2DBE00E9BD87 /* Keycodes.h */; };
 		2E6BF01B17FA2DBF00E9BD87 /* leakHunter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECD17FA2DBE00E9BD87 /* leakHunter.h */; };
-		2E6BF01C17FA2DBF00E9BD87 /* leakHunter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECD17FA2DBE00E9BD87 /* leakHunter.h */; };
 		2E6BF01D17FA2DBF00E9BD87 /* line2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECE17FA2DBE00E9BD87 /* line2d.h */; };
-		2E6BF01E17FA2DBF00E9BD87 /* line2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECE17FA2DBE00E9BD87 /* line2d.h */; };
 		2E6BF01F17FA2DBF00E9BD87 /* line3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECF17FA2DBE00E9BD87 /* line3d.h */; };
-		2E6BF02017FA2DBF00E9BD87 /* line3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECF17FA2DBE00E9BD87 /* line3d.h */; };
 		2E6BF02117FA2DBF00E9BD87 /* matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED017FA2DBE00E9BD87 /* matrix4.h */; };
-		2E6BF02217FA2DBF00E9BD87 /* matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED017FA2DBE00E9BD87 /* matrix4.h */; };
 		2E6BF02317FA2DBF00E9BD87 /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED117FA2DBE00E9BD87 /* path.h */; };
-		2E6BF02417FA2DBF00E9BD87 /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED117FA2DBE00E9BD87 /* path.h */; };
 		2E6BF02517FA2DBF00E9BD87 /* plane3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED217FA2DBE00E9BD87 /* plane3d.h */; };
-		2E6BF02617FA2DBF00E9BD87 /* plane3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED217FA2DBE00E9BD87 /* plane3d.h */; };
 		2E6BF02717FA2DBF00E9BD87 /* position2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED317FA2DBE00E9BD87 /* position2d.h */; };
-		2E6BF02817FA2DBF00E9BD87 /* position2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED317FA2DBE00E9BD87 /* position2d.h */; };
 		2E6BF02917FA2DBF00E9BD87 /* quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED417FA2DBF00E9BD87 /* quaternion.h */; };
-		2E6BF02A17FA2DBF00E9BD87 /* quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED417FA2DBF00E9BD87 /* quaternion.h */; };
 		2E6BF02B17FA2DBF00E9BD87 /* rect.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED517FA2DBF00E9BD87 /* rect.h */; };
-		2E6BF02C17FA2DBF00E9BD87 /* rect.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED517FA2DBF00E9BD87 /* rect.h */; };
 		2E6BF02D17FA2DBF00E9BD87 /* S3DVertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED617FA2DBF00E9BD87 /* S3DVertex.h */; };
-		2E6BF02E17FA2DBF00E9BD87 /* S3DVertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED617FA2DBF00E9BD87 /* S3DVertex.h */; };
 		2E6BF02F17FA2DBF00E9BD87 /* SAnimatedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED717FA2DBF00E9BD87 /* SAnimatedMesh.h */; };
-		2E6BF03017FA2DBF00E9BD87 /* SAnimatedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED717FA2DBF00E9BD87 /* SAnimatedMesh.h */; };
 		2E6BF03117FA2DBF00E9BD87 /* SceneParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED817FA2DBF00E9BD87 /* SceneParameters.h */; };
-		2E6BF03217FA2DBF00E9BD87 /* SceneParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED817FA2DBF00E9BD87 /* SceneParameters.h */; };
 		2E6BF03317FA2DBF00E9BD87 /* SColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED917FA2DBF00E9BD87 /* SColor.h */; };
-		2E6BF03417FA2DBF00E9BD87 /* SColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED917FA2DBF00E9BD87 /* SColor.h */; };
 		2E6BF03517FA2DBF00E9BD87 /* SExposedVideoData.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDA17FA2DBF00E9BD87 /* SExposedVideoData.h */; };
-		2E6BF03617FA2DBF00E9BD87 /* SExposedVideoData.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDA17FA2DBF00E9BD87 /* SExposedVideoData.h */; };
 		2E6BF03717FA2DBF00E9BD87 /* SIrrCreationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDB17FA2DBF00E9BD87 /* SIrrCreationParameters.h */; };
-		2E6BF03817FA2DBF00E9BD87 /* SIrrCreationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDB17FA2DBF00E9BD87 /* SIrrCreationParameters.h */; };
 		2E6BF03917FA2DBF00E9BD87 /* SKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDC17FA2DBF00E9BD87 /* SKeyMap.h */; };
-		2E6BF03A17FA2DBF00E9BD87 /* SKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDC17FA2DBF00E9BD87 /* SKeyMap.h */; };
 		2E6BF03B17FA2DBF00E9BD87 /* SLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDD17FA2DBF00E9BD87 /* SLight.h */; };
-		2E6BF03C17FA2DBF00E9BD87 /* SLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDD17FA2DBF00E9BD87 /* SLight.h */; };
 		2E6BF03D17FA2DBF00E9BD87 /* SMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDE17FA2DBF00E9BD87 /* SMaterial.h */; };
-		2E6BF03E17FA2DBF00E9BD87 /* SMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDE17FA2DBF00E9BD87 /* SMaterial.h */; };
 		2E6BF03F17FA2DBF00E9BD87 /* SMaterialLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDF17FA2DBF00E9BD87 /* SMaterialLayer.h */; };
-		2E6BF04017FA2DBF00E9BD87 /* SMaterialLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDF17FA2DBF00E9BD87 /* SMaterialLayer.h */; };
 		2E6BF04117FA2DBF00E9BD87 /* SMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE017FA2DBF00E9BD87 /* SMesh.h */; };
-		2E6BF04217FA2DBF00E9BD87 /* SMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE017FA2DBF00E9BD87 /* SMesh.h */; };
 		2E6BF04317FA2DBF00E9BD87 /* SMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE117FA2DBF00E9BD87 /* SMeshBuffer.h */; };
-		2E6BF04417FA2DBF00E9BD87 /* SMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE117FA2DBF00E9BD87 /* SMeshBuffer.h */; };
 		2E6BF04517FA2DBF00E9BD87 /* SMeshBufferLightMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE217FA2DBF00E9BD87 /* SMeshBufferLightMap.h */; };
-		2E6BF04617FA2DBF00E9BD87 /* SMeshBufferLightMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE217FA2DBF00E9BD87 /* SMeshBufferLightMap.h */; };
 		2E6BF04717FA2DBF00E9BD87 /* SMeshBufferTangents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE317FA2DBF00E9BD87 /* SMeshBufferTangents.h */; };
-		2E6BF04817FA2DBF00E9BD87 /* SMeshBufferTangents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE317FA2DBF00E9BD87 /* SMeshBufferTangents.h */; };
 		2E6BF04917FA2DBF00E9BD87 /* SParticle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE417FA2DBF00E9BD87 /* SParticle.h */; };
-		2E6BF04A17FA2DBF00E9BD87 /* SParticle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE417FA2DBF00E9BD87 /* SParticle.h */; };
 		2E6BF04B17FA2DBF00E9BD87 /* SSharedMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE517FA2DBF00E9BD87 /* SSharedMeshBuffer.h */; };
-		2E6BF04C17FA2DBF00E9BD87 /* SSharedMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE517FA2DBF00E9BD87 /* SSharedMeshBuffer.h */; };
 		2E6BF04D17FA2DBF00E9BD87 /* SSkinMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE617FA2DBF00E9BD87 /* SSkinMeshBuffer.h */; };
-		2E6BF04E17FA2DBF00E9BD87 /* SSkinMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE617FA2DBF00E9BD87 /* SSkinMeshBuffer.h */; };
 		2E6BF04F17FA2DBF00E9BD87 /* SVertexIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE717FA2DBF00E9BD87 /* SVertexIndex.h */; };
-		2E6BF05017FA2DBF00E9BD87 /* SVertexIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE717FA2DBF00E9BD87 /* SVertexIndex.h */; };
 		2E6BF05117FA2DBF00E9BD87 /* SVertexManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE817FA2DBF00E9BD87 /* SVertexManipulator.h */; };
-		2E6BF05217FA2DBF00E9BD87 /* SVertexManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE817FA2DBF00E9BD87 /* SVertexManipulator.h */; };
 		2E6BF05317FA2DBF00E9BD87 /* SViewFrustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE917FA2DBF00E9BD87 /* SViewFrustum.h */; };
-		2E6BF05417FA2DBF00E9BD87 /* SViewFrustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE917FA2DBF00E9BD87 /* SViewFrustum.h */; };
 		2E6BF05517FA2DBF00E9BD87 /* triangle3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEA17FA2DBF00E9BD87 /* triangle3d.h */; };
-		2E6BF05617FA2DBF00E9BD87 /* triangle3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEA17FA2DBF00E9BD87 /* triangle3d.h */; };
 		2E6BF05717FA2DBF00E9BD87 /* vector2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEB17FA2DBF00E9BD87 /* vector2d.h */; };
-		2E6BF05817FA2DBF00E9BD87 /* vector2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEB17FA2DBF00E9BD87 /* vector2d.h */; };
 		2E6BF05917FA2DBF00E9BD87 /* vector3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEC17FA2DBF00E9BD87 /* vector3d.h */; };
-		2E6BF05A17FA2DBF00E9BD87 /* vector3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEC17FA2DBF00E9BD87 /* vector3d.h */; };
 		2E6BF05B17FA2E2E00E9BD87 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD2B5517FA149C00EA2818 /* CImageLoaderDDS.cpp */; };
 		2E6BF05C17FA2E2E00E9BD87 /* CImageLoaderDDS.h in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD2B5617FA149C00EA2818 /* CImageLoaderDDS.h */; };
 		2E6BF07817FA326A00E9BD87 /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BF06617FA326900E9BD87 /* aes.h */; };
@@ -614,6 +431,189 @@
 		2E6BF09517FA32D700E9BD87 /* pwd2key.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6BF07217FA326900E9BD87 /* pwd2key.h */; };
 		2E6BF09617FA32D700E9BD87 /* sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6BF07417FA326900E9BD87 /* sha1.cpp */; };
 		2E6BF09717FA32D700E9BD87 /* sha1.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6BF07517FA326A00E9BD87 /* sha1.h */; };
+		2E6BF09A17FA35F800E9BD87 /* aabbox3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3617FA2DBC00E9BD87 /* aabbox3d.h */; };
+		2E6BF09B17FA35F800E9BD87 /* CDynamicMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3717FA2DBC00E9BD87 /* CDynamicMeshBuffer.h */; };
+		2E6BF09C17FA35F800E9BD87 /* CIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3817FA2DBC00E9BD87 /* CIndexBuffer.h */; };
+		2E6BF09D17FA35F800E9BD87 /* CMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3917FA2DBC00E9BD87 /* CMeshBuffer.h */; };
+		2E6BF09E17FA35F800E9BD87 /* coreutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3A17FA2DBC00E9BD87 /* coreutil.h */; };
+		2E6BF09F17FA35F800E9BD87 /* CVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3B17FA2DBC00E9BD87 /* CVertexBuffer.h */; };
+		2E6BF0A017FA35F800E9BD87 /* dimension2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3C17FA2DBC00E9BD87 /* dimension2d.h */; };
+		2E6BF0A117FA35F800E9BD87 /* driverChoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3D17FA2DBC00E9BD87 /* driverChoice.h */; };
+		2E6BF0A217FA35F800E9BD87 /* EAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3E17FA2DBC00E9BD87 /* EAttributes.h */; };
+		2E6BF0A317FA35F800E9BD87 /* ECullingTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3F17FA2DBC00E9BD87 /* ECullingTypes.h */; };
+		2E6BF0A417FA35F800E9BD87 /* EDebugSceneTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4017FA2DBC00E9BD87 /* EDebugSceneTypes.h */; };
+		2E6BF0A517FA35F800E9BD87 /* EDeviceTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4117FA2DBC00E9BD87 /* EDeviceTypes.h */; };
+		2E6BF0A617FA35F800E9BD87 /* EDriverFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4217FA2DBC00E9BD87 /* EDriverFeatures.h */; };
+		2E6BF0A717FA35F800E9BD87 /* EDriverTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4317FA2DBC00E9BD87 /* EDriverTypes.h */; };
+		2E6BF0A817FA35F800E9BD87 /* EGUIAlignment.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4417FA2DBC00E9BD87 /* EGUIAlignment.h */; };
+		2E6BF0A917FA35F800E9BD87 /* EGUIElementTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4517FA2DBC00E9BD87 /* EGUIElementTypes.h */; };
+		2E6BF0AA17FA35F800E9BD87 /* EHardwareBufferFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4617FA2DBC00E9BD87 /* EHardwareBufferFlags.h */; };
+		2E6BF0AB17FA35F800E9BD87 /* EMaterialFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4717FA2DBC00E9BD87 /* EMaterialFlags.h */; };
+		2E6BF0AC17FA35F800E9BD87 /* EMaterialTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4817FA2DBC00E9BD87 /* EMaterialTypes.h */; };
+		2E6BF0AD17FA35F800E9BD87 /* EMeshWriterEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4917FA2DBC00E9BD87 /* EMeshWriterEnums.h */; };
+		2E6BF0AE17FA35F800E9BD87 /* EMessageBoxFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4A17FA2DBC00E9BD87 /* EMessageBoxFlags.h */; };
+		2E6BF0AF17FA35F800E9BD87 /* EPrimitiveTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4B17FA2DBC00E9BD87 /* EPrimitiveTypes.h */; };
+		2E6BF0B017FA35F800E9BD87 /* ESceneNodeAnimatorTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4C17FA2DBC00E9BD87 /* ESceneNodeAnimatorTypes.h */; };
+		2E6BF0B117FA35F800E9BD87 /* ESceneNodeTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4D17FA2DBC00E9BD87 /* ESceneNodeTypes.h */; };
+		2E6BF0B217FA35F800E9BD87 /* EShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4E17FA2DBC00E9BD87 /* EShaderTypes.h */; };
+		2E6BF0B317FA35F800E9BD87 /* ETerrainElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE4F17FA2DBC00E9BD87 /* ETerrainElements.h */; };
+		2E6BF0B417FA35F800E9BD87 /* fast_atof.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5017FA2DBC00E9BD87 /* fast_atof.h */; };
+		2E6BF0B517FA35F800E9BD87 /* heapsort.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5117FA2DBC00E9BD87 /* heapsort.h */; };
+		2E6BF0B617FA35F800E9BD87 /* IAnimatedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5217FA2DBC00E9BD87 /* IAnimatedMesh.h */; };
+		2E6BF0B717FA35F800E9BD87 /* IAnimatedMeshMD2.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5317FA2DBC00E9BD87 /* IAnimatedMeshMD2.h */; };
+		2E6BF0B817FA35F800E9BD87 /* IAnimatedMeshMD3.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5417FA2DBC00E9BD87 /* IAnimatedMeshMD3.h */; };
+		2E6BF0B917FA35F800E9BD87 /* IAnimatedMeshSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5517FA2DBC00E9BD87 /* IAnimatedMeshSceneNode.h */; };
+		2E6BF0BA17FA35F800E9BD87 /* IAttributeExchangingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5617FA2DBC00E9BD87 /* IAttributeExchangingObject.h */; };
+		2E6BF0BB17FA35F800E9BD87 /* IAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5717FA2DBC00E9BD87 /* IAttributes.h */; };
+		2E6BF0BC17FA35F800E9BD87 /* IBillboardSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5817FA2DBC00E9BD87 /* IBillboardSceneNode.h */; };
+		2E6BF0BD17FA35F800E9BD87 /* IBillboardTextSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5917FA2DBC00E9BD87 /* IBillboardTextSceneNode.h */; };
+		2E6BF0BE17FA35F800E9BD87 /* IBoneSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5A17FA2DBC00E9BD87 /* IBoneSceneNode.h */; };
+		2E6BF0BF17FA35F800E9BD87 /* ICameraSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5B17FA2DBC00E9BD87 /* ICameraSceneNode.h */; };
+		2E6BF0C017FA35F800E9BD87 /* IColladaMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5C17FA2DBC00E9BD87 /* IColladaMeshWriter.h */; };
+		2E6BF0C117FA35F800E9BD87 /* ICursorControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5D17FA2DBD00E9BD87 /* ICursorControl.h */; };
+		2E6BF0C217FA35F800E9BD87 /* IDummyTransformationSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5E17FA2DBD00E9BD87 /* IDummyTransformationSceneNode.h */; };
+		2E6BF0C317FA35F800E9BD87 /* IDynamicMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE5F17FA2DBD00E9BD87 /* IDynamicMeshBuffer.h */; };
+		2E6BF0C417FA35F800E9BD87 /* IEventReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6017FA2DBD00E9BD87 /* IEventReceiver.h */; };
+		2E6BF0C517FA35F800E9BD87 /* IFileArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6117FA2DBD00E9BD87 /* IFileArchive.h */; };
+		2E6BF0C617FA35F800E9BD87 /* IFileList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6217FA2DBD00E9BD87 /* IFileList.h */; };
+		2E6BF0C717FA35F800E9BD87 /* IFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6317FA2DBD00E9BD87 /* IFileSystem.h */; };
+		2E6BF0C817FA35F800E9BD87 /* IGeometryCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6417FA2DBD00E9BD87 /* IGeometryCreator.h */; };
+		2E6BF0C917FA35F800E9BD87 /* IGPUProgrammingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6517FA2DBD00E9BD87 /* IGPUProgrammingServices.h */; };
+		2E6BF0CA17FA35F800E9BD87 /* IGUIButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6617FA2DBD00E9BD87 /* IGUIButton.h */; };
+		2E6BF0CB17FA35F800E9BD87 /* IGUICheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6717FA2DBD00E9BD87 /* IGUICheckBox.h */; };
+		2E6BF0CC17FA35F800E9BD87 /* IGUIColorSelectDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6817FA2DBD00E9BD87 /* IGUIColorSelectDialog.h */; };
+		2E6BF0CD17FA35F800E9BD87 /* IGUIComboBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6917FA2DBD00E9BD87 /* IGUIComboBox.h */; };
+		2E6BF0CE17FA35F800E9BD87 /* IGUIContextMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6A17FA2DBD00E9BD87 /* IGUIContextMenu.h */; };
+		2E6BF0CF17FA35F800E9BD87 /* IGUIEditBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6B17FA2DBD00E9BD87 /* IGUIEditBox.h */; };
+		2E6BF0D017FA35F800E9BD87 /* IGUIElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6C17FA2DBD00E9BD87 /* IGUIElement.h */; };
+		2E6BF0D117FA35F800E9BD87 /* IGUIElementFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6D17FA2DBD00E9BD87 /* IGUIElementFactory.h */; };
+		2E6BF0D217FA35F800E9BD87 /* IGUIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6E17FA2DBD00E9BD87 /* IGUIEnvironment.h */; };
+		2E6BF0D317FA35F800E9BD87 /* IGUIFileOpenDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE6F17FA2DBD00E9BD87 /* IGUIFileOpenDialog.h */; };
+		2E6BF0D417FA35F800E9BD87 /* IGUIFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7017FA2DBD00E9BD87 /* IGUIFont.h */; };
+		2E6BF0D517FA35F800E9BD87 /* IGUIFontBitmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7117FA2DBD00E9BD87 /* IGUIFontBitmap.h */; };
+		2E6BF0D617FA35F800E9BD87 /* IGUIImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7217FA2DBD00E9BD87 /* IGUIImage.h */; };
+		2E6BF0D717FA35F800E9BD87 /* IGUIImageList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7317FA2DBD00E9BD87 /* IGUIImageList.h */; };
+		2E6BF0D817FA35F800E9BD87 /* IGUIInOutFader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7417FA2DBD00E9BD87 /* IGUIInOutFader.h */; };
+		2E6BF0D917FA35F800E9BD87 /* IGUIListBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7517FA2DBD00E9BD87 /* IGUIListBox.h */; };
+		2E6BF0DA17FA35F800E9BD87 /* IGUIMeshViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7617FA2DBD00E9BD87 /* IGUIMeshViewer.h */; };
+		2E6BF0DB17FA35F800E9BD87 /* IGUIScrollBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7717FA2DBD00E9BD87 /* IGUIScrollBar.h */; };
+		2E6BF0DC17FA35F800E9BD87 /* IGUISkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7817FA2DBD00E9BD87 /* IGUISkin.h */; };
+		2E6BF0DD17FA35F800E9BD87 /* IGUISpinBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7917FA2DBD00E9BD87 /* IGUISpinBox.h */; };
+		2E6BF0DE17FA35F800E9BD87 /* IGUISpriteBank.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7A17FA2DBD00E9BD87 /* IGUISpriteBank.h */; };
+		2E6BF0DF17FA35F800E9BD87 /* IGUIStaticText.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7B17FA2DBD00E9BD87 /* IGUIStaticText.h */; };
+		2E6BF0E017FA35F800E9BD87 /* IGUITabControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7C17FA2DBD00E9BD87 /* IGUITabControl.h */; };
+		2E6BF0E117FA35F800E9BD87 /* IGUITable.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7D17FA2DBD00E9BD87 /* IGUITable.h */; };
+		2E6BF0E217FA35F800E9BD87 /* IGUIToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7E17FA2DBD00E9BD87 /* IGUIToolbar.h */; };
+		2E6BF0E317FA35F800E9BD87 /* IGUITreeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE7F17FA2DBD00E9BD87 /* IGUITreeView.h */; };
+		2E6BF0E417FA35F800E9BD87 /* IGUIWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8017FA2DBD00E9BD87 /* IGUIWindow.h */; };
+		2E6BF0E517FA35F800E9BD87 /* IImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8117FA2DBD00E9BD87 /* IImage.h */; };
+		2E6BF0E617FA35F800E9BD87 /* IImageLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8217FA2DBD00E9BD87 /* IImageLoader.h */; };
+		2E6BF0E717FA35F800E9BD87 /* IImageWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8317FA2DBD00E9BD87 /* IImageWriter.h */; };
+		2E6BF0E817FA35F800E9BD87 /* IIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8417FA2DBD00E9BD87 /* IIndexBuffer.h */; };
+		2E6BF0E917FA35F800E9BD87 /* ILightManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8517FA2DBD00E9BD87 /* ILightManager.h */; };
+		2E6BF0EA17FA35F800E9BD87 /* ILightSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8617FA2DBD00E9BD87 /* ILightSceneNode.h */; };
+		2E6BF0EB17FA35F800E9BD87 /* ILogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8717FA2DBD00E9BD87 /* ILogger.h */; };
+		2E6BF0EC17FA35F800E9BD87 /* IMaterialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8817FA2DBD00E9BD87 /* IMaterialRenderer.h */; };
+		2E6BF0ED17FA35F800E9BD87 /* IMaterialRendererServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8917FA2DBD00E9BD87 /* IMaterialRendererServices.h */; };
+		2E6BF0EE17FA35F800E9BD87 /* IMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8A17FA2DBD00E9BD87 /* IMesh.h */; };
+		2E6BF0EF17FA35F800E9BD87 /* IMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8B17FA2DBD00E9BD87 /* IMeshBuffer.h */; };
+		2E6BF0F017FA35F800E9BD87 /* IMeshCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8C17FA2DBD00E9BD87 /* IMeshCache.h */; };
+		2E6BF0F117FA35F800E9BD87 /* IMeshLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8D17FA2DBD00E9BD87 /* IMeshLoader.h */; };
+		2E6BF0F217FA35F800E9BD87 /* IMeshManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8E17FA2DBD00E9BD87 /* IMeshManipulator.h */; };
+		2E6BF0F317FA35F800E9BD87 /* IMeshSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE8F17FA2DBD00E9BD87 /* IMeshSceneNode.h */; };
+		2E6BF0F417FA35F800E9BD87 /* IMeshWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9017FA2DBD00E9BD87 /* IMeshWriter.h */; };
+		2E6BF0F517FA35F800E9BD87 /* IMetaTriangleSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9117FA2DBD00E9BD87 /* IMetaTriangleSelector.h */; };
+		2E6BF0F617FA35F800E9BD87 /* IOSOperator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9217FA2DBD00E9BD87 /* IOSOperator.h */; };
+		2E6BF0F717FA35F800E9BD87 /* IParticleAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9317FA2DBD00E9BD87 /* IParticleAffector.h */; };
+		2E6BF0F817FA35F800E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9417FA2DBD00E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h */; };
+		2E6BF0F917FA35F800E9BD87 /* IParticleAttractionAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9517FA2DBD00E9BD87 /* IParticleAttractionAffector.h */; };
+		2E6BF0FA17FA35F800E9BD87 /* IParticleBoxEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9617FA2DBD00E9BD87 /* IParticleBoxEmitter.h */; };
+		2E6BF0FB17FA35F800E9BD87 /* IParticleCylinderEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9717FA2DBD00E9BD87 /* IParticleCylinderEmitter.h */; };
+		2E6BF0FC17FA35F800E9BD87 /* IParticleEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9817FA2DBD00E9BD87 /* IParticleEmitter.h */; };
+		2E6BF0FD17FA35F800E9BD87 /* IParticleFadeOutAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9917FA2DBD00E9BD87 /* IParticleFadeOutAffector.h */; };
+		2E6BF0FE17FA35F800E9BD87 /* IParticleGravityAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9A17FA2DBD00E9BD87 /* IParticleGravityAffector.h */; };
+		2E6BF0FF17FA35F800E9BD87 /* IParticleMeshEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9B17FA2DBD00E9BD87 /* IParticleMeshEmitter.h */; };
+		2E6BF10017FA35F800E9BD87 /* IParticleRingEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9C17FA2DBD00E9BD87 /* IParticleRingEmitter.h */; };
+		2E6BF10117FA35F800E9BD87 /* IParticleRotationAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9D17FA2DBE00E9BD87 /* IParticleRotationAffector.h */; };
+		2E6BF10217FA35F800E9BD87 /* IParticleSphereEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9E17FA2DBE00E9BD87 /* IParticleSphereEmitter.h */; };
+		2E6BF10317FA35F800E9BD87 /* IParticleSystemSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE9F17FA2DBE00E9BD87 /* IParticleSystemSceneNode.h */; };
+		2E6BF10417FA35F800E9BD87 /* IQ3LevelMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA017FA2DBE00E9BD87 /* IQ3LevelMesh.h */; };
+		2E6BF10517FA35F800E9BD87 /* IQ3Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA117FA2DBE00E9BD87 /* IQ3Shader.h */; };
+		2E6BF10617FA35F800E9BD87 /* IRandomizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA217FA2DBE00E9BD87 /* IRandomizer.h */; };
+		2E6BF10717FA35F800E9BD87 /* IReadFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA317FA2DBE00E9BD87 /* IReadFile.h */; };
+		2E6BF10817FA35F800E9BD87 /* IReferenceCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA417FA2DBE00E9BD87 /* IReferenceCounted.h */; };
+		2E6BF10917FA35F800E9BD87 /* irrAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA517FA2DBE00E9BD87 /* irrAllocator.h */; };
+		2E6BF10A17FA35F800E9BD87 /* irrArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA617FA2DBE00E9BD87 /* irrArray.h */; };
+		2E6BF10B17FA35F800E9BD87 /* IrrCompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA717FA2DBE00E9BD87 /* IrrCompileConfig.h */; };
+		2E6BF10C17FA35F800E9BD87 /* irrlicht.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA817FA2DBE00E9BD87 /* irrlicht.h */; };
+		2E6BF10D17FA35F800E9BD87 /* IrrlichtDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEA917FA2DBE00E9BD87 /* IrrlichtDevice.h */; };
+		2E6BF10E17FA35F800E9BD87 /* irrList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAA17FA2DBE00E9BD87 /* irrList.h */; };
+		2E6BF10F17FA35F800E9BD87 /* irrMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAB17FA2DBE00E9BD87 /* irrMap.h */; };
+		2E6BF11017FA35F800E9BD87 /* irrMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAC17FA2DBE00E9BD87 /* irrMath.h */; };
+		2E6BF11117FA35F800E9BD87 /* irrpack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAD17FA2DBE00E9BD87 /* irrpack.h */; };
+		2E6BF11217FA35F800E9BD87 /* irrString.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAE17FA2DBE00E9BD87 /* irrString.h */; };
+		2E6BF11317FA35F800E9BD87 /* irrTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEAF17FA2DBE00E9BD87 /* irrTypes.h */; };
+		2E6BF11417FA35F800E9BD87 /* irrunpack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB017FA2DBE00E9BD87 /* irrunpack.h */; };
+		2E6BF11517FA35F800E9BD87 /* irrXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB117FA2DBE00E9BD87 /* irrXML.h */; };
+		2E6BF11617FA35F800E9BD87 /* ISceneCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB217FA2DBE00E9BD87 /* ISceneCollisionManager.h */; };
+		2E6BF11717FA35F800E9BD87 /* ISceneLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB317FA2DBE00E9BD87 /* ISceneLoader.h */; };
+		2E6BF11817FA35F800E9BD87 /* ISceneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB417FA2DBE00E9BD87 /* ISceneManager.h */; };
+		2E6BF11917FA35F800E9BD87 /* ISceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB517FA2DBE00E9BD87 /* ISceneNode.h */; };
+		2E6BF11A17FA35F800E9BD87 /* ISceneNodeAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB617FA2DBE00E9BD87 /* ISceneNodeAnimator.h */; };
+		2E6BF11B17FA35F800E9BD87 /* ISceneNodeAnimatorCameraFPS.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB717FA2DBE00E9BD87 /* ISceneNodeAnimatorCameraFPS.h */; };
+		2E6BF11C17FA35F800E9BD87 /* ISceneNodeAnimatorCameraMaya.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB817FA2DBE00E9BD87 /* ISceneNodeAnimatorCameraMaya.h */; };
+		2E6BF11D17FA35F800E9BD87 /* ISceneNodeAnimatorCollisionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEB917FA2DBE00E9BD87 /* ISceneNodeAnimatorCollisionResponse.h */; };
+		2E6BF11E17FA35F800E9BD87 /* ISceneNodeAnimatorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBA17FA2DBE00E9BD87 /* ISceneNodeAnimatorFactory.h */; };
+		2E6BF11F17FA35F800E9BD87 /* ISceneNodeFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBB17FA2DBE00E9BD87 /* ISceneNodeFactory.h */; };
+		2E6BF12017FA35F800E9BD87 /* ISceneUserDataSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBC17FA2DBE00E9BD87 /* ISceneUserDataSerializer.h */; };
+		2E6BF12117FA35F800E9BD87 /* IShaderConstantSetCallBack.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBD17FA2DBE00E9BD87 /* IShaderConstantSetCallBack.h */; };
+		2E6BF12217FA35F800E9BD87 /* IShadowVolumeSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBE17FA2DBE00E9BD87 /* IShadowVolumeSceneNode.h */; };
+		2E6BF12317FA35F800E9BD87 /* ISkinnedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEBF17FA2DBE00E9BD87 /* ISkinnedMesh.h */; };
+		2E6BF12417FA35F800E9BD87 /* ITerrainSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC017FA2DBE00E9BD87 /* ITerrainSceneNode.h */; };
+		2E6BF12517FA35F800E9BD87 /* ITextSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC117FA2DBE00E9BD87 /* ITextSceneNode.h */; };
+		2E6BF12617FA35F800E9BD87 /* ITexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC217FA2DBE00E9BD87 /* ITexture.h */; };
+		2E6BF12717FA35F800E9BD87 /* ITimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC317FA2DBE00E9BD87 /* ITimer.h */; };
+		2E6BF12817FA35F800E9BD87 /* ITriangleSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC417FA2DBE00E9BD87 /* ITriangleSelector.h */; };
+		2E6BF12917FA35F800E9BD87 /* IVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC517FA2DBE00E9BD87 /* IVertexBuffer.h */; };
+		2E6BF12A17FA35F800E9BD87 /* IVideoDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC617FA2DBE00E9BD87 /* IVideoDriver.h */; };
+		2E6BF12B17FA35F800E9BD87 /* IVideoModeList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC717FA2DBE00E9BD87 /* IVideoModeList.h */; };
+		2E6BF12C17FA35F800E9BD87 /* IVolumeLightSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC817FA2DBE00E9BD87 /* IVolumeLightSceneNode.h */; };
+		2E6BF12D17FA35F800E9BD87 /* IWriteFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEC917FA2DBE00E9BD87 /* IWriteFile.h */; };
+		2E6BF12E17FA35F800E9BD87 /* IXMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECA17FA2DBE00E9BD87 /* IXMLReader.h */; };
+		2E6BF12F17FA35F800E9BD87 /* IXMLWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECB17FA2DBE00E9BD87 /* IXMLWriter.h */; };
+		2E6BF13017FA35F800E9BD87 /* Keycodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECC17FA2DBE00E9BD87 /* Keycodes.h */; };
+		2E6BF13117FA35F800E9BD87 /* leakHunter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECD17FA2DBE00E9BD87 /* leakHunter.h */; };
+		2E6BF13217FA35F800E9BD87 /* line2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECE17FA2DBE00E9BD87 /* line2d.h */; };
+		2E6BF13317FA35F800E9BD87 /* line3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEECF17FA2DBE00E9BD87 /* line3d.h */; };
+		2E6BF13417FA35F800E9BD87 /* matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED017FA2DBE00E9BD87 /* matrix4.h */; };
+		2E6BF13517FA35F800E9BD87 /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED117FA2DBE00E9BD87 /* path.h */; };
+		2E6BF13617FA35F800E9BD87 /* plane3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED217FA2DBE00E9BD87 /* plane3d.h */; };
+		2E6BF13717FA35F800E9BD87 /* position2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED317FA2DBE00E9BD87 /* position2d.h */; };
+		2E6BF13817FA35F800E9BD87 /* quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED417FA2DBF00E9BD87 /* quaternion.h */; };
+		2E6BF13917FA35F800E9BD87 /* rect.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED517FA2DBF00E9BD87 /* rect.h */; };
+		2E6BF13A17FA35F800E9BD87 /* S3DVertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED617FA2DBF00E9BD87 /* S3DVertex.h */; };
+		2E6BF13B17FA35F800E9BD87 /* SAnimatedMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED717FA2DBF00E9BD87 /* SAnimatedMesh.h */; };
+		2E6BF13C17FA35F800E9BD87 /* SceneParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED817FA2DBF00E9BD87 /* SceneParameters.h */; };
+		2E6BF13D17FA35F800E9BD87 /* SColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEED917FA2DBF00E9BD87 /* SColor.h */; };
+		2E6BF13E17FA35F800E9BD87 /* SExposedVideoData.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDA17FA2DBF00E9BD87 /* SExposedVideoData.h */; };
+		2E6BF13F17FA35F800E9BD87 /* SIrrCreationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDB17FA2DBF00E9BD87 /* SIrrCreationParameters.h */; };
+		2E6BF14017FA35F800E9BD87 /* SKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDC17FA2DBF00E9BD87 /* SKeyMap.h */; };
+		2E6BF14117FA35F800E9BD87 /* SLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDD17FA2DBF00E9BD87 /* SLight.h */; };
+		2E6BF14217FA35F800E9BD87 /* SMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDE17FA2DBF00E9BD87 /* SMaterial.h */; };
+		2E6BF14317FA35F800E9BD87 /* SMaterialLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEDF17FA2DBF00E9BD87 /* SMaterialLayer.h */; };
+		2E6BF14417FA35F800E9BD87 /* SMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE017FA2DBF00E9BD87 /* SMesh.h */; };
+		2E6BF14517FA35F800E9BD87 /* SMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE117FA2DBF00E9BD87 /* SMeshBuffer.h */; };
+		2E6BF14617FA35F800E9BD87 /* SMeshBufferLightMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE217FA2DBF00E9BD87 /* SMeshBufferLightMap.h */; };
+		2E6BF14717FA35F800E9BD87 /* SMeshBufferTangents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE317FA2DBF00E9BD87 /* SMeshBufferTangents.h */; };
+		2E6BF14817FA35F800E9BD87 /* SParticle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE417FA2DBF00E9BD87 /* SParticle.h */; };
+		2E6BF14917FA35F800E9BD87 /* SSharedMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE517FA2DBF00E9BD87 /* SSharedMeshBuffer.h */; };
+		2E6BF14A17FA35F800E9BD87 /* SSkinMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE617FA2DBF00E9BD87 /* SSkinMeshBuffer.h */; };
+		2E6BF14B17FA35F800E9BD87 /* SVertexIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE717FA2DBF00E9BD87 /* SVertexIndex.h */; };
+		2E6BF14C17FA35F800E9BD87 /* SVertexManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE817FA2DBF00E9BD87 /* SVertexManipulator.h */; };
+		2E6BF14D17FA35F800E9BD87 /* SViewFrustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEE917FA2DBF00E9BD87 /* SViewFrustum.h */; };
+		2E6BF14E17FA35F800E9BD87 /* triangle3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEA17FA2DBF00E9BD87 /* triangle3d.h */; };
+		2E6BF14F17FA35F800E9BD87 /* vector2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEB17FA2DBF00E9BD87 /* vector2d.h */; };
+		2E6BF15017FA35F800E9BD87 /* vector3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEEEC17FA2DBF00E9BD87 /* vector3d.h */; };
 		2EDD2B5717FA149C00EA2818 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD2B5517FA149C00EA2818 /* CImageLoaderDDS.cpp */; };
 		2EDD2B5817FA149C00EA2818 /* CImageLoaderDDS.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDD2B5617FA149C00EA2818 /* CImageLoaderDDS.h */; };
 		3430E4D61022C391006271FD /* CTarReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3430E4D41022C391006271FD /* CTarReader.h */; };
@@ -3936,189 +3936,189 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E6BEF0217FA2DBF00E9BD87 /* EDebugSceneTypes.h in Headers */,
-				2E6BEF9817FA2DBF00E9BD87 /* IMeshBuffer.h in Headers */,
-				2E6BF01617FA2DBF00E9BD87 /* IXMLReader.h in Headers */,
-				2E6BEF0C17FA2DBF00E9BD87 /* EGUIElementTypes.h in Headers */,
-				2E6BEF5C17FA2DBF00E9BD87 /* IGUIElementFactory.h in Headers */,
-				2E6BEFE017FA2DBF00E9BD87 /* irrTypes.h in Headers */,
-				2E6BF03E17FA2DBF00E9BD87 /* SMaterial.h in Headers */,
-				2E6BEF7817FA2DBF00E9BD87 /* IGUIStaticText.h in Headers */,
-				2E6BEEFA17FA2DBF00E9BD87 /* dimension2d.h in Headers */,
-				2E6BF03017FA2DBF00E9BD87 /* SAnimatedMesh.h in Headers */,
-				2E6BF02617FA2DBF00E9BD87 /* plane3d.h in Headers */,
-				2E6BEF6417FA2DBF00E9BD87 /* IGUIFontBitmap.h in Headers */,
-				2E6BF02C17FA2DBF00E9BD87 /* rect.h in Headers */,
-				2E6BEFD417FA2DBF00E9BD87 /* IrrlichtDevice.h in Headers */,
-				2E6BEFE617FA2DBF00E9BD87 /* ISceneCollisionManager.h in Headers */,
-				2E6BEFD617FA2DBF00E9BD87 /* irrList.h in Headers */,
-				2E6BEF3617FA2DBF00E9BD87 /* IBoneSceneNode.h in Headers */,
-				2E6BEFD217FA2DBF00E9BD87 /* irrlicht.h in Headers */,
-				2E6BEFBC17FA2DBF00E9BD87 /* IParticleRotationAffector.h in Headers */,
-				2E6BEF4E17FA2DBF00E9BD87 /* IGUIButton.h in Headers */,
-				2E6BEFF017FA2DBF00E9BD87 /* ISceneNodeAnimatorCameraFPS.h in Headers */,
-				2E6BF05817FA2DBF00E9BD87 /* vector2d.h in Headers */,
-				2E6BF01217FA2DBF00E9BD87 /* IVolumeLightSceneNode.h in Headers */,
-				2E6BEF2E17FA2DBF00E9BD87 /* IAttributeExchangingObject.h in Headers */,
-				2E6BEF2A17FA2DBF00E9BD87 /* IAnimatedMeshMD3.h in Headers */,
-				2E6BEF5417FA2DBF00E9BD87 /* IGUIComboBox.h in Headers */,
-				2E6BEEFE17FA2DBF00E9BD87 /* EAttributes.h in Headers */,
-				2E6BF00017FA2DBF00E9BD87 /* ISkinnedMesh.h in Headers */,
-				2E6BEF7217FA2DBF00E9BD87 /* IGUISkin.h in Headers */,
-				2E6BF02817FA2DBF00E9BD87 /* position2d.h in Headers */,
-				2E6BF04017FA2DBF00E9BD87 /* SMaterialLayer.h in Headers */,
-				2E6BEF2617FA2DBF00E9BD87 /* IAnimatedMesh.h in Headers */,
-				2E6BEF7E17FA2DBF00E9BD87 /* IGUIToolbar.h in Headers */,
-				2E6BEFA217FA2DBF00E9BD87 /* IMeshWriter.h in Headers */,
-				2E6BF05217FA2DBF00E9BD87 /* SVertexManipulator.h in Headers */,
-				2E6BEF8817FA2DBF00E9BD87 /* IImageWriter.h in Headers */,
-				2E6BEFFE17FA2DBF00E9BD87 /* IShadowVolumeSceneNode.h in Headers */,
-				2E6BF04817FA2DBF00E9BD87 /* SMeshBufferTangents.h in Headers */,
-				2E6BEF1217FA2DBF00E9BD87 /* EMaterialTypes.h in Headers */,
-				2E6BEF5217FA2DBF00E9BD87 /* IGUIColorSelectDialog.h in Headers */,
-				2E6BEFE817FA2DBF00E9BD87 /* ISceneLoader.h in Headers */,
-				2E6BF00817FA2DBF00E9BD87 /* ITimer.h in Headers */,
-				2E6BF01A17FA2DBF00E9BD87 /* Keycodes.h in Headers */,
-				2E6BEFA617FA2DBF00E9BD87 /* IOSOperator.h in Headers */,
-				2E6BEFC817FA2DBF00E9BD87 /* IReadFile.h in Headers */,
-				2E6BF00617FA2DBF00E9BD87 /* ITexture.h in Headers */,
-				2E6BF01E17FA2DBF00E9BD87 /* line2d.h in Headers */,
-				2E6BEF4217FA2DBF00E9BD87 /* IEventReceiver.h in Headers */,
-				2E6BF04417FA2DBF00E9BD87 /* SMeshBuffer.h in Headers */,
-				2E6BEEF817FA2DBF00E9BD87 /* CVertexBuffer.h in Headers */,
-				2E6BEF6217FA2DBF00E9BD87 /* IGUIFont.h in Headers */,
-				2E6BEF4417FA2DBF00E9BD87 /* IFileArchive.h in Headers */,
-				2E6BEF6A17FA2DBF00E9BD87 /* IGUIInOutFader.h in Headers */,
-				2E6BEF2217FA2DBF00E9BD87 /* fast_atof.h in Headers */,
-				2E6BEFBA17FA2DBF00E9BD87 /* IParticleRingEmitter.h in Headers */,
-				2E6BEF6E17FA2DBF00E9BD87 /* IGUIMeshViewer.h in Headers */,
-				2E6BEFBE17FA2DBF00E9BD87 /* IParticleSphereEmitter.h in Headers */,
-				2E6BEF3217FA2DBF00E9BD87 /* IBillboardSceneNode.h in Headers */,
-				2E6BEF9617FA2DBF00E9BD87 /* IMesh.h in Headers */,
-				2E6BEFC417FA2DBF00E9BD87 /* IQ3Shader.h in Headers */,
-				2E6BEFAE17FA2DBF00E9BD87 /* IParticleBoxEmitter.h in Headers */,
-				2E6BEF0617FA2DBF00E9BD87 /* EDriverFeatures.h in Headers */,
-				2E6BF02A17FA2DBF00E9BD87 /* quaternion.h in Headers */,
-				2E6BEF6C17FA2DBF00E9BD87 /* IGUIListBox.h in Headers */,
-				2E6BF01417FA2DBF00E9BD87 /* IWriteFile.h in Headers */,
-				2E6BEFD017FA2DBF00E9BD87 /* IrrCompileConfig.h in Headers */,
-				2E6BEF5A17FA2DBF00E9BD87 /* IGUIElement.h in Headers */,
-				2E6BF04617FA2DBF00E9BD87 /* SMeshBufferLightMap.h in Headers */,
-				2E6BEEEE17FA2DBF00E9BD87 /* aabbox3d.h in Headers */,
-				2E6BEFB617FA2DBF00E9BD87 /* IParticleGravityAffector.h in Headers */,
-				2E6BEF5617FA2DBF00E9BD87 /* IGUIContextMenu.h in Headers */,
-				2E6BF02017FA2DBF00E9BD87 /* line3d.h in Headers */,
-				2E6BEFAA17FA2DBF00E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h in Headers */,
-				2E6BEF7417FA2DBF00E9BD87 /* IGUISpinBox.h in Headers */,
-				2E6BEFF617FA2DBF00E9BD87 /* ISceneNodeAnimatorFactory.h in Headers */,
-				2E6BEFDE17FA2DBF00E9BD87 /* irrString.h in Headers */,
-				2E6BEFC617FA2DBF00E9BD87 /* IRandomizer.h in Headers */,
-				2E6BF02417FA2DBF00E9BD87 /* path.h in Headers */,
-				2E6BEFEE17FA2DBF00E9BD87 /* ISceneNodeAnimator.h in Headers */,
-				2E6BF05017FA2DBF00E9BD87 /* SVertexIndex.h in Headers */,
-				2E6BEF7017FA2DBF00E9BD87 /* IGUIScrollBar.h in Headers */,
-				2E6BF03C17FA2DBF00E9BD87 /* SLight.h in Headers */,
-				2E6BEF8C17FA2DBF00E9BD87 /* ILightManager.h in Headers */,
-				2E6BEF7C17FA2DBF00E9BD87 /* IGUITable.h in Headers */,
-				2E6BF01017FA2DBF00E9BD87 /* IVideoModeList.h in Headers */,
-				2E6BEFFA17FA2DBF00E9BD87 /* ISceneUserDataSerializer.h in Headers */,
-				2E6BEFCE17FA2DBF00E9BD87 /* irrArray.h in Headers */,
-				2E6BEFB017FA2DBF00E9BD87 /* IParticleCylinderEmitter.h in Headers */,
-				2E6BEF6817FA2DBF00E9BD87 /* IGUIImageList.h in Headers */,
-				2E6BF03417FA2DBF00E9BD87 /* SColor.h in Headers */,
-				2E6BEFCC17FA2DBF00E9BD87 /* irrAllocator.h in Headers */,
-				2E6BEF5817FA2DBF00E9BD87 /* IGUIEditBox.h in Headers */,
-				2E6BEF8E17FA2DBF00E9BD87 /* ILightSceneNode.h in Headers */,
-				2E6BF00217FA2DBF00E9BD87 /* ITerrainSceneNode.h in Headers */,
-				2E6BEF9C17FA2DBF00E9BD87 /* IMeshLoader.h in Headers */,
-				2E6BEFF217FA2DBF00E9BD87 /* ISceneNodeAnimatorCameraMaya.h in Headers */,
-				2E6BEF3C17FA2DBF00E9BD87 /* ICursorControl.h in Headers */,
-				2E6BEF1017FA2DBF00E9BD87 /* EMaterialFlags.h in Headers */,
-				2E6BF03617FA2DBF00E9BD87 /* SExposedVideoData.h in Headers */,
-				2E6BEF5017FA2DBF00E9BD87 /* IGUICheckBox.h in Headers */,
-				2E6BEF4A17FA2DBF00E9BD87 /* IGeometryCreator.h in Headers */,
-				2E6BF00A17FA2DBF00E9BD87 /* ITriangleSelector.h in Headers */,
-				2E6BEF6617FA2DBF00E9BD87 /* IGUIImage.h in Headers */,
-				2E6BF04A17FA2DBF00E9BD87 /* SParticle.h in Headers */,
-				2E6BEEFC17FA2DBF00E9BD87 /* driverChoice.h in Headers */,
-				2E6BEFC217FA2DBF00E9BD87 /* IQ3LevelMesh.h in Headers */,
-				2E6BEF1E17FA2DBF00E9BD87 /* EShaderTypes.h in Headers */,
-				2E6BF03A17FA2DBF00E9BD87 /* SKeyMap.h in Headers */,
-				2E6BEF7A17FA2DBF00E9BD87 /* IGUITabControl.h in Headers */,
-				2E6BF04C17FA2DBF00E9BD87 /* SSharedMeshBuffer.h in Headers */,
-				2E6BEF4617FA2DBF00E9BD87 /* IFileList.h in Headers */,
-				2E6BEF6017FA2DBF00E9BD87 /* IGUIFileOpenDialog.h in Headers */,
-				2E6BEFE217FA2DBF00E9BD87 /* irrunpack.h in Headers */,
-				2E6BEF2017FA2DBF00E9BD87 /* ETerrainElements.h in Headers */,
-				2E6BEF5E17FA2DBF00E9BD87 /* IGUIEnvironment.h in Headers */,
-				2E6BF03817FA2DBF00E9BD87 /* SIrrCreationParameters.h in Headers */,
-				2E6BEFDA17FA2DBF00E9BD87 /* irrMath.h in Headers */,
-				2E6BEF2817FA2DBF00E9BD87 /* IAnimatedMeshMD2.h in Headers */,
-				2E6BEF0417FA2DBF00E9BD87 /* EDeviceTypes.h in Headers */,
-				2E6BF04217FA2DBF00E9BD87 /* SMesh.h in Headers */,
-				2E6BEFFC17FA2DBF00E9BD87 /* IShaderConstantSetCallBack.h in Headers */,
-				2E6BEF4017FA2DBF00E9BD87 /* IDynamicMeshBuffer.h in Headers */,
-				2E6BF01817FA2DBF00E9BD87 /* IXMLWriter.h in Headers */,
-				2E6BEF1417FA2DBF00E9BD87 /* EMeshWriterEnums.h in Headers */,
-				2E6BEF9A17FA2DBF00E9BD87 /* IMeshCache.h in Headers */,
-				2E6BF04E17FA2DBF00E9BD87 /* SSkinMeshBuffer.h in Headers */,
-				2E6BF01C17FA2DBF00E9BD87 /* leakHunter.h in Headers */,
-				2E6BEF8217FA2DBF00E9BD87 /* IGUIWindow.h in Headers */,
-				2E6BEFC017FA2DBF00E9BD87 /* IParticleSystemSceneNode.h in Headers */,
-				2E6BF05417FA2DBF00E9BD87 /* SViewFrustum.h in Headers */,
-				2E6BEF4C17FA2DBF00E9BD87 /* IGPUProgrammingServices.h in Headers */,
-				2E6BF05A17FA2DBF00E9BD87 /* vector3d.h in Headers */,
-				2E6BF00E17FA2DBF00E9BD87 /* IVideoDriver.h in Headers */,
-				2E6BEF9E17FA2DBF00E9BD87 /* IMeshManipulator.h in Headers */,
-				2E6BF02217FA2DBF00E9BD87 /* matrix4.h in Headers */,
-				2E6BEF0E17FA2DBF00E9BD87 /* EHardwareBufferFlags.h in Headers */,
-				2E6BEFDC17FA2DBF00E9BD87 /* irrpack.h in Headers */,
-				2E6BEFA017FA2DBF00E9BD87 /* IMeshSceneNode.h in Headers */,
-				2E6BEFE417FA2DBF00E9BD87 /* irrXML.h in Headers */,
-				2E6BEF0817FA2DBF00E9BD87 /* EDriverTypes.h in Headers */,
-				2E6BEF7617FA2DBF00E9BD87 /* IGUISpriteBank.h in Headers */,
-				2E6BEF8017FA2DBF00E9BD87 /* IGUITreeView.h in Headers */,
-				2E6BEF0017FA2DBF00E9BD87 /* ECullingTypes.h in Headers */,
-				2E6BEFEC17FA2DBF00E9BD87 /* ISceneNode.h in Headers */,
-				2E6BEF1617FA2DBF00E9BD87 /* EMessageBoxFlags.h in Headers */,
-				2E6BEF3417FA2DBF00E9BD87 /* IBillboardTextSceneNode.h in Headers */,
-				2E6BEF1A17FA2DBF00E9BD87 /* ESceneNodeAnimatorTypes.h in Headers */,
-				2E6BEEF417FA2DBF00E9BD87 /* CMeshBuffer.h in Headers */,
-				2E6BEF8A17FA2DBF00E9BD87 /* IIndexBuffer.h in Headers */,
-				2E6BEF9017FA2DBF00E9BD87 /* ILogger.h in Headers */,
-				2E6BEFEA17FA2DBF00E9BD87 /* ISceneManager.h in Headers */,
-				2E6BEF8417FA2DBF00E9BD87 /* IImage.h in Headers */,
-				2E6BEFB817FA2DBF00E9BD87 /* IParticleMeshEmitter.h in Headers */,
-				2E6BEFB217FA2DBF00E9BD87 /* IParticleEmitter.h in Headers */,
-				2E6BF00C17FA2DBF00E9BD87 /* IVertexBuffer.h in Headers */,
-				2E6BEF0A17FA2DBF00E9BD87 /* EGUIAlignment.h in Headers */,
-				2E6BEFCA17FA2DBF00E9BD87 /* IReferenceCounted.h in Headers */,
-				2E6BEFA417FA2DBF00E9BD87 /* IMetaTriangleSelector.h in Headers */,
-				2E6BEEF017FA2DBF00E9BD87 /* CDynamicMeshBuffer.h in Headers */,
-				2E6BEF4817FA2DBF00E9BD87 /* IFileSystem.h in Headers */,
-				2E6BF02E17FA2DBF00E9BD87 /* S3DVertex.h in Headers */,
-				2E6BF00417FA2DBF00E9BD87 /* ITextSceneNode.h in Headers */,
-				2E6BEFA817FA2DBF00E9BD87 /* IParticleAffector.h in Headers */,
-				2E6BEF8617FA2DBF00E9BD87 /* IImageLoader.h in Headers */,
-				2E6BEFAC17FA2DBF00E9BD87 /* IParticleAttractionAffector.h in Headers */,
-				2E6BEFB417FA2DBF00E9BD87 /* IParticleFadeOutAffector.h in Headers */,
-				2E6BF03217FA2DBF00E9BD87 /* SceneParameters.h in Headers */,
-				2E6BEF3017FA2DBF00E9BD87 /* IAttributes.h in Headers */,
-				2E6BEEF217FA2DBF00E9BD87 /* CIndexBuffer.h in Headers */,
-				2E6BEF3817FA2DBF00E9BD87 /* ICameraSceneNode.h in Headers */,
-				2E6BEF2C17FA2DBF00E9BD87 /* IAnimatedMeshSceneNode.h in Headers */,
-				2E6BEFF417FA2DBF00E9BD87 /* ISceneNodeAnimatorCollisionResponse.h in Headers */,
-				2E6BEF9217FA2DBF00E9BD87 /* IMaterialRenderer.h in Headers */,
-				2E6BF05617FA2DBF00E9BD87 /* triangle3d.h in Headers */,
-				2E6BEF1C17FA2DBF00E9BD87 /* ESceneNodeTypes.h in Headers */,
-				2E6BEF3A17FA2DBF00E9BD87 /* IColladaMeshWriter.h in Headers */,
-				2E6BEF1817FA2DBF00E9BD87 /* EPrimitiveTypes.h in Headers */,
-				2E6BEF9417FA2DBF00E9BD87 /* IMaterialRendererServices.h in Headers */,
-				2E6BEF2417FA2DBF00E9BD87 /* heapsort.h in Headers */,
-				2E6BEFF817FA2DBF00E9BD87 /* ISceneNodeFactory.h in Headers */,
-				2E6BEFD817FA2DBF00E9BD87 /* irrMap.h in Headers */,
-				2E6BEF3E17FA2DBF00E9BD87 /* IDummyTransformationSceneNode.h in Headers */,
-				2E6BEEF617FA2DBF00E9BD87 /* coreutil.h in Headers */,
+				2E6BF09A17FA35F800E9BD87 /* aabbox3d.h in Headers */,
+				2E6BF09B17FA35F800E9BD87 /* CDynamicMeshBuffer.h in Headers */,
+				2E6BF09C17FA35F800E9BD87 /* CIndexBuffer.h in Headers */,
+				2E6BF09D17FA35F800E9BD87 /* CMeshBuffer.h in Headers */,
+				2E6BF09E17FA35F800E9BD87 /* coreutil.h in Headers */,
+				2E6BF09F17FA35F800E9BD87 /* CVertexBuffer.h in Headers */,
+				2E6BF0A017FA35F800E9BD87 /* dimension2d.h in Headers */,
+				2E6BF0A117FA35F800E9BD87 /* driverChoice.h in Headers */,
+				2E6BF0A217FA35F800E9BD87 /* EAttributes.h in Headers */,
+				2E6BF0A317FA35F800E9BD87 /* ECullingTypes.h in Headers */,
+				2E6BF0A417FA35F800E9BD87 /* EDebugSceneTypes.h in Headers */,
+				2E6BF0A517FA35F800E9BD87 /* EDeviceTypes.h in Headers */,
+				2E6BF0A617FA35F800E9BD87 /* EDriverFeatures.h in Headers */,
+				2E6BF0A717FA35F800E9BD87 /* EDriverTypes.h in Headers */,
+				2E6BF0A817FA35F800E9BD87 /* EGUIAlignment.h in Headers */,
+				2E6BF0A917FA35F800E9BD87 /* EGUIElementTypes.h in Headers */,
+				2E6BF0AA17FA35F800E9BD87 /* EHardwareBufferFlags.h in Headers */,
+				2E6BF0AB17FA35F800E9BD87 /* EMaterialFlags.h in Headers */,
+				2E6BF0AC17FA35F800E9BD87 /* EMaterialTypes.h in Headers */,
+				2E6BF0AD17FA35F800E9BD87 /* EMeshWriterEnums.h in Headers */,
+				2E6BF0AE17FA35F800E9BD87 /* EMessageBoxFlags.h in Headers */,
+				2E6BF0AF17FA35F800E9BD87 /* EPrimitiveTypes.h in Headers */,
+				2E6BF0B017FA35F800E9BD87 /* ESceneNodeAnimatorTypes.h in Headers */,
+				2E6BF0B117FA35F800E9BD87 /* ESceneNodeTypes.h in Headers */,
+				2E6BF0B217FA35F800E9BD87 /* EShaderTypes.h in Headers */,
+				2E6BF0B317FA35F800E9BD87 /* ETerrainElements.h in Headers */,
+				2E6BF0B417FA35F800E9BD87 /* fast_atof.h in Headers */,
+				2E6BF0B517FA35F800E9BD87 /* heapsort.h in Headers */,
+				2E6BF0B617FA35F800E9BD87 /* IAnimatedMesh.h in Headers */,
+				2E6BF0B717FA35F800E9BD87 /* IAnimatedMeshMD2.h in Headers */,
+				2E6BF0B817FA35F800E9BD87 /* IAnimatedMeshMD3.h in Headers */,
+				2E6BF0B917FA35F800E9BD87 /* IAnimatedMeshSceneNode.h in Headers */,
+				2E6BF0BA17FA35F800E9BD87 /* IAttributeExchangingObject.h in Headers */,
+				2E6BF0BB17FA35F800E9BD87 /* IAttributes.h in Headers */,
+				2E6BF0BC17FA35F800E9BD87 /* IBillboardSceneNode.h in Headers */,
+				2E6BF0BD17FA35F800E9BD87 /* IBillboardTextSceneNode.h in Headers */,
+				2E6BF0BE17FA35F800E9BD87 /* IBoneSceneNode.h in Headers */,
+				2E6BF0BF17FA35F800E9BD87 /* ICameraSceneNode.h in Headers */,
+				2E6BF0C017FA35F800E9BD87 /* IColladaMeshWriter.h in Headers */,
+				2E6BF0C117FA35F800E9BD87 /* ICursorControl.h in Headers */,
+				2E6BF0C217FA35F800E9BD87 /* IDummyTransformationSceneNode.h in Headers */,
+				2E6BF0C317FA35F800E9BD87 /* IDynamicMeshBuffer.h in Headers */,
+				2E6BF0C417FA35F800E9BD87 /* IEventReceiver.h in Headers */,
+				2E6BF0C517FA35F800E9BD87 /* IFileArchive.h in Headers */,
+				2E6BF0C617FA35F800E9BD87 /* IFileList.h in Headers */,
+				2E6BF0C717FA35F800E9BD87 /* IFileSystem.h in Headers */,
+				2E6BF0C817FA35F800E9BD87 /* IGeometryCreator.h in Headers */,
+				2E6BF0C917FA35F800E9BD87 /* IGPUProgrammingServices.h in Headers */,
+				2E6BF0CA17FA35F800E9BD87 /* IGUIButton.h in Headers */,
+				2E6BF0CB17FA35F800E9BD87 /* IGUICheckBox.h in Headers */,
+				2E6BF0CC17FA35F800E9BD87 /* IGUIColorSelectDialog.h in Headers */,
+				2E6BF0CD17FA35F800E9BD87 /* IGUIComboBox.h in Headers */,
+				2E6BF0CE17FA35F800E9BD87 /* IGUIContextMenu.h in Headers */,
+				2E6BF0CF17FA35F800E9BD87 /* IGUIEditBox.h in Headers */,
+				2E6BF0D017FA35F800E9BD87 /* IGUIElement.h in Headers */,
+				2E6BF0D117FA35F800E9BD87 /* IGUIElementFactory.h in Headers */,
+				2E6BF0D217FA35F800E9BD87 /* IGUIEnvironment.h in Headers */,
+				2E6BF0D317FA35F800E9BD87 /* IGUIFileOpenDialog.h in Headers */,
+				2E6BF0D417FA35F800E9BD87 /* IGUIFont.h in Headers */,
+				2E6BF0D517FA35F800E9BD87 /* IGUIFontBitmap.h in Headers */,
+				2E6BF0D617FA35F800E9BD87 /* IGUIImage.h in Headers */,
+				2E6BF0D717FA35F800E9BD87 /* IGUIImageList.h in Headers */,
+				2E6BF0D817FA35F800E9BD87 /* IGUIInOutFader.h in Headers */,
+				2E6BF0D917FA35F800E9BD87 /* IGUIListBox.h in Headers */,
+				2E6BF0DA17FA35F800E9BD87 /* IGUIMeshViewer.h in Headers */,
+				2E6BF0DB17FA35F800E9BD87 /* IGUIScrollBar.h in Headers */,
+				2E6BF0DC17FA35F800E9BD87 /* IGUISkin.h in Headers */,
+				2E6BF0DD17FA35F800E9BD87 /* IGUISpinBox.h in Headers */,
+				2E6BF0DE17FA35F800E9BD87 /* IGUISpriteBank.h in Headers */,
+				2E6BF0DF17FA35F800E9BD87 /* IGUIStaticText.h in Headers */,
+				2E6BF0E017FA35F800E9BD87 /* IGUITabControl.h in Headers */,
+				2E6BF0E117FA35F800E9BD87 /* IGUITable.h in Headers */,
+				2E6BF0E217FA35F800E9BD87 /* IGUIToolbar.h in Headers */,
+				2E6BF0E317FA35F800E9BD87 /* IGUITreeView.h in Headers */,
+				2E6BF0E417FA35F800E9BD87 /* IGUIWindow.h in Headers */,
+				2E6BF0E517FA35F800E9BD87 /* IImage.h in Headers */,
+				2E6BF0E617FA35F800E9BD87 /* IImageLoader.h in Headers */,
+				2E6BF0E717FA35F800E9BD87 /* IImageWriter.h in Headers */,
+				2E6BF0E817FA35F800E9BD87 /* IIndexBuffer.h in Headers */,
+				2E6BF0E917FA35F800E9BD87 /* ILightManager.h in Headers */,
+				2E6BF0EA17FA35F800E9BD87 /* ILightSceneNode.h in Headers */,
+				2E6BF0EB17FA35F800E9BD87 /* ILogger.h in Headers */,
+				2E6BF0EC17FA35F800E9BD87 /* IMaterialRenderer.h in Headers */,
+				2E6BF0ED17FA35F800E9BD87 /* IMaterialRendererServices.h in Headers */,
+				2E6BF0EE17FA35F800E9BD87 /* IMesh.h in Headers */,
+				2E6BF0EF17FA35F800E9BD87 /* IMeshBuffer.h in Headers */,
+				2E6BF0F017FA35F800E9BD87 /* IMeshCache.h in Headers */,
+				2E6BF0F117FA35F800E9BD87 /* IMeshLoader.h in Headers */,
+				2E6BF0F217FA35F800E9BD87 /* IMeshManipulator.h in Headers */,
+				2E6BF0F317FA35F800E9BD87 /* IMeshSceneNode.h in Headers */,
+				2E6BF0F417FA35F800E9BD87 /* IMeshWriter.h in Headers */,
+				2E6BF0F517FA35F800E9BD87 /* IMetaTriangleSelector.h in Headers */,
+				2E6BF0F617FA35F800E9BD87 /* IOSOperator.h in Headers */,
+				2E6BF0F717FA35F800E9BD87 /* IParticleAffector.h in Headers */,
+				2E6BF0F817FA35F800E9BD87 /* IParticleAnimatedMeshSceneNodeEmitter.h in Headers */,
+				2E6BF0F917FA35F800E9BD87 /* IParticleAttractionAffector.h in Headers */,
+				2E6BF0FA17FA35F800E9BD87 /* IParticleBoxEmitter.h in Headers */,
+				2E6BF0FB17FA35F800E9BD87 /* IParticleCylinderEmitter.h in Headers */,
+				2E6BF0FC17FA35F800E9BD87 /* IParticleEmitter.h in Headers */,
+				2E6BF0FD17FA35F800E9BD87 /* IParticleFadeOutAffector.h in Headers */,
+				2E6BF0FE17FA35F800E9BD87 /* IParticleGravityAffector.h in Headers */,
+				2E6BF0FF17FA35F800E9BD87 /* IParticleMeshEmitter.h in Headers */,
+				2E6BF10017FA35F800E9BD87 /* IParticleRingEmitter.h in Headers */,
+				2E6BF10117FA35F800E9BD87 /* IParticleRotationAffector.h in Headers */,
+				2E6BF10217FA35F800E9BD87 /* IParticleSphereEmitter.h in Headers */,
+				2E6BF10317FA35F800E9BD87 /* IParticleSystemSceneNode.h in Headers */,
+				2E6BF10417FA35F800E9BD87 /* IQ3LevelMesh.h in Headers */,
+				2E6BF10517FA35F800E9BD87 /* IQ3Shader.h in Headers */,
+				2E6BF10617FA35F800E9BD87 /* IRandomizer.h in Headers */,
+				2E6BF10717FA35F800E9BD87 /* IReadFile.h in Headers */,
+				2E6BF10817FA35F800E9BD87 /* IReferenceCounted.h in Headers */,
+				2E6BF10917FA35F800E9BD87 /* irrAllocator.h in Headers */,
+				2E6BF10A17FA35F800E9BD87 /* irrArray.h in Headers */,
+				2E6BF10B17FA35F800E9BD87 /* IrrCompileConfig.h in Headers */,
+				2E6BF10C17FA35F800E9BD87 /* irrlicht.h in Headers */,
+				2E6BF10D17FA35F800E9BD87 /* IrrlichtDevice.h in Headers */,
+				2E6BF10E17FA35F800E9BD87 /* irrList.h in Headers */,
+				2E6BF10F17FA35F800E9BD87 /* irrMap.h in Headers */,
+				2E6BF11017FA35F800E9BD87 /* irrMath.h in Headers */,
+				2E6BF11117FA35F800E9BD87 /* irrpack.h in Headers */,
+				2E6BF11217FA35F800E9BD87 /* irrString.h in Headers */,
+				2E6BF11317FA35F800E9BD87 /* irrTypes.h in Headers */,
+				2E6BF11417FA35F800E9BD87 /* irrunpack.h in Headers */,
+				2E6BF11517FA35F800E9BD87 /* irrXML.h in Headers */,
+				2E6BF11617FA35F800E9BD87 /* ISceneCollisionManager.h in Headers */,
+				2E6BF11717FA35F800E9BD87 /* ISceneLoader.h in Headers */,
+				2E6BF11817FA35F800E9BD87 /* ISceneManager.h in Headers */,
+				2E6BF11917FA35F800E9BD87 /* ISceneNode.h in Headers */,
+				2E6BF11A17FA35F800E9BD87 /* ISceneNodeAnimator.h in Headers */,
+				2E6BF11B17FA35F800E9BD87 /* ISceneNodeAnimatorCameraFPS.h in Headers */,
+				2E6BF11C17FA35F800E9BD87 /* ISceneNodeAnimatorCameraMaya.h in Headers */,
+				2E6BF11D17FA35F800E9BD87 /* ISceneNodeAnimatorCollisionResponse.h in Headers */,
+				2E6BF11E17FA35F800E9BD87 /* ISceneNodeAnimatorFactory.h in Headers */,
+				2E6BF11F17FA35F800E9BD87 /* ISceneNodeFactory.h in Headers */,
+				2E6BF12017FA35F800E9BD87 /* ISceneUserDataSerializer.h in Headers */,
+				2E6BF12117FA35F800E9BD87 /* IShaderConstantSetCallBack.h in Headers */,
+				2E6BF12217FA35F800E9BD87 /* IShadowVolumeSceneNode.h in Headers */,
+				2E6BF12317FA35F800E9BD87 /* ISkinnedMesh.h in Headers */,
+				2E6BF12417FA35F800E9BD87 /* ITerrainSceneNode.h in Headers */,
+				2E6BF12517FA35F800E9BD87 /* ITextSceneNode.h in Headers */,
+				2E6BF12617FA35F800E9BD87 /* ITexture.h in Headers */,
+				2E6BF12717FA35F800E9BD87 /* ITimer.h in Headers */,
+				2E6BF12817FA35F800E9BD87 /* ITriangleSelector.h in Headers */,
+				2E6BF12917FA35F800E9BD87 /* IVertexBuffer.h in Headers */,
+				2E6BF12A17FA35F800E9BD87 /* IVideoDriver.h in Headers */,
+				2E6BF12B17FA35F800E9BD87 /* IVideoModeList.h in Headers */,
+				2E6BF12C17FA35F800E9BD87 /* IVolumeLightSceneNode.h in Headers */,
+				2E6BF12D17FA35F800E9BD87 /* IWriteFile.h in Headers */,
+				2E6BF12E17FA35F800E9BD87 /* IXMLReader.h in Headers */,
+				2E6BF12F17FA35F800E9BD87 /* IXMLWriter.h in Headers */,
+				2E6BF13017FA35F800E9BD87 /* Keycodes.h in Headers */,
+				2E6BF13117FA35F800E9BD87 /* leakHunter.h in Headers */,
+				2E6BF13217FA35F800E9BD87 /* line2d.h in Headers */,
+				2E6BF13317FA35F800E9BD87 /* line3d.h in Headers */,
+				2E6BF13417FA35F800E9BD87 /* matrix4.h in Headers */,
+				2E6BF13517FA35F800E9BD87 /* path.h in Headers */,
+				2E6BF13617FA35F800E9BD87 /* plane3d.h in Headers */,
+				2E6BF13717FA35F800E9BD87 /* position2d.h in Headers */,
+				2E6BF13817FA35F800E9BD87 /* quaternion.h in Headers */,
+				2E6BF13917FA35F800E9BD87 /* rect.h in Headers */,
+				2E6BF13A17FA35F800E9BD87 /* S3DVertex.h in Headers */,
+				2E6BF13B17FA35F800E9BD87 /* SAnimatedMesh.h in Headers */,
+				2E6BF13C17FA35F800E9BD87 /* SceneParameters.h in Headers */,
+				2E6BF13D17FA35F800E9BD87 /* SColor.h in Headers */,
+				2E6BF13E17FA35F800E9BD87 /* SExposedVideoData.h in Headers */,
+				2E6BF13F17FA35F800E9BD87 /* SIrrCreationParameters.h in Headers */,
+				2E6BF14017FA35F800E9BD87 /* SKeyMap.h in Headers */,
+				2E6BF14117FA35F800E9BD87 /* SLight.h in Headers */,
+				2E6BF14217FA35F800E9BD87 /* SMaterial.h in Headers */,
+				2E6BF14317FA35F800E9BD87 /* SMaterialLayer.h in Headers */,
+				2E6BF14417FA35F800E9BD87 /* SMesh.h in Headers */,
+				2E6BF14517FA35F800E9BD87 /* SMeshBuffer.h in Headers */,
+				2E6BF14617FA35F800E9BD87 /* SMeshBufferLightMap.h in Headers */,
+				2E6BF14717FA35F800E9BD87 /* SMeshBufferTangents.h in Headers */,
+				2E6BF14817FA35F800E9BD87 /* SParticle.h in Headers */,
+				2E6BF14917FA35F800E9BD87 /* SSharedMeshBuffer.h in Headers */,
+				2E6BF14A17FA35F800E9BD87 /* SSkinMeshBuffer.h in Headers */,
+				2E6BF14B17FA35F800E9BD87 /* SVertexIndex.h in Headers */,
+				2E6BF14C17FA35F800E9BD87 /* SVertexManipulator.h in Headers */,
+				2E6BF14D17FA35F800E9BD87 /* SViewFrustum.h in Headers */,
+				2E6BF14E17FA35F800E9BD87 /* triangle3d.h in Headers */,
+				2E6BF14F17FA35F800E9BD87 /* vector2d.h in Headers */,
+				2E6BF15017FA35F800E9BD87 /* vector3d.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6562,7 +6562,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = ../../../include;
 				INFOPLIST_FILE = "IrrFramework-Info.plist";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@executable_path/Frameworks/";
 				OTHER_CFLAGS = (
 					"-read_only_relocs",
 					suppress,
@@ -6603,7 +6603,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = ../../../include;
 				INFOPLIST_FILE = "IrrFramework-Info.plist";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@executable_path/Frameworks/";
 				OTHER_CFLAGS = (
 					"-read_only_relocs",
 					suppress,

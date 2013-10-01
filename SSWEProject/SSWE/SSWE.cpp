@@ -10,10 +10,11 @@
 //
 
 #include "stdafx.h"
-#include <CGenericMonitor.h>
 
 #ifdef SSWE_RELEASE
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+    #ifndef _IRR_OSX_PLATFORM_
+        #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+    #endif
 #endif
 
 #ifndef _IRR_OSX_PLATFORM_

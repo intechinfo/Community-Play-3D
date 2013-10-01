@@ -86,11 +86,12 @@ struct SSWE_CORE_API SData {
 	}
 	ISceneNode *getClonedNode(ISceneNode *cnode) {
 		ISceneNodeList::Iterator it = clonedNodes.begin();
-		for (; it != clonedNodes.end(); ++it)
+		for (; it != clonedNodes.end(); ++it) {
 			if ((*it) == cnode) {
-				return *it;
 				break;
 			}
+        }
+        return *it;
 	}
 	ISceneNode *getClonedNode(u32 index) {
 		u32 currentIndex;
@@ -437,16 +438,16 @@ private:
 
 		vector3df *getWorldSpaceCorners(ICameraSceneNode *cam) {
 			const SViewFrustum *f = cam->getViewFrustum();
-			vector3df *vec[8] = {
+			vector3df *vec[8];/* = {
 				&irr::core::vector3df(f->getNearRightUp()),
-				&irr::core::vector3df(f->getNearLeftUp()),
-				&irr::core::vector3df(f->getNearLeftDown()),
-				&irr::core::vector3df(f->getNearRightDown()),
-				&irr::core::vector3df(f->getFarRightUp()),
-				&irr::core::vector3df(f->getFarLeftUp()),
-				&irr::core::vector3df(f->getFarLeftDown()),
-				&irr::core::vector3df(f->getFarRightDown())
-			};
+				irr::core::vector3df(f->getNearLeftUp()),
+				irr::core::vector3df(f->getNearLeftDown()),
+				irr::core::vector3df(f->getNearRightDown()),
+				irr::core::vector3df(f->getFarRightUp()),
+				irr::core::vector3df(f->getFarLeftUp()),
+				irr::core::vector3df(f->getFarLeftDown()),
+				irr::core::vector3df(f->getFarRightDown())
+			};*/
 
 			return *vec;
 		}
@@ -525,6 +526,7 @@ private:
 //---------------------------------------------------------------------------------------------
 
 struct SSWE_CORE_API SMonitor {
+#ifndef _IRR_OSX_PLATFORM_
 	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
 		monitor = _monitor;
 		hdll = _hdll;
@@ -550,6 +552,23 @@ private:
 
 	IMonitor *monitor;
 	HINSTANCE hdll;
+#else
+    
+    SMonitor(IMonitor *_monitor) {
+        monitor = _monitor;
+    }
+    
+    IMonitor *getMonitor() { return monitor; }
+	void setMonitor(IMonitor *_monitor) { monitor = _monitor; }
+    
+    void freeInstance() {
+        
+	}
+    
+private:
+    
+	IMonitor *monitor;
+#endif
 };
 
 //---------------------------------------------------------------------------------------------

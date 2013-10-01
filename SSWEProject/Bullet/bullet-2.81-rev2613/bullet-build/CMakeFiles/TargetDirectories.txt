@@ -1,0 +1,14 @@
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/src/BulletCollision/CMakeFiles/BulletCollision.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/src/BulletDynamics/CMakeFiles/BulletDynamics.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/Extras/Serialize/BulletFileLoader/CMakeFiles/BulletFileLoader.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/src/BulletMultiThreaded/CMakeFiles/BulletMultiThreaded.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/src/BulletMultiThreaded/GpuSoftBodySolvers/OpenCL/MiniCL/CMakeFiles/BulletSoftBodySolvers_OpenCL_Mini.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/Extras/Serialize/BulletWorldImporter/CMakeFiles/BulletWorldImporter.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/Extras/Serialize/BulletXmlWorldImporter/CMakeFiles/BulletXmlWorldImporter.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/Extras/ConvexDecomposition/CMakeFiles/ConvexDecomposition.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/Extras/GIMPACTUtils/CMakeFiles/GIMPACTUtils.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/Extras/glui/CMakeFiles/GLUI.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/Extras/HACD/CMakeFiles/HACD.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/src/LinearMath/CMakeFiles/LinearMath.dir
+/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWEProject/Bullet/bullet-2.81-rev2613/bullet-build/src/MiniCL/CMakeFiles/MiniCL.dir
