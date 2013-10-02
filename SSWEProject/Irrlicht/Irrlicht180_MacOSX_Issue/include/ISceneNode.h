@@ -54,6 +54,8 @@ namespace scene
 			if (parent)
 				parent->addChild(this);
 
+            TriangleSelector = 0;
+            
 			updateAbsolutePosition();
 		}
 

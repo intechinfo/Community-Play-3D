@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E4BEF2B17FCBA7D0068AEA6 /* IrrFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFCC14217FB73DB00000709 /* IrrFramework.framework */; };
 		2EFCC13817FB733000000709 /* CGenericMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCC13417FB733000000709 /* CGenericMonitor.cpp */; };
 		2EFCC13917FB733000000709 /* CGenericMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFCC13517FB733000000709 /* CGenericMonitor.h */; };
 		2EFCC13A17FB733000000709 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCC13617FB733000000709 /* stdafx.cpp */; };
 		2EFCC13B17FB733000000709 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFCC13717FB733000000709 /* stdafx.h */; };
 		2EFCC13F17FB73A300000709 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFCC13E17FB73A300000709 /* libSSWERenders.a */; };
-		2EFCC14317FB73DB00000709 /* IrrFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFCC14217FB73DB00000709 /* IrrFramework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E4BEF2917FCBA5A0068AEA6 /* libIrrlicht.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIrrlicht.a; path = ../../Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug/libIrrlicht.a; sourceTree = "<group>"; };
 		2EFCC12717FB730100000709 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EFCC13417FB733000000709 /* CGenericMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGenericMonitor.cpp; path = ../../SSWEGenericMonitor/CGenericMonitor.cpp; sourceTree = "<group>"; };
 		2EFCC13517FB733000000709 /* CGenericMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGenericMonitor.h; path = ../../SSWEGenericMonitor/CGenericMonitor.h; sourceTree = "<group>"; };
@@ -30,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EFCC14317FB73DB00000709 /* IrrFramework.framework in Frameworks */,
+				2E4BEF2B17FCBA7D0068AEA6 /* IrrFramework.framework in Frameworks */,
 				2EFCC13F17FB73A300000709 /* libSSWERenders.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,6 +42,7 @@
 		2EFCC11E17FB730100000709 = {
 			isa = PBXGroup;
 			children = (
+				2E4BEF2917FCBA5A0068AEA6 /* libIrrlicht.a */,
 				2EFCC14217FB73DB00000709 /* IrrFramework.framework */,
 				2EFCC13E17FB73A300000709 /* libSSWERenders.a */,
 				2EFCC13417FB733000000709 /* CGenericMonitor.cpp */,
@@ -219,6 +221,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/SSWERenders/build/Debug",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.8;
@@ -247,6 +250,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/SSWERenders/build/Debug",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.8;
@@ -273,6 +277,7 @@
 				2EFCC12D17FB730100000709 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -24,9 +24,9 @@
 		2E276B2E17FAAD8900FC7F1B /* XEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E276B1F17FAAD8900FC7F1B /* XEffects.h */; };
 		2E276B3217FAADB600FC7F1B /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E276B3017FAADB600FC7F1B /* stdafx.cpp */; };
 		2E276B3317FAADB600FC7F1B /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E276B3117FAADB600FC7F1B /* stdafx.h */; };
-		2E276B3517FAADD700FC7F1B /* IrrFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E276B3417FAADD700FC7F1B /* IrrFramework.framework */; };
 		2E276B3817FAAE5700FC7F1B /* SSWERenders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E276B3617FAAE5700FC7F1B /* SSWERenders.cpp */; };
 		2E276B3917FAAE5700FC7F1B /* SSWERenders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E276B3717FAAE5700FC7F1B /* SSWERenders.h */; };
+		2E4BEF2617FCBA080068AEA6 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4BEF2517FCBA080068AEA6 /* libIrrlicht.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +51,7 @@
 		2E276B3417FAADD700FC7F1B /* IrrFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IrrFramework.framework; path = ../../Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug/IrrFramework.framework; sourceTree = "<group>"; };
 		2E276B3617FAAE5700FC7F1B /* SSWERenders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSWERenders.cpp; path = ../../SSWERenders/SSWERenders.cpp; sourceTree = "<group>"; };
 		2E276B3717FAAE5700FC7F1B /* SSWERenders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSWERenders.h; path = ../../SSWERenders/SSWERenders.h; sourceTree = "<group>"; };
+		2E4BEF2517FCBA080068AEA6 /* libIrrlicht.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIrrlicht.a; path = ../../Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug/libIrrlicht.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E276B3517FAADD700FC7F1B /* IrrFramework.framework in Frameworks */,
+				2E4BEF2617FCBA080068AEA6 /* libIrrlicht.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +69,7 @@
 		2E276AF717FAAD6300FC7F1B = {
 			isa = PBXGroup;
 			children = (
+				2E4BEF2517FCBA080068AEA6 /* libIrrlicht.a */,
 				2E276B3617FAAE5700FC7F1B /* SSWERenders.cpp */,
 				2E276B3717FAAE5700FC7F1B /* SSWERenders.h */,
 				2E276B3017FAADB600FC7F1B /* stdafx.cpp */,
@@ -305,6 +307,10 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../../Irrlicht/libs/include,
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.8;
@@ -326,6 +332,10 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../../Irrlicht/libs/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

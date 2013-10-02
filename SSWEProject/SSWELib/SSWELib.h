@@ -22,6 +22,6 @@
 extern "C" SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice();
 extern "C" SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
 #else
-CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice();
+CCoreUserInterface* createSSWEDevice();
 void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
 #endif

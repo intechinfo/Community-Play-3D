@@ -5,5 +5,5 @@
 #include "stdafx.h"
 
 #ifndef _IRR_OSX_PLATFORM_
-CRITICAL_SECTION CriticalSection;
+    CRITICAL_SECTION CriticalSection;
 #endif

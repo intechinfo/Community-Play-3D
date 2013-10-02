@@ -17,7 +17,7 @@ CCoreUserInterface::CCoreUserInterface() {
     //DEVICE
 
     #ifdef _IRR_OSX_PLATFORM_
-    params.DriverType=EDT_OPENGL;
+    params.DriverType=irr::video::EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
         params.WindowSize = dimension2d<u32>(1920, 1070);
         //params.WindowSize = dimension2d<u32>(1280, 690);
@@ -36,7 +36,7 @@ CCoreUserInterface::CCoreUserInterface() {
 	params.AntiAlias=true; 
     params.ZBufferBits = 32;
 	params.EventReceiver=0;
-	params.DriverMultithreaded = true;
+	params.DriverMultithreaded = false;
 	
 	if (params.Fullscreen) {
 		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);

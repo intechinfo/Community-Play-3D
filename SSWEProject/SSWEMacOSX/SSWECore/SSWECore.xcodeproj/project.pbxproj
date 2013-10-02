@@ -30,7 +30,7 @@
 		2E276B7E17FAAE9900FC7F1B /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E276B7A17FAAE9900FC7F1B /* stdafx.cpp */; };
 		2E276B7F17FAAE9900FC7F1B /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E276B7B17FAAE9900FC7F1B /* stdafx.h */; };
 		2E276B8317FAB17C00FC7F1B /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E276B8217FAB17C00FC7F1B /* libSSWERenders.a */; };
-		2EFCC3DC17FB78DF00000709 /* IrrFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFCC3DB17FB78DF00000709 /* IrrFramework.framework */; };
+		2E4BEF2817FCBA310068AEA6 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4BEF2717FCBA310068AEA6 /* libIrrlicht.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +58,7 @@
 		2E276B7A17FAAE9900FC7F1B /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../SSWECore/stdafx.cpp; sourceTree = "<group>"; };
 		2E276B7B17FAAE9900FC7F1B /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../SSWECore/stdafx.h; sourceTree = "<group>"; };
 		2E276B8217FAB17C00FC7F1B /* libSSWERenders.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSWERenders.a; path = ../SSWERenders/build/Debug/libSSWERenders.a; sourceTree = "<group>"; };
+		2E4BEF2717FCBA310068AEA6 /* libIrrlicht.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIrrlicht.a; path = ../../Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug/libIrrlicht.a; sourceTree = "<group>"; };
 		2EFCC3DB17FB78DF00000709 /* IrrFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IrrFramework.framework; path = ../../Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug/IrrFramework.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,7 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EFCC3DC17FB78DF00000709 /* IrrFramework.framework in Frameworks */,
+				2E4BEF2817FCBA310068AEA6 /* libIrrlicht.a in Frameworks */,
 				2E276B8317FAB17C00FC7F1B /* libSSWERenders.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +78,7 @@
 		2E276B3A17FAAE7300FC7F1B = {
 			isa = PBXGroup;
 			children = (
+				2E4BEF2717FCBA310068AEA6 /* libIrrlicht.a */,
 				2EFCC3DB17FB78DF00000709 /* IrrFramework.framework */,
 				2E276B8217FAB17C00FC7F1B /* libSSWERenders.a */,
 				2E276B7817FAAE9900FC7F1B /* SSWECore.cpp */,
@@ -329,6 +331,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/SSWERenders/build/Debug",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = staticlib;
@@ -362,6 +365,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/SSWEMacOSX/SSWERenders/build/Debug",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/build/Debug",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = staticlib;

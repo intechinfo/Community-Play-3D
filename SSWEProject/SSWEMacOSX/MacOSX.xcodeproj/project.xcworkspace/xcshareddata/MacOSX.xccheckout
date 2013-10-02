@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>82AACFCC-F71E-427E-B304-667321CB4228</string>
+	<string>9B32200D-2DC8-49F5-9D83-FBFFF3835A0C</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MacOSX</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -14,11 +14,11 @@
 		<string>https://github.com/intechinfo/Soganatsu.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>SSWEProject/Irrlicht/Irrlicht180_MacOSX_Issue/Sources/MacOSX/MacOSX.xcodeproj/project.xcworkspace</string>
+	<string>SSWEProject/SSWEMacOSX/MacOSX.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>33712799-BC16-44C7-8D9E-BC97C49F37B5</key>
-		<string>../../../../../../..</string>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/intechinfo/Soganatsu.git</string>

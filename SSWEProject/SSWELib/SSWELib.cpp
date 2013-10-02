@@ -82,8 +82,9 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 
         //if (device->isWindowActive()) {
 		if (device->isWindowActive()) {
-			#ifndef _IRR_OSX_PLATFORM_
-				mutex.lock();
+            
+            mutex.lock();
+            #ifndef _IRR_OSX_PLATFORM_
 				EnterCriticalSection(&CriticalSection);
 			#endif
 
@@ -95,10 +96,12 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 
             driver->endScene();
 
+            mutex.unlock();
+            
 			#ifndef _IRR_OSX_PLATFORM_
-				mutex.unlock();
 				LeaveCriticalSection(&CriticalSection);
 			#endif
+            
         }
 	}
 
