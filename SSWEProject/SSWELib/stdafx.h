@@ -6,7 +6,11 @@
 
 #include <irrlicht.h>
 
-#include <SSWECore.h>
+#ifndef _IRR_OSX_PLATFORM_
+    #include <SSWECore.h>
+#else
+    #include "SSWECore.h"
+#endif
 
 #include "SSWELib/Device/CDevices.h"
 #include "SSWECore/Core/CCore.h"
@@ -18,5 +22,5 @@
 #include <cstdlib>
 
 #ifndef _IRR_OSX_PLATFORM_
-extern CRITICAL_SECTION CriticalSection;
+    extern CRITICAL_SECTION CriticalSection;
 #endif

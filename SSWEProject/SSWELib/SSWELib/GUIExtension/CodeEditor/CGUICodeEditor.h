@@ -61,70 +61,79 @@ namespace irr
 			virtual ~CGUIEditBoxIRB();
 
 			//! Sets another skin independent font.
-			virtual void setOverrideFont(IGUIFont* font=0);
+            void setOverrideFont(IGUIFont* font=0);
 			IGUIFont *getOverrideFont() const { return 0; }
 			IGUIFont *getActiveFont() const { return 0; }
 
 			//! Sets another color for the text.
-			virtual void setOverrideColor(video::SColor color);
+            void setOverrideColor(video::SColor color);
 			irr::video::SColor getOverrideColor() const { return 0; }
 
 			//! Sets if the text should use the overide color or the
 			//! color in the gui skin.
-			virtual void enableOverrideColor(bool enable);
-			bool isOverrideColorEnabled() const { return 0; }
+            void enableOverrideColor(bool enable);
+			bool isOverrideColorEnabled() const { return false; }
 			void setDrawBackground(bool draw) { }
+            bool isDrawBackgroundEnabled() const { return false; }
+            
+            //! Set the character used for the cursor. 
+            /** By default it's "_" */
+            void setCursorChar(const wchar_t cursorChar) { };
+            wchar_t getCursorChar() const { return 0; }
+            void setCursorBlinkTime(irr::u32 timeMs) { };
+            irr::u32 getCursorBlinkTime() const { return 0; }
 
 			//! Turns the border on or off
-			virtual void setDrawBorder(bool border);
+            void setDrawBorder(bool border);
+            bool isDrawBorderEnabled() const { return false; }
 
 			//! Enables or disables word wrap for using the edit box as multiline text editor.
-			virtual void setWordWrap(bool enable);
+            void setWordWrap(bool enable);
 
 			//! Checks if word wrap is enabled
 			//! \return true if word wrap is enabled, false otherwise
-			virtual bool isWordWrapEnabled() const;
+            bool isWordWrapEnabled() const;
 
 			//! Enables or disables newlines.
 			/** \param enable: If set to true, the EGET_EDITBOX_ENTER event will not be fired,
 			instead a newline character will be inserted. */
-			virtual void setMultiLine(bool enable);
+            void setMultiLine(bool enable);
 
 			//! Checks if multi line editing is enabled
 			//! \return true if mult-line is enabled, false otherwise
-			virtual bool isMultiLineEnabled() const;
+            bool isMultiLineEnabled() const;
 
 			//! Enables or disables automatic scrolling with cursor position
 			//! \param enable: If set to true, the text will move around with the cursor position
-			virtual void setAutoScroll(bool enable);
+            void setAutoScroll(bool enable);
 
 			//! Checks to see if automatic scrolling is enabled
 			//! \return true if automatic scrolling is enabled, false if not
-			virtual bool isAutoScrollEnabled() const;
+            bool isAutoScrollEnabled() const;
 
 			//! Gets the size area of the text in the edit box
 			//! \return Returns the size in pixels of the text
-			virtual core::dimension2du getTextDimension();
+            core::dimension2du getTextDimension();
 
 			//! Sets text justification
-			virtual void setTextAlignment(EGUI_ALIGNMENT horizontal, EGUI_ALIGNMENT vertical);
+            void setTextAlignment(EGUI_ALIGNMENT horizontal, EGUI_ALIGNMENT vertical);
 
 			//! called if an event happened.
-			virtual bool OnEvent(const SEvent& event);
+            bool OnEvent(const SEvent& event);
 
 			//! draws the element and its children
-			virtual void draw();
+            void draw();
 
 			//! Sets the new caption of this element.
-			virtual void setText(const wchar_t* text);
+            void setText(const wchar_t* text);
 
 			//! Sets the maximum amount of characters which may be entered in the box.
 			//! \param max: Maximum amount of characters. If 0, the character amount is
 			//! infinity.
-			virtual void setMax(u32 max);
+            void setMax(u32 max);
 
 			//! Returns maximum amount of characters, previously set by setMax();
-			virtual u32 getMax() const;
+            u32 getMax() const;
 
 			//! Sets whether the edit box is a password box. Setting this to true will
 			/** disable MultiLine, WordWrap and the ability to copy with ctrl+c or ctrl+x
@@ -133,16 +142,16 @@ namespace irr
 			virtual void setPasswordBox(bool passwordBox, wchar_t passwordChar = L'*');
 
 			//! Returns true if the edit box is currently a password box.
-			virtual bool isPasswordBox() const;
+            bool isPasswordBox() const;
 
 			//! Updates the absolute position, splits text if required
-			virtual void updateAbsolutePosition();
+            void updateAbsolutePosition();
 
 			//! Writes attributes of the element.
-			virtual void serializeAttributes(io::IAttributes* out, io::SAttributeReadWriteOptions* options) const;
+            void serializeAttributes(io::IAttributes* out, io::SAttributeReadWriteOptions* options) const;
 
 			//! Reads attributes of the element
-			virtual void deserializeAttributes(io::IAttributes* in, io::SAttributeReadWriteOptions* options);
+            void deserializeAttributes(io::IAttributes* in, io::SAttributeReadWriteOptions* options);
 
 			//! Set and overide the background color
 			void setBackgroundColor(video::SColor color);
