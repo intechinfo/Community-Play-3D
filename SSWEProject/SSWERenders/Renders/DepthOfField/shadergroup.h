@@ -7,7 +7,6 @@
 #include <list>
 using namespace irr;
 
-
 class SSWE_RENDERS_API ShaderGroup
 {
     public:

@@ -170,7 +170,6 @@ void CDevices::updateDevice() {
 
 	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode()) {
 		camera_rig->OnAnimate(Device->getTimer()->getRealTime());
-		Device->getLogger()->log(camera_rig->getRigState().c_str());
 	}
 
 	#ifndef _IRR_OSX_PLATFORM_

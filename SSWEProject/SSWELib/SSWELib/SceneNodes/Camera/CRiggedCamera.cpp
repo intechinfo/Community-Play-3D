@@ -33,6 +33,7 @@ void CCameraRig::OnAnimate(u32 TimeMS) {
 		timeDiff = (f32) (TimeMS - lastAnimationTime); // Find the difference in time between each call.
 		lastAnimationTime=TimeMS;
 		//printf("The time diff is: %f\n",timeDiff);
+
 		MouseRotate (camera,TimeMS);
 		KeysMove(camera,camera,smoothmode,0,walksimmode,false);
 		doCrouch();
@@ -174,7 +175,6 @@ void CCameraRig::KeysMove(scene::ISceneNode *footnode, scene::ICameraSceneNode *
 			pos+= (movedir * ((timeDiff * movespeed)/15));
 		}
 	}
-
 	if (action==2 || (slideback==true && smooth)) {
 		if (smooth) {
 			if (slideback) {
@@ -272,9 +272,12 @@ vector3df CCameraRig::walksimulator(bool smooth) {
 	float upmove=sin(feetcounter * piover180);
 	vector3df walkrotation = vector3df(upmove,0,0);
 	walkrotation.rotateXZBy(RelativeRotation.Y,vector3df(0,0,0));
+	vector3df toReturn;
 	if (action==1 || action==2 || action1==3 || action1==4) {
-		return vector3df(0,(upmove*((currentspeed+strafespeed))/2),0);
+		toReturn = vector3df(0,(upmove*((currentspeed+strafespeed))/2),0);
 	}
+
+	return toReturn;
 }
 
 void CCameraRig::doCrouch() {

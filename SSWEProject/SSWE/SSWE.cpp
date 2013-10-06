@@ -13,7 +13,7 @@
 #include <CGenericMonitor.h>
 
 #ifdef SSWE_RELEASE
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
 #ifndef _IRR_OSX_PLATFORM_

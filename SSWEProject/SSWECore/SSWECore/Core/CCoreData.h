@@ -32,7 +32,7 @@
 //-----------------------------------HERITANCES------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SData {
+struct SData {
 
 	SData() {
 		SData(0, 0, "", ESNT_UNKNOWN);
@@ -115,7 +115,7 @@ private:
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PLANAR MAPPING--------------------------------------------
 //---------------------------------------------------------------------------------------------
-struct SSWE_CORE_API SPlanarTextureMappingData {
+struct SPlanarTextureMappingData {
 
 	SPlanarTextureMappingData() {
 		SPlanarTextureMappingData(0, 0, 0, 0, vector3df(0));
@@ -164,7 +164,7 @@ private:
 	bool general;
 };
 
-struct SSWE_CORE_API SMeshWithTangentsData {
+struct SMeshWithTangentsData {
 
 	SMeshWithTangentsData(ISceneNode *_node, bool _recalculateNormals=false, bool _smooth=false, bool _angleWeighted=false, 
 						  bool _recalculateTangents=true) {
@@ -200,7 +200,7 @@ private:
 //----------------------------------TERRAINS--------------------------------------------------
 //---------------------------------------------------------------------------------------------
 //MESHES
-struct SSWE_CORE_API STerrainsData : public SData {
+struct STerrainsData : public SData {
 	
 	STerrainsData() : SData(0, 0, "", ESNT_UNKNOWN) {
 		STerrainsData(0, 0, "", 0, ESNT_UNKNOWN);
@@ -220,7 +220,7 @@ private:
 };
 
 //HEIGHT MAPS
-struct SSWE_CORE_API STerrainHMData : STerrainsData {
+struct STerrainHMData : STerrainsData {
 
 	STerrainHMData() : STerrainsData(0, 0, "", ESNT_UNKNOWN) {
 		STerrainHMData(0, 0, "", ETPS_9);
@@ -270,7 +270,7 @@ private:
 //----------------------------------OBJECTS---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SObjectsData : SData {
+struct SObjectsData : SData {
 
 	SObjectsData() : SData(0, 0, "", ESNT_UNKNOWN) {
 		SObjectsData(0, 0, "");
@@ -299,7 +299,7 @@ private:
 //----------------------------------LIGHTS-----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SLightsData : SData {
+struct SLightsData : SData {
 
 	SLightsData(ISceneNode *_node, IMeshSceneNode *_lensFlareMeshSceneNode=0, 
 				IBillboardSceneNode *_lensFlareBillBoardSceneNode=0,
@@ -469,10 +469,10 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------WATER SURFACES--------------------------------------------
+//----------------------------------WATER SURFACES---------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SWaterSurfacesData : SData {
+struct SWaterSurfacesData : SData {
 public:
 	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"")
 		: SData(_waterSurface->getWaterNode(), _waterSurface->getWaterMesh(), _meshPath, ESNT_WATER_SURFACE)
@@ -498,10 +498,55 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
+//-----------------------------------------OTHERS----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SScriptFile;
+
+struct SOther : SData {
+public:
+	SOther(stringw _name) : SData(0, 0, L"", ESNT_UNKNOWN)
+	{
+		name = _name;
+	}
+	SOther(stringw _name, IMesh *mesh, ISceneNode *node, stringw path, ESCENE_NODE_TYPE type)
+		: SData(node, mesh, path, type)
+	{
+		name = _name;
+	}
+
+	void setName(stringw _name) { name = _name; }
+	void setScript(stringw _script) { script = _script; }
+
+	stringw getName() { return name; }
+	stringw getScript() { return script; }
+
+private:
+	stringw name;
+	stringw script;
+};
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------------SUNS------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SSun : SData {
+public:
+	SSun(stringw _name) : SData(0, 0, L"", ESNT_LIGHT)
+	{
+
+	}
+
+private:
+
+};
+
+//---------------------------------------------------------------------------------------------
 //----------------------------------SCRIPTS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SScriptFile {
+struct SScriptFile {
+public:
 	SScriptFile(stringw _file, stringw _name) {
 		file = _file;
 		name = _name;
@@ -525,6 +570,7 @@ private:
 //---------------------------------------------------------------------------------------------
 
 struct SMonitor {
+public:
 	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
 		monitor = _monitor;
 		hdll = _hdll;

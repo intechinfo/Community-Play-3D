@@ -27,7 +27,7 @@
 
 #include "Monitor/MonitorRegister.h"
 
-//#include "../SceneNodes/Camera/CRiggedCamera.h"
+#include "../SceneNodes/Camera/CRiggedCamera.h"
 
 #include <omp.h>
 
