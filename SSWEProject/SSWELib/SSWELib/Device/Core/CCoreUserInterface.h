@@ -47,6 +47,7 @@ private:
 	SIrrlichtCreationParameters params;
 
 	CDevices *devices;
+	IrrlichtDevice *device;
 	IVideoDriver *driver;
 	ISceneManager *smgr;
 

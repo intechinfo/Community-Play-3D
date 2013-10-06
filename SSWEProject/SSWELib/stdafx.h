@@ -7,6 +7,7 @@
 #include <irrlicht.h>
 
 #include <SSWECore.h>
+#include <SSWELib.h>
 
 #include "SSWELib/Device/CDevices.h"
 #include "SSWECore/Core/CCore.h"

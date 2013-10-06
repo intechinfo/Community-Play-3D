@@ -27,7 +27,7 @@
 
 #include "Monitor/MonitorRegister.h"
 
-#include "../SceneNodes/Camera/CRiggedCamera.h"
+//#include "../SceneNodes/Camera/CRiggedCamera.h"
 
 #include <omp.h>
 
@@ -42,7 +42,7 @@ enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
 };
 
-class CDevices : public IDevices, IEventReceiver {
+class CDevices : public IDevices, public IEventReceiver {
 
 public:
 
@@ -123,7 +123,7 @@ public:
 
 	//-----------------------------------
 	//METHODS
-	IrrlichtDevice *createDevice(SIrrlichtCreationParameters parameters);
+	void createDevice(SIrrlichtCreationParameters parameters);
 
 	vector3df getCursorPosition() { return cursorBillBoard->getPosition(); }
 	ISceneNode *getCursor() { return cursorBillBoard; }
@@ -215,7 +215,7 @@ private:
 
 	//-----------------------------------
 	//CAMERAS
-	SKeyMap keyMap[5];
+	SKeyMap keyMap[9];
 	ICameraSceneNode *camera_fps, *camera_maya;
 	CCameraRig *camera_rig;
 	ISceneNodeAnimatorCameraFPS *animatorFPS;

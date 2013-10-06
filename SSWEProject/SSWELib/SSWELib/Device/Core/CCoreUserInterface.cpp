@@ -49,7 +49,6 @@ CCoreUserInterface::CCoreUserInterface() {
 	devices->createDevice(params);
     
     driver = devices->getVideoDriver();
-
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
     
@@ -150,12 +149,14 @@ void CCoreUserInterface::update() {
         }
     }
 
-	core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
-	if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
-		if (gui->getFocus() == 0 && devices->isCtrlPushed())
-			((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
-		else
-			((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+	if (smgr->getActiveCamera()->getAnimators().size() > 0) {
+		core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
+		if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
+			if (gui->getFocus() == 0 && devices->isCtrlPushed())
+				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
+			else
+				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+		}
 	}
 }
 

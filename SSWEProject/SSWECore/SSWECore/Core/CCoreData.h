@@ -524,7 +524,7 @@ private:
 //----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SMonitor {
+struct SMonitor {
 	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
 		monitor = _monitor;
 		hdll = _hdll;

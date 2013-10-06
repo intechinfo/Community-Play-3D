@@ -1,7 +1,7 @@
 // SSWELib.h : fichier d'en-tête principal pour la DLL SSWELib
 //
 
-//#pragma once
+#pragma once
 
 #include "SSWELib/Device/Core/CCoreUserInterface.h"
 

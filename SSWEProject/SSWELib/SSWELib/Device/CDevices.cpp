@@ -41,6 +41,8 @@ CDevices::CDevices() {
     shiftWasPushed = false;
 
 	camera_rig = 0;
+	camera_fps = 0;
+	camera_maya = 0;
 
 	skydome = 0;
 	skybox = 0;
@@ -166,14 +168,12 @@ void CDevices::updateDevice() {
 	ICameraSceneNode *activeCamera = smgrs[sceneManagerToDrawIndice]->getActiveCamera();
 	activeCamera->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 
-	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode())
+	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode()) {
 		camera_rig->OnAnimate(Device->getTimer()->getRealTime());
+		Device->getLogger()->log(camera_rig->getRigState().c_str());
+	}
 
 	#ifndef _IRR_OSX_PLATFORM_
-		/*if (renderScene) {
-			drawScene();
-		}
-		drawGUI();*/
 		#pragma omp parallel sections
 		{
 			#pragma omp section
@@ -292,7 +292,7 @@ void CDevices::drawGUI() {
     }
 }
 
-IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
+void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
 
 	Device = createDeviceEx(parameters);
@@ -306,11 +306,6 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
     effectSmgr = smgr->createNewSceneManager();
     gui = Device->getGUIEnvironment();
-    
-    Device->setEventReceiver(&receiver);
-    receiver.AddEventReceiver(this);
-	receiver.setDriver(driver);
-	receiver.setGUI(gui);
 
 	wolrdCore->setDevice(Device);
     workingDirectory = Device->getFileSystem()->getWorkingDirectory().c_str();
@@ -320,10 +315,6 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#else
 		workingDirectory += "/";
 	#endif
-
-	camera_rig = new CCameraRig(Device);
-    camera_rig->createFPSrig();
-	camera_rig->rigstate(L"still");
 
 	//DRAW SPLASH SCREEN
 	ITexture *splashScreen = driver->getTexture("GUI/scs/sc1.png");
@@ -344,6 +335,18 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	keyMap[3].KeyCode = KEY_KEY_D;
 	keyMap[4].Action = EKA_JUMP_UP;
 	keyMap[4].KeyCode = KEY_SPACE;
+	keyMap[5].Action = EKA_MOVE_FORWARD; 
+	keyMap[5].KeyCode = KEY_UP;
+	keyMap[6].Action = EKA_MOVE_BACKWARD; 
+	keyMap[6].KeyCode = KEY_DOWN;
+	keyMap[7].Action = EKA_STRAFE_LEFT; 
+	keyMap[7].KeyCode = KEY_LEFT;
+	keyMap[8].Action = EKA_STRAFE_RIGHT; 
+	keyMap[8].KeyCode = KEY_RIGHT;
+
+	camera_rig = new CCameraRig(Device, keyMap);
+    camera_rig->createFPSrig();
+	camera_rig->rigstate(L"still");
 
 	camera_fps = smgr->addCameraSceneNodeFPS(0, 200.0f, 0.09f, -1, keyMap, 5, true, 0.3f, false, true);
 	camera_fps->setTarget(vector3df(0.f, 5.f, 0.f));
@@ -405,7 +408,13 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
 
 	//ADD EVENTS
+	Device->setEventReceiver(&receiver);
+	receiver.setDriver(driver);
+	receiver.setGUI(gui);
+	
+	receiver.AddEventReceiver(this);
     receiver.AddEventReceiver(objPlacement);
+	receiver.AddEventReceiver(camera_rig);
 
 	//ADVANCED GUI ASSETS
 	processesLogger = new CUIProcessesLogger(gui);
@@ -415,8 +424,6 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	scripting = new CScripting(this);
 	scripting->initializeSceneScripting();
 	scripting->initializeFileSystemScripting();
-
-	return Device;
 }
 
 void CDevices::rebuildXEffect() {
@@ -480,8 +487,9 @@ IGUIWindow *CDevices::addWarningDialog(stringw title, stringw text, s32 flag) {
 
 bool CDevices::OnEvent(const SEvent &event) {
 
-	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode())
-		camera_rig->OnEvent(event);
+	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode()) {
+		//camera_rig->OnEvent(event);
+	}
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         if (!event.KeyInput.PressedDown) {

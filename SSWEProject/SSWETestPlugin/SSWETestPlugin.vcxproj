@@ -14,6 +14,7 @@
     <ProjectGuid>{03FD6B63-B77F-4FAB-A7C2-70BC908B2A87}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SSWEGenericMonitor</RootNamespace>
+    <ProjectName>SSWEWebPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -68,8 +69,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SSWECore_d.lib;SSWERenders_d.lib;Irrlicht_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWELib_d.lib;SSWECore_d.lib;SSWERenders_d.lib;Irrlicht_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
     </Link>

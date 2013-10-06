@@ -95,6 +95,10 @@ public:
 	
 	CCollisionManager(ISceneManager *_smgr);
 	~CCollisionManager();
+
+	void reset() {
+		meta->removeAllTriangleSelectors();
+	}
 	
     //-----------------------------------
     //METHODS
