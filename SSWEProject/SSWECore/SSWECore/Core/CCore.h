@@ -109,7 +109,11 @@ public:
 	//SCENE METHODS
 	stringc getNodeNamePrefix(ISceneNode *node);
 	ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
+    #ifndef _IRR_OSX_PLATFORM_
 	s32 nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node);
+    #else
+    s32 nodeExistsInArray(array<ISceneNode *>& nodes, ISceneNode *node);
+    #endif
 	array<ISceneNode *> *getArrayOfAListOfNodeChildren(ISceneNode *node);
 
 	//GUI METHODS

@@ -31,8 +31,6 @@ void ShaderMaterial::init(c8* vsFileName, c8* psFileName, video::IShaderConstant
 {
 	//printf("shadermaterial %s %s \n",  vsFileName, psFileName );
 	video::IVideoDriver* driver = device->getVideoDriver();
-	scene::ISceneManager* smgr = device->getSceneManager();
-	gui::IGUIEnvironment* gui = device->getGUIEnvironment();
 
 	if (!driver->queryFeature(video::EVDF_PIXEL_SHADER_2_0) && !driver->queryFeature(video::EVDF_ARB_FRAGMENT_PROGRAM_1))
 	{

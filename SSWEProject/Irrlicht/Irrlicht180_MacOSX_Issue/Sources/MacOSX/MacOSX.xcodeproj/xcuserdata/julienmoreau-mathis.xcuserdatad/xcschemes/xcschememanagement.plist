@@ -29,6 +29,11 @@
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
+		<key>SSWEGenericMonitor.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
 		<key>SSWERenders.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -73,6 +78,11 @@
 			<true/>
 		</dict>
 		<key>0E2E3D2C1103E3F4002DE8D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2E67FFBA17FF3B9A0040824D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

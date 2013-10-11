@@ -133,7 +133,6 @@ int ShaderGroup::render(bool render)
 			for (u32 m=0; m < CurrentMaterialCount; m++)
 				BufferMaterialList.push_back(node->getMaterial(m).MaterialType);
 
-			video::E_MATERIAL_TYPE tempMat = node->getMaterial(0).MaterialType;
 			node->setMaterialType((video::E_MATERIAL_TYPE) distance->material);
 			node->render();
 

@@ -48,23 +48,23 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	coreUserInterface->getDevices()->getDOF()->add(skyboxNode);
 
 	//ADD CLOUDS SYSTEM
-	CCloudSceneNode *cloudLayer1 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), smgr);
+	CCloudSceneNode *cloudLayer1 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), coreUserInterface->getDevices()->getRenderingSceneManager());
 	cloudLayer1->setTranslation(core::vector2d<f32>(0.008f, 0.0f));
 	cloudLayer1->getMaterial(0).setTexture(0, driver->getTexture("shaders/Textures/Clouds/cloud01.png"));
 	cloudLayer1->setCloudHeight(0.5f, 0.1f, -0.05f);
 
-	CCloudSceneNode *cloudLayer2 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), smgr);
+	CCloudSceneNode *cloudLayer2 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), coreUserInterface->getDevices()->getRenderingSceneManager());
 	cloudLayer2->setTranslation(core::vector2d<f32>(0.006f, 0.003f));
 	cloudLayer2->getMaterial(0).setTexture(0, driver->getTexture("shaders/Textures/Clouds/cloud02.png"));
 	cloudLayer2->setCloudHeight(0.4f, 0.05f, -0.1f);
 	cloudLayer2->setTextureScale(0.5f);
 
-	CCloudSceneNode *cloudLayer3 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), smgr);
+	CCloudSceneNode *cloudLayer3 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), coreUserInterface->getDevices()->getRenderingSceneManager());
 	cloudLayer3->setTranslation(core::vector2d<f32>(0.006f, 0.003f));
 	cloudLayer3->getMaterial(0).setTexture(0, driver->getTexture("shaders/Textures/Clouds/cloud03.png"));
 	cloudLayer3->setCloudHeight(0.35f, 0.0f, -0.15f);
 	cloudLayer3->setTextureScale(0.4f);
-
+    
 	driver->beginScene(true, true, SColor(0x0));
 	driver->endScene();
 	coreUserInterface->getDevices()->getDevice()->maximizeWindow();
@@ -83,10 +83,11 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
         //if (device->isWindowActive()) {
 		if (device->isWindowActive()) {
             
-            mutex.lock();
             #ifndef _IRR_OSX_PLATFORM_
 				EnterCriticalSection(&CriticalSection);
 			#endif
+            
+            mutex.lock();
 
 			coreUserInterface->getDevices()->updateEntities();
 

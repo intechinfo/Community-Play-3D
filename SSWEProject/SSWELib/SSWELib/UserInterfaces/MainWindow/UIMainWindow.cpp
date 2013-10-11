@@ -602,6 +602,8 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                             #ifndef _IRR_OSX_PLATFORM_
 							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&worldCore->getArrayOfLightNodes(), node));
 							editLight->open(node, prefix.c_str());
+                            #else
+                            
                             #endif
 						} else {
 							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);

@@ -212,7 +212,18 @@
 		0E2E3D381103E3F4002DE8D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0930CE550EC39F4500D63866 /* IOKit.framework */; };
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
+		2E3660CD17FF4647005E3F4E /* IrrFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 959726FD12C18FFC00BF73D3 /* IrrFramework.framework */; };
 		2E4BEF1F17FCAAC30068AEA6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4BEF1E17FCAAC30068AEA6 /* Cocoa.framework */; };
+		2E67FFC317FF3BB70040824D /* IrrFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 959726FD12C18FFC00BF73D3 /* IrrFramework.framework */; };
+		2E67FFC417FF3BB70040824D /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
+		2E67FFC517FF3BB70040824D /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9C466117FDEE2F001FFC58 /* libSSWERenders.a */; };
+		2E67FFCB17FF3BDE0040824D /* CGenericMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E67FFC717FF3BDE0040824D /* CGenericMonitor.cpp */; };
+		2E67FFCC17FF3BDE0040824D /* CGenericMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E67FFC817FF3BDE0040824D /* CGenericMonitor.h */; };
+		2E67FFCD17FF3BDE0040824D /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E67FFC917FF3BDE0040824D /* stdafx.cpp */; };
+		2E67FFCE17FF3BDE0040824D /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E67FFCA17FF3BDE0040824D /* stdafx.h */; };
+		2E67FFCF17FF3C5F0040824D /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9C46CD17FDEF36001FFC58 /* BulletCollision.framework */; };
+		2E67FFD017FF3C5F0040824D /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9C46CE17FDEF36001FFC58 /* BulletDynamics.framework */; };
+		2E67FFD117FF3C5F0040824D /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9C46CF17FDEF36001FFC58 /* LinearMath.framework */; };
 		2E6BEEED17FA2DBF00E9BD87 /* aabbox3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3617FA2DBC00E9BD87 /* aabbox3d.h */; };
 		2E6BEEEF17FA2DBF00E9BD87 /* CDynamicMeshBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3717FA2DBC00E9BD87 /* CDynamicMeshBuffer.h */; };
 		2E6BEEF117FA2DBF00E9BD87 /* CIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6BEE3817FA2DBC00E9BD87 /* CIndexBuffer.h */; };
@@ -659,7 +670,6 @@
 		2E9C46D017FDEF36001FFC58 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9C46CD17FDEF36001FFC58 /* BulletCollision.framework */; };
 		2E9C46D117FDEF36001FFC58 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9C46CE17FDEF36001FFC58 /* BulletDynamics.framework */; };
 		2E9C46D217FDEF36001FFC58 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9C46CF17FDEF36001FFC58 /* LinearMath.framework */; };
-		2EB553B617FDF21500D77B40 /* SSWERenders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EB553B517FDF21500D77B40 /* SSWERenders.h */; };
 		2EB5548517FDF33400D77B40 /* CAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EB553BB17FDF33100D77B40 /* CAction.cpp */; };
 		2EB5548617FDF33400D77B40 /* CUICharacterWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EB553BD17FDF33100D77B40 /* CUICharacterWindow.cpp */; };
 		2EB5548717FDF33400D77B40 /* CUIEditBones.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EB553BF17FDF33100D77B40 /* CUIEditBones.cpp */; };
@@ -1494,6 +1504,55 @@
 			remoteGlobalIDString = 0946CCA30EC99BBE00D945A5;
 			remoteInfo = 19.MouseAndJoystick;
 		};
+		2E67FFBF17FF3BAA0040824D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = libIrrlicht.a;
+		};
+		2E67FFC117FF3BAE0040824D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E9C466017FDEE2F001FFC58;
+			remoteInfo = SSWERenders;
+		};
+		2E67FFD217FF3D0A0040824D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 959726FC12C18FFB00BF73D3;
+			remoteInfo = IrrFramework;
+		};
+		2E67FFD417FF3D120040824D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 959726FC12C18FFB00BF73D3;
+			remoteInfo = IrrFramework;
+		};
+		2E67FFD617FF3D190040824D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 959726FC12C18FFB00BF73D3;
+			remoteInfo = IrrFramework;
+		};
+		2E67FFD817FF3D210040824D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 959726FC12C18FFB00BF73D3;
+			remoteInfo = IrrFramework;
+		};
+		2E67FFDA17FF3D240040824D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E67FFBA17FF3B9A0040824D;
+			remoteInfo = SSWEGenericMonitor;
+		};
 		2EB553B117FDF1F500D77B40 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -1843,6 +1902,11 @@
 		0E2E3E291103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0E2E3E321103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2E4BEF1E17FCAAC30068AEA6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		2E67FFBB17FF3B9A0040824D /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E67FFC717FF3BDE0040824D /* CGenericMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGenericMonitor.cpp; path = ../../../../SSWEGenericMonitor/CGenericMonitor.cpp; sourceTree = "<group>"; };
+		2E67FFC817FF3BDE0040824D /* CGenericMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGenericMonitor.h; path = ../../../../SSWEGenericMonitor/CGenericMonitor.h; sourceTree = "<group>"; };
+		2E67FFC917FF3BDE0040824D /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../../../SSWEGenericMonitor/stdafx.cpp; sourceTree = "<group>"; };
+		2E67FFCA17FF3BDE0040824D /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWEGenericMonitor/stdafx.h; sourceTree = "<group>"; };
 		2E6BEE3617FA2DBC00E9BD87 /* aabbox3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aabbox3d.h; sourceTree = "<group>"; };
 		2E6BEE3717FA2DBC00E9BD87 /* CDynamicMeshBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDynamicMeshBuffer.h; sourceTree = "<group>"; };
 		2E6BEE3817FA2DBC00E9BD87 /* CIndexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIndexBuffer.h; sourceTree = "<group>"; };
@@ -2107,7 +2171,6 @@
 		2EB553AE17FDF15200D77B40 /* ManagedLights_dbg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ManagedLights_dbg.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EB553AF17FDF15200D77B40 /* Demo_dbg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo_dbg.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EB553B017FDF15200D77B40 /* GUIEditor_dbg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GUIEditor_dbg.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EB553B517FDF21500D77B40 /* SSWERenders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSWERenders.h; path = ../../../../SSWERenders/SSWERenders.h; sourceTree = "<group>"; };
 		2EB553BB17FDF33100D77B40 /* CAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAction.cpp; sourceTree = "<group>"; };
 		2EB553BC17FDF33100D77B40 /* CAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAction.h; sourceTree = "<group>"; };
 		2EB553BD17FDF33100D77B40 /* CUICharacterWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUICharacterWindow.cpp; sourceTree = "<group>"; };
@@ -2276,7 +2339,6 @@
 		2EB5548317FDF33300D77B40 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../../../SSWELib/stdafx.cpp; sourceTree = "<group>"; };
 		2EB5548417FDF33300D77B40 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWELib/stdafx.h; sourceTree = "<group>"; };
 		2EB554DD17FDF3CF00D77B40 /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = ../../../../Lua52/liblua.a; sourceTree = "<group>"; };
-		2ED2397D17FDF64200F64300 /* SSWERenders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSWERenders.h; path = ../../../../SSWERenders/SSWERenders.h; sourceTree = "<group>"; };
 		2ED2397E17FDF65100F64300 /* SSWECore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSWECore.h; path = ../../../../SSWECore/SSWECore.h; sourceTree = "<group>"; };
 		2ED2398017FDFC4900F64300 /* SSWE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSWE.cpp; path = ../../SSWE/SSWE.cpp; sourceTree = "<group>"; };
 		2ED2398117FDFC4900F64300 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../SSWE/stdafx.cpp; sourceTree = "<group>"; };
@@ -2826,6 +2888,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2E67FFB817FF3B9A0040824D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E67FFCF17FF3C5F0040824D /* BulletCollision.framework in Frameworks */,
+				2E67FFD017FF3C5F0040824D /* BulletDynamics.framework in Frameworks */,
+				2E67FFD117FF3C5F0040824D /* LinearMath.framework in Frameworks */,
+				2E67FFC317FF3BB70040824D /* IrrFramework.framework in Frameworks */,
+				2E67FFC417FF3BB70040824D /* libIrrlicht.a in Frameworks */,
+				2E67FFC517FF3BB70040824D /* libSSWERenders.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2E9C465E17FDEE2F001FFC58 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2841,6 +2916,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E3660CD17FF4647005E3F4E /* IrrFramework.framework in Frameworks */,
 				2ED2398B17FE29CA00F64300 /* liblua.a in Frameworks */,
 				2E9C46D017FDEF36001FFC58 /* BulletCollision.framework in Frameworks */,
 				2E9C46D117FDEF36001FFC58 /* BulletDynamics.framework in Frameworks */,
@@ -3035,6 +3111,7 @@
 				2EB554DD17FDF3CF00D77B40 /* liblua.a */,
 				2E9C466117FDEE2F001FFC58 /* libSSWERenders.a */,
 				2E9C469717FDEEF9001FFC58 /* libSSWECore.a */,
+				2E67FFBB17FF3B9A0040824D /* libSSWEGenericMonitor.dylib */,
 				2EB5539D17FDF15200D77B40 /* HelloWorld_dbg.app */,
 				2E9C46CD17FDEF36001FFC58 /* BulletCollision.framework */,
 				2E9C46CE17FDEF36001FFC58 /* BulletDynamics.framework */,
@@ -3666,6 +3743,17 @@
 			path = 23.SMeshHandling;
 			sourceTree = "<group>";
 		};
+		2E67FFC617FF3BC10040824D /* SSWEGenericMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				2E67FFC717FF3BDE0040824D /* CGenericMonitor.cpp */,
+				2E67FFC817FF3BDE0040824D /* CGenericMonitor.h */,
+				2E67FFC917FF3BDE0040824D /* stdafx.cpp */,
+				2E67FFCA17FF3BDE0040824D /* stdafx.h */,
+			);
+			name = SSWEGenericMonitor;
+			sourceTree = "<group>";
+		};
 		2E6BEE3517FA2DBC00E9BD87 /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -3901,6 +3989,7 @@
 		2E9C465C17FDEDA0001FFC58 /* SSWE */ = {
 			isa = PBXGroup;
 			children = (
+				2E67FFC617FF3BC10040824D /* SSWEGenericMonitor */,
 				2EB553B817FDF31700D77B40 /* SSWELib */,
 				2E9C469217FDEED8001FFC58 /* SSWECore */,
 				2E9C466717FDEE82001FFC58 /* SSWERenders */,
@@ -3973,7 +4062,6 @@
 				2E9C469B17FDEF03001FFC58 /* SSWECore */,
 				2E9C46B117FDEF03001FFC58 /* SSWECore.cpp */,
 				2E9C46B217FDEF04001FFC58 /* SSWECore.h */,
-				2EB553B517FDF21500D77B40 /* SSWERenders.h */,
 				2E9C46B317FDEF04001FFC58 /* stdafx.cpp */,
 				2E9C46B417FDEF04001FFC58 /* stdafx.h */,
 			);
@@ -4038,7 +4126,6 @@
 				2EB5548217FDF33300D77B40 /* SSWELib.h */,
 				2EB5548317FDF33300D77B40 /* stdafx.cpp */,
 				2EB5548417FDF33300D77B40 /* stdafx.h */,
-				2ED2397D17FDF64200F64300 /* SSWERenders.h */,
 				2ED2397E17FDF65100F64300 /* SSWECore.h */,
 			);
 			name = SSWELib;
@@ -4989,6 +5076,15 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		2E67FFB917FF3B9A0040824D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E67FFCE17FF3BDE0040824D /* stdafx.h in Headers */,
+				2E67FFCC17FF3BDE0040824D /* CGenericMonitor.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2E9C465F17FDEE2F001FFC58 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -5016,7 +5112,6 @@
 				2E9C46C617FDEF04001FFC58 /* CGridSceneNode.h in Headers */,
 				2E9C46C017FDEF04001FFC58 /* CBatchingMesh.h in Headers */,
 				2E9C46C817FDEF04001FFC58 /* SSWECore.h in Headers */,
-				2EB553B617FDF21500D77B40 /* SSWERenders.h in Headers */,
 				2E9C46B617FDEF04001FFC58 /* CCollisionManager.h in Headers */,
 				2E9C46C417FDEF04001FFC58 /* DecalSceneNode.h in Headers */,
 				2E9C46BA17FDEF04001FFC58 /* CCoreData.h in Headers */,
@@ -5524,6 +5619,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E67FFDB17FF3D240040824D /* PBXTargetDependency */,
+				2E67FFD917FF3D210040824D /* PBXTargetDependency */,
 				2ED2398D17FE2A6000F64300 /* PBXTargetDependency */,
 				2ED2398F17FE2A6000F64300 /* PBXTargetDependency */,
 				09F648F50D2CDED9001E0599 /* PBXTargetDependency */,
@@ -5605,6 +5702,26 @@
 			productReference = 2EB553AE17FDF15200D77B40 /* ManagedLights_dbg.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2E67FFBA17FF3B9A0040824D /* SSWEGenericMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E67FFBE17FF3B9A0040824D /* Build configuration list for PBXNativeTarget "SSWEGenericMonitor" */;
+			buildPhases = (
+				2E67FFB717FF3B9A0040824D /* Sources */,
+				2E67FFB817FF3B9A0040824D /* Frameworks */,
+				2E67FFB917FF3B9A0040824D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2E67FFD717FF3D190040824D /* PBXTargetDependency */,
+				2E67FFC217FF3BAE0040824D /* PBXTargetDependency */,
+				2E67FFC017FF3BAA0040824D /* PBXTargetDependency */,
+			);
+			name = SSWEGenericMonitor;
+			productName = SSWEGenericMonitor;
+			productReference = 2E67FFBB17FF3B9A0040824D /* libSSWEGenericMonitor.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		2E9C466017FDEE2F001FFC58 /* SSWERenders */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E9C466217FDEE2F001FFC58 /* Build configuration list for PBXNativeTarget "SSWERenders" */;
@@ -5616,6 +5733,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E67FFD317FF3D0A0040824D /* PBXTargetDependency */,
 				2ED2399317FE2A7500F64300 /* PBXTargetDependency */,
 			);
 			name = SSWERenders;
@@ -5634,6 +5752,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E67FFD517FF3D120040824D /* PBXTargetDependency */,
 				2ED2399117FE2A6F00F64300 /* PBXTargetDependency */,
 				2EB553B217FDF1F500D77B40 /* PBXTargetDependency */,
 			);
@@ -5959,6 +6078,7 @@
 				959726FC12C18FFB00BF73D3 /* IrrFramework */,
 				2E9C466017FDEE2F001FFC58 /* SSWERenders */,
 				2E9C469617FDEEF9001FFC58 /* SSWECore */,
+				2E67FFBA17FF3B9A0040824D /* SSWEGenericMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -6277,6 +6397,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E67FFB717FF3B9A0040824D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E67FFCB17FF3BDE0040824D /* CGenericMonitor.cpp in Sources */,
+				2E67FFCD17FF3BDE0040824D /* stdafx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7130,6 +7259,41 @@
 			target = 0946CCA30EC99BBE00D945A5 /* 19.MouseAndJoystick */;
 			targetProxy = 0E2E3D931103EB41002DE8D7 /* PBXContainerItemProxy */;
 		};
+		2E67FFC017FF3BAA0040824D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
+			targetProxy = 2E67FFBF17FF3BAA0040824D /* PBXContainerItemProxy */;
+		};
+		2E67FFC217FF3BAE0040824D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E9C466017FDEE2F001FFC58 /* SSWERenders */;
+			targetProxy = 2E67FFC117FF3BAE0040824D /* PBXContainerItemProxy */;
+		};
+		2E67FFD317FF3D0A0040824D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 959726FC12C18FFB00BF73D3 /* IrrFramework */;
+			targetProxy = 2E67FFD217FF3D0A0040824D /* PBXContainerItemProxy */;
+		};
+		2E67FFD517FF3D120040824D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 959726FC12C18FFB00BF73D3 /* IrrFramework */;
+			targetProxy = 2E67FFD417FF3D120040824D /* PBXContainerItemProxy */;
+		};
+		2E67FFD717FF3D190040824D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 959726FC12C18FFB00BF73D3 /* IrrFramework */;
+			targetProxy = 2E67FFD617FF3D190040824D /* PBXContainerItemProxy */;
+		};
+		2E67FFD917FF3D210040824D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 959726FC12C18FFB00BF73D3 /* IrrFramework */;
+			targetProxy = 2E67FFD817FF3D210040824D /* PBXContainerItemProxy */;
+		};
+		2E67FFDB17FF3D240040824D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E67FFBA17FF3B9A0040824D /* SSWEGenericMonitor */;
+			targetProxy = 2E67FFDA17FF3D240040824D /* PBXContainerItemProxy */;
+		};
 		2EB553B217FDF1F500D77B40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
@@ -7845,6 +8009,103 @@
 			};
 			name = Release;
 		};
+		2E67FFBC17FF3B9A0040824D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = ../../../../../SSWE/Plugins/Monitors;
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../include,
+					../../../../SSWERenders,
+					../../../../SSWELib/include,
+				);
+				INSTALL_PATH = /;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+			};
+			name = Debug;
+		};
+		2E67FFBD17FF3B9A0040824D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DSTROOT = ../../../../../SSWE/Plugins/Monitors;
+				ENABLE_NS_ASSERTIONS = NO;
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../include,
+					../../../../SSWERenders,
+					../../../../SSWELib/include,
+				);
+				INSTALL_PATH = /;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+			};
+			name = Release;
+		};
 		2E9C466317FDEE2F001FFC58 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -7972,6 +8233,7 @@
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -8031,6 +8293,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -9009,6 +9272,15 @@
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,
 				1DEB922408733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2E67FFBE17FF3B9A0040824D /* Build configuration list for PBXNativeTarget "SSWEGenericMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E67FFBC17FF3B9A0040824D /* Debug */,
+				2E67FFBD17FF3B9A0040824D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

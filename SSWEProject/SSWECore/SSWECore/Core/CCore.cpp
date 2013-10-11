@@ -90,6 +90,7 @@ array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
 	return &nodes;
 }
 
+#ifndef _IRR_OSX_PLATFORM_
 s32 CCore::nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node) {
 	s32 exists = -1;
 
@@ -106,6 +107,24 @@ s32 CCore::nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node) {
 
 	return exists;
 }
+#else
+s32 CCore::nodeExistsInArray(array<ISceneNode *>& nodes, ISceneNode *node) {
+    s32 exists = -1;
+    
+    if (nodes.size() == 0) {
+        return exists;
+    }
+    
+    for (u32 i=0; i < nodes.size(); i++) {
+        if (nodes[i] == node) {
+            exists = i;
+            break;
+        }
+    }
+    
+    return exists;
+}
+#endif
 
 s32 CCore::textureAlreadyExists(stringc name, IVideoDriver *driver) {
 	s32 exists = -1;

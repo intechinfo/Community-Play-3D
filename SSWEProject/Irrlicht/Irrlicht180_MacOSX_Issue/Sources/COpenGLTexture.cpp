@@ -459,11 +459,13 @@ void COpenGLTexture::uploadTexture(bool newTexture, void* mipmapData, u32 level)
 			// or use predefined mipmap data eg. for compressed textures
 			AutomaticMipmapUpdate=false;
 
-			if (IsCompressed && !mipmapData)
-				if (image->hasMipMaps())
+			if (IsCompressed && !mipmapData) {
+				if (image->hasMipMaps()) {
 					mipmapData = static_cast<u8*>(image->lock())+compressedDataSize;
-				else
+				} else {
 					HasMipMaps = false;
+                }
+            }
 
 			regenerateMipMapLevels(mipmapData);
 		}

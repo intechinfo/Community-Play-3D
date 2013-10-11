@@ -202,8 +202,6 @@ void CDevices::updateDevice() {
 
 						effectSmgr->drawAll();
 
-						receiver.update();
-
 						if(renderGUI)
 							monitor->drawGUI();
 					}
@@ -219,6 +217,8 @@ void CDevices::updateDevice() {
 						}
 					}*/
 				}
+                
+                receiver.update();
 
 				//OLD CODE ! TOOOOOO OLD ! :D 
 				/*if (renderScene) 
@@ -233,19 +233,21 @@ void CDevices::updateDevice() {
 			}
 		}
 	#else
-		if (renderScene) {
-			if (renderXEffect) {
-				effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-				effect->update();
-			} else {
-				smgrs[sceneManagerToDrawIndice]->drawAll();
-			}
-		}
-		effectSmgr->drawAll();
+    
+        if (renderXEffect) {
+            irr::core::matrix4 viewProj;
+            effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
+            effect->update(renderFullPostTraitements);
+        } else {
+            smgrs[sceneManagerToDrawIndice]->drawAll();
+        }
+    
+        effectSmgr->drawAll();
+    
+        receiver.update();
 
-		if (renderGUI) {
+		if (renderGUI)
 			gui->drawAll();
-		}
 	#endif
 
 	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
@@ -385,7 +387,10 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
-	effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
+    if (driver->getDriverType() == EDT_DIRECT3D9)
+        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
+    else
+        effect = new EffectHandler(Device, dimension2du(800, 600), false, true, true);
 	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;
@@ -395,7 +400,7 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setUseVSMShadows(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
-	effect->enableDepthPass(true);
+	effect->enableDepthPass(false);
 
 	dof = effect->getDOF();
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
