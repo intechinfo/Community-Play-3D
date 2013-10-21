@@ -460,7 +460,6 @@ const char* SCREEN_QUAD_V[ESE_COUNT] = {"uniform float screenX, screenY; \n"
 "	return(OUT); \n"
 "} \n"};
 
-
 const char* VSM_BLUR_P[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n"
 "\n"
 "vec2 offsetArray[5];\n"
@@ -581,70 +580,6 @@ const char* PSSM_P[ESE_COUNT] = {
 "    float4 nColor = float4(1,1,1,1);\n"
 "\n"
 "    oColor = float4(nColor.x * Light,nColor.y * Light,nColor.z * Light,1);\n"
-"}\n"};
-
-const char* LIGHT_SHAFTS_V[ESE_COUNT] = {
-"test\n"
-,
-"uniform float4x4 uWorld;\n"
-"uniform float4x4 uWorldViewProj;\n"
-"uniform float4x4 uTexViewProj;\n"
-"\n"
-"void vertexMain(\n"
-"\n"
-"	float4 iPosition	        : POSITION,\n"
-"\n"
-"	out float4 oPosition		: POSITION,\n"
-"	out float3 oPosition_       : TEXCOORD0,\n"
-"	out float4 oUV    		    : TEXCOORD1)\n"
-"\n"
-"{\n"
-"	oPosition   = mul(uWorldViewProj, iPosition);\n"
-"	float4 wPos = mul(uWorld, iPosition);\n"
-"	oPosition_  = wPos.xyz;\n"
-"	oUV         = mul(uTexViewProj, wPos);\n"
-"}\n"
-"\n"};
-
-const char* LIGHT_SHAFTS_P[ESE_COUNT] = {
-"test\n"
-,
-"uniform float  uAttenuation;\n"
-"uniform float3 uLightPosition;\n"
-"uniform float  uLightFarClipDistance;\n"
-"uniform sampler2D uDepthMap  : register(s0);\n"
-"uniform sampler2D uCookieMap : register(s1);\n"
-"uniform sampler2D uNoiseMap  : register(s2);\n"
-"uniform float Time;\n"
-"\n"
-"void pixelMain(\n"
-"\n"
-"	float3 iPosition        : TEXCOORD0,\n"
-"	float4 iUV    		    : TEXCOORD1,\n"
-"\n"
-"	out float4 oColor		: COLOR)\n"
-"{\n"
-"    iUV = iUV / iUV.w;\n"
-"\n"
-"    float Depth  = tex2D(uDepthMap,  iUV.xy).r;\n"
-"\n"
-"    if (Depth < saturate( length(iPosition-uLightPosition) / uLightFarClipDistance ))\n"
-"    {\n"
-"        oColor = float4(0,0,0,1);\n"
-"    }\n"
-"    else\n"
-"    {\n"
-"        float4 Cookie = tex2D(uCookieMap, iUV.xy);\n"
-"        Time *= 0.0225;\n"
-"        float2 Noise  = float2(tex2D(uNoiseMap,  iUV.xy - Time).r,\n"
-"                               tex2D(uNoiseMap,  iUV.xy + Time).g);\n"
-"\n"
-"        float noise  = Noise.x * Noise.y;\n"
-"        float length_ = length(iPosition-uLightPosition)/uLightFarClipDistance;\n"
-"        float atten  = 0.25 + 1/(length_*length_);\n"
-"\n"
-"        oColor = float4(Cookie.rgb * Cookie.a * atten * uAttenuation * noise , 1);\n"
-"    }\n"
 "}\n"};
 
 #endif

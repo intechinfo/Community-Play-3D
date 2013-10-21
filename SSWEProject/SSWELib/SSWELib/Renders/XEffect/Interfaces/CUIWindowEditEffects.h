@@ -38,8 +38,8 @@ private:
 
 	//-----------------------------------
 	//MAIN WINDOW
-	//IGUIViewport *viewPort;
-	IGUIImage *viewPort;
+	IGUIViewport *viewPort;
+	//IGUIImage *viewPort;
 	ISceneManager *smgr;
 
 	IGUIWindow *effectsWindow;
@@ -47,7 +47,6 @@ private:
 	IGUIContextMenu *menu, *submenu;
 
 	IGUIListBox *shadersList;
-	IGUICheckBox *active;
 	IGUIButton *oglAdd, *oglRemove;
 	IGUIButton *close;
 	//-----------------------------------
@@ -57,6 +56,7 @@ private:
 	IGUIWindow *editionWindow;
 
 	IGUICheckBox *enableDepthPass;
+	IGUICheckBox *enableVSMs;
 
 	IGUIEditBox *pvalue, *pname;
 	IGUIButton *pAdd, *pRemove;

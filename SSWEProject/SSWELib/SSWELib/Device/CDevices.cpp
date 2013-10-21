@@ -114,17 +114,6 @@ void CDevices::updateEntities() {
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
                                                  255));
-
-		if (worldCoreData->getLightsData()->operator[](i).isLightShaftsEnable()) {
-			SLightsData ldata = worldCoreData->getLightsData()->operator[](i);
-
-			ldata.getLightShaftsCallback()->lightCameraProjectionMatrix = effect->getShadowLight(i).getProjectionMatrix();
-			ldata.getLightShaftsCallback()->lightCameraViewMatrix = effect->getShadowLight(i).getViewMatrix();
-			ldata.getLightShaftsCallback()->uLightPosition = effect->getShadowLight(i).getPosition();
-
-			ldata.getLightShaftsCallback()->lightCamera->setPosition(ldata.getNode()->getPosition());
-			ldata.getNode()->addChild(ldata.getLightShaftsCallback()->lightCamera);
-		}
     }
     
     //UPDATE LENS FLARE STRENGTHS

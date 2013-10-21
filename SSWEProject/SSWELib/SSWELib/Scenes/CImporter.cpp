@@ -292,6 +292,8 @@ void CImporter::buildLight() {
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
+
+	//devices->getXEffect()->createLightShafts(devices->getXEffect()->getShadowLightCount()-1, 100);
 }
 
 void CImporter::buildVolumeLight() {

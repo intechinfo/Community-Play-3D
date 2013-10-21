@@ -19,9 +19,9 @@ SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	driver->setTextureCreationFlag(ETCF_OPTIMIZED_FOR_QUALITY, true);
 	driver->setAllowZWriteOnTransparent(true);
 
-	//ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 32, 32, 0.95f, 2.0f);
-	//skydome->setName("editor:skydome");
-	//coreUserInterface->getDevices()->setSkydome(skydome);
+	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 32, 32, 0.95f, 2.0f);
+	skydome->setName("editor:skydome");
+	coreUserInterface->getDevices()->setSkydome(skydome);
 	//ISceneNodeAnimator *anim = smgr->createRotationAnimator(vector3df(0, 0.01f, 0));
 	//skydome->addAnimator(anim);
 	//coreUserInterface->getDevices()->getDOF()->add(skydome);

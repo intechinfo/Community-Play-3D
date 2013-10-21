@@ -39,7 +39,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	menu->addItem(L"View", -1, true, true);
 	menu->addItem(L"Animators", -1, true, true);
 	menu->addItem(L"Renders", -1, true, true);
-    menu->addItem(L"Shaders", -1, true, true);
+    menu->addItem(L"Scene", -1, true, true);
 	menu->addItem(L"Factory", -1, true, true);
 	menu->addItem(L"Scripting", -1, true, true);
 	menu->addItem(L"Sounds", -1, true, true);
@@ -110,14 +110,17 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
-	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
+	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CXT_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
 	submenu->addSeparator();
 	submenu->addItem(L"Edit Depth Of Field...", CXT_MENU_EVENTS_RENDERS_EDIT_DOF);
+	submenu = menu->getSubMenu(i);
+	submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
 	i++;
 
 	//SHADERS
     submenu = menu->getSubMenu(i++);
-    submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
+	submenu->addItem(L"Manage Clouds...", -1);
+	submenu->addItem(L"Manage Suns...", -1);
 
 	//FACTORY
 	submenu = menu->getSubMenu(i++);
@@ -330,7 +333,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
 	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
 
-	pluginsManager->loadSSWEPlugin("SSWEWEBPLUGIN_D");
+	//pluginsManager->loadSSWEPlugin("SSWEWEBPLUGIN_D");
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
 }
@@ -593,7 +596,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     editEffects->open();
                 }
 					break;
-				case CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS: {
+				case CXT_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS: {
 					for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
 						devices->getXEffect()->getShadowLight(i).setRecalculate(true);
 					}
