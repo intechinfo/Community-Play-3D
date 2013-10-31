@@ -6,7 +6,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWERenders/Renders/XEffect/EffectHandler.cpp"
@@ -16,6 +16,22 @@
             startingLineNumber = "266"
             endingLineNumber = "266"
             landmarkName = "EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* outputTarget)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../SSWELib/SSWELib/Device/CDevices.cpp"
+            timestampString = "404858988.757978"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
+            landmarkName = "CDevices::OnEvent(const SEvent &amp;event)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

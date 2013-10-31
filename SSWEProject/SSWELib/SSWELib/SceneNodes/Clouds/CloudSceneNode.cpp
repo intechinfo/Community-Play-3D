@@ -427,7 +427,9 @@ namespace irr
             // set the default material properties
             Material.Wireframe = false;
             Material.Lighting = false;
+            #ifndef _IRR_OSX_PLATFORM_
             Material.ZBuffer = video::ECFN_NEVER;
+            #endif
             Material.ZWriteEnable = false;
             
             // setup the texture wrap

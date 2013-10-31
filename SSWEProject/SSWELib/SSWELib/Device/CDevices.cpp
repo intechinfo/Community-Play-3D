@@ -489,23 +489,42 @@ bool CDevices::OnEvent(const SEvent &event) {
 		camera_rig->OnEvent(event);
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
+        #ifndef _IRR_OSX_PLATFORM_
         if (!event.KeyInput.PressedDown) {
-            #ifdef _IRR_OSX_PLATFORM_
-            if (event.KeyInput.Key == KEY_SHIFT) {
-            #else
             if (event.KeyInput.Key == KEY_LCONTROL) {
-            #endif
                 ctrlWasPushed = false;
             }
-            #ifdef _IRR_OSX_PLATFORM_
-            if (event.KeyInput.Key == KEY_SHIFT) {
-            #else
             if (event.KeyInput.Key == KEY_LSHIFT) {
-            #endif
                 shiftWasPushed = false;
             }
         }
         if (event.KeyInput.PressedDown) {
+            if (event.KeyInput.Key == KEY_LCONTROL) {
+                ctrlWasPushed = true;
+            }
+            if (event.KeyInput.Key == KEY_LSHIFT) {
+                shiftWasPushed = true;
+            }
+        }
+        #else
+        if (!event.KeyInput.PressedDown) {
+            if (!event.KeyInput.Control) {
+                ctrlWasPushed = false;
+            }
+            if (!event.KeyInput.Shift) {
+                shiftWasPushed = false;
+            }
+        }
+        if (event.KeyInput.PressedDown) {
+            if (event.KeyInput.Control) {
+                ctrlWasPushed = true;
+            }
+            if (event.KeyInput.Shift) {
+                shiftWasPushed = true;
+            }
+        }
+        #endif
+        /*if (event.KeyInput.PressedDown) {
             #ifdef _IRR_OSX_PLATFORM_
             if (event.KeyInput.Key == KEY_SHIFT) {
             #else
@@ -520,7 +539,7 @@ bool CDevices::OnEvent(const SEvent &event) {
             #endif
                 shiftWasPushed = true;
             }
-        }
+        }*/
     }
     
     if (event.EventType == EET_GUI_EVENT) {
