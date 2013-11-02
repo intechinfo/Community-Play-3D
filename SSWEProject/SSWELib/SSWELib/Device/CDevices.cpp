@@ -390,7 +390,7 @@ IrrlichtDevice *CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     if (driver->getDriverType() == EDT_DIRECT3D9)
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
     else
-        effect = new EffectHandler(Device, dimension2du(800, 600), false, true, true);
+        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_4PCF;

@@ -8,11 +8,13 @@ using namespace scene;
 using namespace video;
 using namespace core;
 
-class DepthShaderCB : public video::IShaderConstantSetCallBack {
+class DepthShaderCB : public video::IShaderConstantSetCallBack
+{
 public:
 	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
 
-	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
+	{
 		IVideoDriver* driver = services->getVideoDriver();
 
 		worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
@@ -20,7 +22,7 @@ public:
 		worldViewProj *= driver->getTransform(video::ETS_WORLD);
 
 		services->setVertexShaderConstant("mWorldViewProj", worldViewProj.pointer(), 16);
-
+		
 		services->setVertexShaderConstant("MaxD", &FarLink, 1);
 	}
 
@@ -29,13 +31,15 @@ public:
 	core::matrix4 worldViewProj;
 };
 
-class ShadowShaderCB : public video::IShaderConstantSetCallBack {
+class ShadowShaderCB : public video::IShaderConstantSetCallBack
+{
 public:
 	ShadowShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
 
 	virtual void OnSetMaterial(const SMaterial& material) {}
 
-	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
+	{
 		IVideoDriver* driver = services->getVideoDriver();
 
 		matrix4 worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
@@ -70,7 +74,8 @@ public:
 };
 
 
-class ScreenQuadCB : public irr::video::IShaderConstantSetCallBack {
+class ScreenQuadCB : public irr::video::IShaderConstantSetCallBack
+{
 public:
 	ScreenQuadCB(EffectHandler* effectIn, bool defaultV = true) 
 		: effect(effectIn), defaultVertexShader(defaultV) {};
@@ -78,26 +83,27 @@ public:
 	EffectHandler* effect;
 	bool defaultVertexShader;
 
-	virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {
-		if(services->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL) {
-            irr::s32 TexVar = 0;
-            bool t = services->setPixelShaderConstant(services->getPixelShaderConstantID("ColorMapSampler"), (irr::f32*)&TexVar, 1);
+	virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)
+	{
+		if(services->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL)
+		{
+			int TexVar = 0;
+			bool t = services->setPixelShaderConstant(services->getPixelShaderConstantID("ColorMapSampler"), (int*)(&TexVar), 1); 
             
-            irr::s32 TexVar2 = 1;
-            bool t2 = services->setPixelShaderConstant(services->getPixelShaderConstantID("ScreenMapSampler"), (irr::f32*)&TexVar2, 1);
-            
-            irr::s32 TexVar3 = 2;
-            bool t3 = services->setPixelShaderConstant(services->getPixelShaderConstantID("DepthMapSampler"),(irr::f32*)&TexVar3, 1);
-            
-            irr::s32 TexVar4 = 3;
-            bool t4 = services->setPixelShaderConstant(services->getPixelShaderConstantID("UserMapSampler"), (irr::f32*)&TexVar4, 1);
-            
-            TexVar = 4;
+            TexVar = 1;
+			bool t2 = services->setPixelShaderConstant(services->getPixelShaderConstantID("ScreenMapSampler"), (int*)(&TexVar), 1); 
+
+			TexVar = 2;
+			//services->setPixelShaderConstant("DepthMapSampler", (int*)(&TexVar), 1); 
+
+			TexVar = 3;
+			//services->setPixelShaderConstant("UserMapSampler", (int*)(&TexVar), 1);
 		}
 
-		if(defaultVertexShader) {
+		if(defaultVertexShader)
+		{
 			const irr::core::dimension2du currentRTTSize = services->getVideoDriver()->getCurrentRenderTargetSize();
-			const irr::s32 screenX = currentRTTSize.Width, screenY = currentRTTSize.Height;
+			const irr::f32 screenX = (irr::f32)currentRTTSize.Width, screenY = (irr::f32)currentRTTSize.Height;
 
 			services->setVertexShaderConstant("screenX", &screenX, 1);
 			services->setVertexShaderConstant("screenY", &screenY, 1);
@@ -108,7 +114,8 @@ public:
 			const irr::core::position2di tLeft = services->getVideoDriver()->getViewPort().UpperLeftCorner;
 			const irr::core::position2di bRight = services->getVideoDriver()->getViewPort().LowerRightCorner;
 
-			const irr::core::line3df sLines[4] = {
+			const irr::core::line3df sLines[4] =
+			{
 				smgr->getSceneCollisionManager()->getRayFromScreenCoordinates
 				(irr::core::position2di(tLeft.X, tLeft.Y), cam),
 				smgr->getSceneCollisionManager()->getRayFromScreenCoordinates
@@ -119,7 +126,7 @@ public:
 				(irr::core::position2di(bRight.X, bRight.Y), cam)
 			};
 
-			bool t = services->setVertexShaderConstant("LineStarts0", &sLines[0].start.X, 3);
+			services->setVertexShaderConstant("LineStarts0", &sLines[0].start.X, 3);
 			services->setVertexShaderConstant("LineStarts1", &sLines[1].start.X, 3);
 			services->setVertexShaderConstant("LineStarts2", &sLines[2].start.X, 3);
 			services->setVertexShaderConstant("LineStarts3", &sLines[3].start.X, 3);
@@ -130,10 +137,12 @@ public:
 			services->setVertexShaderConstant("LineEnds3", &sLines[3].end.X, 3);
 		}
 
-		if(uniformDescriptors.size()) {
+		if(uniformDescriptors.size())
+		{
 			irr::core::map<irr::core::stringc, SUniformDescriptor>::Iterator mapIter = uniformDescriptors.getIterator();
 
-			for(;!mapIter.atEnd();mapIter++) {
+			for(;!mapIter.atEnd();mapIter++)
+			{
 				if(mapIter.getNode()->getValue().fPointer == 0)
 					continue;
 
@@ -143,7 +152,8 @@ public:
 		}
 	}
 
-	struct SUniformDescriptor {
+	struct SUniformDescriptor
+	{
 		SUniformDescriptor() : fPointer(0), paramCount(0) {}
 
 		SUniformDescriptor(const irr::f32* fPointerIn, irr::u32 paramCountIn)

@@ -262,8 +262,8 @@
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
 		2E74EDFD1821A465008D126E /* CloudSceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E74EDFB1821A465008D126E /* CloudSceneNode.cpp */; };
-		2E74EE071821A8D8008D126E /* CShaderPre.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E74EE001821A8D8008D126E /* CShaderPre.cpp */; };
-		2E74EE081821A8D8008D126E /* EffectHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E74EE031821A8D8008D126E /* EffectHandler.cpp */; };
+		2EA58B981824448200EF20C1 /* CShaderPre.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA58B911824448200EF20C1 /* CShaderPre.cpp */; };
+		2EA58B991824448200EF20C1 /* EffectHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA58B941824448200EF20C1 /* EffectHandler.cpp */; };
 		3430E4D61022C391006271FD /* CTarReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3430E4D41022C391006271FD /* CTarReader.h */; };
 		3430E4D71022C391006271FD /* CTarReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3430E4D51022C391006271FD /* CTarReader.cpp */; };
 		344FD4A61039E98C0045FD3F /* CMountPointReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */; };
@@ -1535,14 +1535,14 @@
 		0E2E3E321103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2E74EDFB1821A465008D126E /* CloudSceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CloudSceneNode.cpp; sourceTree = "<group>"; };
 		2E74EDFC1821A465008D126E /* CloudSceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudSceneNode.h; sourceTree = "<group>"; };
-		2E74EDFF1821A8D8008D126E /* CScreenQuad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScreenQuad.h; sourceTree = "<group>"; };
-		2E74EE001821A8D8008D126E /* CShaderPre.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CShaderPre.cpp; sourceTree = "<group>"; };
-		2E74EE011821A8D8008D126E /* CShaderPre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CShaderPre.h; sourceTree = "<group>"; };
-		2E74EE021821A8D8008D126E /* EffectCB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectCB.h; sourceTree = "<group>"; };
-		2E74EE031821A8D8008D126E /* EffectHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectHandler.cpp; sourceTree = "<group>"; };
-		2E74EE041821A8D8008D126E /* EffectHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectHandler.h; sourceTree = "<group>"; };
-		2E74EE051821A8D8008D126E /* EffectShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectShaders.h; sourceTree = "<group>"; };
-		2E74EE061821A8D8008D126E /* XEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XEffects.h; sourceTree = "<group>"; };
+		2EA58B901824448200EF20C1 /* CScreenQuad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScreenQuad.h; sourceTree = "<group>"; };
+		2EA58B911824448200EF20C1 /* CShaderPre.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CShaderPre.cpp; sourceTree = "<group>"; };
+		2EA58B921824448200EF20C1 /* CShaderPre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CShaderPre.h; sourceTree = "<group>"; };
+		2EA58B931824448200EF20C1 /* EffectCB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectCB.h; sourceTree = "<group>"; };
+		2EA58B941824448200EF20C1 /* EffectHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectHandler.cpp; sourceTree = "<group>"; };
+		2EA58B951824448200EF20C1 /* EffectHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectHandler.h; sourceTree = "<group>"; };
+		2EA58B961824448200EF20C1 /* EffectShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectShaders.h; sourceTree = "<group>"; };
+		2EA58B971824448200EF20C1 /* XEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XEffects.h; sourceTree = "<group>"; };
 		3430E4D41022C391006271FD /* CTarReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTarReader.h; sourceTree = "<group>"; };
 		3430E4D51022C391006271FD /* CTarReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTarReader.cpp; sourceTree = "<group>"; };
 		344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CMountPointReader.cpp; sourceTree = "<group>"; };
@@ -3224,14 +3224,14 @@
 		2E74EDFE1821A8D8008D126E /* XEffect */ = {
 			isa = PBXGroup;
 			children = (
-				2E74EDFF1821A8D8008D126E /* CScreenQuad.h */,
-				2E74EE001821A8D8008D126E /* CShaderPre.cpp */,
-				2E74EE011821A8D8008D126E /* CShaderPre.h */,
-				2E74EE021821A8D8008D126E /* EffectCB.h */,
-				2E74EE031821A8D8008D126E /* EffectHandler.cpp */,
-				2E74EE041821A8D8008D126E /* EffectHandler.h */,
-				2E74EE051821A8D8008D126E /* EffectShaders.h */,
-				2E74EE061821A8D8008D126E /* XEffects.h */,
+				2EA58B901824448200EF20C1 /* CScreenQuad.h */,
+				2EA58B911824448200EF20C1 /* CShaderPre.cpp */,
+				2EA58B921824448200EF20C1 /* CShaderPre.h */,
+				2EA58B931824448200EF20C1 /* EffectCB.h */,
+				2EA58B941824448200EF20C1 /* EffectHandler.cpp */,
+				2EA58B951824448200EF20C1 /* EffectHandler.h */,
+				2EA58B961824448200EF20C1 /* EffectShaders.h */,
+				2EA58B971824448200EF20C1 /* XEffects.h */,
 			);
 			path = XEffect;
 			sourceTree = "<group>";
@@ -5037,8 +5037,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E74EE081821A8D8008D126E /* EffectHandler.cpp in Sources */,
-				2E74EE071821A8D8008D126E /* CShaderPre.cpp in Sources */,
+				2EA58B991824448200EF20C1 /* EffectHandler.cpp in Sources */,
+				2EA58B981824448200EF20C1 /* CShaderPre.cpp in Sources */,
 				4CF1471A0A486774006EBA03 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

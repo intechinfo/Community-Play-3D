@@ -25,12 +25,44 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../../examples/08.SpecialFX/XEffect/EffectCB.h"
-            timestampString = "404864784.491886"
+            filePath = "../../../examples/08.SpecialFX/XEffect/EffectHandler.cpp"
+            timestampString = "405025889.900274"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "EffectHandler::EffectHandler(IrrlichtDevice* dev, const irr::core::dimension2du&amp; screenRTTSize, const bool useVSMShadows, const bool useRoundSpotLights, const bool use32BitDepthBuffers)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../examples/08.SpecialFX/XEffect/EffectHandler.cpp"
+            timestampString = "405025941.977776"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "EffectHandler::EffectHandler(IrrlichtDevice* dev, const irr::core::dimension2du&amp; screenRTTSize, const bool useVSMShadows, const bool useRoundSpotLights, const bool use32BitDepthBuffers)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../examples/08.SpecialFX/XEffect/EffectCB.h"
+            timestampString = "405031778.647893"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData)"
             landmarkType = "7">
          </BreakpointContent>

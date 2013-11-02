@@ -292,6 +292,12 @@ int main()
     
     effect->addShadowToNode(room, EFT_NONE, ESM_BOTH);
     effect->addShadowToNode(anode, EFT_NONE, ESM_BOTH);
+    
+    irr::core::stringc shaderExt = ".glsl";
+    //effect->addPostProcessingEffectFromFile(core::stringc("shaders/GLSL/BrightPass") + shaderExt);
+    //effect->addPostProcessingEffectFromFile(core::stringc("shaders/GLSL/BlurHP") + shaderExt);
+    //effect->addPostProcessingEffectFromFile(core::stringc("shaders/GLSL/BlurVP") + shaderExt);
+    //effect->addPostProcessingEffectFromFile(core::stringc("shaders/GLSL/BloomP") + shaderExt);
 
 	while(device->run())
 	if (device->isWindowActive())
@@ -300,7 +306,7 @@ int main()
 
 		//smgr->drawAll();
         ss.setPosition(node->getPosition());
-        effect->update(true);
+        effect->update();
 
 		driver->endScene();
 

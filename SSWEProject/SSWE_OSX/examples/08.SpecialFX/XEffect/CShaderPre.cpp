@@ -1,4 +1,3 @@
-
 #include "CShaderPre.h"
 #include <iostream>
 #include <string>
@@ -29,7 +28,7 @@ core::array<SDefineExp> grabDefineExpressions(core::stringc &shaderProgram)
 	core::array<SDefineExp> DefineArray;
 
 	// Dont bother stripping comments if theres no defines.
-	if ((CurrentSearchPos = shaderProgram.find("##ifdef") == -1))
+	if(CurrentSearchPos = shaderProgram.find("##ifdef") == -1)
 		return DefineArray;
 
 	// Strip all comments, they get in the way.
@@ -296,8 +295,4 @@ std::string getFileContent(const std::string pFile)
 core::stringc CShaderPreprocessor::ppShaderFF(core::stringc shaderProgram)
 {
 	return ppShader(getFileContent(shaderProgram.c_str()).c_str());
-}
-core::stringc CShaderPreprocessor::ppShaderFFS(core::stringc shaderProgram)
-{
-	return ppShader(shaderProgram.c_str());
 }
