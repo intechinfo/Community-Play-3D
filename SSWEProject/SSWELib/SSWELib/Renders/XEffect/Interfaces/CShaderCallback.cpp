@@ -293,9 +293,9 @@ void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *serv
     
     for (int i=0; i < integers.size(); i++) {
         if (integers_st[i] == EST_VERTEX) {
-            services->setVertexShaderConstant(integers_c[i].c_str(), (float *)&integers[i], 1);
+            services->setVertexShaderConstant(integers_c[i].c_str(), (int *)&integers[i], 1);
         } else {
-            services->setPixelShaderConstant(integers_c[i].c_str(), (float *)&integers[i], 1);
+            services->setPixelShaderConstant(integers_c[i].c_str(), (int *)&integers[i], 1);
         }
     }
     

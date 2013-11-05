@@ -150,17 +150,17 @@ public:
 
 	virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {
 		if(services->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL) {
-			irr::u32 TexVar = 0;
-			services->setPixelShaderConstant("ColorMapSampler", (irr::f32*)(&TexVar), 1); 
+			irr::s32 TexVar = 0;
+			services->setPixelShaderConstant("ColorMapSampler", (irr::s32*)(&TexVar), 1); 
 
 			TexVar = 1;
-			services->setPixelShaderConstant("ScreenMapSampler", (irr::f32*)(&TexVar), 1); 
+			services->setPixelShaderConstant("ScreenMapSampler", (irr::s32*)(&TexVar), 1); 
 
 			TexVar = 2;
-			services->setPixelShaderConstant("DepthMapSampler", (irr::f32*)(&TexVar), 1); 
+			services->setPixelShaderConstant("DepthMapSampler", (irr::s32*)(&TexVar), 1); 
 
 			TexVar = 3;
-			services->setPixelShaderConstant("UserMapSampler", (irr::f32*)(&TexVar), 1);
+			services->setPixelShaderConstant("UserMapSampler", (irr::s32*)(&TexVar), 1);
 		}
 
 		if(defaultVertexShader) {

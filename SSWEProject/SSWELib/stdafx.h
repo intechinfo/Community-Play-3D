@@ -14,7 +14,7 @@
 
 #include "SSWELib/Device/CDevices.h"
 #include "SSWECore/Core/CCore.h"
-#include "SSWECore/Core/CCoreData.h"
+#include <SSWECore/Core/CCoreData.h>
 
 #include <iostream>
 #include <sstream>

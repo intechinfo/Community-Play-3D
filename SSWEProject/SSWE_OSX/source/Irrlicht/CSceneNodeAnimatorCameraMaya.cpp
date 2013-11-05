@@ -32,6 +32,8 @@ CSceneNodeAnimatorCameraMaya::CSceneNodeAnimatorCameraMaya(gui::ICursorControl* 
 	}
 
 	allKeysUp();
+
+	eventsAllowed = true;
 }
 
 
@@ -50,8 +52,21 @@ CSceneNodeAnimatorCameraMaya::~CSceneNodeAnimatorCameraMaya()
 //! for changing their position, look at target or whatever.
 bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 {
-	if (event.EventType != EET_MOUSE_INPUT_EVENT)
+	if (event.EventType != EET_MOUSE_INPUT_EVENT && event.EventType != EET_KEY_INPUT_EVENT)
 		return false;
+
+	if (event.EventType == EET_KEY_INPUT_EVENT)
+	{
+		/*if (event.KeyInput.Control)
+			eventsAllowed = true;
+		else
+			eventsAllowed = false;*/
+		if (!event.KeyInput.Control) {
+			MouseKeys[0] = false;
+			MouseKeys[2] = false;
+			MouseKeys[1] = false;
+		}
+	}
 
 	switch(event.MouseInput.Event)
 	{
@@ -71,6 +86,7 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 		MouseKeys[2] = false;
 		break;
 	case EMIE_MMOUSE_LEFT_UP:
+		if (eventsAllowed)
 		MouseKeys[1] = false;
 		break;
 	case EMIE_MOUSE_MOVED:
@@ -86,6 +102,13 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 	case EMIE_COUNT:
 		return false;
 	}
+
+	if (!eventsAllowed) {
+		MouseKeys[0] = false;
+		MouseKeys[2] = false;
+		MouseKeys[1] = false;
+	}
+
 	return true;
 }
 
@@ -276,7 +299,7 @@ void CSceneNodeAnimatorCameraMaya::setDistance(f32 distance)
 	CurrentZoom=distance;
 }
 
-
+		
 //! Gets the rotation speed
 f32 CSceneNodeAnimatorCameraMaya::getRotateSpeed() const
 {

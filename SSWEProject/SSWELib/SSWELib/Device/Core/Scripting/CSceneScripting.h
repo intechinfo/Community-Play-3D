@@ -5,6 +5,11 @@ class CDevices;
 
 #include <irrlicht.h>
 
+using namespace irr;
+using namespace scene;
+using namespace io;
+using namespace core;
+
 class CSceneScripting {
 
 public:

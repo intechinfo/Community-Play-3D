@@ -1,0 +1,24 @@
+pint baseMap 0
+pint bumpMap 1
+
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+pfloat fLightStrength1 20
+pfloat fLightStrength2 20
+pfloat fLightStrength3 20
+pfloat fLightStrength4 20
+
+pvector3df fvLightPosition1 0 200 0
+pvector3df fvLightPosition2 0 200 0
+pvector3df fvLightPosition3 0 200 0
+pvector3df fvLightPosition4 0 200 0
+
+pSColor fvAmbient 0.2 0.2 0.2 0.2
+pSColor fvLight1Color 0.2 0.2 0.2 0.2
+pSColor fvLight2Color 0.2 0.2 0.2 0.2
+pSColor fvLight3Color 0.2 0.2 0.2 0.2
+pSColor fvLight4Color 0.2 0.2 0.2 0.2
+
+pfloat fSpecularPower 3
+pfloat fSpecularStrength 3
+pfloat fBumpStrength 0.9

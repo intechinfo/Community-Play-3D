@@ -21,6 +21,8 @@
 #include <Windows.h>
 #endif
 
+#include "../SSWELib/SSWELib.h"
+
 #ifdef IS_ERIO_AND_RELOU
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow) {
 #else
@@ -30,18 +32,6 @@ int main(int argc, char* argv[]) {
 	CCoreUserInterface *coreUserInterface = createSSWEDevice();
 
 	updateSSWEDevice(coreUserInterface);
-
-	/*wchar_t szMessage[300] = L"C:\\Users\\julienmoreau-mathis\\Desktop\\Dual_Hilbert_Cube_ABS+PVA.gcode";
-	//char *t = reinterpret_cast<char *>(&szMessage);
-	char t[300];
-	for (u32 i=0; i < 300; i++) {
-		t[i] = (char)szMessage[i];
-	}
-
-	printf("%s", t);
-
-	char c;
-	std::cin >> c;*/
 
 
 	return EXIT_SUCCESS;

@@ -30,8 +30,8 @@
 	#include <mutex>
 #endif
 
-#ifndef _IRR_OSX_PLATFORM_
-    #include "src/Bullet-C-Api.h"
-    #include "src/btBulletDynamicsCommon.h"
-    #include "src/btBulletCollisionCommon.h"
-#endif
+
+#include "src/Bullet-C-Api.h"
+#include "src/btBulletDynamicsCommon.h"
+#include "src/btBulletCollisionCommon.h"
+

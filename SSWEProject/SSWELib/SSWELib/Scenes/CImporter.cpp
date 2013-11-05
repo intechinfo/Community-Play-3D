@@ -558,7 +558,7 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		read("textures");
 		for (u32 i=0; i < irr::video::MATERIAL_MAX_TEXTURES; i++) {
 			read("texture");
-			ITexture *tex = devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path"));
+			ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
 			_node->getMaterial(id).TextureLayer[i].Texture = tex;
 		}
 
