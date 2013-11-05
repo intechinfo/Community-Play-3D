@@ -286,12 +286,14 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 			if (tempMenu == menu->getSubMenu(2)) {
 				s32 id = tempMenu->getItemCommandId(tempMenu->getSelectedItem());
 				if (id == 1) {
-					std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
-					scatl.detach();
+					//std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
+					//scatl.detach();
+                    mtFactory->setCreateAllTextureLayer2NormalMapped();
 				}
 				if (id == 2) {
-					std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
-					satlnm.detach();
+					//std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
+					//satlnm.detach();
+                    mtFactory->setAllTextureLayer2NormalMapped(9.0f);
 				}
 				update();
 			}

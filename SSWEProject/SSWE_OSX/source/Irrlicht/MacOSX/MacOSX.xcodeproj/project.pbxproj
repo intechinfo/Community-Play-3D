@@ -8812,6 +8812,7 @@
 					../../../../SSWELib/include/,
 					../../../../SSWERenders/,
 					../../../../SSWECore/,
+					../../../../SSWELib/,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -8849,6 +8850,7 @@
 					../../../../SSWELib/include/,
 					../../../../SSWERenders/,
 					../../../../SSWECore/,
+					../../../../SSWELib/,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (

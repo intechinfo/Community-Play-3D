@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="125.416412" Y="77.765121" Z="43.897659" />
-			 <rotation X="25.471127" Y="220.356873" Z="0.000000" />
+			 <position X="73.815590" Y="302.969757" Z="1.178427" />
+			 <rotation X="21.640135" Y="262.856934" Z="0.000000" />
 
 		 </camera>
 
@@ -32,10 +32,237 @@
 
 		 <effect>
 
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BlurHP.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BlurVP.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/Colored_dream_vision.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BloomP.glsl" />
+				 <values>
+					 <value name="screenColCoef" val="setReturnedValueAsFloat()
+
+value =  0.9
+
+returnValue(value, 1)" />
+					 <value name="bloomColCoef" val="setReturnedValueAsFloat()
+
+value =  0.5
+
+returnValue(value, 1)" />
+				 </values>
+			 </postProcessingEffect>
+
 
 		 </effect>
 
 		 <materialTypes>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="nmapping.spkg" />
+				 <vertex shader=
+"uniform vec3 fvLightPosition1;
+uniform vec3 fvLightPosition2;
+uniform vec3 fvLightPosition3;
+uniform vec3 fvLightPosition4;
+
+uniform float fLightStrength1;
+uniform float fLightStrength2;
+uniform float fLightStrength3;
+uniform float fLightStrength4;
+
+uniform mat4 matWorldInverse;
+
+varying vec2 Texcoord;
+varying vec3 ViewDirection;
+varying vec3 LightDirection1;
+varying vec3 LightDirection2;
+varying vec3 LightDirection3;
+varying vec3 LightDirection4;
+varying vec4 LightDistMultiplier;
+   
+float getLengthSQR (vec3 vec)
+{
+return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z);
+}  
+   
+void main( void )
+{
+   
+   mat4 LightTransform= gl_ModelViewMatrix;
+   LightTransform=LightTransform*matWorldInverse;
+      
+   gl_Position = ftransform();
+   Texcoord    = gl_MultiTexCoord0.xy;
+    
+   vec4 fvObjectPosition = gl_ModelViewMatrix * gl_Vertex;
+   vec4 fvLightPos1 = LightTransform * vec4(fvLightPosition1,1.0);
+   vec4 fvLightPos2 = LightTransform * vec4(fvLightPosition2,1.0);
+   vec4 fvLightPos3 = LightTransform * vec4(fvLightPosition3,1.0);
+   vec4 fvLightPos4 = LightTransform * vec4(fvLightPosition4,1.0);
+   
+   vec3 fvViewDirection  =  - fvObjectPosition.xyz;
+   
+   vec3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz);
+   vec3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz);
+   vec3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz);
+   vec3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz);
+   
+   LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0));
+   LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0));
+   LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0));
+   LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0));
+     
+   vec3 fvNormal         = gl_NormalMatrix * gl_Normal;
+   
+   vec3 fvTangent   = -vec3(abs(gl_Normal.y) + abs(gl_Normal.z), abs(gl_Normal.x), 0);
+   vec3 fvBinormal =cross(fvTangent,gl_Normal);  
+   fvTangent=gl_NormalMatrix*cross(fvBinormal,gl_Normal);
+   fvBinormal=gl_NormalMatrix*fvBinormal;
+ 
+      
+   ViewDirection.x  = dot( fvTangent, fvViewDirection );
+   ViewDirection.y  = dot( fvBinormal, fvViewDirection );
+   ViewDirection.z  = dot( fvNormal, fvViewDirection );
+   
+   LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz );
+   LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz );
+   LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz );
+   
+   LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz );
+   LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz );
+   LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz );
+   
+   LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz );
+   LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz );
+   LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz );
+   
+   LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz );
+   LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz );
+   LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz );
+}
+" />
+				 <pixel shader=
+"uniform vec4 fvAmbient;
+uniform vec4 fvLight1Color;
+uniform vec4 fvLight2Color;
+uniform vec4 fvLight3Color;
+uniform vec4 fvLight4Color;
+
+uniform float fSpecularPower;
+uniform float fSpecularStrength;
+uniform float fBumpStrength;
+
+uniform sampler2D baseMap;
+uniform sampler2D bumpMap;
+
+varying vec2 Texcoord;
+varying vec3 ViewDirection;
+varying vec3 LightDirection1;
+varying vec3 LightDirection2;
+varying vec3 LightDirection3;
+varying vec3 LightDirection4;
+varying vec4 LightDistMultiplier;
+
+void main( void )
+{
+   
+   vec3  fvLightDirection1 = normalize( LightDirection1 );
+   vec3  fvLightDirection2 = normalize( LightDirection2 );
+   vec3  fvLightDirection3 = normalize( LightDirection3 );
+   vec3  fvLightDirection4 = normalize( LightDirection4 );
+   
+   vec3  fvNormal         = texture2D( bumpMap, Texcoord ).yxz;
+   fvNormal.xy*=2.0;
+   fvNormal.xy-=1.0;
+   
+   fvNormal=(vec3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal;
+   
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1; 
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1; 
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1; 
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1; 
+   
+   vec3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 ); 
+   vec3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 ); 
+   vec3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 ); 
+   vec3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 ); 
+   
+   vec3  fvViewDirection  = normalize( ViewDirection );
+   
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) );
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) );
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) );
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) );
+   
+   vec4  fvBaseColor      = texture2D( baseMap, Texcoord );
+   
+   vec4  fvTotalAmbient   = fvAmbient * fvBaseColor; 
+   
+   vec4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*LightDistMultiplier[0]; 
+   vec4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*LightDistMultiplier[0];
+   
+         fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*LightDistMultiplier[1]; 
+         fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*LightDistMultiplier[1];  
+   
+         fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*LightDistMultiplier[2]; 
+         fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*LightDistMultiplier[2];  
+         
+         fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*LightDistMultiplier[3]; 
+         fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*LightDistMultiplier[3]; 
+   
+   vec4 color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));
+   if(color.r>1.0){color.gb+=color.r-1.0;}
+   if(color.g>1.0){color.rb+=color.g-1.0;}
+   if(color.b>1.0){color.rg+=color.b-1.0;}
+   gl_FragColor = color;
+}
+" />
+				 <constants value="pint baseMap 0
+pint bumpMap 1
+
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+vfloat fLightStrength1 180
+vfloat fLightStrength2 180
+vfloat fLightStrength3 180
+vfloat fLightStrength4 180
+
+vvector3df fvLightPosition1 -39 304 226
+vvector3df fvLightPosition2 -39 304 226
+vvector3df fvLightPosition3 -39 304 226
+vvector3df fvLightPosition4 -39 304 226
+
+pSColor fvAmbient 1 0.7 0.7 0.7
+pSColor fvLight1Color 1 0.02 0.02 0.02
+pSColor fvLight2Color 1 0.02 0.02 0.02
+pSColor fvLight3Color 1 0.02 0.02 0.02
+pSColor fvLight4Color 1 0.02 0.02 0.02
+
+pfloat fSpecularPower 39
+pfloat fSpecularStrength 0.9
+pfloat fBumpStrength 4
+" />
+			 </materialType>
+
 
 		 </materialTypes>
 
@@ -106,7 +333,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="1">
@@ -141,7 +368,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -176,7 +403,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="3">
@@ -211,7 +438,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="4">
@@ -246,7 +473,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="5">
@@ -281,7 +508,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -316,7 +543,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="7">
@@ -351,7 +578,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="8">
@@ -386,7 +613,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="9">
@@ -421,7 +648,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="10">
@@ -456,7 +683,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="11">
@@ -491,7 +718,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="12">
@@ -526,7 +753,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="13">
@@ -561,7 +788,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="14">
@@ -596,7 +823,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="15">
@@ -631,7 +858,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="16">
@@ -666,7 +893,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="17">
@@ -701,7 +928,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="18">
@@ -736,7 +963,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="19">
@@ -771,7 +998,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="20">
@@ -806,7 +1033,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="21">
@@ -841,7 +1068,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="22">
@@ -876,7 +1103,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="23">
@@ -911,7 +1138,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="24">
@@ -946,7 +1173,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="25">
@@ -981,7 +1208,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="26">
@@ -1016,7 +1243,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="27">
@@ -1051,7 +1278,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="28">
@@ -1086,7 +1313,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="29">
@@ -1121,7 +1348,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="30">
@@ -1156,7 +1383,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="31">
@@ -1191,7 +1418,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="32">
@@ -1226,7 +1453,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="33">
@@ -1261,7 +1488,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="34">
@@ -1296,7 +1523,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="35">
@@ -1331,7 +1558,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="36">
@@ -1366,7 +1593,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="37">
@@ -1401,7 +1628,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="38">
@@ -1436,7 +1663,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="39">
@@ -1471,7 +1698,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="40">
@@ -1506,7 +1733,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="41">
@@ -1541,7 +1768,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="42">
@@ -1576,7 +1803,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="43">
@@ -1611,7 +1838,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="44">
@@ -1646,7 +1873,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="45">
@@ -1681,7 +1908,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="46">
@@ -1716,7 +1943,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="47">
@@ -1751,7 +1978,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="48">
@@ -1786,7 +2013,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="49">
@@ -1821,7 +2048,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="50">
@@ -1856,7 +2083,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="51">
@@ -1891,7 +2118,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="52">
@@ -1926,7 +2153,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="53">
@@ -1961,7 +2188,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="54">
@@ -1996,7 +2223,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="55">
@@ -2031,7 +2258,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="56">
@@ -2066,7 +2293,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="57">
@@ -2101,7 +2328,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="58">
@@ -2136,7 +2363,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="59">
@@ -2171,7 +2398,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="60">
@@ -2206,7 +2433,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="61">
@@ -2241,7 +2468,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="62">
@@ -2276,7 +2503,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="63">
@@ -2311,7 +2538,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="64">
@@ -2346,7 +2573,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="65">
@@ -2381,7 +2608,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="66">
@@ -2416,7 +2643,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="67">
@@ -2451,7 +2678,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="68">
@@ -2486,7 +2713,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="69">
@@ -2521,7 +2748,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="70">
@@ -2556,7 +2783,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="71">
@@ -2591,7 +2818,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="72">
@@ -2626,7 +2853,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="73">
@@ -2661,7 +2888,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="74">
@@ -2696,7 +2923,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="75">
@@ -2731,7 +2958,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="76">
@@ -2766,7 +2993,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="77">
@@ -2801,7 +3028,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="78">
@@ -2836,7 +3063,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="79">
@@ -2871,7 +3098,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="80">
@@ -2906,7 +3133,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="81">
@@ -2941,7 +3168,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="82">
@@ -2976,7 +3203,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="83">
@@ -3011,7 +3238,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="84">
@@ -3046,7 +3273,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="85">
@@ -3081,7 +3308,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="86">
@@ -3116,7 +3343,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="87">
@@ -3151,7 +3378,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="88">
@@ -3186,7 +3413,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="89">
@@ -3221,7 +3448,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="90">
@@ -3256,7 +3483,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="91">
@@ -3291,7 +3518,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="92">
@@ -3326,7 +3553,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="93">
@@ -3361,7 +3588,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="94">
@@ -3396,7 +3623,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="95">
@@ -3431,7 +3658,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="96">
@@ -3466,7 +3693,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="97">
@@ -3501,7 +3728,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="98">
@@ -3536,7 +3763,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="99">
@@ -3571,7 +3798,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="100">
@@ -3606,7 +3833,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="101">
@@ -3641,7 +3868,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="102">
@@ -3676,7 +3903,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="103">
@@ -3711,7 +3938,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="104">
@@ -3746,7 +3973,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="105">
@@ -3781,7 +4008,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="106">
@@ -3816,7 +4043,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="107">
@@ -3851,7 +4078,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="108">
@@ -3886,7 +4113,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="109">
@@ -3921,7 +4148,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="110">
@@ -3956,7 +4183,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="111">
@@ -3991,7 +4218,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="112">
@@ -4026,7 +4253,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="113">
@@ -4061,7 +4288,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="114">
@@ -4096,7 +4323,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="115">
@@ -4131,7 +4358,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="116">
@@ -4166,7 +4393,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="117">
@@ -4201,7 +4428,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="118">
@@ -4236,7 +4463,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="119">
@@ -4271,7 +4498,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="120">
@@ -4306,7 +4533,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="121">
@@ -4341,7 +4568,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="122">
@@ -4376,7 +4603,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="123">
@@ -4411,7 +4638,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="124">
@@ -4446,7 +4673,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="125">
@@ -4481,7 +4708,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="126">
@@ -4516,7 +4743,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="127">
@@ -4551,7 +4778,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="128">
@@ -4586,7 +4813,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="129">
@@ -4621,7 +4848,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="130">
@@ -4656,7 +4883,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="131">
@@ -4691,7 +4918,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="132">
@@ -4726,7 +4953,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="133">
@@ -4761,7 +4988,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="134">
@@ -4796,7 +5023,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="135">
@@ -4831,7 +5058,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="136">
@@ -4866,7 +5093,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="137">
@@ -4901,7 +5128,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="138">
@@ -4936,7 +5163,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="139">
@@ -4971,7 +5198,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="140">
@@ -5006,7 +5233,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="141">
@@ -5041,7 +5268,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="142">
@@ -5076,7 +5303,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="143">
@@ -5111,7 +5338,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="144">
@@ -5146,7 +5373,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="145">
@@ -5181,7 +5408,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="146">
@@ -5216,7 +5443,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="147">
@@ -5251,7 +5478,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="148">
@@ -5286,7 +5513,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="149">
@@ -5321,7 +5548,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="150">
@@ -5356,7 +5583,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="151">
@@ -5391,7 +5618,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="152">
@@ -5426,7 +5653,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="153">
@@ -5461,7 +5688,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="154">
@@ -5496,7 +5723,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="155">
@@ -5531,7 +5758,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="156">
@@ -5566,7 +5793,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="157">
@@ -5601,7 +5828,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="158">
@@ -5636,7 +5863,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="159">
@@ -5671,7 +5898,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="160">
@@ -5706,7 +5933,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="161">
@@ -5741,7 +5968,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="162">
@@ -5776,7 +6003,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="163">
@@ -5811,7 +6038,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="164">
@@ -5846,7 +6073,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="165">
@@ -5881,7 +6108,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="166">
@@ -5916,7 +6143,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="167">
@@ -5951,7 +6178,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="168">
@@ -5986,7 +6213,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="169">
@@ -6021,7 +6248,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="170">
@@ -6056,7 +6283,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="171">
@@ -6091,7 +6318,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="172">
@@ -6126,7 +6353,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="173">
@@ -6161,7 +6388,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="174">
@@ -6196,7 +6423,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="175">
@@ -6231,7 +6458,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="176">
@@ -6266,7 +6493,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="177">
@@ -6301,7 +6528,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="178">
@@ -6336,7 +6563,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="179">
@@ -6371,7 +6598,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="180">
@@ -6406,7 +6633,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="181">
@@ -6441,7 +6668,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="182">
@@ -6476,7 +6703,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="183">
@@ -6511,7 +6738,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="184">
@@ -6546,7 +6773,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="185">
@@ -6581,7 +6808,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="186">
@@ -6616,7 +6843,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="187">
@@ -6651,7 +6878,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="188">
@@ -6686,7 +6913,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="189">
@@ -6721,7 +6948,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="190">
@@ -6756,7 +6983,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="191">
@@ -6791,7 +7018,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="192">
@@ -6826,7 +7053,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="193">
@@ -6861,7 +7088,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="194">
@@ -6896,7 +7123,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="195">
@@ -6931,7 +7158,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="196">
@@ -6966,7 +7193,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="197">
@@ -7001,7 +7228,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="198">
@@ -7036,7 +7263,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="199">
@@ -7071,7 +7298,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="200">
@@ -7106,7 +7333,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="201">
@@ -7141,7 +7368,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="202">
@@ -7176,7 +7403,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="203">
@@ -7211,7 +7438,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="204">
@@ -7246,7 +7473,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="205">
@@ -7281,7 +7508,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="206">
@@ -7316,7 +7543,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="207">
@@ -7351,7 +7578,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="208">
@@ -7386,7 +7613,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="209">
@@ -7421,7 +7648,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="210">
@@ -7456,7 +7683,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="211">
@@ -7491,7 +7718,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="212">
@@ -7526,7 +7753,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="213">
@@ -7561,7 +7788,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="214">
@@ -7596,7 +7823,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="215">
@@ -7631,7 +7858,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="216">
@@ -7666,7 +7893,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="217">
@@ -7701,7 +7928,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="218">
@@ -7736,7 +7963,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="219">
@@ -7771,7 +7998,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="220">
@@ -7806,7 +8033,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="221">
@@ -7841,7 +8068,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="222">
@@ -7876,7 +8103,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="223">
@@ -7911,7 +8138,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="224">
@@ -7946,7 +8173,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="225">
@@ -7981,7 +8208,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="226">
@@ -8016,7 +8243,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="227">
@@ -8051,7 +8278,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="228">
@@ -8086,7 +8313,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="229">
@@ -8121,7 +8348,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="230">
@@ -8156,7 +8383,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="231">
@@ -8191,7 +8418,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="232">
@@ -8226,7 +8453,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="233">
@@ -8261,7 +8488,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="234">
@@ -8296,7 +8523,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="235">
@@ -8331,7 +8558,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="236">
@@ -8366,7 +8593,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="237">
@@ -8401,7 +8628,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="238">
@@ -8436,7 +8663,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="239">
@@ -8471,7 +8698,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="240">
@@ -8506,7 +8733,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="241">
@@ -8541,7 +8768,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="242">
@@ -8576,7 +8803,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="243">
@@ -8611,7 +8838,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="244">
@@ -8646,7 +8873,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="245">
@@ -8681,7 +8908,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="246">
@@ -8716,7 +8943,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="247">
@@ -8751,7 +8978,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="248">
@@ -8786,7 +9013,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="249">
@@ -8821,7 +9048,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="250">
@@ -8856,7 +9083,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="251">
@@ -8891,7 +9118,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="252">
@@ -8926,7 +9153,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="253">
@@ -8961,7 +9188,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="254">
@@ -8996,7 +9223,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="255">
@@ -9031,7 +9258,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="256">
@@ -9066,7 +9293,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="257">
@@ -9101,7 +9328,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="258">
@@ -9136,7 +9363,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="259">
@@ -9171,7 +9398,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="260">
@@ -9206,7 +9433,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="261">
@@ -9241,7 +9468,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="262">
@@ -9276,7 +9503,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="263">
@@ -9311,7 +9538,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="264">
@@ -9346,7 +9573,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="265">
@@ -9381,7 +9608,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="266">
@@ -9416,7 +9643,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="267">
@@ -9451,7 +9678,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="268">
@@ -9486,7 +9713,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="269">
@@ -9521,7 +9748,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="270">
@@ -9556,7 +9783,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="271">
@@ -9591,7 +9818,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="272">
@@ -9626,7 +9853,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="273">
@@ -9661,7 +9888,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="274">
@@ -9696,7 +9923,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="275">
@@ -9731,7 +9958,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="276">
@@ -9766,7 +9993,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="277">
@@ -9801,7 +10028,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="278">
@@ -9836,7 +10063,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="279">
@@ -9871,7 +10098,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="280">
@@ -9906,7 +10133,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="281">
@@ -9941,7 +10168,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="282">
@@ -9976,7 +10203,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="283">
@@ -10011,7 +10238,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="284">
@@ -10046,7 +10273,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="285">
@@ -10081,7 +10308,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="286">
@@ -10116,7 +10343,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="287">
@@ -10151,7 +10378,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="288">
@@ -10186,7 +10413,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="289">
@@ -10221,7 +10448,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="290">
@@ -10256,7 +10483,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="291">
@@ -10291,7 +10518,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="292">
@@ -10326,7 +10553,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="293">
@@ -10361,7 +10588,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="294">
@@ -10396,7 +10623,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="295">
@@ -10431,7 +10658,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="296">
@@ -10466,7 +10693,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="297">
@@ -10501,7 +10728,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="298">
@@ -10536,7 +10763,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="299">
@@ -10571,7 +10798,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="300">
@@ -10606,7 +10833,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="301">
@@ -10641,7 +10868,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="302">
@@ -10676,7 +10903,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="303">
@@ -10711,7 +10938,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="304">
@@ -10746,7 +10973,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="305">
@@ -10781,7 +11008,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="306">
@@ -10816,7 +11043,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="307">
@@ -10851,7 +11078,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="308">
@@ -10886,7 +11113,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="309">
@@ -10921,7 +11148,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="310">
@@ -10956,7 +11183,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="311">
@@ -10991,7 +11218,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="312">
@@ -11026,7 +11253,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="313">
@@ -11061,7 +11288,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="314">
@@ -11096,7 +11323,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="315">
@@ -11131,7 +11358,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="316">
@@ -11166,7 +11393,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="317">
@@ -11201,7 +11428,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="318">
@@ -11236,7 +11463,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="319">
@@ -11271,7 +11498,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="320">
@@ -11306,7 +11533,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="321">
@@ -11341,7 +11568,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="322">
@@ -11376,7 +11603,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="323">
@@ -11411,7 +11638,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="324">
@@ -11446,7 +11673,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="325">
@@ -11481,7 +11708,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="326">
@@ -11516,7 +11743,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="327">
@@ -11551,7 +11778,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="328">
@@ -11586,7 +11813,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="329">
@@ -11621,7 +11848,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="330">
@@ -11656,7 +11883,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="331">
@@ -11691,7 +11918,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="332">
@@ -11726,7 +11953,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="333">
@@ -11761,7 +11988,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="334">
@@ -11796,7 +12023,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="335">
@@ -11831,7 +12058,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="336">
@@ -11866,7 +12093,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="337">
@@ -11901,7 +12128,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="338">
@@ -11936,7 +12163,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="339">
@@ -11971,7 +12198,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="340">
@@ -12006,7 +12233,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="341">
@@ -12041,7 +12268,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="342">
@@ -12076,7 +12303,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="343">
@@ -12111,7 +12338,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="344">
@@ -12146,7 +12373,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="345">
@@ -12181,7 +12408,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="346">
@@ -12216,7 +12443,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="347">
@@ -12251,7 +12478,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="348">
@@ -12286,7 +12513,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="349">
@@ -12321,7 +12548,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="350">
@@ -12356,7 +12583,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="351">
@@ -12391,7 +12618,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="352">
@@ -12426,7 +12653,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="353">
@@ -12461,7 +12688,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="354">
@@ -12496,7 +12723,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="355">
@@ -12531,7 +12758,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="356">
@@ -12566,7 +12793,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="357">
@@ -12601,7 +12828,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="358">
@@ -12636,7 +12863,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="359">
@@ -12671,7 +12898,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="360">
@@ -12706,7 +12933,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="361">
@@ -12741,7 +12968,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="362">
@@ -12776,7 +13003,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="363">
@@ -12811,7 +13038,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="364">
@@ -12846,7 +13073,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="365">
@@ -12881,7 +13108,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="366">
@@ -12916,7 +13143,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="367">
@@ -12951,7 +13178,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="368">
@@ -12986,7 +13213,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="369">
@@ -13021,7 +13248,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="370">
@@ -13056,7 +13283,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="371">
@@ -13091,7 +13318,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="372">
@@ -13126,7 +13353,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="373">
@@ -13161,7 +13388,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="374">
@@ -13196,7 +13423,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="375">
@@ -13231,7 +13458,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="376">
@@ -13266,7 +13493,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="377">
@@ -13301,7 +13528,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="378">
@@ -13336,7 +13563,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="379">
@@ -13371,7 +13598,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="380">
@@ -13406,7 +13633,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="381">
@@ -13441,7 +13668,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="382">
@@ -13476,7 +13703,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="383">
@@ -13511,7 +13738,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="384">
@@ -13546,7 +13773,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="385">
@@ -13581,7 +13808,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="386">
@@ -13616,7 +13843,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="387">
@@ -13651,7 +13878,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="388">
@@ -13686,7 +13913,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="389">
@@ -13721,7 +13948,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="390">
@@ -13756,7 +13983,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="391">
@@ -13791,7 +14018,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="392">
@@ -13826,7 +14053,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="393">
@@ -13861,7 +14088,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 </materials>
@@ -13893,16 +14120,16 @@
 
 			 <lensFlare>
 				 <mesh> 
-					 <scale X="8.000000" Y="8.000000" Z="8.000000" />
-					 <texture path="shaders/textures/lf/mesh.png" />
+					 <scale X="11.000000" Y="11.000000" Z="11.000000" />
+					 <texture path="shaders/Textures/LF/mesh.png" />
 				 </mesh> 
 				 <bill> 
 					 <size Width="11.000000" Height="11.000000" />
-					 <texture path="" />
+					 <texture path="shaders/Textures/LF/sun.png" />
 				 </bill> 
 				 <lfsn> 
-					 <strength value="200.000000" />
-					 <texture path="shaders/textures/lf/flare.png" />
+					 <strength value="400.000000" />
+					 <texture path="shaders/Textures/LF/flare.png" />
 					 <falseOcclusion value="1" />
 				 </lfsn> 
 				 <position X="0.000000" Y="0.000000" Z="0.000000" />

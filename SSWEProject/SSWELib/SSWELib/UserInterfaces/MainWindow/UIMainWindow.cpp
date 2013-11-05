@@ -599,12 +599,9 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					if (rightClickCxtMenum->getItemCommandId(rightClickCxtMenum->getSelectedItem()) == 0) {
 						stringc prefix = getSelectedNodePrefix(node);
 						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {
-                            #ifndef _IRR_OSX_PLATFORM_
-							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&worldCore->getArrayOfLightNodes(), node));
+                            array<ISceneNode *> lights = devices->getCoreData()->getArrayOfLightNodes();
+							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(lights, node));
 							editLight->open(node, prefix.c_str());
-                            #else
-                            
-                            #endif
 						} else {
 							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 							editNode->open(node, prefix.c_str(), false);

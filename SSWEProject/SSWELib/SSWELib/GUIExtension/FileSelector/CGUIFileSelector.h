@@ -12,6 +12,8 @@
 using namespace irr;
 using namespace gui;
 
+#define SSWE_CORE_API
+
 /** Class for opening/saving files. */
 class SSWE_CORE_API CGUIFileSelector : public IGUIFileOpenDialog {
       

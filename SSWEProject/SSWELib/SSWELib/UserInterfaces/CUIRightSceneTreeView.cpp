@@ -297,10 +297,9 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 					if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 0) {
 						stringc prefix = cxtMenu->getMainWindow()->getSelectedNodePrefix(node);
 						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {
-                            #ifndef _IRR_OSX_PLATFORM_
-							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&worldCore->getArrayOfLightNodes(), node));
+                            array<ISceneNode *> lights = worldCore->getArrayOfLightNodes();
+							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(lights, node));
 							editLight->open(node, prefix.c_str());
-                            #endif
 						} else {
 							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 							editNode->open(node, prefix.c_str(), false);

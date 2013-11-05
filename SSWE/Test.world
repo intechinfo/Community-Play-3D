@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="146.405136" Y="68.181549" Z="69.351753" />
-			 <rotation X="293.564728" Y="56.964252" Z="0.000000" />
+			 <position X="102.063087" Y="84.588760" Z="115.173347" />
+			 <rotation X="30.347111" Y="220.178558" Z="0.000000" />
 
 		 </camera>
 
@@ -209,25 +209,34 @@ pint bumpMap 1
 
 vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
-vfloat fLightStrength1 10
-vfloat fLightStrength2 10
-vfloat fLightStrength3 10
-vfloat fLightStrength4 10
+vfloat fLightStrength1 80
+vfloat fLightStrength2 80
+vfloat fLightStrength3 80
+vfloat fLightStrength4 80
 
-vvector3df fvLightPosition1 0 200 0
-vvector3df fvLightPosition2 0 200 0
-vvector3df fvLightPosition3 0 200 0
-vvector3df fvLightPosition4 0 200 0
+vvector3df fvLightPosition1 -39 304 226vvector3df fvLightPosition2 -39 304 226vvector3df fvLightPosition3 -39 304 226vvector3df fvLightPosition4 -39 304 226
 
-pSColor fvAmbient 0.2 0.2 0.2 0.2
-pSColor fvLight1Color 0.2 0.2 0.2 0.2
-pSColor fvLight2Color 0.2 0.2 0.2 0.2
-pSColor fvLight3Color 0.2 0.2 0.2 0.2
-pSColor fvLight4Color 0.2 0.2 0.2 0.2
+pSColor fvAmbient 1 0.7 0.7 0.7pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02
 
 pfloat fSpecularPower 20
 pfloat fSpecularStrength 0.9
 pfloat fBumpStrength 4
+" />
+			 </materialType>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="New Material Type" />
+				 <vertex shader=
+"varying vec3 fvNormal;varying vec3 fvViewVec;void main( void ){float dist =0.00087; //maybe this value must be changed depending on the world size   gl_Position = ftransform();   fvNormal    = gl_NormalMatrix * gl_Normal;   fvViewVec = vec3(dist * gl_ModelViewMatrix * gl_Vertex);}
+" />
+				 <pixel shader=
+"varying vec3 fvNormal;varying vec3 fvViewVec;void main( void ){  vec4 color;  vec4 temp;  temp.xyz=-normalize(fvNormal);  color.r=temp.r+0.5;  color.g=temp.g+0.5;  color.b=temp.b+0.5;  float t=(1.0-fvViewVec.z)/2.0;  if(t<0.0){t=0.0;}  gl_FragColor = color*t;}
+
+" />
+				 <constants value="
 " />
 			 </materialType>
 

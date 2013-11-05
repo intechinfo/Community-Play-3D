@@ -45,10 +45,6 @@ CCoreUserInterface::CCoreUserInterface() {
 		tempDevice->closeDevice();
 		tempDevice->drop();
 	}
-    
-    #ifdef _IRR_OSX_PLATFORM_
-    
-    #endif
 
 	devices = new CDevices();
 	devices->createDevice(params);
