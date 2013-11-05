@@ -57,15 +57,15 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SSWEOCULUSRIFTPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\SSWELib\Device\Monitor\;$(SolutionDir)SSWERenders\;$(SolutionDir)OculusSDK\LibOVR\Include\;$(SolutionDir)Irrlicht\Irrlicht180\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\include;$(SolutionDir)SSWERenders;$(SolutionDir)OculusSDK\LibOVR\Include;$(SolutionDir)Irrlicht\Irrlicht180\include</AdditionalIncludeDirectories>
       <OpenMPSupport>false</OpenMPSupport>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;$(SolutionDir)Irrlicht\Irrlicht180\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>irrlicht_d.lib;libovrd.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)SSWERenders\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>irrlicht_d.lib;SSWERenders_d.lib;libovrd.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\Plugins\Monitors\$(TargetName)$(TargetExt)" /y</Command>
@@ -80,7 +80,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SSWEOCULUSRIFTPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\SSWELib\Device\Monitor\;$(SolutionDir)SSWERenders\;$(SolutionDir)OculusSDK\LibOVR\Include\;$(SolutionDir)Irrlicht\Irrlicht180\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SSWELib\include;$(SolutionDir)SSWERenders;$(SolutionDir)OculusSDK\LibOVR\Include;$(SolutionDir)Irrlicht\Irrlicht180\include</AdditionalIncludeDirectories>
       <OpenMPSupport>false</OpenMPSupport>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -89,8 +89,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;$(SolutionDir)Irrlicht\Irrlicht180\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>irrlicht.lib;libovr.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)SSWERenders\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>irrlicht.lib;SSWERenders.lib;libovr.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\Plugins\Monitors\$(TargetName)$(TargetExt)" /y</Command>
@@ -104,6 +104,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="XIL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OculusRift.cpp" />

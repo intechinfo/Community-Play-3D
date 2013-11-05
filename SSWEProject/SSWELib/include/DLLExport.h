@@ -5,6 +5,8 @@
 // SSWEGENERICMONITOR_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 
+#pragma once
+
 //MONITOR EXPORTS
 #ifndef MONITOR_DLL_EXPORTS_H
 #define MONITOR_DLL_EXPORTS_H

@@ -36,6 +36,14 @@ void CCore::centerWindow(IGUIWindow *window, dimension2du screenSize) {
 										  screenSize.Height/2+window->getRelativePosition().getHeight()/2));
 }
 
+rect<s32> CCore::getScreenCenterRectFromRect(rect<s32> elementRect) {
+	dimension2du screenSize = device->getVideoDriver()->getScreenSize();
+	return rect<s32>(screenSize.Width/2-elementRect.getWidth()/2,
+					 screenSize.Height/2-elementRect.getHeight()/2,
+					 screenSize.Width/2+elementRect.getWidth()/2,
+					 screenSize.Height/2+elementRect.getHeight()/2);
+}
+
 void CCore::deactiveChildrenOfGUIElement(IGUIElement *element, bool visible) {
 	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
 

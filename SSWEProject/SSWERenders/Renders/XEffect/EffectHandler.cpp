@@ -673,3 +673,4 @@ s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc &ver
 
 	return pPair.materialType;
 }
+

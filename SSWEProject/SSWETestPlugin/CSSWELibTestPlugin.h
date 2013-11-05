@@ -43,7 +43,33 @@ private:
 	//-----------------------------------
 	//GUI ELEMENTS
 	IGUIWindow *window;
-	IGUIButton *closeWindow;
+
+	//TOP
+	IGUIComboBox *engines;
+	IGUIEditBox *toFolder;
+	IGUIButton *browseExportFolder;
+	IGUIFileOpenDialog *toFolderFileOpenDialog;
+
+	//MODELS
+	IGUICheckBox *exportStaticModels;
+	IGUICheckBox *exportAnimatedModels;
+	IGUICheckBox *exportCustomMaterials;
+	IGUICheckBox *exportEffectFilters;
+
+	IGUICheckBox *exportAnimators;
+	IGUICheckBox *exportTextures;
+	IGUICheckBox *exportAnimations;
+	IGUIButton *editExportAnimations;
+
+	IGUICheckBox *exportLuaScripts;
+
+	//DESIGN
+	IGUICheckBox *createHTMLFile;
+	IGUICheckBox *makeJSMinimized;
+
+	//BUTTONS
+	IGUIButton *exportbtn;
+	IGUIButton *exportInformations;
 	//-----------------------------------
 
 };

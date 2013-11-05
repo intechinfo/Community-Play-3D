@@ -40,18 +40,22 @@ void CUIWindowEditEffects::open() {
     submenu = menu->getSubMenu(1);
 	submenu->addItem(L"How to ?", -1);
     
-    enableDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassEnabled(), rect<s32>(10, 50, 160, 70), effectsWindow, 
-                                                                -1, L"Enable Depth Pass");
-    
-	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 500, 430), effectsWindow, -1, L"Render", false);
-	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
-	viewPort->setScaleImage(true);
-    /*viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
-                                rect<s32>(10, 70, 580, 270));
+	//viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 70, 500, 430), effectsWindow, -1, L"Render", false);
+	//viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
+	//viewPort->setScaleImage(true);
+    viewPort = new CGUIViewport(devices->getGUIEnvironment(), effectsWindow, 1, 
+                                rect<s32>(10, 70, 500, 430));
     if (viewPort) {
+		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
         viewPort->setSceneManager(devices->getSceneManager());
+		viewPort->setRenderScreenQuad(true);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
-    }*/
+    }
+
+	enableDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassEnabled(), rect<s32>(10, 440, 160, 460), effectsWindow, 
+                                                                -1, L"Enable Depth Pass");
+	enableVSMs = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isUsingVSMShadows(), rect<s32>(10, 460, 160, 480), effectsWindow, 
+                                                           -1, L"Use VSM");
     
     devices->getGUIEnvironment()->addStaticText(L"Shaders :", rect<s32>(510, 50, 610, 70), false, true, effectsWindow, -1, false);
     
@@ -59,14 +63,8 @@ void CUIWindowEditEffects::open() {
     oglRemove = devices->getGUIEnvironment()->addButton(rect<s32>(610, 50, 630, 70), effectsWindow, -1, L"-", L"Add a shader");
     
     shadersList = devices->getGUIEnvironment()->addListBox(rect<s32>(510, 70, 1010, 270), effectsWindow, -1, true);
-    
-    active = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(940, 50, 1010, 70), effectsWindow, -1, L"Active");
 
     close = devices->getGUIEnvironment()->addButton(rect<s32>(910, 550, 1010, 580), effectsWindow, -1, L"Close", L"Close the window");
-    
-    if (devices->getCoreData()->getEffectRenders()->size() == 0) {
-        active->setEnabled(false);
-    }
 
     for (u32 i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
 		stringw name = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
@@ -174,10 +172,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                     devices->getCoreData()->getEffectRenderCallbacks()->erase(shadersList->getSelected());
                     
                     shadersList->removeItem(shadersList->getSelected());
-                    
-                    if (shadersList->getItemCount() == 0) {
-                        active->setEnabled(false);
-                    }
                 } else {
                     devices->addInformationDialog(L"Information",
                                                   L"Please select an item before...",
@@ -295,8 +289,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
                 devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
                 shadersList->addItem(name.c_str());
-
-                active->setEnabled(true);
                 
                 openingShader = false;
             }
@@ -308,11 +300,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
             if (event.GUIEvent.Caller == shadersList && shadersList->getItemCount() > 0) {
-                if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
-                    active->setChecked(true);
-                } else {
-                    active->setChecked(false);
-                }
 				u32 selected = shadersList->getSelected();
                 editionWindow->setVisible(true);
                 editionWindow->setDrawBackground(true);
@@ -359,27 +346,19 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
         }
         
         if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
-            if (event.GUIEvent.Caller == active) {
-				if (shadersList->getSelected() != -1) {
-					if (active->isChecked()) {
-						if (!devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
-							devices->getXEffect()->addPostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
-						}
-					} else {
-						if (devices->getXEffect()->postProcessingEffectExists(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()))) {
-							devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectRenders()->operator[](shadersList->getSelected()));
-						}
-					}
-				}
-            }
             
             if (event.GUIEvent.Caller == enableDepthPass) {
                 devices->getXEffect()->enableDepthPass(enableDepthPass->isChecked());
-				devices->getXEffect()->setUseVSMShadows(enableDepthPass->isChecked());
 				for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
 					devices->getXEffect()->getShadowLight(i).setRecalculate(true);
 				}
             }
+			if (event.GUIEvent.Caller == enableVSMs) {
+				devices->getXEffect()->setUseVSMShadows(enableVSMs->isChecked());
+				for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
+					devices->getXEffect()->getShadowLight(i).setRecalculate(true);
+				}
+			}
         }
     }
     

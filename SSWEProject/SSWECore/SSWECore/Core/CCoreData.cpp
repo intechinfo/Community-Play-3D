@@ -9,8 +9,6 @@
 #include "stdafx.h"
 #include "CCoreData.h"
 
-//#include "../../../SSWERenders/Renders/XEffect/EffectShaders.h"
-
 CCoreData::CCoreData() {
     clearAllTheArrays();
 }
@@ -240,24 +238,9 @@ u32 CCoreData::getObjectNodeIndice(ISceneNode *node) {
 }
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------SHADERS-- -------------------------------------------------
+//----------------------------------SHADERS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-void SLightsData::createLightShafts(EffectHandler *effect, const u32 numberOfPlanes) {
-	ICameraSceneNode *initialCam = effect->getActiveSceneManager()->getActiveCamera();
-	ICameraSceneNode *lightCamera = effect->getActiveSceneManager()->addCameraSceneNode();
-	lightCamera->setPosition(node->getPosition());
-	lightCamera->setTarget(node->getRotation());
-
-	lightCamera->OnAnimate(effect->getIrrlichtDevice()->getTimer()->getTime());
-	lightCamera->OnRegisterSceneNode();
-	lightCamera->render();
-
-	//lsdata.create(lightCamera, numberOfPlanes, LIGHT_SHAFTS_V[ESE_HLSL], LIGHT_SHAFTS_P[ESE_HLSL]);
-
-	//lightCamera->remove();
-	effect->getActiveSceneManager()->setActiveCamera(initialCam);
-}
 
 //---------------------------------------------------------------------------------------------
 //----------------------------------CALLBACKS -------------------------------------------------

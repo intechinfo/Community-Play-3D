@@ -134,6 +134,16 @@ struct SShadowLight
 	bool isAutoRecalculate() { return autoRecalculate; }
 	void setAutoRecalculate(bool _autoRecalculate) { autoRecalculate = _autoRecalculate; }
 
+	irr::core::array<irr::scene::ISceneNode *> *getLightShaftsBBs() { return &lsBBs; }
+	void createLightShaftCamera(irr::scene::ISceneManager *smgr) {
+		irr::scene::ICameraSceneNode *currentCamera = smgr->getActiveCamera();
+		lsCamera = smgr->addCameraSceneNode();
+		lsCamera->setNearValue(currentCamera->getNearValue());
+		lsCamera->setFarValue(farPlane);
+		smgr->setActiveCamera(currentCamera);
+	}
+	irr::scene::ICameraSceneNode *getLightShaftCamera() { return lsCamera; }
+
 private:
 
 	void updateViewMatrix()
@@ -151,6 +161,10 @@ private:
 
 	bool recalculate;
 	bool autoRecalculate;
+
+	/// Light Shafts
+	irr::core::array<irr::scene::ISceneNode *> lsBBs;
+	irr::scene::ICameraSceneNode *lsCamera;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -488,7 +502,7 @@ public:
 
 	/// Returns the screen quad scene node. This is not required in any way, but some advanced users may want to adjust
 	/// its material settings accordingly.
-	CScreenQuad getScreenQuad() 
+	CScreenQuad getScreenQuad()
 	{
 		return ScreenQuad;
 	}
@@ -563,6 +577,9 @@ public:
 		for (u32 i=0; i < LightList.size(); i++)
 			LightList[i].setRecalculate(true);
 	}
+
+	/// About Light Shafts
+	void createLightShafts(irr::u32 shadowLightIndex, irr::u32 numberOfPlanes);
 
 private:
 

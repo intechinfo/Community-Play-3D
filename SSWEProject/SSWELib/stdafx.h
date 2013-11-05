@@ -12,6 +12,9 @@
     #include "SSWECore.h"
 #endif
 
+#include <SSWECore.h>
+#include <SSWELib.h>
+
 #include "SSWELib/Device/CDevices.h"
 #include "SSWECore/Core/CCore.h"
 #include <SSWECore/Core/CCoreData.h>

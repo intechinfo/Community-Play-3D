@@ -91,7 +91,7 @@ public:
 
 	//-----------------------------------
 	//METHODS
-	virtual IrrlichtDevice *createDevice(SIrrlichtCreationParameters parameters) = 0;
+	virtual void createDevice(SIrrlichtCreationParameters parameters) = 0;
 
 	virtual vector3df getCursorPosition() = 0;
 	virtual ISceneNode *getCursor() = 0;

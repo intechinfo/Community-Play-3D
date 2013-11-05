@@ -32,7 +32,7 @@
 //-----------------------------------HERITANCES------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SData {
+struct SData {
 
 	SData() {
 		SData(0, 0, "", ESNT_UNKNOWN);
@@ -116,7 +116,7 @@ private:
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PLANAR MAPPING--------------------------------------------
 //---------------------------------------------------------------------------------------------
-struct SSWE_CORE_API SPlanarTextureMappingData {
+struct SPlanarTextureMappingData {
 
 	SPlanarTextureMappingData() {
 		SPlanarTextureMappingData(0, 0, 0, 0, vector3df(0));
@@ -165,7 +165,7 @@ private:
 	bool general;
 };
 
-struct SSWE_CORE_API SMeshWithTangentsData {
+struct SMeshWithTangentsData {
 
 	SMeshWithTangentsData(ISceneNode *_node, bool _recalculateNormals=false, bool _smooth=false, bool _angleWeighted=false, 
 						  bool _recalculateTangents=true) {
@@ -201,7 +201,7 @@ private:
 //----------------------------------TERRAINS--------------------------------------------------
 //---------------------------------------------------------------------------------------------
 //MESHES
-struct SSWE_CORE_API STerrainsData : public SData {
+struct STerrainsData : public SData {
 	
 	STerrainsData() : SData(0, 0, "", ESNT_UNKNOWN) {
 		STerrainsData(0, 0, "", 0, ESNT_UNKNOWN);
@@ -221,7 +221,7 @@ private:
 };
 
 //HEIGHT MAPS
-struct SSWE_CORE_API STerrainHMData : STerrainsData {
+struct STerrainHMData : STerrainsData {
 
 	STerrainHMData() : STerrainsData(0, 0, "", ESNT_UNKNOWN) {
 		STerrainHMData(0, 0, "", ETPS_9);
@@ -271,7 +271,7 @@ private:
 //----------------------------------OBJECTS---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SObjectsData : SData {
+struct SObjectsData : SData {
 
 	SObjectsData() : SData(0, 0, "", ESNT_UNKNOWN) {
 		SObjectsData(0, 0, "");
@@ -323,18 +323,6 @@ struct SSWE_CORE_API SLightsData : SData {
 	void setLensFlareSceneNode(CLensFlareSceneNode *_node) { lfdata.setLensFlareSceneNode(_node); }
 	void setLensFlareStrengthFactor(f32 strengthFactor) { lfdata.setStrengthFactor(strengthFactor); }
 
-	// LIGHT SHAFTS
-	void createLightShafts(EffectHandler *effect, const u32 numberOfPlanes);
-	void createLightShaftsCallback(EffectHandler *effect) { lsdata.createCallback(effect); }
-	void createLightShaftsTextures(EffectHandler *effect, u32 resolution) { lsdata.createTextures(effect, resolution); }
-
-	void destroyLightShafts() { lsdata.destroyLightShafts(); }
-	void destroyLightShaftsCallback() { delete lsdata.getCallback(); }
-
-	array<ISceneNode *> *getLightShaftsBS() { return lsdata.getBillBoardSet(); }
-	LightShaftsCB *getLightShaftsCallback() { return lsdata.getCallback(); }
-	bool isLightShaftsEnable() { return lsdata.isLightShaftsEnabled(); }
-
 private:
 
 	ISceneNode *node;
@@ -356,102 +344,6 @@ private:
 		CLensFlareSceneNode *lensFlareSceneNode;
 		f32 strengthFactor;
 	} lfdata;
-
-	struct SLightShafts {
-	public:
-		SLightShafts() {
-			billBoardSet.clear();
-			callback = 0;
-			enable = false;
-		}
-
-		array<ISceneNode *> *getBillBoardSet() { return &billBoardSet; }
-		LightShaftsCB *getCallback() { return callback; }
-		bool isLightShaftsEnabled() { return enable; }
-
-		void createCallback(EffectHandler *effect) {
-			callback = new LightShaftsCB(effect);
-		}
-		void create(ICameraSceneNode *lightCamera, const u32 NumberOfPlanes, stringc LIGHT_SHAFTS_V, stringc LIGHT_SHAFTS_P) {
-
-			LightShafts = lightCamera->getSceneManager()->getVideoDriver()->getGPUProgrammingServices()->
-				addHighLevelShaderMaterial(LIGHT_SHAFTS_V.c_str(), "vertexMain", EVST_VS_2_0,
-										   LIGHT_SHAFTS_P.c_str(), "pixelMain", EPST_PS_2_0, 
-										   callback);
-
-			float DistanceBetweenPlanes = (lightCamera->getFarValue() - lightCamera->getNearValue())/NumberOfPlanes;
-			vector3df *FrustumCorners = getWorldSpaceCorners(lightCamera);
-
-			float NearWidth  = (FrustumCorners[0] - FrustumCorners[1]).getLength(),
-				  NearHeigth = (FrustumCorners[1] - FrustumCorners[2]).getLength(),
-				  FarWidth   = (FrustumCorners[4] - FrustumCorners[5]).getLength(),
-				  FarHeigth  = (FrustumCorners[5] - FrustumCorners[6]).getLength();
-
-			float WidthStep  = (FarWidth-NearWidth)/NumberOfPlanes,
-				  HeigthStep = (FarHeigth-NearHeigth)/NumberOfPlanes;
-
-			for(s32 i = 0; i < NumberOfPlanes; i++) {
-				vector3df position = vector3df(0, 0,-lightCamera->getNearValue() -i*DistanceBetweenPlanes);
-				//IBillboardSceneNode *bb = lightCamera->getSceneManager()->addBillboardSceneNode();
-				ISceneNode *bb = lightCamera->getSceneManager()->addCubeSceneNode();
-				bb->setParent(callback->lightCamera);
-				bb->setPosition(position);
-				bb->setScale(vector3df(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep, 0.5));
-				//bb->setSize(dimension2d<f32>(NearWidth + i*WidthStep, NearHeigth + i*HeigthStep));
-				//bb->setColor(SColor(255, 255, 255, 255));
-				bb->setMaterialFlag(EMF_LIGHTING, false);
-				if (callback) {
-					//bb->setMaterialType((E_MATERIAL_TYPE)LightShafts);
-					callback->uLightFarClipDistance = DistanceBetweenPlanes;
-					callback->lightCamera->setPosition(lightCamera->getPosition());
-				}
-				billBoardSet.push_back(bb);
-			}
-			enable = true;
-		}
-		void createTextures(EffectHandler *effect, u32 id) {
-			IVideoDriver *driver = effect->getIrrlichtDevice()->getVideoDriver();
-			for (u32 i=0; i < billBoardSet.size(); i++) {
-				billBoardSet[i]->setMaterialTexture(0, effect->getShadowMapTexture(effect->getShadowLight(id).getShadowMapResolution(), 
-																				   false, 
-																				   id));
-				billBoardSet[i]->setMaterialTexture(1, driver->getTexture("shaders/Textures/LS/Cookie.png"));
-				billBoardSet[i]->setMaterialTexture(2, driver->getTexture("shaders/Textures/LS/Noise.png"));
-				effect->addShadowToNode(billBoardSet[i], EFT_NONE, ESM_EXCLUDE);
-			}
-		}
-
-		void destroyCallback() { delete callback; }
-		void destroyLightShafts() {
-			for (u32 i=0; i < billBoardSet.size(); i++) {
-				billBoardSet[i]->remove();
-			}
-			billBoardSet.clear();
-			enable = false;
-		}
-
-	private:
-		array<ISceneNode *> billBoardSet;
-		LightShaftsCB *callback;
-		irr::s32 LightShafts;
-		bool enable;
-
-		vector3df *getWorldSpaceCorners(ICameraSceneNode *cam) {
-			const SViewFrustum *f = cam->getViewFrustum();
-			vector3df *vec[8];/* = {
-				&irr::core::vector3df(f->getNearRightUp()),
-				irr::core::vector3df(f->getNearLeftUp()),
-				irr::core::vector3df(f->getNearLeftDown()),
-				irr::core::vector3df(f->getNearRightDown()),
-				irr::core::vector3df(f->getFarRightUp()),
-				irr::core::vector3df(f->getFarLeftUp()),
-				irr::core::vector3df(f->getFarLeftDown()),
-				irr::core::vector3df(f->getFarRightDown())
-			};*/
-
-			return *vec;
-		}
-	} lsdata;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -470,10 +362,10 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------WATER SURFACES--------------------------------------------
+//----------------------------------WATER SURFACES---------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SWaterSurfacesData : SData {
+struct SWaterSurfacesData : SData {
 public:
 	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"")
 		: SData(_waterSurface->getWaterNode(), _waterSurface->getWaterMesh(), _meshPath, ESNT_WATER_SURFACE)
@@ -499,10 +391,55 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
+//-----------------------------------------OTHERS----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SScriptFile;
+
+struct SOther : SData {
+public:
+	SOther(stringw _name) : SData(0, 0, L"", ESNT_UNKNOWN)
+	{
+		name = _name;
+	}
+	SOther(stringw _name, IMesh *mesh, ISceneNode *node, stringw path, ESCENE_NODE_TYPE type)
+		: SData(node, mesh, path, type)
+	{
+		name = _name;
+	}
+
+	void setName(stringw _name) { name = _name; }
+	void setScript(stringw _script) { script = _script; }
+
+	stringw getName() { return name; }
+	stringw getScript() { return script; }
+
+private:
+	stringw name;
+	stringw script;
+};
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------------SUNS------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SSun : SData {
+public:
+	SSun(stringw _name) : SData(0, 0, L"", ESNT_LIGHT)
+	{
+
+	}
+
+private:
+
+};
+
+//---------------------------------------------------------------------------------------------
 //----------------------------------SCRIPTS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SScriptFile {
+struct SScriptFile {
+public:
 	SScriptFile(stringw _file, stringw _name) {
 		file = _file;
 		name = _name;
@@ -527,6 +464,8 @@ private:
 
 struct SSWE_CORE_API SMonitor {
 #ifndef _IRR_OSX_PLATFORM_
+struct SMonitor {
+public:
 	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
 		monitor = _monitor;
 		hdll = _hdll;

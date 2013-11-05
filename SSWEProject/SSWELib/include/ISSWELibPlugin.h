@@ -4,6 +4,23 @@
 #include <irrlicht.h>
 #include <IDevices.h>
 
+class ISSWEPluginSystem {
+public:
+	ISSWEPluginSystem(IDevices *_devices) {
+		devices = _devices;
+	}
+	virtual ~ISSWEPluginSystem() {
+
+	}
+
+	void remove() {
+
+	}
+
+private:
+	IDevices *devices;
+};
+
 class ISSWELibPlugin {
 public: 
 	virtual void setDevices(IDevices *_devices) = 0;

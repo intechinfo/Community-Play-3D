@@ -31,7 +31,7 @@ public:
 
 class SSWE_RENDERS_API LightShaftsCB : public SSWE_RENDERS_EXPORTS video::IShaderConstantSetCallBack {
 public:
-	SSWE_RENDERS_EXPORTS LightShaftsCB(EffectHandler *effectIn) : effect(effectIn) {
+	LightShaftsCB(EffectHandler *effectIn) : effect(effectIn) {
 		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[0] = 0.5f;
 		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[1] = 0.f;
 		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[2] = 0.f;
@@ -48,9 +48,6 @@ public:
 		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[13] = 0.f;
 		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[14] = 0.f;
 		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[15] = 1.f;
-
-		lightCamera = effect->getActiveSceneManager()->addEmptySceneNode();
-		lightCamera->setDebugDataVisible(EDS_FULL);
 	}
 
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
@@ -71,9 +68,12 @@ public:
 		core::matrix4 uWorld = driver->getTransform(ETS_WORLD);
 		services->setVertexShaderConstant("uWorld", uWorld.pointer(), 16);
 
-		core::matrix4 uWorldViewProj = uWorld;
+		//core::matrix4 uWorldViewProj = uWorld;
+		//uWorldViewProj *= driver->getTransform(ETS_VIEW);
+		//uWorldViewProj *= driver->getTransform(ETS_PROJECTION);
+		core::matrix4 uWorldViewProj = driver->getTransform(ETS_PROJECTION);
 		uWorldViewProj *= driver->getTransform(ETS_VIEW);
-		uWorldViewProj *= driver->getTransform(ETS_PROJECTION);
+		uWorldViewProj *= uWorld;
 		services->setVertexShaderConstant("uWorldViewProj", uWorldViewProj.pointer(), 16);
 
 		/// Set Pixel constants
