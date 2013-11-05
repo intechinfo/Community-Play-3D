@@ -234,20 +234,24 @@ void CDevices::updateDevice() {
 		}
 	#else
     
-        if (renderXEffect) {
-            irr::core::matrix4 viewProj;
-            effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-            effect->update(renderFullPostTraitements);
-        } else {
-            smgrs[sceneManagerToDrawIndice]->drawAll();
+        #pragma omp parallel sections
+        {
+            if (renderXEffect) {
+                irr::core::matrix4 viewProj;
+                effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
+                effect->update(renderFullPostTraitements);
+            } else {
+                smgrs[sceneManagerToDrawIndice]->drawAll();
+            }
+        
+            effectSmgr->drawAll();
+        
+            receiver.update();
+
+            if (renderGUI)
+                gui->drawAll();
         }
     
-        effectSmgr->drawAll();
-    
-        receiver.update();
-
-		if (renderGUI)
-			gui->drawAll();
 	#endif
 
 	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);

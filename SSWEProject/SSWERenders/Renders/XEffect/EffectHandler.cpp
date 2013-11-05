@@ -23,9 +23,9 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	bool tempTexFlagMipMaps = driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
 	bool tempTexFlag32 = driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT);
     
-	ScreenRTT = driver->addRenderTargetTexture(ScreenRTTSize);
-	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize);
-	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize);
+	ScreenRTT = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenRTT");
+	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize, "ColorMapSampler");
+	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
     
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
