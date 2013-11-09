@@ -39,10 +39,9 @@
 
 #ifndef _IRR_OSX_PLATFORM_
 	#include <Windows.h>
+#else
+    #include <dlfcn.h>
 #endif
-
-//RENDERS
-//#include "../../../SSWERenders/Renders/XEffect/XEffects.h"
 
 //BULLET
 

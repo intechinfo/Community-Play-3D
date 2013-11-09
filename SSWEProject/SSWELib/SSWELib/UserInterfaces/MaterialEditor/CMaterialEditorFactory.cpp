@@ -46,13 +46,16 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
 	//CREATE PROCESS
 	CProcess *process = new CProcess(devices->getGUIEnvironment(), "CREATE AND NORMAL MAP TEXTURES");
 	devices->getProcessesLogger()->addProcess(process);
-
+    
 	E_SHADOW_MODE shadowMode = devices->getXEffect()->getNodeShadowMode(node, devices->getXEffectFilterType());
 	devices->getXEffect()->removeShadowFromNode(node);
 	devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_EXCLUDE);
 
 	#pragma omp for schedule(dynamic)
 	for (s32 i=0; i < node->getMaterialCount(); i++) {
+        #ifdef _IRR_OSX_PLATFORM_
+        devices->reupdate();
+        #endif
 		if (node->getMaterial(i).TextureLayer[0].Texture) {
 
 			if (node->getMaterial(i).TextureLayer[0].Texture->isRenderTarget())
@@ -60,7 +63,7 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
 
 			stringc texname = node->getMaterial(i).TextureLayer[0].Texture->getName().getPath().c_str();
 			stringc texmname = stringc(texname + stringc("_copy")).c_str();
-
+            
 			if (devices->getCore()->textureAlreadyExists(texmname, devices->getVideoDriver()) == -1) {
 				ITexture *texm = node->getMaterial(i).TextureLayer[0].Texture;
 				ITexture *tex = copyTexture(texmname.c_str(), texm);
@@ -91,6 +94,9 @@ void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(f32 factor) {
 
 	#pragma omp for schedule(dynamic)
 	for (s32 i=0; i < node->getMaterialCount(); i++) {
+        #ifdef _IRR_OSX_PLATFORM_
+        devices->reupdate();
+        #endif
 		if (node->getMaterial(i).TextureLayer[0].Texture) {
 			while (node->getMaterial(i).TextureLayer[0].Texture->isRenderTarget());
 		}
@@ -106,10 +112,11 @@ void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(f32 factor) {
 	devices->getXEffect()->removeShadowFromNode(node);
 	devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), shadowMode);
 }
-
+ 
 ITexture *CMaterialEditorFactory::copyTexture(stringc nameOfTexture, ITexture *texture) {
 	ITexture *tex = devices->getVideoDriver()->addTexture(dimension2du(texture->getOriginalSize().Width, texture->getOriginalSize().Height), 
-														  nameOfTexture.c_str());
+														  nameOfTexture.c_str(), texture->getColorFormat());
+    
 	u8* pixelsTex = (u8 *)tex->lock();
 	u8 *pixelsTexm = (u8 *)texture->lock();
 	for(u32 ui = 0; ui < tex->getOriginalSize().Width * tex->getOriginalSize().Height; ui++) {

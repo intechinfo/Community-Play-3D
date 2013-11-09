@@ -38,7 +38,7 @@ CUIMaterialEditor::~CUIMaterialEditor() {
 
 void CUIMaterialEditor::maximize() {
 	if (meWindow->getRelativePosition().getWidth() == driver->getScreenSize().Width+2) {
-		materialsView->getRoot()->clearChilds();
+		materialsView->getRoot()->clearChildren();
 		materialsView->remove();
 		materialsView = gui->addTreeView(rect<s32>(10, 70, 280, 540), meWindow, -1, true, true, false);
 
@@ -286,16 +286,22 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 			if (tempMenu == menu->getSubMenu(2)) {
 				s32 id = tempMenu->getItemCommandId(tempMenu->getSelectedItem());
 				if (id == 1) {
-					//std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
-					//scatl.detach();
-                    mtFactory->setCreateAllTextureLayer2NormalMapped();
+                    #ifndef _IRR_OSX_PLATFORM_
+                        std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
+                        scatl.detach();
+                    #else
+                        mtFactory->setCreateAllTextureLayer2NormalMapped();
+                    #endif
 				}
 				if (id == 2) {
-					//std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
-					//satlnm.detach();
-                    mtFactory->setAllTextureLayer2NormalMapped(9.0f);
+                    #ifndef _IRR_OSX_PLATFORM_
+                        std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
+                        satlnm.detach();
+                    #else
+                        mtFactory->setAllTextureLayer2NormalMapped(9.0f);
+                    #endif
 				}
-				update();
+				//update();
 			}
 		}
 

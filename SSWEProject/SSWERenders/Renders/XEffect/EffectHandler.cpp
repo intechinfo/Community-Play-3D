@@ -273,7 +273,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
 		const u32 LightListSize = LightList.size();
 		for(u32 l = 0;l < LightListSize;++l) {
-			// Set max distance constant for depth shader.
+            
+            if (LightList[l].getFarValue() == 0)
+                continue;
+            
 			currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 			if (LightList[l].mustRecalculate() || LightList[l].isAutoRecalculate()) {
 				depthMC->FarLink = LightList[l].getFarValue();

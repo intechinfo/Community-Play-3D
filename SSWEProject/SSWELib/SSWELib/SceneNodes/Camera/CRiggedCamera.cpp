@@ -170,9 +170,9 @@ void CCameraRig::KeysMove(scene::ISceneNode *footnode, scene::ICameraSceneNode *
 			if (currentspeed==0) {
 				slidefront=false;
 			}
-			pos += movedir * ((timeDiff * currentspeed)/15);
+			pos += movedir * ((timeDiff * currentspeed)/(15*moveSpeed));
 		} else {
-			pos+= (movedir * ((timeDiff * movespeed)/15));
+			pos+= (movedir * ((timeDiff * movespeed)/(15*moveSpeed)));
 		}
 	}
 	if (action==2 || (slideback==true && smooth)) {
@@ -187,9 +187,9 @@ void CCameraRig::KeysMove(scene::ISceneNode *footnode, scene::ICameraSceneNode *
 			if (currentspeed==0) {
 				slideback=false;
 			}
-			pos -= movedir * ((timeDiff * (-currentspeed))/15);
+			pos -= movedir * ((timeDiff * (-currentspeed))/(15*moveSpeed));
 		} else {
-			pos -= (movedir * ((timeDiff * movespeed)/15));
+			pos -= (movedir * ((timeDiff * movespeed)/(15*moveSpeed)));
 		}
 	}
 	feetnode->setPosition(vector3df(0,0,0));
@@ -214,9 +214,9 @@ void CCameraRig::KeysMove(scene::ISceneNode *footnode, scene::ICameraSceneNode *
 			if (currentstrafespeed==0) {
 				slideleft=false;
 			}
-			pos -= strafevect * ((timeDiff * (-currentstrafespeed))/15);
+			pos -= strafevect * ((timeDiff * (-currentstrafespeed))/(15*moveSpeed));
 		} else {
-			pos -= (strafevect * ((timeDiff * strafespeed)/15));
+			pos -= (strafevect * ((timeDiff * strafespeed)/(15*moveSpeed)));
 		}
 	}
 	if (action1==4 || (slideright==true && smooth)) {
@@ -231,12 +231,12 @@ void CCameraRig::KeysMove(scene::ISceneNode *footnode, scene::ICameraSceneNode *
 			if (currentstrafespeed==0) {
 				slideright=false;
 			}
-			pos += strafevect * ((timeDiff * currentstrafespeed) / 15);
+			pos += strafevect * ((timeDiff * currentstrafespeed) / (15*moveSpeed));
 		} else {
 			pos += (strafevect * ((timeDiff * strafespeed)/15));
 		}
 	}
-	if (action2==5) pos += (vector3df(0,1,0) * ((timeDiff * jumpspeed) / 15));
+	if (action2==5) pos += (vector3df(0,1,0) * ((timeDiff * jumpspeed) / (15*moveSpeed)));
 	footnode->setPosition(pos);
 	cam->setTarget(cam->getPosition()+direction);
 	cam->updateAbsolutePosition(); 
@@ -259,13 +259,13 @@ vector3df CCameraRig::walksimulator(bool smooth) {
 		if (current<0) {
 			current=-current;
 		}
-		feetcounter += ((current*timeDiff)/15)*3.5f;
+		feetcounter += ((current*timeDiff)/(15*moveSpeed))*3.5f;
 	} else {
 		if (action==1 || action==2) {
-			feetcounter += ((movespeed * timeDiff)/15)*3.5f;
+			feetcounter += ((movespeed * timeDiff)/(15*moveSpeed))*3.5f;
 		}
 		if (action1==3 || action1==4) {
-			feetcounter += ((strafespeed*timeDiff)/15)*3.5f;
+			feetcounter += ((strafespeed*timeDiff)/(15*moveSpeed))*3.5f;
 		}
 	}
 	float piover180 = 0.0174532925f;
@@ -502,7 +502,7 @@ bool CCameraRig::OnEvent(const SEvent& event) {
 		} 
 		return true;
 	}
-	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_SHIFT ) {      
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_CAPITAL ) {      
 		if (event.KeyInput.PressedDown) {
 			if (!sprintmode && !exhausted) {
 				oldspeed=movespeed;
@@ -523,7 +523,7 @@ bool CCameraRig::OnEvent(const SEvent& event) {
 			sprintmode=false; movespeed=oldspeed;
 		}
 	}
-	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_CAPITAL ) {      
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_SHIFT ) {      
 		if (event.KeyInput.PressedDown) {
 			if (runmode) {
 				rigstate("Run mode");

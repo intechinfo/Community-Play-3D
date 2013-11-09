@@ -23,10 +23,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	pluginsManager = new CPluginsManager(devices);
 
 	//SETS GENERIC MONITOR AS DEFAULT
-	#ifdef SSWE_RELEASE
+	#ifndef _IRR_OSX_PLATFORM_
 		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
 	#else
-		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+		//pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
+        pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
 	#endif
 
     //-----------------------------------
@@ -378,7 +379,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			for (u32 j=0; j < fl->getFileCount(); j++) {
 				if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 					stringw pluginname = fl->getFileName(j);
+                    #ifndef _IRR_OSX_PLATFORM_
 					pluginname.remove(".dll");
+                    #else
+                    pluginname.remove(".dylib");
+                    #endif
 					pluginname.make_upper();
 					u32 itemID = monitorsMenu->addItem(pluginname.c_str(), -1, true, false, false, true);
 					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
@@ -766,9 +771,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				//-----------------------------------
                 //HELP MENU EVENT
 				case CXT_MENU_EVENTS_HELP_ABOUT:
-					devices->addInformationDialog(L"About...", L"Created by Julien Moreau-Mathis\n"
-															   L"All rights reserved", 
-												  EMBF_OK);
+					//devices->addInformationDialog(L"About...", L"Created by Julien Moreau-Mathis\n"
+					//										   L"All rights reserved", 
+					//							  EMBF_OK);
+                    devices->getGUIEnvironment()->addMessageBox(L"About...", L"Created by Julien Moreau-Mathis\n"
+                                                                             L"All rights reserved",
+                                                                true, EMBF_OK, 0, -1,
+                                                                devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + "GUI/ss_logo.png"));
 					break;
 				//-----------------------------------
 
@@ -801,6 +810,27 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 default:
                     break;
+            }
+        }
+        
+        //-----------------------------------
+        //COMBO BOX GUI EVENT
+        
+        if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
+            if (event.GUIEvent.Caller == comboModecb) {
+                if (comboModecb->getSelected() == 0) {
+                    devices->setXEffectDrawable(true);
+                    devices->getXEffect()->setAllShadowLightsRecalculate();
+                }
+                if (comboModecb->getSelected() == 1) {
+                    devices->setXEffectDrawable(true);
+                    devices->setRenderFullPostTraitements(true);
+                    devices->getXEffect()->setAllShadowLightsRecalculate();
+                }
+                if (comboModecb->getSelected() == 2) {
+                    devices->setRenderFullPostTraitements(false);
+                    devices->setXEffectDrawable(false);
+                }
             }
         }
         

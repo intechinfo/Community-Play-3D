@@ -8,19 +8,30 @@ using namespace irr;
 class SSWE_RENDERS_API CMotionBlurCallback : public video::IShaderConstantSetCallBack
 {
 private:
-   float m_ScreenWidth, m_ScreenHeight, m_Strength;
+    float m_ScreenWidth, m_ScreenHeight, m_Strength;
+    int texture1, texture2;
 public:
    CMotionBlurCallback(float screenWidth, float screenHeight, float strength)
    {
-      m_ScreenWidth  = screenWidth;
-      m_ScreenHeight = screenHeight;
-      m_Strength     = strength;
+       m_ScreenWidth  = screenWidth;
+       m_ScreenHeight = screenHeight;
+       m_Strength     = strength;
+       
+       texture1 = 0;
+       texture2 = 1;
    }
    virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
    {
-      services->setVertexShaderConstant("screenWidth", &m_ScreenWidth, 1);
-      services->setVertexShaderConstant("screenHeight", &m_ScreenHeight, 1);
-      services->setPixelShaderConstant("strength", &m_Strength, 1);
+       if (services->getVideoDriver()->getDriverType() == video::EDT_OPENGL) {
+           services->setPixelShaderConstant(services->getPixelShaderConstantID("texture1"), &texture1, 1);
+           services->setPixelShaderConstant(services->getPixelShaderConstantID("texture2"), &texture2, 1);
+       }
+       
+       if (services->getVideoDriver()->getDriverType() != video::EDT_OPENGL) {
+           services->setVertexShaderConstant(services->getVertexShaderConstantID("screenWidth"), &m_ScreenWidth, 1);
+           services->setVertexShaderConstant(services->getVertexShaderConstantID("screenHeight"), &m_ScreenHeight, 1);
+       }
+       services->setPixelShaderConstant(services->getPixelShaderConstantID("strength"), &m_Strength, 1);
    }
 };
 

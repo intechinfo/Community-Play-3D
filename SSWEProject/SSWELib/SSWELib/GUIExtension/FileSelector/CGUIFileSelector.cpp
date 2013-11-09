@@ -776,7 +776,7 @@ u32 CGUIFileSelector::addIcon(video::ITexture* texture)
 }
 
 // This will add items in the favorites folders lists (or places)
-void CGUIFileSelector::addPlacePaths(wchar_t* name, wchar_t* path, video::ITexture* texture)
+void CGUIFileSelector::addPlacePaths(wchar_t* name, core::stringw path, video::ITexture* texture)
 {
 
 	if (texture)

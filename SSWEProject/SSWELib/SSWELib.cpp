@@ -4,6 +4,14 @@
 #include "stdafx.h"
 #include "SSWELib.h"
 
+#include <stdio.h>
+
+#ifdef _IRR_OSX_PLATFORM_
+#include <pthread.h>
+
+static pthread_mutex_t cs_mutex =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+#endif
+
 #ifndef _IRR_OSX_PLATFORM_
 SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice() {
 #else
@@ -76,18 +84,23 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 		return;
     #endif
 
+    #ifndef _IRR_OSX_PLATFORM_
 	std::mutex mutex;
+    #endif
     
 	while (device->run()) {
 
-        //if (device->isWindowActive()) {
 		if (device->isWindowActive()) {
             
             #ifndef _IRR_OSX_PLATFORM_
 				EnterCriticalSection(&CriticalSection);
 			#endif
             
+            #ifndef _IRR_OSX_PLATFORM_
             mutex.lock();
+            #else
+            pthread_mutex_lock( &cs_mutex );
+            #endif
 
 			coreUserInterface->getDevices()->updateEntities();
 
@@ -97,7 +110,12 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 
             driver->endScene();
 
+            #ifndef _IRR_OSX_PLATFORM_
             mutex.unlock();
+            #else
+            pthread_mutex_unlock( &cs_mutex );
+            #endif
+            
             
 			#ifndef _IRR_OSX_PLATFORM_
 				LeaveCriticalSection(&CriticalSection);

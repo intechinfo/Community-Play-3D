@@ -462,11 +462,13 @@ private:
 //----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SMonitor {
-#ifndef _IRR_OSX_PLATFORM_
 struct SMonitor {
 public:
+    #ifndef _IRR_OSX_PLATFORM_
 	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
+    #else
+    SMonitor(IMonitor *_monitor, void *_hdll) {
+    #endif
 		monitor = _monitor;
 		hdll = _hdll;
 	}
@@ -478,36 +480,32 @@ public:
 	IMonitor *getMonitor() { return monitor; }
 	void setMonitor(IMonitor *_monitor) { monitor = _monitor; }
 
+    #ifndef _IRR_OSX_PLATFORM_
 	HINSTANCE getInstance() { return hdll; }
-	void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
+    void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
+    #else
+    void *getInstance() { return hdll; }
+    void setInstance(void *_hdll) { hdll = _hdll; }
+    #endif
 
 	void freeInstance() {
 		if (hdll) {
+            #ifndef _IRR_OSX_PLATFORM_
 			FreeLibrary(hdll);
+            #else
+            dlclose(hdll);
+            #endif
 		}
 	}
 
 private:
 
 	IMonitor *monitor;
+    #ifndef _IRR_OSX_PLATFORM_
 	HINSTANCE hdll;
-#else
-    
-    SMonitor(IMonitor *_monitor) {
-        monitor = _monitor;
-    }
-    
-    IMonitor *getMonitor() { return monitor; }
-	void setMonitor(IMonitor *_monitor) { monitor = _monitor; }
-    
-    void freeInstance() {
-        
-	}
-    
-private:
-    
-	IMonitor *monitor;
-#endif
+    #else
+    void *hdll;    
+    #endif
 };
 
 //---------------------------------------------------------------------------------------------

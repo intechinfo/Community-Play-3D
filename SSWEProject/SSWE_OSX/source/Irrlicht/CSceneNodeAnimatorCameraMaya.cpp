@@ -57,10 +57,12 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 
 	if (event.EventType == EET_KEY_INPUT_EVENT)
 	{
-		/*if (event.KeyInput.Control)
+        #ifndef _IRR_OSX_PLATFORM_
+		if (event.KeyInput.Control)
 			eventsAllowed = true;
 		else
-			eventsAllowed = false;*/
+			eventsAllowed = false;
+        #endif
 		if (!event.KeyInput.Control) {
 			MouseKeys[0] = false;
 			MouseKeys[2] = false;

@@ -40,9 +40,7 @@ void CUINodeFactoryCreateMeshWithTangents::create() {
 	sure->setText(L"Processing...");
 	window->addChild(windowPrecessing);
 
-    devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
-    devices->updateDevice();
-    devices->getVideoDriver()->endScene();
+    devices->reupdate();
 
 	IMeshManipulator *mm = devices->getSceneManager()->getMeshManipulator();
 	devices->getVideoDriver()->beginScene(true, true, SColor(0x0));
@@ -106,8 +104,12 @@ bool CUINodeFactoryCreateMeshWithTangents::OnEvent(const SEvent &event) {
 		}
 		if (event.GUIEvent.EventType == EGET_MESSAGEBOX_OK) {
 			if (event.GUIEvent.Caller == sure) {
+                #ifndef _IRR_OSX_PLATFORM_
 				std::thread create_t(&CUINodeFactoryCreateMeshWithTangents::create, *this);
 				create_t.join();
+                #else
+                create();
+                #endif
 
 				devices->getEventReceiver()->RemoveEventReceiver(this);
 				delete this;

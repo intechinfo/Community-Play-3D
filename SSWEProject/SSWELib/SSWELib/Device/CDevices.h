@@ -39,6 +39,8 @@
 
 #endif
 
+class CCoreUserInterface;
+
 enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE = 0x15000,
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
@@ -48,7 +50,7 @@ class CDevices : public IDevices, public IEventReceiver {
 
 public:
 
-	CDevices();
+	CDevices(CCoreUserInterface *_coreUserInterface);
 	~CDevices();
 
 	bool OnEvent(const SEvent &event);
@@ -104,6 +106,8 @@ public:
 
 	//-----------------------------------
 	//CORE
+    CCoreUserInterface *getCoreUserInterface() { return coreUserInterface; }
+    
 	CCore *getCore() { return wolrdCore; };
 	CCoreData *getCoreData() { return worldCoreData; }
 
@@ -227,6 +231,8 @@ private:
 
 	//-----------------------------------
 	//CORE
+    CCoreUserInterface *coreUserInterface;
+    
 	CCore *wolrdCore;
 	CCoreData *worldCoreData;
 

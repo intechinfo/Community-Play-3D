@@ -56,6 +56,9 @@ public:
     void changemode(bool wsm, bool smm, bool tlm, bool slm) {
 		walksimmode=wsm; smoothmode=smm; tiltmode=tlm; slidemode=slm;
     }
+    
+    void setMoveSpeed(f32 _moveSpeed) { moveSpeed = _moveSpeed; }
+    f32 getMoveSpeed() { return moveSpeed; }
 
 private:
 
@@ -84,6 +87,8 @@ private:
 
 	IrrlichtDevice *device;
 	SKeyMap keyMap[9];
+    
+    f32 moveSpeed;
 };
 
 class Gamecontroller {

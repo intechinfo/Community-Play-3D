@@ -12,7 +12,7 @@
 using namespace irr;
 using namespace gui;
 
-#define SSWE_CORE_API
+//#define SSWE_CORE_API
 
 /** Class for opening/saving files. */
 class SSWE_CORE_API CGUIFileSelector : public IGUIFileOpenDialog {
@@ -84,7 +84,7 @@ class SSWE_CORE_API CGUIFileSelector : public IGUIFileOpenDialog {
         void addFileFilter(wchar_t* name, wchar_t* ext, video::ITexture* texture);
 
 		// To add to the list of prefered paths
-		void addPlacePaths(wchar_t* name, wchar_t* path, video::ITexture* texture);
+        void addPlacePaths(wchar_t* name, core::stringw path, video::ITexture* texture);
         
         /**
         \brief Set an icon to use to display unknown files

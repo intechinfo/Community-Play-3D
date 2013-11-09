@@ -21,7 +21,11 @@ array<stringc> CPluginsManager::getAllMonitorsPluginsNames() {
 	for (u32 j=0; j < fl->getFileCount(); j++) {
 		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 			stringw pluginname = fl->getFileName(j);
+            #ifndef _IRR_OSX_PLATFORM_
 			pluginname.remove(".dll");
+            #else
+            pluginname.remove(".dylib");
+            #endif
 			names.push_back(pluginname);
 		}
 	}
@@ -41,7 +45,11 @@ array<stringc> CPluginsManager::getAllSSWEPluginsNames() {
 	for (u32 j=0; j < fl->getFileCount(); j++) {
 		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 			stringw pluginname = fl->getFileName(j);
+            #ifndef _IRR_OSX_PLATFORM_
 			pluginname.remove(".dll");
+            #else
+            pluginname.remove(".dylib");
+            #endif
 			names.push_back(pluginname);
 		}
 	}
@@ -72,9 +80,14 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 	stringc ppath = devices->getWorkingDirectory().c_str();
 	ppath += "plugins/monitors/";
 	ppath += path;
+    #ifndef _IRR_OSX_PLATFORM_
 	ppath += ".dll";
+    #else
+    ppath += ".dylib";
+    #endif
 
     #ifndef _IRR_OSX_PLATFORM_
+    
 	HINSTANCE hdll = NULL;
 	IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();
@@ -102,6 +115,37 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
 		}
 	}
+    
+    #else
+    
+    void* hdll = NULL;
+	IMonitor* newMonitor = NULL;
+	typedef void* (*pvFunctv)();
+	pvFunctv createMonitor;
+    hdll = dlopen(stringc(ppath).c_str(), RTLD_LAZY);
+    if (hdll == NULL) {
+        devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the monitor plugin").c_str(), EMBF_OK);
+    } else {
+        createMonitor = reinterpret_cast < pvFunctv > (dlsym(hdll, "createMonitor"));
+        if (createMonitor == NULL) {
+			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createMonitor\" into the dynamic library").c_str(), EMBF_OK);
+		} else {
+			newMonitor = static_cast < IMonitor* > (createMonitor());
+            
+			newMonitor->init();
+			newMonitor->setActiveCamera(devices->getRenderingSceneManager()->getActiveCamera());
+			newMonitor->setSceneManager(devices->getRenderingSceneManager());
+			newMonitor->setGUIEnvironment(devices->getGUIEnvironment());
+			newMonitor->setToolsSceneManager(devices->getSecondSceneManager());
+			newMonitor->setXEffect(devices->getXEffect());
+			newMonitor->setName(path);
+            
+			SMonitor m(newMonitor, hdll);
+			devices->getCoreData()->getMonitors()->push_back(m);
+			devices->getMonitorRegister()->registerMonitor(newMonitor);
+		}
+    }
+    
     #endif
 }
 
@@ -110,19 +154,34 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 	stringc ppath = devices->getWorkingDirectory().c_str();
 	ppath += "plugins/sswe/";
 	ppath += path;
+    #ifndef _IRR_OSX_PLATFORM_
 	ppath += ".dll";
+    #else
+    ppath += ".dylib";
+    #endif
 
     #ifndef _IRR_OSX_PLATFORM_
 	HINSTANCE hdll = NULL;
+    #else
+    void *hdll = NULL;
+    #endif
 	ISSWELibPlugin* newPlugin = NULL;
 	typedef void* (*pvFunctv)();
 	pvFunctv createSSWELibPlugin;
+    #ifndef _IRR_OSX_PLATFORM_
 	hdll = LoadLibrary(stringw(ppath).c_str());
+    #else
+    hdll = dlopen(stringc(ppath).c_str(), RTLD_LAZY);
+    #endif
 
 	if (hdll == NULL) {
 		devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
 	} else {
+        #ifndef _IRR_OSX_PLATFORM_
 		createSSWELibPlugin = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createSSWELibPlugin"));
+        #else
+        createSSWELibPlugin = reinterpret_cast < pvFunctv > (dlsym(hdll, "createSSWELibPlugin"));
+        #endif
 		if (createSSWELibPlugin == NULL) {
 			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createSSWELibPlugin\" into the DLL").c_str(), EMBF_OK);
 		} else {
@@ -132,5 +191,4 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 			newPlugin->open();
 		}
 	}
-    #endif
 }

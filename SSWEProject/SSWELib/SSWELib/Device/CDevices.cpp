@@ -10,7 +10,9 @@
 #include "stdafx.h"
 #include "CDevices.h"
 
-CDevices::CDevices() {
+#include "Core/CCoreUserInterface.h"
+
+CDevices::CDevices(CCoreUserInterface *_coreUserInterface) {
     //DEVICE
 	Device = 0;
 	wolrdCore = new CCore();
@@ -18,6 +20,7 @@ CDevices::CDevices() {
 	processesLogger = 0;
 	scripting = 0;
 	monitorRegister = new MonitorRegister();
+    coreUserInterface = _coreUserInterface;
 
     //RENDERS
     effect = 0;
@@ -109,11 +112,12 @@ void CDevices::updateEntities() {
 		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
         effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
         
-        effect->getShadowLight(i).setLightColor(SColorf
+        /*effect->getShadowLight(i).setLightColor(SColorf
 												 (((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.r,
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
-                                                 255));
+                                                 255));*/
+        effect->getShadowLight(i).setLightColor(((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor);
     }
     
     //UPDATE LENS FLARE STRENGTHS
@@ -161,86 +165,65 @@ void CDevices::updateDevice() {
 		camera_rig->OnAnimate(Device->getTimer()->getRealTime());
 	}
 
-	#ifndef _IRR_OSX_PLATFORM_
-		#pragma omp parallel sections
-		{
-			#pragma omp section
-			{
-				for(int i = 0; i < monitorRegister->getMonitorCount(); i++) {
-					IMonitor *monitor = monitorRegister->getMonitor(i);
-
-					//renderCore->update();
-
-					if(monitor->isEnabled()) {
-						if(renderScene) {
-							monitor->setXEffectRendered(renderXEffect);
-
-							if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
-								monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
-
-							if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
-								monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
-
-							monitor->drawScene();
-						}
-
-						if(renderFullPostTraitements && renderXEffect) {
-							monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
-						}
-
-						effectSmgr->drawAll();
-
-						if(renderGUI)
-							monitor->drawGUI();
-					}
-					
-					/*if (activeCamera == camera_fps) {
-						if (activeCamera->getRotation() != oldRotation) {
-							effect->setUseDepthOfField(true);
-							effect->setUseMotionBlur(true);
-							oldRotation = activeCamera->getRotation();
-						} else {
-							effect->setUseDepthOfField(false);
-							effect->setUseMotionBlur(false);
-						}
-					}*/
-				}
-                
-                receiver.update();
-
-				//OLD CODE ! TOOOOOO OLD ! :D 
-				/*if (renderScene) 
-					drawScene();
-
-				if (renderFullPostTraitements && renderXEffect) {
-					rect<s32> rt1Rect = rect<s32>(0, 0, effect->getScreenQuad().rt[1]->getSize().Width, effect->getScreenQuad().rt[1]->getSize().Height);
-					driver->draw2DImage(effect->getScreenQuad().rt[1], rt1Rect, rt1Rect);
-				}
-
-				drawGUI();*/
-			}
-		}
-	#else
-    
-        #pragma omp parallel sections
+    #pragma omp parallel sections
+    {
+        #pragma omp section
         {
-            if (renderXEffect) {
-                irr::core::matrix4 viewProj;
-                effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-                effect->update(renderFullPostTraitements);
-            } else {
-                smgrs[sceneManagerToDrawIndice]->drawAll();
+            for(int i = 0; i < monitorRegister->getMonitorCount(); i++) {
+                IMonitor *monitor = monitorRegister->getMonitor(i);
+
+                //renderCore->update();
+
+                if(monitor->isEnabled()) {
+                    if(renderScene) {
+                        monitor->setXEffectRendered(renderXEffect);
+
+                        if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
+                            monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
+
+                        if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
+                            monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
+
+                        monitor->drawScene();
+                    }
+
+                    if(renderFullPostTraitements && renderXEffect) {
+                        monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
+                    }
+
+                    effectSmgr->drawAll();
+
+                    if(renderGUI)
+                        monitor->drawGUI();
+                }
+                
+                /*if (activeCamera == camera_fps) {
+                    if (activeCamera->getRotation() != oldRotation) {
+                        effect->setUseDepthOfField(true);
+                        effect->setUseMotionBlur(true);
+                        oldRotation = activeCamera->getRotation();
+                    } else {
+                        effect->setUseDepthOfField(false);
+                        effect->setUseMotionBlur(false);
+                    }
+                }*/
             }
-        
-            effectSmgr->drawAll();
-        
+            
             receiver.update();
 
-            if (renderGUI)
-                gui->drawAll();
+            //OLD CODE ! TOOOOOO OLD ! :D 
+            /*if (renderScene) 
+                drawScene();
+
+            if (renderFullPostTraitements && renderXEffect) {
+                rect<s32> rt1Rect = rect<s32>(0, 0, effect->getScreenQuad().rt[1]->getSize().Width, effect->getScreenQuad().rt[1]->getSize().Height);
+                driver->draw2DImage(effect->getScreenQuad().rt[1], rt1Rect, rt1Rect);
+            }
+
+            drawGUI();*/
         }
-    
-	#endif
+    }
+
 
 	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
@@ -257,6 +240,8 @@ void CDevices::reupdate(EffectHandler *_effect) {
 		if (_effect) {
 			effect = _effect;
 		}
+        
+        coreUserInterface->update();
 
 		driver->beginScene(true, true, SColor(0x0));
 		updateDevice();
@@ -451,10 +436,12 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
     selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
     selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
 
-	const wchar_t *rootPath = stringw(workingDirectory).c_str();
-	selector->addPlacePaths(L"SSWE", (wchar_t*)rootPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
-	const wchar_t *currentPath = stringw(Device->getFileSystem()->getWorkingDirectory()).c_str();
-	selector->addPlacePaths(L"CURRENT", (wchar_t*)currentPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+    stringw rootPath = stringw(workingDirectory).c_str();
+	selector->addPlacePaths(L"SSWE", rootPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+    stringw shadersPath = stringw(workingDirectory + (driver->getDriverType() == EDT_OPENGL ? "shaders/GLSL" : "shaders/HLSL"));
+    selector->addPlacePaths(L"SHADERS", shadersPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+    stringw currentPath = stringw(Device->getFileSystem()->getWorkingDirectory()).c_str();
+	selector->addPlacePaths(L"CURRENT", currentPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
 
 	if (modal) {
 		IGUIElement *modalg = gui->addModalScreen(parent);

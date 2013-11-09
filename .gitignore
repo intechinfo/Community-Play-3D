@@ -37,6 +37,7 @@ x64/
 *.vssscc
 .builds
 *.dll
+*.dylib
 *.lib
 *.tlog
 *.idb

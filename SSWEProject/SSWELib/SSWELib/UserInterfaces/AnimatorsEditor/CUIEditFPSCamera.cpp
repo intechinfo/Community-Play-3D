@@ -67,7 +67,9 @@ bool CUIEditFPSCamera::OnEvent(const SEvent &event) {
 				devices->getCollisionManager()->getFPSCameraSettings()->setGravityPerSecond(devices->getCore()->getVector3df(gpsx->getText(), gpsy->getText(), gpsz->getText()));
 				devices->getCollisionManager()->getFPSCameraSettings()->setEllipsoidTranslation(devices->getCore()->getVector3df(etx->getText(), ety->getText(), etz->getText()));
 				devices->getCollisionManager()->getFPSCameraSettings()->setSlidingValue(devices->getCore()->getF32(sv->getText()));
+                
 				devices->getCollisionManager()->getFPSCameraSettings()->getCameraAnimator()->setMoveSpeed(devices->getCore()->getF32(ms->getText()));
+                devices->getCameraRig()->setMoveSpeed(devices->getCore()->getF32(ms->getText()));
 
 				//devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
 				devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getCameraRig()->getCameraSceneNode());

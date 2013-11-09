@@ -46,7 +46,7 @@ CCoreUserInterface::CCoreUserInterface() {
 		tempDevice->drop();
 	}
 
-	devices = new CDevices();
+	devices = new CDevices(this);
 	devices->createDevice(params);
     
     driver = devices->getVideoDriver();
@@ -154,9 +154,15 @@ void CCoreUserInterface::update() {
 		core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
 		if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
 			if (gui->getFocus() == 0 && devices->isCtrlPushed())
+                #ifdef _IRR_OSX_PLATFORM_
 				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
+                #else
+                ((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+                #endif
+            #ifdef _IRR_OSX_PLATFORM_
 			else
 				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+            #endif
 		}
 	}
 }
