@@ -28,6 +28,8 @@
 
 #include "CCorePhysics.h"
 
+class ISSWELibPlugin;
+
 //---------------------------------------------------------------------------------------------
 //-----------------------------------HERITANCES------------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -462,6 +464,7 @@ private:
 //----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
+//MONITORS
 struct SMonitor {
 public:
     #ifndef _IRR_OSX_PLATFORM_
@@ -505,6 +508,48 @@ private:
 	HINSTANCE hdll;
     #else
     void *hdll;    
+    #endif
+};
+
+//SSWE PLUGINS
+struct SSSWEPlugin {
+public:
+    #ifndef _IRR_OSX_PLATFORM_
+    SSSWEPlugin(ISSWELibPlugin *_plugin, HINSTANCE _hdll) {
+    #else
+    SSSWEPlugin(ISSWELibPlugin *_plugin, void *_hdll) {
+    #endif
+        plugin = _plugin;
+        hdll = _hdll;
+    }
+        
+    void freeInstance() {
+        if (hdll) {
+            #ifndef _IRR_OSX_PLATFORM_
+			FreeLibrary(hdll);
+            #else
+            dlclose(hdll);
+            #endif
+		}
+    }
+    
+    ISSWELibPlugin *getPlugin() { return plugin; }
+    void setMonitor(ISSWELibPlugin *_plugin) { plugin = _plugin; }
+        
+    #ifndef _IRR_OSX_PLATFORM_
+    HINSTANCE getInstance() { return hdll; }
+    void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
+    #else
+    void *getInstance() { return hdll; }
+    void setInstance(void *_hdll) { hdll = _hdll; }
+    #endif
+    
+private:
+    ISSWELibPlugin *plugin;
+    #ifndef _IRR_OSX_PLATFORM_
+    HINSTANCE hdll;
+    #else
+    void *hdll;
     #endif
 };
 
@@ -632,6 +677,10 @@ public:
 	//-----------------------------------
 	//PLUGINS
 	array<SMonitor> *getMonitors() { return &monitors; }
+    array<SSSWEPlugin> *getSSWEPlugins() { return &sswePlugins; }
+    
+    void destroyMonitor(IMonitor *monitor);
+    void destroySSWEPlugin(ISSWELibPlugin *plugin);
 	//-----------------------------------
 
 private:
@@ -676,6 +725,7 @@ private:
 	//-----------------------------------
 	//PLUGINS
 	array<SMonitor> monitors;
+    array<SSSWEPlugin> sswePlugins;
 	//-----------------------------------
 
 };

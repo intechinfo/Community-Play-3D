@@ -5,12 +5,16 @@
 //  Created by Julien Moreau-Mathis on 09/10/12.
 //
 //
-#include "stdafx.h"
+
+//#include "stdafx.h"
 #include "CSSWELibTestPlugin.h"
 
+#ifndef __CREATE_SSWE_LIB_PLUGIN__
+#define __CREATE_SSWE_LIB_PLUGIN__
 void* createSSWELibPlugin() {
 	return static_cast< void* > (new CSSWELibTestPlugin);
 }
+#endif
 
 CSSWELibTestPlugin::CSSWELibTestPlugin() {
 
@@ -28,6 +32,8 @@ void CSSWELibTestPlugin::close() {
 	//window->remove();
 
 	devices->getEventReceiver()->RemoveEventReceiver(this);
+    devices->getCoreData()->destroySSWEPlugin(this);
+    
 	delete this;
 }
 

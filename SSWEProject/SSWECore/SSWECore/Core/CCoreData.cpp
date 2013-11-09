@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "CCoreData.h"
 
+#include <ISSWELibPlugin.h>
+
 CCoreData::CCoreData() {
     clearAllTheArrays();
 }
@@ -238,9 +240,28 @@ u32 CCoreData::getObjectNodeIndice(ISceneNode *node) {
 }
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------SHADERS----------------------------------------------------
+//----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
+void CCoreData::destroyMonitor(IMonitor *monitor) {
+    for (u32 i=0; i < monitors.size(); i++) {
+        if (monitors[i].getMonitor() == monitor) {
+            monitors[i].freeInstance();
+            monitors.erase(i);
+            break;
+        }
+    }
+}
+
+void CCoreData::destroySSWEPlugin(ISSWELibPlugin *plugin) {
+    for (u32 i=0; i < sswePlugins.size(); i++) {
+        if (sswePlugins[i].getPlugin() == plugin) {
+            sswePlugins[i].freeInstance();
+            sswePlugins.erase(i);
+            break;
+        }
+    }
+}
 
 //---------------------------------------------------------------------------------------------
 //----------------------------------CALLBACKS -------------------------------------------------

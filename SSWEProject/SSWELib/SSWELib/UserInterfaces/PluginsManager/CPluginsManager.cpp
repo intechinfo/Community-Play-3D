@@ -68,8 +68,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			for (u32 j=0; j < devices->getCoreData()->getMonitors()->size(); j++) {
 				if (devices->getCoreData()->getMonitors()->operator[](j).getMonitor() == existedMonitor) {
 					devices->getMonitorRegister()->unregisterMonitor(i);
-					devices->getCoreData()->getMonitors()->operator[](j).freeInstance();
-					devices->getCoreData()->getMonitors()->erase(j);
+                    devices->getCoreData()->destroyMonitor(existedMonitor);
 					return;
 				}
 			}
@@ -187,6 +186,9 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 		} else {
 			newPlugin = static_cast < ISSWELibPlugin* > (createSSWELibPlugin());
 
+            SSSWEPlugin sswePlugin(newPlugin, hdll);
+            devices->getCoreData()->getSSWEPlugins()->push_back(sswePlugin);
+            
 			newPlugin->setDevices(devices);
 			newPlugin->open();
 		}

@@ -122,7 +122,7 @@
 		<key>SSWEGenericMonitor.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>26</integer>
+			<integer>27</integer>
 		</dict>
 		<key>SSWELib.xcscheme</key>
 		<dict>
@@ -137,7 +137,7 @@
 		<key>SSWEWebExportPlugin.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>27</integer>
+			<integer>26</integer>
 		</dict>
 		<key>libIrrlicht.a.xcscheme</key>
 		<dict>
@@ -178,6 +178,11 @@
 			<true/>
 		</dict>
 		<key>0E2E3D2C1103E3F4002DE8D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2E6B3D46182E7964006E12C6</key>
 		<dict>
 			<key>primary</key>
 			<true/>

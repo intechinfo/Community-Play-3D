@@ -26,8 +26,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	#ifndef _IRR_OSX_PLATFORM_
 		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
 	#else
-		//pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
-        pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
+		pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
+        //pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
 	#endif
 
     //-----------------------------------
@@ -283,7 +283,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L".world";
+			stringw scene_to_import = L"Test.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());

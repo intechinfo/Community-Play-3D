@@ -280,13 +280,75 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp"
-            timestampString = "405640013.001463"
+            timestampString = "405703548.81458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "CPluginsManager::loadMonitorPlugin(stringc path)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../SSWETestPlugin/CSSWELibTestPlugin.cpp"
+            timestampString = "405703844.493333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "CSSWELibTestPlugin::close()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../SSWECore/SSWECore/Core/CCoreData.cpp"
+            timestampString = "405703968.799455"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "CCoreData::destroyMonitor(IMonitor *monitor)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CCoreData::destroyMonitor(IMonitor*)"
+                  moduleName = "SSWE_dbg"
+                  urlString = "file:///Users/julienmoreau-mathis/Desktop/Soganatsu%20Studios/Projects/SSWE/SSWEProject/SSWECore/SSWECore/Core/CCoreData.cpp"
+                  timestampString = "405704018.068495"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "247"
+                  endingLineNumber = "247"
+                  offsetFromSymbolStart = "21">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CCoreData::destroyMonitor(IMonitor*)"
+                  moduleName = "SSWE_dbg"
+                  urlString = "file:///Users/julienmoreau-mathis/Desktop/Soganatsu%20Studios/Projects/SSWE/SSWEProject/SSWECore/SSWECore/Core/CCoreData.cpp"
+                  timestampString = "405704018.070771"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "247"
+                  endingLineNumber = "247"
+                  offsetFromSymbolStart = "169">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

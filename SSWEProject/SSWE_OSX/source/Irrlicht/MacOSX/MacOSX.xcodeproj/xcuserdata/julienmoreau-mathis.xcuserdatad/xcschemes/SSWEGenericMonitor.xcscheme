@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2E6E6717182D8F2B00A79A68"
+               BlueprintIdentifier = "2E6B3D46182E7964006E12C6"
                BuildableName = "libSSWEGenericMonitor.dylib"
                BlueprintName = "SSWEGenericMonitor"
                ReferencedContainer = "container:MacOSX.xcodeproj">
