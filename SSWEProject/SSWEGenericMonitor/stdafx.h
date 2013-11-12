@@ -8,6 +8,5 @@
 // TODO: reference additional headers your program requires here
 
 #include <irrlicht.h>
-#include <Renders/XEffect/EffectHandler.h>
 
 #include <IMonitor.h>

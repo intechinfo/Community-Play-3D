@@ -277,7 +277,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	#ifndef SSWE_RELEASE
+	#ifdef SSWE_RELEASE
 		for (u32 i=0; i < 1; i++) {
 			//devices->getCoreData()->clear();
 			//devices->getCoreData()->clearAllTheArrays();
@@ -672,6 +672,22 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
 					break;
+                    
+                case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYBOX: {
+                    if (devices->getSkyBox()) {
+						CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+						editNode->open(devices->getSkyBox(), "#object", false);
+					}
+                }
+                    break;
+                    
+                case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYBOX: {
+                    if (devices->getSkyBox()) {
+						CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+						matEditor->open(devices->getSkyBox());
+					}
+                }
+                    break;
 
 				case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME: {
 					if (devices->getSkydome()) {

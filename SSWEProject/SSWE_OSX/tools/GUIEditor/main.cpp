@@ -14,7 +14,7 @@ using namespace gui;
 int main()
 {
 	// ask user for driver
-	video::E_DRIVER_TYPE driverType=driverChoiceConsole();
+	video::E_DRIVER_TYPE driverType=video::EDT_OPENGL;//driverChoiceConsole();
 	if (driverType==video::EDT_COUNT)
 		return 1;
 

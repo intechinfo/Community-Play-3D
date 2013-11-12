@@ -448,6 +448,8 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 						(*element)->setEnabled(true);
 					}
 					devices->getVideoDriver()->addOcclusionQuery(meshNode, meshNode->getMesh());
+                    
+                    devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 
 				} else {
 					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode());
@@ -469,6 +471,8 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 						(*element)->setEnabled(false);
 					}
 					devices->getVideoDriver()->removeOcclusionQuery(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
+                    
+                    devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
 				}
 			}
 		}

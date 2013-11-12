@@ -382,9 +382,7 @@
 		2E6B3D4C182E7964006E12C6 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
 		2E6B3D4D182E7964006E12C6 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2E6B3D5A182E79BE006E12C6 /* CGenericMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E671C182D8F7100A79A68 /* CGenericMonitor.cpp */; };
-		2E6B3D5B182E79BE006E12C6 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E671E182D8F7100A79A68 /* stdafx.cpp */; };
 		2E6B3D5C182E79D0006E12C6 /* CGenericMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E671D182D8F7100A79A68 /* CGenericMonitor.h */; };
-		2E6B3D5D182E79D0006E12C6 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E671F182D8F7100A79A68 /* stdafx.h */; };
 		2E6B3D64182E7CCE006E12C6 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
 		2E6C5F7C1829812E00FB1027 /* shadergroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F54182980F900FB1027 /* shadergroup.cpp */; };
 		2E6C5F7D1829812E00FB1027 /* shadergroup.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F55182980F900FB1027 /* shadergroup.h */; };
@@ -1932,6 +1930,8 @@
 		0E2E3E271103F773002DE8D7 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
 		0E2E3E291103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0E2E3E321103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2E147AAC182FC6870030435D /* ICollisionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ICollisionManager.h; sourceTree = "<group>"; };
+		2E147AAD182FC8530030435D /* ISSWECore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECore.h; sourceTree = "<group>"; };
 		2E6B3D57182E7964006E12C6 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F51182980CD00FB1027 /* libSSWERenders.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSWERenders.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F54182980F900FB1027 /* shadergroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shadergroup.cpp; sourceTree = "<group>"; };
@@ -2161,14 +2161,15 @@
 		2E6E66FD182D889F00A79A68 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2E6E671C182D8F7100A79A68 /* CGenericMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGenericMonitor.cpp; path = ../../../../SSWEGenericMonitor/CGenericMonitor.cpp; sourceTree = "<group>"; };
 		2E6E671D182D8F7100A79A68 /* CGenericMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGenericMonitor.h; path = ../../../../SSWEGenericMonitor/CGenericMonitor.h; sourceTree = "<group>"; };
-		2E6E671E182D8F7100A79A68 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../../../SSWEGenericMonitor/stdafx.cpp; sourceTree = "<group>"; };
-		2E6E671F182D8F7100A79A68 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWEGenericMonitor/stdafx.h; sourceTree = "<group>"; };
 		2E6E6734182D905500A79A68 /* libSSWEWebExportPlugin.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEWebExportPlugin.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6E6738182D909A00A79A68 /* CSSWELibTestPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSSWELibTestPlugin.cpp; path = ../../../../SSWETestPlugin/CSSWELibTestPlugin.cpp; sourceTree = "<group>"; };
 		2E6E6739182D909A00A79A68 /* CSSWELibTestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSWELibTestPlugin.h; path = ../../../../SSWETestPlugin/CSSWELibTestPlugin.h; sourceTree = "<group>"; };
 		2E6E6746182DA53800A79A68 /* SSWE_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSWE_Prefix.pch; sourceTree = "<group>"; };
 		2E74EDFB1821A465008D126E /* CloudSceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CloudSceneNode.cpp; sourceTree = "<group>"; };
 		2E74EDFC1821A465008D126E /* CloudSceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudSceneNode.h; sourceTree = "<group>"; };
+		2EA927E9182FB9D8003470EB /* stdafx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../../../SSWEGenericMonitor/stdafx.cpp; sourceTree = "<group>"; };
+		2EA927EA182FB9D8003470EB /* stdafx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWEGenericMonitor/stdafx.h; sourceTree = "<group>"; };
+		2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECoreData.h; sourceTree = "<group>"; };
 		2EDA7A62182B9AF70047322E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../examples/specialFX/main.cpp; sourceTree = "<group>"; };
 		3430E4D41022C391006271FD /* CTarReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTarReader.h; sourceTree = "<group>"; };
 		3430E4D51022C391006271FD /* CTarReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTarReader.cpp; sourceTree = "<group>"; };
@@ -4087,6 +4088,9 @@
 		2E6C60FB182983A200FB1027 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */,
+				2E147AAD182FC8530030435D /* ISSWECore.h */,
+				2E147AAC182FC6870030435D /* ICollisionManager.h */,
 				2E6C60FC182983A200FB1027 /* DLLExport.h */,
 				2E6C60FD182983A200FB1027 /* IDevices.h */,
 				2E6C60FE182983A200FB1027 /* IGraphicTool.h */,
@@ -4586,8 +4590,8 @@
 			children = (
 				2E6E671C182D8F7100A79A68 /* CGenericMonitor.cpp */,
 				2E6E671D182D8F7100A79A68 /* CGenericMonitor.h */,
-				2E6E671E182D8F7100A79A68 /* stdafx.cpp */,
-				2E6E671F182D8F7100A79A68 /* stdafx.h */,
+				2EA927E9182FB9D8003470EB /* stdafx.cpp */,
+				2EA927EA182FB9D8003470EB /* stdafx.h */,
 				2E6B3D57182E7964006E12C6 /* libSSWEGenericMonitor.dylib */,
 			);
 			name = SSWEGenericMonitor;
@@ -5117,7 +5121,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6B3D5C182E79D0006E12C6 /* CGenericMonitor.h in Headers */,
-				2E6B3D5D182E79D0006E12C6 /* stdafx.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6313,7 +6316,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6B3D5A182E79BE006E12C6 /* CGenericMonitor.cpp in Sources */,
-				2E6B3D5B182E79BE006E12C6 /* stdafx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

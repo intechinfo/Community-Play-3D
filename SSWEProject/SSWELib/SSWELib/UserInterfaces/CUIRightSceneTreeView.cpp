@@ -73,7 +73,7 @@ void CUIRightSceneTreeView::addChildrenBackWithArray(IGUITreeViewNode *treeNode,
 	if (sceneView->getSelected()) {
 		whoIstreeNodeSelected = (ISceneNode *)sceneView->getSelected()->getData();
 	}
-	treeNode->clearChilds();
+	treeNode->clearChildren();
 	for (u32 i=0; i < nodes->size(); i++) {
 		IGUITreeViewNode *newTreeNode = treeNode->addChildBack(stringw(nodes->operator[](i)->getName()).c_str(), L"", 
 															   getImageListIndexForNodeType(nodes->operator[](i)->getType()), -1);
@@ -90,7 +90,7 @@ void CUIRightSceneTreeView::addChildrenBackRecursively(IGUITreeViewNode *treeNod
 
 	s32 imageIndex;
 	IGUITreeViewNode *nodeTreeView;
-	treeNode->clearChilds();
+	treeNode->clearChildren();
 
 	core::list<ISceneNode *>::ConstIterator it = node->getChildren().begin();
 	for (; it != node->getChildren().end(); ++it) {
@@ -354,6 +354,15 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 					if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 5) {
 
 					}
+                    
+                    if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 7) {
+                        if (sceneView->getSelected()->getData()) {
+                            devices->getCoreData()->removeSceneNode((ISceneNode *)sceneView->getSelected()->getData(), devices->getXEffect());
+                            devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+                        } else {
+                            devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);
+                        }
+                    }
 				} else {
 					devices->addInformationDialog(L"Informations", L"You cannot use this node", EMBF_OK, 0);
 				}

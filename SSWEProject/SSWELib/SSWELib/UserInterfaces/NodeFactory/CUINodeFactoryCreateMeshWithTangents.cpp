@@ -63,7 +63,7 @@ void CUINodeFactoryCreateMeshWithTangents::create() {
 		newNode->getMaterial(i) = nodeToEdit->getMaterial(i);
 	}
 
-	stringc prefix = devices->getCore()->getNodeNamePrefix(newNode);
+	/*stringc prefix = devices->getCore()->getNodeNamePrefix(newNode);
 	if (prefix == "#map") {
 		STerrainsData tdata(tangentsMesh, newNode, meshPath.c_str(), nodeMinPolysPerNode, nodeType);
 		devices->getCoreData()->getTerrainsData()->push_back(tdata);
@@ -77,7 +77,11 @@ void CUINodeFactoryCreateMeshWithTangents::create() {
 		CWaterSurface *ws = new CWaterSurface(devices->getSceneManager(), 0, 0);
 		SWaterSurfacesData wsdata(ws, 0);
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
-	}
+	}*/
+    
+    SData *data = devices->getCoreData()->copySDataOfSceneNode(nodeToEdit);
+    data->setNode(newNode);
+    data->setMesh(tangentsMesh);
 
 	devices->getXEffect()->addShadowToNode(newNode, devices->getXEffectFilterType(), 
 											devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType()));

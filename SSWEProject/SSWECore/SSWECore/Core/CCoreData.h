@@ -25,6 +25,7 @@
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
 #include <IMonitor.h>
+#include <ISSWECoreData.h>
 
 #include "CCorePhysics.h"
 
@@ -77,6 +78,11 @@ struct SData {
 	void addClonedNode(ISceneNode *cnode) {
 		clonedNodes.push_back(cnode);
 	}
+    void removeClonedNodes() {
+        ISceneNodeList::Iterator it = clonedNodes.begin();
+        for (; it != clonedNodes.end(); ++it)
+			(*it)->remove();
+    }
 	void removeClonedNode(ISceneNode *cnode) {
 		ISceneNodeList::Iterator it = clonedNodes.begin();
 		for (; it != clonedNodes.end(); ++it)
@@ -415,10 +421,15 @@ public:
 
 	stringw getName() { return name; }
 	stringw getScript() { return script; }
+    
+    void setData(void *_data) { data = _data; }
+    void *getData() { return data; }
 
 private:
 	stringw name;
 	stringw script;
+    
+    void *data;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -561,7 +572,7 @@ private:
 //----------------------------------CORE DATA CLASS--------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-class SSWE_CORE_API CCoreData {
+class SSWE_CORE_API CCoreData : public ISSWECoreData {
 
 public:
 
@@ -587,6 +598,9 @@ public:
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfVolumeLightNodes();
 	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
+    
+    void removeSceneNode(ISceneNode *node, EffectHandler *effect);
+    SData *copySDataOfSceneNode(irr::scene::ISceneNode *node);
 	//-----------------------------------
 
 	//-----------------------------------

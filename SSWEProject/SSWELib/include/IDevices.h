@@ -14,14 +14,16 @@
 #else
     #include "../SSWERenders/Renders/XEffect/XEffects.h"
 
-    #include "../SSWECore/SSWECore/Core/CCore.h"
-    #include "../SSWECore/SSWECore/Core/CCoreData.h"
     #include "../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
 
     #include "../SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
     #include "../SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
     #include "../SSWELib/SceneNodes/Camera/CRiggedCamera.h"
 #endif
+
+#include "ICollisionManager.h"
+#include "ISSWECore.h"
+#include "ISSWECoreData.h"
 
 class IDevices {
 public: 
@@ -38,7 +40,7 @@ public:
 
 	virtual irr::gui::IGUIEnvironment *getGUIEnvironment() = 0;
 
-	virtual EventReceiver *getEventReceiver() = 0;
+	virtual ISSWEEventsManager *getEventReceiver() = 0;
 	virtual bool isEditBoxEntered() = 0;
 	virtual void setEditBoxEntered(bool _editBoxEntered) = 0;
 
@@ -73,10 +75,10 @@ public:
 
 	//-----------------------------------
 	//CORE
-	virtual CCore *getCore() = 0;
-	virtual CCoreData *getCoreData() = 0;
+	virtual ISSWECore *getCore() = 0;
+	virtual ISSWECoreData *getCoreData() = 0;
 
-	virtual CCollisionManager *getCollisionManager() = 0;
+	virtual ICollisionManager *getCollisionManager() = 0;
 	virtual CCoreObjectPlacement *getObjectPlacement() = 0;
 
 	virtual CUIProcessesLogger *getProcessesLogger() = 0;

@@ -6,7 +6,7 @@
 class ITool
 {
 public: 
-	virtual void resize(irr::core::rect<s32> position) = 0;
+	virtual void resize(irr::core::rect<irr::s32> position) = 0;
 	virtual void resize(irr::core::position2di position) = 0;
 
 	virtual irr::gui::IGUIElement *getWindow() = 0;

@@ -79,3 +79,5 @@ void main( void )
    LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz );
    
 }
+
+

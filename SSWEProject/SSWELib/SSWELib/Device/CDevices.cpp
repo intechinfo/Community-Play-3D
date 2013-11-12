@@ -388,6 +388,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	renderCore = new CRenderCore(this);
 
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
+    effect->setPostProcessingUserTexture(driver->getTexture("waterNormal.png"));
 
 	//ADD EVENTS
 	Device->setEventReceiver(&receiver);

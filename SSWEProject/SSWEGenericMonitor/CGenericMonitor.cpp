@@ -5,7 +5,7 @@
 //  Created by Julien Moreau-Mathis on 09/10/12.
 //
 //
-#include "stdafx.h"
+
 #include "CGenericMonitor.h"
 
 #ifndef __CGENERIC_MONITOR_CREATION__

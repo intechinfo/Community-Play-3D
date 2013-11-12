@@ -26,6 +26,8 @@ CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 	edit = gui->addButton(rect<s32>(400, 90, 500, 110), window, -1, L"Edit...", L"Open texture editor");
 
 	refresh = gui->addButton(rect<s32>(510, 30, 610, 50), window, -1, L"Refresh", L"Refreshes the textures");
+    clear = gui->addButton(rect<s32>(510, 60, 610, 80), window, -1, L"Clear", L"Clear unused textures");
+    clear->setEnabled(false);
 
 	texturePreview = gui->addImage(rect<s32>(400, 130, 690, 430), window, -1, L"Preview");
 	texturePreview->setScaleImage(true);
@@ -166,6 +168,19 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == edit) {
 				CUITextureEditor *editor = new CUITextureEditor(devices, driver->getTextureByIndex(textures->getSelected()));
 			}
+            //CLEAR UNUSED TEXTURES
+            if (event.GUIEvent.Caller == clear) {
+                stringc workingDirectoryGUI = devices->getWorkingDirectory() + "GUI/";
+                for (u32 i=0; i < devices->getVideoDriver()->getTextureCount(); i++) {
+                    ITexture *currentTexture = devices->getVideoDriver()->getTextureByIndex(i);
+                    if (currentTexture->getName().getPath().find(workingDirectoryGUI.c_str()) != -1)
+                        continue;
+                    
+                    if (whoUseThisTexture(currentTexture).size() == 0)
+                        devices->getVideoDriver()->removeTexture(currentTexture);
+                }
+                OnEvent(getUpdateEvent());
+            }
 		}
 
 		if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {

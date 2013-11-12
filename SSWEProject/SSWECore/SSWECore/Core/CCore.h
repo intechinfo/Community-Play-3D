@@ -14,12 +14,17 @@
 #ifndef __C_CORE_H_INCLUDED__
 #define __C_CORE_H_INCLUDED__
 
+//SSWE 3D
 #ifndef _IRR_OSX_PLATFORM_
     #include <SSWECore.h>
 #else
     #include "SSWECore.h"
 #endif
 
+#include <irrlicht.h>
+#include <ISSWECore.h>
+
+//OTHERS
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -30,8 +35,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
-#include <irrlicht.h>
 
 #include <memory>
 #include <thread>
@@ -69,7 +72,7 @@ enum E_CORE_USER_EVENTS {
 //--------------------------
 //CORE CLASS
 
-class SSWE_CORE_API CCore {
+class SSWE_CORE_API CCore : public ISSWECore {
     
 public:
 	
@@ -151,12 +154,7 @@ private:
 //--------------------------
 //MULTIPLE EVENT RECEIVERS CLASS
 
-class IUpdate {
-public:
-	virtual void update() = 0;
-};
-
-class EventReceiver : public irr::IEventReceiver, IUpdate {
+class EventReceiver : public ISSWEEventsManager {
 
 public:
     
