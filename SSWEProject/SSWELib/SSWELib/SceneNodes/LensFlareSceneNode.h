@@ -70,9 +70,6 @@ namespace scene
 
 		// Strength of the flare effect (between 0 and 1)
 		f32 Strength;
-        
-        // occlusion for distance between LF and active camera positions
-        bool falseOcclusion;
 		
 	public:
 		// typical OnRegisterSceneNode function
@@ -107,10 +104,6 @@ namespace scene
 
 		// returns the strength (visibility) of the flares
 		f32 getStrength() { return Strength; }
-        
-        // returns and set the false occlusion to the flare
-        bool getFalseOcclusion() { return falseOcclusion; }
-        void setFalseOcclusion(bool _falseOcclusion) { falseOcclusion = _falseOcclusion; }
 
 		// sets the strength (visibility) of the flares
 		void setStrength(f32 strength) { Strength = core::clamp(strength, 0.0f, 1.0f); }

@@ -38,9 +38,8 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 32, 32, 0.95f, 2.0f);
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
-	//ISceneNodeAnimator *anim = smgr->createRotationAnimator(vector3df(0, 0.01f, 0));
-	//skydome->addAnimator(anim);
-	//coreUserInterface->getDevices()->getDOF()->add(skydome);
+	coreUserInterface->getDevices()->getDOF()->add(skydome);
+    skydome->setVisible(false);
 
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, false);
 	ISceneNode* skyboxNode = smgr->addSkyBoxSceneNode(
@@ -54,6 +53,7 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	skyboxNode->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkyBox(skyboxNode);
 	coreUserInterface->getDevices()->getDOF()->add(skyboxNode);
+    skyboxNode->setVisible(false);
 
 	//ADD CLOUDS SYSTEM
 	CCloudSceneNode *cloudLayer1 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), coreUserInterface->getDevices()->getRenderingSceneManager());

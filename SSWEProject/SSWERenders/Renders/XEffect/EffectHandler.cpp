@@ -435,9 +435,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	
 	//driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 	//smgr->drawAll();
-	if (updateOcclusionQueries) {
-		driver->runAllOcclusionQueries(true);
-		driver->updateAllOcclusionQueries(true);
+    if (updateOcclusionQueries) {
+        driver->runAllOcclusionQueries(true);
+        driver->updateAllOcclusionQueries(true);
 	}
 
 	if (useDOF) {

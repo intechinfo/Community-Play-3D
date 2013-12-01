@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-56.245102" Y="114.334358" Z="129.027130" />
-			 <rotation X="29.968502" Y="155.714310" Z="0.000000" />
+			 <position X="261.109375" Y="288.342865" Z="21.774580" />
+			 <rotation X="37.854866" Y="239.642868" Z="0.000000" />
 
 		 </camera>
 
@@ -32,237 +32,10 @@
 
 		 <effect>
 
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/BlurHP.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/BlurVP.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/Dream.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/BloomP.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
 
 		 </effect>
 
 		 <materialTypes>
-
-			 <materialType>
-				 <pixelShaderType type="0" /> 
-				 <vertexShaderType type="0" /> 
-				 <baseMaterial type="0" /> 
-				 <name cname="nmapping.spkg" />
-				 <vertex shader=
-"uniform vec3 fvLightPosition1;
-uniform vec3 fvLightPosition2;
-uniform vec3 fvLightPosition3;
-uniform vec3 fvLightPosition4;
-
-uniform float fLightStrength1;
-uniform float fLightStrength2;
-uniform float fLightStrength3;
-uniform float fLightStrength4;
-
-uniform mat4 matWorldInverse;
-
-varying vec2 Texcoord;
-varying vec3 ViewDirection;
-varying vec3 LightDirection1;
-varying vec3 LightDirection2;
-varying vec3 LightDirection3;
-varying vec3 LightDirection4;
-varying vec4 LightDistMultiplier;
-   
-float getLengthSQR (vec3 vec)
-{
-return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z);
-}  
-   
-void main( void )
-{
-   
-   mat4 LightTransform= gl_ModelViewMatrix;
-   LightTransform=LightTransform*matWorldInverse;
-      
-   gl_Position = ftransform();
-   Texcoord    = gl_MultiTexCoord0.xy;
-    
-   vec4 fvObjectPosition = gl_ModelViewMatrix * gl_Vertex;
-   vec4 fvLightPos1 = LightTransform * vec4(fvLightPosition1,1.0);
-   vec4 fvLightPos2 = LightTransform * vec4(fvLightPosition2,1.0);
-   vec4 fvLightPos3 = LightTransform * vec4(fvLightPosition3,1.0);
-   vec4 fvLightPos4 = LightTransform * vec4(fvLightPosition4,1.0);
-   
-   vec3 fvViewDirection  =  - fvObjectPosition.xyz;
-   
-   vec3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz);
-   vec3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz);
-   vec3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz);
-   vec3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz);
-   
-   LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0));
-   LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0));
-   LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0));
-   LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0));
-     
-   vec3 fvNormal         = gl_NormalMatrix * gl_Normal;
-   
-   vec3 fvTangent   = -vec3(abs(gl_Normal.y) + abs(gl_Normal.z), abs(gl_Normal.x), 0);
-   vec3 fvBinormal =cross(fvTangent,gl_Normal);  
-   fvTangent=gl_NormalMatrix*cross(fvBinormal,gl_Normal);
-   fvBinormal=gl_NormalMatrix*fvBinormal;
- 
-      
-   ViewDirection.x  = dot( fvTangent, fvViewDirection );
-   ViewDirection.y  = dot( fvBinormal, fvViewDirection );
-   ViewDirection.z  = dot( fvNormal, fvViewDirection );
-   
-   LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz );
-   LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz );
-   LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz );
-   
-   LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz );
-   LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz );
-   LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz );
-   
-   LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz );
-   LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz );
-   LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz );
-   
-   LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz );
-   LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz );
-   LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz );
-   
-}
-" />
-				 <pixel shader=
-"uniform vec4 fvAmbient;
-uniform vec4 fvLight1Color;
-uniform vec4 fvLight2Color;
-uniform vec4 fvLight3Color;
-uniform vec4 fvLight4Color;
-
-uniform float fSpecularPower;
-uniform float fSpecularStrength;
-uniform float fBumpStrength;
-
-uniform sampler2D baseMap;
-uniform sampler2D bumpMap;
-
-varying vec2 Texcoord;
-varying vec3 ViewDirection;
-varying vec3 LightDirection1;
-varying vec3 LightDirection2;
-varying vec3 LightDirection3;
-varying vec3 LightDirection4;
-varying vec4 LightDistMultiplier;
-
-void main( void )
-{
-   
-   vec3  fvLightDirection1 = normalize( LightDirection1 );
-   vec3  fvLightDirection2 = normalize( LightDirection2 );
-   vec3  fvLightDirection3 = normalize( LightDirection3 );
-   vec3  fvLightDirection4 = normalize( LightDirection4 );
-   
-   vec3  fvNormal         = texture2D( bumpMap, Texcoord ).yxz;
-   fvNormal.xy*=2.0;
-   fvNormal.xy-=1.0;
-   
-   fvNormal=(vec3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal;
-   
-   fvNormal=normalize(fvNormal);
-   
-   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1; 
-   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1; 
-   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1; 
-   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1; 
-   
-   vec3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 ); 
-   vec3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 ); 
-   vec3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 ); 
-   vec3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 ); 
-   
-   vec3  fvViewDirection  = normalize( ViewDirection );
-   
-   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) );
-   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) );
-   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) );
-   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) );
-   
-   vec4  fvBaseColor      = texture2D( baseMap, Texcoord );
-   
-   vec4  fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   
-   vec4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*LightDistMultiplier[0]; 
-   vec4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*LightDistMultiplier[0];
-   
-         fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*LightDistMultiplier[1]; 
-         fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*LightDistMultiplier[1];  
-   
-         fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*LightDistMultiplier[2]; 
-         fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*LightDistMultiplier[2];  
-         
-         fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*LightDistMultiplier[3]; 
-         fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*LightDistMultiplier[3]; 
-   
-   vec4 color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));
-   if(color.r>1.0){color.gb+=color.r-1.0;}
-   if(color.g>1.0){color.rb+=color.g-1.0;}
-   if(color.b>1.0){color.rg+=color.b-1.0;}
-   gl_FragColor = color;
-
-}
-" />
-				 <constants value="pint baseMap 0
-pint bumpMap 1
-
-vmatrix4 matWorldInverse world[0] 0 0 makeInverse
-
-vfloat fLightStrength1 80
-vfloat fLightStrength2 80
-vfloat fLightStrength3 80
-vfloat fLightStrength4 80
-
-vvector3df fvLightPosition1 -39 304 226vvector3df fvLightPosition2 -39 304 226vvector3df fvLightPosition3 -39 304 226vvector3df fvLightPosition4 -39 304 226
-
-pSColor fvAmbient 1 0.7 0.7 0.7pSColor fvLight1Color 1 0.02 0.02 0.02pSColor fvLight2Color 1 0.02 0.02 0.02pSColor fvLight3Color 1 0.02 0.02 0.02pSColor fvLight4Color 1 0.02 0.02 0.02
-
-pfloat fSpecularPower 20
-pfloat fSpecularStrength 0.9
-pfloat fBumpStrength 10
-" />
-			 </materialType>
-
-			 <materialType>
-				 <pixelShaderType type="0" /> 
-				 <vertexShaderType type="0" /> 
-				 <baseMaterial type="0" /> 
-				 <name cname="New Material Type" />
-				 <vertex shader=
-"varying vec3 fvNormal;varying vec3 fvViewVec;void main( void ){float dist =0.00087; //maybe this value must be changed depending on the world size   gl_Position = ftransform();   fvNormal    = gl_NormalMatrix * gl_Normal;   fvViewVec = vec3(dist * gl_ModelViewMatrix * gl_Vertex);}
-" />
-				 <pixel shader=
-"varying vec3 fvNormal;varying vec3 fvViewVec;void main( void ){  vec4 color;  vec4 temp;  temp.xyz=-normalize(fvNormal);  color.r=temp.r+0.5;  color.g=temp.g+0.5;  color.b=temp.b+0.5;  float t=(1.0-fvViewVec.z)/2.0;  if(t<0.0){t=0.0;}  gl_FragColor = color*t;}
-
-" />
-				 <constants value="
-" />
-			 </materialType>
 
 
 		 </materialTypes>
@@ -280,7 +53,7 @@ pfloat fBumpStrength 10
 
 		 <terrain>
 
-			 <path file="data/Turbo/SubWay/Ecleposs Subway opj  XSi.obj" />
+			 <path file="/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWE/data/Turbo/SubWay/Ecleposs Subway opj  XSi.obj" />
 
 			 <type esnt="mesh" />
 
@@ -292,13 +65,13 @@ pfloat fBumpStrength 10
 
 			 </factory> 
 
-			 <name c8name="#map:myName_with_tangents_with_tangents" />
+			 <name c8name="#map:myName_with_tangents" />
 
 			 <materials>
 			 	 <material id="0">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -333,7 +106,7 @@ pfloat fBumpStrength 10
 			 	 <material id="1">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -368,7 +141,7 @@ pfloat fBumpStrength 10
 			 	 <material id="2">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -403,7 +176,7 @@ pfloat fBumpStrength 10
 			 	 <material id="3">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -438,7 +211,7 @@ pfloat fBumpStrength 10
 			 	 <material id="4">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -473,7 +246,7 @@ pfloat fBumpStrength 10
 			 	 <material id="5">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -508,7 +281,7 @@ pfloat fBumpStrength 10
 			 	 <material id="6">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -543,7 +316,7 @@ pfloat fBumpStrength 10
 			 	 <material id="7">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -578,7 +351,7 @@ pfloat fBumpStrength 10
 			 	 <material id="8">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -613,7 +386,7 @@ pfloat fBumpStrength 10
 			 	 <material id="9">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -648,7 +421,7 @@ pfloat fBumpStrength 10
 			 	 <material id="10">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -683,7 +456,7 @@ pfloat fBumpStrength 10
 			 	 <material id="11">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -718,7 +491,7 @@ pfloat fBumpStrength 10
 			 	 <material id="12">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -753,7 +526,7 @@ pfloat fBumpStrength 10
 			 	 <material id="13">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -788,7 +561,7 @@ pfloat fBumpStrength 10
 			 	 <material id="14">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -823,7 +596,7 @@ pfloat fBumpStrength 10
 			 	 <material id="15">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -858,7 +631,7 @@ pfloat fBumpStrength 10
 			 	 <material id="16">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -893,7 +666,7 @@ pfloat fBumpStrength 10
 			 	 <material id="17">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -928,7 +701,7 @@ pfloat fBumpStrength 10
 			 	 <material id="18">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -963,7 +736,7 @@ pfloat fBumpStrength 10
 			 	 <material id="19">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -998,7 +771,7 @@ pfloat fBumpStrength 10
 			 	 <material id="20">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1033,7 +806,7 @@ pfloat fBumpStrength 10
 			 	 <material id="21">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1068,7 +841,7 @@ pfloat fBumpStrength 10
 			 	 <material id="22">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1103,7 +876,7 @@ pfloat fBumpStrength 10
 			 	 <material id="23">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1138,7 +911,7 @@ pfloat fBumpStrength 10
 			 	 <material id="24">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1173,7 +946,7 @@ pfloat fBumpStrength 10
 			 	 <material id="25">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1208,7 +981,7 @@ pfloat fBumpStrength 10
 			 	 <material id="26">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1243,7 +1016,7 @@ pfloat fBumpStrength 10
 			 	 <material id="27">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1278,7 +1051,7 @@ pfloat fBumpStrength 10
 			 	 <material id="28">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1313,7 +1086,7 @@ pfloat fBumpStrength 10
 			 	 <material id="29">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1348,7 +1121,7 @@ pfloat fBumpStrength 10
 			 	 <material id="30">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1383,7 +1156,7 @@ pfloat fBumpStrength 10
 			 	 <material id="31">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1418,7 +1191,7 @@ pfloat fBumpStrength 10
 			 	 <material id="32">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1453,7 +1226,7 @@ pfloat fBumpStrength 10
 			 	 <material id="33">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1488,7 +1261,7 @@ pfloat fBumpStrength 10
 			 	 <material id="34">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1523,7 +1296,7 @@ pfloat fBumpStrength 10
 			 	 <material id="35">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1558,7 +1331,7 @@ pfloat fBumpStrength 10
 			 	 <material id="36">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1593,7 +1366,7 @@ pfloat fBumpStrength 10
 			 	 <material id="37">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1628,7 +1401,7 @@ pfloat fBumpStrength 10
 			 	 <material id="38">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1663,7 +1436,7 @@ pfloat fBumpStrength 10
 			 	 <material id="39">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1698,7 +1471,7 @@ pfloat fBumpStrength 10
 			 	 <material id="40">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1733,7 +1506,7 @@ pfloat fBumpStrength 10
 			 	 <material id="41">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1768,7 +1541,7 @@ pfloat fBumpStrength 10
 			 	 <material id="42">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1803,7 +1576,7 @@ pfloat fBumpStrength 10
 			 	 <material id="43">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1838,7 +1611,7 @@ pfloat fBumpStrength 10
 			 	 <material id="44">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1873,7 +1646,7 @@ pfloat fBumpStrength 10
 			 	 <material id="45">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1908,7 +1681,7 @@ pfloat fBumpStrength 10
 			 	 <material id="46">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1943,7 +1716,7 @@ pfloat fBumpStrength 10
 			 	 <material id="47">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1978,7 +1751,7 @@ pfloat fBumpStrength 10
 			 	 <material id="48">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2013,7 +1786,7 @@ pfloat fBumpStrength 10
 			 	 <material id="49">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2048,7 +1821,7 @@ pfloat fBumpStrength 10
 			 	 <material id="50">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2083,7 +1856,7 @@ pfloat fBumpStrength 10
 			 	 <material id="51">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2118,7 +1891,7 @@ pfloat fBumpStrength 10
 			 	 <material id="52">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2153,7 +1926,7 @@ pfloat fBumpStrength 10
 			 	 <material id="53">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2188,7 +1961,7 @@ pfloat fBumpStrength 10
 			 	 <material id="54">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2223,7 +1996,7 @@ pfloat fBumpStrength 10
 			 	 <material id="55">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2258,7 +2031,7 @@ pfloat fBumpStrength 10
 			 	 <material id="56">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2293,7 +2066,7 @@ pfloat fBumpStrength 10
 			 	 <material id="57">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2328,7 +2101,7 @@ pfloat fBumpStrength 10
 			 	 <material id="58">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2363,7 +2136,7 @@ pfloat fBumpStrength 10
 			 	 <material id="59">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2398,7 +2171,7 @@ pfloat fBumpStrength 10
 			 	 <material id="60">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2433,7 +2206,7 @@ pfloat fBumpStrength 10
 			 	 <material id="61">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2468,7 +2241,7 @@ pfloat fBumpStrength 10
 			 	 <material id="62">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2503,7 +2276,7 @@ pfloat fBumpStrength 10
 			 	 <material id="63">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2538,7 +2311,7 @@ pfloat fBumpStrength 10
 			 	 <material id="64">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2573,7 +2346,7 @@ pfloat fBumpStrength 10
 			 	 <material id="65">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2608,7 +2381,7 @@ pfloat fBumpStrength 10
 			 	 <material id="66">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2643,7 +2416,7 @@ pfloat fBumpStrength 10
 			 	 <material id="67">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2678,7 +2451,7 @@ pfloat fBumpStrength 10
 			 	 <material id="68">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2713,7 +2486,7 @@ pfloat fBumpStrength 10
 			 	 <material id="69">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2748,7 +2521,7 @@ pfloat fBumpStrength 10
 			 	 <material id="70">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2783,7 +2556,7 @@ pfloat fBumpStrength 10
 			 	 <material id="71">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2818,7 +2591,7 @@ pfloat fBumpStrength 10
 			 	 <material id="72">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2853,7 +2626,7 @@ pfloat fBumpStrength 10
 			 	 <material id="73">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2888,7 +2661,7 @@ pfloat fBumpStrength 10
 			 	 <material id="74">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2923,7 +2696,7 @@ pfloat fBumpStrength 10
 			 	 <material id="75">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2958,7 +2731,7 @@ pfloat fBumpStrength 10
 			 	 <material id="76">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2993,7 +2766,7 @@ pfloat fBumpStrength 10
 			 	 <material id="77">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3028,7 +2801,7 @@ pfloat fBumpStrength 10
 			 	 <material id="78">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3063,7 +2836,7 @@ pfloat fBumpStrength 10
 			 	 <material id="79">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3098,7 +2871,7 @@ pfloat fBumpStrength 10
 			 	 <material id="80">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3133,7 +2906,7 @@ pfloat fBumpStrength 10
 			 	 <material id="81">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3168,7 +2941,7 @@ pfloat fBumpStrength 10
 			 	 <material id="82">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3203,7 +2976,7 @@ pfloat fBumpStrength 10
 			 	 <material id="83">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3238,7 +3011,7 @@ pfloat fBumpStrength 10
 			 	 <material id="84">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3273,7 +3046,7 @@ pfloat fBumpStrength 10
 			 	 <material id="85">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3308,7 +3081,7 @@ pfloat fBumpStrength 10
 			 	 <material id="86">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3343,7 +3116,7 @@ pfloat fBumpStrength 10
 			 	 <material id="87">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3378,7 +3151,7 @@ pfloat fBumpStrength 10
 			 	 <material id="88">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3413,7 +3186,7 @@ pfloat fBumpStrength 10
 			 	 <material id="89">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3448,7 +3221,7 @@ pfloat fBumpStrength 10
 			 	 <material id="90">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3483,7 +3256,7 @@ pfloat fBumpStrength 10
 			 	 <material id="91">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3518,7 +3291,7 @@ pfloat fBumpStrength 10
 			 	 <material id="92">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3553,7 +3326,7 @@ pfloat fBumpStrength 10
 			 	 <material id="93">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3588,7 +3361,7 @@ pfloat fBumpStrength 10
 			 	 <material id="94">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3623,7 +3396,7 @@ pfloat fBumpStrength 10
 			 	 <material id="95">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3658,7 +3431,7 @@ pfloat fBumpStrength 10
 			 	 <material id="96">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3693,7 +3466,7 @@ pfloat fBumpStrength 10
 			 	 <material id="97">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3728,7 +3501,7 @@ pfloat fBumpStrength 10
 			 	 <material id="98">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3763,7 +3536,7 @@ pfloat fBumpStrength 10
 			 	 <material id="99">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3798,7 +3571,7 @@ pfloat fBumpStrength 10
 			 	 <material id="100">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3833,7 +3606,7 @@ pfloat fBumpStrength 10
 			 	 <material id="101">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3868,7 +3641,7 @@ pfloat fBumpStrength 10
 			 	 <material id="102">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3903,7 +3676,7 @@ pfloat fBumpStrength 10
 			 	 <material id="103">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3938,7 +3711,7 @@ pfloat fBumpStrength 10
 			 	 <material id="104">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3973,7 +3746,7 @@ pfloat fBumpStrength 10
 			 	 <material id="105">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4008,7 +3781,7 @@ pfloat fBumpStrength 10
 			 	 <material id="106">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4043,7 +3816,7 @@ pfloat fBumpStrength 10
 			 	 <material id="107">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4078,7 +3851,7 @@ pfloat fBumpStrength 10
 			 	 <material id="108">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4113,7 +3886,7 @@ pfloat fBumpStrength 10
 			 	 <material id="109">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4148,7 +3921,7 @@ pfloat fBumpStrength 10
 			 	 <material id="110">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4183,7 +3956,7 @@ pfloat fBumpStrength 10
 			 	 <material id="111">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4218,7 +3991,7 @@ pfloat fBumpStrength 10
 			 	 <material id="112">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4253,7 +4026,7 @@ pfloat fBumpStrength 10
 			 	 <material id="113">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4288,7 +4061,7 @@ pfloat fBumpStrength 10
 			 	 <material id="114">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4323,7 +4096,7 @@ pfloat fBumpStrength 10
 			 	 <material id="115">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4358,7 +4131,7 @@ pfloat fBumpStrength 10
 			 	 <material id="116">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4393,7 +4166,7 @@ pfloat fBumpStrength 10
 			 	 <material id="117">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4428,7 +4201,7 @@ pfloat fBumpStrength 10
 			 	 <material id="118">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4463,7 +4236,7 @@ pfloat fBumpStrength 10
 			 	 <material id="119">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4498,7 +4271,7 @@ pfloat fBumpStrength 10
 			 	 <material id="120">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4533,7 +4306,7 @@ pfloat fBumpStrength 10
 			 	 <material id="121">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4568,7 +4341,7 @@ pfloat fBumpStrength 10
 			 	 <material id="122">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4603,7 +4376,7 @@ pfloat fBumpStrength 10
 			 	 <material id="123">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4638,7 +4411,7 @@ pfloat fBumpStrength 10
 			 	 <material id="124">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4673,7 +4446,7 @@ pfloat fBumpStrength 10
 			 	 <material id="125">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4708,7 +4481,7 @@ pfloat fBumpStrength 10
 			 	 <material id="126">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4743,7 +4516,7 @@ pfloat fBumpStrength 10
 			 	 <material id="127">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4778,7 +4551,7 @@ pfloat fBumpStrength 10
 			 	 <material id="128">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4813,7 +4586,7 @@ pfloat fBumpStrength 10
 			 	 <material id="129">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4848,7 +4621,7 @@ pfloat fBumpStrength 10
 			 	 <material id="130">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4883,7 +4656,7 @@ pfloat fBumpStrength 10
 			 	 <material id="131">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4918,7 +4691,7 @@ pfloat fBumpStrength 10
 			 	 <material id="132">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4953,7 +4726,7 @@ pfloat fBumpStrength 10
 			 	 <material id="133">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4988,7 +4761,7 @@ pfloat fBumpStrength 10
 			 	 <material id="134">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5023,7 +4796,7 @@ pfloat fBumpStrength 10
 			 	 <material id="135">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5058,7 +4831,7 @@ pfloat fBumpStrength 10
 			 	 <material id="136">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5093,7 +4866,7 @@ pfloat fBumpStrength 10
 			 	 <material id="137">
 					 <textures>
 						 <texture id="0" path="data/Turbo/SubWay/sponza_column_a_diff.tga" />
-						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_diff.tga_copy" />
+						 <texture id="1" path="data/Turbo/SubWay/sponza_column_a_ddn.tga" />
 						 <texture id="2" path="data/Turbo/SubWay/sponza_column_a_spec.tga" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5128,7 +4901,7 @@ pfloat fBumpStrength 10
 			 </materials>
 			 <position X="0.000000" Y="0.000000" Z="0.000000" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.800110" Y="1.800110" Z="1.800110" />
+			 <scale X="2.450150" Y="2.450150" Z="2.450150" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
@@ -5139,32 +4912,32 @@ pfloat fBumpStrength 10
 
 			 <name c8name="#light:1" />
 
-			 <position X="-132.837158" Y="141.008606" Z="135.941422" />
+			 <position X="-138.782654" Y="240.514679" Z="-111.127495" />
 			 <target X="0.000000" Y="0.000000" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
 			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 
-			 <radius value="1200.000000" />
-			 <farValue value="1200.000000" />
+			 <radius value="100.000000" />
+			 <farValue value="1500.000000" />
 			 <autoRecalculate value="0" />
 
 			 <shadows resol="4096" />
 
 			 <lensFlare>
 				 <mesh> 
-					 <scale X="27.000000" Y="27.000000" Z="27.000000" />
+					 <scale X="10.000000" Y="10.000000" Z="10.000000" />
 					 <texture path="shaders/Textures/LF/mesh.png" />
 				 </mesh> 
 				 <bill> 
-					 <size Width="27.000000" Height="27.000000" />
+					 <size Width="10.000000" Height="10.000000" />
 					 <texture path="shaders/Textures/LF/sun.png" />
 				 </bill> 
 				 <lfsn> 
 					 <strength value="1000.000000" />
 					 <texture path="shaders/Textures/LF/flare.png" />
-					 <falseOcclusion value="1" />
+					 <falseOcclusion value="0" />
 				 </lfsn> 
 				 <position X="0.000000" Y="0.000000" Z="0.000000" />
  			 </lensFlare>

@@ -257,7 +257,6 @@ void CImporter::buildLight() {
 		lfBillBoard->setParent(lfMeshNode);
 		lfBillBoard->setName(stringc(stringc(node->getName()) + stringc("_flare_bill")).c_str());
 		lfNode = new CLensFlareSceneNode(lfMeshNode, devices->getSceneManager());
-		lfNode->setFalseOcclusion(true);
 		lfNode->setParent(lfMeshNode);
 		lfNode->setName(stringc(stringc(node->getName()) + stringc("_flare_node")).c_str());
 		devices->getVideoDriver()->addOcclusionQuery(lfMeshNode, lfMeshNode->getMesh());
@@ -277,7 +276,6 @@ void CImporter::buildLight() {
 		read("texture");
 		lfNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path")));
 		read("falseOcclusion");
-		lfNode->setFalseOcclusion(xmlReader->getAttributeValueAsInt("value"));
 		read("position");
 		lfNode->setPosition(buildVector3df());
 
@@ -687,9 +685,9 @@ dimension2df CImporter::buildDimension2df() {
 
 template<class T>
 vector3d<T> CImporter::buildVector3d() {
-	vector3df vec = vector3df(xmlReader->getAttributeValueAsFloat("X"),
-							  xmlReader->getAttributeValueAsFloat("Y"),
-							  xmlReader->getAttributeValueAsFloat("Z"));
+	vector3d<T> vec = vector3d<T>(xmlReader->getAttributeValueAsFloat("X"),
+                                  xmlReader->getAttributeValueAsFloat("Y"),
+                                  xmlReader->getAttributeValueAsFloat("Z"));
     return vec;
 }
 

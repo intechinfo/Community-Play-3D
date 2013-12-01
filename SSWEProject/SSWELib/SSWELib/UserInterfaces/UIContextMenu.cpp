@@ -122,6 +122,14 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Manage Clouds...", -1);
 	submenu->addItem(L"Manage Suns...", -1);
+    submenu->addItem(L"Manage Vegetation...", -1);
+    submenu->addItem(L"Manage Particle Systems...", CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS);
+    submenu->addSeparator();
+    submenu->addItem(L"Add Terrain...", CXT_MENU_EVENTS_SCENE_ADD_TERRAIN);
+    submenu->addItem(L"Add Object...", CXT_MENU_EVENTS_SCENE_ADD_OBJECT);
+    submenu->addItem(L"Add Light...", CXT_MENU_EVENTS_SCENE_ADD_LIGHT);
+    submenu->addItem(L"Add Volume Light...", CXT_MENU_EVENTS_SCENE_ADD_VOLUME_LIGHT);
+    submenu->addItem(L"Add Water Surface...", CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE);
 
 	//FACTORY
 	submenu = menu->getSubMenu(i++);
@@ -277,7 +285,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	#ifdef SSWE_RELEASE
+	#ifndef SSWE_RELEASE
 		for (u32 i=0; i < 1; i++) {
 			//devices->getCoreData()->clear();
 			//devices->getCoreData()->clearAllTheArrays();
@@ -337,6 +345,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	//pluginsManager->loadSSWEPlugin("SSWEWEBPLUGIN_D");
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
+    
+    CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -634,6 +644,32 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
+                //-----------------------------------
+                    
+                //-----------------------------------
+                //CONTEXT MENU SCENE EVENT
+                    
+                case CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS: {
+                    CUIParticlesEditor *pse = new CUIParticlesEditor(devices);
+                }
+                    break;
+                    
+                case CXT_MENU_EVENTS_SCENE_ADD_TERRAIN:
+                    mainWindowInstance->openAddTerrain();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_OBJECT:
+                    mainWindowInstance->openAddObject();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_LIGHT:
+                    mainWindowInstance->openAddLight();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_VOLUME_LIGHT:
+                    mainWindowInstance->openAddVolumeLight();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE:
+                    mainWindowInstance->openAddWaterSurface();
+                    break;
+                    
                 //-----------------------------------
                 
 				//-----------------------------------

@@ -636,6 +636,159 @@
 		2E83A6FB182E8C7C006BE319 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
 		2E83A6FC182E8C80006BE319 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E83A6FD182E8C8E006BE319 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
+		2E8F3B1E184AB0160073A3A3 /* ISSWEEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8F3B1D184AB0160073A3A3 /* ISSWEEvents.h */; };
+		2E92B64C1849289E00D955F8 /* shadergroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F55182980F900FB1027 /* shadergroup.h */; };
+		2E92B64D1849289E00D955F8 /* shadermaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F57182980F900FB1027 /* shadermaterial.h */; };
+		2E92B64E1849289E00D955F8 /* PostProcessMotionBlurhlsl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F59182980F900FB1027 /* PostProcessMotionBlurhlsl.h */; };
+		2E92B64F1849289E00D955F8 /* ScreenSpaceAmbientOcclusion.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F5B182980FA00FB1027 /* ScreenSpaceAmbientOcclusion.h */; };
+		2E92B6501849289E00D955F8 /* CScreenQuad.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F5D182980FA00FB1027 /* CScreenQuad.h */; };
+		2E92B6511849289E00D955F8 /* CShaderPre.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F5F182980FA00FB1027 /* CShaderPre.h */; };
+		2E92B6521849289E00D955F8 /* EffectCB.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F60182980FA00FB1027 /* EffectCB.h */; };
+		2E92B6531849289E00D955F8 /* EffectHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F62182980FA00FB1027 /* EffectHandler.h */; };
+		2E92B6541849289E00D955F8 /* EffectShaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F63182980FA00FB1027 /* EffectShaders.h */; };
+		2E92B6551849289E00D955F8 /* XEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F64182980FA00FB1027 /* XEffects.h */; };
+		2E92B6561849289E00D955F8 /* SSWERenders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
+		2E92B6571849289E00D955F8 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
+		2E92B6591849289E00D955F8 /* shadergroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F54182980F900FB1027 /* shadergroup.cpp */; };
+		2E92B65A1849289E00D955F8 /* shadergroup.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F55182980F900FB1027 /* shadergroup.h */; };
+		2E92B65B1849289E00D955F8 /* shadermaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F56182980F900FB1027 /* shadermaterial.cpp */; };
+		2E92B65C1849289E00D955F8 /* shadermaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F57182980F900FB1027 /* shadermaterial.h */; };
+		2E92B65D1849289E00D955F8 /* PostProcessMotionBlurhlsl.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F59182980F900FB1027 /* PostProcessMotionBlurhlsl.h */; };
+		2E92B65E1849289E00D955F8 /* ScreenSpaceAmbientOcclusion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F5A182980FA00FB1027 /* ScreenSpaceAmbientOcclusion.cpp */; };
+		2E92B65F1849289E00D955F8 /* ScreenSpaceAmbientOcclusion.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F5B182980FA00FB1027 /* ScreenSpaceAmbientOcclusion.h */; };
+		2E92B6601849289E00D955F8 /* CScreenQuad.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F5D182980FA00FB1027 /* CScreenQuad.h */; };
+		2E92B6611849289E00D955F8 /* CShaderPre.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F5E182980FA00FB1027 /* CShaderPre.cpp */; };
+		2E92B6621849289E00D955F8 /* CShaderPre.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F5F182980FA00FB1027 /* CShaderPre.h */; };
+		2E92B6631849289E00D955F8 /* EffectCB.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F60182980FA00FB1027 /* EffectCB.h */; };
+		2E92B6641849289E00D955F8 /* EffectHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F61182980FA00FB1027 /* EffectHandler.cpp */; };
+		2E92B6651849289E00D955F8 /* EffectHandler.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F62182980FA00FB1027 /* EffectHandler.h */; };
+		2E92B6661849289E00D955F8 /* EffectShaders.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F63182980FA00FB1027 /* EffectShaders.h */; };
+		2E92B6671849289E00D955F8 /* XEffects.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F64182980FA00FB1027 /* XEffects.h */; };
+		2E92B6681849289E00D955F8 /* SSWERenders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F65182980FA00FB1027 /* SSWERenders.cpp */; };
+		2E92B6691849289E00D955F8 /* SSWERenders.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
+		2E92B66A1849289E00D955F8 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F67182980FA00FB1027 /* stdafx.cpp */; };
+		2E92B66B1849289E00D955F8 /* stdafx.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
+		2E92B66D1849289E00D955F8 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
+		2E92B66E1849289E00D955F8 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
+		2E92B66F1849289E00D955F8 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
+		2E92B6701849289E00D955F8 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
+		2E92B6711849289E00D955F8 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
+		2E92B6B9184928ED00D955F8 /* SPK_BufferHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B677184928EC00D955F8 /* SPK_BufferHandler.cpp */; };
+		2E92B6BA184928ED00D955F8 /* SPK_DEF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B678184928EC00D955F8 /* SPK_DEF.cpp */; };
+		2E92B6BB184928ED00D955F8 /* SPK_Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B679184928EC00D955F8 /* SPK_Emitter.cpp */; };
+		2E92B6BC184928ED00D955F8 /* SPK_Factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B67A184928EC00D955F8 /* SPK_Factory.cpp */; };
+		2E92B6BD184928ED00D955F8 /* SPK_Group.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B67B184928EC00D955F8 /* SPK_Group.cpp */; };
+		2E92B6BE184928ED00D955F8 /* SPK_Interpolator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B67C184928EC00D955F8 /* SPK_Interpolator.cpp */; };
+		2E92B6BF184928ED00D955F8 /* SPK_Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B67D184928EC00D955F8 /* SPK_Model.cpp */; };
+		2E92B6C0184928ED00D955F8 /* SPK_Modifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B67E184928EC00D955F8 /* SPK_Modifier.cpp */; };
+		2E92B6C1184928ED00D955F8 /* SPK_Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B67F184928EC00D955F8 /* SPK_Particle.cpp */; };
+		2E92B6C2184928ED00D955F8 /* SPK_Registerable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B680184928EC00D955F8 /* SPK_Registerable.cpp */; };
+		2E92B6C3184928ED00D955F8 /* SPK_Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B681184928EC00D955F8 /* SPK_Renderer.cpp */; };
+		2E92B6C4184928ED00D955F8 /* SPK_System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B682184928EC00D955F8 /* SPK_System.cpp */; };
+		2E92B6C5184928ED00D955F8 /* SPK_Transformable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B683184928EC00D955F8 /* SPK_Transformable.cpp */; };
+		2E92B6C6184928ED00D955F8 /* SPK_Vector3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B684184928EC00D955F8 /* SPK_Vector3D.cpp */; };
+		2E92B6C7184928ED00D955F8 /* SPK_Zone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B685184928EC00D955F8 /* SPK_Zone.cpp */; };
+		2E92B6C8184928ED00D955F8 /* SPK_NormalEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B688184928EC00D955F8 /* SPK_NormalEmitter.cpp */; };
+		2E92B6C9184928ED00D955F8 /* SPK_RandomEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B689184928EC00D955F8 /* SPK_RandomEmitter.cpp */; };
+		2E92B6CA184928ED00D955F8 /* SPK_SphericEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B68A184928EC00D955F8 /* SPK_SphericEmitter.cpp */; };
+		2E92B6CB184928ED00D955F8 /* SPK_StraightEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B68B184928EC00D955F8 /* SPK_StraightEmitter.cpp */; };
+		2E92B6CC184928ED00D955F8 /* SPK_Collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B68D184928EC00D955F8 /* SPK_Collision.cpp */; };
+		2E92B6CD184928ED00D955F8 /* SPK_Destroyer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B68E184928EC00D955F8 /* SPK_Destroyer.cpp */; };
+		2E92B6CE184928ED00D955F8 /* SPK_LinearForce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B68F184928EC00D955F8 /* SPK_LinearForce.cpp */; };
+		2E92B6CF184928ED00D955F8 /* SPK_ModifierGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B690184928EC00D955F8 /* SPK_ModifierGroup.cpp */; };
+		2E92B6D0184928ED00D955F8 /* SPK_Obstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B691184928EC00D955F8 /* SPK_Obstacle.cpp */; };
+		2E92B6D1184928ED00D955F8 /* SPK_PointMass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B692184928EC00D955F8 /* SPK_PointMass.cpp */; };
+		2E92B6D2184928ED00D955F8 /* SPK_Vortex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B693184928EC00D955F8 /* SPK_Vortex.cpp */; };
+		2E92B6D3184928ED00D955F8 /* SPK_Oriented3DRendererInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B695184928EC00D955F8 /* SPK_Oriented3DRendererInterface.cpp */; };
+		2E92B6D4184928ED00D955F8 /* SPK_QuadRendererInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B696184928EC00D955F8 /* SPK_QuadRendererInterface.cpp */; };
+		2E92B6D5184928ED00D955F8 /* SPK_AABox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B698184928EC00D955F8 /* SPK_AABox.cpp */; };
+		2E92B6D6184928ED00D955F8 /* SPK_Cylinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B699184928EC00D955F8 /* SPK_Cylinder.cpp */; };
+		2E92B6D7184928ED00D955F8 /* SPK_Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B69A184928EC00D955F8 /* SPK_Line.cpp */; };
+		2E92B6D8184928ED00D955F8 /* SPK_Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B69B184928EC00D955F8 /* SPK_Plane.cpp */; };
+		2E92B6D9184928ED00D955F8 /* SPK_Point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B69C184928EC00D955F8 /* SPK_Point.cpp */; };
+		2E92B6DA184928ED00D955F8 /* SPK_Ring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B69D184928EC00D955F8 /* SPK_Ring.cpp */; };
+		2E92B6DB184928ED00D955F8 /* SPK_Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B69E184928EC00D955F8 /* SPK_Sphere.cpp */; };
+		2E92B6DC184928ED00D955F8 /* SPK_IRRBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6A1184928EC00D955F8 /* SPK_IRRBuffer.cpp */; };
+		2E92B6DD184928ED00D955F8 /* SPK_IRRLineRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6A2184928EC00D955F8 /* SPK_IRRLineRenderer.cpp */; };
+		2E92B6DE184928ED00D955F8 /* SPK_IRRPointRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6A3184928ED00D955F8 /* SPK_IRRPointRenderer.cpp */; };
+		2E92B6DF184928ED00D955F8 /* SPK_IRRQuadRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6A4184928ED00D955F8 /* SPK_IRRQuadRenderer.cpp */; };
+		2E92B6E0184928ED00D955F8 /* SPK_IRRRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6A5184928ED00D955F8 /* SPK_IRRRenderer.cpp */; };
+		2E92B6E1184928ED00D955F8 /* SPK_IRRSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6A6184928ED00D955F8 /* SPK_IRRSystem.cpp */; };
+		2E92B6EE184928ED00D955F8 /* SPK_All.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6B5184928ED00D955F8 /* SPK_All.cpp */; };
+		2E92B6F0184928ED00D955F8 /* SPK_IRR_ALL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B6B7184928ED00D955F8 /* SPK_IRR_ALL.cpp */; };
+		2E92B74418492B9600D955F8 /* SPK_ArrayBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6F518492B9400D955F8 /* SPK_ArrayBuffer.h */; };
+		2E92B74518492B9600D955F8 /* SPK_Buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6F618492B9400D955F8 /* SPK_Buffer.h */; };
+		2E92B74618492B9600D955F8 /* SPK_BufferHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6F718492B9400D955F8 /* SPK_BufferHandler.h */; };
+		2E92B74718492B9600D955F8 /* SPK_DEF.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6F818492B9400D955F8 /* SPK_DEF.h */; };
+		2E92B74818492B9600D955F8 /* SPK_Emitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6F918492B9400D955F8 /* SPK_Emitter.h */; };
+		2E92B74918492B9600D955F8 /* SPK_Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6FA18492B9400D955F8 /* SPK_Factory.h */; };
+		2E92B74A18492B9600D955F8 /* SPK_Group.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6FB18492B9400D955F8 /* SPK_Group.h */; };
+		2E92B74B18492B9600D955F8 /* SPK_Interpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6FC18492B9400D955F8 /* SPK_Interpolator.h */; };
+		2E92B74C18492B9600D955F8 /* SPK_Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6FD18492B9400D955F8 /* SPK_Model.h */; };
+		2E92B74D18492B9600D955F8 /* SPK_Modifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6FE18492B9400D955F8 /* SPK_Modifier.h */; };
+		2E92B74E18492B9600D955F8 /* SPK_Particle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B6FF18492B9500D955F8 /* SPK_Particle.h */; };
+		2E92B74F18492B9600D955F8 /* SPK_Pool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70018492B9500D955F8 /* SPK_Pool.h */; };
+		2E92B75018492B9600D955F8 /* SPK_Registerable.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70118492B9500D955F8 /* SPK_Registerable.h */; };
+		2E92B75118492B9600D955F8 /* SPK_RegWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70218492B9500D955F8 /* SPK_RegWrapper.h */; };
+		2E92B75218492B9600D955F8 /* SPK_Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70318492B9500D955F8 /* SPK_Renderer.h */; };
+		2E92B75318492B9600D955F8 /* SPK_System.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70418492B9500D955F8 /* SPK_System.h */; };
+		2E92B75418492B9600D955F8 /* SPK_Transformable.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70518492B9500D955F8 /* SPK_Transformable.h */; };
+		2E92B75518492B9600D955F8 /* SPK_Vector3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70618492B9500D955F8 /* SPK_Vector3D.h */; };
+		2E92B75618492B9600D955F8 /* SPK_Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70718492B9500D955F8 /* SPK_Zone.h */; };
+		2E92B75718492B9600D955F8 /* SPK_NormalEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70A18492B9500D955F8 /* SPK_NormalEmitter.h */; };
+		2E92B75818492B9600D955F8 /* SPK_RandomEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70B18492B9500D955F8 /* SPK_RandomEmitter.h */; };
+		2E92B75918492B9600D955F8 /* SPK_SphericEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70C18492B9500D955F8 /* SPK_SphericEmitter.h */; };
+		2E92B75A18492B9600D955F8 /* SPK_StaticEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70D18492B9500D955F8 /* SPK_StaticEmitter.h */; };
+		2E92B75B18492B9600D955F8 /* SPK_StraightEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B70E18492B9500D955F8 /* SPK_StraightEmitter.h */; };
+		2E92B75C18492B9600D955F8 /* SPK_Collision.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71018492B9500D955F8 /* SPK_Collision.h */; };
+		2E92B75D18492B9600D955F8 /* SPK_Destroyer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71118492B9500D955F8 /* SPK_Destroyer.h */; };
+		2E92B75E18492B9600D955F8 /* SPK_LinearForce.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71218492B9500D955F8 /* SPK_LinearForce.h */; };
+		2E92B75F18492B9600D955F8 /* SPK_ModifierGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71318492B9500D955F8 /* SPK_ModifierGroup.h */; };
+		2E92B76018492B9600D955F8 /* SPK_Obstacle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71418492B9500D955F8 /* SPK_Obstacle.h */; };
+		2E92B76118492B9600D955F8 /* SPK_PointMass.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71518492B9500D955F8 /* SPK_PointMass.h */; };
+		2E92B76218492B9600D955F8 /* SPK_Rotator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71618492B9500D955F8 /* SPK_Rotator.h */; };
+		2E92B76318492B9600D955F8 /* SPK_Vortex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71718492B9500D955F8 /* SPK_Vortex.h */; };
+		2E92B76418492B9600D955F8 /* SPK_LineRendererInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71918492B9500D955F8 /* SPK_LineRendererInterface.h */; };
+		2E92B76518492B9600D955F8 /* SPK_Oriented2DRendererInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71A18492B9500D955F8 /* SPK_Oriented2DRendererInterface.h */; };
+		2E92B76618492B9600D955F8 /* SPK_Oriented3DRendererInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71B18492B9500D955F8 /* SPK_Oriented3DRendererInterface.h */; };
+		2E92B76718492B9600D955F8 /* SPK_PointRendererInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71C18492B9500D955F8 /* SPK_PointRendererInterface.h */; };
+		2E92B76818492B9600D955F8 /* SPK_QuadRendererInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71D18492B9500D955F8 /* SPK_QuadRendererInterface.h */; };
+		2E92B76918492B9600D955F8 /* SPK_AABox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B71F18492B9500D955F8 /* SPK_AABox.h */; };
+		2E92B76A18492B9600D955F8 /* SPK_Cylinder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72018492B9500D955F8 /* SPK_Cylinder.h */; };
+		2E92B76B18492B9600D955F8 /* SPK_Line.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72118492B9500D955F8 /* SPK_Line.h */; };
+		2E92B76C18492B9600D955F8 /* SPK_Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72218492B9500D955F8 /* SPK_Plane.h */; };
+		2E92B76D18492B9600D955F8 /* SPK_Point.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72318492B9500D955F8 /* SPK_Point.h */; };
+		2E92B76E18492B9600D955F8 /* SPK_Ring.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72418492B9500D955F8 /* SPK_Ring.h */; };
+		2E92B76F18492B9600D955F8 /* SPK_Sphere.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72518492B9500D955F8 /* SPK_Sphere.h */; };
+		2E92B77018492B9600D955F8 /* SPK_IRR_DEF.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72818492B9500D955F8 /* SPK_IRR_DEF.h */; };
+		2E92B77118492B9600D955F8 /* SPK_IRRBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72918492B9500D955F8 /* SPK_IRRBuffer.h */; };
+		2E92B77218492B9600D955F8 /* SPK_IRRLineRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72A18492B9500D955F8 /* SPK_IRRLineRenderer.h */; };
+		2E92B77318492B9600D955F8 /* SPK_IRRPointRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72B18492B9500D955F8 /* SPK_IRRPointRenderer.h */; };
+		2E92B77418492B9600D955F8 /* SPK_IRRQuadRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72C18492B9500D955F8 /* SPK_IRRQuadRenderer.h */; };
+		2E92B77518492B9600D955F8 /* SPK_IRRRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72D18492B9500D955F8 /* SPK_IRRRenderer.h */; };
+		2E92B77618492B9600D955F8 /* SPK_IRRSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B72E18492B9500D955F8 /* SPK_IRRSystem.h */; };
+		2E92B77718492B9600D955F8 /* SPK_GL_DEF.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73018492B9500D955F8 /* SPK_GL_DEF.h */; };
+		2E92B77818492B9600D955F8 /* SPK_GLExtHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73118492B9500D955F8 /* SPK_GLExtHandler.h */; };
+		2E92B77918492B9600D955F8 /* SPK_GLLineRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73218492B9500D955F8 /* SPK_GLLineRenderer.h */; };
+		2E92B77A18492B9600D955F8 /* SPK_GLLineTrailRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73318492B9500D955F8 /* SPK_GLLineTrailRenderer.h */; };
+		2E92B77B18492B9600D955F8 /* SPK_GLPointRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73418492B9500D955F8 /* SPK_GLPointRenderer.h */; };
+		2E92B77C18492B9600D955F8 /* SPK_GLQuadRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73518492B9500D955F8 /* SPK_GLQuadRenderer.h */; };
+		2E92B77D18492B9600D955F8 /* SPK_GLRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73618492B9500D955F8 /* SPK_GLRenderer.h */; };
+		2E92B77E18492B9600D955F8 /* SPK_SFML_DEF.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73818492B9500D955F8 /* SPK_SFML_DEF.h */; };
+		2E92B77F18492B9600D955F8 /* SPK_SFML_GLOBAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73918492B9500D955F8 /* SPK_SFML_GLOBAL.h */; };
+		2E92B78018492B9600D955F8 /* SPK_SFMLDrawableRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73A18492B9500D955F8 /* SPK_SFMLDrawableRenderer.h */; };
+		2E92B78118492B9600D955F8 /* SPK_SFMLLineRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73B18492B9500D955F8 /* SPK_SFMLLineRenderer.h */; };
+		2E92B78218492B9600D955F8 /* SPK_SFMLPointRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73C18492B9600D955F8 /* SPK_SFMLPointRenderer.h */; };
+		2E92B78318492B9600D955F8 /* SPK_SFMLQuadRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73D18492B9600D955F8 /* SPK_SFMLQuadRenderer.h */; };
+		2E92B78418492B9600D955F8 /* SPK_SFMLRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73E18492B9600D955F8 /* SPK_SFMLRenderer.h */; };
+		2E92B78518492B9600D955F8 /* SPK_SFMLSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B73F18492B9600D955F8 /* SPK_SFMLSystem.h */; };
+		2E92B78618492B9600D955F8 /* SPK.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74018492B9600D955F8 /* SPK.h */; };
+		2E92B78718492B9600D955F8 /* SPK_GL.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74118492B9600D955F8 /* SPK_GL.h */; };
+		2E92B78818492B9600D955F8 /* SPK_IRR.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74218492B9600D955F8 /* SPK_IRR.h */; };
+		2E92B78918492B9600D955F8 /* SPK_SFML.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74318492B9600D955F8 /* SPK_SFML.h */; };
+		2E92B78A18492C4B00D955F8 /* libSPARK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E92B6751849289E00D955F8 /* libSPARK.a */; };
+		2E92B78E18492D8600D955F8 /* CUIParticlesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B78C18492D8600D955F8 /* CUIParticlesEditor.cpp */; };
+		2E92B78F18492D8600D955F8 /* CUIParticlesEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B78D18492D8600D955F8 /* CUIParticlesEditor.h */; };
 		2E932B24182E80E0005FB341 /* libSSWECore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60191829818300FB1027 /* libSSWECore.a */; };
 		2E932B25182E82F0005FB341 /* CCgMaterialRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5484EA168A959800119951 /* CCgMaterialRenderer.cpp */; };
 		2E932B26182E8311005FB341 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5687431719AE69007C0D05 /* CImageLoaderDDS.cpp */; };
@@ -643,6 +796,12 @@
 		2E932B30182E8538005FB341 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E932B31182E853E005FB341 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
 		2EDA7A63182B9AF70047322E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDA7A62182B9AF70047322E /* main.cpp */; };
+		2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */; };
+		2EE402B6184947990058DD93 /* CGUINodesEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B4184947990058DD93 /* CGUINodesEditor.h */; };
+		2EE402B918494DD70058DD93 /* CGUINode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B718494DD70058DD93 /* CGUINode.cpp */; };
+		2EE402BA18494DD70058DD93 /* CGUINode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B818494DD70058DD93 /* CGUINode.h */; };
+		2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */; };
+		2EE402BE18494F970058DD93 /* CUIParticleEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402BC18494F970058DD93 /* CUIParticleEditor.h */; };
 		3430E4D61022C391006271FD /* CTarReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3430E4D41022C391006271FD /* CTarReader.h */; };
 		3430E4D71022C391006271FD /* CTarReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3430E4D51022C391006271FD /* CTarReader.cpp */; };
 		344FD4A61039E98C0045FD3F /* CMountPointReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */; };
@@ -1563,6 +1722,13 @@
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = libIrrlicht.a;
 		};
+		2E92B64A1849289E00D955F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = libIrrlicht.a;
+		};
 		4CA5CB810A4868B500ADB3D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -2167,10 +2333,134 @@
 		2E6E6746182DA53800A79A68 /* SSWE_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSWE_Prefix.pch; sourceTree = "<group>"; };
 		2E74EDFB1821A465008D126E /* CloudSceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CloudSceneNode.cpp; sourceTree = "<group>"; };
 		2E74EDFC1821A465008D126E /* CloudSceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudSceneNode.h; sourceTree = "<group>"; };
+		2E8F3B1D184AB0160073A3A3 /* ISSWEEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWEEvents.h; sourceTree = "<group>"; };
+		2E92B6751849289E00D955F8 /* libSPARK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSPARK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E92B677184928EC00D955F8 /* SPK_BufferHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_BufferHandler.cpp; sourceTree = "<group>"; };
+		2E92B678184928EC00D955F8 /* SPK_DEF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_DEF.cpp; sourceTree = "<group>"; };
+		2E92B679184928EC00D955F8 /* SPK_Emitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Emitter.cpp; sourceTree = "<group>"; };
+		2E92B67A184928EC00D955F8 /* SPK_Factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Factory.cpp; sourceTree = "<group>"; };
+		2E92B67B184928EC00D955F8 /* SPK_Group.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Group.cpp; sourceTree = "<group>"; };
+		2E92B67C184928EC00D955F8 /* SPK_Interpolator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Interpolator.cpp; sourceTree = "<group>"; };
+		2E92B67D184928EC00D955F8 /* SPK_Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Model.cpp; sourceTree = "<group>"; };
+		2E92B67E184928EC00D955F8 /* SPK_Modifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Modifier.cpp; sourceTree = "<group>"; };
+		2E92B67F184928EC00D955F8 /* SPK_Particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Particle.cpp; sourceTree = "<group>"; };
+		2E92B680184928EC00D955F8 /* SPK_Registerable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Registerable.cpp; sourceTree = "<group>"; };
+		2E92B681184928EC00D955F8 /* SPK_Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Renderer.cpp; sourceTree = "<group>"; };
+		2E92B682184928EC00D955F8 /* SPK_System.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_System.cpp; sourceTree = "<group>"; };
+		2E92B683184928EC00D955F8 /* SPK_Transformable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Transformable.cpp; sourceTree = "<group>"; };
+		2E92B684184928EC00D955F8 /* SPK_Vector3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Vector3D.cpp; sourceTree = "<group>"; };
+		2E92B685184928EC00D955F8 /* SPK_Zone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Zone.cpp; sourceTree = "<group>"; };
+		2E92B688184928EC00D955F8 /* SPK_NormalEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_NormalEmitter.cpp; sourceTree = "<group>"; };
+		2E92B689184928EC00D955F8 /* SPK_RandomEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_RandomEmitter.cpp; sourceTree = "<group>"; };
+		2E92B68A184928EC00D955F8 /* SPK_SphericEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_SphericEmitter.cpp; sourceTree = "<group>"; };
+		2E92B68B184928EC00D955F8 /* SPK_StraightEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_StraightEmitter.cpp; sourceTree = "<group>"; };
+		2E92B68D184928EC00D955F8 /* SPK_Collision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Collision.cpp; sourceTree = "<group>"; };
+		2E92B68E184928EC00D955F8 /* SPK_Destroyer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Destroyer.cpp; sourceTree = "<group>"; };
+		2E92B68F184928EC00D955F8 /* SPK_LinearForce.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_LinearForce.cpp; sourceTree = "<group>"; };
+		2E92B690184928EC00D955F8 /* SPK_ModifierGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_ModifierGroup.cpp; sourceTree = "<group>"; };
+		2E92B691184928EC00D955F8 /* SPK_Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Obstacle.cpp; sourceTree = "<group>"; };
+		2E92B692184928EC00D955F8 /* SPK_PointMass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_PointMass.cpp; sourceTree = "<group>"; };
+		2E92B693184928EC00D955F8 /* SPK_Vortex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Vortex.cpp; sourceTree = "<group>"; };
+		2E92B695184928EC00D955F8 /* SPK_Oriented3DRendererInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Oriented3DRendererInterface.cpp; sourceTree = "<group>"; };
+		2E92B696184928EC00D955F8 /* SPK_QuadRendererInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_QuadRendererInterface.cpp; sourceTree = "<group>"; };
+		2E92B698184928EC00D955F8 /* SPK_AABox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_AABox.cpp; sourceTree = "<group>"; };
+		2E92B699184928EC00D955F8 /* SPK_Cylinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Cylinder.cpp; sourceTree = "<group>"; };
+		2E92B69A184928EC00D955F8 /* SPK_Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Line.cpp; sourceTree = "<group>"; };
+		2E92B69B184928EC00D955F8 /* SPK_Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Plane.cpp; sourceTree = "<group>"; };
+		2E92B69C184928EC00D955F8 /* SPK_Point.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Point.cpp; sourceTree = "<group>"; };
+		2E92B69D184928EC00D955F8 /* SPK_Ring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Ring.cpp; sourceTree = "<group>"; };
+		2E92B69E184928EC00D955F8 /* SPK_Sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_Sphere.cpp; sourceTree = "<group>"; };
+		2E92B6A1184928EC00D955F8 /* SPK_IRRBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_IRRBuffer.cpp; sourceTree = "<group>"; };
+		2E92B6A2184928EC00D955F8 /* SPK_IRRLineRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_IRRLineRenderer.cpp; sourceTree = "<group>"; };
+		2E92B6A3184928ED00D955F8 /* SPK_IRRPointRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_IRRPointRenderer.cpp; sourceTree = "<group>"; };
+		2E92B6A4184928ED00D955F8 /* SPK_IRRQuadRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_IRRQuadRenderer.cpp; sourceTree = "<group>"; };
+		2E92B6A5184928ED00D955F8 /* SPK_IRRRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_IRRRenderer.cpp; sourceTree = "<group>"; };
+		2E92B6A6184928ED00D955F8 /* SPK_IRRSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_IRRSystem.cpp; sourceTree = "<group>"; };
+		2E92B6B5184928ED00D955F8 /* SPK_All.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SPK_All.cpp; path = ../../../../SPARK/SPARK155/src/SPK_All.cpp; sourceTree = "<group>"; };
+		2E92B6B7184928ED00D955F8 /* SPK_IRR_ALL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SPK_IRR_ALL.cpp; path = ../../../../SPARK/SPARK155/src/SPK_IRR_ALL.cpp; sourceTree = "<group>"; };
+		2E92B6F218492AF300D955F8 /* SSWE_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSWE_Prefix.pch; sourceTree = "<group>"; };
+		2E92B6F518492B9400D955F8 /* SPK_ArrayBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_ArrayBuffer.h; sourceTree = "<group>"; };
+		2E92B6F618492B9400D955F8 /* SPK_Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Buffer.h; sourceTree = "<group>"; };
+		2E92B6F718492B9400D955F8 /* SPK_BufferHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_BufferHandler.h; sourceTree = "<group>"; };
+		2E92B6F818492B9400D955F8 /* SPK_DEF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_DEF.h; sourceTree = "<group>"; };
+		2E92B6F918492B9400D955F8 /* SPK_Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Emitter.h; sourceTree = "<group>"; };
+		2E92B6FA18492B9400D955F8 /* SPK_Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Factory.h; sourceTree = "<group>"; };
+		2E92B6FB18492B9400D955F8 /* SPK_Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Group.h; sourceTree = "<group>"; };
+		2E92B6FC18492B9400D955F8 /* SPK_Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Interpolator.h; sourceTree = "<group>"; };
+		2E92B6FD18492B9400D955F8 /* SPK_Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Model.h; sourceTree = "<group>"; };
+		2E92B6FE18492B9400D955F8 /* SPK_Modifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Modifier.h; sourceTree = "<group>"; };
+		2E92B6FF18492B9500D955F8 /* SPK_Particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Particle.h; sourceTree = "<group>"; };
+		2E92B70018492B9500D955F8 /* SPK_Pool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Pool.h; sourceTree = "<group>"; };
+		2E92B70118492B9500D955F8 /* SPK_Registerable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Registerable.h; sourceTree = "<group>"; };
+		2E92B70218492B9500D955F8 /* SPK_RegWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_RegWrapper.h; sourceTree = "<group>"; };
+		2E92B70318492B9500D955F8 /* SPK_Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Renderer.h; sourceTree = "<group>"; };
+		2E92B70418492B9500D955F8 /* SPK_System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_System.h; sourceTree = "<group>"; };
+		2E92B70518492B9500D955F8 /* SPK_Transformable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Transformable.h; sourceTree = "<group>"; };
+		2E92B70618492B9500D955F8 /* SPK_Vector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Vector3D.h; sourceTree = "<group>"; };
+		2E92B70718492B9500D955F8 /* SPK_Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Zone.h; sourceTree = "<group>"; };
+		2E92B70A18492B9500D955F8 /* SPK_NormalEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_NormalEmitter.h; sourceTree = "<group>"; };
+		2E92B70B18492B9500D955F8 /* SPK_RandomEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_RandomEmitter.h; sourceTree = "<group>"; };
+		2E92B70C18492B9500D955F8 /* SPK_SphericEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SphericEmitter.h; sourceTree = "<group>"; };
+		2E92B70D18492B9500D955F8 /* SPK_StaticEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_StaticEmitter.h; sourceTree = "<group>"; };
+		2E92B70E18492B9500D955F8 /* SPK_StraightEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_StraightEmitter.h; sourceTree = "<group>"; };
+		2E92B71018492B9500D955F8 /* SPK_Collision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Collision.h; sourceTree = "<group>"; };
+		2E92B71118492B9500D955F8 /* SPK_Destroyer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Destroyer.h; sourceTree = "<group>"; };
+		2E92B71218492B9500D955F8 /* SPK_LinearForce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_LinearForce.h; sourceTree = "<group>"; };
+		2E92B71318492B9500D955F8 /* SPK_ModifierGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_ModifierGroup.h; sourceTree = "<group>"; };
+		2E92B71418492B9500D955F8 /* SPK_Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Obstacle.h; sourceTree = "<group>"; };
+		2E92B71518492B9500D955F8 /* SPK_PointMass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_PointMass.h; sourceTree = "<group>"; };
+		2E92B71618492B9500D955F8 /* SPK_Rotator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Rotator.h; sourceTree = "<group>"; };
+		2E92B71718492B9500D955F8 /* SPK_Vortex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Vortex.h; sourceTree = "<group>"; };
+		2E92B71918492B9500D955F8 /* SPK_LineRendererInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_LineRendererInterface.h; sourceTree = "<group>"; };
+		2E92B71A18492B9500D955F8 /* SPK_Oriented2DRendererInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Oriented2DRendererInterface.h; sourceTree = "<group>"; };
+		2E92B71B18492B9500D955F8 /* SPK_Oriented3DRendererInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Oriented3DRendererInterface.h; sourceTree = "<group>"; };
+		2E92B71C18492B9500D955F8 /* SPK_PointRendererInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_PointRendererInterface.h; sourceTree = "<group>"; };
+		2E92B71D18492B9500D955F8 /* SPK_QuadRendererInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_QuadRendererInterface.h; sourceTree = "<group>"; };
+		2E92B71F18492B9500D955F8 /* SPK_AABox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_AABox.h; sourceTree = "<group>"; };
+		2E92B72018492B9500D955F8 /* SPK_Cylinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Cylinder.h; sourceTree = "<group>"; };
+		2E92B72118492B9500D955F8 /* SPK_Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Line.h; sourceTree = "<group>"; };
+		2E92B72218492B9500D955F8 /* SPK_Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Plane.h; sourceTree = "<group>"; };
+		2E92B72318492B9500D955F8 /* SPK_Point.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Point.h; sourceTree = "<group>"; };
+		2E92B72418492B9500D955F8 /* SPK_Ring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Ring.h; sourceTree = "<group>"; };
+		2E92B72518492B9500D955F8 /* SPK_Sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_Sphere.h; sourceTree = "<group>"; };
+		2E92B72818492B9500D955F8 /* SPK_IRR_DEF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRR_DEF.h; sourceTree = "<group>"; };
+		2E92B72918492B9500D955F8 /* SPK_IRRBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRRBuffer.h; sourceTree = "<group>"; };
+		2E92B72A18492B9500D955F8 /* SPK_IRRLineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRRLineRenderer.h; sourceTree = "<group>"; };
+		2E92B72B18492B9500D955F8 /* SPK_IRRPointRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRRPointRenderer.h; sourceTree = "<group>"; };
+		2E92B72C18492B9500D955F8 /* SPK_IRRQuadRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRRQuadRenderer.h; sourceTree = "<group>"; };
+		2E92B72D18492B9500D955F8 /* SPK_IRRRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRRRenderer.h; sourceTree = "<group>"; };
+		2E92B72E18492B9500D955F8 /* SPK_IRRSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRRSystem.h; sourceTree = "<group>"; };
+		2E92B73018492B9500D955F8 /* SPK_GL_DEF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GL_DEF.h; sourceTree = "<group>"; };
+		2E92B73118492B9500D955F8 /* SPK_GLExtHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GLExtHandler.h; sourceTree = "<group>"; };
+		2E92B73218492B9500D955F8 /* SPK_GLLineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GLLineRenderer.h; sourceTree = "<group>"; };
+		2E92B73318492B9500D955F8 /* SPK_GLLineTrailRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GLLineTrailRenderer.h; sourceTree = "<group>"; };
+		2E92B73418492B9500D955F8 /* SPK_GLPointRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GLPointRenderer.h; sourceTree = "<group>"; };
+		2E92B73518492B9500D955F8 /* SPK_GLQuadRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GLQuadRenderer.h; sourceTree = "<group>"; };
+		2E92B73618492B9500D955F8 /* SPK_GLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GLRenderer.h; sourceTree = "<group>"; };
+		2E92B73818492B9500D955F8 /* SPK_SFML_DEF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFML_DEF.h; sourceTree = "<group>"; };
+		2E92B73918492B9500D955F8 /* SPK_SFML_GLOBAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFML_GLOBAL.h; sourceTree = "<group>"; };
+		2E92B73A18492B9500D955F8 /* SPK_SFMLDrawableRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFMLDrawableRenderer.h; sourceTree = "<group>"; };
+		2E92B73B18492B9500D955F8 /* SPK_SFMLLineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFMLLineRenderer.h; sourceTree = "<group>"; };
+		2E92B73C18492B9600D955F8 /* SPK_SFMLPointRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFMLPointRenderer.h; sourceTree = "<group>"; };
+		2E92B73D18492B9600D955F8 /* SPK_SFMLQuadRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFMLQuadRenderer.h; sourceTree = "<group>"; };
+		2E92B73E18492B9600D955F8 /* SPK_SFMLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFMLRenderer.h; sourceTree = "<group>"; };
+		2E92B73F18492B9600D955F8 /* SPK_SFMLSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFMLSystem.h; sourceTree = "<group>"; };
+		2E92B74018492B9600D955F8 /* SPK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK.h; sourceTree = "<group>"; };
+		2E92B74118492B9600D955F8 /* SPK_GL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_GL.h; sourceTree = "<group>"; };
+		2E92B74218492B9600D955F8 /* SPK_IRR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_IRR.h; sourceTree = "<group>"; };
+		2E92B74318492B9600D955F8 /* SPK_SFML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPK_SFML.h; sourceTree = "<group>"; };
+		2E92B78C18492D8600D955F8 /* CUIParticlesEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticlesEditor.cpp; path = ParticlesEditor/CUIParticlesEditor.cpp; sourceTree = "<group>"; };
+		2E92B78D18492D8600D955F8 /* CUIParticlesEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticlesEditor.h; path = ParticlesEditor/CUIParticlesEditor.h; sourceTree = "<group>"; };
 		2EA927E9182FB9D8003470EB /* stdafx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../../../SSWEGenericMonitor/stdafx.cpp; sourceTree = "<group>"; };
 		2EA927EA182FB9D8003470EB /* stdafx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWEGenericMonitor/stdafx.h; sourceTree = "<group>"; };
 		2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECoreData.h; sourceTree = "<group>"; };
 		2EDA7A62182B9AF70047322E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../examples/specialFX/main.cpp; sourceTree = "<group>"; };
+		2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINodesEditor.cpp; sourceTree = "<group>"; };
+		2EE402B4184947990058DD93 /* CGUINodesEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGUINodesEditor.h; sourceTree = "<group>"; };
+		2EE402B718494DD70058DD93 /* CGUINode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINode.cpp; sourceTree = "<group>"; };
+		2EE402B818494DD70058DD93 /* CGUINode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGUINode.h; sourceTree = "<group>"; };
+		2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticleEditor.cpp; path = ParticlesEditor/CUIParticleEditor.cpp; sourceTree = "<group>"; };
+		2EE402BC18494F970058DD93 /* CUIParticleEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditor.h; path = ParticlesEditor/CUIParticleEditor.h; sourceTree = "<group>"; };
 		3430E4D41022C391006271FD /* CTarReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTarReader.h; sourceTree = "<group>"; };
 		3430E4D51022C391006271FD /* CTarReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTarReader.cpp; sourceTree = "<group>"; };
 		344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CMountPointReader.cpp; sourceTree = "<group>"; };
@@ -2880,6 +3170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E92B78A18492C4B00D955F8 /* libSPARK.a in Frameworks */,
 				2E6C6357182987EB00FB1027 /* BulletCollision.framework in Frameworks */,
 				2E6C6358182987EB00FB1027 /* BulletDynamics.framework in Frameworks */,
 				2E6C6359182987EB00FB1027 /* LinearMath.framework in Frameworks */,
@@ -2903,6 +3194,18 @@
 				2E6E6741182D91A300A79A68 /* libSSWELib.a in Frameworks */,
 				2E932B24182E80E0005FB341 /* libSSWECore.a in Frameworks */,
 				2E6E6742182D91A300A79A68 /* libSSWERenders.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E92B66C1849289E00D955F8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E92B66D1849289E00D955F8 /* BulletCollision.framework in Frameworks */,
+				2E92B66E1849289E00D955F8 /* BulletDynamics.framework in Frameworks */,
+				2E92B66F1849289E00D955F8 /* LinearMath.framework in Frameworks */,
+				2E92B6701849289E00D955F8 /* liblua.a in Frameworks */,
+				2E92B6711849289E00D955F8 /* libIrrlicht.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3937,12 +4240,14 @@
 		2E6C5D971829801C00FB1027 /* SSWEProject */ = {
 			isa = PBXGroup;
 			children = (
+				2E92B6F218492AF300D955F8 /* SSWE_Prefix.pch */,
 				2E6E672F182D8FCB00A79A68 /* SSWEWebExportPlugin */,
 				2E6E65D4182D878000A79A68 /* SSWEGenericMonitor */,
 				2E6C632E1829858000FB1027 /* SSWE */,
 				2E6C60FA1829838500FB1027 /* SSWELib */,
 				2E6C601A1829819800FB1027 /* SSWECore */,
 				2E6C5D981829802600FB1027 /* SSWERenders */,
+				2E92B6471849287B00D955F8 /* SPARK */,
 				2E6C6360182998FA00FB1027 /* Libs */,
 			);
 			name = SSWEProject;
@@ -4088,6 +4393,7 @@
 		2E6C60FB182983A200FB1027 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2E8F3B1D184AB0160073A3A3 /* ISSWEEvents.h */,
 				2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */,
 				2E147AAD182FC8530030435D /* ISSWECore.h */,
 				2E147AAC182FC6870030435D /* ICollisionManager.h */,
@@ -4195,6 +4501,7 @@
 		2E6C6126182983A200FB1027 /* GUIExtension */ = {
 			isa = PBXGroup;
 			children = (
+				2EE402B2184947990058DD93 /* NodesEditor */,
 				2E6C6127182983A300FB1027 /* CodeEditor */,
 				2E6C612A182983A300FB1027 /* FileSelector */,
 				2E6C612D182983A300FB1027 /* Graph2D */,
@@ -4384,6 +4691,7 @@
 		2E6C6169182983A400FB1027 /* UserInterfaces */ = {
 			isa = PBXGroup;
 			children = (
+				2E92B78B18492CA900D955F8 /* ParticlesEditor */,
 				2E6C616A182983A400FB1027 /* AnimatorsEditor */,
 				2E6C616F182983A400FB1027 /* CodeEditor */,
 				2E6C6172182983A400FB1027 /* CUILoadNodesGroup.cpp */,
@@ -4607,12 +4915,311 @@
 			name = SSWEWebExportPlugin;
 			sourceTree = "<group>";
 		};
+		2E92B6471849287B00D955F8 /* SPARK */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B676184928EC00D955F8 /* Core */,
+				2E92B686184928EC00D955F8 /* Extensions */,
+				2E92B69F184928EC00D955F8 /* RenderingAPIs */,
+				2E92B6B5184928ED00D955F8 /* SPK_All.cpp */,
+				2E92B6B7184928ED00D955F8 /* SPK_IRR_ALL.cpp */,
+				2E92B6751849289E00D955F8 /* libSPARK.a */,
+				2E92B6F318492B9400D955F8 /* include */,
+			);
+			name = SPARK;
+			sourceTree = "<group>";
+		};
+		2E92B676184928EC00D955F8 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B677184928EC00D955F8 /* SPK_BufferHandler.cpp */,
+				2E92B678184928EC00D955F8 /* SPK_DEF.cpp */,
+				2E92B679184928EC00D955F8 /* SPK_Emitter.cpp */,
+				2E92B67A184928EC00D955F8 /* SPK_Factory.cpp */,
+				2E92B67B184928EC00D955F8 /* SPK_Group.cpp */,
+				2E92B67C184928EC00D955F8 /* SPK_Interpolator.cpp */,
+				2E92B67D184928EC00D955F8 /* SPK_Model.cpp */,
+				2E92B67E184928EC00D955F8 /* SPK_Modifier.cpp */,
+				2E92B67F184928EC00D955F8 /* SPK_Particle.cpp */,
+				2E92B680184928EC00D955F8 /* SPK_Registerable.cpp */,
+				2E92B681184928EC00D955F8 /* SPK_Renderer.cpp */,
+				2E92B682184928EC00D955F8 /* SPK_System.cpp */,
+				2E92B683184928EC00D955F8 /* SPK_Transformable.cpp */,
+				2E92B684184928EC00D955F8 /* SPK_Vector3D.cpp */,
+				2E92B685184928EC00D955F8 /* SPK_Zone.cpp */,
+			);
+			name = Core;
+			path = ../../../../SPARK/SPARK155/src/Core;
+			sourceTree = "<group>";
+		};
+		2E92B686184928EC00D955F8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B687184928EC00D955F8 /* Emitters */,
+				2E92B68C184928EC00D955F8 /* Modifiers */,
+				2E92B694184928EC00D955F8 /* Renderers */,
+				2E92B697184928EC00D955F8 /* Zones */,
+			);
+			name = Extensions;
+			path = ../../../../SPARK/SPARK155/src/Extensions;
+			sourceTree = "<group>";
+		};
+		2E92B687184928EC00D955F8 /* Emitters */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B688184928EC00D955F8 /* SPK_NormalEmitter.cpp */,
+				2E92B689184928EC00D955F8 /* SPK_RandomEmitter.cpp */,
+				2E92B68A184928EC00D955F8 /* SPK_SphericEmitter.cpp */,
+				2E92B68B184928EC00D955F8 /* SPK_StraightEmitter.cpp */,
+			);
+			path = Emitters;
+			sourceTree = "<group>";
+		};
+		2E92B68C184928EC00D955F8 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B68D184928EC00D955F8 /* SPK_Collision.cpp */,
+				2E92B68E184928EC00D955F8 /* SPK_Destroyer.cpp */,
+				2E92B68F184928EC00D955F8 /* SPK_LinearForce.cpp */,
+				2E92B690184928EC00D955F8 /* SPK_ModifierGroup.cpp */,
+				2E92B691184928EC00D955F8 /* SPK_Obstacle.cpp */,
+				2E92B692184928EC00D955F8 /* SPK_PointMass.cpp */,
+				2E92B693184928EC00D955F8 /* SPK_Vortex.cpp */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		2E92B694184928EC00D955F8 /* Renderers */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B695184928EC00D955F8 /* SPK_Oriented3DRendererInterface.cpp */,
+				2E92B696184928EC00D955F8 /* SPK_QuadRendererInterface.cpp */,
+			);
+			path = Renderers;
+			sourceTree = "<group>";
+		};
+		2E92B697184928EC00D955F8 /* Zones */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B698184928EC00D955F8 /* SPK_AABox.cpp */,
+				2E92B699184928EC00D955F8 /* SPK_Cylinder.cpp */,
+				2E92B69A184928EC00D955F8 /* SPK_Line.cpp */,
+				2E92B69B184928EC00D955F8 /* SPK_Plane.cpp */,
+				2E92B69C184928EC00D955F8 /* SPK_Point.cpp */,
+				2E92B69D184928EC00D955F8 /* SPK_Ring.cpp */,
+				2E92B69E184928EC00D955F8 /* SPK_Sphere.cpp */,
+			);
+			path = Zones;
+			sourceTree = "<group>";
+		};
+		2E92B69F184928EC00D955F8 /* RenderingAPIs */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B6A0184928EC00D955F8 /* Irrlicht */,
+			);
+			name = RenderingAPIs;
+			path = ../../../../SPARK/SPARK155/src/RenderingAPIs;
+			sourceTree = "<group>";
+		};
+		2E92B6A0184928EC00D955F8 /* Irrlicht */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B6A1184928EC00D955F8 /* SPK_IRRBuffer.cpp */,
+				2E92B6A2184928EC00D955F8 /* SPK_IRRLineRenderer.cpp */,
+				2E92B6A3184928ED00D955F8 /* SPK_IRRPointRenderer.cpp */,
+				2E92B6A4184928ED00D955F8 /* SPK_IRRQuadRenderer.cpp */,
+				2E92B6A5184928ED00D955F8 /* SPK_IRRRenderer.cpp */,
+				2E92B6A6184928ED00D955F8 /* SPK_IRRSystem.cpp */,
+			);
+			path = Irrlicht;
+			sourceTree = "<group>";
+		};
+		2E92B6F318492B9400D955F8 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B6F418492B9400D955F8 /* Core */,
+				2E92B70818492B9500D955F8 /* Extensions */,
+				2E92B72618492B9500D955F8 /* RenderingAPIs */,
+				2E92B74018492B9600D955F8 /* SPK.h */,
+				2E92B74118492B9600D955F8 /* SPK_GL.h */,
+				2E92B74218492B9600D955F8 /* SPK_IRR.h */,
+				2E92B74318492B9600D955F8 /* SPK_SFML.h */,
+			);
+			name = include;
+			path = ../../../../SPARK/SPARK155/include;
+			sourceTree = "<group>";
+		};
+		2E92B6F418492B9400D955F8 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B6F518492B9400D955F8 /* SPK_ArrayBuffer.h */,
+				2E92B6F618492B9400D955F8 /* SPK_Buffer.h */,
+				2E92B6F718492B9400D955F8 /* SPK_BufferHandler.h */,
+				2E92B6F818492B9400D955F8 /* SPK_DEF.h */,
+				2E92B6F918492B9400D955F8 /* SPK_Emitter.h */,
+				2E92B6FA18492B9400D955F8 /* SPK_Factory.h */,
+				2E92B6FB18492B9400D955F8 /* SPK_Group.h */,
+				2E92B6FC18492B9400D955F8 /* SPK_Interpolator.h */,
+				2E92B6FD18492B9400D955F8 /* SPK_Model.h */,
+				2E92B6FE18492B9400D955F8 /* SPK_Modifier.h */,
+				2E92B6FF18492B9500D955F8 /* SPK_Particle.h */,
+				2E92B70018492B9500D955F8 /* SPK_Pool.h */,
+				2E92B70118492B9500D955F8 /* SPK_Registerable.h */,
+				2E92B70218492B9500D955F8 /* SPK_RegWrapper.h */,
+				2E92B70318492B9500D955F8 /* SPK_Renderer.h */,
+				2E92B70418492B9500D955F8 /* SPK_System.h */,
+				2E92B70518492B9500D955F8 /* SPK_Transformable.h */,
+				2E92B70618492B9500D955F8 /* SPK_Vector3D.h */,
+				2E92B70718492B9500D955F8 /* SPK_Zone.h */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		2E92B70818492B9500D955F8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B70918492B9500D955F8 /* Emitters */,
+				2E92B70F18492B9500D955F8 /* Modifiers */,
+				2E92B71818492B9500D955F8 /* Renderers */,
+				2E92B71E18492B9500D955F8 /* Zones */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2E92B70918492B9500D955F8 /* Emitters */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B70A18492B9500D955F8 /* SPK_NormalEmitter.h */,
+				2E92B70B18492B9500D955F8 /* SPK_RandomEmitter.h */,
+				2E92B70C18492B9500D955F8 /* SPK_SphericEmitter.h */,
+				2E92B70D18492B9500D955F8 /* SPK_StaticEmitter.h */,
+				2E92B70E18492B9500D955F8 /* SPK_StraightEmitter.h */,
+			);
+			path = Emitters;
+			sourceTree = "<group>";
+		};
+		2E92B70F18492B9500D955F8 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B71018492B9500D955F8 /* SPK_Collision.h */,
+				2E92B71118492B9500D955F8 /* SPK_Destroyer.h */,
+				2E92B71218492B9500D955F8 /* SPK_LinearForce.h */,
+				2E92B71318492B9500D955F8 /* SPK_ModifierGroup.h */,
+				2E92B71418492B9500D955F8 /* SPK_Obstacle.h */,
+				2E92B71518492B9500D955F8 /* SPK_PointMass.h */,
+				2E92B71618492B9500D955F8 /* SPK_Rotator.h */,
+				2E92B71718492B9500D955F8 /* SPK_Vortex.h */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		2E92B71818492B9500D955F8 /* Renderers */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B71918492B9500D955F8 /* SPK_LineRendererInterface.h */,
+				2E92B71A18492B9500D955F8 /* SPK_Oriented2DRendererInterface.h */,
+				2E92B71B18492B9500D955F8 /* SPK_Oriented3DRendererInterface.h */,
+				2E92B71C18492B9500D955F8 /* SPK_PointRendererInterface.h */,
+				2E92B71D18492B9500D955F8 /* SPK_QuadRendererInterface.h */,
+			);
+			path = Renderers;
+			sourceTree = "<group>";
+		};
+		2E92B71E18492B9500D955F8 /* Zones */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B71F18492B9500D955F8 /* SPK_AABox.h */,
+				2E92B72018492B9500D955F8 /* SPK_Cylinder.h */,
+				2E92B72118492B9500D955F8 /* SPK_Line.h */,
+				2E92B72218492B9500D955F8 /* SPK_Plane.h */,
+				2E92B72318492B9500D955F8 /* SPK_Point.h */,
+				2E92B72418492B9500D955F8 /* SPK_Ring.h */,
+				2E92B72518492B9500D955F8 /* SPK_Sphere.h */,
+			);
+			path = Zones;
+			sourceTree = "<group>";
+		};
+		2E92B72618492B9500D955F8 /* RenderingAPIs */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B72718492B9500D955F8 /* Irrlicht */,
+				2E92B72F18492B9500D955F8 /* OpenGL */,
+				2E92B73718492B9500D955F8 /* SFML */,
+			);
+			path = RenderingAPIs;
+			sourceTree = "<group>";
+		};
+		2E92B72718492B9500D955F8 /* Irrlicht */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B72818492B9500D955F8 /* SPK_IRR_DEF.h */,
+				2E92B72918492B9500D955F8 /* SPK_IRRBuffer.h */,
+				2E92B72A18492B9500D955F8 /* SPK_IRRLineRenderer.h */,
+				2E92B72B18492B9500D955F8 /* SPK_IRRPointRenderer.h */,
+				2E92B72C18492B9500D955F8 /* SPK_IRRQuadRenderer.h */,
+				2E92B72D18492B9500D955F8 /* SPK_IRRRenderer.h */,
+				2E92B72E18492B9500D955F8 /* SPK_IRRSystem.h */,
+			);
+			path = Irrlicht;
+			sourceTree = "<group>";
+		};
+		2E92B72F18492B9500D955F8 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B73018492B9500D955F8 /* SPK_GL_DEF.h */,
+				2E92B73118492B9500D955F8 /* SPK_GLExtHandler.h */,
+				2E92B73218492B9500D955F8 /* SPK_GLLineRenderer.h */,
+				2E92B73318492B9500D955F8 /* SPK_GLLineTrailRenderer.h */,
+				2E92B73418492B9500D955F8 /* SPK_GLPointRenderer.h */,
+				2E92B73518492B9500D955F8 /* SPK_GLQuadRenderer.h */,
+				2E92B73618492B9500D955F8 /* SPK_GLRenderer.h */,
+			);
+			path = OpenGL;
+			sourceTree = "<group>";
+		};
+		2E92B73718492B9500D955F8 /* SFML */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B73818492B9500D955F8 /* SPK_SFML_DEF.h */,
+				2E92B73918492B9500D955F8 /* SPK_SFML_GLOBAL.h */,
+				2E92B73A18492B9500D955F8 /* SPK_SFMLDrawableRenderer.h */,
+				2E92B73B18492B9500D955F8 /* SPK_SFMLLineRenderer.h */,
+				2E92B73C18492B9600D955F8 /* SPK_SFMLPointRenderer.h */,
+				2E92B73D18492B9600D955F8 /* SPK_SFMLQuadRenderer.h */,
+				2E92B73E18492B9600D955F8 /* SPK_SFMLRenderer.h */,
+				2E92B73F18492B9600D955F8 /* SPK_SFMLSystem.h */,
+			);
+			path = SFML;
+			sourceTree = "<group>";
+		};
+		2E92B78B18492CA900D955F8 /* ParticlesEditor */ = {
+			isa = PBXGroup;
+			children = (
+				2E92B78C18492D8600D955F8 /* CUIParticlesEditor.cpp */,
+				2E92B78D18492D8600D955F8 /* CUIParticlesEditor.h */,
+				2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */,
+				2EE402BC18494F970058DD93 /* CUIParticleEditor.h */,
+			);
+			name = ParticlesEditor;
+			sourceTree = "<group>";
+		};
 		2EDA7A61182B9AE70047322E /* SpecialDatGenerator */ = {
 			isa = PBXGroup;
 			children = (
 				2EDA7A62182B9AF70047322E /* main.cpp */,
 			);
 			name = SpecialDatGenerator;
+			sourceTree = "<group>";
+		};
+		2EE402B2184947990058DD93 /* NodesEditor */ = {
+			isa = PBXGroup;
+			children = (
+				2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */,
+				2EE402B4184947990058DD93 /* CGUINodesEditor.h */,
+				2EE402B718494DD70058DD93 /* CGUINode.cpp */,
+				2EE402B818494DD70058DD93 /* CGUINode.h */,
+			);
+			path = NodesEditor;
 			sourceTree = "<group>";
 		};
 		34EF91900F65F9AD000B5651 /* loader */ = {
@@ -5188,6 +5795,7 @@
 				2E2CA4CB182D6E7D000BA9DA /* CUIScriptEditor.h in Headers */,
 				2E2CA4CC182D6E7D000BA9DA /* MonitorRegister.h in Headers */,
 				2E2CA4CD182D6E7D000BA9DA /* CGUICodeEditor.h in Headers */,
+				2E92B78F18492D8600D955F8 /* CUIParticlesEditor.h in Headers */,
 				2E2CA4CE182D6E7D000BA9DA /* CGUIFileSelector.h in Headers */,
 				2E2CA4CF182D6E7D000BA9DA /* GraphKat.h in Headers */,
 				2E2CA4D0182D6E7D000BA9DA /* ProgressBar.h in Headers */,
@@ -5197,6 +5805,7 @@
 				2E2CA4D4182D6E7D000BA9DA /* CRenderCallback.h in Headers */,
 				2E2CA4D5182D6E7D000BA9DA /* CRenderCallbackScripting.h in Headers */,
 				2E2CA4D6182D6E7D000BA9DA /* CShaderCallback.h in Headers */,
+				2E8F3B1E184AB0160073A3A3 /* ISSWEEvents.h in Headers */,
 				2E2CA4D7182D6E7D000BA9DA /* CUIWindowEditEffects.h in Headers */,
 				2E2CA4D8182D6E7D000BA9DA /* CUIWindowEditMaterials.h in Headers */,
 				2E2CA4D9182D6E7D000BA9DA /* CUIWindowEditMaterialsCallback.h in Headers */,
@@ -5242,9 +5851,11 @@
 				2E2CA501182D6E7D000BA9DA /* CUIMaterialEditorTextures.h in Headers */,
 				2E2CA502182D6E7D000BA9DA /* CNodeFactory.h in Headers */,
 				2E2CA503182D6E7D000BA9DA /* CUINodeFactoryCreateMeshWithTangents.h in Headers */,
+				2EE402BA18494DD70058DD93 /* CGUINode.h in Headers */,
 				2E2CA504182D6E7D000BA9DA /* CUINodeFactoryPlanarMapping.h in Headers */,
 				2E2CA505182D6E7D000BA9DA /* CUIWindowAddNewTerrain.h in Headers */,
 				2E2CA506182D6E7D000BA9DA /* CGrassPainter.h in Headers */,
+				2EE402B6184947990058DD93 /* CGUINodesEditor.h in Headers */,
 				2E2CA507182D6E7D000BA9DA /* CTerrainPainter.h in Headers */,
 				2E2CA508182D6E7D000BA9DA /* CUITerrainPainting.h in Headers */,
 				2E2CA509182D6E7D000BA9DA /* CUISSWEOptions.h in Headers */,
@@ -5258,6 +5869,7 @@
 				2E2CA511182D6E7D000BA9DA /* UIWindowRender.h in Headers */,
 				2E2CA512182D6E7D000BA9DA /* SSWELib.h in Headers */,
 				2E2CA513182D6E7D000BA9DA /* stdafx.h in Headers */,
+				2EE402BE18494F970058DD93 /* CUIParticleEditor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5266,6 +5878,95 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6E673D182D909A00A79A68 /* CSSWELibTestPlugin.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E92B64B1849289E00D955F8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E92B74918492B9600D955F8 /* SPK_Factory.h in Headers */,
+				2E92B78318492B9600D955F8 /* SPK_SFMLQuadRenderer.h in Headers */,
+				2E92B74618492B9600D955F8 /* SPK_BufferHandler.h in Headers */,
+				2E92B75F18492B9600D955F8 /* SPK_ModifierGroup.h in Headers */,
+				2E92B64C1849289E00D955F8 /* shadergroup.h in Headers */,
+				2E92B77418492B9600D955F8 /* SPK_IRRQuadRenderer.h in Headers */,
+				2E92B74418492B9600D955F8 /* SPK_ArrayBuffer.h in Headers */,
+				2E92B64D1849289E00D955F8 /* shadermaterial.h in Headers */,
+				2E92B78518492B9600D955F8 /* SPK_SFMLSystem.h in Headers */,
+				2E92B76F18492B9600D955F8 /* SPK_Sphere.h in Headers */,
+				2E92B76618492B9600D955F8 /* SPK_Oriented3DRendererInterface.h in Headers */,
+				2E92B76118492B9600D955F8 /* SPK_PointMass.h in Headers */,
+				2E92B76318492B9600D955F8 /* SPK_Vortex.h in Headers */,
+				2E92B76218492B9600D955F8 /* SPK_Rotator.h in Headers */,
+				2E92B64E1849289E00D955F8 /* PostProcessMotionBlurhlsl.h in Headers */,
+				2E92B74818492B9600D955F8 /* SPK_Emitter.h in Headers */,
+				2E92B64F1849289E00D955F8 /* ScreenSpaceAmbientOcclusion.h in Headers */,
+				2E92B77E18492B9600D955F8 /* SPK_SFML_DEF.h in Headers */,
+				2E92B75318492B9600D955F8 /* SPK_System.h in Headers */,
+				2E92B78218492B9600D955F8 /* SPK_SFMLPointRenderer.h in Headers */,
+				2E92B77118492B9600D955F8 /* SPK_IRRBuffer.h in Headers */,
+				2E92B76818492B9600D955F8 /* SPK_QuadRendererInterface.h in Headers */,
+				2E92B74B18492B9600D955F8 /* SPK_Interpolator.h in Headers */,
+				2E92B6501849289E00D955F8 /* CScreenQuad.h in Headers */,
+				2E92B77318492B9600D955F8 /* SPK_IRRPointRenderer.h in Headers */,
+				2E92B77818492B9600D955F8 /* SPK_GLExtHandler.h in Headers */,
+				2E92B6511849289E00D955F8 /* CShaderPre.h in Headers */,
+				2E92B6521849289E00D955F8 /* EffectCB.h in Headers */,
+				2E92B6531849289E00D955F8 /* EffectHandler.h in Headers */,
+				2E92B77918492B9600D955F8 /* SPK_GLLineRenderer.h in Headers */,
+				2E92B78718492B9600D955F8 /* SPK_GL.h in Headers */,
+				2E92B77518492B9600D955F8 /* SPK_IRRRenderer.h in Headers */,
+				2E92B76D18492B9600D955F8 /* SPK_Point.h in Headers */,
+				2E92B77B18492B9600D955F8 /* SPK_GLPointRenderer.h in Headers */,
+				2E92B77D18492B9600D955F8 /* SPK_GLRenderer.h in Headers */,
+				2E92B75C18492B9600D955F8 /* SPK_Collision.h in Headers */,
+				2E92B78418492B9600D955F8 /* SPK_SFMLRenderer.h in Headers */,
+				2E92B76B18492B9600D955F8 /* SPK_Line.h in Headers */,
+				2E92B78018492B9600D955F8 /* SPK_SFMLDrawableRenderer.h in Headers */,
+				2E92B75418492B9600D955F8 /* SPK_Transformable.h in Headers */,
+				2E92B76518492B9600D955F8 /* SPK_Oriented2DRendererInterface.h in Headers */,
+				2E92B75918492B9600D955F8 /* SPK_SphericEmitter.h in Headers */,
+				2E92B6541849289E00D955F8 /* EffectShaders.h in Headers */,
+				2E92B75118492B9600D955F8 /* SPK_RegWrapper.h in Headers */,
+				2E92B75218492B9600D955F8 /* SPK_Renderer.h in Headers */,
+				2E92B76018492B9600D955F8 /* SPK_Obstacle.h in Headers */,
+				2E92B75018492B9600D955F8 /* SPK_Registerable.h in Headers */,
+				2E92B75618492B9600D955F8 /* SPK_Zone.h in Headers */,
+				2E92B76C18492B9600D955F8 /* SPK_Plane.h in Headers */,
+				2E92B78118492B9600D955F8 /* SPK_SFMLLineRenderer.h in Headers */,
+				2E92B75818492B9600D955F8 /* SPK_RandomEmitter.h in Headers */,
+				2E92B78618492B9600D955F8 /* SPK.h in Headers */,
+				2E92B76918492B9600D955F8 /* SPK_AABox.h in Headers */,
+				2E92B75A18492B9600D955F8 /* SPK_StaticEmitter.h in Headers */,
+				2E92B75518492B9600D955F8 /* SPK_Vector3D.h in Headers */,
+				2E92B77018492B9600D955F8 /* SPK_IRR_DEF.h in Headers */,
+				2E92B74C18492B9600D955F8 /* SPK_Model.h in Headers */,
+				2E92B76718492B9600D955F8 /* SPK_PointRendererInterface.h in Headers */,
+				2E92B77618492B9600D955F8 /* SPK_IRRSystem.h in Headers */,
+				2E92B74F18492B9600D955F8 /* SPK_Pool.h in Headers */,
+				2E92B78818492B9600D955F8 /* SPK_IRR.h in Headers */,
+				2E92B75E18492B9600D955F8 /* SPK_LinearForce.h in Headers */,
+				2E92B77718492B9600D955F8 /* SPK_GL_DEF.h in Headers */,
+				2E92B74718492B9600D955F8 /* SPK_DEF.h in Headers */,
+				2E92B77A18492B9600D955F8 /* SPK_GLLineTrailRenderer.h in Headers */,
+				2E92B6551849289E00D955F8 /* XEffects.h in Headers */,
+				2E92B76E18492B9600D955F8 /* SPK_Ring.h in Headers */,
+				2E92B75B18492B9600D955F8 /* SPK_StraightEmitter.h in Headers */,
+				2E92B75718492B9600D955F8 /* SPK_NormalEmitter.h in Headers */,
+				2E92B76A18492B9600D955F8 /* SPK_Cylinder.h in Headers */,
+				2E92B74A18492B9600D955F8 /* SPK_Group.h in Headers */,
+				2E92B77C18492B9600D955F8 /* SPK_GLQuadRenderer.h in Headers */,
+				2E92B74D18492B9600D955F8 /* SPK_Modifier.h in Headers */,
+				2E92B78918492B9600D955F8 /* SPK_SFML.h in Headers */,
+				2E92B77218492B9600D955F8 /* SPK_IRRLineRenderer.h in Headers */,
+				2E92B76418492B9600D955F8 /* SPK_LineRendererInterface.h in Headers */,
+				2E92B74518492B9600D955F8 /* SPK_Buffer.h in Headers */,
+				2E92B6561849289E00D955F8 /* SSWERenders.h in Headers */,
+				2E92B74E18492B9600D955F8 /* SPK_Particle.h in Headers */,
+				2E92B6571849289E00D955F8 /* stdafx.h in Headers */,
+				2E92B77F18492B9600D955F8 /* SPK_SFML_GLOBAL.h in Headers */,
+				2E92B75D18492B9600D955F8 /* SPK_Destroyer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5753,6 +6454,24 @@
 			productReference = 2E6E6734182D905500A79A68 /* libSSWEWebExportPlugin.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		2E92B6481849289E00D955F8 /* SPARK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E92B6721849289E00D955F8 /* Build configuration list for PBXNativeTarget "SPARK" */;
+			buildPhases = (
+				2E92B64B1849289E00D955F8 /* Headers */,
+				2E92B6581849289E00D955F8 /* Sources */,
+				2E92B66C1849289E00D955F8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2E92B6491849289E00D955F8 /* PBXTargetDependency */,
+			);
+			name = SPARK;
+			productName = MacOSX;
+			productReference = 2E92B6751849289E00D955F8 /* libSPARK.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		959726FC12C18FFB00BF73D3 /* IrrFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9597270112C18FFD00BF73D3 /* Build configuration list for PBXNativeTarget "IrrFramework" */;
@@ -6066,6 +6785,7 @@
 				09022C520EA0E97F00CD54EE /* GUIEditor */,
 				B81CFFC6097FE9980057C06F /* All */,
 				959726FC12C18FFB00BF73D3 /* IrrFramework */,
+				2E92B6481849289E00D955F8 /* SPARK */,
 				D2AAC07D0554694100DB518D /* libIrrlicht.a */,
 				2E6C5DAF182980CD00FB1027 /* SSWERenders */,
 				2E6C5F8F1829818300FB1027 /* SSWECore */,
@@ -6378,6 +7098,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */,
 				2E6C627D182983CD00FB1027 /* DLLExport.h in Sources */,
 				2E6C627E182983CD00FB1027 /* IDevices.h in Sources */,
 				2E6C627F182983CD00FB1027 /* IGraphicTool.h in Sources */,
@@ -6440,6 +7161,7 @@
 				2E6C62B8182983CD00FB1027 /* CUIWindowEditMaterialsCallback.h in Sources */,
 				2E6C62B9182983CD00FB1027 /* CRotationAnimator.cpp in Sources */,
 				2E6C62BA182983CD00FB1027 /* CRotationAnimator.h in Sources */,
+				2EE402B918494DD70058DD93 /* CGUINode.cpp in Sources */,
 				2E6C62BB182983CD00FB1027 /* ISceneNodeAnimatorFinishing.h in Sources */,
 				2E6C62BC182983CD00FB1027 /* CRiggedCamera.cpp in Sources */,
 				2E6C62BD182983CD00FB1027 /* CRiggedCamera.h in Sources */,
@@ -6470,6 +7192,7 @@
 				2E6C62D6182983CD00FB1027 /* CUICodeEditor.h in Sources */,
 				2E6C62D7182983CD00FB1027 /* CUILoadNodesGroup.cpp in Sources */,
 				2E6C62D8182983CD00FB1027 /* CUILoadNodesGroup.h in Sources */,
+				2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */,
 				2E6C62D9182983CD00FB1027 /* CUIRenderingInfos.cpp in Sources */,
 				2E6C62DA182983CD00FB1027 /* CUIRenderingInfos.h in Sources */,
 				2E6C62DB182983CD00FB1027 /* CUIRightSceneTreeView.cpp in Sources */,
@@ -6528,6 +7251,7 @@
 				2E6C6310182983CD00FB1027 /* CGrassPainter.h in Sources */,
 				2E6C6311182983CD00FB1027 /* CTerrainPainter.cpp in Sources */,
 				2E6C6312182983CD00FB1027 /* CTerrainPainter.h in Sources */,
+				2E92B78E18492D8600D955F8 /* CUIParticlesEditor.cpp in Sources */,
 				2E6C6313182983CD00FB1027 /* CUITerrainPainting.cpp in Sources */,
 				2E6C6314182983CD00FB1027 /* CUITerrainPainting.h in Sources */,
 				2E6C6315182983CD00FB1027 /* CUISSWEOptions.cpp in Sources */,
@@ -6560,6 +7284,75 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6E673C182D909A00A79A68 /* CSSWELibTestPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E92B6581849289E00D955F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E92B6591849289E00D955F8 /* shadergroup.cpp in Sources */,
+				2E92B6EE184928ED00D955F8 /* SPK_All.cpp in Sources */,
+				2E92B6C3184928ED00D955F8 /* SPK_Renderer.cpp in Sources */,
+				2E92B65A1849289E00D955F8 /* shadergroup.h in Sources */,
+				2E92B6C5184928ED00D955F8 /* SPK_Transformable.cpp in Sources */,
+				2E92B65B1849289E00D955F8 /* shadermaterial.cpp in Sources */,
+				2E92B6DE184928ED00D955F8 /* SPK_IRRPointRenderer.cpp in Sources */,
+				2E92B65C1849289E00D955F8 /* shadermaterial.h in Sources */,
+				2E92B6CC184928ED00D955F8 /* SPK_Collision.cpp in Sources */,
+				2E92B6DF184928ED00D955F8 /* SPK_IRRQuadRenderer.cpp in Sources */,
+				2E92B65D1849289E00D955F8 /* PostProcessMotionBlurhlsl.h in Sources */,
+				2E92B6C8184928ED00D955F8 /* SPK_NormalEmitter.cpp in Sources */,
+				2E92B6C2184928ED00D955F8 /* SPK_Registerable.cpp in Sources */,
+				2E92B6E0184928ED00D955F8 /* SPK_IRRRenderer.cpp in Sources */,
+				2E92B6E1184928ED00D955F8 /* SPK_IRRSystem.cpp in Sources */,
+				2E92B6BA184928ED00D955F8 /* SPK_DEF.cpp in Sources */,
+				2E92B65E1849289E00D955F8 /* ScreenSpaceAmbientOcclusion.cpp in Sources */,
+				2E92B6C7184928ED00D955F8 /* SPK_Zone.cpp in Sources */,
+				2E92B65F1849289E00D955F8 /* ScreenSpaceAmbientOcclusion.h in Sources */,
+				2E92B6BE184928ED00D955F8 /* SPK_Interpolator.cpp in Sources */,
+				2E92B6CF184928ED00D955F8 /* SPK_ModifierGroup.cpp in Sources */,
+				2E92B6601849289E00D955F8 /* CScreenQuad.h in Sources */,
+				2E92B6BF184928ED00D955F8 /* SPK_Model.cpp in Sources */,
+				2E92B6611849289E00D955F8 /* CShaderPre.cpp in Sources */,
+				2E92B6621849289E00D955F8 /* CShaderPre.h in Sources */,
+				2E92B6631849289E00D955F8 /* EffectCB.h in Sources */,
+				2E92B6D1184928ED00D955F8 /* SPK_PointMass.cpp in Sources */,
+				2E92B6D5184928ED00D955F8 /* SPK_AABox.cpp in Sources */,
+				2E92B6CB184928ED00D955F8 /* SPK_StraightEmitter.cpp in Sources */,
+				2E92B6D0184928ED00D955F8 /* SPK_Obstacle.cpp in Sources */,
+				2E92B6DD184928ED00D955F8 /* SPK_IRRLineRenderer.cpp in Sources */,
+				2E92B6D4184928ED00D955F8 /* SPK_QuadRendererInterface.cpp in Sources */,
+				2E92B6DC184928ED00D955F8 /* SPK_IRRBuffer.cpp in Sources */,
+				2E92B6641849289E00D955F8 /* EffectHandler.cpp in Sources */,
+				2E92B6D8184928ED00D955F8 /* SPK_Plane.cpp in Sources */,
+				2E92B6CA184928ED00D955F8 /* SPK_SphericEmitter.cpp in Sources */,
+				2E92B6D9184928ED00D955F8 /* SPK_Point.cpp in Sources */,
+				2E92B6D3184928ED00D955F8 /* SPK_Oriented3DRendererInterface.cpp in Sources */,
+				2E92B6D6184928ED00D955F8 /* SPK_Cylinder.cpp in Sources */,
+				2E92B6C0184928ED00D955F8 /* SPK_Modifier.cpp in Sources */,
+				2E92B6651849289E00D955F8 /* EffectHandler.h in Sources */,
+				2E92B6C9184928ED00D955F8 /* SPK_RandomEmitter.cpp in Sources */,
+				2E92B6661849289E00D955F8 /* EffectShaders.h in Sources */,
+				2E92B6BB184928ED00D955F8 /* SPK_Emitter.cpp in Sources */,
+				2E92B6BD184928ED00D955F8 /* SPK_Group.cpp in Sources */,
+				2E92B6671849289E00D955F8 /* XEffects.h in Sources */,
+				2E92B6681849289E00D955F8 /* SSWERenders.cpp in Sources */,
+				2E92B6691849289E00D955F8 /* SSWERenders.h in Sources */,
+				2E92B6DA184928ED00D955F8 /* SPK_Ring.cpp in Sources */,
+				2E92B6CD184928ED00D955F8 /* SPK_Destroyer.cpp in Sources */,
+				2E92B6C6184928ED00D955F8 /* SPK_Vector3D.cpp in Sources */,
+				2E92B6BC184928ED00D955F8 /* SPK_Factory.cpp in Sources */,
+				2E92B66A1849289E00D955F8 /* stdafx.cpp in Sources */,
+				2E92B6F0184928ED00D955F8 /* SPK_IRR_ALL.cpp in Sources */,
+				2E92B66B1849289E00D955F8 /* stdafx.h in Sources */,
+				2E92B6CE184928ED00D955F8 /* SPK_LinearForce.cpp in Sources */,
+				2E92B6C1184928ED00D955F8 /* SPK_Particle.cpp in Sources */,
+				2E92B6D7184928ED00D955F8 /* SPK_Line.cpp in Sources */,
+				2E92B6C4184928ED00D955F8 /* SPK_System.cpp in Sources */,
+				2E92B6DB184928ED00D955F8 /* SPK_Sphere.cpp in Sources */,
+				2E92B6D2184928ED00D955F8 /* SPK_Vortex.cpp in Sources */,
+				2E92B6B9184928ED00D955F8 /* SPK_BufferHandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7391,6 +8184,11 @@
 			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
 			targetProxy = 2E6C6338182985B900FB1027 /* PBXContainerItemProxy */;
 		};
+		2E92B6491849289E00D955F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
+			targetProxy = 2E92B64A1849289E00D955F8 /* PBXContainerItemProxy */;
+		};
 		4CA5CB820A4868B500ADB3D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B8DEF35C0950229200FDEA7E /* Demo */;
@@ -8183,6 +8981,7 @@
 					../../../../Bullet/libs/,
 					../../../../Bullet/libs/src/,
 					../../../../Lua52/include/,
+					../../../../SPARK/SPARK155/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -8217,6 +9016,7 @@
 					../../../../Bullet/libs/,
 					../../../../Bullet/libs/src/,
 					../../../../Lua52/include/,
+					../../../../SPARK/SPARK155/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -8255,6 +9055,7 @@
 					../../../../SSWELib/include/,
 					../../../../SSWERenders/,
 					../../../../SSWELib,
+					../../../../SPARK/SPARK155/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -8292,6 +9093,7 @@
 					../../../../SSWELib/include/,
 					../../../../SSWERenders/,
 					../../../../SSWELib,
+					../../../../SPARK/SPARK155/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -8331,6 +9133,7 @@
 					../../../../SSWERenders/,
 					../../../../SSWECore/,
 					../../../../SSWELib/,
+					../../../../SPARK/SPARK155/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -8370,6 +9173,7 @@
 					../../../../SSWERenders/,
 					../../../../SSWECore/,
 					../../../../SSWELib/,
+					../../../../SPARK/SPARK155/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -8486,6 +9290,73 @@
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.9;
+			};
+			name = Release;
+		};
+		2E92B6731849289E00D955F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					../../../include,
+					../../../../SPARK/SPARK155/include,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				PRODUCT_NAME = SPARK;
+				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
+				SYMROOT = build;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		2E92B6741849289E00D955F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					../../../include,
+					../../../../SPARK/SPARK155/include,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_NAME = SPARK;
+				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
 			};
 			name = Release;
 		};
@@ -9085,6 +9956,7 @@
 					../../../../Bullet/libs/,
 					../../../../Bullet/libs/src/,
 					../../../../Lua52/include/,
+					../../../../SPARK/SPARK155/include,
 				);
 				INFOPLIST_FILE = "DemoApp-Info.plist";
 				INSTALL_PATH = /;
@@ -9133,6 +10005,7 @@
 					../../../../Bullet/libs/,
 					../../../../Bullet/libs/src/,
 					../../../../Lua52/include/,
+					../../../../SPARK/SPARK155/include,
 				);
 				INFOPLIST_FILE = "DemoApp-Info.plist";
 				INSTALL_PATH = /;
@@ -9538,6 +10411,15 @@
 			buildConfigurations = (
 				2E6E6736182D905500A79A68 /* Debug */,
 				2E6E6737182D905500A79A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2E92B6721849289E00D955F8 /* Build configuration list for PBXNativeTarget "SPARK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E92B6731849289E00D955F8 /* Debug */,
+				2E92B6741849289E00D955F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

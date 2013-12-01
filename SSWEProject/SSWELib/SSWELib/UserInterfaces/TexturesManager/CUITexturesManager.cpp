@@ -27,7 +27,7 @@ CUITexturesManager::CUITexturesManager(CDevices *_devices) {
 
 	refresh = gui->addButton(rect<s32>(510, 30, 610, 50), window, -1, L"Refresh", L"Refreshes the textures");
     clear = gui->addButton(rect<s32>(510, 60, 610, 80), window, -1, L"Clear", L"Clear unused textures");
-    clear->setEnabled(false);
+    //clear->setEnabled(false);
 
 	texturePreview = gui->addImage(rect<s32>(400, 130, 690, 430), window, -1, L"Preview");
 	texturePreview->setScaleImage(true);
@@ -176,7 +176,7 @@ bool CUITexturesManager::OnEvent(const SEvent &event) {
                     if (currentTexture->getName().getPath().find(workingDirectoryGUI.c_str()) != -1)
                         continue;
                     
-                    if (whoUseThisTexture(currentTexture).size() == 0)
+                    if (whoUseThisTexture(currentTexture).size() == 0 && !currentTexture->isRenderTarget())
                         devices->getVideoDriver()->removeTexture(currentTexture);
                 }
                 OnEvent(getUpdateEvent());

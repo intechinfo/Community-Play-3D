@@ -345,7 +345,7 @@ void CExporter::exportLights() {
 			}
 			ldataTexturePath.remove(devices->getWorkingDirectory().c_str());
 			fprintf(export_file, "\t\t\t\t\t <texture path=\"%s\" />\n", ldataTexturePath.c_str());
-			fprintf(export_file, "\t\t\t\t\t <falseOcclusion value=\"%i\" />\n", ldata.getLensFlareSceneNode()->getFalseOcclusion());
+			fprintf(export_file, "\t\t\t\t\t <falseOcclusion value=\"%i\" />\n", false);
 			fprintf(export_file, "\t\t\t\t </lfsn> \n");
 
 			fprintf(export_file, "\t\t\t\t <position X=\"%f\" Y=\"%f\" Z=\"%f\" />\n ",

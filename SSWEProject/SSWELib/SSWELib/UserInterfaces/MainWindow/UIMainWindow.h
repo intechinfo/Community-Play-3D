@@ -95,6 +95,12 @@ public:
     
     bool OnEvent(const SEvent &event);
     
+    void openAddTerrain() { addOctTreeInstance->open(); }
+    void openAddObject() { addObjectInstance->open(); }
+    void openAddLight() { addLightInstance->open(); }
+    void openAddVolumeLight() { addVolumeLightInstance->open(); }
+    void openAddWaterSurface() { addWaterSurfaceInstance->openWindow(); }
+    
 private:
     
     CDevices *devices;

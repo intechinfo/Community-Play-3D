@@ -11,7 +11,7 @@ namespace irr
 namespace scene
 {
 
-#define CLOUDSUBDIV 16
+    #define CLOUDSUBDIV 16
 
 	class CCloudSceneNode : public scene::ISceneNode
 	{

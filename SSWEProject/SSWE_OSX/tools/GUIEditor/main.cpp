@@ -18,7 +18,7 @@ int main()
 	if (driverType==video::EDT_COUNT)
 		return 1;
 
-	IrrlichtDevice *device = createDevice(driverType, core::dimension2du(800, 600));
+	IrrlichtDevice *device = createDevice(driverType, core::dimension2du(1680, 951));
 	video::IVideoDriver* driver = device->getVideoDriver();
 	scene::ISceneManager* smgr = device->getSceneManager();
 	gui::IGUIEnvironment *env = device->getGUIEnvironment();

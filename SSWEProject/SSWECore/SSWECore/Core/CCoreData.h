@@ -12,18 +12,22 @@
 #include "stdafx.h"
 #include "CCore.h"
 
+//SHADERS
 #include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CRenderCallback.h"
 #include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
 #include "../../../SSWERenders/Renders/XEffect/EffectCB.h"
 
+//NODES
 #include "../../../SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.h"
 
+//EXTRAS
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
+//INTERFACES AND PLUGINS
 #include <IMonitor.h>
 #include <ISSWECoreData.h>
 
@@ -203,6 +207,34 @@ private:
 	bool smooth;
 	bool angleWeighted;
 	bool recalculateTangents;
+};
+
+//---------------------------------------------------------------------------------------------
+//----------------------------------SCRIPTS----------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SScriptFile {
+public:
+	SScriptFile(stringw _file, stringw _name) {
+		file = _file;
+		name = _name;
+	}
+    
+    SScriptFile() {
+        SScriptFile("", "unnamed");
+    }
+    
+	stringw getFile() { return file; }
+	stringw getName() { return name; }
+	stringw *getFilePointer() { return &file; }
+	stringw *getNamePointer() { return &name; }
+    
+	void setFile(stringw _file) { file = _file; }
+	void setName(stringw _name) { name = _name; }
+    
+private:
+	stringw file;
+	stringw name;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -402,8 +434,6 @@ private:
 //-----------------------------------------OTHERS----------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SScriptFile;
-
 struct SOther : SData {
 public:
 	SOther(stringw _name) : SData(0, 0, L"", ESNT_UNKNOWN)
@@ -433,6 +463,92 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
+//------------------------------------PARTICLE SYSTEMS-----------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SParticleSystem {
+public:
+    SParticleSystem(stringc _name) {
+        name = _name;
+        script = 0;
+        update = true;
+        
+        baseNode = 0;
+        
+        groups.clear();
+        emitters.clear();
+        systems.clear();
+        models.clear();
+        renderers.clear();
+    }
+    
+    //GENERAL INFORMATIONS
+    void createScript() {
+        script = new SScriptFile("", "new script");
+    }
+    void destroyScript() {
+        if (script != 0)
+            delete script;
+        script = 0;
+    }
+    SScriptFile *getScript() { return script; }
+    
+    void setName(stringc _name) { name = _name; }
+    stringc getName() { return name; }
+    
+    bool isUpdating() { return update; }
+    void setUpdate(bool _update) { update = _update; }
+    
+    ISceneNode *getBaseNode() { return baseNode; }
+    void createBaseNode(ISceneManager *smgr) {
+        baseNode = smgr->addEmptySceneNode();
+    }
+    void destroyBaseNode() { baseNode->remove(); }
+    
+    //SPARK SYSTEMS
+    array<SPK::Group *> *getGroups() { return &groups; }
+    array<SPK::Emitter *> *getEmitters() { return &emitters; }
+    array<SPK::System *> *getSystems() { return &systems; }
+    array<SPK::Model *> *getModels() { return &models; }
+    array<SPK::IRR::IRRQuadRenderer *> *getRenderers() { return &renderers; }
+    
+    void clear() {
+        for (u32 i=0; i < groups.size(); i++)
+            delete groups[i];
+        for (u32 i=0; i < emitters.size(); i++)
+            delete emitters[i];
+        for (u32 i=0; i < systems.size(); i++)
+            delete systems[i];
+        for (u32 i=0; i < models.size(); i++)
+            delete models[i];
+        for (u32 i=0; i < renderers.size(); i++)
+            delete renderers[i];
+        
+        groups.clear();
+        emitters.clear();
+        systems.clear();
+        models.clear();
+        renderers.clear();
+    }
+    
+private:
+    //GENERAL INFORMATIONS
+    stringc name;
+    SScriptFile *script;
+    
+    bool update;
+    
+    ISceneNode *baseNode;
+    
+    //SPARK SYSTEMS
+    array<SPK::Group *> groups;
+    array<SPK::Emitter *> emitters;
+    array<SPK::System *> systems;
+    array<SPK::Model *> models;
+    array<SPK::IRR::IRRQuadRenderer *> renderers;
+};
+
+//---------------------------------------------------------------------------------------------
 //-----------------------------------------SUNS------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
@@ -445,30 +561,6 @@ public:
 
 private:
 
-};
-
-//---------------------------------------------------------------------------------------------
-//----------------------------------SCRIPTS----------------------------------------------------
-//---------------------------------------------------------------------------------------------
-
-struct SScriptFile {
-public:
-	SScriptFile(stringw _file, stringw _name) {
-		file = _file;
-		name = _name;
-	}
-
-	stringw getFile() { return file; }
-	stringw getName() { return name; }
-	stringw *getFilePointer() { return &file; }
-	stringw *getNamePointer() { return &name; }
-
-	void setFile(stringw _file) { file = _file; }
-	void setName(stringw _name) { name = _name; }
-
-private:
-	stringw file;
-	stringw name;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -667,6 +759,11 @@ public:
 
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
 	//-----------------------------------
+    
+    //-----------------------------------
+	//PARTICLE SYSTEMS
+    array<SParticleSystem> *getParticleSystems() { return &particleSystems; }
+    //-----------------------------------
 
 	//-----------------------------------
 	//GET EFFECT SHADERS
@@ -715,6 +812,11 @@ private:
 
 	array<SPlanarTextureMappingData> planarTextureMappingValues;
 	//-----------------------------------
+    
+    //-----------------------------------
+	//PARTICLE SYSTEMS
+    array<SParticleSystem> particleSystems;
+    //-----------------------------------
 
 	//-----------------------------------
 	//EFFECT SHADERS

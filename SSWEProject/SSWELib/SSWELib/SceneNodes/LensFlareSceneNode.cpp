@@ -41,7 +41,11 @@ CLensFlareSceneNode::CLensFlareSceneNode(ISceneNode* parent, ISceneManager* mgr,
 	// set the default material properties
 	Material.MaterialType = video::EMT_TRANSPARENT_ADD_COLOR;
 	Material.Lighting = false;
-	Material.ZBuffer = video::ECFN_NEVER;
+    if (mgr->getVideoDriver()->getDriverType() != video::EDT_OPENGL)
+        Material.ZBuffer = video::ECFN_NEVER;
+    
+    // turn off automatic culling
+	setAutomaticCulling(scene::EAC_OFF);
 
 	// prepare the flare data array
 	// circles, halos and ring behind the sun
