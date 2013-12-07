@@ -53,6 +53,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	lightsNode = rootNode->addChildBack(L"LIGHTS", L"", 2, -1);
 	volumeLightsNode = rootNode->addChildBack(L"VOLUME LIGHTS", L"", 2, -1);
 	waterSurfacesNode = rootNode->addChildBack(L"WATER SURFACES", L"", 2, -1);
+    particlesNode = rootNode->addChildBack(L"PARTICLE SYSTEMS", L"", 2, -1);
 
 	addChildrenBackWithSDataArray(terrainsNode, worldCore->getTerrainsSData());
 	addChildrenBackWithSDataArray(treesNode, worldCore->getTreesSData());
@@ -60,6 +61,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	addChildrenBackWithSDataArray(lightsNode, worldCore->getLightsSData());
 	addChildrenBackWithSDataArray(volumeLightsNode, worldCore->getVolumeLightsSData());
 	addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
+    addChildrenBackWithSDataArray(particlesNode, worldCore->getParticleSystemsSData());
 
 }
 

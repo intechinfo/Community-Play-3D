@@ -195,7 +195,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //-----------------------------------
     //TOOLBAR
     bar = devices->getGUIEnvironment()->addToolBar(0, -1);
-    bar->setRelativePosition(position2d<int>(0, menu->getRelativePosition().getHeight()+5));
+    bar->setRelativePosition(position2d<int>(0, menu->getRelativePosition().getHeight()+7));
 	ITexture* image = devices->getVideoDriver()->getTexture("GUI/folder.png");
 	bar->addButton(CXT_MENU_EVENTS_OPEN_SCRIPT, 0, L"Open a scene", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/edit.png");

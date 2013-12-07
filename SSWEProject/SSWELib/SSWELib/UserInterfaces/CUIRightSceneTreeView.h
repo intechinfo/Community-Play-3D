@@ -38,6 +38,7 @@ private:
 	IGUITreeViewNode *terrainsNode, *treesNode;
 	IGUITreeViewNode *objectsNode, *lightsNode;
 	IGUITreeViewNode *volumeLightsNode, *waterSurfacesNode;
+    IGUITreeViewNode *particlesNode;
 
 	IGUIContextMenu *rightClickCxtMenu;
     //-----------------------------------

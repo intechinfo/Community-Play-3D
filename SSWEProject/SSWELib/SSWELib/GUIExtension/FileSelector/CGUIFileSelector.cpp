@@ -433,9 +433,13 @@ void CGUIFileSelector::draw()
 		mousepos=device->getCursorControl()->getPosition();
 
 	core::rect<s32> rect = AbsoluteRect;
-
-	rect = skin->draw3DWindowBackground(this, true, skin->getColor(EGDC_ACTIVE_BORDER),
-		rect, &AbsoluteClippingRect);
+    
+    if (this->Parent == Environment->getRootGUIElement()) {
+        rect = skin->draw3DWindowBackground(this, true, skin->getColor(EGDC_ACTIVE_BORDER), rect, &AbsoluteClippingRect);
+    } else {
+        CloseButton->setVisible(false);
+        Dragging = false;
+    }
 
 	if (Text.size())
 	{

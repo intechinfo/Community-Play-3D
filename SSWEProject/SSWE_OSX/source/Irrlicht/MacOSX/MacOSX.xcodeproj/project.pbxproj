@@ -802,6 +802,8 @@
 		2EE402BA18494DD70058DD93 /* CGUINode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B818494DD70058DD93 /* CGUINode.h */; };
 		2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */; };
 		2EE402BE18494F970058DD93 /* CUIParticleEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402BC18494F970058DD93 /* CUIParticleEditor.h */; };
+		2EFCDE521852773F00CC9622 /* CUIParticleEditorAddGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */; };
+		2EFCDE531852773F00CC9622 /* CUIParticleEditorAddGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */; };
 		3430E4D61022C391006271FD /* CTarReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3430E4D41022C391006271FD /* CTarReader.h */; };
 		3430E4D71022C391006271FD /* CTarReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3430E4D51022C391006271FD /* CTarReader.cpp */; };
 		344FD4A61039E98C0045FD3F /* CMountPointReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */; };
@@ -2461,6 +2463,8 @@
 		2EE402B818494DD70058DD93 /* CGUINode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGUINode.h; sourceTree = "<group>"; };
 		2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticleEditor.cpp; path = ParticlesEditor/CUIParticleEditor.cpp; sourceTree = "<group>"; };
 		2EE402BC18494F970058DD93 /* CUIParticleEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditor.h; path = ParticlesEditor/CUIParticleEditor.h; sourceTree = "<group>"; };
+		2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticleEditorAddGroup.cpp; path = ParticlesEditor/CUIParticleEditorAddGroup.cpp; sourceTree = "<group>"; };
+		2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditorAddGroup.h; path = ParticlesEditor/CUIParticleEditorAddGroup.h; sourceTree = "<group>"; };
 		3430E4D41022C391006271FD /* CTarReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTarReader.h; sourceTree = "<group>"; };
 		3430E4D51022C391006271FD /* CTarReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTarReader.cpp; sourceTree = "<group>"; };
 		344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CMountPointReader.cpp; sourceTree = "<group>"; };
@@ -5199,6 +5203,8 @@
 				2E92B78D18492D8600D955F8 /* CUIParticlesEditor.h */,
 				2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */,
 				2EE402BC18494F970058DD93 /* CUIParticleEditor.h */,
+				2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */,
+				2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */,
 			);
 			name = ParticlesEditor;
 			sourceTree = "<group>";
@@ -5833,6 +5839,7 @@
 				2E2CA4EF182D6E7D000BA9DA /* CUIWindowEditLight.h in Headers */,
 				2E2CA4F0182D6E7D000BA9DA /* CUIWindowEditNode.h in Headers */,
 				2E2CA4F1182D6E7D000BA9DA /* CUIWindowEditVolumeLight.h in Headers */,
+				2EFCDE531852773F00CC9622 /* CUIParticleEditorAddGroup.h in Headers */,
 				2E2CA4F2182D6E7D000BA9DA /* CUIWindowEditWater.h in Headers */,
 				2E2CA4F3182D6E7D000BA9DA /* CUIWindowExportScene.h in Headers */,
 				2E2CA4F4182D6E7D000BA9DA /* CUIWindowOpenScene.h in Headers */,
@@ -7251,6 +7258,7 @@
 				2E6C6310182983CD00FB1027 /* CGrassPainter.h in Sources */,
 				2E6C6311182983CD00FB1027 /* CTerrainPainter.cpp in Sources */,
 				2E6C6312182983CD00FB1027 /* CTerrainPainter.h in Sources */,
+				2EFCDE521852773F00CC9622 /* CUIParticleEditorAddGroup.cpp in Sources */,
 				2E92B78E18492D8600D955F8 /* CUIParticlesEditor.cpp in Sources */,
 				2E6C6313182983CD00FB1027 /* CUITerrainPainting.cpp in Sources */,
 				2E6C6314182983CD00FB1027 /* CUITerrainPainting.h in Sources */,

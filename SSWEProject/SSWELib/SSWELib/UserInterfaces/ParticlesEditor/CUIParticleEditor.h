@@ -12,6 +12,7 @@
 
 #include "../../Device/CDevices.h"
 
+#include "../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../GUIExtension/NodesEditor/CGUINodesEditor.h"
 
 class CUIParticleEditor : public IEventReceiver {
@@ -34,7 +35,13 @@ private:
 	//GUI ELEMENTS
     IGUIWindow *window;
     
+    IGUIContextMenu *menu;
+    
     CGUINodesEditor *nodesEditor;
+    IGUIViewport *viewPort;
+    
+    IGUICheckBox *enableClampStep;
+    IGUIEditBox *clampStepeb;
 	//-----------------------------------
 
 	//-----------------------------------

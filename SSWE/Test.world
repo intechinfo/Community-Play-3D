@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="261.109375" Y="288.342865" Z="21.774580" />
-			 <rotation X="37.854866" Y="239.642868" Z="0.000000" />
+			 <position X="-68.197052" Y="68.517456" Z="144.724274" />
+			 <rotation X="29.968472" Y="148.571228" Z="0.000000" />
 
 		 </camera>
 
@@ -31,6 +31,30 @@
 		 </fpsCameraSettings>
 
 		 <effect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BlurHP.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BlurVP.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/Colored_dream_vision.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BloomP.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
 
 
 		 </effect>
@@ -59,13 +83,10 @@
 
 			 <factory> 
 
-				 <primitive type="planar" options="general" /> 
-					 <resolutionS value="0.020000" /> 
-				 </primitive> 
 
 			 </factory> 
 
-			 <name c8name="#map:myName_with_tangents" />
+			 <name c8name="#map:myName_with_tangents_with_tangents" />
 
 			 <materials>
 			 	 <material id="0">

@@ -80,23 +80,23 @@ void CGUINode::addVector3DFields(stringw name, vector3df v) {
 
 void CGUINode::addDimension2DFields(stringw name, vector2df v) {
     if (window) {
-        IGUIStaticText *t = gui->addStaticText(L"", rect<s32>(0, 160, 180, 220), true, true, window, -1, true);
+        IGUIStaticText *t = gui->addStaticText(L"", rect<s32>(1, 160, 180, 220), true, true, window, -1, true);
         t->setName(name.c_str());
         this->calculateElementPosition(t);
         
         gui->addStaticText(name.c_str(), rect<s32>(1, 0, 179, 20), true, true, t, -1, true);
         
-        gui->addStaticText(L"X :", rect<s32>(10, 20, 40, 40), true, true, t, -1, true);
-        gui->addStaticText(L"Y :", rect<s32>(10, 40, 40, 60), true, true, t, -1, true);
+        gui->addStaticText(L"W :", rect<s32>(10, 20, 40, 40), true, true, t, -1, true);
+        gui->addStaticText(L"H :", rect<s32>(10, 40, 40, 60), true, true, t, -1, true);
         
-        gui->addEditBox(stringw(v.X).c_str(), rect<s32>(40, 20, 180, 40), true, t, -1)->setName(stringw(name + "X"));
-        gui->addEditBox(stringw(v.Y).c_str(), rect<s32>(40, 40, 180, 60), true, t, -1)->setName(stringw(name + "Y"));
+        gui->addEditBox(stringw(v.X).c_str(), rect<s32>(40, 20, 180, 40), true, t, -1)->setName(stringw(name + "W"));
+        gui->addEditBox(stringw(v.Y).c_str(), rect<s32>(40, 40, 180, 60), true, t, -1)->setName(stringw(name + "H"));
     }
 }
 
 void CGUINode::add2ParametersFields(stringw name, stringw param1, stringw param2, f32 value1, f32 value2) {
     if (window) {
-        IGUIStaticText *t = gui->addStaticText(L"", rect<s32>(0, 160, 180, 220), true, true, window, -1, true);
+        IGUIStaticText *t = gui->addStaticText(L"", rect<s32>(1, 160, 180, 220), true, true, window, -1, true);
         t->setName(name.c_str());
         this->calculateElementPosition(t);
         
@@ -106,7 +106,7 @@ void CGUINode::add2ParametersFields(stringw name, stringw param1, stringw param2
         gui->addStaticText(param2.c_str(), rect<s32>(10, 40, 40, 60), true, true, t, -1, true);
         
         gui->addEditBox(stringw(value1).c_str(), rect<s32>(40, 20, 180, 40), true, t, -1)->setName(stringw(name + param1).c_str());
-        gui->addEditBox(stringw(value2).c_str(), rect<s32>(40, 40, 180, 60), true, t, -1)->setName(stringw(name + param1).c_str());
+        gui->addEditBox(stringw(value2).c_str(), rect<s32>(40, 40, 180, 60), true, t, -1)->setName(stringw(name + param2).c_str());
     }
 }
 
@@ -129,8 +129,34 @@ IGUIListBox *CGUINode::addListBoxField(stringw name) {
         listb->setName(stringc(name + "list").c_str());
         
         return listb;
-    } else {
-        return 0;
+    }
+    
+    return 0;
+}
+
+IGUIComboBox *CGUINode::addComboBox(stringw name) {
+    if (window) {
+        IGUIStaticText *t = gui->addStaticText(L"", rect<s32>(1, 380, 180, 420), true, true, window, -1, true);
+        t->setName(name.c_str());
+        this->calculateElementPosition(t);
+        
+        gui->addStaticText(name.c_str(), rect<s32>(1, 0, 180, 20), true, true, t, -1, true);
+        
+        IGUIComboBox *c = gui->addComboBox(rect<s32>(1, 20, 180, 40), t, -1);
+        c->setName(stringc(name + "cb").c_str());
+        
+        return c;
+        
+    }
+    
+    return 0;
+}
+
+void CGUINode::addCustomElement(IGUIElement *element) {
+    if (window) {
+        window->addChild(element);
+        
+        this->calculateElementPosition(element);
     }
 }
 
@@ -148,12 +174,6 @@ void CGUINode::calculateElementPosition(gui::IGUIElement *element, bool samePosi
     
     element->setRelativePosition(position2di(element->getRelativePosition().UpperLeftCorner.X, maxY+5 - (samePosition ? element->getRelativePosition().getHeight() : 0) ));
     
-    /*if (maxY + element->getRelativePosition().LowerRightCorner.Y > window->getRelativePosition().getHeight()) {
-        window->setRelativePosition(rect<s32>(window->getRelativePosition().UpperLeftCorner.X,
-                                              window->getRelativePosition().UpperLeftCorner.Y,
-                                              window->getRelativePosition().LowerRightCorner.X,
-                                              element->getRelativePosition().LowerRightCorner.Y + 20));
-    }*/
     if (window->getRelativePosition().getHeight()-20 < element->getRelativePosition().LowerRightCorner.Y) {
         window->setRelativePosition(rect<s32>(window->getRelativePosition().UpperLeftCorner.X,
                                               window->getRelativePosition().UpperLeftCorner.Y,
@@ -183,7 +203,8 @@ bool CGUINode::OnEvent(const SEvent& event) {
         
         bool test = (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED ||
                      event.GUIEvent.EventType == EGET_BUTTON_CLICKED ||
-                     event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED
+                     event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED ||
+                     event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED
                      );
         
         if (window && event.GUIEvent.Caller != 0 && test)

@@ -19,6 +19,9 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     //----------TEST-----------------
     SParticleSystem ps("test");
     ps.createBaseNode(devices->getSceneManager());
+    
+    System::setClampStep(true,0.1f);
+	System::useAdaptiveStep(0.001f,0.01f);
 
     IRRQuadRenderer* fireRenderer = IRRQuadRenderer::create(devices->getDevice());
 	fireRenderer->setScale(0.3f,0.3f);
@@ -50,6 +53,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	fireModel->setParam(PARAM_ALPHA,0.4f,0.0f);
 	fireModel->setParam(PARAM_ANGLE,0.0f,2.0f * PI,0.0f,2.0f * PI);
 	fireModel->setParam(PARAM_TEXTURE_INDEX,0.0f,4.0f);
+    fireModel->setParam(PARAM_SIZE, 10.0);
 	fireModel->setLifeTime(1.0f,1.5f);
     fireModel->setName("Fire Model");
     ps.getModels()->push_back(fireModel);
@@ -144,7 +148,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     ps.getGroups()->push_back(smokeGroup);
 	
 	// System
-	System *particleSystem = IRRSystem::create(devices->getSceneManager()->getRootSceneNode(), devices->getSceneManager());
+	System *particleSystem = IRRSystem::create(ps.getBaseNode(), devices->getSceneManager());
 	particleSystem->addGroup(smokeGroup);
 	particleSystem->addGroup(fireGroup);
 	particleSystem->enableAABBComputing(true);
@@ -152,6 +156,8 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     ps.getSystems()->push_back(particleSystem);
     
     devices->getCoreData()->getParticleSystems()->push_back(ps);
+    ps.getBaseNode()->setName(L"ParticleTest");
+    devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
     //----------TEST-----------------
     
     IGUIEnvironment *gui = devices->getGUIEnvironment();
@@ -216,6 +222,7 @@ bool CUIParticlesEditor::OnEvent(const SEvent &event) {
                     devices->getCoreData()->getParticleSystems()->operator[](selected).destroyScript();
                     devices->getCoreData()->getParticleSystems()->erase(selected);
                     particleSystems->removeItem(selected);
+                    
                     particleSystems->setSelected(0);
                     
                     if (particleSystems->getItemCount() == 0) {

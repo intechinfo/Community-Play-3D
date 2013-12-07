@@ -146,6 +146,37 @@ bool CGUINodesEditor::OnEvent(const SEvent& event)
 
 	switch(event.EventType) {
             
+        case irr::EET_KEY_INPUT_EVENT: {
+            if (Environment->getFocus() == this) {
+                core::array<CGUINode *> nodes;
+                this->getArrayOfNodes(rootNode, nodes);
+                
+                s32 xstep = 0;
+                s32 ystep = 0;
+                
+                switch (event.KeyInput.Key) {
+                    case irr::KEY_LEFT:
+                        xstep = 20;
+                        break;
+                    case irr::KEY_RIGHT:
+                        xstep = -20;
+                        break;
+                    case irr::KEY_UP:
+                        ystep = 20;
+                        break;
+                    case irr::KEY_DOWN:
+                        ystep = -20;
+                        break;
+                    default:break;
+                }
+                
+                for (u32 i=0; i < nodes.size(); i++)
+                    nodes[i]->getInterface()->setRelativePosition(position2di(nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.X + xstep,
+                                                                              nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.Y + ystep));
+            }
+        }
+            break;
+            
         case EET_MOUSE_INPUT_EVENT:
             if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
                 if (Environment->hasFocus(this) &&
@@ -164,25 +195,37 @@ bool CGUINodesEditor::OnEvent(const SEvent& event)
                 return true;
             }
             if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
-                /*if (isMoving) {
+                if (isMoving) {
                     core::array<CGUINode *> nodes;
                     this->getArrayOfNodes(rootNode, nodes);
                     
                     s32 xstep = 0;
                     s32 ystep = 0;
-                    if (device->getCursorControl()->getPosition().X < lastMousePosition.X)
-                        xstep = -(lastMousePosition.X - device->getCursorControl()->getPosition().X);
                     
-                    if (device->getCursorControl()->getPosition().Y < lastMousePosition.Y)
-                        ystep = -(lastMousePosition.Y - device->getCursorControl()->getPosition().Y);
+                    if (event.MouseInput.X < lastMousePosition.X) {
+                        if (lastMousePosition.X - event.MouseInput.X > 10)
+                            xstep = -5;
+                    } else {
+                        if (event.MouseInput.X - lastMousePosition.X > 10)
+                            xstep = 5;
+                    }
+                    
+                    if (event.MouseInput.Y < lastMousePosition.Y) {
+                        if (lastMousePosition.Y - event.MouseInput.Y > 10)
+                            ystep = -5;
+                    } else {
+                        if (event.MouseInput.Y - lastMousePosition.Y > 10)
+                            ystep = 5;
+                    }
                     
                     for (u32 i=0; i < nodes.size(); i++)
-                        nodes[i]->getInterface()->setRelativePosition(position2di(nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.X + xstep,
-                                                                                  nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.Y + ystep));
-
+                        nodes[i]->getInterface()->setRelativePosition(position2di(nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.X + xstep*3,
+                                                                                  nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.Y + ystep*3));
                     
-                    lastMousePosition = device->getCursorControl()->getPosition();
-                }*/
+                    ScrollBarH->setPos(ScrollBarH->getPos() + xstep);
+                    ScrollBarV->setPos(ScrollBarV->getPos() + ystep);
+                }
+                lastMousePosition = device->getCursorControl()->getPosition();
                 return true;
             }
 		break;
@@ -193,12 +236,12 @@ bool CGUINodesEditor::OnEvent(const SEvent& event)
                     core::array<CGUINode *> nodes;
                     this->getArrayOfNodes(rootNode, nodes);
 
-                    u32 stepH = (ScrollBarH->getPos() < previousWidth ? -(previousWidth-ScrollBarH->getPos()) : previousWidth-ScrollBarH->getPos());
-                    u32 stepV = (ScrollBarV->getPos() < previousHeight ? -(previousHeight-ScrollBarV->getPos()) : previousHeight-ScrollBarV->getPos());
+                    u32 stepH = (ScrollBarH->getPos() > previousWidth ? -(ScrollBarH->getPos()-previousWidth) : previousWidth-ScrollBarH->getPos());
+                    u32 stepV = (ScrollBarV->getPos() < previousHeight ? -(ScrollBarV->getPos()-previousHeight) : previousHeight-ScrollBarV->getPos());
                     
                     for (u32 i=0; i < nodes.size(); i++) {
-                        nodes[i]->getInterface()->setRelativePosition(position2di(nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.X-stepH,
-                                                                                  nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.Y-stepV)
+                        nodes[i]->getInterface()->setRelativePosition(position2di(nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.X+stepH,
+                                                                                  nodes[i]->getInterface()->getRelativePosition().UpperLeftCorner.Y+stepV)
                                                                       );
                     }
                     previousWidth = ScrollBarH->getPos();
@@ -329,9 +372,19 @@ void CGUINodesEditor::drawLinksRecursively(CGUINode *node) {
                     core::rect<s32> absPos = (*childNode)->getInterface()->getAbsoluteClippingRect();
                     core::rect<s32> itAbsPos = (*it)->getInterface()->getAbsoluteClippingRect();
                     
-                    Environment->getVideoDriver()->draw2DLine(core::vector2di(absPos.UpperLeftCorner.X, absPos.UpperLeftCorner.Y + absPos.getHeight()/2), 
-                                                              core::vector2di(itAbsPos.UpperLeftCorner.X + itAbsPos.getWidth(), itAbsPos.UpperLeftCorner.Y + itAbsPos.getHeight()/2),
-                                                              SColor(255, 255, 255, 255));
+                    vector2di endPos = core::vector2di(itAbsPos.UpperLeftCorner.X + itAbsPos.getWidth(), itAbsPos.UpperLeftCorner.Y + itAbsPos.getHeight()/2);
+                    vector2di startPos = core::vector2di(absPos.UpperLeftCorner.X, absPos.UpperLeftCorner.Y + absPos.getHeight()/2);
+                    
+                    core::line2di link(startPos, endPos);
+                    core::line2di inter(AbsoluteClippingRect.UpperLeftCorner.X, AbsoluteClippingRect.UpperLeftCorner.Y,
+                                        AbsoluteClippingRect.LowerRightCorner.X, AbsoluteClippingRect.UpperLeftCorner.Y);
+                    
+                    vector2di ipos;
+                    if (!inter.intersectWith(link, ipos))
+                        Environment->getVideoDriver()->draw2DLine(startPos, endPos, SColor(255, 255, 255, 255));
+                    else
+                        if (startPos.Y > AbsoluteClippingRect.UpperLeftCorner.Y)
+                            Environment->getVideoDriver()->draw2DLine(startPos, ipos, SColor(255, 255, 255, 255));
                 }
             }
             

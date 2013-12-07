@@ -59,14 +59,22 @@ public:
     void setName(irr::core::stringc _name) { name = _name; }
     irr::core::stringc getName() { return name; }
     
+    //ELEMENTS TO ADD
     void addTextField(stringw name, core::stringw value);
     void addCheckBox(stringw name, bool checked);
+    
     void addButton(stringw name, stringw tooltiptext = L"");
+    
     void addVector3DFields(stringw name, vector3df v);
     void addDimension2DFields(stringw name, vector2df v);
+    
     IGUIListBox *addListBoxField(stringw name);
     
     void add2ParametersFields(stringw name, stringw param1, stringw param2, f32 value1, f32 value2);
+    
+    IGUIComboBox *addComboBox(stringw name);
+    
+    void addCustomElement(IGUIElement *element);
     //-----------------------------------
 
 private:

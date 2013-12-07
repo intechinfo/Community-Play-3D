@@ -466,9 +466,9 @@ private:
 //------------------------------------PARTICLE SYSTEMS-----------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SParticleSystem {
+struct SParticleSystem : SData {
 public:
-    SParticleSystem(stringc _name) {
+    SParticleSystem(stringc _name) : SData(0, 0, L"", ESNT_PARTICLE_SYSTEM) {
         name = _name;
         script = 0;
         update = true;
@@ -502,8 +502,13 @@ public:
     ISceneNode *getBaseNode() { return baseNode; }
     void createBaseNode(ISceneManager *smgr) {
         baseNode = smgr->addEmptySceneNode();
+        baseNode->setName(name.c_str());
+        this->setNode(baseNode);
     }
-    void destroyBaseNode() { baseNode->remove(); }
+    void destroyBaseNode() {
+        baseNode->remove();
+        this->setNode(0);
+    }
     
     //SPARK SYSTEMS
     array<SPK::Group *> *getGroups() { return &groups; }
@@ -763,6 +768,13 @@ public:
     //-----------------------------------
 	//PARTICLE SYSTEMS
     array<SParticleSystem> *getParticleSystems() { return &particleSystems; }
+    array<SData> *getParticleSystemsSData() {
+        array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < particleSystems.size(); i++)
+			datas->push_back(particleSystems[i]);
+        
+		return datas;
+    }
     //-----------------------------------
 
 	//-----------------------------------
