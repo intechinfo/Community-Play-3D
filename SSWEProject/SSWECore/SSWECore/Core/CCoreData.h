@@ -24,6 +24,8 @@
 #include "../../../SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.h"
 
+#include "../../../SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.h"
+
 //EXTRAS
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
@@ -407,25 +409,26 @@ private:
 
 struct SWaterSurfacesData : SData {
 public:
-	SWaterSurfacesData(CWaterSurface *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"")
-		: SData(_waterSurface->getWaterNode(), _waterSurface->getWaterMesh(), _meshPath, ESNT_WATER_SURFACE)
+    
+    SWaterSurfacesData(RealisticWaterSceneNode *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"")
+    : SData(_waterSurface->getWaterSceneNode(), _waterSurface->getWaterMesh(), _meshPath, ESNT_WATER_SURFACE)
 	{
 		waterSurface = _waterSurface;
 		callback = _callback;
 		packagePath = _packagePath;
     }
-
+    
 	//void remove() { delete this; }
-	void setwaterSurface(CWaterSurface *_waterSurface) { waterSurface = _waterSurface; }
+	void setwaterSurface(RealisticWaterSceneNode *_waterSurface) { waterSurface = _waterSurface; }
 	void setCallback(CShaderCallback *_callback) { callback = _callback; }
 	void setPackagePath(stringw _packagePath) { packagePath = _packagePath; }
-
-	CWaterSurface *getWaterSurface() { return waterSurface; }
+    
+	RealisticWaterSceneNode *getWaterSurface() { return waterSurface; }
 	CShaderCallback *getShaderCallback() { return callback; }
 	stringw getPackagePath() { return packagePath; }
-
+    
 private:
-	CWaterSurface *waterSurface;
+	RealisticWaterSceneNode *waterSurface;
 	CShaderCallback *callback;
 	stringw packagePath;
 };
@@ -475,11 +478,7 @@ public:
         
         baseNode = 0;
         
-        groups.clear();
-        emitters.clear();
         systems.clear();
-        models.clear();
-        renderers.clear();
     }
     
     //GENERAL INFORMATIONS
@@ -511,29 +510,15 @@ public:
     }
     
     //SPARK SYSTEMS
-    array<SPK::Group *> *getGroups() { return &groups; }
-    array<SPK::Emitter *> *getEmitters() { return &emitters; }
     array<SPK::System *> *getSystems() { return &systems; }
-    array<SPK::Model *> *getModels() { return &models; }
-    array<SPK::IRR::IRRQuadRenderer *> *getRenderers() { return &renderers; }
     
     void clear() {
-        for (u32 i=0; i < groups.size(); i++)
-            delete groups[i];
-        for (u32 i=0; i < emitters.size(); i++)
-            delete emitters[i];
-        for (u32 i=0; i < systems.size(); i++)
+        for (u32 i=0; i < systems.size(); i++) {
+            ((SPK::IRR::IRRSystem*)systems[i])->remove();
             delete systems[i];
-        for (u32 i=0; i < models.size(); i++)
-            delete models[i];
-        for (u32 i=0; i < renderers.size(); i++)
-            delete renderers[i];
+        }
         
-        groups.clear();
-        emitters.clear();
         systems.clear();
-        models.clear();
-        renderers.clear();
     }
     
 private:
@@ -546,11 +531,7 @@ private:
     ISceneNode *baseNode;
     
     //SPARK SYSTEMS
-    array<SPK::Group *> groups;
-    array<SPK::Emitter *> emitters;
     array<SPK::System *> systems;
-    array<SPK::Model *> models;
-    array<SPK::IRR::IRRQuadRenderer *> renderers;
 };
 
 //---------------------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     devices = _devices;
     
     //----------TEST-----------------
-    SParticleSystem ps("test");
+    /*SParticleSystem ps("test");
     ps.createBaseNode(devices->getSceneManager());
     
     System::setClampStep(true,0.1f);
@@ -157,7 +157,11 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     
     devices->getCoreData()->getParticleSystems()->push_back(ps);
     ps.getBaseNode()->setName(L"ParticleTest");
-    devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
+    devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));*/
+    
+    SParticleSystem ps("new particle system");
+    ps.createBaseNode(devices->getSceneManager());
+    devices->getCoreData()->getParticleSystems()->push_back(ps);
     //----------TEST-----------------
     
     IGUIEnvironment *gui = devices->getGUIEnvironment();
@@ -235,6 +239,7 @@ bool CUIParticlesEditor::OnEvent(const SEvent &event) {
             }
             if (event.GUIEvent.Caller == add) {
                 SParticleSystem ps("new particle system");
+                ps.createBaseNode(devices->getSceneManager());
                 devices->getCoreData()->getParticleSystems()->push_back(ps);
                 
                 particleSystems->addItem(stringw(ps.getName()).c_str());

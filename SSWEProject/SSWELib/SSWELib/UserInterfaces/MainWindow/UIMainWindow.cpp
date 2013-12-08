@@ -34,6 +34,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     lightsTab = tabCtrl->addTab(L"Lights");
     dynamicLightsTab = tabCtrl->addTab(L"Volume Lights");
     waterSurfacesTab = tabCtrl->addTab(L"Water Surfaces");
+    particlesTab = tabCtrl->addTab(L"Particles Systems");
     //-----------------------------------
 
     //-----------------------------------
@@ -50,6 +51,8 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
 																   dynamicLightsTab, -1, true);
     waterSurfacesListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
 																	waterSurfacesTab, -1, true);
+    particlesSystemsListBox = devices->getGUIEnvironment()->addListBox(rect<s32>(0, 5, 405, 395),
+                                                                       particlesTab, -1, true);
     //-----------------------------------
 
     //-----------------------------------
@@ -95,6 +98,15 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     removeWaterSurface = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
                                                              waterSurfacesTab, CXT_MAIN_WINDOW_EVENTS_DELETE_WATER_SURFACE, 
                                                              L"Delete Water Surface", L"Delete the selected water surface.");
+    
+    addParticleSystem = devices->getGUIEnvironment()->addButton(rect<s32>(5, 400, 185, 435), 
+                                                                particlesTab, -1, L"Add a Particle System", 
+                                                                L"Add a Particle System.");
+    removeParticleSystem = devices->getGUIEnvironment()->addButton(rect<s32>(190, 400, 370, 435), 
+                                                                   particlesTab, -1, 
+                                                                   L"Delete Particle System", L"Delete the selected particle system.");
+    
+    mainWindow->setRelativePosition(rect<s32>(10, 80, 430, 580));
     //-----------------------------------
 
     //-----------------------------------
@@ -706,6 +718,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 lightsListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
                 volumeLightsListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
                 waterSurfacesListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
+                particlesSystemsListBox->setRelativePosition(rect<s32>(0, 5, 405, mainWindow->getRelativePosition().getHeight() - 105));
                 
                 addTerrain->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
                 removeTerrain->setRelativePosition(rect<s32>(190, tabCtrl->getRelativePosition().getHeight() - 75, 370, tabCtrl->getRelativePosition().getHeight() - 40));
@@ -724,6 +737,9 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
                 addWaterSurface->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
                 removeWaterSurface->setRelativePosition(rect<s32>(190, tabCtrl->getRelativePosition().getHeight() - 75, 370, tabCtrl->getRelativePosition().getHeight() - 40));
+                
+                addParticleSystem->setRelativePosition(rect<s32>(5, tabCtrl->getRelativePosition().getHeight() - 75, 185, tabCtrl->getRelativePosition().getHeight() - 40));
+                removeParticleSystem->setRelativePosition(rect<s32>(190, tabCtrl->getRelativePosition().getHeight() - 75, 370, tabCtrl->getRelativePosition().getHeight() - 40));
                 
                 mainWindow->setDraggable(false);
                 mainWindow->setDrawTitlebar(false);
@@ -928,7 +944,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
-					devices->getDOF()->remove(devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface()->getWaterNode());
+					devices->getDOF()->remove(devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface());
 
 					devices->getObjectPlacement()->setNodeToPlace(0);
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());

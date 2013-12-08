@@ -32,63 +32,6 @@
 
 		 <effect>
 
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/bw_shader.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/blurhp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/blurvp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/brightpass.hlsl" />
-				 <values>
-					 <value name="multiplier" val="setReturnedValueAsFloat()
-
-value =  1
-
-returnValue(value, 1)" />
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/bloomp.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/hdr.hlsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/fxaa.hlsl" />
-				 <values>
-					 <value name="BufferWidth" val="setReturnedValueAsFloat()
-
-value =  2048
-
-returnValue(value, 1)" />
-					 <value name="BufferHeight" val="setReturnedValueAsFloat()
-
-value =  2048
-
-returnValue(value, 1)" />
-				 </values>
-			 </postProcessingEffect>
-
 
 		 </effect>
 

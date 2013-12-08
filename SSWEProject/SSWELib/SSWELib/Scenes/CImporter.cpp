@@ -324,9 +324,8 @@ void CImporter::buildVolumeLight() {
 void CImporter::buildWaterSurface() {
 	read("mesh");
 	stringc meshPath = xmlReader->getAttributeValue("path");
-	CWaterSurface *waterSurface = new CWaterSurface(smgr, 0, smgr->getMesh(meshPath.c_str()), 
-													true, true, devices->getWorkingDirectory());
-	IAnimatedMeshSceneNode *node = waterSurface->getWaterNode();
+	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, "", dimension2du(512, 512), devices->getSceneManager()->getRootSceneNode());
+	ISceneNode *node = waterSurface;
 
 	if (node) {
 		read("name");

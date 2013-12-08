@@ -795,6 +795,8 @@
 		2E932B2F182E8534005FB341 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
 		2E932B30182E8538005FB341 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E932B31182E853E005FB341 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
+		2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */; };
+		2EAA30FB1854CF5400AE73CC /* RealisticWater.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EAA30F91854CF5400AE73CC /* RealisticWater.h */; };
 		2EDA7A63182B9AF70047322E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDA7A62182B9AF70047322E /* main.cpp */; };
 		2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */; };
 		2EE402B6184947990058DD93 /* CGUINodesEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B4184947990058DD93 /* CGUINodesEditor.h */; };
@@ -2455,6 +2457,8 @@
 		2E92B78D18492D8600D955F8 /* CUIParticlesEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticlesEditor.h; path = ParticlesEditor/CUIParticlesEditor.h; sourceTree = "<group>"; };
 		2EA927E9182FB9D8003470EB /* stdafx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../../../SSWEGenericMonitor/stdafx.cpp; sourceTree = "<group>"; };
 		2EA927EA182FB9D8003470EB /* stdafx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWEGenericMonitor/stdafx.h; sourceTree = "<group>"; };
+		2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RealisticWater.cpp; sourceTree = "<group>"; };
+		2EAA30F91854CF5400AE73CC /* RealisticWater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealisticWater.h; sourceTree = "<group>"; };
 		2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECoreData.h; sourceTree = "<group>"; };
 		2EDA7A62182B9AF70047322E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../examples/specialFX/main.cpp; sourceTree = "<group>"; };
 		2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINodesEditor.cpp; sourceTree = "<group>"; };
@@ -4675,6 +4679,8 @@
 		2E6C6161182983A300FB1027 /* WaterSurface */ = {
 			isa = PBXGroup;
 			children = (
+				2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */,
+				2EAA30F91854CF5400AE73CC /* RealisticWater.h */,
 				2E6C6162182983A300FB1027 /* CWaterSurface.cpp */,
 				2E6C6163182983A300FB1027 /* CWaterSurface.h */,
 			);
@@ -5855,6 +5861,7 @@
 				2E2CA4FE182D6E7D000BA9DA /* CUIMaterialEditor.h in Headers */,
 				2E2CA4FF182D6E7D000BA9DA /* CUIMaterialEditorColors.h in Headers */,
 				2E2CA500182D6E7D000BA9DA /* CUIMaterialEditorFlags.h in Headers */,
+				2EAA30FB1854CF5400AE73CC /* RealisticWater.h in Headers */,
 				2E2CA501182D6E7D000BA9DA /* CUIMaterialEditorTextures.h in Headers */,
 				2E2CA502182D6E7D000BA9DA /* CNodeFactory.h in Headers */,
 				2E2CA503182D6E7D000BA9DA /* CUINodeFactoryCreateMeshWithTangents.h in Headers */,
@@ -7199,6 +7206,7 @@
 				2E6C62D6182983CD00FB1027 /* CUICodeEditor.h in Sources */,
 				2E6C62D7182983CD00FB1027 /* CUILoadNodesGroup.cpp in Sources */,
 				2E6C62D8182983CD00FB1027 /* CUILoadNodesGroup.h in Sources */,
+				2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */,
 				2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */,
 				2E6C62D9182983CD00FB1027 /* CUIRenderingInfos.cpp in Sources */,
 				2E6C62DA182983CD00FB1027 /* CUIRenderingInfos.h in Sources */,

@@ -388,7 +388,7 @@ void CExporter::exportVolumeLights() {
 
 void CExporter::exporterWaterSurfaces() {
 	for (u32 i=0; i < devices->getCoreData()->getWaterSurfaces()->size(); i++) {
-		CWaterSurface *surf = devices->getCoreData()->getWaterSurfaces()->operator[](i).getWaterSurface();
+		RealisticWaterSceneNode *surf = devices->getCoreData()->getWaterSurfaces()->operator[](i).getWaterSurface();
 		ISceneNode *node = devices->getCoreData()->getWaterSurfaces()->operator[](i).getNode();
 		stringc surfpath = devices->getCoreData()->getWaterSurfaces()->operator[](i).getPath();
 

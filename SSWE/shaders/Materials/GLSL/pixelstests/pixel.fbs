@@ -1,79 +1,96 @@
-uniform vec4 fvAmbient;
-uniform vec4 fvLight1Color;
-uniform vec4 fvLight2Color;
-uniform vec4 fvLight3Color;
-uniform vec4 fvLight4Color;
+/*
+ * Copyright (c) 2013, elvman
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY elvman ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL elvman BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
+const float LOG2 = 1.442695;
 
-uniform float fSpecularPower;
-uniform float fSpecularStrength;
-uniform float fBumpStrength;
+uniform vec3		CameraPosition;  // Position of main position
+uniform float		WaveHeight;
 
-uniform sampler2D baseMap;
-uniform sampler2D bumpMap;
+uniform vec4		WaterColor;
+uniform float		ColorBlendFactor;
 
-varying vec2 Texcoord;
-varying vec3 ViewDirection;
-varying vec3 LightDirection1;
-varying vec3 LightDirection2;
-varying vec3 LightDirection3;
-varying vec3 LightDirection4;
-varying vec4 LightDistMultiplier;
+uniform sampler2D	WaterBump; //coverage
+uniform sampler2D	RefractionMap; //coverage
+uniform sampler2D	ReflectionMap; //coverage
 
-void main( void )
+uniform bool		FogEnabled;
+uniform int			FogMode;
+
+varying vec2 bumpMapTexCoord;
+varying vec3 refractionMapTexCoord;
+varying vec3 reflectionMapTexCoord;
+varying vec3 position3D;
+	
+void main()
 {
-   
-   vec3  fvLightDirection1 = normalize( LightDirection1 );
-   vec3  fvLightDirection2 = normalize( LightDirection2 );
-   vec3  fvLightDirection3 = normalize( LightDirection3 );
-   vec3  fvLightDirection4 = normalize( LightDirection4 );
-   
-   vec3  fvNormal         = texture2D( bumpMap, Texcoord ).yxz;
-   fvNormal.xy*=2.0;
-   fvNormal.xy-=1.0;
-   
-   fvNormal=(vec3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal;
-   
-   fvNormal=normalize(fvNormal);
-   
-   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1; 
-   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1; 
-   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1; 
-   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1; 
-   
-   vec3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 ); 
-   vec3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 ); 
-   vec3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 ); 
-   vec3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 ); 
-   
-   vec3  fvViewDirection  = normalize( ViewDirection );
-   
-   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) );
-   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) );
-   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) );
-   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) );
-   
-   vec4  fvBaseColor      = texture2D( baseMap, Texcoord );
-   
-   vec4  fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   
-   vec4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*LightDistMultiplier[0]; 
-   vec4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*LightDistMultiplier[0];
-   
-         fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*LightDistMultiplier[1]; 
-         fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*LightDistMultiplier[1];  
-   
-         fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*LightDistMultiplier[2]; 
-         fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*LightDistMultiplier[2];  
-         
-         fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*LightDistMultiplier[3]; 
-         fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*LightDistMultiplier[3]; 
-   
-   vec4 color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));
-   if(color.r>1.0){color.gb+=color.r-1.0;}
-   if(color.g>1.0){color.rb+=color.g-1.0;}
-   if(color.b>1.0){color.rg+=color.b-1.0;}
-   gl_FragColor = color;
+	//bump color
+	vec4 bumpColor = texture2D(WaterBump, bumpMapTexCoord);
+	vec2 perturbation = WaveHeight * (bumpColor.rg - 0.5);
+	
+	//refraction
+	vec2 ProjectedRefractionTexCoords = clamp(refractionMapTexCoord.xy / refractionMapTexCoord.z + perturbation, 0.0, 1.0);
+	//calculate final refraction color
+	vec4 refractiveColor = texture2D(RefractionMap, ProjectedRefractionTexCoords );
+	
+	//reflection
+	vec2 ProjectedReflectionTexCoords = clamp(reflectionMapTexCoord.xy / reflectionMapTexCoord.z + perturbation, 0.0, 1.0);
+	//calculate final reflection color
+	vec4 reflectiveColor = texture2D(ReflectionMap, ProjectedReflectionTexCoords );
 
+	//fresnel
+	vec3 eyeVector = normalize(CameraPosition - position3D);
+	vec3 upVector = vec3(0.0, 1.0, 0.0);
+	
+	//fresnel can not be lower than 0
+	float fresnelTerm = max( dot(eyeVector, upVector), 0.0 );
+	
+	float fogFactor = 1.0;
+	
+	if (FogEnabled)
+	{
+		float z = gl_FragCoord.z / gl_FragCoord.w;
+
+		if (FogMode == 1) //exp
+		{
+			float fogFactor = exp2(-gl_Fog.density * z * LOG2);
+			fogFactor = clamp(fogFactor, 0.0, 1.0);
+		}
+		else if (FogMode == 0) //linear
+		{
+			fogFactor = (gl_Fog.end - z) / (gl_Fog.end - gl_Fog.start);
+		}
+		else if (FogMode == 2) //exp2
+		{
+			float fogFactor = exp2(-gl_Fog.density * gl_Fog.density * z * z * LOG2);
+			fogFactor = clamp(fogFactor, 0.0, 1.0);
+		}
+	}
+	
+	vec4 combinedColor = refractiveColor * fresnelTerm + reflectiveColor * (1.0 - fresnelTerm);
+	
+	vec4 finalColor = ColorBlendFactor * WaterColor + (1.0 - ColorBlendFactor) * combinedColor;
+	
+	gl_FragColor = mix(gl_Fog.color, finalColor, fogFactor );
 }
-
 

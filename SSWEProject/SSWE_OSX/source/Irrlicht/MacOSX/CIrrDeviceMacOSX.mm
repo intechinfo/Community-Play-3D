@@ -739,6 +739,9 @@ bool CIrrDeviceMacOSX::createWindow()
 						[Window setAcceptsMouseMovedEvents:TRUE];
 						[Window setIsVisible:TRUE];
 						[Window makeKeyAndOrderFront:nil];
+                        
+                        NSButton *minimizeButton = [Window standardWindowButton:NSWindowMiniaturizeButton];
+                        [minimizeButton setEnabled:YES];
 					}
 					else if(CreationParams.DriverType == video::EDT_OPENGL) //use another window for drawing
 						[OGLContext setView:(NSView*)CreationParams.WindowId];
@@ -858,6 +861,9 @@ bool CIrrDeviceMacOSX::createWindow()
 							[Window setAcceptsMouseMovedEvents:TRUE];
 							[Window setIsVisible:TRUE];
 							[Window makeKeyAndOrderFront:nil];
+                            
+                            NSButton *minimizeButton = [Window standardWindowButton:NSWindowMiniaturizeButton];
+                            [minimizeButton setEnabled:YES];
 
 							displayRect = CGDisplayBounds(display);
 							ScreenWidth = DeviceWidth = (int)displayRect.size.width;

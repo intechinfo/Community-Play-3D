@@ -61,7 +61,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	addChildrenBackWithSDataArray(lightsNode, worldCore->getLightsSData());
 	addChildrenBackWithSDataArray(volumeLightsNode, worldCore->getVolumeLightsSData());
 	addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
-    addChildrenBackWithSDataArray(particlesNode, worldCore->getParticleSystemsSData());
+    //addChildrenBackWithSDataArray(particlesNode, worldCore->getParticleSystemsSData());
 
 }
 

@@ -191,6 +191,7 @@ class SSWE_CORE_API CGUIFileSelector : public IGUIFileOpenDialog {
 
       core::position2d<s32> DragStart;
       bool Dragging;
+      bool drawWindow;
       bool IsDirectoryChoosable;
       s32 FileIconIdx;
       s32 DirectoryIconIdx;

@@ -303,9 +303,11 @@ void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
     indice = getArrayOfWaterSurfaceNodes().binary_search(node);
     if (indice != -1) {
         effect->removeNodeFromDepthPass(waterSurfaces[indice].getNode());
-        effect->removeNodeFromDepthPass(waterSurfaces[indice].getWaterSurface()->getWaterNode());
+        //effect->removeNodeFromDepthPass(waterSurfaces[indice].getWaterSurface()->getWaterNode());
+        effect->removeNodeFromDepthPass(waterSurfaces[indice].getWaterSurface()->getWaterSceneNode());
         effect->removeShadowFromNode(waterSurfaces[indice].getNode());
-        effect->removeShadowFromNode(waterSurfaces[indice].getWaterSurface()->getWaterNode());
+        //effect->removeShadowFromNode(waterSurfaces[indice].getWaterSurface()->getWaterNode());
+        effect->removeShadowFromNode(waterSurfaces[indice].getWaterSurface()->getWaterSceneNode());
         waterSurfaces[indice].getWaterSurface()->remove();
         waterSurfaces[indice].removeClonedNodes();
         waterSurfaces.erase(indice);

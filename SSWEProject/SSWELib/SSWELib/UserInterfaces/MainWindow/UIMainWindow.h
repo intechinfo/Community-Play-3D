@@ -117,15 +117,16 @@ private:
     //WINDOW GUI ELEMENTS
 
     IGUITabControl *tabCtrl;
-    IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab, *waterSurfacesTab;
+    IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab, *waterSurfacesTab, *particlesTab;
     
-    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *volumeLightsListBox, *waterSurfacesListBox;
+    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *volumeLightsListBox, *waterSurfacesListBox, *particlesSystemsListBox;
     IGUIButton *addTerrain, *removeTerrain;
     IGUIButton *addTree, *removeTree;
     IGUIButton *addObject, *removeObject;
     IGUIButton *addLight, *removeLight;
     IGUIButton *addVolumeLight, *removeVolumeLight;
     IGUIButton *addWaterSurface, *removeWaterSurface;
+    IGUIButton *addParticleSystem, *removeParticleSystem;
     
     CUIWindowAddOctTree *addOctTreeInstance;
     CUIWindowAddTree *addTreeInstance;

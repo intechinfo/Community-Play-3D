@@ -41,6 +41,7 @@ CLensFlareSceneNode::CLensFlareSceneNode(ISceneNode* parent, ISceneManager* mgr,
 	// set the default material properties
 	Material.MaterialType = video::EMT_TRANSPARENT_ADD_COLOR;
 	Material.Lighting = false;
+    
     if (mgr->getVideoDriver()->getDriverType() != video::EDT_OPENGL)
         Material.ZBuffer = video::ECFN_NEVER;
     

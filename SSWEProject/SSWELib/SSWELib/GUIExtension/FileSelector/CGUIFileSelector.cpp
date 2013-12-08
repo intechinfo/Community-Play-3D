@@ -27,6 +27,8 @@ CGUIFileSelector::CGUIFileSelector(const wchar_t* title, IGUIEnvironment* enviro
 	device=NULL;
 	PlacesBox=NULL;
 	default_project_dir=L"";
+    
+    drawWindow = true;
 
 
 	IGUISkin* skin = Environment->getSkin();
@@ -434,7 +436,7 @@ void CGUIFileSelector::draw()
 
 	core::rect<s32> rect = AbsoluteRect;
     
-    if (this->Parent == Environment->getRootGUIElement()) {
+    if (drawWindow) {
         rect = skin->draw3DWindowBackground(this, true, skin->getColor(EGDC_ACTIVE_BORDER), rect, &AbsoluteClippingRect);
     } else {
         CloseButton->setVisible(false);

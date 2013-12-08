@@ -56,9 +56,9 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
     viewPort = new CGUIViewport(gui, window, 1, rect<s32>(10, 430, 310, 550)); 
     if (viewPort) {
-		//viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
+		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
         viewPort->setSceneManager(devices->getSceneManager());
-		//viewPort->setRenderScreenQuad(true);
+		viewPort->setRenderScreenQuad(true);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
     }
     
@@ -97,6 +97,8 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             node2->addTextField(L"Name :", stringw(node2->getName()).c_str());
             node2->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));
             node2->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
+            node2->addButton(L"Add Renderer");
+            node2->addButton(L"Add Emitter");
             
             CGUINode *nodeModel = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
             nodeModel->setName(group->getModel()->getName().c_str());
@@ -188,22 +190,23 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                 }
             }
             if (event.GUIEvent.Caller == menu->getSubMenu(2)) {
-                if (menu->getSubMenu(2)->getSelectedItem() == 1) {
+                if (menu->getSubMenu(2)->getSelectedItem() == 0) {
                     using namespace SPK;
-                    SPK::Model *model = SPK::Model::create(FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX,
-                                                           FLAG_RED | FLAG_GREEN | FLAG_ALPHA | FLAG_ANGLE,
-                                                           FLAG_RED | FLAG_GREEN | FLAG_TEXTURE_INDEX | FLAG_ANGLE,
-                                                           FLAG_SIZE);
+                    using namespace SPK::IRR;
+                    System *system = IRRSystem::create(ps->getBaseNode(), devices->getSceneManager());
+                    system->enableAABBComputing(true);
+                    system->setName("Particle System");
+                    ps->getSystems()->push_back(system);
+                    
                     CGUINode *node = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+                    node->setName(system->getName().c_str());
                     node->setParent(0);
-                    node->setName("New Model");
-                    model->setName("New Model");
+                    node->setData(system);
+                    node->setDataType(EPSDT_SYSTEM);
                     nodesEditor->addNode(node);
-                    node->setData(model);
-                    node->setDataType(EPSDT_MODEL);
-                    node->addTextField(L"Name :", stringw(model->getName().c_str()));
-                    node->add2ParametersFields(L"Life Time ", L"Min", L"Max", model->getLifeTimeMin(), model->getLifeTimeMax());
-                    node->addButton(L"Edit Interpolators...");
+                    node->addTextField(L"Name :", stringw(node->getName()).c_str());
+                    node->addCheckBox(L"AA-BB Computing", system->isAABBComputingEnabled());
+                    node->addButton(L"Add Group", L"Adds a group to this system");
                 }
             }
         }
@@ -226,6 +229,50 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         }
                         if (name == "Add Group") {
                             //SELECT ADD GROUP
+                            using namespace SPK;
+                            Model* model = Model::create(FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED,
+                                                         FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED,
+                                                         FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED,
+                                                         FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED);
+                            model->setName("New Model");
+                            model->setParam(PARAM_RED,0.8f,0.9f,0.8f,0.9f);
+                            model->setParam(PARAM_GREEN,0.5f,0.6f,0.5f,0.6f);
+                            model->setParam(PARAM_BLUE,0.3f);
+                            model->setParam(PARAM_ALPHA,0.4f,0.0f);
+                            model->setParam(PARAM_ANGLE,0.0f,2.0f * PI,0.0f,2.0f * PI);
+                            model->setParam(PARAM_TEXTURE_INDEX,0.0f,4.0f);
+                            model->setLifeTime(1.0f,1.5f);
+                            
+                            Group *group = Group::create(model, 135);
+                            group->setName("New Group");
+                            
+                            CGUINode *modelNode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+                            modelNode->setName(model->getName().c_str());
+                            modelNode->setData(model);
+                            modelNode->setDataType(EPSDT_MODEL);
+                            
+                            CGUINode *groupNode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+                            groupNode->setName(group->getName().c_str());
+                            groupNode->setData(group);
+                            groupNode->setDataType(EPSDT_GROUP);
+                            
+                            modelNode->setParent(groupNode);
+                            groupNode->setParent(node);
+                            
+                            nodesEditor->addNode(groupNode);
+                            nodesEditor->addNode(modelNode);
+                            
+                            modelNode->addTextField(L"Name :", stringw(modelNode->getName()).c_str());
+                            modelNode->add2ParametersFields(L"Life Time ", L"Min", L"Max", model->getLifeTimeMin(), model->getLifeTimeMax());
+                            modelNode->addButton(L"Edit Interpolators...");
+                            
+                            groupNode->addTextField(L"Name :", stringw(groupNode->getName()).c_str());
+                            groupNode->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));
+                            groupNode->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
+                            groupNode->addButton(L"Add Renderer");
+                            groupNode->addButton(L"Add Emitter");
+                            
+                            system->addGroup(group);
                         }
                     }
                     //GROUP
@@ -253,6 +300,73 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         }
                         if (name == "AA-BB Computing") {
                             group->enableAABBComputing(((IGUICheckBox *)event.GUIEvent.Element)->isChecked());
+                        }
+                        if (name == "Add Renderer") {
+                            if (group->getRenderer() == 0) {
+                                using namespace SPK;
+                                using namespace SPK::IRR;
+                                IRRQuadRenderer* renderer = IRRQuadRenderer::create(devices->getDevice());
+                                renderer->setScale(0.3f,0.3f);
+                                renderer->setTexturingMode(TEXTURE_2D);
+                                renderer->setTexture(devices->getVideoDriver()->getTexture("ParticlesTests/fire2.bmp"));
+                                renderer->setBlending(BLENDING_ADD);
+                                renderer->enableRenderingHint(DEPTH_WRITE,false);
+                                renderer->setAtlasDimensions(2,2);
+                                renderer->setName("New Renderer");
+                                
+                                CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+                                nodeRenderer->setName(renderer->getName().c_str());
+                                nodeRenderer->setParent(node);
+                                nodeRenderer->setData(renderer);
+                                nodeRenderer->setDataType(EPSDT_RENDERER);
+                                nodesEditor->addNode(nodeRenderer);
+                                
+                                nodeRenderer->addTextField(L"Name :", stringw(nodeRenderer->getName()).c_str());
+                                nodeRenderer->addDimension2DFields(L"Scale", vector2df(((SPK::IRR::IRRQuadRenderer *)renderer)->getScaleX(),
+                                                                                       ((SPK::IRR::IRRQuadRenderer *)renderer)->getScaleY())
+                                                                   );
+                                IGUIComboBox *texModecb = nodeRenderer->addComboBox(L"Texturing Mode");
+                                texModecb->addItem(L"Texturing None");
+                                texModecb->addItem(L"Texturing 2D");
+                                texModecb->addItem(L"Texturing 3D");
+                                texModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)renderer)->getTexturingMode());
+                                IGUIComboBox *blendModecb = nodeRenderer->addComboBox(L"Blending Mode");
+                                blendModecb->addItem(L"Blending None");
+                                blendModecb->addItem(L"Blending Add");
+                                blendModecb->addItem(L"Blending Alpha");
+                                blendModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)renderer)->getTexturingMode());
+                                nodeRenderer->addDimension2DFields(L"Atlas Dimension ", vector2df(((SPK::IRR::IRRQuadRenderer *)renderer)->getAtlasDimensions().Width,
+                                                                                                  ((SPK::IRR::IRRQuadRenderer *)renderer)->getAtlasDimensions().Height)
+                                                                   );
+                                nodeRenderer->addButton(L"Configure Texture...");
+                                nodeRenderer->addButton(L"Manage Rendering Hints...");
+                                
+                                group->setRenderer(renderer);
+                                
+                                event.GUIEvent.Element->setName("Remove Renderer");
+                                event.GUIEvent.Element->setText(L"Remove Renderer");
+                            }
+                        }
+                        if (name == "Add Emitter") {
+                            using namespace SPK;
+                            StraightEmitter* emitter = StraightEmitter::create(Vector3D(0.0f,1.0f,0.0f));
+                            emitter->setZone(Sphere::create(Vector3D(0.0f,-1.0f,0.0f),0.5f));
+                            emitter->setFlow(40);
+                            emitter->setForce(1.0f,2.5f);
+                            emitter->setName("New Emitter");
+                            
+                            CGUINode *node3 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+                            node3->setName(emitter->getName().c_str());
+                            node3->setParent(node);
+                            node3->setData(emitter);
+                            node3->setDataType(EPSDT_EMITTER);
+                            nodesEditor->addNode(node3);
+                            node3->addTextField(L"Name :", stringw(node3->getName()).c_str());
+                            node3->addTextField(L"Flow", stringw(emitter->getFlow()));
+                            node3->add2ParametersFields(L"Force ", L"Min", L"Max", emitter->getForceMin(), emitter->getForceMax());
+                            node3->addButton(L"Configure Zone...");
+                            
+                            group->addEmitter(emitter);
                         }
                     }
                     //MODEL

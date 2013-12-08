@@ -248,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWELib/SSWELib/Device/CDevices.cpp"
-            timestampString = "407524861.830182"
+            timestampString = "408214514.411124"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "CDevices::createDevice(SIrrlichtCreationParameters parameters)"
             landmarkType = "5">
          </BreakpointContent>
@@ -312,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWECore/SSWECore/Core/CCoreData.cpp"
-            timestampString = "405791688.018031"
+            timestampString = "408214514.411124"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
             landmarkName = "CCoreData::destroyMonitor(IMonitor *monitor)"
             landmarkType = "5">
             <Locations>
@@ -428,22 +428,6 @@
             startingLineNumber = "180"
             endingLineNumber = "180"
             landmarkName = "CUITexturesManager::OnEvent(const SEvent &amp;event)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.cpp"
-            timestampString = "408060325.070045"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "CUIParticleEditor::OnEvent(const SEvent &amp;event)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

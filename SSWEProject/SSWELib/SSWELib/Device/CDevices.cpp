@@ -124,8 +124,8 @@ void CDevices::updateEntities() {
     for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
 			if (renderFullPostTraitements) {
-				driver->runAllOcclusionQueries(false);
-				driver->updateAllOcclusionQueries(false);
+				driver->runAllOcclusionQueries(true);
+				driver->updateAllOcclusionQueries(true);
 				u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
 				if(occlusionQueryResult != 0xffffffff) {
 					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult)/8000.f);
@@ -143,12 +143,15 @@ void CDevices::updateEntities() {
 	for (s32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
 		if (renderXEffect) {
 			if (effect->isUsingMotionBlur()) {
-				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
+				//worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
+                worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginalRenderTarget(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
 			} else {
-				worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
+				//worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
+                worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginalRenderTarget(effect->getScreenQuad().rt[1]);
 			}
 		} else {
-			worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
+			//worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
+            worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginalRenderTarget(0);
 		}
 	}
 }
@@ -195,6 +198,7 @@ void CDevices::updateDevice() {
 
                     if(renderGUI)
                         monitor->drawGUI();
+                    
                 }
                 
                 /*if (activeCamera == camera_fps) {

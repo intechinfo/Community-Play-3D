@@ -13,7 +13,7 @@ CUIWindowEditWater::CUIWindowEditWater(SWaterSurfacesData *waterSurfaceData, CDe
 	m_devices = devices;
 	m_guiEnv = m_devices->getGUIEnvironment();
 	m_waterSurfaceData = waterSurfaceData;
-	m_waterSurface = m_waterSurfaceData->getWaterSurface();
+	//m_waterSurface = m_waterSurfaceData->getWaterSurface();
 
 	//Setting up UI pointers
 	m_window = NULL;
