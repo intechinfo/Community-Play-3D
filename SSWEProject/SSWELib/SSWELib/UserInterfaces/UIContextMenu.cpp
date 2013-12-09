@@ -346,7 +346,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
     
-    CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {

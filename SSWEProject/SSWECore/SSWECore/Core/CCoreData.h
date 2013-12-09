@@ -506,6 +506,7 @@ public:
     }
     void destroyBaseNode() {
         baseNode->remove();
+        baseNode = 0;
         this->setNode(0);
     }
     
@@ -519,6 +520,10 @@ public:
         }
         
         systems.clear();
+        
+        if (baseNode != 0) {
+            destroyBaseNode();
+        }
     }
     
 private:

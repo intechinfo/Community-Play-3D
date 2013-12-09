@@ -222,7 +222,6 @@ bool CUIParticlesEditor::OnEvent(const SEvent &event) {
                 u32 selected = particleSystems->getSelected();
                 if (selected != -1) {
                     devices->getCoreData()->getParticleSystems()->operator[](selected).clear();
-                    devices->getCoreData()->getParticleSystems()->operator[](selected).destroyBaseNode();
                     devices->getCoreData()->getParticleSystems()->operator[](selected).destroyScript();
                     devices->getCoreData()->getParticleSystems()->erase(selected);
                     particleSystems->removeItem(selected);
