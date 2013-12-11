@@ -1,0 +1,6 @@
+vmatrix4 matWorld world[0] 0 0 0vfloat tileSize 10vvector3df viewPos camPos4
+pvector3df lightDirection 10 100 10pSColori ambiant 255 118 86 86pSColori specular 255 205 209 86pSColori diffuse 255 118 132 204pfloat specularPower 1
+pfloat camDepth 2000
+
+pint baseX 0pint baseY 2pint normalX 1pint normalY 3
+

@@ -324,7 +324,8 @@ void CImporter::buildVolumeLight() {
 void CImporter::buildWaterSurface() {
 	read("mesh");
 	stringc meshPath = xmlReader->getAttributeValue("path");
-	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, "", dimension2du(512, 512), devices->getSceneManager()->getRootSceneNode());
+	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, devices->getWorkingDirectory() + "shaders/Materials/GLSL/Water/", 
+                                                                        dimension2du(512, 512), devices->getSceneManager()->getRootSceneNode());
 	ISceneNode *node = waterSurface;
 
 	if (node) {
@@ -354,7 +355,7 @@ void CImporter::buildWaterSurface() {
 		}
 		node->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
 
-		devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+		devices->getCollisionManager()->setCollisionFromBoundingBox(waterSurface->getWaterSceneNode());
 		SWaterSurfacesData wsdata(waterSurface, callback, shaderPackagePath, meshPath);
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}

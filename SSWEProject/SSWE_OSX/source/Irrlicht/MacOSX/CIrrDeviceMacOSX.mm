@@ -111,7 +111,7 @@ enum {
 	kVK_ANSI_Comma		= 0x2B,
 	kVK_ANSI_Slash		= 0x2C,
 	kVK_ANSI_N		= 0x2D,
-	kVK_ANSI_M		= 0x2E,
+	kVK_ANSI_M		= 0x2E,//0x2E//0x6D
 	kVK_ANSI_Period		= 0x2F,
 	kVK_ANSI_Grave		= 0x32,
 	kVK_ANSI_KeypadDecimal  = 0x41,
@@ -167,7 +167,7 @@ enum {
 	kVK_F13			= 0x69,
 	kVK_F16			= 0x6A,
 	kVK_F14			= 0x6B,
-	kVK_F10			= 0x6D,
+	kVK_F10			= 0x6D,//0x6D,//0x2E
 	kVK_F12			= 0x6F,
 	kVK_F15			= 0x71,
 	kVK_Help		= 0x72,
@@ -1241,6 +1241,10 @@ void CIrrDeviceMacOSX::postKeyEvent(void *event,irr::SEvent &ievent,bool pressed
 		ievent.KeyInput.Shift = ([(NSEvent *)event modifierFlags] & NSShiftKeyMask) != 0;
 		ievent.KeyInput.Control = ([(NSEvent *)event modifierFlags] & NSControlKeyMask) != 0;
 		ievent.KeyInput.Char = mchar;
+        
+        if (ievent.KeyInput.Char == L'm') {
+            ievent.KeyInput.Key = irr::KEY_KEY_M;
+        }
 
 		if (skipCommand)
 			ievent.KeyInput.Control = true;

@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="2" />
+		 <numberOfObjects value="3" />
 
 		 <grid>
 
@@ -16,16 +16,16 @@
 
 		 <camera>
 
-			 <position X="-82.648636" Y="44.626427" Z="-17.700905" />
-			 <rotation X="36.474342" Y="185.178497" Z="0.000000" />
+			 <position X="133.064178" Y="23.572945" Z="177.935486" />
+			 <rotation X="11.041044" Y="193.750488" Z="0.000000" />
 
 		 </camera>
 
 		 <fpsCameraSettings>
 
-			 <ellipsoidRadius X="5.000000" Y="2.000000" Z="5.000000" />
-			 <gravityPerSecond X="0.000000" Y="-0.100000" Z="0.000000" />
-			 <ellipsoidTranslation X="0.000000" Y="2.000000" Z="0.000000" />
+			 <ellipsoidRadius X="30.000000" Y="60.000000" Z="30.000000" />
+			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <slidingValue value="0.000500" />
 
 		 </fpsCameraSettings>
@@ -33,13 +33,30 @@
 		 <effect>
 
 			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/bloomp.hlsl" />
+				 <file_path path="shaders/GLSL/BlurHP.glsl" />
 				 <values>
 				 </values>
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
-				 <file_path path="shaders/hlsl/hdr.hlsl" />
+				 <file_path path="shaders/GLSL/BlurVP.glsl" />
+				 <values>
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BrightPass.glsl" />
+				 <values>
+					 <value name="multiplier" val="setReturnedValueAsFloat()
+
+value =  1
+
+returnValue(value, 1)" />
+				 </values>
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <file_path path="shaders/GLSL/BloomP.glsl" />
 				 <values>
 				 </values>
 			 </postProcessingEffect>
@@ -50,194 +67,148 @@
 		 <materialTypes>
 
 			 <materialType>
-				 <pixelShaderType type="7" /> 
-				 <vertexShaderType type="3" /> 
-				 <baseMaterial type="0" /> 
-				 <name cname="normal_mapping_package.spkg" />
-				 <vertex shader=
-"float4x4 matWorldInverse; 
-float4x4 ModelViewMatrix;
-float4x4 ModelViewProjectionMatrix;
-float3 fvLightPosition1; 
-float3 fvLightPosition2; 
-float3 fvLightPosition3; 
-float3 fvLightPosition4; 
-float fLightStrength1; 
-float fLightStrength2; 
-float fLightStrength3; 
-float fLightStrength4; 
-struct VS_OUTPUT
-{
-   float4 Position            : POSITION0;
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3; 
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float getLengthSQR (float3 vec) 
-{ 
-   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-}  
-struct VS_INPUT
-{
-   float3 Position         : POSITION0;
-   float3 Normal           : NORMAL;
-   float2 Texcoord         : TEXCOORD0;
-};
-VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-{    
-   VS_OUTPUT OUT = (VS_OUTPUT)0;
-   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   OUT.Texcoord = IN.Texcoord;
-   
-   float4x4 LightTransform= ModelViewMatrix; 
-   LightTransform= mul(matWorldInverse, LightTransform);
-   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-   
-   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-   
-   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-   float3 fvBinormal   = cross(fvTangent,IN.Normal);
-   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-   
-   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-   
-   return OUT;
-}
-" />
-				 <pixel shader=
-"float4 fvAmbient;
-float4 fvLight1Color; 
-float4 fvLight2Color; 
-float4 fvLight3Color; 
-float4 fvLight4Color; 
-float fSpecularPower; 
-float fSpecularStrength; 
-float fBumpStrength; 
-sampler2D baseMap      : register(s0); 
-sampler2D bumpMap      : register(s1); 
-struct PS_INPUT
-{   
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3;
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
-};
-float4 pixelMain( in PS_INPUT IN ) : COLOR
-{
-   float4 color = float4(0,0,0,0);
-   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-   
-   fvNormal.xy*=2.0; 
-   fvNormal.xy-=1.0;
-   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-   fvNormal=normalize(fvNormal);
-   
-   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-   if(color.r>1.0){color.gb+=color.r-1.0;} 
-   if(color.g>1.0){color.rb+=color.g-1.0;} 
-   if(color.b>1.0){color.rg+=color.b-1.0;} 
-   
-   return color;
-}
-" />
-				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
-vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
-vmatrix4 matWorldInverse world[0] 0 0 makeInverse
-
-vfloat fLightStrength1 80
-vfloat fLightStrength2 80
-vfloat fLightStrength3 80
-vfloat fLightStrength4 80
-
-vvector3df fvLightPosition1 150 240 -34
-vvector3df fvLightPosition2 150 240 -34
-vvector3df fvLightPosition3 150 240 -34
-vvector3df fvLightPosition4 150 240 -34
-
-pSColor fvAmbient 1 0.7 0.7 0.7
-pSColor fvLight1Color 1 0.02 0.02 0.02
-pSColor fvLight2Color 1 0.02 0.02 0.02
-pSColor fvLight3Color 1 0.02 0.02 0.02
-pSColor fvLight4Color 1 0.02 0.02 0.02
-
-pfloat fSpecularPower 20
-pfloat fSpecularStrength 0.9
-pfloat fBumpStrength 5
-" />
-			 </materialType>
-
-			 <materialType>
 				 <pixelShaderType type="0" /> 
 				 <vertexShaderType type="0" /> 
 				 <baseMaterial type="0" /> 
-				 <name cname="triplanar_nm_package.spkg" />
+				 <name cname="TRIPLANAR MAPPING" />
 				 <vertex shader=
-"float4x4 matWorldViewProjection;float4x4 matWorld;float tileSize;float3 viewPos;struct VS_INPUT {   float4 Position : POSITION0;   float2 Texcoord : TEXCOORD0;   float3 Normal :   NORMAL0; };struct VS_OUTPUT {   float4 Position :        POSITION0;   float  Fog		:       FOG0;   float2 TexcoordX :       TEXCOORD0;   float2 TexcoordY :       TEXCOORD1;   float2 TexcoordZ :       TEXCOORD2;   float3 viewDirection   : TEXCOORD3;      float3x3 tangentSpace :  TEXCOORD4;};VS_OUTPUT vertexMain( VS_INPUT Input ){   VS_OUTPUT Output;   Output.Position         = mul( Input.Position, matWorldViewProjection );   float3 realPos          = mul( Input.Position,matWorld).xyz;      Output.viewDirection = realPos-viewPos;      Output.TexcoordX         = realPos.zy/tileSize;   Output.TexcoordY         = realPos.xz/tileSize;   Output.TexcoordZ         = realPos.xy/tileSize;      float3 worldNormal = normalize(Input.Normal);   float3 n = worldNormal;   n*=n;      float3 xtan,ytan,ztan;   float3 xbin,ybin,zbin;      xtan = float3(0,0,1);   xbin = float3(0,1,0);      ytan = float3(1,0,0);   ybin = float3(0,0,1);      ztan = float3(1,0,0);   zbin = float3(0,1,0);      float3 worldBinormal = normalize(xbin*n.x+ybin*n.y+zbin*n.z);   float3 worldTangent = normalize(xtan*n.x+ytan*n.y+ztan*n.z);      worldNormal = mul(matWorld,worldNormal);   worldBinormal = mul(matWorld,worldBinormal);   worldTangent = mul(matWorld,worldTangent);      Output.tangentSpace[0]   = worldTangent;   Output.tangentSpace[1]   = worldBinormal;    Output.tangentSpace[2]   = worldNormal;   Output.Fog = Output.Position.z/Output.Position.w;         return( Output );   }" />
+"//Triplanar coordinate maps with normal maps support
+//by Santiago A. Navascues
+
+//Use at your own risk. I make no warranties. 
+//If you want to use it, give the proper credits
+
+uniform mat4 matWorld;
+uniform vec3 viewPos;
+uniform float tileSize;
+
+varying vec2 TexCoordX;
+varying vec2 TexCoordY;
+varying vec2 TexCoordZ;
+varying vec3 ViewDir;
+varying mat3 tangentSpace;
+     
+void main( void )
+{
+   gl_Position = ftransform();
+   vec3 worldPos = (matWorld * gl_Vertex).xyz;//So we obtain the world position
+   
+   TexCoordX = worldPos.zy/tileSize;//here are our texture coordinates...
+   TexCoordY = worldPos.xz/tileSize;
+   TexCoordZ = worldPos.xy/tileSize;
+   
+   //binormal and tangent become normal dependant
+   
+   vec3 xtan,ytan,ztan;
+   vec3 xbin,ybin,zbin;
+   
+   xtan = vec3(0,0,1);//tangent space for the X aligned plane
+   xbin = vec3(0,1,0);
+   
+   ytan = vec3(1,0,0);//tangent space for the Y aligned plane
+   ybin = vec3(0,0,1);
+   
+   ztan = vec3(1,0,0);//tangent space for the Z aligned plane
+   zbin = vec3(0,1,0);
+   
+   vec3 n = normalize(gl_Normal);
+   n*=n;
+
+   vec3 worldBinormal = normalize(xbin*n.x+ybin*n.y+zbin*n.z);//Average Binormal
+   vec3 worldTangent = normalize(xtan*n.x+ytan*n.y+ztan*n.z);//Average Tangent
+
+   ViewDir = worldPos-viewPos;
+   
+   //This is done so it can be rotated freely
+   
+   worldTangent = (matWorld*vec4(worldTangent,1)).xyz;
+   worldBinormal = (matWorld*vec4(worldBinormal,1)).xyz;
+   
+   //For some odd reason i cannot yet to explain, the normal is oddly altered so the X axis gets always positive
+   //Lucky enough, tangent x binormal is by definition the normal, and this solves the issue...
+
+   vec3 worldNormal = normalize(cross(worldTangent,worldBinormal));
+   
+   tangentSpace[0] = worldTangent;
+   tangentSpace[1] = worldBinormal;
+   tangentSpace[2] = worldNormal;
+}
+" />
 				 <pixel shader=
-"float4 ambient;float4 specular;float4 diffuse;float specularPower;float3 lightDirection;sampler2D baseX : register(s0);sampler2D baseY : register(s1);sampler2D normalX : register(s2);sampler2D normalY : register(s3);struct PS_INPUT {   float4 Position :        POSITION0;   float2 TexcoordX :       TEXCOORD0;   float2 TexcoordY :       TEXCOORD1;   float2 TexcoordZ :       TEXCOORD2;   float3 viewDirection   : TEXCOORD3;      float3x3 tangentSpace :  TEXCOORD4;};float4 pixelMain( PS_INPUT Input ) : COLOR0{         float3 fvLightDirection = normalize( lightDirection );   float3 fvNormal         = normalize( Input.tangentSpace[2]);   float3 fvViewDirection  = normalize( Input.viewDirection );       float3 n                = fvNormal;   n*=n;      float4 fvBaseColor      = tex2D( baseX, Input.TexcoordX )*n.x+                             tex2D( baseY, Input.TexcoordY )*n.y+                             tex2D( baseX, Input.TexcoordZ )*n.z;   float4 fvBaseNormal     = tex2D( normalX, Input.TexcoordX )*n.x+                             tex2D( normalY, Input.TexcoordY )*n.y+                             tex2D( normalX, Input.TexcoordZ )*n.z;                                float3 normal           = normalize(mul(2.0*fvBaseNormal.xyz-1.0,Input.tangentSpace));           float  fNDotL           = max(0.0,dot( normal, fvLightDirection ));    float3 fvReflection     = reflect(fvLightDirection,normal);   float  fRDotV           = max(0.0, dot( fvReflection, fvViewDirection ) );                                float4 fvTotalAmbient   = ambient * fvBaseColor;    float4 fvTotalDiffuse   = diffuse * fNDotL * fvBaseColor;    float4 fvTotalSpecular  = specular * pow( fRDotV, specularPower )*fvBaseColor;      return( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );      }" />
-				 <constants value="vmatrix4 matWorldViewProjection proj[0] view[0] world[0] 0vmatrix4 matWorld world[0] 0 0 0vvector3df viewPos camPos4pvector3df lightDirection -10.1 10.0 10.1pSColori ambiant 255 118 86 86pSColori specular 255 205 209 86pSColori diffuse 255 118 132 204vfloat tileSize 10pfloat specularPower 1" />
+"//Note this is the 6 textures version, hence, you will need to recompile Irrlicht if you want
+//to use it.
+
+//Can be reduced to a 4 textures version if you sample the baseX instead of the baseZ texture
+//and the normalX instead of the normalZ texture.
+
+//And can be reduced further more if you use a single normal map, and sample it from every side
+//everytime, leaving space for a shadowmap, the shader does the rest.
+
+//By the way, lighting is performed in worldspace, because otherwise, the normal calculation
+//and the rotation support could be too complex.
+
+uniform vec4 ambient;
+uniform vec4 diffuse;
+uniform vec4 specular;
+uniform float specularPower;
+uniform vec3 lightDirection;
+uniform float camDepth;
+
+uniform sampler2D baseX;
+uniform sampler2D baseY;
+//uniform sampler2D baseZ;
+uniform sampler2D normalX;
+uniform sampler2D normalY;
+//uniform sampler2D normalZ;
+
+varying vec2 TexCoordX;
+varying vec2 TexCoordY;
+varying vec2 TexCoordZ;
+varying vec3 ViewDir;
+varying mat3 tangentSpace;
+
+void main( void )
+{
+   float Fog = gl_FragCoord.z/gl_FragCoord.w;
+   Fog/=camDepth;
+
+   vec3 normal = tangentSpace[2];
+   
+   vec3 n = normal;
+   n*=n;
+   
+   vec4 col = texture2D(baseX,TexCoordX)*n.x+
+              texture2D(baseY,TexCoordY)*n.y+
+              texture2D(baseX,TexCoordZ)*n.z;
+   
+   vec4 nrm = texture2D(normalX,TexCoordX)*n.x+
+              texture2D(normalY,TexCoordY)*n.y+
+              texture2D(normalX,TexCoordZ)*n.z;
+   
+   vec3 realNormal = normalize((2.0*nrm.xyz-1.0)*tangentSpace);
+   vec3 lightDir = normalize(lightDirection);
+   vec3 viewDir = normalize(ViewDir);
+   
+   float NdL = max(0.0,dot(realNormal,lightDir));
+   
+   vec3 reflVect = normalize(reflect(lightDir,realNormal));
+   float RdL = max(0.0,dot(reflVect,viewDir));
+      
+   vec4 fVambient,fVdiffuse,fVspecular;
+   
+   fVambient = col*ambient;
+   fVdiffuse = diffuse*col*NdL;
+   fVspecular = specular*pow(RdL,specularPower)*col;
+   
+   gl_FragColor = mix(fVambient+fVdiffuse+fVspecular,gl_Fog.color,Fog);
+       
+}
+" />
+				 <constants value="vmatrix4 matWorld world[0] 0 0 0vfloat tileSize 10vvector3df viewPos camPos4
+pvector3df lightDirection 10 100 10pSColori ambiant 255 118 86 86pSColori specular 255 205 209 86pSColori diffuse 255 118 132 204pfloat specularPower 1
+pfloat camDepth 2000
+
+pint baseX 0pint baseY 2pint normalX 1pint normalY 3" />
 			 </materialType>
 
 
@@ -256,7 +227,7 @@ pfloat fBumpStrength 5
 
 		 <terrain>
 
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/height_maps/julie_is_gay_1.png" />
+			 <path file="/Users/julienmoreau-mathis/Desktop/Soganatsu Studios/Projects/SSWE/SSWE/Height_Maps/mountain.png" />
 
 			 <type esnt="heightMap" />
 
@@ -265,28 +236,28 @@ pfloat fBumpStrength 5
 
 			 </factory> 
 
-			 <name c8name="#map:terrain" />
+			 <name c8name="#map:myName" />
 
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="height_maps/rock.png" />
-						 <texture id="1" path="height_maps/grass.png" />
-						 <texture id="2" path="height_maps/rockn.png" />
-						 <texture id="3" path="height_maps/grassn.png" />
+						 <texture id="0" path="Height_Maps/rock.png" />
+						 <texture id="1" path="Height_Maps/rockn.png" />
+						 <texture id="2" path="Height_Maps/grass.png" />
+						 <texture id="3" path="Height_Maps/grassn.png" />
 					 <textures>
 
 					 <diffuseColor r="118" g="132" b="204" a="255" />
 					 <ambiantColor r="118" g="86" b="86" a="255" />
-					 <specularColor r="205" g="209" b="96" a="255" />
+					 <specularColor r="205" g="209" b="86" a="255" />
 					 <emissiveColor r="0" g="0" b="0" a="0" />
 
 					 <lighting value="0" />
 
-					 <materialTypeParam1 value="100.000000" />
+					 <materialTypeParam1 value="0.000000" />
 					 <materialTypeParam2 value="0.000000" />
 
-					 <shininess value="4.000000" />
+					 <shininess value="0.000000" />
 					 <thickness value="1.000000" />
 
 					 <antiAliasing value="1" />
@@ -300,13 +271,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-2" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 </materials>
-			 <position X="-319.360687" Y="0.500000" Z="-327.284302" />
+			 <position X="-251.266769" Y="-30.656509" Z="-232.454437" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.000000" Y="0.200000" Z="1.000000" />
+			 <scale X="0.500000" Y="0.300000" Z="0.500000" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
@@ -317,15 +288,15 @@ pfloat fBumpStrength 5
 
 			 <name c8name="#light:1" />
 
-			 <position X="-473.318756" Y="280.000000" Z="-416.091125" />
+			 <position X="-296.882996" Y="276.516876" Z="146.514709" />
 			 <target X="0.000000" Y="0.000000" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
 			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 
-			 <radius value="100.000000" />
-			 <farValue value="1400.000000" />
+			 <radius value="2000.000000" />
+			 <farValue value="1000.000000" />
 			 <autoRecalculate value="0" />
 
 			 <shadows resol="4096" />
@@ -334,6 +305,57 @@ pfloat fBumpStrength 5
 			 </lensFlare>
 
 		 </light>
+
+		 <waterSurface>
+
+			 <mesh path="" />
+			 <name c8name="#water:test" />
+
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="shaders/Materials/GLSL/Water/data/waterbump.png" />
+						 <texture id="1" path="rt" />
+						 <texture id="2" path="rt" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="1" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="46" />
+
+			 	 </material>
+			 </materials>
+			 <visible bool="1" />
+			 <shadowMode mode="4" />
+			 <shaderPackagePath value="" />
+		 </waterSurface>
 
 
 	</scene>
