@@ -47,13 +47,37 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 		}
 		else if(event.GUIEvent.Caller == m_acceptButton && event.GUIEvent.EventType == EGET_BUTTON_CLICKED)
 		{
-			CWaterSurface *waterSurface;
+			//CWaterSurface *waterSurface;
+            RealisticWaterSceneNode *waterSurface;
 
 			io::path extension, filename;
 			extension = ".spkg";
 			filename = m_devices->getWorkingDirectory() + "shaders/Materials/water_shader";
 
-			waterSurface = new CWaterSurface(m_devices->getSceneManager(), m_devices->getXEffect()->getScreenQuad().rt[1], m_devices->getSceneManager()->getMesh(m_filePath.c_str()), true, true, m_devices->getWorkingDirectory());
+            waterSurface = new RealisticWaterSceneNode(m_devices->getSceneManager(), 512, 512,
+                                                       stringc(m_devices->getWorkingDirectory() + "shaders/Materials/GLSL/Water/").c_str(),
+                                                       dimension2du(512, 512), m_devices->getSceneManager()->getRootSceneNode());
+            
+            if (waterSurface) {                
+                waterSurface->setMaterialFlag(EMF_LIGHTING, false);
+                waterSurface->setMaterialFlag(EMF_NORMALIZE_NORMALS, false);
+                
+                stringw waterSurfaceName = L"#water:";
+				waterSurfaceName += m_nameEditBox->getText();
+				waterSurface->setName(waterSurfaceName.c_str());
+                waterSurface->getWaterSceneNode()->setName(waterSurfaceName.c_str());
+                
+                m_devices->getDOF()->add(waterSurface->getWaterSceneNode());
+				m_devices->getXEffect()->addShadowToNode(waterSurface->getWaterSceneNode(), m_devices->getXEffectFilterType(), ESM_RECEIVE);
+				m_devices->getCollisionManager()->setCollisionFromBoundingBox(waterSurface->getWaterSceneNode());
+                
+                m_devices->getCoreData()->getWaterSurfaces()->push_back(SWaterSurfacesData(waterSurface, 0, ""));
+                m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
+                m_devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+                
+            }
+            
+			/*waterSurface = new CWaterSurface(m_devices->getSceneManager(), m_devices->getXEffect()->getScreenQuad().rt[1], m_devices->getSceneManager()->getMesh(m_filePath.c_str()), true, true, m_devices->getWorkingDirectory());
 			IAnimatedMeshSceneNode *waterNode = waterSurface->getWaterNode();
 
 			CShaderCallback *callback = new CShaderCallback();
@@ -102,7 +126,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
 
 				m_devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
-			}
+			}*/
 
 			m_isFileDialogOpen = false;
 			m_filePath = L"";

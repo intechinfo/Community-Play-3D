@@ -11,6 +11,9 @@
 
 #include "../../Device/CDevices.h"
 
+#include "../../GUIExtension/ViewPort/IGUIViewPort.h"
+#include "../../GUIExtension/ViewPort/CGUIViewPort.h"
+
 #include "CMaterialEditorFactory.h"
 
 #include "General/CUIMaterialEditorTextures.h"
@@ -70,8 +73,8 @@ private:
     IGUITreeViewNode *rootTreeViewNode;
     
     //VIEW PORT
-    //IGUIViewport *viewPort;
-	IGUIImage *viewPort;
+    IGUIViewport *viewPort;
+	//IGUIImage *viewPort;
 
 	//SEPARATOR
 	IGUIStaticText *separatorText;

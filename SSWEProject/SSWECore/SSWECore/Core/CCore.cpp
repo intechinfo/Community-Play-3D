@@ -36,6 +36,14 @@ void CCore::centerWindow(IGUIWindow *window, dimension2du screenSize) {
 										  screenSize.Height/2+window->getRelativePosition().getHeight()/2));
 }
 
+rect<s32> CCore::getScreenCenterRectFromRect(rect<s32> elementRect) {
+	dimension2du screenSize = device->getVideoDriver()->getScreenSize();
+	return rect<s32>(screenSize.Width/2-elementRect.getWidth()/2,
+					 screenSize.Height/2-elementRect.getHeight()/2,
+					 screenSize.Width/2+elementRect.getWidth()/2,
+					 screenSize.Height/2+elementRect.getHeight()/2);
+}
+
 void CCore::deactiveChildrenOfGUIElement(IGUIElement *element, bool visible) {
 	core::list<IGUIElement *>::ConstIterator it = element->getChildren().begin();
 
@@ -90,6 +98,7 @@ array<ISceneNode *> *CCore::getArrayOfAListOfNodeChildren(ISceneNode *node) {
 	return &nodes;
 }
 
+#ifndef _IRR_OSX_PLATFORM_
 s32 CCore::nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node) {
 	s32 exists = -1;
 
@@ -106,6 +115,24 @@ s32 CCore::nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node) {
 
 	return exists;
 }
+#else
+s32 CCore::nodeExistsInArray(array<ISceneNode *>& nodes, ISceneNode *node) {
+    s32 exists = -1;
+    
+    if (nodes.size() == 0) {
+        return exists;
+    }
+    
+    for (u32 i=0; i < nodes.size(); i++) {
+        if (nodes[i] == node) {
+            exists = i;
+            break;
+        }
+    }
+    
+    return exists;
+}
+#endif
 
 s32 CCore::textureAlreadyExists(stringc name, IVideoDriver *driver) {
 	s32 exists = -1;

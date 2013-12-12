@@ -8,6 +8,7 @@
 #ifndef DECAL_SCENE_NODE_H_
 #define DECAL_SCENE_NODE_H_
 
+#include <SSWECore.h>
 #include <irrlicht.h>
 #include <time.h>
 

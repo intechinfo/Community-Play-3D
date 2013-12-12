@@ -7,7 +7,7 @@
 //
 
 #ifndef __C_UI_MATERIAL_EDITOR_FLAGS_H_INCLUDED__
-#define ___C_UI_MATERIAL_EDITOR_FLAGS_H_INCLUDED__
+#define __C_UI_MATERIAL_EDITOR_FLAGS_H_INCLUDED__
 
 #include "../../../Device/CDevices.h"
 

@@ -20,10 +20,10 @@ public:
 			services->setPixelShaderConstant("focus", &callback->focus, 1);
 			services->setVertexShaderConstant("distanceScale", &callback->distanceScale, 1);
 			int d[] = {  0,1,2,3  }; // sampler2d IDs
-			services->setPixelShaderConstant("RT", (float*)&d[0], 1);
-			services->setPixelShaderConstant("Distance", (float*)&d[1], 1);
-			services->setPixelShaderConstant("Blur0", (float*)&d[2], 1);
-			services->setPixelShaderConstant("Blur1", (float*)&d[3], 1);
+			services->setPixelShaderConstant("RT", &d[0], 1);
+			services->setPixelShaderConstant("Distance", &d[1], 1);
+			services->setPixelShaderConstant("Blur0", &d[2], 1);
+			services->setPixelShaderConstant("Blur1", &d[3], 1);
 		} else {
 			//printf("userData=%d\n", userData);
 			if (userData == 1) {
@@ -133,7 +133,6 @@ int ShaderGroup::render(bool render)
 			for (u32 m=0; m < CurrentMaterialCount; m++)
 				BufferMaterialList.push_back(node->getMaterial(m).MaterialType);
 
-			video::E_MATERIAL_TYPE tempMat = node->getMaterial(0).MaterialType;
 			node->setMaterialType((video::E_MATERIAL_TYPE) distance->material);
 			node->render();
 

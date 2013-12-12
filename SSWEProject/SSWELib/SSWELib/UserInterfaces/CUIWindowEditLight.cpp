@@ -438,7 +438,6 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(bill);
 
 					CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
-					lensFlareNode->setFalseOcclusion(true);
 					lensFlareNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_node")).c_str());
 					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(lensFlareNode);
 
@@ -448,11 +447,15 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 						(*element)->setEnabled(true);
 					}
 					devices->getVideoDriver()->addOcclusionQuery(meshNode, meshNode->getMesh());
+                    
+                    devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 
 				} else {
 					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode());
 					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
 					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode());
+                    
+                    devices->getVideoDriver()->removeOcclusionQuery(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
 
 					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->remove();
 					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(0);
@@ -468,7 +471,8 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 					for (; element != lensFlareTab->getChildren().end(); ++element) {
 						(*element)->setEnabled(false);
 					}
-					devices->getVideoDriver()->removeOcclusionQuery(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
+                    
+                    devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
 				}
 			}
 		}

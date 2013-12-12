@@ -9,6 +9,9 @@
 #ifndef __C_DEVICES_H_INCLUDED__
 #define __C_DEVICES_H_INCLUDED__
 
+#include <IDevices.h>
+#include <ISSWELibPlugin.h>
+
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"
 #include "Core/CRenderCore.h"
@@ -18,14 +21,17 @@
 #include "../../../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
-
 #include "../GUIExtension/FileSelector/CGUIFileSelector.h"
 
 #include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
-#include <omp.h>
-
 #include "Monitor/MonitorRegister.h"
+
+#include "../SceneNodes/Camera/CRiggedCamera.h"
+
+#ifndef _IRR_OSX_PLATFORM_
+    #include <omp.h>
+#endif
 
 #ifdef _IRR_OSX_PLATFORM_
 	//Plateforms compatibility
@@ -33,16 +39,18 @@
 
 #endif
 
+class CCoreUserInterface;
+
 enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE = 0x15000,
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
 };
 
-class CDevices : public IEventReceiver {
+class CDevices : public IDevices, public IEventReceiver {
 
 public:
 
-	CDevices();
+	CDevices(CCoreUserInterface *_coreUserInterface);
 	~CDevices();
 
 	bool OnEvent(const SEvent &event);
@@ -98,6 +106,8 @@ public:
 
 	//-----------------------------------
 	//CORE
+    CCoreUserInterface *getCoreUserInterface() { return coreUserInterface; }
+    
 	CCore *getCore() { return wolrdCore; };
 	CCoreData *getCoreData() { return worldCoreData; }
 
@@ -113,6 +123,7 @@ public:
 	//CAMERAS
 	ICameraSceneNode *getFPSCamera() { return camera_fps; }
 	ICameraSceneNode *getMayaCamera() { return camera_maya; }
+	CCameraRig *getCameraRig() { return camera_rig; }
 	vector3df oldRotation;
 	//-----------------------------------
 
@@ -210,8 +221,9 @@ private:
 
 	//-----------------------------------
 	//CAMERAS
-	SKeyMap keyMap[5];
+	SKeyMap keyMap[9];
 	ICameraSceneNode *camera_fps, *camera_maya;
+	CCameraRig *camera_rig;
 	ISceneNodeAnimatorCameraFPS *animatorFPS;
 
 	IBillboardSceneNode *cursorBillBoard;
@@ -219,6 +231,8 @@ private:
 
 	//-----------------------------------
 	//CORE
+    CCoreUserInterface *coreUserInterface;
+    
 	CCore *wolrdCore;
 	CCoreData *worldCoreData;
 

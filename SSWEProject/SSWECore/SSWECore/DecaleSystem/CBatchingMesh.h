@@ -7,6 +7,7 @@
 #ifndef __C_BATCHING_MESH_H_INCLUDED__
 #define __C_BATCHING_MESH_H_INCLUDED__
 
+#include <SSWECore.h>
 #include <irrlicht.h>
 
 using namespace irr;

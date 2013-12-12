@@ -14,8 +14,17 @@
 #ifndef __C_CORE_H_INCLUDED__
 #define __C_CORE_H_INCLUDED__
 
-#include <SSWECore.h>
+//SSWE 3D
+#ifndef _IRR_OSX_PLATFORM_
+    #include <SSWECore.h>
+#else
+    #include "SSWECore.h"
+#endif
 
+#include <irrlicht.h>
+#include <ISSWECore.h>
+
+//OTHERS
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -27,17 +36,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <irrlicht.h>
+#include <memory>
+#include <thread>
+#include <mutex>
 
 #ifndef _IRR_OSX_PLATFORM_
-	#include <memory>
-	#include <thread>
 	#include <Windows.h>
-	#include <mutex>
+#else
+    #include <dlfcn.h>
 #endif
 
-//RENDERS
-#include "../../../SSWERenders/Renders/XEffect/XEffects.h"
+//PARTICLE SYSTEMS
+#include "../../../SPARK/SPARK155/include/SPK.h"
+#include "../../../SPARK/SPARK155/include/SPK_IRR.h"
 
 //BULLET
 #include "src/Bullet-C-Api.h"
@@ -63,7 +74,7 @@ enum E_CORE_USER_EVENTS {
 //--------------------------
 //CORE CLASS
 
-class SSWE_CORE_API CCore {
+class SSWE_CORE_API CCore : public ISSWECore {
     
 public:
 	
@@ -102,7 +113,11 @@ public:
 	//SCENE METHODS
 	stringc getNodeNamePrefix(ISceneNode *node);
 	ISceneNode *clone(ISceneNode *node, stringc meshPath, ISceneManager *smgr);
+    #ifndef _IRR_OSX_PLATFORM_
 	s32 nodeExistsInArray(array<ISceneNode *> *nodes, ISceneNode *node);
+    #else
+    s32 nodeExistsInArray(array<ISceneNode *>& nodes, ISceneNode *node);
+    #endif
 	array<ISceneNode *> *getArrayOfAListOfNodeChildren(ISceneNode *node);
 
 	//GUI METHODS
@@ -112,6 +127,7 @@ public:
 	void fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> *toFill, array<IGUIElement *> source);
 	void maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition);
 	void centerWindow(IGUIWindow *window, dimension2du screenSize);
+	rect<s32> getScreenCenterRectFromRect(rect<s32> elementRect);
     
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();
@@ -120,6 +136,7 @@ public:
 
 	//BULLET METHODS
 	btVector3 getBtVector3(vector3df vector) { return btVector3(vector.X, vector.Y, vector.Z); }
+    vector3df getVector3dfFromSpark(SPK::Vector3D vector) { return vector3df(vector.x, vector.y, vector.z); }
     
 private:
 	//--------------------------
@@ -140,12 +157,7 @@ private:
 //--------------------------
 //MULTIPLE EVENT RECEIVERS CLASS
 
-class IUpdate : IEventReceiver {
-public:
-	virtual void update() = 0;
-};
-
-class EventReceiver : public IEventReceiver, IUpdate {
+class EventReceiver : public ISSWEEventsManager {
 
 public:
     

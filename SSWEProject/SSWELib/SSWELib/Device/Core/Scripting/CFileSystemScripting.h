@@ -12,7 +12,7 @@ public:
 	CFileSystemScripting(CDevices *_devices);
 	~CFileSystemScripting();
 
-	IFileList *getFileList(irr::core::stringc path="", bool resetDirectory=false);
+    irr::io::IFileList *getFileList(irr::core::stringc path="", bool resetDirectory=false);
 
 private:
 

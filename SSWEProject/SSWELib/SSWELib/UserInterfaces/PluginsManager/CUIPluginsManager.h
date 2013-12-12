@@ -30,6 +30,10 @@ private:
 	IGUIListBox *monitors;
 	IGUICheckBox *enableMonitor;
 
+	IGUITab *sswetab;
+	IGUIListBox *ssweplugins;
+	IGUIButton *runssweplugin;
+
 	IGUIButton *close;
 	//-----------------------------------
 };

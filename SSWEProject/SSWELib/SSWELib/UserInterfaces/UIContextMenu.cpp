@@ -23,10 +23,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	pluginsManager = new CPluginsManager(devices);
 
 	//SETS GENERIC MONITOR AS DEFAULT
-	#ifdef SSWE_RELEASE
+	#ifndef _IRR_OSX_PLATFORM_
 		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
 	#else
-		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+		pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
+        //pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
 	#endif
 
     //-----------------------------------
@@ -39,7 +40,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	menu->addItem(L"View", -1, true, true);
 	menu->addItem(L"Animators", -1, true, true);
 	menu->addItem(L"Renders", -1, true, true);
-    menu->addItem(L"Shaders", -1, true, true);
+    menu->addItem(L"Scene", -1, true, true);
 	menu->addItem(L"Factory", -1, true, true);
 	menu->addItem(L"Scripting", -1, true, true);
 	menu->addItem(L"Sounds", -1, true, true);
@@ -110,14 +111,25 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
     submenu->addSeparator();
     submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
-	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
+	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CXT_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
 	submenu->addSeparator();
 	submenu->addItem(L"Edit Depth Of Field...", CXT_MENU_EVENTS_RENDERS_EDIT_DOF);
+	submenu = menu->getSubMenu(i);
+	submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
 	i++;
 
 	//SHADERS
     submenu = menu->getSubMenu(i++);
-    submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
+	submenu->addItem(L"Manage Clouds...", -1);
+	submenu->addItem(L"Manage Suns...", -1);
+    submenu->addItem(L"Manage Vegetation...", -1);
+    submenu->addItem(L"Manage Particle Systems...", CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS);
+    submenu->addSeparator();
+    submenu->addItem(L"Add Terrain...", CXT_MENU_EVENTS_SCENE_ADD_TERRAIN);
+    submenu->addItem(L"Add Object...", CXT_MENU_EVENTS_SCENE_ADD_OBJECT);
+    submenu->addItem(L"Add Light...", CXT_MENU_EVENTS_SCENE_ADD_LIGHT);
+    submenu->addItem(L"Add Volume Light...", CXT_MENU_EVENTS_SCENE_ADD_VOLUME_LIGHT);
+    submenu->addItem(L"Add Water Surface...", CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE);
 
 	//FACTORY
 	submenu = menu->getSubMenu(i++);
@@ -183,7 +195,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //-----------------------------------
     //TOOLBAR
     bar = devices->getGUIEnvironment()->addToolBar(0, -1);
-    bar->setRelativePosition(position2d<int>(0, menu->getRelativePosition().getHeight()+5));
+    bar->setRelativePosition(position2d<int>(0, menu->getRelativePosition().getHeight()+7));
 	ITexture* image = devices->getVideoDriver()->getTexture("GUI/folder.png");
 	bar->addButton(CXT_MENU_EVENTS_OPEN_SCRIPT, 0, L"Open a scene", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/edit.png");
@@ -279,12 +291,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"L.world";
+			stringw scene_to_import = L"Test.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
-			/*impoterInstance->setPathOfFile_t(scene_to_import.c_str());
-			std::thread importer_t(&CImporter::import_t, *impoterInstance);
-			importer_t.detach();*/
+			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
+			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
+			//importer_t.detach();
 
 			scene_to_import.remove(L".world");
 			exportSceneInstance->setPathFile(scene_to_import.c_str());
@@ -327,10 +339,14 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	devices->setContextName("General");
 
-	CUITexturesManager *texmgr = new CUITexturesManager(devices);
+	//CUITexturesManager *texmgr = new CUITexturesManager(devices);
 	//CUIPluginsManager *pm = new CUIPluginsManager(devices, pluginsManager);
 
+	//pluginsManager->loadSSWEPlugin("SSWEWEBPLUGIN_D");
+
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
+    
+    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -373,7 +389,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			for (u32 j=0; j < fl->getFileCount(); j++) {
 				if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 					stringw pluginname = fl->getFileName(j);
+                    #ifndef _IRR_OSX_PLATFORM_
 					pluginname.remove(".dll");
+                    #else
+                    pluginname.remove(".dylib");
+                    #endif
 					pluginname.make_upper();
 					u32 itemID = monitorsMenu->addItem(pluginname.c_str(), -1, true, false, false, true);
 					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
@@ -591,7 +611,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     editEffects->open();
                 }
 					break;
-				case CST_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS: {
+				case CXT_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS: {
 					for (u32 i=0; i < devices->getXEffect()->getShadowLightCount(); i++) {
 						devices->getXEffect()->getShadowLight(i).setRecalculate(true);
 					}
@@ -624,6 +644,32 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
+                //-----------------------------------
+                    
+                //-----------------------------------
+                //CONTEXT MENU SCENE EVENT
+                    
+                case CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS: {
+                    CUIParticlesEditor *pse = new CUIParticlesEditor(devices);
+                }
+                    break;
+                    
+                case CXT_MENU_EVENTS_SCENE_ADD_TERRAIN:
+                    mainWindowInstance->openAddTerrain();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_OBJECT:
+                    mainWindowInstance->openAddObject();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_LIGHT:
+                    mainWindowInstance->openAddLight();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_VOLUME_LIGHT:
+                    mainWindowInstance->openAddVolumeLight();
+                    break;
+                case CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE:
+                    mainWindowInstance->openAddWaterSurface();
+                    break;
+                    
                 //-----------------------------------
                 
 				//-----------------------------------
@@ -662,6 +708,22 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
 					break;
+                    
+                case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYBOX: {
+                    if (devices->getSkyBox()) {
+						CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+						editNode->open(devices->getSkyBox(), "#object", false);
+					}
+                }
+                    break;
+                    
+                case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYBOX: {
+                    if (devices->getSkyBox()) {
+						CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
+						matEditor->open(devices->getSkyBox());
+					}
+                }
+                    break;
 
 				case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME: {
 					if (devices->getSkydome()) {
@@ -761,9 +823,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				//-----------------------------------
                 //HELP MENU EVENT
 				case CXT_MENU_EVENTS_HELP_ABOUT:
-					devices->addInformationDialog(L"About...", L"Created by Julien Moreau-Mathis\n"
-															   L"All rights reserved", 
-												  EMBF_OK);
+					//devices->addInformationDialog(L"About...", L"Created by Julien Moreau-Mathis\n"
+					//										   L"All rights reserved", 
+					//							  EMBF_OK);
+                    devices->getGUIEnvironment()->addMessageBox(L"About...", L"Created by Julien Moreau-Mathis\n"
+                                                                             L"All rights reserved",
+                                                                true, EMBF_OK, 0, -1,
+                                                                devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + "GUI/ss_logo.png"));
 					break;
 				//-----------------------------------
 
@@ -796,6 +862,27 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 default:
                     break;
+            }
+        }
+        
+        //-----------------------------------
+        //COMBO BOX GUI EVENT
+        
+        if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
+            if (event.GUIEvent.Caller == comboModecb) {
+                if (comboModecb->getSelected() == 0) {
+                    devices->setXEffectDrawable(true);
+                    devices->getXEffect()->setAllShadowLightsRecalculate();
+                }
+                if (comboModecb->getSelected() == 1) {
+                    devices->setXEffectDrawable(true);
+                    devices->setRenderFullPostTraitements(true);
+                    devices->getXEffect()->setAllShadowLightsRecalculate();
+                }
+                if (comboModecb->getSelected() == 2) {
+                    devices->setRenderFullPostTraitements(false);
+                    devices->setXEffectDrawable(false);
+                }
             }
         }
         

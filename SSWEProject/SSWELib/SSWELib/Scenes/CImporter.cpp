@@ -257,7 +257,6 @@ void CImporter::buildLight() {
 		lfBillBoard->setParent(lfMeshNode);
 		lfBillBoard->setName(stringc(stringc(node->getName()) + stringc("_flare_bill")).c_str());
 		lfNode = new CLensFlareSceneNode(lfMeshNode, devices->getSceneManager());
-		lfNode->setFalseOcclusion(true);
 		lfNode->setParent(lfMeshNode);
 		lfNode->setName(stringc(stringc(node->getName()) + stringc("_flare_node")).c_str());
 		devices->getVideoDriver()->addOcclusionQuery(lfMeshNode, lfMeshNode->getMesh());
@@ -277,7 +276,6 @@ void CImporter::buildLight() {
 		read("texture");
 		lfNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path")));
 		read("falseOcclusion");
-		lfNode->setFalseOcclusion(xmlReader->getAttributeValueAsInt("value"));
 		read("position");
 		lfNode->setPosition(buildVector3df());
 
@@ -292,6 +290,8 @@ void CImporter::buildLight() {
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
+
+	//devices->getXEffect()->createLightShafts(devices->getXEffect()->getShadowLightCount()-1, 100);
 }
 
 void CImporter::buildVolumeLight() {
@@ -324,9 +324,9 @@ void CImporter::buildVolumeLight() {
 void CImporter::buildWaterSurface() {
 	read("mesh");
 	stringc meshPath = xmlReader->getAttributeValue("path");
-	CWaterSurface *waterSurface = new CWaterSurface(smgr, 0, smgr->getMesh(meshPath.c_str()), 
-													true, true, devices->getWorkingDirectory());
-	IAnimatedMeshSceneNode *node = waterSurface->getWaterNode();
+	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, devices->getWorkingDirectory() + "shaders/Materials/GLSL/Water/", 
+                                                                        dimension2du(512, 512), devices->getSceneManager()->getRootSceneNode());
+	ISceneNode *node = waterSurface;
 
 	if (node) {
 		read("name");
@@ -355,7 +355,7 @@ void CImporter::buildWaterSurface() {
 		}
 		node->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
 
-		devices->getCollisionManager()->setCollisionToAnAnimatedNode(node);
+		devices->getCollisionManager()->setCollisionFromBoundingBox(waterSurface->getWaterSceneNode());
 		SWaterSurfacesData wsdata(waterSurface, callback, shaderPackagePath, meshPath);
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}
@@ -558,7 +558,7 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		read("textures");
 		for (u32 i=0; i < irr::video::MATERIAL_MAX_TEXTURES; i++) {
 			read("texture");
-			ITexture *tex = devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("path"));
+			ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
 			_node->getMaterial(id).TextureLayer[i].Texture = tex;
 		}
 
@@ -685,9 +685,9 @@ dimension2df CImporter::buildDimension2df() {
 
 template<class T>
 vector3d<T> CImporter::buildVector3d() {
-	vector3df vec = vector3df(xmlReader->getAttributeValueAsFloat("X"),
-							  xmlReader->getAttributeValueAsFloat("Y"),
-							  xmlReader->getAttributeValueAsFloat("Z"));
+	vector3d<T> vec = vector3d<T>(xmlReader->getAttributeValueAsFloat("X"),
+                                  xmlReader->getAttributeValueAsFloat("Y"),
+                                  xmlReader->getAttributeValueAsFloat("Z"));
     return vec;
 }
 

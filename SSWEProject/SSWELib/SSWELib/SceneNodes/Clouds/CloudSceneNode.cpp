@@ -44,7 +44,8 @@ CCloudSceneNode::CCloudSceneNode(scene::ISceneNode* parent, scene::ISceneManager
 	// set the default material properties
 	Material.Wireframe = false;
 	Material.Lighting = false;
-	Material.ZBuffer = video::ECFN_NEVER;
+    if (mgr->getVideoDriver()->getDriverType() != video::EDT_OPENGL)
+        Material.ZBuffer = video::ECFN_NEVER;
 	Material.ZWriteEnable = false;
 
 	// setup the texture wrap
@@ -400,3 +401,4 @@ ISceneNode* CCloudSceneNode::clone(ISceneNode* newParent, ISceneManager* newMana
 
 } // end namespace scene
 } // end namespace irr
+

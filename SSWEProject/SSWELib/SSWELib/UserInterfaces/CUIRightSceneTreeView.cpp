@@ -53,6 +53,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	lightsNode = rootNode->addChildBack(L"LIGHTS", L"", 2, -1);
 	volumeLightsNode = rootNode->addChildBack(L"VOLUME LIGHTS", L"", 2, -1);
 	waterSurfacesNode = rootNode->addChildBack(L"WATER SURFACES", L"", 2, -1);
+    particlesNode = rootNode->addChildBack(L"PARTICLE SYSTEMS", L"", 2, -1);
 
 	addChildrenBackWithSDataArray(terrainsNode, worldCore->getTerrainsSData());
 	addChildrenBackWithSDataArray(treesNode, worldCore->getTreesSData());
@@ -60,6 +61,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	addChildrenBackWithSDataArray(lightsNode, worldCore->getLightsSData());
 	addChildrenBackWithSDataArray(volumeLightsNode, worldCore->getVolumeLightsSData());
 	addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
+    //addChildrenBackWithSDataArray(particlesNode, worldCore->getParticleSystemsSData());
 
 }
 
@@ -73,7 +75,7 @@ void CUIRightSceneTreeView::addChildrenBackWithArray(IGUITreeViewNode *treeNode,
 	if (sceneView->getSelected()) {
 		whoIstreeNodeSelected = (ISceneNode *)sceneView->getSelected()->getData();
 	}
-	treeNode->clearChilds();
+	treeNode->clearChildren();
 	for (u32 i=0; i < nodes->size(); i++) {
 		IGUITreeViewNode *newTreeNode = treeNode->addChildBack(stringw(nodes->operator[](i)->getName()).c_str(), L"", 
 															   getImageListIndexForNodeType(nodes->operator[](i)->getType()), -1);
@@ -90,7 +92,7 @@ void CUIRightSceneTreeView::addChildrenBackRecursively(IGUITreeViewNode *treeNod
 
 	s32 imageIndex;
 	IGUITreeViewNode *nodeTreeView;
-	treeNode->clearChilds();
+	treeNode->clearChildren();
 
 	core::list<ISceneNode *>::ConstIterator it = node->getChildren().begin();
 	for (; it != node->getChildren().end(); ++it) {
@@ -297,7 +299,8 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 					if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 0) {
 						stringc prefix = cxtMenu->getMainWindow()->getSelectedNodePrefix(node);
 						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {
-							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&worldCore->getArrayOfLightNodes(), node));
+                            array<ISceneNode *> lights = worldCore->getArrayOfLightNodes();
+							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(lights, node));
 							editLight->open(node, prefix.c_str());
 						} else {
 							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
@@ -353,6 +356,15 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 					if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 5) {
 
 					}
+                    
+                    if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 7) {
+                        if (sceneView->getSelected()->getData()) {
+                            devices->getCoreData()->removeSceneNode((ISceneNode *)sceneView->getSelected()->getData(), devices->getXEffect());
+                            devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+                        } else {
+                            devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);
+                        }
+                    }
 				} else {
 					devices->addInformationDialog(L"Informations", L"You cannot use this node", EMBF_OK, 0);
 				}

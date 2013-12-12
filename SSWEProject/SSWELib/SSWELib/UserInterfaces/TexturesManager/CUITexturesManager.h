@@ -46,7 +46,7 @@ private:
 
 	IGUIListBox *textures;
 	IGUIImage *texturePreview;
-	IGUIButton *edit, *whoUse, *remove, *refresh;
+	IGUIButton *edit, *whoUse, *remove, *refresh, *clear;
 	//-----------------------------------
 
 };

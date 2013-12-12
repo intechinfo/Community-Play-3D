@@ -12,9 +12,9 @@
 #include "stdafx.h"
 #include "Core/CCore.h"
 
-#include "../../../SSWELib/SSWELib/SceneNodes/Terrains/CTerrain.h"
+#include <ICollisionManager.h>
 
-class SSWE_CORE_API SFPSCameraSettings {
+class SSWE_CORE_API SFPSCameraSettings : public IFPSCameraSettings {
 
 public:
 	SFPSCameraSettings() {
@@ -89,12 +89,16 @@ private:
 	f32 slidingValue;
 };
 
-class SSWE_CORE_API CCollisionManager {
+class SSWE_CORE_API CCollisionManager : public ICollisionManager {
     
 public:
 	
 	CCollisionManager(ISceneManager *_smgr);
 	~CCollisionManager();
+
+	void reset() {
+		meta->removeAllTriangleSelectors();
+	}
 	
     //-----------------------------------
     //METHODS

@@ -17,10 +17,11 @@ CCoreUserInterface::CCoreUserInterface() {
     //DEVICE
 
     #ifdef _IRR_OSX_PLATFORM_
-    params.DriverType=EDT_OPENGL;
+    params.DriverType=irr::video::EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
-        params.WindowSize = dimension2d<u32>(1920, 1070);
+        //params.WindowSize = dimension2d<u32>(1920, 1070);
         //params.WindowSize = dimension2d<u32>(1280, 690);
+        params.WindowSize = dimension2du(1680, 951);
     #else
 	params.DriverType=EDT_DIRECT3D9;
         params.WindowSize = dimension2d<u32>(800, 600);
@@ -45,11 +46,10 @@ CCoreUserInterface::CCoreUserInterface() {
 		tempDevice->drop();
 	}
 
-	devices = new CDevices();
+	devices = new CDevices(this);
 	devices->createDevice(params);
     
     driver = devices->getVideoDriver();
-
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
     
@@ -150,12 +150,20 @@ void CCoreUserInterface::update() {
         }
     }
 
-	core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
-	if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
-		if (gui->getFocus() == 0 && devices->isCtrlPushed())
-			((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
-		else
-			((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+	if (smgr->getActiveCamera()->getAnimators().size() > 0) {
+		core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
+		if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
+			if (gui->getFocus() == 0 && devices->isCtrlPushed())
+                #ifdef _IRR_OSX_PLATFORM_
+				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
+                #else
+                ((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+                #endif
+            #ifdef _IRR_OSX_PLATFORM_
+			else
+				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
+            #endif
+		}
 	}
 }
 

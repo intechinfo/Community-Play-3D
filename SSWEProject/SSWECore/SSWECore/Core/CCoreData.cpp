@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "CCoreData.h"
 
-#include "../../../SSWERenders/Renders/XEffect/EffectShaders.h"
+#include <ISSWELibPlugin.h>
 
 CCoreData::CCoreData() {
     clearAllTheArrays();
@@ -20,7 +20,7 @@ CCoreData::~CCoreData() {
 }
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------CORE DATA FUNCTIONS ---------------------------------------
+//----------------------------------CORE DATA FUNCTIONS----------------------------------------
 //---------------------------------------------------------------------------------------------
 
 void CCoreData::clear() {
@@ -223,6 +223,144 @@ array<ISceneNode *> CCoreData::getArrayOfWaterSurfaceNodes() {
 	return nodes;
 }
 
+void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
+    //SEARCH TERRAINS
+    s32 indice = getArrayOfTerrainNodes().binary_search(node);
+    if (indice != -1) {
+        effect->removeNodeFromDepthPass(terrainsData[indice].getNode());
+        effect->removeShadowFromNode(terrainsData[indice].getNode());
+        terrainsData[indice].getNode()->remove();
+        terrainsData[indice].removeClonedNodes();
+        terrainsData.erase(indice);
+        effect->setAllShadowLightsRecalculate();
+        return;
+    }
+    
+    //SEARCH OBJECTS
+    indice = getArrayOfObjectNodes().binary_search(node);
+    if (indice != -1) {
+        effect->removeNodeFromDepthPass(objectsData[indice].getNode());
+        effect->removeShadowFromNode(objectsData[indice].getNode());
+        objectsData[indice].getNode()->remove();
+        objectsData[indice].removeClonedNodes();
+        objectsData.erase(indice);
+        effect->setAllShadowLightsRecalculate();
+        return;
+    }
+    
+    //SEARCH TREES
+    indice = getArrayOfTreeNodes().binary_search(node);
+    if (indice != -1) {
+        effect->removeNodeFromDepthPass(treesData[indice].getNode());
+        effect->removeShadowFromNode(treesData[indice].getNode());
+        treesData[indice].getNode()->remove();
+        treesData[indice].removeClonedNodes();
+        treesData.erase(indice);
+        effect->setAllShadowLightsRecalculate();
+        return;
+    }
+    
+    //SEARCH LIGHTS
+    indice = getArrayOfLightNodes().binary_search(node);
+    if (indice != -1) {
+        SLightsData ldata = lightsData[indice];
+        if (ldata.getLensFlareSceneNode()) {
+            effect->removeNodeFromDepthPass(ldata.getLensFlareSceneNode());
+            effect->removeShadowFromNode(ldata.getLensFlareSceneNode());
+            ldata.getLensFlareSceneNode()->remove();
+        }
+        if (ldata.getLensFlareBillBoardSceneNode()) {
+            effect->removeNodeFromDepthPass(ldata.getLensFlareBillBoardSceneNode());
+            effect->removeShadowFromNode(ldata.getLensFlareBillBoardSceneNode());
+            ldata.getLensFlareBillBoardSceneNode()->remove();
+        }
+        if (ldata.getLensFlareMeshSceneNode()) {
+            effect->removeNodeFromDepthPass(ldata.getLensFlareMeshSceneNode());
+            effect->removeShadowFromNode(ldata.getLensFlareMeshSceneNode());
+            effect->getIrrlichtDevice()->getVideoDriver()->removeOcclusionQuery(ldata.getLensFlareMeshSceneNode());
+            ldata.getLensFlareMeshSceneNode()->remove();
+        }
+        ldata.getNode()->remove();
+        ldata.removeClonedNodes();
+        lightsData.erase(indice);
+        effect->setAllShadowLightsRecalculate();
+        return;
+    }
+    
+    //SEARCH VOLUME LIGHTS
+    indice = getArrayOfVolumeLightNodes().binary_search(node);
+    if (indice != -1) {
+        effect->removeNodeFromDepthPass(volumeLightsData[indice].getNode());
+        effect->removeShadowFromNode(volumeLightsData[indice].getNode());
+        volumeLightsData[indice].getNode()->remove();
+        volumeLightsData[indice].removeClonedNodes();
+        volumeLightsData.erase(indice);
+        effect->setAllShadowLightsRecalculate();
+        return;
+    }
+    
+    //SEARCH WATERS
+    indice = getArrayOfWaterSurfaceNodes().binary_search(node);
+    if (indice != -1) {
+        effect->removeNodeFromDepthPass(waterSurfaces[indice].getNode());
+        //effect->removeNodeFromDepthPass(waterSurfaces[indice].getWaterSurface()->getWaterNode());
+        effect->removeNodeFromDepthPass(waterSurfaces[indice].getWaterSurface()->getWaterSceneNode());
+        //effect->removeShadowFromNode(waterSurfaces[indice].getWaterSurface()->getWaterNode());
+        effect->removeShadowFromNode(waterSurfaces[indice].getWaterSurface()->getWaterSceneNode());
+        waterSurfaces[indice].getWaterSurface()->remove();
+        waterSurfaces[indice].removeClonedNodes();
+        waterSurfaces.erase(indice);
+        effect->setAllShadowLightsRecalculate();
+        return;
+    }
+}
+
+SData *CCoreData::copySDataOfSceneNode(irr::scene::ISceneNode *node) {
+    //SEARCH TERRAINS
+    s32 indice = getArrayOfTerrainNodes().binary_search(node);
+    if (indice != -1) {
+        terrainsData.push_back(STerrainsData(terrainsData[indice]));
+        return &terrainsData[terrainsData.size()-1];
+    }
+    
+    //SEARCH OBJECTS
+    indice = getArrayOfObjectNodes().binary_search(node);
+    if (indice != -1) {
+        objectsData.push_back(SObjectsData(objectsData[indice]));
+        return &objectsData[objectsData.size()-1];
+    }
+    
+    //SEARCH TREES
+    indice = getArrayOfTreeNodes().binary_search(node);
+    if (indice != -1) {
+        treesData.push_back(STreesData(treesData[indice]));
+        return &treesData[treesData.size()-1];
+    }
+    
+    //SEARCH LIGHTS
+    indice = getArrayOfLightNodes().binary_search(node);
+    if (indice != -1) {
+        lightsData.push_back(SLightsData(lightsData[indice]));
+        return &lightsData[lightsData.size()-1];
+    }
+    
+    //SEARCH VOLUME LIGHTS
+    indice = getArrayOfVolumeLightNodes().binary_search(node);
+    if (indice != -1) {
+        volumeLightsData.push_back(SVolumeLightsData(volumeLightsData[indice]));
+        return &volumeLightsData[volumeLightsData.size()-1];
+    }
+    
+    //SEARCH WATERS
+    indice = getArrayOfWaterSurfaceNodes().binary_search(node);
+    if (indice != -1) {
+        waterSurfaces.push_back(SWaterSurfacesData(waterSurfaces[indice]));
+        return &waterSurfaces[waterSurfaces.size()-1];
+    }
+    
+    return 0;
+}
+
 //---------------------------------------------------------------------------------------------
 //----------------------------------IRRLICHT NODES---------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -240,23 +378,27 @@ u32 CCoreData::getObjectNodeIndice(ISceneNode *node) {
 }
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------SHADERS-- -------------------------------------------------
+//----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-void SLightsData::createLightShafts(EffectHandler *effect, const u32 numberOfPlanes) {
-	ICameraSceneNode *initialCam = effect->getActiveSceneManager()->getActiveCamera();
-	ICameraSceneNode *lightCamera = effect->getActiveSceneManager()->addCameraSceneNode();
-	lightCamera->setPosition(node->getPosition());
-	lightCamera->setTarget(node->getRotation());
+void CCoreData::destroyMonitor(IMonitor *monitor) {
+    for (u32 i=0; i < monitors.size(); i++) {
+        if (monitors[i].getMonitor() == monitor) {
+            monitors[i].freeInstance();
+            monitors.erase(i);
+            break;
+        }
+    }
+}
 
-	lightCamera->OnAnimate(effect->getIrrlichtDevice()->getTimer()->getTime());
-	lightCamera->OnRegisterSceneNode();
-	lightCamera->render();
-
-	lsdata.create(lightCamera, numberOfPlanes, LIGHT_SHAFTS_V[ESE_HLSL], LIGHT_SHAFTS_P[ESE_HLSL]);
-
-	//lightCamera->remove();
-	effect->getActiveSceneManager()->setActiveCamera(initialCam);
+void CCoreData::destroySSWEPlugin(ISSWELibPlugin *plugin) {
+    for (u32 i=0; i < sswePlugins.size(); i++) {
+        if (sswePlugins[i].getPlugin() == plugin) {
+            sswePlugins[i].freeInstance();
+            sswePlugins.erase(i);
+            break;
+        }
+    }
 }
 
 //---------------------------------------------------------------------------------------------

@@ -64,8 +64,8 @@ private:
 	f32 maxHeight;
 	f32 heightInterval;
 
-	array<array<S3DVertex2TCoords *>> terrainVerticesLines;
-	array<array<bool>> againUpVertices;
+	array<array<S3DVertex2TCoords *> > terrainVerticesLines;
+	array<array<bool> > againUpVertices;
 	//-----------------------------------
 
 	//-----------------------------------

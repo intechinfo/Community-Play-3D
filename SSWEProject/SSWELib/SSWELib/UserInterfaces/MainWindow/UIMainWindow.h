@@ -95,6 +95,12 @@ public:
     
     bool OnEvent(const SEvent &event);
     
+    void openAddTerrain() { addOctTreeInstance->open(); }
+    void openAddObject() { addObjectInstance->open(); }
+    void openAddLight() { addLightInstance->open(); }
+    void openAddVolumeLight() { addVolumeLightInstance->open(); }
+    void openAddWaterSurface() { addWaterSurfaceInstance->openWindow(); }
+    
 private:
     
     CDevices *devices;
@@ -111,15 +117,16 @@ private:
     //WINDOW GUI ELEMENTS
 
     IGUITabControl *tabCtrl;
-    IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab, *waterSurfacesTab;
+    IGUITab *terrainsTab, *treesTab, *objectsTab, *lightsTab, *dynamicLightsTab, *waterSurfacesTab, *particlesTab;
     
-    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *volumeLightsListBox, *waterSurfacesListBox;
+    IGUIListBox *terrainsListBox, *treesListBox, *objectsListBox, *lightsListBox, *volumeLightsListBox, *waterSurfacesListBox, *particlesSystemsListBox;
     IGUIButton *addTerrain, *removeTerrain;
     IGUIButton *addTree, *removeTree;
     IGUIButton *addObject, *removeObject;
     IGUIButton *addLight, *removeLight;
     IGUIButton *addVolumeLight, *removeVolumeLight;
     IGUIButton *addWaterSurface, *removeWaterSurface;
+    IGUIButton *addParticleSystem, *removeParticleSystem;
     
     CUIWindowAddOctTree *addOctTreeInstance;
     CUIWindowAddTree *addTreeInstance;

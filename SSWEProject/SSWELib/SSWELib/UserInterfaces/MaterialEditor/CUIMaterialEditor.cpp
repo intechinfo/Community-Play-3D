@@ -38,7 +38,7 @@ CUIMaterialEditor::~CUIMaterialEditor() {
 
 void CUIMaterialEditor::maximize() {
 	if (meWindow->getRelativePosition().getWidth() == driver->getScreenSize().Width+2) {
-		materialsView->getRoot()->clearChilds();
+		materialsView->getRoot()->clearChildren();
 		materialsView->remove();
 		materialsView = gui->addTreeView(rect<s32>(10, 70, 280, 540), meWindow, -1, true, true, false);
 
@@ -180,14 +180,16 @@ void CUIMaterialEditor::open(ISceneNode *node) {
     rootTreeViewNode->getFirstChild()->setSelected(true);
     
     //VIEW PORT
-    /*viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710)); 
+    viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710)); 
     if (viewPort) {
+		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
         viewPort->setSceneManager(smgr);
+		viewPort->setRenderScreenQuad(true);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
-    }*/
-	viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 550, 280, 710), meWindow, -1);
-	viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
-	viewPort->setScaleImage(true);
+    }
+	//viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 550, 280, 710), meWindow, -1);
+	//viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
+	//viewPort->setScaleImage(true);
     
     separatorText = gui->addStaticText(L"", rect<s32>(290, 70, 300, 710), true, true, meWindow, -1, false);
     
@@ -284,14 +286,22 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 			if (tempMenu == menu->getSubMenu(2)) {
 				s32 id = tempMenu->getItemCommandId(tempMenu->getSelectedItem());
 				if (id == 1) {
-					std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
-					scatl.detach();
+                    #ifndef _IRR_OSX_PLATFORM_
+                        std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
+                        scatl.detach();
+                    #else
+                        mtFactory->setCreateAllTextureLayer2NormalMapped();
+                    #endif
 				}
 				if (id == 2) {
-					std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
-					satlnm.detach();
+                    #ifndef _IRR_OSX_PLATFORM_
+                        std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
+                        satlnm.detach();
+                    #else
+                        mtFactory->setAllTextureLayer2NormalMapped(9.0f);
+                    #endif
 				}
-				update();
+				//update();
 			}
 		}
 

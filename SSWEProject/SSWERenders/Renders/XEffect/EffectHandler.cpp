@@ -23,9 +23,9 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	bool tempTexFlagMipMaps = driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
 	bool tempTexFlag32 = driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT);
     
-	ScreenRTT = driver->addRenderTargetTexture(ScreenRTTSize);
-	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize);
-	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize);
+	ScreenRTT = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenRTT");
+	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize, "ColorMapSampler");
+	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
     
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
@@ -273,7 +273,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
 		const u32 LightListSize = LightList.size();
 		for(u32 l = 0;l < LightListSize;++l) {
-			// Set max distance constant for depth shader.
+            
+            if (LightList[l].getFarValue() == 0)
+                continue;
+            
 			currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
 			if (LightList[l].mustRecalculate() || LightList[l].isAutoRecalculate()) {
 				depthMC->FarLink = LightList[l].getFarValue();
@@ -432,9 +435,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	
 	//driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 	//smgr->drawAll();
-	if (updateOcclusionQueries) {
-		driver->runAllOcclusionQueries(true);
-		driver->updateAllOcclusionQueries(true);
+    if (updateOcclusionQueries) {
+        driver->runAllOcclusionQueries(true);
+        driver->updateAllOcclusionQueries(true);
 	}
 
 	if (useDOF) {
@@ -673,3 +676,4 @@ s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc &ver
 
 	return pPair.materialType;
 }
+

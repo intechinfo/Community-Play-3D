@@ -1,0 +1,43 @@
+FILE(REMOVE_RECURSE
+  "LinearMath.framework/Versions/2.81/Headers/btAabbUtil2.h"
+  "LinearMath.framework/Versions/2.81/Headers/btAlignedAllocator.h"
+  "LinearMath.framework/Versions/2.81/Headers/btAlignedObjectArray.h"
+  "LinearMath.framework/Versions/2.81/Headers/btConvexHull.h"
+  "LinearMath.framework/Versions/2.81/Headers/btConvexHullComputer.h"
+  "LinearMath.framework/Versions/2.81/Headers/btDefaultMotionState.h"
+  "LinearMath.framework/Versions/2.81/Headers/btGeometryUtil.h"
+  "LinearMath.framework/Versions/2.81/Headers/btGrahamScan2dConvexHull.h"
+  "LinearMath.framework/Versions/2.81/Headers/btHashMap.h"
+  "LinearMath.framework/Versions/2.81/Headers/btIDebugDraw.h"
+  "LinearMath.framework/Versions/2.81/Headers/btList.h"
+  "LinearMath.framework/Versions/2.81/Headers/btMatrix3x3.h"
+  "LinearMath.framework/Versions/2.81/Headers/btMinMax.h"
+  "LinearMath.framework/Versions/2.81/Headers/btMotionState.h"
+  "LinearMath.framework/Versions/2.81/Headers/btPolarDecomposition.h"
+  "LinearMath.framework/Versions/2.81/Headers/btPoolAllocator.h"
+  "LinearMath.framework/Versions/2.81/Headers/btQuadWord.h"
+  "LinearMath.framework/Versions/2.81/Headers/btQuaternion.h"
+  "LinearMath.framework/Versions/2.81/Headers/btQuickprof.h"
+  "LinearMath.framework/Versions/2.81/Headers/btRandom.h"
+  "LinearMath.framework/Versions/2.81/Headers/btScalar.h"
+  "LinearMath.framework/Versions/2.81/Headers/btSerializer.h"
+  "LinearMath.framework/Versions/2.81/Headers/btStackAlloc.h"
+  "LinearMath.framework/Versions/2.81/Headers/btTransform.h"
+  "LinearMath.framework/Versions/2.81/Headers/btTransformUtil.h"
+  "LinearMath.framework/Versions/2.81/Headers/btVector3.h"
+  "CMakeFiles/LinearMath.dir/btAlignedAllocator.o"
+  "CMakeFiles/LinearMath.dir/btConvexHull.o"
+  "CMakeFiles/LinearMath.dir/btConvexHullComputer.o"
+  "CMakeFiles/LinearMath.dir/btGeometryUtil.o"
+  "CMakeFiles/LinearMath.dir/btPolarDecomposition.o"
+  "CMakeFiles/LinearMath.dir/btQuickprof.o"
+  "CMakeFiles/LinearMath.dir/btSerializer.o"
+  "CMakeFiles/LinearMath.dir/btVector3.o"
+  "LinearMath.pdb"
+  "LinearMath.framework/Versions/2.81/LinearMath"
+)
+
+# Per-language clean rules from dependency scanning.
+FOREACH(lang CXX)
+  INCLUDE(CMakeFiles/LinearMath.dir/cmake_clean_${lang}.cmake OPTIONAL)
+ENDFOREACH(lang)

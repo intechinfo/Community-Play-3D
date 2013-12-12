@@ -213,7 +213,7 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 			}
 		}
 		if ((event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN || event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) && !devices->isCtrlPushed()) {
-
+            
 		}
 		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
 			leftClickDown = true;
@@ -236,6 +236,7 @@ bool CUITerrainPainter::OnEvent(const SEvent &event) {
 				terrainPainter->applyTransform(0);
 
 				node->setPosition(node->getPosition());
+                node->setMaterialType(node->getMaterial(0).MaterialType);
 			}
 
 			devices->getXEffect()->setAllShadowLightsRecalculate();

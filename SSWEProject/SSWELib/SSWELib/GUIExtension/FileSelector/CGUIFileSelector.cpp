@@ -27,6 +27,8 @@ CGUIFileSelector::CGUIFileSelector(const wchar_t* title, IGUIEnvironment* enviro
 	device=NULL;
 	PlacesBox=NULL;
 	default_project_dir=L"";
+    
+    drawWindow = true;
 
 
 	IGUISkin* skin = Environment->getSkin();
@@ -433,9 +435,13 @@ void CGUIFileSelector::draw()
 		mousepos=device->getCursorControl()->getPosition();
 
 	core::rect<s32> rect = AbsoluteRect;
-
-	rect = skin->draw3DWindowBackground(this, true, skin->getColor(EGDC_ACTIVE_BORDER),
-		rect, &AbsoluteClippingRect);
+    
+    if (drawWindow) {
+        rect = skin->draw3DWindowBackground(this, true, skin->getColor(EGDC_ACTIVE_BORDER), rect, &AbsoluteClippingRect);
+    } else {
+        CloseButton->setVisible(false);
+        Dragging = false;
+    }
 
 	if (Text.size())
 	{
@@ -776,7 +782,7 @@ u32 CGUIFileSelector::addIcon(video::ITexture* texture)
 }
 
 // This will add items in the favorites folders lists (or places)
-void CGUIFileSelector::addPlacePaths(wchar_t* name, wchar_t* path, video::ITexture* texture)
+void CGUIFileSelector::addPlacePaths(wchar_t* name, core::stringw path, video::ITexture* texture)
 {
 
 	if (texture)

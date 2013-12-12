@@ -183,6 +183,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp" />
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\Animators\CRotationAnimator.cpp" />
+    <ClCompile Include="SSWELib\SceneNodes\Camera\CRiggedCamera.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SSWELib\SceneNodes\Clouds\CloudSceneNode.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\LensFlareSceneNode.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\SceneNodeAnimatorFollowCamera.cpp" />
@@ -242,9 +245,11 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\DLLExport.h" />
+    <ClInclude Include="include\IDevices.h" />
     <ClInclude Include="include\IGraphicTool.h" />
     <ClInclude Include="include\IMonitor.h" />
     <ClInclude Include="include\IMonitorRegisterer.h" />
+    <ClInclude Include="include\ISSWELibPlugin.h" />
     <ClInclude Include="include\ITool.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWELib.h" />
@@ -277,6 +282,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h" />
     <ClInclude Include="SSWELib\SceneNodes\Animators\CRotationAnimator.h" />
     <ClInclude Include="SSWELib\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h" />
+    <ClInclude Include="SSWELib\SceneNodes\Camera\CRiggedCamera.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="SSWELib\SceneNodes\Camera\CSceneNodeAnimatorCameraUpVector.h" />
     <ClInclude Include="SSWELib\SceneNodes\Clouds\CloudSceneNode.h" />
     <ClInclude Include="SSWELib\SceneNodes\LensFlareSceneNode.h" />

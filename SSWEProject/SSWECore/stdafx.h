@@ -4,7 +4,11 @@
 
 #pragma once
 
-#include <SSWECore.h>
+#ifndef _IRR_OSX_PLATFORM_
+    #include <SSWECore.h>
+#else
+    #include "SSWECore.h"
+#endif
 
 #include <iostream>
 #include <string>
@@ -19,13 +23,16 @@
 
 #include <irrlicht.h>
 
+#include <memory>
+#include <thread>
+#include <mutex>
+
 #ifndef _IRR_OSX_PLATFORM_
-	#include <memory>
-	#include <thread>
 	#include <Windows.h>
-	#include <mutex>
 #endif
+
 
 #include "src/Bullet-C-Api.h"
 #include "src/btBulletDynamicsCommon.h"
 #include "src/btBulletCollisionCommon.h"
+

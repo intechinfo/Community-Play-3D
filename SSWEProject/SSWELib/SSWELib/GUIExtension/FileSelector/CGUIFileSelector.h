@@ -12,8 +12,10 @@
 using namespace irr;
 using namespace gui;
 
+//#define SSWE_CORE_API
+
 /** Class for opening/saving files. */
-class CGUIFileSelector : public IGUIFileOpenDialog {
+class SSWE_CORE_API CGUIFileSelector : public IGUIFileOpenDialog {
       
    public:
         /** Enum to specify the usage of the instance of the class */   
@@ -82,7 +84,7 @@ class CGUIFileSelector : public IGUIFileOpenDialog {
         void addFileFilter(wchar_t* name, wchar_t* ext, video::ITexture* texture);
 
 		// To add to the list of prefered paths
-		void addPlacePaths(wchar_t* name, wchar_t* path, video::ITexture* texture);
+        void addPlacePaths(wchar_t* name, core::stringw path, video::ITexture* texture);
         
         /**
         \brief Set an icon to use to display unknown files
@@ -189,6 +191,7 @@ class CGUIFileSelector : public IGUIFileOpenDialog {
 
       core::position2d<s32> DragStart;
       bool Dragging;
+      bool drawWindow;
       bool IsDirectoryChoosable;
       s32 FileIconIdx;
       s32 DirectoryIconIdx;
