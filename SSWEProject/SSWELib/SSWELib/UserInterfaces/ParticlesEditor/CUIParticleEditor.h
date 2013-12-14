@@ -33,6 +33,7 @@ private:
 
 	//-----------------------------------
 	//GUI ELEMENTS
+    //GENERAL
     IGUIWindow *window;
     
     IGUIContextMenu *menu;
@@ -42,6 +43,20 @@ private:
     
     IGUICheckBox *enableClampStep;
     IGUIEditBox *clampStepeb;
+    
+    //ADD MODEL
+    IGUIWindow *addModelWindow;
+    IGUICheckBox *addModelFlagsEnabled[10];
+    IGUICheckBox *addModelFlagsMutable[10];
+    IGUICheckBox *addModelFlagsrandom[10];
+    IGUICheckBox *addModelFlagsInterpolated[10];
+    IGUIButton *addModelClose, *addModelOK;
+    IGUIEditBox *addModelCapacity;
+    
+    //EDIT MODEL
+    
+    //EDIT RENDERER
+    IGUIFileOpenDialog *openRendererTexture;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -55,11 +70,18 @@ private:
         EPSDT_RENDERER,
         EPSDT_MODEL
     };
+    
+    CGUINode *selectedNode;
+    
+    array<stringw> paramNames;
 	//-----------------------------------
     
     //-----------------------------------
 	//METHODS
     void openAddModel();
+    void addGroup();
+    
+    void createGroup(CGUINode *node, SPK::Model *model, SPK::Group *group, SPK::System *system);
     //-----------------------------------
 
 };

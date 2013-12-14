@@ -56,9 +56,9 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
     viewPort = new CGUIViewport(gui, window, 1, rect<s32>(10, 430, 310, 550)); 
     if (viewPort) {
-		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
+		//viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
         viewPort->setSceneManager(devices->getSceneManager());
-		viewPort->setRenderScreenQuad(true);
+		//viewPort->setRenderScreenQuad(true);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
     }
     
@@ -108,7 +108,10 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             nodesEditor->addNode(nodeModel);
             nodeModel->addTextField(L"Name :", stringw(nodeModel->getName()).c_str());
             nodeModel->add2ParametersFields(L"Life Time ", L"Min", L"Max", group->getModel()->getLifeTimeMin(), group->getModel()->getLifeTimeMax());
-            nodeModel->addButton(L"Edit Interpolators...");
+            nodeModel->addButton(L"Edit Enabled Flags...");
+            nodeModel->addButton(L"Edit Mutable Flags...");
+            nodeModel->addButton(L"Edit Random Flags...");
+            nodeModel->addButton(L"Edit Interpolated Flags...");
             
             CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
             nodeRenderer->setName(group->getRenderer()->getName().c_str());
@@ -154,6 +157,19 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     }
     
     //----------FILL FROM PS-----------------
+    
+    selectedNode = 0;
+    
+    paramNames.push_back("Flag None");
+    paramNames.push_back("Flag Red");
+    paramNames.push_back("Flag Green");
+    paramNames.push_back("Flag Blue");
+    paramNames.push_back("Flag Alpha");
+    paramNames.push_back("Flag Size");
+    paramNames.push_back("Flag Mass");
+    paramNames.push_back("Flag Angle");
+    paramNames.push_back("Flag Texture Index");
+    paramNames.push_back("Flag Rotation Speed");
 
 }
 
@@ -178,6 +194,41 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                 nodesEditor->setRelativePosition(rect<s32>(10, 70, window->getRelativePosition().getWidth()-10, window->getRelativePosition().getHeight()-200));
                 viewPort->setRelativePosition(rect<s32>(10, nodesEditor->getRelativePosition().LowerRightCorner.Y+5,
                                                         viewPort->getRelativePosition().LowerRightCorner.X, window->getRelativePosition().getHeight()-5));
+            }
+            
+            //ADD GROUP
+            if (event.GUIEvent.Caller == addModelClose) {
+                addModelWindow->remove();
+            }
+            if (event.GUIEvent.Caller == addModelOK) {
+                addGroup();
+            }
+        }
+        
+        if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
+            if (event.GUIEvent.Caller == openRendererTexture) {
+                if (selectedNode == 0) {
+                    return false;
+                }
+                E_PS_DATA_TYPE psdt = (E_PS_DATA_TYPE)selectedNode->getDataType();
+                SPK::IRR::IRRQuadRenderer *renderer;
+                if (psdt == EPSDT_RENDERER) {
+                    renderer = (SPK::IRR::IRRQuadRenderer*)selectedNode->getData();
+                } else {
+                    return false;
+                }
+                ITexture *tex = devices->getVideoDriver()->getTexture(openRendererTexture->getFileName());
+                if (tex != 0) {
+                    renderer->setTexture(tex);
+                } else {
+                    devices->addInformationDialog(L"Texture Information", L"Cannot load this texture...", EMBF_OK);
+                }
+                selectedNode = 0;
+            }
+        }
+        if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
+            if (event.GUIEvent.Caller == openRendererTexture) {
+                selectedNode = 0;
             }
         }
         
@@ -228,51 +279,8 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             system->enableAABBComputing(((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
                         }
                         if (name == "Add Group") {
-                            //SELECT ADD GROUP
-                            using namespace SPK;
-                            Model* model = Model::create(FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED,
-                                                         FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED,
-                                                         FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED,
-                                                         FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX | FLAG_MASS | PARAM_ROTATION_SPEED);
-                            model->setName("New Model");
-                            model->setParam(PARAM_RED,0.8f,0.9f,0.8f,0.9f);
-                            model->setParam(PARAM_GREEN,0.5f,0.6f,0.5f,0.6f);
-                            model->setParam(PARAM_BLUE,0.3f);
-                            model->setParam(PARAM_ALPHA,0.4f,0.0f);
-                            model->setParam(PARAM_ANGLE,0.0f,2.0f * PI,0.0f,2.0f * PI);
-                            model->setParam(PARAM_TEXTURE_INDEX,0.0f,4.0f);
-                            model->setLifeTime(1.0f,1.5f);
-                            
-                            Group *group = Group::create(model, 135);
-                            group->setName("New Group");
-                            
-                            CGUINode *modelNode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-                            modelNode->setName(model->getName().c_str());
-                            modelNode->setData(model);
-                            modelNode->setDataType(EPSDT_MODEL);
-                            
-                            CGUINode *groupNode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-                            groupNode->setName(group->getName().c_str());
-                            groupNode->setData(group);
-                            groupNode->setDataType(EPSDT_GROUP);
-                            
-                            modelNode->setParent(groupNode);
-                            groupNode->setParent(node);
-                            
-                            nodesEditor->addNode(groupNode);
-                            nodesEditor->addNode(modelNode);
-                            
-                            modelNode->addTextField(L"Name :", stringw(modelNode->getName()).c_str());
-                            modelNode->add2ParametersFields(L"Life Time ", L"Min", L"Max", model->getLifeTimeMin(), model->getLifeTimeMax());
-                            modelNode->addButton(L"Edit Interpolators...");
-                            
-                            groupNode->addTextField(L"Name :", stringw(groupNode->getName()).c_str());
-                            groupNode->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));
-                            groupNode->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
-                            groupNode->addButton(L"Add Renderer");
-                            groupNode->addButton(L"Add Emitter");
-                            
-                            system->addGroup(group);
+                            selectedNode = node;
+                            openAddModel();
                         }
                     }
                     //GROUP
@@ -421,6 +429,10 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         if (name == "Blending Mode") {
                             renderer->setBlending((SPK::BlendingMode)((IGUIComboBox *)event.GUIEvent.Element)->getSelected());
                         }
+                        if (name == "Configure Texture...") {
+                            selectedNode = node;
+                            openRendererTexture = devices->createFileOpenDialog(L"Choose Texture...", CGUIFileSelector::EFST_OPEN_DIALOG, true);
+                        }
                     }
                     //EMITTER
                     if (psdt == EPSDT_EMITTER) {
@@ -452,4 +464,117 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
     }
     
 	return false;
+}
+
+void CUIParticleEditor::addGroup() {
+    if (selectedNode == 0) {
+        return;
+    }
+    
+    SPK::System *system;
+    E_PS_DATA_TYPE psdt = (E_PS_DATA_TYPE)selectedNode->getDataType();
+    if (psdt == EPSDT_SYSTEM) {
+        system = (SPK::System*)selectedNode->getData();
+    } else {
+        return;
+    }
+    
+    bool enableFlags;
+    bool mutableFlags;
+    bool randomFlags;
+    bool interpolatedFlags;
+    for (u32 i=0; i < 10; i++) {
+        if (addModelFlagsEnabled[i]->isChecked()) {
+            enableFlags |= (SPK::ModelParamFlag)i;
+        }
+        if (addModelFlagsMutable[i]->isChecked()) {
+            mutableFlags |= (SPK::ModelParamFlag)i;
+        }
+        if (addModelFlagsrandom[i]->isChecked()) {
+            randomFlags |= (SPK::ModelParamFlag)i;
+        }
+        if (addModelFlagsInterpolated[i]->isChecked()) {
+            interpolatedFlags |= (SPK::ModelParamFlag)i;
+        }
+    }
+    
+    SPK::Model* model = SPK::Model::create(enableFlags, mutableFlags, randomFlags, interpolatedFlags);
+    model->setName("New Model");
+    
+    SPK::Group *group = SPK::Group::create(model, devices->getCore()->getF32(addModelCapacity->getText()));
+    group->setName("New Group");
+    
+    createGroup(selectedNode, model, group, system);
+    
+    addModelWindow->remove();
+    selectedNode = 0;
+    
+}
+
+void CUIParticleEditor::openAddModel() {
+    
+    IGUIEnvironment *gui = devices->getGUIEnvironment();
+    
+	addModelWindow = gui->addWindow(rect<s32>(680, 560, 1370, 910), true, L"Add Group", window, -1);
+    devices->getCore()->centerWindow(addModelWindow, devices->getVideoDriver()->getScreenSize());
+    
+    gui->addStaticText(L"Enabled Flags : ", rect<s32>(10, 30, 110, 50), true, true, addModelWindow, -1, true);
+    gui->addStaticText(L"Mutable Flags : ", rect<s32>(170, 30, 270, 50), true, true, addModelWindow, -1, true);
+    gui->addStaticText(L"Random Flags : ", rect<s32>(350, 30, 450, 50), true, true, addModelWindow, -1, true);
+    gui->addStaticText(L"Interpolated : ", rect<s32>(520, 30, 620, 50), true, true, addModelWindow, -1, true);
+    
+    for (u32 i=0; i < paramNames.size(); i++) {
+        addModelFlagsEnabled[i] = gui->addCheckBox(true, rect<s32>(10, 50, 160, 70), addModelWindow, i, paramNames[i].c_str());
+        addModelFlagsMutable[i] = gui->addCheckBox(true, rect<s32>(180, 50, 330, 70), addModelWindow, i, paramNames[i].c_str());
+        addModelFlagsrandom[i] = gui->addCheckBox(true, rect<s32>(350, 50, 500, 70), addModelWindow, i, paramNames[i].c_str());
+        addModelFlagsInterpolated[i] = gui->addCheckBox(true, rect<s32>(520, 50, 670, 70), addModelWindow, i, paramNames[i].c_str());
+        
+        addModelFlagsEnabled[i]->setRelativePosition(position2di(10, 50+(20*i)));
+        addModelFlagsMutable[i]->setRelativePosition(position2di(180, 50+(20*i)));
+        addModelFlagsrandom[i]->setRelativePosition(position2di(350, 50+(20*i)));
+        addModelFlagsInterpolated[i]->setRelativePosition(position2di(520, 50+(20*i)));
+    }
+    
+    addModelOK = gui->addButton(rect<s32>(580, 310, 680, 340), addModelWindow, -1, L"Add", L"Add group with selected configuration");
+    addModelClose = gui->addButton(rect<s32>(470, 310, 570, 340), addModelWindow, -1, L"Cancel", L"Cancle add group operation");
+    
+    gui->addStaticText(L"", rect<s32>(150, 30, 160, 300), true, true, addModelWindow, -1, true);
+    gui->addStaticText(L"", rect<s32>(330, 30, 340, 300), true, true, addModelWindow, -1, true);
+    gui->addStaticText(L"", rect<s32>(500, 30, 510, 300), true, true, addModelWindow, -1, true);
+    
+    gui->addStaticText(L"Capacity :", rect<s32>(10, 320, 90, 340), true, true, addModelWindow, -1, true);
+    addModelCapacity = gui->addEditBox(L"135", rect<s32>(90, 320, 190, 340), true, addModelWindow, -1);
+}
+
+void CUIParticleEditor::createGroup(CGUINode *node, SPK::Model *model, SPK::Group *group, SPK::System *system) {
+    CGUINode *modelNode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+    modelNode->setName(model->getName().c_str());
+    modelNode->setData(model);
+    modelNode->setDataType(EPSDT_MODEL);
+    
+    CGUINode *groupNode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+    groupNode->setName(group->getName().c_str());
+    groupNode->setData(group);
+    groupNode->setDataType(EPSDT_GROUP);
+    
+    modelNode->setParent(groupNode);
+    groupNode->setParent(node);
+    
+    nodesEditor->addNode(groupNode);
+    nodesEditor->addNode(modelNode);
+    
+    modelNode->addTextField(L"Name :", stringw(modelNode->getName()).c_str());
+    modelNode->add2ParametersFields(L"Life Time ", L"Min", L"Max", model->getLifeTimeMin(), model->getLifeTimeMax());
+    modelNode->addButton(L"Edit Enabled Flags...");
+    modelNode->addButton(L"Edit Mutable Flags...");
+    modelNode->addButton(L"Edit Random Flags...");
+    modelNode->addButton(L"Edit Interpolated Flags...");
+    
+    groupNode->addTextField(L"Name :", stringw(groupNode->getName()).c_str());
+    groupNode->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));
+    groupNode->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
+    groupNode->addButton(L"Add Renderer");
+    groupNode->addButton(L"Add Emitter");
+    
+    system->addGroup(group);
 }
