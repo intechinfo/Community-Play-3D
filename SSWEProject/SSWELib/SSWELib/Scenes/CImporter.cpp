@@ -330,11 +330,12 @@ void CImporter::buildWaterSurface() {
 
 	if (node) {
 		read("name");
-		node->setName(xmlReader->getAttributeValue("c8name"));
+        waterSurface->setName(xmlReader->getAttributeValue("c8name"));
+		waterSurface->getWaterSceneNode()->setName(xmlReader->getAttributeValue("c8name"));
 
-		readTransformations(node);
+		readTransformations(waterSurface);
 		readMaterials(node);
-		readViewModes(node);
+		readViewModes(waterSurface->getWaterSceneNode());
 
 		read("shaderPackagePath");
 		stringc shaderPackagePath = xmlReader->getAttributeValue("value");

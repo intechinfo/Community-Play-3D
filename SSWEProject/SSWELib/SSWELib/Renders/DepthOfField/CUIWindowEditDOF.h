@@ -43,11 +43,11 @@ private:
 			SValue(L"", 0);
 		}
 
-		SValue(wchar_t *_txt, f32 _value) {
+		SValue(stringw _txt, f32 _value) {
 			txt = _txt;
 			value = _value;
 		}
-		wchar_t *txt;
+		stringw txt;
 		f32 value;
 	} values[4];
 

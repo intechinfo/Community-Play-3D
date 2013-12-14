@@ -39,7 +39,7 @@ public:
 };
 
 //! ARRAY HOLDING THE EXISTING METHODS INTO INonitor INTERFACE
-const char* const sIMonitorMethodsNames[] = {
+/*const char* const sIMonitorMethodsNames[] = {
 	"init",
 
 	"setName",
@@ -72,6 +72,6 @@ const char* const sIMonitorMethodsNames[] = {
 	"drawGUI",
 
 	0
-};
+};*/
 
 #endif

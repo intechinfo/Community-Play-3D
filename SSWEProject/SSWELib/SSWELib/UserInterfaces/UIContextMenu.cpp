@@ -285,13 +285,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	#ifndef SSWE_RELEASE
+	#ifdef SSWE_RELEASE
 		for (u32 i=0; i < 1; i++) {
 			//devices->getCoreData()->clear();
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"Test.world";
+			stringw scene_to_import = L"LTerrain.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
@@ -305,11 +305,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			printf("Importing scene number %u \n", i);
 		}
 
-		if (devices->getCoreData()->getTerrainsCount() > 0) {
+		/*if (devices->getCoreData()->getTerrainsCount() > 0) {
 			if (devices->getCoreData()->getTerrainsData()->operator[](0).getNode()->getType() == ESNT_TERRAIN) {
 				CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
 			}
-		}
+		}*/
 	#endif
 
 	CImporter *impoterInstance = new CImporter(devices);
