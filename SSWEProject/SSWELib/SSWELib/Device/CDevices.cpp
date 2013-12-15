@@ -168,6 +168,8 @@ void CDevices::updateDevice() {
 		camera_rig->OnAnimate(Device->getTimer()->getRealTime());
 	}
 
+#ifndef SSWE_RELEASE
+
     #pragma omp parallel sections
     {
         #pragma omp section
@@ -227,7 +229,20 @@ void CDevices::updateDevice() {
             drawGUI();*/
         }
     }
+    
+#else
+    
+    if (renderXEffect) {
+		irr::core::matrix4 viewProj;
+		effect->setActiveSceneManager(smgr);
+		effect->update(renderFullPostTraitements);
+    } else {
+        smgr->drawAll();
+    }
 
+    gui->drawAll();
+    
+#endif
 
 	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
 	//camera_fps->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);

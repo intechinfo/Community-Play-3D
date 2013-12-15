@@ -27,6 +27,8 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize, "ColorMapSampler");
 	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
     
+    GodRaysRTT = driver->addRenderTargetTexture(ScreenRTTSize, "GodRaysRTT");
+    
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
     
@@ -154,6 +156,13 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	dof->range = 4.6f;
 	
 	useDOF = false;
+    
+    //GodRayspPair = obtainScreenQuadMaterialFromFile("shaders/GLSL/GodRays.glsl");
+    //GodRayspPair.renderCallback = new GodRaysCB(GodRayspPair.materialType);
+    
+    GodRays = this->addPostProcessingEffectFromFile("shaders/GLSL/GodRays.glsl");
+    this->setPostProcessingRenderCallback(GodRays, new GodRaysCB(GodRays));
+    
 }
 
 EffectHandler::~EffectHandler()
@@ -470,7 +479,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	// Perform depth pass after rendering, to ensure animations stay up to date.
 	if(DepthPass)
 	{
-		driver->setRenderTarget(DepthRTT, true, true, SColor(0xffffffff));
+		//driver->setRenderTarget(DepthRTT, true, true, SColor(0xffffffff));
+        driver->setRenderTarget(DepthRTT, true, true, SColor(255, 0, 0, 0));
 
 		// Set max distance constant for depth shader.
 		depthMC->FarLink = smgr->getActiveCamera()->getFarValue();
@@ -483,7 +493,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g).MaterialType);
 
-			DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)Depth);
+            if (DepthPassArray[i]->getType() != ESNT_BILLBOARD) {
+                DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)Depth);
+            }
 			DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
 			DepthPassArray[i]->render();
 
@@ -494,11 +506,13 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		driver->setRenderTarget(0, false, false);
 	}
 	
+    //RENDER OTHER POST PROCESSES
 	if(PostProcessingRoutinesSize)
 	{
-		bool Alter = false;
+        bool Alter = false;
 		ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
 		ScreenQuad.getMaterial().setTexture(2, DepthRTT);
+        
 		for(u32 i = 0;i < PostProcessingRoutinesSize;++i)
 		{
 			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
@@ -508,11 +522,17 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 ?
 				outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
 
+            if (i==0) {
+                ((GodRaysCB*)PostProcessingRoutines[i].renderCallback)->screenPosition = LightList[0].getPosition();
+            }
+            
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
 			ScreenQuad.render(driver);
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
 		}
 	}
+    
+    //driver->draw2DImage(DepthRTT, vector2di(0, 0));
 }
 
 irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id)

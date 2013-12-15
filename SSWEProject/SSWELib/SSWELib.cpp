@@ -77,6 +77,10 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
     coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer2, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer3, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     
+    //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer1);
+    //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer2);
+    //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer3);
+    
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skyboxNode, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skydome, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     

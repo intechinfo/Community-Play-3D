@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-63.600010" Y="24.818840" Z="-329.090820" />
-			 <rotation X="31.923832" Y="44.286137" Z="0.000000" />
+			 <position X="55.560692" Y="72.304176" Z="-87.181145" />
+			 <rotation X="359.999908" Y="260.178558" Z="0.000000" />
 
 		 </camera>
 
@@ -531,7 +531,21 @@ pfloat fBumpStrength 400
 			 <shadows resol="4096" />
 
 			 <lensFlare>
-			 </lensFlare>
+				 <mesh> 
+					 <scale X="0.000000" Y="0.000000" Z="0.000000" />
+					 <texture path="" />
+				 </mesh> 
+				 <bill> 
+					 <size Width="200.000000" Height="200.000000" />
+					 <texture path="shaders/Textures/LF/sun.png" />
+				 </bill> 
+				 <lfsn> 
+					 <strength value="0.000000" />
+					 <texture path="" />
+					 <falseOcclusion value="0" />
+				 </lfsn> 
+				 <position X="0.000000" Y="0.000000" Z="0.000000" />
+ 			 </lensFlare>
 
 		 </light>
 

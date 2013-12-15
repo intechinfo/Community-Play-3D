@@ -582,4 +582,42 @@ const char* PSSM_P[ESE_COUNT] = {
 "    oColor = float4(nColor.x * Light,nColor.y * Light,nColor.z * Light,1);\n"
 "}\n"};
 
+const char* GODRAYS_P[ESE_COUNT] = {
+"test\n"
+,
+"    uniform sampler2D ColorMapSampler;\n"
+"\n"
+"    void main()\n"
+"    {\n"
+"        float decay=0.96815;\n"
+"        float exposure=0.2;\n"
+"        float density=0.026;\n"
+"        float weight=0.58767;\n"
+"        vec2 lightPositionOnScreen = vec2(0, 0);\n"
+"        int NUM_SAMPLES = 50;\n"
+"\n"
+"        vec2 deltaTextCoord = vec2( gl_TexCoord[0].st - lightPositionOnScreen.xy );\n"
+"        vec2 textCoo = gl_TexCoord[0].st;\n"
+"        deltaTextCoord *= 1.0 /  float(NUM_SAMPLES) * density;\n"
+"        float illuminationDecay = 1.0;\n"
+"\n"
+"\n"     
+"        for(int i=0; i < NUM_SAMPLES ; i++)\n"
+"        {\n"
+"            textCoo -= deltaTextCoord;\n"
+"\n"
+"            vec4 sample = texture2D(ColorMapSampler, textCoo );\n"
+"\n"
+"            sample *= illuminationDecay * weight;\n"
+"\n"
+"            gl_FragColor += sample;\n"
+"            illuminationDecay *= decay;\n"
+"        }\n"
+"\n"
+"        gl_FragColor *= exposure;\n"
+"\n"
+"    }\n"
+"\n"
+};
+
 #endif

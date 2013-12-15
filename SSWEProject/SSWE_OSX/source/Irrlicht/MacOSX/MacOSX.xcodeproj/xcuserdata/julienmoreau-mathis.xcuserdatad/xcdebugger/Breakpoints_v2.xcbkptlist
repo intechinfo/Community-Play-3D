@@ -248,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWELib/SSWELib/Device/CDevices.cpp"
-            timestampString = "408214514.411124"
+            timestampString = "408802719.995847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "CDevices::createDevice(SIrrlichtCreationParameters parameters)"
             landmarkType = "5">
          </BreakpointContent>
@@ -428,6 +428,22 @@
             startingLineNumber = "180"
             endingLineNumber = "180"
             landmarkName = "CUITexturesManager::OnEvent(const SEvent &amp;event)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../SSWERenders/Renders/XEffect/EffectHandler.cpp"
+            timestampString = "408831492.952141"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "EffectHandler::EffectHandler(IrrlichtDevice* dev, const irr::core::dimension2du&amp; screenRTTSize, const bool useVSMShadows, const bool useRoundSpotLights, const bool use32BitDepthBuffers)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

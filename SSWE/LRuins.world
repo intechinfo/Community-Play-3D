@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="160.833679" Y="257.704010" Z="238.831055" />
-			 <rotation X="28.391174" Y="216.607330" Z="0.000000" />
+			 <position X="57.578789" Y="185.206375" Z="-408.932465" />
+			 <rotation X="345.804413" Y="292.321472" Z="0.000000" />
 
 		 </camera>
 
@@ -31,30 +31,6 @@
 		 </fpsCameraSettings>
 
 		 <effect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/BlurHP.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/BlurVP.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/Dream.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <file_path path="shaders/GLSL/BloomP.glsl" />
-				 <values>
-				 </values>
-			 </postProcessingEffect>
 
 
 		 </effect>
@@ -666,13 +642,13 @@ pfloat fBumpStrength 40
 					 <texture path="shaders/Textures/LF/mesh.png" />
 				 </mesh> 
 				 <bill> 
-					 <size Width="60.000000" Height="60.000000" />
+					 <size Width="300.000000" Height="300.000000" />
 					 <texture path="shaders/Textures/LF/sun.png" />
 				 </bill> 
 				 <lfsn> 
 					 <strength value="2000.000000" />
 					 <texture path="shaders/Textures/LF/flare.png" />
-					 <falseOcclusion value="1" />
+					 <falseOcclusion value="0" />
 				 </lfsn> 
 				 <position X="0.000000" Y="0.000000" Z="0.000000" />
  			 </lensFlare>

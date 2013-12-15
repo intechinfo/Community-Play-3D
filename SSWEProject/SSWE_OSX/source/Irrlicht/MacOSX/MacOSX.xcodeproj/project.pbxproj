@@ -617,10 +617,6 @@
 		2E6C6359182987EB00FB1027 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2E6C635A1829888B00FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
 		2E6C635B1829889D00FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
-		2E6C635C1829891500FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
-		2E6C635D1829891D00FB1027 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E6C635E1829891D00FB1027 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E6C635F1829891D00FB1027 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2E6E673C182D909A00A79A68 /* CSSWELibTestPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E6738182D909A00A79A68 /* CSSWELibTestPlugin.cpp */; };
 		2E6E673D182D909A00A79A68 /* CSSWELibTestPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E6739182D909A00A79A68 /* CSSWELibTestPlugin.h */; };
 		2E6E6741182D91A300A79A68 /* libSSWELib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60F91829835E00FB1027 /* libSSWELib.a */; };
@@ -796,10 +792,6 @@
 		2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
 		2EDC9AF0185BE9BF003F7BF8 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
 		2EDC9AF5185BEA0A003F7BF8 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
-		2EDC9AF6185BED73003F7BF8 /* libSPARK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E92B6751849289E00D955F8 /* libSPARK.a */; };
-		2EDC9AF7185BED8D003F7BF8 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2EDC9AF8185BED8D003F7BF8 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2EDC9AF9185BED8D003F7BF8 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */; };
 		2EE402B6184947990058DD93 /* CGUINodesEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B4184947990058DD93 /* CGUINodesEditor.h */; };
 		2EE402B918494DD70058DD93 /* CGUINode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B718494DD70058DD93 /* CGUINode.cpp */; };
@@ -1734,6 +1726,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = libIrrlicht.a;
+		};
+		2EFDC2F1185D5D0400A4D1ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = libIrrlicht.a;
+		};
+		2EFDC2F3185D5D0400A4D1ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C5DAF182980CD00FB1027;
+			remoteInfo = SSWERenders;
 		};
 		4CA5CB810A4868B500ADB3D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3141,10 +3147,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EDC9AF7185BED8D003F7BF8 /* BulletCollision.framework in Frameworks */,
-				2EDC9AF8185BED8D003F7BF8 /* BulletDynamics.framework in Frameworks */,
-				2EDC9AF9185BED8D003F7BF8 /* LinearMath.framework in Frameworks */,
-				2EDC9AF6185BED73003F7BF8 /* libSPARK.a in Frameworks */,
 				2EDC9AF0185BE9BF003F7BF8 /* libSSWERenders.a in Frameworks */,
 				2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */,
 				2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */,
@@ -3157,10 +3159,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E6C635D1829891D00FB1027 /* BulletCollision.framework in Frameworks */,
-				2E6C635E1829891D00FB1027 /* BulletDynamics.framework in Frameworks */,
-				2E6C635F1829891D00FB1027 /* LinearMath.framework in Frameworks */,
-				2E6C635C1829891500FB1027 /* liblua.a in Frameworks */,
 				2E6C6331182985A400FB1027 /* libIrrlicht.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6394,6 +6392,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				2EFDC2F2185D5D0400A4D1ED /* PBXTargetDependency */,
+				2EFDC2F4185D5D0400A4D1ED /* PBXTargetDependency */,
 			);
 			name = SSWEGenericMonitor;
 			productName = SSWEWebExportPlugin;
@@ -8209,6 +8209,16 @@
 			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
 			targetProxy = 2E92B64A1849289E00D955F8 /* PBXContainerItemProxy */;
 		};
+		2EFDC2F2185D5D0400A4D1ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
+			targetProxy = 2EFDC2F1185D5D0400A4D1ED /* PBXContainerItemProxy */;
+		};
+		2EFDC2F4185D5D0400A4D1ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C5DAF182980CD00FB1027 /* SSWERenders */;
+			targetProxy = 2EFDC2F3185D5D0400A4D1ED /* PBXContainerItemProxy */;
+		};
 		4CA5CB820A4868B500ADB3D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B8DEF35C0950229200FDEA7E /* Demo */;
@@ -8897,7 +8907,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
+				GCC_PREFIX_HEADER = Renders_prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -8915,10 +8925,7 @@
 					../../../include,
 					../../../../SSWERenders,
 					../../../../SSWELib/include,
-					../../../../Bullet/libs,
-					../../../../Bullet/libs/src,
 					../../../../Lua52/include,
-					../../../../SPARK/SPARK155/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -8968,7 +8975,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
+				GCC_PREFIX_HEADER = Renders_prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -8983,10 +8990,7 @@
 					../../../include,
 					../../../../SSWERenders,
 					../../../../SSWELib/include,
-					../../../../Bullet/libs,
-					../../../../Bullet/libs/src,
 					../../../../Lua52/include,
-					../../../../SPARK/SPARK155/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -9019,7 +9023,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
+				GCC_PREFIX_HEADER = Renders_prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../Bullet/libs/,
@@ -9054,7 +9058,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
+				GCC_PREFIX_HEADER = Renders_prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../Bullet/libs/,

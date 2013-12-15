@@ -598,6 +598,8 @@ private:
 
 	struct SPostProcessingPair
 	{
+        SPostProcessingPair() { }
+        
 		SPostProcessingPair(const irr::s32 materialTypeIn, ScreenQuadCB* callbackIn,
 			IPostProcessingRenderCallback* renderCallbackIn = 0)
 			: materialType(materialTypeIn), callback(callbackIn), renderCallback(renderCallbackIn) {}
@@ -635,6 +637,7 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
+    irr::s32 GodRays;
 	
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
@@ -644,6 +647,8 @@ private:
             
     irr::video::ITexture* currentShadowMapTexture;
     irr::video::ITexture* currentSecondaryShadowMap;
+    
+    irr::video::ITexture *GodRaysRTT;
 
 	irr::core::array<SPostProcessingPair> PostProcessingRoutines;
 	irr::core::array<SShadowLight> LightList;

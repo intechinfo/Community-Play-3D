@@ -29,74 +29,25 @@ public:
 	core::matrix4 worldViewProj;
 };
 
-class SSWE_RENDERS_API LightShaftsCB : public SSWE_RENDERS_EXPORTS video::IShaderConstantSetCallBack {
+class SSWE_RENDERS_API GodRaysCB : public IPostProcessingRenderCallback {
+    
 public:
-	LightShaftsCB(EffectHandler *effectIn) : effect(effectIn) {
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[0] = 0.5f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[1] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[2] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[3] = 0.5f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[4] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[5] = -0.5f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[6] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[7] = 0.5f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[8] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[9] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[10] = 1.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[11] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[12] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[13] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[14] = 0.f;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[15] = 1.f;
-	}
-
-	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
-		IVideoDriver *driver = services->getVideoDriver();
-
-		/// Set uTexViewProj
-		core::matrix4 uTexViewProj;
-
-		core::matrix4 PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M;
-		PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M.setM(PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE);
-
-		uTexViewProj = PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE_M * 
-					   lightCameraProjectionMatrix * 
-					   lightCameraViewMatrix;
-		services->setVertexShaderConstant("uTexViewProj", uTexViewProj.pointer(), 16);
-
-		/// Set other matrixes
-		core::matrix4 uWorld = driver->getTransform(ETS_WORLD);
-		services->setVertexShaderConstant("uWorld", uWorld.pointer(), 16);
-
-		//core::matrix4 uWorldViewProj = uWorld;
-		//uWorldViewProj *= driver->getTransform(ETS_VIEW);
-		//uWorldViewProj *= driver->getTransform(ETS_PROJECTION);
-		core::matrix4 uWorldViewProj = driver->getTransform(ETS_PROJECTION);
-		uWorldViewProj *= driver->getTransform(ETS_VIEW);
-		uWorldViewProj *= uWorld;
-		services->setVertexShaderConstant("uWorldViewProj", uWorldViewProj.pointer(), 16);
-
-		/// Set Pixel constants
-		f32 uAttenuation = 0.02f;
-		f32 Time = effect->getIrrlichtDevice()->getTimer()->getTime();
-
-		services->setPixelShaderConstant("uLightPosition", reinterpret_cast<f32*>(&uLightPosition.X), 4);
-		services->setPixelShaderConstant("uAttenuation", reinterpret_cast<f32*>(&uAttenuation), 1);
-		services->setPixelShaderConstant("uLightFarClipDistance", reinterpret_cast<f32*>(&uLightFarClipDistance), 1);
-		services->setPixelShaderConstant("Time", reinterpret_cast<f32*>(&Time), 1);
-	}
-
-	EffectHandler* effect;
-
-	scene::ISceneNode *lightCamera;
-
-	core::matrix4 lightCameraViewMatrix, lightCameraProjectionMatrix;
-	core::vector3df uLightPosition;
-	irr::f32 uLightFarClipDistance;
-
-private:
-
-	float PROJECTIONCLIPSPACE2DTOIMAGESPACE_PERSPECTIVE[16];
+	GodRaysCB(irr::s32 materialTypeIn) : materialType(materialTypeIn) {}
+    
+	void OnPreRender(EffectHandler* effect) {
+        core::vector2di scrPos = effect->getIrrlichtDevice()->getSceneManager()->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(screenPosition);
+        core::vector2df screen((float)scrPos.X/(float)effect->getIrrlichtDevice()->getVideoDriver()->getScreenSize().Width,
+                               (float)scrPos.Y/(float)effect->getIrrlichtDevice()->getVideoDriver()->getScreenSize().Height);
+        screen.Y = 1-screen.Y;
+        effect->setPostProcessingEffectConstant(materialType, "lightPositionOnScreen", reinterpret_cast<f32*>(&screen), 2);
+    }
+    
+	void OnPostRender(EffectHandler* effect) {}
+    
+    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {}
+    
+    core::vector3df screenPosition;
+    irr::s32 materialType;
 };
 
 class SSWE_RENDERS_API ShadowShaderCB : public video::IShaderConstantSetCallBack {
