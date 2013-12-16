@@ -27,8 +27,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize, "ColorMapSampler");
 	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
     
-    GodRaysRTT = driver->addRenderTargetTexture(ScreenRTTSize, "GodRaysRTT");
-    
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
     
@@ -146,10 +144,12 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		shadowsUnsupported = true;
 	}
 
+    //MOTION BLUR
 	motionBlur = new IPostProcessMotionBlur(smgr->getActiveCamera(), smgr, -2);
 	motionBlur->initiate(screenRTTSize.Width, screenRTTSize.Height, 0.6);
 	useMotionBlur = false;
 
+    //DEPTH OF FIELD
 	dof = new ShaderGroup(device, smgr, device->getVideoModeList()->getDesktopResolution());
 	dof->focus = 0.22f;
 	dof->distanceScale = 0.0002f;
@@ -157,12 +157,15 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	
 	useDOF = false;
     
-    //GodRayspPair = obtainScreenQuadMaterialFromFile("shaders/GLSL/GodRays.glsl");
-    //GodRayspPair.renderCallback = new GodRaysCB(GodRayspPair.materialType);
+    //LIGHT SCATTERING
+    LightScattering = true;
+    LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
     
-    GodRays = this->addPostProcessingEffectFromFile("shaders/GLSL/GodRays.glsl");
-    this->setPostProcessingRenderCallback(GodRays, new GodRaysCB(GodRays));
-    
+    //GodRays = this->addPostProcessingEffectFromFile("shaders/GLSL/GodRays.glsl");
+    //this->setPostProcessingRenderCallback(GodRays, new GodRaysCB(GodRays));
+    pLightScattering = obtainScreenQuadMaterialFromFile("shaders/GLSL/GodRays.glsl");
+    pLightScattering.renderCallback = new GodRaysCB(pLightScattering.materialType);
+    //PostProcessingRoutines.push_back(pLightScattering);
 }
 
 EffectHandler::~EffectHandler()
@@ -477,6 +480,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	ScreenQuad.render(driver);
 
 	// Perform depth pass after rendering, to ensure animations stay up to date.
+    
 	if(DepthPass)
 	{
 		//driver->setRenderTarget(DepthRTT, true, true, SColor(0xffffffff));
@@ -492,47 +496,57 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g).MaterialType);
-
-            if (DepthPassArray[i]->getType() != ESNT_BILLBOARD) {
-                DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)Depth);
-            }
-			DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
-			DepthPassArray[i]->render();
+            
+            if (DepthPassArray[i]->getType() != ESNT_BILLBOARD)
+                DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)DepthT);
+            
+            DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
+            DepthPassArray[i]->render();
 
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				DepthPassArray[i]->getMaterial(g).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[g];
 		}
-
-		driver->setRenderTarget(0, false, false);
+        
+        driver->setRenderTarget(0, false, false);
 	}
 	
     //RENDER OTHER POST PROCESSES
-	if(PostProcessingRoutinesSize)
+	if(PostProcessingRoutinesSize || LightScattering)
 	{
         bool Alter = false;
 		ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
 		ScreenQuad.getMaterial().setTexture(2, DepthRTT);
         
-		for(u32 i = 0;i < PostProcessingRoutinesSize;++i)
+		for(u32 i = 0;i < PostProcessingRoutinesSize + LightList.size();++i)
 		{
-			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
+            if (i < PostProcessingRoutinesSize) {
+                ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
 
-			Alter = !Alter;
-			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
-			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 ?
-				outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
-
-            if (i==0) {
-                ((GodRaysCB*)PostProcessingRoutines[i].renderCallback)->screenPosition = LightList[0].getPosition();
+                Alter = !Alter;
+                ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
+                driver->setRenderTarget(i >= PostProcessingRoutinesSize + LightList.size() - 1 ?
+                    outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+                
+                if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
+                ScreenQuad.render(driver);
+                if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
+            } else {
+                ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)pLightScattering.materialType;
+                
+                Alter = !Alter;
+                ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
+                driver->setRenderTarget(i >= PostProcessingRoutinesSize + LightList.size() - 1 ?
+                                        outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+                
+                ((GodRaysCB*)pLightScattering.renderCallback)->screenPosition = LightList[i-PostProcessingRoutinesSize].getPosition();
+                
+                if(pLightScattering.renderCallback) pLightScattering.renderCallback->OnPreRender(this);
+                ScreenQuad.render(driver);
+                if(pLightScattering.renderCallback) pLightScattering.renderCallback->OnPostRender(this);
             }
-            
-			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
-			ScreenQuad.render(driver);
-			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
 		}
 	}
     
-    //driver->draw2DImage(DepthRTT, vector2di(0, 0));
 }
 
 irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id)

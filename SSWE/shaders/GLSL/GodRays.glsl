@@ -1,7 +1,7 @@
 
-uniform sampler2D DepthMapSampler;
 uniform sampler2D ColorMapSampler;
-uniform sampler2D ScreenMapSampler;
+//uniform sampler2D UserMapSampler;
+uniform sampler2D DepthMapSampler;
 
 uniform vec2 lightPositionOnScreen;
 		

@@ -637,7 +637,6 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
-    irr::s32 GodRays;
 	
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
@@ -648,7 +647,8 @@ private:
     irr::video::ITexture* currentShadowMapTexture;
     irr::video::ITexture* currentSecondaryShadowMap;
     
-    irr::video::ITexture *GodRaysRTT;
+    irr::video::ITexture *LightScatteringRTT;
+    SPostProcessingPair pLightScattering;
 
 	irr::core::array<SPostProcessingPair> PostProcessingRoutines;
 	irr::core::array<SShadowLight> LightList;
@@ -664,6 +664,7 @@ private:
 	bool use32BitDepth;
 	bool useVSM;
 	bool DepthPass;
+    bool LightScattering;
 
 	ShaderGroup *dof;
 	bool useDOF;
