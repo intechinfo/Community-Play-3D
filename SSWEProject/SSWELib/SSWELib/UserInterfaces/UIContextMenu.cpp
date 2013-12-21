@@ -24,10 +24,16 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	//SETS GENERIC MONITOR AS DEFAULT
 	#ifndef _IRR_OSX_PLATFORM_
-		pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
+		#ifndef SSWE_RELEASE
+			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+		#else
+			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
+		#endif
 	#else
-		pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
-        //pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
+		#ifndef SSWE_RELEASE
+			pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
+			//pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
+		#endif
 	#endif
 
     //-----------------------------------
@@ -120,10 +126,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	//SHADERS
     submenu = menu->getSubMenu(i++);
-	submenu->addItem(L"Manage Clouds...", -1);
-	submenu->addItem(L"Manage Suns...", -1);
-    submenu->addItem(L"Manage Vegetation...", -1);
-    submenu->addItem(L"Manage Particle Systems...", CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS);
+	submenu->addItem(L"Manage Clouds... (TO DO)", -1);
+	submenu->addItem(L"Manage Suns... (TO DO)", -1);
+    submenu->addItem(L"Manage Vegetation... (TO DO)", -1);
+    submenu->addItem(L"Manage Particle Systems... (WIP)", CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS);
     submenu->addSeparator();
     submenu->addItem(L"Add Terrain...", CXT_MENU_EVENTS_SCENE_ADD_TERRAIN);
     submenu->addItem(L"Add Object...", CXT_MENU_EVENTS_SCENE_ADD_OBJECT);
@@ -146,8 +152,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Edit Skydome", -1, true, true);
 	skydomeMenu = submenu->getSubMenu(5);
 	skydomeMenu->addItem(L"Enable", CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYDOME, true, false, true, false);
-	skydomeMenu->addItem(L"Edit...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME);
-	skydomeMenu->addItem(L"Edit Materials...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME);
+	skydomeMenu->addItem(L"Edit... (TO DO)", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME);
+	skydomeMenu->addItem(L"Edit Materials... (TO DO)", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME);
 	submenu = menu->getSubMenu(i-1);
 	submenu->addSeparator();
 	submenu->addItem(L"Mesh Manipulator", -1, true, true);
@@ -157,15 +163,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	submenu->addItem(L"Scale Mesh...", -1);
 	submenu = menu->getSubMenu(i-1);
 	submenu->addSeparator();
-	submenu->addItem(L"New Terrain...", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
+	submenu->addItem(L"New Terrain... (WIP)", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
 
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
-	submenu->addItem(L"Open Script Editor", CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR);
+	submenu->addItem(L"Open Script Editor (WIP)", CXT_MENU_EVENTS_SCRIPTS_OPEN_EDITOR);
 
 	//SOUNDS
 	submenu = menu->getSubMenu(i++);
-	submenu->addItem(L"Edit Sounds System", -1);
+	submenu->addItem(L"Edit Sounds System (TO DO)", -1);
 
 	//WINDOW
     submenu = menu->getSubMenu(i++);
@@ -285,13 +291,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	#ifdef SSWE_RELEASE
+	//#ifndef SSWE_RELEASE
 		for (u32 i=0; i < 1; i++) {
 			//devices->getCoreData()->clear();
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"LTerrain.world";
+			stringw scene_to_import = L"LTest.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
@@ -310,7 +316,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 				CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
 			}
 		}*/
-	#endif
+	//#endif
 
 	CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importCamerasConfig();

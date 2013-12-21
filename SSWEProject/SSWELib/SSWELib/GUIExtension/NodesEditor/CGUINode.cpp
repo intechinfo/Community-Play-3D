@@ -7,6 +7,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "CGUINode.h"
 
 #include "CGUINodesEditor.h"

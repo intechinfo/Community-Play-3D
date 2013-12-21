@@ -90,7 +90,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         ebNodeName = devices->getGUIEnvironment()->addEditBox(nodeName.c_str(), rect<s32>(70, 5, 370, 25), true, generalTab, -1);
         
         //POSITION
-        devices->getGUIEnvironment()->addButton(rect<s32>(75, 30, 175, 50), generalTab, CXT_EDIT_WINDOW_EVENTS_GENERAL_POSITION, 
+       cursorPositionbtn =  devices->getGUIEnvironment()->addButton(rect<s32>(75, 30, 175, 50), generalTab, -1, 
                                                 L"Cursor Position", L"Place the selected node to the cursor position");
         devices->getGUIEnvironment()->addStaticText(L"Position : ", rect<s32>(10, 30, 70, 50), true, true, generalTab, -1, true);
         devices->getGUIEnvironment()->addStaticText(L"X : ", rect<s32>(10, 50, 30, 70), true, true, generalTab, -1, true);
@@ -412,7 +412,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         //APPLY MATERIAL 0 DEFAULT VALUES
         setMaterialTextures();
 
-		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow, this);
     }
 }
 
@@ -634,12 +634,76 @@ E_MATERIAL_TYPE CUIWindowEditNode::getMaterialType(s32 pos) {
     return type;
 }
 
+void CUIWindowEditNode::update() {
+	bool canChange = true;
+
+	IGUIElement *element = devices->getGUIEnvironment()->getFocus();
+	while (element != 0) {
+		if (element == editWindow) {
+			canChange = false;
+			break;
+		}
+		element = element->getParent();
+	}
+
+	if (canChange) {
+		CCore *core = devices->getCore();
+		//POSITION
+		if (core->getF32(ebNodePositionX->getText()) != nodeToEdit->getPosition().X) {
+			ebNodePositionX->setText(stringw(nodeToEdit->getPosition().X).c_str());
+		}
+		if (core->getF32(ebNodePositionY->getText()) != nodeToEdit->getPosition().Y) {
+			ebNodePositionY->setText(stringw(nodeToEdit->getPosition().Y).c_str());
+		}
+		if (core->getF32(ebNodePositionZ->getText()) != nodeToEdit->getPosition().Z) {
+			ebNodePositionZ->setText(stringw(nodeToEdit->getPosition().Z).c_str());
+		}
+
+		//ROTATION
+		if (core->getF32(ebNodeRotationX->getText()) != nodeToEdit->getRotation().X) {
+			ebNodeRotationX->setText(stringw(nodeToEdit->getRotation().X).c_str());
+		}
+		if (core->getF32(ebNodeRotationY->getText()) != nodeToEdit->getRotation().Y) {
+			ebNodeRotationY->setText(stringw(nodeToEdit->getRotation().Y).c_str());
+		}
+		if (core->getF32(ebNodeRotationZ->getText()) != nodeToEdit->getRotation().Z) {
+			ebNodeRotationZ->setText(stringw(nodeToEdit->getRotation().Z).c_str());
+		}
+
+		//SCALE
+		if (core->getF32(ebNodeScaleX->getText()) != nodeToEdit->getScale().X) {
+			ebNodeScaleX->setText(stringw(nodeToEdit->getScale().X).c_str());
+		}
+		if (core->getF32(ebNodeScaleY->getText()) != nodeToEdit->getScale().Y) {
+			ebNodeScaleY->setText(stringw(nodeToEdit->getScale().Y).c_str());
+		}
+		if (core->getF32(ebNodeScaleZ->getText()) != nodeToEdit->getScale().Z) {
+			ebNodeScaleZ->setText(stringw(nodeToEdit->getScale().Z).c_str());
+		}
+	}
+}
+
 bool CUIWindowEditNode::OnEvent(const SEvent &event) {
-    
-	if (event.EventType == EET_USER_EVENT) {
-		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
-			if (event.UserEvent.UserData2 == editWindow->getReferenceCount()) {
-				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
+
+	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP) {
+			//RESET COMBO BOXES FOR MATERIALS
+			IGUIElement *element = devices->getGUIEnvironment()->getFocus();
+
+			bool isWindow = false;
+			while (element != 0) {
+				if (element == editWindow) {
+					isWindow = true;
+					break;
+				}
+				element = element->getParent();
+			}
+
+			if (isWindow) {
+				generalMaterialCB->clear();
+				materialType->clear();
+				this->createMaterialTypesComboBox(generalMaterialCB);
+				this->createMaterialTypesComboBox(materialType);
 			}
 		}
 	}
@@ -744,17 +808,84 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 
                 isWindowed = !isWindowed;
             }
+
+			if (event.GUIEvent.Caller == closeButton) {
+				if (nodeToEdit) {
+					nodeToEdit->setDebugDataVisible(EDS_OFF);
+					nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
+				}
+                editWindow->remove();
+                devices->getEventReceiver()->RemoveEventReceiver(this);
+                delete this;
+			}
+
+			if (event.GUIEvent.Caller == applyButton) {
+				//GENERAL
+                nodeToEdit->setName(ebNodeName->getText());
+                nodeToEdit->setPosition(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodePositionX->getText()), 
+                                                                            devices->getCore()->convertToString(ebNodePositionY->getText()), 
+                                                                            devices->getCore()->convertToString(ebNodePositionZ->getText())));
+                nodeToEdit->setRotation(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeRotationX->getText()), 
+                                                                            devices->getCore()->convertToString(ebNodeRotationY->getText()), 
+                                                                            devices->getCore()->convertToString(ebNodeRotationZ->getText())));
+				if (nodeToEdit->getType() != ESNT_BILLBOARD) {
+					nodeToEdit->setScale(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeScaleX->getText()), 
+																			devices->getCore()->convertToString(ebNodeScaleY->getText()), 
+																			devices->getCore()->convertToString(ebNodeScaleZ->getText())));
+				} else {
+					IBillboardSceneNode *billNode = (IBillboardSceneNode *)nodeToEdit;
+					billNode->setSize(devices->getCore()->getDimensionF32(devices->getCore()->convertToString(ebNodeScaleX->getText()), 
+																			devices->getCore()->convertToString(ebNodeScaleY->getText())));
+					nodeToEdit->setScale(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodeScaleX->getText()), 
+																			devices->getCore()->convertToString(ebNodeScaleY->getText()), 
+																			devices->getCore()->convertToString("1")));
+				}
+                if (!stringw(ebTextureLayerPath1->getText()).equals_ignore_case(L"Empty")) {
+                nodeToEdit->setMaterialTexture(0, 
+                            devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath1->getText()).c_str()));
+                }
+                if (!stringw(ebTextureLayerPath2->getText()).equals_ignore_case(L"Empty")) {
+                nodeToEdit->setMaterialTexture(1, 
+                            devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath2->getText()).c_str()));
+                }
+                if (!stringw(ebTextureLayerPath3->getText()).equals_ignore_case(L"Empty")) {
+                nodeToEdit->setMaterialTexture(2, 
+                            devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath3->getText()).c_str()));
+                }
+                if (!stringw(ebTextureLayerPath4->getText()).equals_ignore_case(L"Empty")) {
+                nodeToEdit->setMaterialTexture(3, 
+                            devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath4->getText()).c_str()));
+                }
+
+                if (nodeToEdit->getType() == ESNT_TERRAIN) {
+					devices->getSceneManager()->getMeshManipulator()->recalculateNormals(((ITerrainSceneNode*)nodeToEdit)->getMesh(), true, true);
+					devices->getSceneManager()->getMeshManipulator()->recalculateTangents(((ITerrainSceneNode*)nodeToEdit)->getMesh(), true, true, true);
+					nodeToEdit->setPosition(nodeToEdit->getPosition());
+					((ITerrainSceneNode *)nodeToEdit)->getMesh()->setDirty();
+                }
+
+				if (nodeToEdit->getType() == ESNT_TERRAIN || nodeToEdit->getType() == ESNT_OCTREE || nodeToEdit->getType() == ESNT_MESH)
+					devices->getCollisionManager()->setCollisionToAnOctTreeNode(nodeToEdit);
+				if (nodeToEdit->getType() == ESNT_ANIMATED_MESH)
+					devices->getCollisionManager()->setCollisionToAnAnimatedNode(nodeToEdit);
+			}
+
+			if (event.GUIEvent.Caller == cursorPositionbtn) {
+				ebNodePositionX->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().X).c_str());
+                ebNodePositionY->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Y).c_str());
+                ebNodePositionZ->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Z).c_str());
+			}
             
             s32 id = event.GUIEvent.Caller->getID();
             switch (id) {
                     
-                case CXT_EDIT_WINDOW_EVENTS_GENERAL_POSITION:
+                /*case CXT_EDIT_WINDOW_EVENTS_GENERAL_POSITION:
                     ebNodePositionX->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().X).c_str());
                     ebNodePositionY->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Y).c_str());
                     ebNodePositionZ->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Z).c_str());
-                    break;
+                    break;*/
                     
-                case CXT_EDIT_WINDOW_EVENTS_APPLY_BUTTON:
+                /*case CXT_EDIT_WINDOW_EVENTS_APPLY_BUTTON:
                     //GENERAL
                     nodeToEdit->setName(ebNodeName->getText());
                     nodeToEdit->setPosition(devices->getCore()->getVector3df(devices->getCore()->convertToString(ebNodePositionX->getText()), 
@@ -805,9 +936,9 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 						devices->getCollisionManager()->setCollisionToAnAnimatedNode(nodeToEdit);
 
                     
-                    break;
+                    break;*/
                     
-                case CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON:
+                /*case CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON:
 					if (nodeToEdit) {
 						nodeToEdit->setDebugDataVisible(EDS_OFF);
 						nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
@@ -815,7 +946,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     editWindow->remove();
                     devices->getEventReceiver()->RemoveEventReceiver(this);
                     delete this;
-                    break;
+                    break;*/
                     
                 case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_1:
                     //devices->getGUIEnvironment()->addFileOpenDialog(L"Choose the fist texture layer");
@@ -834,7 +965,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_4:
-                    devices->getGUIEnvironment()->addFileOpenDialog(L"Choose the fourth texture layer");
+                    devices->createFileOpenDialog(L"Choose the fourth texture layer", 0);
                     currentBrowse = 4;
                     break;
                     

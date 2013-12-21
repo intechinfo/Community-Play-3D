@@ -6,15 +6,12 @@
 //
 //
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "CSSWELibTestPlugin.h"
 
-#ifndef __CREATE_SSWE_LIB_PLUGIN__
-#define __CREATE_SSWE_LIB_PLUGIN__
 void* createSSWELibPlugin() {
 	return static_cast< void* > (new CSSWELibTestPlugin);
 }
-#endif
 
 CSSWELibTestPlugin::CSSWELibTestPlugin() {
 
@@ -32,7 +29,7 @@ void CSSWELibTestPlugin::close() {
 	//window->remove();
 
 	devices->getEventReceiver()->RemoveEventReceiver(this);
-    devices->getCoreData()->destroySSWEPlugin(this);
+    //devices->getCoreData()->destroySSWEPlugin(this);
     
 	delete this;
 }
@@ -110,7 +107,7 @@ bool CSSWELibTestPlugin::OnEvent(const SEvent &event) {
 			}
 			if (event.GUIEvent.Caller == browseExportFolder) {
 				toFolderFileOpenDialog = devices->createFileOpenDialog(L"Folder to export web project", CGUIFileSelector::EFST_OPEN_DIALOG, window, true);
-				((CGUIFileSelector *)toFolderFileOpenDialog)->addFileFilter(L"Folder", L"", 0);
+				//((CGUIFileSelector *)toFolderFileOpenDialog)->addFileFilter(L"Folder", L"", 0);
 			}
 		}
 

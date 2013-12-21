@@ -1,25 +1,13 @@
 #ifndef __I_DEVICES_H_INCLUDED__
 #define __I_DEVICES_H_INCLUDED__
 
-#ifndef _IRR_OSX_PLATFORM_
-    #include "../SSWERenders/Renders/XEffect/XEffects.h"
+#include "../SSWERenders/Renders/XEffect/XEffects.h"
 
-    #include "../SSWECore/SSWECore/Core/CCore.h"
-    #include "../SSWECore/SSWECore/Core/CCoreData.h"
-    #include "../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
+#include "../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
 
-    #include "SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
-    #include "SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
-    #include "SSWELib/SceneNodes/Camera/CRiggedCamera.h"
-#else
-    #include "../SSWERenders/Renders/XEffect/XEffects.h"
-
-    #include "../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
-
-    #include "../SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
-    #include "../SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
-    #include "../SSWELib/SceneNodes/Camera/CRiggedCamera.h"
-#endif
+#include "../SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
+#include "../SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
+#include "../SSWELib/SceneNodes/Camera/CRiggedCamera.h"
 
 #include "ICollisionManager.h"
 #include "ISSWECore.h"

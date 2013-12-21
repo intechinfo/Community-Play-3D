@@ -159,12 +159,11 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
     
     //LIGHT SCATTERING
     LightScattering = true;
-    LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
     
     //GodRays = this->addPostProcessingEffectFromFile("shaders/GLSL/GodRays.glsl");
     //this->setPostProcessingRenderCallback(GodRays, new GodRaysCB(GodRays));
-    pLightScattering = obtainScreenQuadMaterialFromFile("shaders/GLSL/GodRays.glsl");
-    pLightScattering.renderCallback = new GodRaysCB(pLightScattering.materialType);
+    //pLightScattering = obtainScreenQuadMaterialFromFile("shaders/GLSL/GodRays.glsl");
+    //pLightScattering.renderCallback = new GodRaysCB(pLightScattering.materialType);
     //PostProcessingRoutines.push_back(pLightScattering);
 }
 
@@ -480,11 +479,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	ScreenQuad.render(driver);
 
 	// Perform depth pass after rendering, to ensure animations stay up to date.
-    
 	if(DepthPass)
 	{
-		//driver->setRenderTarget(DepthRTT, true, true, SColor(0xffffffff));
-        driver->setRenderTarget(DepthRTT, true, true, SColor(255, 0, 0, 0));
+		driver->setRenderTarget(DepthRTT, true, true, SColor(0xffffffff));
+        //driver->setRenderTarget(DepthRTT, true, true, SColor(255, 0, 0, 0));
 
 		// Set max distance constant for depth shader.
 		depthMC->FarLink = smgr->getActiveCamera()->getFarValue();
@@ -497,8 +495,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g).MaterialType);
             
-            if (DepthPassArray[i]->getType() != ESNT_BILLBOARD)
-                DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)DepthT);
+            DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)DepthT);
             
             DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
             DepthPassArray[i]->render();
@@ -511,39 +508,24 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	}
 	
     //RENDER OTHER POST PROCESSES
-	if(PostProcessingRoutinesSize || LightScattering)
+	if(PostProcessingRoutinesSize)
 	{
         bool Alter = false;
 		ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
 		ScreenQuad.getMaterial().setTexture(2, DepthRTT);
         
-		for(u32 i = 0;i < PostProcessingRoutinesSize + LightList.size();++i)
+		for(u32 i = 0;i < PostProcessingRoutinesSize;++i)
 		{
-            if (i < PostProcessingRoutinesSize) {
-                ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
+			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
 
-                Alter = !Alter;
-                ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
-                driver->setRenderTarget(i >= PostProcessingRoutinesSize + LightList.size() - 1 ?
-                    outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+			Alter = !Alter;
+			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
+			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 ?
+				outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
                 
-                if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
-                ScreenQuad.render(driver);
-                if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
-            } else {
-                ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)pLightScattering.materialType;
-                
-                Alter = !Alter;
-                ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
-                driver->setRenderTarget(i >= PostProcessingRoutinesSize + LightList.size() - 1 ?
-                                        outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
-                
-                ((GodRaysCB*)pLightScattering.renderCallback)->screenPosition = LightList[i-PostProcessingRoutinesSize].getPosition();
-                
-                if(pLightScattering.renderCallback) pLightScattering.renderCallback->OnPreRender(this);
-                ScreenQuad.render(driver);
-                if(pLightScattering.renderCallback) pLightScattering.renderCallback->OnPostRender(this);
-            }
+			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
+			ScreenQuad.render(driver);
+			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
 		}
 	}
     
@@ -552,7 +534,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id)
 {
 	// Using Irrlicht cache now.
-	core::stringc shadowMapName = core::stringc("XEFFECTS_SM_") + core::stringc(resolution);
+	core::stringc shadowMapName = core::stringc("SSWE_SM_") + core::stringc(resolution);
 	shadowMapName += "_";
 	shadowMapName += id;
 	shadowMapName += "_";

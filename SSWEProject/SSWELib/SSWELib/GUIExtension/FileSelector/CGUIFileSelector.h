@@ -12,10 +12,12 @@
 using namespace irr;
 using namespace gui;
 
-//#define SSWE_CORE_API
+#ifndef SSWE_LIB_API
+#define SSWE_LIB_API
+#endif
 
 /** Class for opening/saving files. */
-class SSWE_CORE_API CGUIFileSelector : public IGUIFileOpenDialog {
+class SSWE_LIB_API CGUIFileSelector : public IGUIFileOpenDialog {
       
    public:
         /** Enum to specify the usage of the instance of the class */   

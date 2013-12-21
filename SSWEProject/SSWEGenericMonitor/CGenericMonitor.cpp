@@ -6,6 +6,7 @@
 //
 //
 
+#include "stdafx.h"
 #include "CGenericMonitor.h"
 
 #ifndef __CGENERIC_MONITOR_CREATION__

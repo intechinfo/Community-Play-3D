@@ -55,7 +55,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 			filename = m_devices->getWorkingDirectory() + "shaders/Materials/water_shader";
 
             waterSurface = new RealisticWaterSceneNode(m_devices->getSceneManager(), 512, 512,
-                                                       stringc(m_devices->getWorkingDirectory() + "shaders/Materials/GLSL/Water/").c_str(),
+                                                       stringc(m_devices->getWorkingDirectory() + "shaders/Materials/Water/").c_str(),
                                                        dimension2du(512, 512), m_devices->getSceneManager()->getRootSceneNode());
             
             if (waterSurface) {                

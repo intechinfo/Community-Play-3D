@@ -324,7 +324,7 @@ void CImporter::buildVolumeLight() {
 void CImporter::buildWaterSurface() {
 	read("mesh");
 	stringc meshPath = xmlReader->getAttributeValue("path");
-	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, devices->getWorkingDirectory() + "shaders/Materials/GLSL/Water/", 
+	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, devices->getWorkingDirectory() + "shaders/Materials/Water/", 
                                                                         dimension2du(512, 512), devices->getSceneManager()->getRootSceneNode());
 	ISceneNode *node = waterSurface;
 
@@ -615,7 +615,7 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		read("materianType");
 		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
 		_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
-		if (matS32 < 0) {
+		if (matS32 < 0 && -matS32 < devices->getCoreData()->getShaderCallbacks()->size()) {
 			_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](-matS32-1)->getMaterial();
 		}
 

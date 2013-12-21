@@ -130,6 +130,12 @@
     <Filter Include="SSWELib\SceneNodes\Clouds">
       <UniqueIdentifier>{60ddbbf1-673f-480c-9d20-537e138334e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\ParticlesEditor">
+      <UniqueIdentifier>{cc08e2a2-4ff6-4758-92bf-a9f890c2a943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\NodesEditor">
+      <UniqueIdentifier>{d9210517-ad0e-4b48-b383-1bfae7718fb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -377,6 +383,24 @@
     </ClCompile>
     <ClCompile Include="SSWELib\SceneNodes\Camera\CRiggedCamera.cpp">
       <Filter>SSWELib\SceneNodes\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditorAddGroup.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditor.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\GUIExtension\NodesEditor\CGUINode.cpp">
+      <Filter>SSWELib\GUIExtension\NodesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\GUIExtension\NodesEditor\CGUINodesEditor.cpp">
+      <Filter>SSWELib\GUIExtension\NodesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\WaterSurface\RealisticWater.cpp">
+      <Filter>SSWELib\SceneNodes\WaterSurface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -660,6 +684,36 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\ISSWELibPlugin.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditorAddGroup.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditor.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\GUIExtension\NodesEditor\CGUINode.h">
+      <Filter>SSWELib\GUIExtension\NodesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\GUIExtension\NodesEditor\CGUINodesEditor.h">
+      <Filter>SSWELib\GUIExtension\NodesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\WaterSurface\RealisticWater.h">
+      <Filter>SSWELib\SceneNodes\WaterSurface</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ICollisionManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISSWECore.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISSWECoreData.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISSWEEvents.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

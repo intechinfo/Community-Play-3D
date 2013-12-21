@@ -300,7 +300,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 						stringc prefix = cxtMenu->getMainWindow()->getSelectedNodePrefix(node);
 						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {
                             array<ISceneNode *> lights = worldCore->getArrayOfLightNodes();
-							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(lights, node));
+							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&lights, node));
 							editLight->open(node, prefix.c_str());
 						} else {
 							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);

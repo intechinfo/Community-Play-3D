@@ -23,15 +23,15 @@ public:
    virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
    {
        if (services->getVideoDriver()->getDriverType() == video::EDT_OPENGL) {
-           services->setPixelShaderConstant(services->getPixelShaderConstantID("texture1"), &texture1, 1);
-           services->setPixelShaderConstant(services->getPixelShaderConstantID("texture2"), &texture2, 1);
+           services->setPixelShaderConstant("texture1", &texture1, 1);
+           services->setPixelShaderConstant("texture2", &texture2, 1);
        }
        
        if (services->getVideoDriver()->getDriverType() != video::EDT_OPENGL) {
-           services->setVertexShaderConstant(services->getVertexShaderConstantID("screenWidth"), &m_ScreenWidth, 1);
-           services->setVertexShaderConstant(services->getVertexShaderConstantID("screenHeight"), &m_ScreenHeight, 1);
+           services->setVertexShaderConstant("screenWidth", &m_ScreenWidth, 1);
+           services->setVertexShaderConstant("screenHeight", &m_ScreenHeight, 1);
        }
-       services->setPixelShaderConstant(services->getPixelShaderConstantID("strength"), &m_Strength, 1);
+       services->setPixelShaderConstant("strength", &m_Strength, 1);
    }
 };
 

@@ -420,9 +420,6 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 		if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
 			core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
 			if(selectedArrow != NULL && nodeToPlace != gridSceneNode) {
-				if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
-					((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
-				}
 				if(selectedArrow == arrowYLineNode) {
 					if(findAndSetMousePositionInPlane()) {
 						switch (arrowType) {
@@ -502,10 +499,6 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 			else if (allowFreeMoving == true) {
 				if(findAndSetMousePositionInPlane()) {
 					nodeToPlace->setPosition(vector3df(mousePositionInPlane.X, nodeToPlace->getPosition().Y, mousePositionInPlane.Z));
-				}
-			} else {
-				if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
-					((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
 				}
 			}
 		}

@@ -49,6 +49,7 @@
     <OutDir>..\..\..\lib\vc2008\dynamic\</OutDir>
     <IntDir>$(ProjectName)\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\lib\vc2008\dynamic\</OutDir>
@@ -94,7 +95,8 @@
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)SPARK.dll</OutputFile>
-      <Version>1.00.00</Version>
+      <Version>
+      </Version>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <NoEntryPoint>false</NoEntryPoint>

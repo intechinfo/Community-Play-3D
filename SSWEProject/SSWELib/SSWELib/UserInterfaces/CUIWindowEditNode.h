@@ -13,6 +13,8 @@
 
 #include "../CharacterEdition/CAction.h"
 
+#include <ISSWECore.h>
+
 enum CXT_EDIT_WINDOW_EVENTS {
     CXT_EDIT_WINDOW_EVENTS_GENERAL_POSITION = 0x50000,
     
@@ -85,7 +87,7 @@ enum CXT_EDIT_WINDOW_EVENTS {
     CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON
 };
 
-class CUIWindowEditNode : public IEventReceiver {
+class CUIWindowEditNode : public IEventReceiver, IUpdate {
     
 public:
     
@@ -103,7 +105,8 @@ public:
     void createMaterialTypesComboBox(IGUIElement *element);
     
     E_MATERIAL_TYPE getMaterialType(s32 pos);
-    
+
+	void update();
     bool OnEvent(const SEvent &event);
     
 private:
@@ -124,6 +127,7 @@ private:
     
     //GENERAL TAB
     IGUIEditBox *ebNodeName;
+	IGUIButton *cursorPositionbtn;
     IGUIEditBox *ebNodePositionX, *ebNodePositionY, *ebNodePositionZ;
     IGUIEditBox *ebNodeRotationX, *ebNodeRotationY, *ebNodeRotationZ;
     IGUIEditBox *ebNodeScaleX, *ebNodeScaleY, *ebNodeScaleZ;

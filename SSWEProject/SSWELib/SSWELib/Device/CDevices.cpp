@@ -51,7 +51,6 @@ CDevices::CDevices(CCoreUserInterface *_coreUserInterface) {
 	skybox = 0;
 
 	sceneManagerToDrawIndice = 0;
-
 }
 
 CDevices::~CDevices() {
@@ -124,8 +123,8 @@ void CDevices::updateEntities() {
     for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
 			if (renderFullPostTraitements) {
-				driver->runAllOcclusionQueries(true);
-				driver->updateAllOcclusionQueries(true);
+				driver->runAllOcclusionQueries(false);
+				driver->updateAllOcclusionQueries(false);
 				u32 occlusionQueryResult = driver->getOcclusionQueryResult(worldCoreData->getLightsData()->operator[](i).getLensFlareMeshSceneNode());
 				if(occlusionQueryResult != 0xffffffff) {
 					worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode()->setStrength(f32(occlusionQueryResult)/8000.f);
@@ -168,7 +167,7 @@ void CDevices::updateDevice() {
 		camera_rig->OnAnimate(Device->getTimer()->getRealTime());
 	}
 
-#ifndef SSWE_RELEASE
+#ifdef SSWE_RELEASE
 
     #pragma omp parallel sections
     {
@@ -240,7 +239,11 @@ void CDevices::updateDevice() {
         smgr->drawAll();
     }
 
+	effectSmgr->drawAll();
+
     gui->drawAll();
+
+	receiver.update();
     
 #endif
 
@@ -407,7 +410,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	renderCore = new CRenderCore(this);
 
 	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
-    effect->setPostProcessingUserTexture(driver->getTexture("waterNormal.png"));
 
 	//ADD EVENTS
 	Device->setEventReceiver(&receiver);

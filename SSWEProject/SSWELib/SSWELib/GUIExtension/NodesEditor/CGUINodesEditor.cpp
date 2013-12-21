@@ -7,6 +7,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "CGUINodesEditor.h"
 
 void CGUINodesEditor::addNode(CGUINode *node) {
