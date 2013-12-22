@@ -389,7 +389,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
 		devices->getGUIEnvironment()->addStaticText(L"Choose Animation :", rect<s32>(19, 76, 149, 96), true, true, animatedTab, -1, true);
 		chooseSavedAnimation = devices->getGUIEnvironment()->addComboBox(rect<s32>(149, 76, 409, 96), animatedTab, -1);
 
-		if (nodeToEditPrefix == "#object") {
+		if (nodeToEdit->getType() == ESNT_ANIMATED_MESH) {
 			u32 i = devices->getCoreData()->getObjectNodeIndice(nodeToEdit);
 			if (i != -1) {
 				drawAnimations->setChecked(true);
@@ -671,14 +671,16 @@ void CUIWindowEditNode::update() {
 		}
 
 		//SCALE
-		if (core->getF32(ebNodeScaleX->getText()) != nodeToEdit->getScale().X) {
-			ebNodeScaleX->setText(stringw(nodeToEdit->getScale().X).c_str());
-		}
-		if (core->getF32(ebNodeScaleY->getText()) != nodeToEdit->getScale().Y) {
-			ebNodeScaleY->setText(stringw(nodeToEdit->getScale().Y).c_str());
-		}
-		if (core->getF32(ebNodeScaleZ->getText()) != nodeToEdit->getScale().Z) {
-			ebNodeScaleZ->setText(stringw(nodeToEdit->getScale().Z).c_str());
+		if (nodeToEdit->getType() != ESNT_BILLBOARD) {
+			if (core->getF32(ebNodeScaleX->getText()) != nodeToEdit->getScale().X) {
+				ebNodeScaleX->setText(stringw(nodeToEdit->getScale().X).c_str());
+			}
+			if (core->getF32(ebNodeScaleY->getText()) != nodeToEdit->getScale().Y) {
+				ebNodeScaleY->setText(stringw(nodeToEdit->getScale().Y).c_str());
+			}
+			if (core->getF32(ebNodeScaleZ->getText()) != nodeToEdit->getScale().Z) {
+				ebNodeScaleZ->setText(stringw(nodeToEdit->getScale().Z).c_str());
+			}
 		}
 	}
 }

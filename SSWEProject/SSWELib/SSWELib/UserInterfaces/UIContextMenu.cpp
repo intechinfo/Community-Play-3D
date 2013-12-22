@@ -353,6 +353,14 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
     
     //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+
+	//LIGHT SCATTERING
+	/*devices->getRenderCallbacks()->buildLightScattering();
+	for (u32 i=0; i < devices->getCoreData()->getObjectsData()->size(); i++) {
+		devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getObjectsData()->operator[](i).getNode());
+	}
+	devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getLightsData()->operator[](0).getLensFlareBillBoardSceneNode());
+	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -471,8 +479,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //-----------------------------------
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE: {
-					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix != "#light") {
+					ISceneNode *prefix = mainWindowInstance->getSelectedNode().getNode();
+					if (prefix->getType() != ESNT_LIGHT) {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
 									   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
@@ -485,8 +493,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE: {
-					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
-                    if (prefix == "#light") {
+					ISceneNode *prefix = mainWindowInstance->getSelectedNode().getNode();
+					if (prefix->getType() != ESNT_LIGHT) {
                         CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
 						matEditor->open(mainWindowInstance->getSelectedNode().getNode());
                     }
@@ -641,7 +649,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //-----------------------------------
                 //CONTEXT MENU ANIMATED OBJECTS EVENT
                 case CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION: {
-					if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
+					if (mainWindowInstance->getSelectedNode().getNode()->getType() == ESNT_ANIMATED_MESH) {
 						if (mainWindowInstance->getSelectedNode().getNode()) {
 							CUICharacterWindow *characterWindowInstance = new CUICharacterWindow(devices);
                             characterWindowInstance->open();

@@ -514,12 +514,13 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		{
 			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
 
+			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
+
 			Alter = !Alter;
 			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
 			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 ?
 									outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
 
-			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
 			ScreenQuad.render(driver);
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
 		}

@@ -257,6 +257,9 @@ public:
 	/// rendered in this pass, they must first be added using addNodeToDepthPass(SceneNode).
 	void enableDepthPass(bool enableDepthPass);
 
+	/// Get array of depth pass nodes
+	irr::core::array<irr::scene::ISceneNode *>& getDepthPassNodes() { return DepthPassArray; }
+
 	/// Removes shadows from a scene node.
 	void removeShadowFromNode(irr::scene::ISceneNode* node)
 	{

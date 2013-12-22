@@ -1,6 +1,6 @@
 
 sampler2D ColorMapSampler : register(s0);
-sampler2D DepthMapSampler : register(s2);
+sampler2D UserMapSampler : register(s3);
 
 float2 lightPositionOnScreen;
 		
@@ -9,47 +9,43 @@ float2 lightPositionOnScreen;
 //float density=0.26;
 //float weight=0.58767;
 
-struct PS_INPUT
-{
-   float2 textCoo : TEXCOORD0;
-};
-
-float4 pixelMain(PS_INPUT Input) : COLOR0
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
 {
 	float decay=0.96815;
-	float exposure=0.034;//0.0034;
-	float density=01.84;
-	float weight=5.65;
-	int NUM_SAMPLES = 100;
+	float exposure=0.2;
+	float density=0.26;
+	float weight=0.58767;
 
-	float2 textCoo = Input.textCoo.xy;
+	int NUM_SAMPLES = 100;
 	
- 	float2 deltaTextCoord = float2( textCoo - lightPositionOnScreen.xy );
- 	deltaTextCoord *= 1.0 /  float(NUM_SAMPLES) * density;
+	float2 tc = texCoord;
+ 	float2 deltaTexCoord = (tc - lightPositionOnScreen.xy);  
+ 	deltaTexCoord *= 1.0f / NUM_SAMPLES * density;  
  	
  	float illuminationDecay = 1.0;
 
-	float4 color = tex2D(DepthMapSampler, textCoo)*0.4;
+	float4 color =tex2D(UserMapSampler, tc)*0.4;
 	
  	for(int i=0; i < NUM_SAMPLES ; i++)
-
   	{
-
-    			textCoo -= deltaTextCoord;
-
-    			float4 sample = tex2D(DepthMapSampler, textCoo )*0.4;
-    			
-    			sample *= illuminationDecay * weight;
-    			
-    			color += sample;
-    			
-    			illuminationDecay *= decay;
+		tc -= deltaTexCoord;
+		float4 sample = tex2D(UserMapSampler, tc)*0.4;
+		sample *= illuminationDecay * weight;  
+		color += sample;
+		illuminationDecay *= decay;  
  	}
 
  	//gl_FragColor *= exposure;
  	//gl_FragColor += texture2D(ColorMapSampler, textCoo.xy);
- 	float4 realColor = tex2D(ColorMapSampler, Input.textCoo.xy);
+ 	float4 realColor = tex2D(ColorMapSampler, texCoord.xy);
  	//gl_FragColor = ((vec4((vec3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
 	//gl_FragColor = color;
-	return ( ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4))) );
+	//return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
+	//return realColor + float3(color.r, color.g, color.b) * exposure));
+	//return color + realColor;
+	//return float4( float3(color.r, color.g, color.b) * exposure, 1) + realColor;
+	//return float4( color * exposure, 1);
+	//return realColor + float4(color.r, color.g, color.b, 1);
+
+	return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
 }

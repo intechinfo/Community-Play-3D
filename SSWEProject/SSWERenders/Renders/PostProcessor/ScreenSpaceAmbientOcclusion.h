@@ -4,6 +4,10 @@
 #include <SSWERenders.h>
 #include "../XEffect/EffectHandler.h"
 
+//---------------------------------------------------------------------------------------------
+//------------------------------------------CALLBACKS------------------------------------------
+//---------------------------------------------------------------------------------------------
+
 class SSWE_RENDERS_API SSAORenderCallback : public SSWE_RENDERS_EXPORTS IPostProcessingRenderCallback {
 
 public:
@@ -14,12 +18,42 @@ public:
 	void OnPreRender(EffectHandler* effect);
 	void OnPostRender(EffectHandler* effect);
 
+	void setTexture(irr::video::ITexture *tex) { this->tex = tex; }
+	irr::video::ITexture *getTexture() { return this->tex; }
+
 private:
 
 	irr::core::matrix4 viewProj;
 	irr::s32 materialType;
+	irr::video::ITexture *tex;
 
 };
+
+class SSWE_RENDERS_API LightScatteringCallback : public SSWE_RENDERS_EXPORTS IPostProcessingRenderCallback {
+
+public:
+
+	LightScatteringCallback(irr::s32 materialTypeIn, EffectHandler *effect);
+	~LightScatteringCallback();
+
+	void OnPreRender(EffectHandler* effect);
+	void OnPostRender(EffectHandler* effect);
+
+	void setTexture(irr::video::ITexture *tex) { this->tex = tex; }
+	irr::video::ITexture *getTexture() { return this->tex; }
+
+private:
+
+	irr::s32 materialType;
+	irr::video::ITexture *tex;
+
+	irr::video::ITexture *blackTexture;
+
+};
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------RENDER CALLBACKS------------------------------------------
+//---------------------------------------------------------------------------------------------
 
 class SSWE_RENDERS_API CRenderCallbacks {
 
@@ -34,11 +68,14 @@ public:
 		void removeSSAO();
 		SSAORenderCallback *getSSAORenderCallback() { return ssaoRenderCallback; }
 
-		//OTHER
+		//LIGHT SCATTERING
+		irr::s32 buildLightScattering();
+		void removeLightScattering();
+		LightScatteringCallback *getLightScatteringCallback() { return lightScatteringCallback; }
+
 
 private:
 
-	irr::video::ITexture *randVecTexture;
 	irr::core::matrix4 viewProj;
 	EffectHandler *reffect;
 
@@ -51,6 +88,10 @@ private:
 	irr::s32 BlurV;
 	irr::s32 SSAOCombine;
 	SSAORenderCallback *ssaoRenderCallback;
+
+	//LIGHT SCATTERING
+	irr::s32 LightScattering;
+	LightScatteringCallback *lightScatteringCallback;
 };
 
 #endif
