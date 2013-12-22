@@ -39,8 +39,7 @@ enum E_SHADOW_LIGHT_TYPE
 {
 	ESLT_SPOT = 0,
 	ESLT_DIRECTIONAL,
-	ESLT_POINT,
-	ESLT_PSSM
+	ESLT_POINT
 };
 
 struct SShadowLight
@@ -646,9 +645,6 @@ private:
             
     irr::video::ITexture* currentShadowMapTexture;
     irr::video::ITexture* currentSecondaryShadowMap;
-    
-    irr::video::ITexture *LightScatteringRTT;
-    SPostProcessingPair pLightScattering;
 
 	irr::core::array<SPostProcessingPair> PostProcessingRoutines;
 	irr::core::array<SShadowLight> LightList;
@@ -671,6 +667,7 @@ private:
 
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;
+	irr::core::vector3df lastCameraRotation;
 };
 
 #endif

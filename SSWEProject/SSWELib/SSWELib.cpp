@@ -73,9 +73,9 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	cloudLayer3->setCloudHeight(0.35f, 0.0f, -0.15f);
 	cloudLayer3->setTextureScale(0.4f);
     
-    coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer1, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
-    coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer2, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
-    coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer3, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
+    //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer1, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
+    //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer2, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
+    //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer3, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     
     //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer1);
     //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer2);

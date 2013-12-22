@@ -192,7 +192,7 @@ void CDevices::updateDevice() {
                     }
 
                     if(renderFullPostTraitements && renderXEffect) {
-                        monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
+                        //monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
                     }
 
                     effectSmgr->drawAll();
@@ -233,10 +233,10 @@ void CDevices::updateDevice() {
     
     if (renderXEffect) {
 		irr::core::matrix4 viewProj;
-		effect->setActiveSceneManager(smgr);
+		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 		effect->update(renderFullPostTraitements);
     } else {
-        smgr->drawAll();
+        smgrs[sceneManagerToDrawIndice]->drawAll();
     }
 
 	effectSmgr->drawAll();

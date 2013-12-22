@@ -143,7 +143,7 @@ void CImporter::buildObject() {
 	IAnimatedMeshSceneNode *node = 0;
 
 	if (path == "cube") {
-		node = (IAnimatedMeshSceneNode *)smgr->addCubeSceneNode();
+		node = (IAnimatedMeshSceneNode *)smgr->addCubeSceneNode(50.f);
 	} else if (path == "sphere") {
 		node = (IAnimatedMeshSceneNode *)smgr->addSphereSceneNode();
 	} else if (path == "hillPlaneMesh") {
@@ -445,7 +445,6 @@ void CImporter::readEffects() {
                     
 		CEffectRenderCallback *callback = new CEffectRenderCallback(render, devices->getDevice());
 		callback->clearPixelValues();
-		callback->clearVertexValues();
 		devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
 		devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
                     
@@ -615,7 +614,7 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		read("materianType");
 		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
 		_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
-		if (matS32 < 0 && -matS32 < devices->getCoreData()->getShaderCallbacks()->size()) {
+		if (matS32 < 0 && -matS32 >= devices->getCoreData()->getShaderCallbacks()->size()) {
 			_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](-matS32-1)->getMaterial();
 		}
 

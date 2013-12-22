@@ -49,14 +49,10 @@ public:
 	void modifyPixelValue(u32 i, CDevices *devices);
     
     //GET METHODS
-    irr::core::array<float> *getVertexValues() { return &vertexValues; }
-    irr::core::array<irr::core::stringc> *getVertexValuesNames() { return &vertexValuesNames; }
-    
     irr::core::array<irr::core::stringw> *getPixelValues() { return &pixelValues; }
     irr::core::array<irr::core::stringc> *getPixelValuesNames() { return &pixelValuesNames; }
     
     //CLEAR METHODS
-    void clearVertexValues();
     void clearPixelValues();
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------
     

@@ -150,7 +150,7 @@ void CCoreUserInterface::update() {
         }
     }
 
-	if (smgr->getActiveCamera()->getAnimators().size() > 0) {
+	if (devices->getRenderingSceneManager()->getActiveCamera()->getAnimators().size() > 0) {
 		core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
 		if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
 			if (gui->getFocus() == 0 && devices->isCtrlPushed())

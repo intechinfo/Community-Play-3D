@@ -285,7 +285,6 @@ bool CUIWindowEditEffects::OnEvent(const SEvent &event) {
                 
                 CEffectRenderCallback *callback = new CEffectRenderCallback(render, devices->getDevice());
                 callback->clearPixelValues();
-                callback->clearVertexValues();
                 devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
                 devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
                 shadersList->addItem(name.c_str());

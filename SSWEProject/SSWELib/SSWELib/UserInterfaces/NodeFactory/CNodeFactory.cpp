@@ -19,7 +19,7 @@ CNodeFactory::~CNodeFactory() {
 }
 
 void CNodeFactory::createCubeSceneNode() {
-	IMeshSceneNode *cube = devices->getSceneManager()->addCubeSceneNode();
+	IMeshSceneNode *cube = devices->getSceneManager()->addCubeSceneNode(50.f);
 	cube->setName("#object:new_cube");
 	cube->setMaterialFlag(EMF_LIGHTING, false);
 	devices->getXEffect()->addShadowToNode(cube, devices->getXEffectFilterType(), ESM_BOTH);

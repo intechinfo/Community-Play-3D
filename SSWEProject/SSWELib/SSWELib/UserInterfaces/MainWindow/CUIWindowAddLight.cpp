@@ -54,7 +54,7 @@ bool CUIWindowAddLight::OnEvent(const SEvent &event) {
                         light->setName(lightNodeName.c_str());
                         
                         SShadowLight shadowLight = SShadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), 
-                                                   SColor(255, 255, 255, 255), 20.0f, 5000.f, 90.f * DEGTORAD);
+                                                   SColor(255, 255, 255, 255), 20.0f, 5000.f, 90.f * DEGTORAD, false);
                         devices->getXEffect()->addShadowLight(shadowLight);
                         
 						SLightsData ldata(light);

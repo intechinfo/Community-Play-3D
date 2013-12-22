@@ -291,7 +291,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	//#ifndef SSWE_RELEASE
+	#ifndef SSWE_RELEASE
 		for (u32 i=0; i < 1; i++) {
 			//devices->getCoreData()->clear();
 			//devices->getCoreData()->clearAllTheArrays();
@@ -316,7 +316,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 				CUITerrainPainter *terrainPainter = new CUITerrainPainter(devices, devices->getCoreData()->getTerrainsData()->operator[](0), mainWindowInstance);
 			}
 		}*/
-	//#endif
+	#endif
 
 	CImporter *impoterInstance = new CImporter(devices);
 	impoterInstance->importCamerasConfig();

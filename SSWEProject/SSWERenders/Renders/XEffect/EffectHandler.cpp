@@ -156,15 +156,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	dof->range = 4.6f;
 	
 	useDOF = false;
-    
-    //LIGHT SCATTERING
-    LightScattering = true;
-    
-    //GodRays = this->addPostProcessingEffectFromFile("shaders/GLSL/GodRays.glsl");
-    //this->setPostProcessingRenderCallback(GodRays, new GodRaysCB(GodRays));
-    //pLightScattering = obtainScreenQuadMaterialFromFile("shaders/GLSL/GodRays.glsl");
-    //pLightScattering.renderCallback = new GodRaysCB(pLightScattering.materialType);
-    //PostProcessingRoutines.push_back(pLightScattering);
 }
 
 EffectHandler::~EffectHandler()
@@ -461,7 +452,12 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	if (useMotionBlur) {
 		motionBlur->render();
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
-		motionBlur->renderFinal();
+		if (smgr->getActiveCamera()->getRotation() != lastCameraRotation) {
+			motionBlur->renderFinal();
+		} else {
+			smgr->drawAll();
+		}
+		lastCameraRotation = smgr->getActiveCamera()->getRotation();
 	} else {
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 		smgr->drawAll();
@@ -521,8 +517,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			Alter = !Alter;
 			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
 			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 ?
-				outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
-                
+									outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
 			ScreenQuad.render(driver);
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
@@ -546,7 +542,7 @@ irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resoluti
     
 	if(shadowMapTexture == 0)
 	{
-		device->getLogger()->log("XEffects: Please ignore previous warning, it is harmless.");
+		//device->getLogger()->log("XEffects: Please ignore previous warning, it is harmless.");
         
 		shadowMapTexture = driver->addRenderTargetTexture(dimension2du(resolution, resolution),
                                                           shadowMapName, use32BitDepth ? ECF_G32R32F : ECF_G16R16F);

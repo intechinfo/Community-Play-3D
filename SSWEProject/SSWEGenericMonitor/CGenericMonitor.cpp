@@ -43,7 +43,6 @@ void CGenericMonitor::setSceneManager(irr::scene::ISceneManager *sceneManager) {
 
 void CGenericMonitor::drawScene() {
 	if (renderXEffect) {
-		irr::core::matrix4 viewProj;
 		effect->setActiveSceneManager(smgr);
 		effect->update(renderFullPostTraitements);
     } else {

@@ -10,11 +10,6 @@
 
 #include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 
-void CEffectRenderCallback::clearVertexValues() {
-    vertexValues.clear();
-    vertexValuesNames.clear();
-}
-
 void CEffectRenderCallback::clearPixelValues() {
     pixelValues.clear();
     pixelValuesNames.clear();

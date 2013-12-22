@@ -42,14 +42,14 @@ CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
 	updateView = false;
 
 	//INIT SPHERES
-	if (node) {
+	/*if (node) {
 		for (u32 i=0; i < node->getJointCount(); i++) {
 			ISceneNode *snode = smgr->addSphereSceneNode(5.f, 16, node->getJointNode(i), -1, vector3df(0), vector3df(0), vector3df(3.6*0.02));
 			snode->setMaterialFlag(EMF_ZBUFFER, false);
 			snode->setMaterialFlag(EMF_ZWRITE_ENABLE, true);
 		}
 		node->setDebugDataVisible(EDS_SKELETON ^ irr::scene::EDS_BBOX_ALL);
-	}
+	}*/
 }
 
 CUIEditBones::~CUIEditBones() {
@@ -174,9 +174,13 @@ void CUIEditBones::open() {
 }
 
 void CUIEditBones::update() {
+
+	bool updateXEffect = devices->isXEffectDrawable();
+	devices->setXEffectDrawable(false);
 	while (updateView) {
-		devices->reupdate(effect);
+		devices->reupdate();
 	}
+	devices->setXEffectDrawable(updateXEffect);
 }
 
 void CUIEditBones::close() {

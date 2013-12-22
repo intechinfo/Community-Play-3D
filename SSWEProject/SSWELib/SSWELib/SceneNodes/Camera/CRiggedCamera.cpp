@@ -363,7 +363,11 @@ bool CCameraRig::OnEvent(const SEvent& event) {
 		}
 		return true;
 	}
+#ifdef _IRR_OSX_PLATFORM_
 	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_W) {
+#else
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_Z) {
+#endif
 		if (event.KeyInput.PressedDown) {
 			action=1;
 			rigstate(L"moving forward");
@@ -409,8 +413,12 @@ bool CCameraRig::OnEvent(const SEvent& event) {
 			}
 		}
         return true;
-    } 
-	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_A) {      
+    }
+#ifdef _IRR_OSX_PLATFORM_
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_A) {
+#else
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_Q) {
+#endif
 		if (event.KeyInput.PressedDown) {
 			action1=4;
 			if (tiltmode) {
@@ -428,7 +436,11 @@ bool CCameraRig::OnEvent(const SEvent& event) {
 		}
 		return true;
 	}
-	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_Q) {      
+#ifdef _IRR_OSX_PLATFORM_
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_Q) {
+#else
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_A) {
+#endif
 		if (event.KeyInput.PressedDown) {
 			tiltAngle=35;
 			tiltSpeed=3;
@@ -523,7 +535,7 @@ bool CCameraRig::OnEvent(const SEvent& event) {
 			sprintmode=false; movespeed=oldspeed;
 		}
 	}
-	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_SHIFT ) {      
+	if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LSHIFT ) {      
 		if (event.KeyInput.PressedDown) {
 			if (runmode) {
 				rigstate("Run mode");

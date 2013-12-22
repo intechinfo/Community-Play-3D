@@ -59,7 +59,7 @@ private:
 	ISceneManager *smgr;
 	CGridSceneNode *grid;
 	IBoneSceneNode *lastBoneSceneNode;
-	ICameraSceneNode *camera, *cameraMaya;
+	ICameraSceneNode *camera;
 
 	CUIEditBones *editBones;
 	//-----------------------------------

@@ -86,8 +86,7 @@ void CUICharacterWindow::open() {
         viewPort->setSceneManager(smgr);
         smgr->setAmbientLight(SColorf(0.3f, 0.3f, 0.3f));
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
-        
-		cameraMaya = smgr->addCameraSceneNodeMaya();
+
 		camera = smgr->addCameraSceneNode();
 		grid = new CGridSceneNode(smgr->getRootSceneNode(), smgr);
 		smgr->setActiveCamera(camera);
@@ -271,8 +270,8 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 					characterWindow->setVisible(false);
 					devices->getSceneManagers()->push_back(smgr);
 					devices->setSceneManagerToDraw(smgr);
-					smgr->setActiveCamera(cameraMaya);
-					devices->getSecondSceneManager()->setActiveCamera(cameraMaya);
+					smgr->setActiveCamera(devices->getMayaCamera());
+					devices->getSecondSceneManager()->setActiveCamera(devices->getMayaCamera());
 					devices->getDevice()->setInputReceivingSceneManager(smgr);
 					node->setAnimationSpeed(0);
 					node->setFrameLoop(0, 0);
@@ -281,8 +280,8 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 					node->setJointMode(EJUOR_CONTROL);
 					devices->setContextName("Bones Edition");
 					editBones->open();
-					cameraMaya->setUpVector(camera->getPosition());
-					cameraMaya->setTarget(node->getPosition());
+					//cameraMaya->setUpVector(camera->getPosition());
+					//cameraMaya->setTarget(node->getPosition());
 					devices->setRenderScene(true);
 					break;
                     
