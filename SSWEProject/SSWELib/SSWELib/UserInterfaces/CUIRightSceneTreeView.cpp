@@ -54,6 +54,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	volumeLightsNode = rootNode->addChildBack(L"VOLUME LIGHTS", L"", 2, -1);
 	waterSurfacesNode = rootNode->addChildBack(L"WATER SURFACES", L"", 2, -1);
     particlesNode = rootNode->addChildBack(L"PARTICLE SYSTEMS", L"", 2, -1);
+	rootNode->addChildBack(L"OTHERS (TO DO)", L"", 2, -1);
 
 	addChildrenBackWithSDataArray(terrainsNode, worldCore->getTerrainsSData());
 	addChildrenBackWithSDataArray(treesNode, worldCore->getTreesSData());
