@@ -425,7 +425,7 @@ void CImporter::readConfig() {
 void CImporter::readEffects() {
 	read("effect");
 	readWithNextElement("postProcessingEffect", "effect");
-	while (element == "postProcessingEffect") {
+	/*while (element == "postProcessingEffect") {
 		stringw path = L"";
 		stringw myPath = L"";
 		read("file_path");
@@ -466,7 +466,7 @@ void CImporter::readEffects() {
 		devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(oldPath.c_str());
 		read("postProcessingEffect");
 		readWithNextElement("postProcessingEffect", "effect");
-	}
+	}*/
 }
 
 void CImporter::readMaterialShaderCallbacks() {

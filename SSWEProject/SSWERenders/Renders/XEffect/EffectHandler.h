@@ -484,6 +484,19 @@ public:
         return returnedMaterialType;
     }
 
+	void reloadPostProcessingEffect(irr::s32 MaterialType, irr::core::stringc newCode)
+	{
+		SPostProcessingPair tempPair(MaterialType, 0);
+		irr::s32 i = PostProcessingRoutines.binary_search(tempPair);
+
+		if (i != -1)
+		{
+			PostProcessingRoutines[i].materialType = obtainScreenQuadMaterialFromStrings(newCode).materialType;
+		}
+	}
+
+	void clearPostProcessEffectConstants(irr::s32 MaterialType);
+
 	/// Adds a post processing effect by reading a pixel shader from a file. The vertex shader is taken care of.
 	/// The vertex shader will pass the correct screen quad texture coordinates via the TEXCOORD0 semantic in
 	/// Direct3D or the gl_TexCoord[0] varying in OpenGL.
@@ -492,14 +505,14 @@ public:
 	irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename,
 		IPostProcessingRenderCallback* callback = 0, bool pushFront=false);
 
-	irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc &vertexShader, const irr::core::stringc pixelShader,
+	irr::s32 addPostProcessingEffectFromString(const irr::core::stringc pixelShader,
 		IPostProcessingRenderCallback *callback = 0, bool pushFront=false);
 
 	/// Sets a shader parameter for a post-processing effect. The first parameter is the material type, the second
 	/// is the uniform paratmeter name, the third is a float pointer that points to the data and the last is the
 	/// component count of the data. Please note that the float pointer must remain valid during render time.
 	/// To disable the setting of a parameter you may simply pass a null float pointer.
-	void setPostProcessingEffectConstant(const irr::s32 materialType, const irr::core::stringc& name, const irr::f32* data,
+	void setPostProcessingEffectConstant(const irr::s32 materialType, const irr::core::stringc& name, irr::f32* data,
 		const irr::u32 count);
 
 	/// Returns the screen quad scene node. This is not required in any way, but some advanced users may want to adjust
@@ -580,9 +593,6 @@ public:
 			LightList[i].setRecalculate(true);
 	}
 
-	/// About Light Shafts
-	void createLightShafts(irr::u32 shadowLightIndex, irr::u32 numberOfPlanes);
-
 private:
 
 	struct SShadowNode
@@ -619,7 +629,7 @@ private:
 
 	SPostProcessingPair obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename, 
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
-	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& vertexShadern, const irr::core::stringc& pixelShader, 
+	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& pixelShader, 
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
 
 	irr::IrrlichtDevice* device;

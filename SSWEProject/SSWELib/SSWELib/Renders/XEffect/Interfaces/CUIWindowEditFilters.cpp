@@ -8,6 +8,47 @@
 #include "stdafx.h"
 #include "CUIWindowEditFilters.h"
 
+//---------------------------------------------------------------------------------------------
+//--------------------------------------POST PROCESS METHODS-----------------------------------
+//---------------------------------------------------------------------------------------------
+
+EffectHandler *geffect;
+irr::s32 gmaterialType;
+
+class CFilterCallback : public IPostProcessingRenderCallback {
+
+public:
+
+	CFilterCallback(irr::s32 materialTypeIn, SFilter *_fs) : materialType(materialTypeIn) {
+		fs = _fs;
+    }
+
+	void OnPreRender(EffectHandler* effect) {
+		geffect = effect;
+		gmaterialType = materialType;
+		luaL_dostring(fs->getLuaState(), stringc(fs->getCallback()).c_str());
+	}
+    
+	void OnPostRender(EffectHandler* effect) {
+		effect->clearPostProcessEffectConstants(materialType);
+	}
+
+	s32 materialType;
+
+private:
+
+	SFilter *fs;
+
+};
+
+struct userData {
+    int x;
+};
+
+//---------------------------------------------------------------------------------------------
+//--------------------------------------CLASS--------------------------------------------------
+//---------------------------------------------------------------------------------------------
+
 CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
     devices = _devices;
 
@@ -51,6 +92,19 @@ CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
 		filters->setSelected(-1);
 	}
 
+	//MENU
+	menu = gui->addMenu(window);
+	menu->addItem(L"File", -1, true, true);
+	menu->addItem(L"Edit", -1, true, true);
+
+	IGUIContextMenu *submenu = menu->getSubMenu(0);
+	submenu->addItem(L"Load From File...", 1, true);
+	submenu->addItem(L"Load From Package...", 2, true);
+	submenu->addItem(L"Close", 3, true);
+
+	submenu = menu->getSubMenu(1);
+	submenu->addItem(L"Reload", 1, true);
+
 	//OTHERS
 	devices->getEventReceiver()->AddEventReceiver(this, window);
 }
@@ -66,6 +120,44 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == window) {
 				devices->getEventReceiver()->RemoveEventReceiver(this);
 				delete this;
+			}
+		}
+
+		//MENU
+		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
+			if (event.GUIEvent.Caller == menu->getSubMenu(0)) {
+				if (menu->getSubMenu(0)->getSelectedItem() == 0) {
+					openShader = devices->createFileOpenDialog(L"Load From File...", CGUIFileSelector::EFST_OPEN_DIALOG,
+						devices->getGUIEnvironment()->getRootGUIElement(), false);
+				}
+				if (menu->getSubMenu(0)->getSelectedItem() == 1) {
+					//LOAD FROM PACKAGE
+				}
+				if (menu->getSubMenu(0)->getSelectedItem() == 2) {
+					devices->getEventReceiver()->RemoveEventReceiver(this);
+					window->remove();
+					delete this;
+				}
+			}
+		}
+
+		//FILE SELECTION
+		if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
+			if (event.GUIEvent.Caller == openShader) {
+				SFilter f;
+				f.createLuaState();
+				f.setPixelShader(devices->getCore()->getStringcFromFile(openShader->getFileName()));
+				f.setCallback("filter:setPixelShaderConstantFloat(\"multiplier\", 1)");
+				f.setMaterial(devices->getXEffect()->addPostProcessingEffectFromString(f.getPixelShader().c_str()));
+				devices->getCoreData()->getEffectFilters()->push_back(f);
+				u32 count = devices->getCoreData()->getEffectFilters()->size();
+				this->createLuaState(devices->getCoreData()->getEffectFilters()->operator[](count-1).getLuaState());
+				CFilterCallback *cb = new CFilterCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(),
+														  &devices->getCoreData()->getEffectFilters()->operator[](count-1));
+				devices->getXEffect()->setPostProcessingRenderCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(), cb);
+
+				filters->addItem(stringw(f.getName()).c_str());
+				filters->setSelected(filters->getItemCount()-1);
 			}
 		}
 
@@ -89,6 +181,7 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 
 			if (event.GUIEvent.Caller == addFilter) {
 				SFilter f;
+				f.createLuaState();
 				devices->getCoreData()->getEffectFilters()->push_back(f);
 				filters->addItem(stringw(f.getName()).c_str());
 				filters->setSelected(filters->getItemCount()-1);
@@ -98,6 +191,7 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 					s32 selected = filters->getSelected();
 					filters->removeItem(selected);
 					devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectFilters()->operator[](selected).getMaterial());
+					devices->getCoreData()->getEffectFilters()->operator[](selected).destroyLuaState();
 					devices->getCoreData()->getEffectFilters()->erase(selected);
 				}
 			}
@@ -119,4 +213,215 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 	}
 
 	return false;
+}
+
+//---------------------------------------------------------------------------------------------
+//--------------------------------------LUA CORE + CORE----------------------------------------
+//---------------------------------------------------------------------------------------------
+//LUA CORE
+static const luaL_Reg lualibs[] = {
+    {"base", luaopen_base},
+    {"math", luaopen_math},
+    {NULL, NULL}
+};
+
+//CORE
+int core_gc(lua_State *L);
+int core_index(lua_State *L);
+int core_newindex(lua_State *L);
+
+int core_new(lua_State *L);
+
+int core_setPixelShaderConstantInteger(lua_State *L);
+int core_setPixelShaderConstantFloat(lua_State *L);
+int core_setPixelShaderConstantVector2D(lua_State *L);
+int core_setPixelShaderConstantVector3D(lua_State *L);
+int core_setPixelShaderConstantMatrix4(lua_State *L);
+
+static const luaL_Reg core_meta[] = {
+	{"__gc", core_gc},
+	{"__index", core_index},
+	{"__newindex", core_newindex},
+	{ NULL, NULL }
+};
+
+static const luaL_Reg core_methods[] = {
+	{"new", core_new},
+	{"setPixelShaderConstantInteger", core_setPixelShaderConstantInteger},
+	{"setPixelShaderConstantFloat", core_setPixelShaderConstantFloat},
+	{"setPixelShaderConstantVector2D", core_setPixelShaderConstantVector2D},
+	{"setPixelShaderConstantVector3D", core_setPixelShaderConstantVector3D},
+	{"setPixelShaderConstantMatrix4", core_setPixelShaderConstantMatrix4},
+	{ NULL, NULL }
+};
+
+//---------------------------------------------------------------------------------------------
+//--------------------------------------MATRIXES-----------------------------------------------
+//---------------------------------------------------------------------------------------------
+//MATRIX CLASSES
+int mat4_gc(lua_State *L);
+int mat4_index(lua_State *L);
+int mat4_newindex(lua_State *L);
+
+int mat4_new(lua_State *L);
+
+int mat4_multiplyMatrixes(lua_State *L);
+int mat4_getTransform(lua_State *L);
+
+static const luaL_Reg mat4_meta[] = {
+	{"__gc", mat4_gc},
+	{"__index", mat4_index},
+	{"__newindex", mat4_newindex},
+	{ NULL, NULL }
+};
+
+static const luaL_Reg mat4_methods[] = {
+	{"new", mat4_new},
+	{"multiplyMatrixes", mat4_multiplyMatrixes},
+	{"getTransform", mat4_getTransform},
+	{ NULL, NULL }
+};
+
+//---------------------------------------------------------------------------------------------
+//--------------------------------------REST OF CLASS------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+void CUIWindowEditFilters::createLuaState(lua_State *L) {
+	//LUA CORE
+	const luaL_Reg *lib = lualibs;
+	for(; lib->func != NULL; lib++) {
+		luaL_requiref(L, lib->name, lib->func, 1);
+		lua_settop(L, 0);
+	}
+
+	int lib_id, meta_id;
+
+	//CORE
+	lua_createtable(L, 0, 0);
+    lib_id = lua_gettop(L);
+    luaL_newmetatable(L, "Core");
+    meta_id = lua_gettop(L);
+    luaL_setfuncs(L, core_meta, 0);
+    luaL_newlib(L, core_methods);
+    lua_setfield(L, meta_id, "__index");    
+    luaL_newlib(L, core_meta);
+    lua_setfield(L, meta_id, "__metatable");
+    lua_setmetatable(L, lib_id);
+    lua_setglobal(L, "Core");
+
+	//MATRIXES
+	lua_createtable(L, 0, 0);
+    lib_id = lua_gettop(L);
+    luaL_newmetatable(L, "Matrix4");
+    meta_id = lua_gettop(L);
+    luaL_setfuncs(L, mat4_meta, 0);
+    luaL_newlib(L, mat4_methods);
+    lua_setfield(L, meta_id, "__index");    
+    luaL_newlib(L, mat4_meta);
+    lua_setfield(L, meta_id, "__metatable");
+    lua_setmetatable(L, lib_id);
+    lua_setglobal(L, "Matrix4");
+
+	luaL_dostring(L, "filter = Core.new()\n");
+}
+
+//---------------------------------------------------------------------------------------------
+//--------------------------------------LUA METHODS--------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+//CORE
+int core_gc(lua_State *L) {
+	//printf("## __core__gc\n");
+	return 0;
+}
+int core_index(lua_State *L) {
+	//printf("## __index\n");
+    return 0;
+}
+int core_newindex(lua_State *L) {
+	//printf("## __newindex\n");
+    return 0;
+}
+
+int core_new(lua_State *L) {
+	//printf("## __core__new\n");
+
+	lua_newuserdata(L,sizeof(userData));
+    luaL_getmetatable(L, "Core");
+    lua_setmetatable(L, -2); 
+
+    return 1;
+}
+
+int core_setPixelShaderConstantInteger(lua_State *L) {
+	int argc = lua_gettop(L);
+	if (argc < 3)
+		return 0;
+
+	stringc name = lua_tostring(L, 2);
+	s32 *value = new s32(lua_tointeger(L, 3));
+
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (f32*)&value, 1);
+
+	return 0;
+}
+
+int core_setPixelShaderConstantFloat(lua_State *L) {
+	int argc = lua_gettop(L);
+	if (argc < 3)
+		return 0;
+
+	stringc name = lua_tostring(L, 2);
+	f32 *value = new f32(lua_tonumber(L, 3));
+
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), value, 1);
+
+	return 0;
+}
+
+int core_setPixelShaderConstantVector2D(lua_State *L) {
+	return 0;
+}
+
+int core_setPixelShaderConstantVector3D(lua_State *L) {
+	return 0;
+}
+
+int core_setPixelShaderConstantMatrix4(lua_State *L) {
+	return 0;
+}
+
+//MATRIXES
+
+int mat4_gc(lua_State *L) {
+	//printf("## __core__gc\n");
+	return 0;
+}
+int mat4_index(lua_State *L) {
+	//printf("## __index\n");
+    return 0;
+}
+int mat4_newindex(lua_State *L) {
+	//printf("## __newindex\n");
+    return 0;
+}
+
+int mat4_new(lua_State *L) {
+	//printf("## __scene__new\n");
+
+	lua_newuserdata(L,sizeof(userData));
+    luaL_getmetatable(L, "Matrix4");
+    lua_setmetatable(L, -2); 
+
+    return 1;
+}
+
+int mat4_multiplyMatrixes(lua_State *L) {
+
+
+	return 0;
+}
+
+int mat4_getTransform(lua_State *L) {
+	return 0;
 }

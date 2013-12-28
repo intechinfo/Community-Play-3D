@@ -613,8 +613,7 @@ EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromFi
 	return pPair;
 }
 
-EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromStrings(const irr::core::stringc& vertexShader, 
-																					  const irr::core::stringc& pixelShader, 
+EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromStrings(const irr::core::stringc& pixelShader, 
 																					  irr::video::E_MATERIAL_TYPE baseMaterial)
 {
 	CShaderPreprocessor sPP(driver);
@@ -629,8 +628,8 @@ EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromSt
 
 	video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices();
 
-	const stringc& shaderProgram = vertexShader + stringc("\n") + pixelShader;
-	const stringc shaderString = sPP.ppShaderFF(shaderProgram.c_str());
+	const stringc& shaderProgram = pixelShader;
+	const stringc shaderString = sPP.ppShaderFFS(shaderProgram.c_str());
 
 	ScreenQuadCB* SQCB = new ScreenQuadCB(this, true);
     
@@ -647,10 +646,12 @@ EffectHandler::SPostProcessingPair EffectHandler::obtainScreenQuadMaterialFromSt
 }
 
 void EffectHandler::setPostProcessingEffectConstant(const irr::s32 materialType, const irr::core::stringc& name,
-                                                    const f32* data, const irr::u32 count)
+                                                    f32* data, const irr::u32 count)
 {
 	SPostProcessingPair tempPair(materialType, 0);
 	s32 matIndex = PostProcessingRoutines.binary_search(tempPair);
+
+	//printf("%s    %f\n", name.c_str(), data);
 	
 	if(matIndex != -1)
 		PostProcessingRoutines[matIndex].callback->uniformDescriptors[name] = ScreenQuadCB::SUniformDescriptor(data, count);
@@ -673,12 +674,11 @@ s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& fil
 	return pPair.materialType;
 }
 
-s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc &vertexShader,
-										const irr::core::stringc pixelShader,
+s32 EffectHandler::addPostProcessingEffectFromString(const irr::core::stringc pixelShader,
 										IPostProcessingRenderCallback *callback,
 										bool pushFront)
 {
-	SPostProcessingPair pPair = obtainScreenQuadMaterialFromStrings(vertexShader, pixelShader);
+	SPostProcessingPair pPair = obtainScreenQuadMaterialFromStrings(pixelShader);
 	pPair.renderCallback = callback;
 
 	if (pushFront) {
@@ -690,3 +690,12 @@ s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc &ver
 	return pPair.materialType;
 }
 
+void EffectHandler::clearPostProcessEffectConstants(irr::s32 MaterialType) {
+	SPostProcessingPair tempPair(MaterialType, 0);
+	irr::s32 i = PostProcessingRoutines.binary_search(tempPair);
+
+	if (i != -1)
+	{
+		PostProcessingRoutines[i].callback->cleanUniformDescriptors();
+	}
+}

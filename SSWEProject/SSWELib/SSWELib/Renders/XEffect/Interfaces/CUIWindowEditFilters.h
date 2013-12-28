@@ -29,6 +29,11 @@ private:
 	CDevices *devices;
 
 	//-----------------------------------
+	//METHODS
+	void createLuaState(lua_State *L);
+	//-----------------------------------
+
+	//-----------------------------------
 	//MAIN WINDOW
 	IGUIWindow *window;
 
@@ -41,6 +46,10 @@ private:
 	IGUIButton *addFilter, *removeFilter;
 
 	IGUIButton *close;
+
+	//OTHERS
+	IGUIContextMenu *menu;
+	IGUIFileOpenDialog *openShader;
 	//-----------------------------------
 
 };

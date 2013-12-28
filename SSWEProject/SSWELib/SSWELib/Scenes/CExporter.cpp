@@ -136,7 +136,7 @@ void CExporter::exportConfig() {
     
 	//EFFECTS
 	fprintf(export_file, "\t\t <effect>\n\n");
-	for (int i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
+	/*for (int i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
 		stringc path = "";
 		path = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
 		path.remove(devices->getWorkingDirectory().c_str());
@@ -151,7 +151,7 @@ void CExporter::exportConfig() {
 		}
 		fprintf(export_file, "\t\t\t\t </values>\n");
 		fprintf(export_file, "\t\t\t </postProcessingEffect>\n\n");
-	}
+	}*/
 	fprintf(export_file, "\n\t\t </effect>\n\n");
     
 	//MATERIAL TYPES

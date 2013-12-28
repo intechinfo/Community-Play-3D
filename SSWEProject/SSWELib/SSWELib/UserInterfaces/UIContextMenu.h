@@ -139,7 +139,6 @@ enum GUI_CXT_MENU_EVENTS {
 #include "UIWindowRender.h"
 
 #include "../Renders/XEffect/Interfaces/CUIWindowEditFilters.h"
-#include "../Renders/XEffect/Interfaces/CUIWindowEditEffects.h"
 #include "../Renders/XEffect/Interfaces/CUIWindowEditMaterials.h"
 #include "../Renders/DepthOfField/CUIWindowEditDOF.h"
 

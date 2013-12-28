@@ -3,7 +3,8 @@
 
 #include <irrlicht.h>
 
-#include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CRenderCallback.h"
+#include "../Lua52/include/lua.hpp"
+
 #include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
 #include "../../../SSWERenders/Renders/XEffect/EffectCB.h"
 
@@ -12,6 +13,7 @@
 #include "src/btBulletCollisionCommon.h"
 
 struct SData;
+struct SFilter;
 struct STerrainsData;
 struct SObjectsData;
 struct SLightsData;
@@ -81,16 +83,7 @@ public:
     
 	//-----------------------------------
 	//GET EFFECT SHADERS
-	virtual irr::core::array<irr::s32> *getEffectRenders() = 0;
-	virtual irr::core::array<irr::core::stringw> *getEffectRendersPaths() = 0;
-    
-	virtual irr::core::array<irr::s32> *getMaterialRenders() = 0;
-	virtual irr::core::array<irr::core::stringw> *getMaterialRenderspaths() = 0;
-    
-	//GET EFFECT CALLBACKS
-	virtual irr::core::array<CEffectRenderCallback *> *getEffectRenderCallbacks() = 0;
-	virtual irr::core::array<CEffectRenderCallback *> *getMaterialRenderCallbacks() = 0;
-    
+	virtual irr::core::array<SFilter> *getEffectFilters() = 0;
 	virtual irr::core::array<CShaderCallback *> *getShaderCallbacks() = 0;
 	//-----------------------------------
     
