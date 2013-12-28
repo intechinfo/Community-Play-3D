@@ -240,6 +240,50 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
+//---------------------------------------FILTERS-----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SFilter {
+public:
+	SFilter() {
+		pixelShader = "";
+		name = "New Filter";
+		callback = "";
+	}
+
+	SFilter(stringc _pixelShader, stringc _name, stringc _callback) {
+		pixelShader = _pixelShader;
+		name = _name;
+		callback = _callback;
+	}
+
+	void setPixelShader(stringc _pixelShader) { pixelShader = _pixelShader; }
+	stringw getPixelShader() { return pixelShader; }
+	stringw *getPixelShaderPtr() { return &pixelShader; }
+
+	void setName(stringw _name) { name = _name; }
+	stringc getName() { return name; }
+
+	void setCallback(stringw _callback) { callback = _callback; }
+	stringw getCallback() { return callback; }
+	stringw *getCallbackPtr() { return &callback; }
+
+	s32 getMaterial() { return material; }
+	void setMaterial(s32 _material) { material = _material; }
+
+	lua_State *getLuaState() { return L; }
+
+private:
+	stringw pixelShader;
+	stringc name;
+	stringw callback;
+	
+	s32 material;
+
+	lua_State *L;
+};
+
+//---------------------------------------------------------------------------------------------
 //----------------------------------TERRAINS--------------------------------------------------
 //---------------------------------------------------------------------------------------------
 //MESHES
@@ -771,6 +815,8 @@ public:
 	array<s32> *getMaterialRenders() { return &materialRenders; }
 	array<stringw> *getMaterialRenderspaths() { return &materialRendersPaths; }
 
+	array<SFilter> *getEffectFilters() { return &effectFilters; }
+
 	//GET EFFECT CALLBACKS
 	array<CEffectRenderCallback *> *getEffectRenderCallbacks() { return &effectRenderCallbacks; }
 	array<CEffectRenderCallback *> *getMaterialRenderCallbacks() { return &materialRenderCallbacks; }
@@ -823,6 +869,8 @@ private:
 
 	array<s32> materialRenders;
 	array<stringw> materialRendersPaths;
+
+	array<SFilter> effectFilters;
 
 	//CALLBACKS
 	array<CEffectRenderCallback *> effectRenderCallbacks;

@@ -182,6 +182,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp" />
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CShaderCallback.cpp" />
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditEffects.cpp" />
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.cpp" />
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp" />
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\Animators\CRotationAnimator.cpp" />
@@ -290,6 +291,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallbackScripting.h" />
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CShaderCallback.h" />
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditEffects.h" />
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.h" />
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h" />
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h" />
     <ClInclude Include="SSWELib\SceneNodes\Animators\CRotationAnimator.h" />

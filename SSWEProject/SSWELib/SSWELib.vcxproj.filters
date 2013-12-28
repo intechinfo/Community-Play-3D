@@ -402,6 +402,9 @@
     <ClCompile Include="SSWELib\SceneNodes\WaterSurface\RealisticWater.cpp">
       <Filter>SSWELib\SceneNodes\WaterSurface</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -715,6 +718,9 @@
     </ClInclude>
     <ClInclude Include="include\ISSWEEvents.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
