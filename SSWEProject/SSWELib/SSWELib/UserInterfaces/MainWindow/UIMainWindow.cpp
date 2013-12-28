@@ -612,7 +612,11 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 						stringc prefix = getSelectedNodePrefix(node);
 						if (prefix == "#light" && node->getType() == ESNT_LIGHT) {
                             array<ISceneNode *> lights = devices->getCoreData()->getArrayOfLightNodes();
+                            #ifndef _IRR_OSX_PLATFORM_
 							CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(&lights, node));
+                            #else
+                            CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, core->nodeExistsInArray(lights, node));
+                            #endif
 							editLight->open(node, prefix.c_str());
 						} else {
 							CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
