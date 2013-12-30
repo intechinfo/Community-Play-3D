@@ -26,6 +26,18 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	ScreenRTT = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenRTT");
 	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize, "ColorMapSampler");
 	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
+
+	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
+	//blackTextureLS = driver->addRenderTargetTexture(dimension2du(4, 4), "LightScatteringBlackTexture");
+	IImage *imLightScatteringRTT = driver->createImage(irr::video::ECF_R5G6B5, dimension2du(4, 4));
+	for (u32 i=0; i < 4; i++) {
+		for (u32 j=0; j < 4; j++) {
+			imLightScatteringRTT->setPixel(i, j, SColor(255, 0, 0, 0));
+		}
+	}
+	blackTextureLS = driver->addTexture("LightScatteringBlackTexture", imLightScatteringRTT);
+	imLightScatteringRTT->drop();
+	useLightScattering = true;
     
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
@@ -474,6 +486,32 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)LightModulate;
 	ScreenQuad.render(driver);
 
+	if (useLightScattering) {
+		driver->setRenderTarget(LightScatteringRTT, true, true, SColor(255, 0, 0, 0));
+
+		for(u32 i = 0;i < DepthPassArray.size();++i)
+		{
+			core::array<irr::video::SMaterial> BufferMaterialList(DepthPassArray[i]->getMaterialCount());
+			BufferMaterialList.set_used(0);
+
+			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
+				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g));
+            
+			if (DepthPassArray[i]->getType() != ESNT_BILLBOARD) {
+				DepthPassArray[i]->setMaterialType(irr::video::EMT_SOLID);
+				DepthPassArray[i]->setMaterialTexture(0, blackTextureLS);
+			}
+            
+            DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
+            DepthPassArray[i]->render();
+
+			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
+				DepthPassArray[i]->getMaterial(g) = BufferMaterialList[g];
+		}
+        
+        driver->setRenderTarget(0, false, false);
+	}
+
 	// Perform depth pass after rendering, to ensure animations stay up to date.
 	if(DepthPass)
 	{
@@ -672,6 +710,24 @@ s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& fil
 	}
 
 	return pPair.materialType;
+}
+
+irr::core::array<s32> EffectHandler::reloadPostProcessingEffects(irr::core::array<irr::core::stringc> &newCodes) {
+	irr::core::array<s32> materialTypes;
+	materialTypes.clear();
+		
+	for (irr::u32 i=0; i < newCodes.size(); i++) {
+		SPostProcessingPair pPair = obtainScreenQuadMaterialFromStrings(newCodes[i]);
+		pPair.renderCallback = 0;
+
+		if (pPair.materialType != -1) {
+			PostProcessingRoutines.push_back(pPair);
+		}
+
+		materialTypes.push_back(pPair.materialType);
+	}
+
+	return materialTypes;
 }
 
 s32 EffectHandler::addPostProcessingEffectFromString(const irr::core::stringc pixelShader,

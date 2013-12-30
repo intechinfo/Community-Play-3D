@@ -468,6 +468,16 @@ public:
 			PostProcessingRoutines.erase(i);
 		}
 	}
+
+	void removeAllPostProcessingEffects() {
+		for (irr::u32 i=0; i < PostProcessingRoutines.size(); i++) {
+			if (PostProcessingRoutines[i].renderCallback) {
+				delete PostProcessingRoutines[i].renderCallback;
+			}
+			delete PostProcessingRoutines[i].callback;
+		}
+		PostProcessingRoutines.clear();
+	}
     
     bool postProcessingEffectExists(irr::s32 MaterialType)
     {
@@ -494,6 +504,8 @@ public:
 			PostProcessingRoutines[i].materialType = obtainScreenQuadMaterialFromStrings(newCode).materialType;
 		}
 	}
+
+	irr::core::array<s32> reloadPostProcessingEffects(irr::core::array<irr::core::stringc> &newCodes);
 
 	void clearPostProcessEffectConstants(irr::s32 MaterialType);
 
@@ -655,6 +667,9 @@ private:
 
 	irr::video::ITexture* ScreenRTT;
 	irr::video::ITexture* DepthRTT;
+
+	bool useLightScattering;
+	irr::video::ITexture *LightScatteringRTT, *blackTextureLS;
             
     irr::video::ITexture* currentShadowMapTexture;
     irr::video::ITexture* currentSecondaryShadowMap;

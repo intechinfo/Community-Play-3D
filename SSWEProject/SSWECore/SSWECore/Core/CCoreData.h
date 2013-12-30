@@ -248,15 +248,16 @@ private:
 struct SFilter {
 public:
 	SFilter() {
-		pixelShader = "";
-		name = "New Filter";
-		callback = "";
+		SFilter("", "New Filter", "");
 	}
 
 	SFilter(stringc _pixelShader, stringc _name, stringc _callback) {
 		pixelShader = _pixelShader;
 		name = _name;
 		callback = _callback;
+		material = -1;
+
+		cb = 0;
 	}
 
 	void setPixelShader(stringc _pixelShader) { pixelShader = _pixelShader; }
@@ -281,6 +282,9 @@ public:
 		lua_close(L);
 	}
 
+	IPostProcessingRenderCallback *getPostProcessingCallback() { return cb; }
+	void setPostProcessingCallback(IPostProcessingRenderCallback *_cb) { cb = _cb; }
+
 private:
 	stringw pixelShader;
 	stringc name;
@@ -289,6 +293,8 @@ private:
 	s32 material;
 
 	lua_State *L;
+
+	IPostProcessingRenderCallback *cb;
 };
 
 //---------------------------------------------------------------------------------------------

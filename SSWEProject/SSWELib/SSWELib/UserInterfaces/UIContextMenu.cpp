@@ -291,7 +291,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     timer->start();
     timer->setTime(0);
 
-	#ifdef SSWE_RELEASE
+	#ifndef SSWE_RELEASE
 		for (u32 i=0; i < 1; i++) {
 			//devices->getCoreData()->clear();
 			//devices->getCoreData()->clearAllTheArrays();
@@ -362,7 +362,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getLightsData()->operator[](0).getLensFlareBillBoardSceneNode());
 	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
 
-	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
+	CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -1114,6 +1114,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (!event.KeyInput.PressedDown) {
+
+			if (devices->getGUIEnvironment()->getFocus() != devices->getGUIEnvironment()->getRootGUIElement()) {
+				return false;
+			}
 			switch (event.KeyInput.Key) {
                     
                 case KEY_KEY_X:
