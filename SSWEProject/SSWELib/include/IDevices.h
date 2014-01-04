@@ -1,7 +1,7 @@
 #ifndef __I_DEVICES_H_INCLUDED__
 #define __I_DEVICES_H_INCLUDED__
 
-#include "../SSWERenders/Renders/XEffect/XEffects.h"
+//#include "../SSWERenders/Renders/XEffect/XEffects.h"
 
 #include "../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
 
@@ -12,6 +12,7 @@
 #include "ICollisionManager.h"
 #include "ISSWECore.h"
 #include "ISSWECoreData.h"
+#include "ISSWERender.h"
 
 class IDevices {
 public: 
@@ -40,7 +41,7 @@ public:
 
 	//-----------------------------------
 	//RENDERS
-	virtual EffectHandler *getXEffect() = 0;
+	virtual ISSWERender *getXEffect() = 0;
 	virtual E_FILTER_TYPE getXEffectFilterType() = 0;
 	virtual void setXEffectDrawable(bool draw) = 0;
 	virtual bool isXEffectDrawable() = 0;
@@ -97,8 +98,8 @@ public:
 
 	//-----------------------------------
 	//UI ADVANCED DIALOG METHODS
-	virtual CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal=false) = 0;
-	virtual CGUIFileSelector *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal=false) = 0;
+	virtual IGUIFileOpenDialog *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal=false) = 0;
+	virtual IGUIFileOpenDialog *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal=false) = 0;
 
 	virtual IGUIWindow *addInformationDialog(stringw title, stringw text, s32 flag, bool modal=true, IGUIElement *parent=0) = 0;
 	virtual IGUIWindow *addErrorDialog(stringw title, stringw text, s32 flag) = 0;

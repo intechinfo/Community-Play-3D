@@ -1,6 +1,7 @@
 #ifndef __I_SSWE_CORE_H_INCLUDED__
 #define __I_SSWE_CORE_H_INCLUDED__
 
+#include <iostream>
 #include <irrlicht.h>
 
 #include <ITool.h>

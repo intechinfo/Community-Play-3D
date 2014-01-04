@@ -11,6 +11,8 @@
 
 #include "../../Renders/PostProcessor/PostProcessMotionBlurhlsl.h"
 
+#include <ISSWERender.h>
+
 /// Shadow mode enums, sets whether a node recieves shadows, casts shadows, or both.
 /// If the mode is ESM_CAST, it will not be affected by shadows or lighting.
 enum E_SHADOW_MODE
@@ -184,7 +186,7 @@ class ScreenQuadCB;
 class LightShaftsCB;
 
 /// Main effect handling class, use this to apply shadows and effects.
-class SSWE_RENDERS_API EffectHandler
+class SSWE_RENDERS_API EffectHandler : public ISSWERender
 {
 public:
 

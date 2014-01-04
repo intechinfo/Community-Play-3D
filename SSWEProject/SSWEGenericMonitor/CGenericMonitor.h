@@ -23,7 +23,7 @@ public:
 	//-----------------------------------
 	//IMONITOR
 	void init();
-	void destroy() {}
+	void destroy() { }
 
 	void setName(irr::core::stringc name) { monitorName = name; }
 	irr::core::stringc getName() { return monitorName; }
@@ -32,7 +32,6 @@ public:
 	irr::scene::ICameraSceneNode* getActiveCamera() { return monitorCamera; }
 
 	void setSceneManager(irr::scene::ISceneManager *sceneManager);
-	void setToolsSceneManager(irr::scene::ISceneManager *sceneManager) { effectSmgr = sceneManager; }
 	irr::scene::ISceneManager* getSceneManager() { return smgr; }
 
 	void setGUIEnvironment(irr::gui::IGUIEnvironment *guiEnv) { gui = guiEnv; }
@@ -45,8 +44,8 @@ public:
 	bool isXEffectRendered() { return renderXEffect; }
 	void setRenderingXEffectFullTraitement(bool enable) { renderFullPostTraitements = enable; }
 	bool isRenderingXEffectFullTraitement() { return renderFullPostTraitements; }
-	void setXEffect(EffectHandler *xEffect) { effect = xEffect; }
-	EffectHandler* getXEffect() { return effect; }
+	void setXEffect(ISSWERender *xEffect) { effect = xEffect; }
+	ISSWERender* getXEffect() { return effect; }
 
 	void drawScene();
 	void renderXEffectFullPostTraitement(irr::video::ITexture *texture);
@@ -60,7 +59,7 @@ private:
 	irr::video::IVideoDriver *driver;
 	irr::scene::ISceneManager *smgr, *effectSmgr;
 	irr::gui::IGUIEnvironment *gui;
-	EffectHandler *effect;
+	ISSWERender *effect;
 	//-----------------------------------
 
 	//-----------------------------------

@@ -260,6 +260,9 @@
 		0E2E3D381103E3F4002DE8D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0930CE550EC39F4500D63866 /* IOKit.framework */; };
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
+		2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
+		2E2B176C186E1FEC000E6DAF /* ISSWERender.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E2B176B186E1FEC000E6DAF /* ISSWERender.h */; };
+		2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
 		2E2CA48F182D6DD7000BA9DA /* CCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C601D182981B700FB1027 /* CCollisionManager.h */; };
 		2E2CA491182D6DD7000BA9DA /* CCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6020182981B700FB1027 /* CCore.h */; };
 		2E2CA493182D6DD7000BA9DA /* CCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6022182981B700FB1027 /* CCoreData.h */; };
@@ -623,17 +626,7 @@
 		2E6E6743182D925600A79A68 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
 		2E6E6744182D925600A79A68 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
 		2E6E6745182D925600A79A68 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
-		2E7D9074186C6CD6002593C4 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
-		2E7D9075186C6CEF002593C4 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E7D9077186C6DE0002593C4 /* CGenericMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E671C182D8F7100A79A68 /* CGenericMonitor.cpp */; };
-		2E7D9078186C6E29002593C4 /* libSSWECore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60191829818300FB1027 /* libSSWECore.a */; };
-		2E7D9079186C6E29002593C4 /* libSSWELib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60F91829835E00FB1027 /* libSSWELib.a */; };
-		2E7D907A186C6E63002593C4 /* CGenericMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E671D182D8F7100A79A68 /* CGenericMonitor.h */; };
-		2E7D907B186C6F61002593C4 /* libSPARK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E92B6751849289E00D955F8 /* libSPARK.a */; };
-		2E7D907C186C6F75002593C4 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
-		2E7D907D186C6F86002593C4 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E7D907E186C6F86002593C4 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E7D907F186C6F86002593C4 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2E83A6FB182E8C7C006BE319 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
 		2E83A6FC182E8C80006BE319 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E83A6FD182E8C8E006BE319 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
@@ -796,7 +789,6 @@
 		2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */; };
 		2EAA30FB1854CF5400AE73CC /* RealisticWater.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EAA30F91854CF5400AE73CC /* RealisticWater.h */; };
 		2EDA7A63182B9AF70047322E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDA7A62182B9AF70047322E /* main.cpp */; };
-		2EDC9AEB185BE885003F7BF8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2EDC9AEC185BE88A003F7BF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
 		2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
 		2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
@@ -2104,6 +2096,7 @@
 		0E2E3E321103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2E147AAC182FC6870030435D /* ICollisionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ICollisionManager.h; sourceTree = "<group>"; };
 		2E147AAD182FC8530030435D /* ISSWECore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECore.h; sourceTree = "<group>"; };
+		2E2B176B186E1FEC000E6DAF /* ISSWERender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWERender.h; sourceTree = "<group>"; };
 		2E6B3D57182E7964006E12C6 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F51182980CD00FB1027 /* libSSWERenders.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSWERenders.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F54182980F900FB1027 /* shadergroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shadergroup.cpp; sourceTree = "<group>"; };
@@ -3141,19 +3134,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E7D907D186C6F86002593C4 /* BulletCollision.framework in Frameworks */,
-				2E7D907E186C6F86002593C4 /* BulletDynamics.framework in Frameworks */,
-				2E7D907F186C6F86002593C4 /* LinearMath.framework in Frameworks */,
-				2E7D907C186C6F75002593C4 /* liblua.a in Frameworks */,
-				2E7D907B186C6F61002593C4 /* libSPARK.a in Frameworks */,
-				2E7D9078186C6E29002593C4 /* libSSWECore.a in Frameworks */,
-				2E7D9079186C6E29002593C4 /* libSSWELib.a in Frameworks */,
-				2E7D9075186C6CEF002593C4 /* libIrrlicht.a in Frameworks */,
-				2E7D9074186C6CD6002593C4 /* libSSWERenders.a in Frameworks */,
+				2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */,
 				2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */,
 				2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */,
 				2EDC9AEC185BE88A003F7BF8 /* Cocoa.framework in Frameworks */,
-				2EDC9AEB185BE885003F7BF8 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4416,6 +4400,7 @@
 				2E6C6100182983A200FB1027 /* IMonitorRegisterer.h */,
 				2E6C6101182983A200FB1027 /* ISSWELibPlugin.h */,
 				2E6C6102182983A200FB1027 /* ITool.h */,
+				2E2B176B186E1FEC000E6DAF /* ISSWERender.h */,
 			);
 			name = include;
 			path = ../../../../SSWELib/include;
@@ -5743,7 +5728,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E7D907A186C6E63002593C4 /* CGenericMonitor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5853,6 +5837,7 @@
 				2E2CA4F2182D6E7D000BA9DA /* CUIWindowEditWater.h in Headers */,
 				2E2CA4F3182D6E7D000BA9DA /* CUIWindowExportScene.h in Headers */,
 				2E2CA4F4182D6E7D000BA9DA /* CUIWindowOpenScene.h in Headers */,
+				2E2B176C186E1FEC000E6DAF /* ISSWERender.h in Headers */,
 				2E2CA4F5182D6E7D000BA9DA /* CUIWindowsManager.h in Headers */,
 				2E2CA4F6182D6E7D000BA9DA /* CUIWindowAddLight.h in Headers */,
 				2E2CA4F7182D6E7D000BA9DA /* CUIWindowAddObject.h in Headers */,
@@ -7053,6 +7038,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */,
 				2E7D9077186C6DE0002593C4 /* CGenericMonitor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8805,6 +8791,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MacOSX_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = Irrlicht;
 				SDKROOT = macosx10.9;
 				SHARED_PRECOMPS_DIR = "";
@@ -8825,6 +8812,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = MacOSX_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = Irrlicht;
 				SDKROOT = macosx10.9;
@@ -8884,14 +8872,13 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
 					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
 				);
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -8899,10 +8886,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Renders_prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -8916,20 +8900,20 @@
 					../../../include,
 					../../../../SSWERenders,
 					../../../../SSWELib/include,
-					../../../../Lua52/include,
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
-					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Lua52",
-				);
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SSWEGenericMonitor;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = macosx10.9;
+				STRIP_STYLE = debugging;
 				VALIDATE_PRODUCT = NO;
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = "";
 			};
 			name = Debug;
 		};
@@ -8952,15 +8936,14 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
 					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
 				);
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -8983,21 +8966,22 @@
 					../../../include,
 					../../../../SSWERenders,
 					../../../../SSWELib/include,
-					../../../../Lua52/include,
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
-					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Lua52",
-				);
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-DMACOSX";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SSWEGenericMonitor;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = macosx10.9;
+				STRIP_STYLE = debugging;
 				VALIDATE_PRODUCT = NO;
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = "";
 			};
 			name = Release;
 		};
@@ -9024,12 +9008,14 @@
 					../../../../Bullet/libs/src/,
 					../../../../Lua52/include/,
 					../../../../SPARK/SPARK155/include,
+					../../../../SSWELib/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = SSWERenders;
 				SDKROOT = macosx10.9;
 				SHARED_PRECOMPS_DIR = "";
@@ -9059,12 +9045,14 @@
 					../../../../Bullet/libs/src/,
 					../../../../Lua52/include/,
 					../../../../SPARK/SPARK155/include,
+					../../../../SSWELib/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SSWERenders;
 				SDKROOT = macosx10.9;
@@ -9104,6 +9092,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = SSWECore;
 				SDKROOT = macosx10.9;
 				SHARED_PRECOMPS_DIR = "";
@@ -9142,6 +9131,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SSWECore;
 				SDKROOT = macosx10.9;
@@ -9182,6 +9172,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = SSWELib;
 				SDKROOT = macosx10.9;
 				SHARED_PRECOMPS_DIR = "";
@@ -9222,6 +9213,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SSWELib;
 				SDKROOT = macosx10.9;
@@ -9277,7 +9269,7 @@
 					../../../../Bullet/libs/src,
 					../../../../Lua52/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.9;
@@ -9327,7 +9319,7 @@
 					../../../../Bullet/libs/src,
 					../../../../Lua52/include,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -9361,6 +9353,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = SPARK;
 				SDKROOT = macosx10.9;
@@ -9394,6 +9387,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SPARK;
@@ -10006,6 +10000,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -10055,6 +10050,7 @@
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_LINK_ESSENTIAL_SYMBOLS = YES;
 				OTHER_LDFLAGS = (
 					"-framework",

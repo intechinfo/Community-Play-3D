@@ -7,6 +7,6 @@
 
 // TODO: reference additional headers your program requires here
 
-//#include <irrlicht.h>
+#include <irrlicht.h>
 
-//#include <IMonitor.h>
+#include <IMonitor.h>
