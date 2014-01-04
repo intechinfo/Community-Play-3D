@@ -44,12 +44,11 @@ void CCoreData::clear() {
 		waterSurfaces[i].getWaterSurface()->remove();
 	}
 
-	for (u32 i=0; i < effectRenderCallbacks.size(); i++) {
-		delete effectRenderCallbacks[i];
+	for (u32 i=0; i < effectFilters.size(); i++) {
+		//delete effectFilters[i];
+		effectFilters[i].destroyLuaState();
 	}
-	for (u32 i=0; i < materialRenderCallbacks.size(); i++) {
-		delete materialRenderCallbacks[i];
-	}
+
 	for (u32 i=0; i < shaderCallbacks.size(); i++) {
 		delete shaderCallbacks[i];
 	}
@@ -67,18 +66,10 @@ void CCoreData::clearAllTheArrays() {
 	planarTextureMappingValues.clear();
 
 	//EFFECT SHADERS
-    effectRenders.clear();
-    effectRendersPaths.clear();
+	effectFilters.clear();
 
 	//CALLBACKS
-    effectRenderCallbacks.clear();
-	materialRenderCallbacks.clear();
-
     shaderCallbacks.clear();
-
-	//RENDERS
-	materialRenders.clear();
-	materialRendersPaths.clear();
 
 	//SCRIPTS
 	scriptFiles.clear();

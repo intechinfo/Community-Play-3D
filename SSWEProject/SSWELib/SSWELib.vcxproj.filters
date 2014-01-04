@@ -192,16 +192,7 @@
     <ClCompile Include="SSWELib\GUIExtension\ViewPort\CGUIViewPort.cpp">
       <Filter>SSWELib\GUIExtension\ViewPort</Filter>
     </ClCompile>
-    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallback.cpp">
-      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallbackScripting.cpp">
-      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
-    </ClCompile>
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CShaderCallback.cpp">
-      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditEffects.cpp">
       <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp">
@@ -402,6 +393,9 @@
     <ClCompile Include="SSWELib\SceneNodes\WaterSurface\RealisticWater.cpp">
       <Filter>SSWELib\SceneNodes\WaterSurface</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -467,16 +461,7 @@
     <ClInclude Include="SSWELib\GUIExtension\ViewPort\IGUIViewPort.h">
       <Filter>SSWELib\GUIExtension\ViewPort</Filter>
     </ClInclude>
-    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallback.h">
-      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CRenderCallbackScripting.h">
-      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CShaderCallback.h">
-      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditEffects.h">
       <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h">
@@ -715,6 +700,9 @@
     </ClInclude>
     <ClInclude Include="include\ISSWEEvents.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

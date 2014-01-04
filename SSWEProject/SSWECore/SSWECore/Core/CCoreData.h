@@ -12,8 +12,10 @@
 #include "stdafx.h"
 #include "CCore.h"
 
+//LUA
+#include "../Lua52/include/lua.hpp"
+
 //SHADERS
-#include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CRenderCallback.h"
 #include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
 #include "../../../SSWERenders/Renders/XEffect/EffectCB.h"
 
@@ -237,6 +239,62 @@ public:
 private:
 	stringw file;
 	stringw name;
+};
+
+//---------------------------------------------------------------------------------------------
+//---------------------------------------FILTERS-----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SFilter {
+public:
+	SFilter() {
+		SFilter("", "New Filter", "");
+	}
+
+	SFilter(stringc _pixelShader, stringc _name, stringc _callback) {
+		pixelShader = _pixelShader;
+		name = _name;
+		callback = _callback;
+		material = -1;
+
+		cb = 0;
+	}
+
+	void setPixelShader(stringc _pixelShader) { pixelShader = _pixelShader; }
+	stringw getPixelShader() { return pixelShader; }
+	stringw *getPixelShaderPtr() { return &pixelShader; }
+
+	void setName(stringw _name) { name = _name; }
+	stringc getName() { return name; }
+
+	void setCallback(stringw _callback) { callback = _callback; }
+	stringw getCallback() { return callback; }
+	stringw *getCallbackPtr() { return &callback; }
+
+	s32 getMaterial() { return material; }
+	void setMaterial(s32 _material) { material = _material; }
+
+	lua_State *getLuaState() { return L; }
+	void createLuaState() {
+		L = luaL_newstate();
+	}
+	void destroyLuaState() {
+		lua_close(L);
+	}
+
+	IPostProcessingRenderCallback *getPostProcessingCallback() { return cb; }
+	void setPostProcessingCallback(IPostProcessingRenderCallback *_cb) { cb = _cb; }
+
+private:
+	stringw pixelShader;
+	stringc name;
+	stringw callback;
+	
+	s32 material;
+
+	lua_State *L;
+
+	IPostProcessingRenderCallback *cb;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -765,16 +823,7 @@ public:
 
 	//-----------------------------------
 	//GET EFFECT SHADERS
-	array<s32> *getEffectRenders() { return &effectRenders; }
-	array<stringw> *getEffectRendersPaths() { return &effectRendersPaths; }
-
-	array<s32> *getMaterialRenders() { return &materialRenders; }
-	array<stringw> *getMaterialRenderspaths() { return &materialRendersPaths; }
-
-	//GET EFFECT CALLBACKS
-	array<CEffectRenderCallback *> *getEffectRenderCallbacks() { return &effectRenderCallbacks; }
-	array<CEffectRenderCallback *> *getMaterialRenderCallbacks() { return &materialRenderCallbacks; }
-
+	array<SFilter> *getEffectFilters() { return &effectFilters; }
 	array<CShaderCallback *> *getShaderCallbacks() { return &shaderCallbacks; }
 	//-----------------------------------
 
@@ -818,16 +867,9 @@ private:
 
 	//-----------------------------------
 	//EFFECT SHADERS
-	array<s32> effectRenders;
-	array<stringw> effectRendersPaths;
-
-	array<s32> materialRenders;
-	array<stringw> materialRendersPaths;
+	array<SFilter> effectFilters;
 
 	//CALLBACKS
-	array<CEffectRenderCallback *> effectRenderCallbacks;
-	array<CEffectRenderCallback *> materialRenderCallbacks;
-
 	array<CShaderCallback *> shaderCallbacks;
 	//-----------------------------------
 

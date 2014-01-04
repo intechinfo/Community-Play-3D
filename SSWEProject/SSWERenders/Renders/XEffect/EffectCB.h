@@ -44,7 +44,7 @@ public:
     
 	void OnPostRender(EffectHandler* effect) {}
     
-    virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {}
+    //virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {}
     
     core::vector3df screenPosition;
     irr::s32 materialType;
@@ -165,12 +165,24 @@ public:
 	struct SUniformDescriptor {
 		SUniformDescriptor() : fPointer(0), paramCount(0) {}
 
-		SUniformDescriptor(const irr::f32* fPointerIn, irr::u32 paramCountIn)
+		SUniformDescriptor(irr::f32* fPointerIn, irr::u32 paramCountIn)
 			: fPointer(fPointerIn), paramCount(paramCountIn) {}
 
-		const irr::f32* fPointer;
+		irr::f32* fPointer;
 		irr::u32 paramCount;
 	};
+
+	void cleanUniformDescriptors() {
+		irr::core::map<irr::core::stringc, SUniformDescriptor>::Iterator mapIter = uniformDescriptors.getIterator();
+		for(;!mapIter.atEnd();mapIter++) {
+			if(mapIter.getNode()->getValue().fPointer == 0)
+				continue;
+
+			delete mapIter.getNode()->getValue().fPointer;
+		}
+
+		uniformDescriptors.clear();
+	}
 
 	irr::core::map<irr::core::stringc, SUniformDescriptor> uniformDescriptors;
 };

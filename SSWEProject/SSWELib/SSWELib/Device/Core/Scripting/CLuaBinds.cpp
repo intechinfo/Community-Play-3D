@@ -59,6 +59,8 @@ static const luaL_Reg scene_meta[] = {
 	{"__gc", scene_gc},
 	{"__index", scene_index},
     {"__newindex", scene_newindex},
+	{"base", luaopen_base},
+    {"math", luaopen_math},
 	{ NULL, NULL }
 };
 static const luaL_Reg scene_methods[] = {

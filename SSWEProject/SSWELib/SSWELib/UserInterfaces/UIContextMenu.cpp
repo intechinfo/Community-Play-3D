@@ -361,6 +361,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	}
 	devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getLightsData()->operator[](0).getLensFlareBillBoardSceneNode());
 	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
+
+	CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -621,8 +623,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT: {
-                    CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
-                    editEffects->open();
+                    //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
+                    //editEffects->open();
+					CUIWindowEditFilters *editFilters = new CUIWindowEditFilters(devices);
                 }
 					break;
 				case CXT_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS: {
@@ -1029,8 +1032,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     break;
 
 				case CXT_MENU_EVENTS_EDIT_EFFECTS: {
-                    CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
-					editEffects->open();
+                    //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
+					//editEffects->open();
+					CUIWindowEditFilters *editFilters = new CUIWindowEditFilters(devices);
                 }
                     break;
 
@@ -1110,6 +1114,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
     
     if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (!event.KeyInput.PressedDown) {
+
+			if (devices->getGUIEnvironment()->getFocus() != devices->getGUIEnvironment()->getRootGUIElement()) {
+				return false;
+			}
 			switch (event.KeyInput.Key) {
                     
                 case KEY_KEY_X:
