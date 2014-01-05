@@ -180,7 +180,7 @@ void CDevices::updateDevice() {
 
                 if(monitor->isEnabled()) {
                     if(renderScene) {
-                        monitor->setXEffectRendered(renderXEffect);
+						monitor->setRenderRenderer(renderXEffect);
 
                         if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
                             monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);

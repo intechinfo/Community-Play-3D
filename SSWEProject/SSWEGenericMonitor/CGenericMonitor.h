@@ -25,9 +25,6 @@ public:
 	void init();
 	void destroy() { }
 
-	void setName(irr::core::stringc name) { monitorName = name; }
-	irr::core::stringc getName() { return monitorName; }
-
 	void setActiveCamera(irr::scene::ICameraSceneNode *camera);
 	irr::scene::ICameraSceneNode* getActiveCamera() { return monitorCamera; }
 
@@ -37,18 +34,7 @@ public:
 	void setGUIEnvironment(irr::gui::IGUIEnvironment *guiEnv) { gui = guiEnv; }
 	irr::gui::IGUIEnvironment* getGUIEnvironment() { return gui; }
 
-	bool isEnabled() { return enabled; }
-	void setEnable(bool enable) { enabled = enable; }
-
-	void setXEffectRendered(bool enable) { renderXEffect = enable; }
-	bool isXEffectRendered() { return renderXEffect; }
-	void setRenderingXEffectFullTraitement(bool enable) { renderFullPostTraitements = enable; }
-	bool isRenderingXEffectFullTraitement() { return renderFullPostTraitements; }
-	void setXEffect(ISSWERender *xEffect) { effect = xEffect; }
-	ISSWERender* getXEffect() { return effect; }
-
 	void drawScene();
-	void renderXEffectFullPostTraitement(irr::video::ITexture *texture);
 	void drawGUI();
 	//-----------------------------------
 
@@ -57,23 +43,13 @@ private:
 	//-----------------------------------
 	//RENDERS
 	irr::video::IVideoDriver *driver;
-	irr::scene::ISceneManager *smgr, *effectSmgr;
+	irr::scene::ISceneManager *smgr;
 	irr::gui::IGUIEnvironment *gui;
-	ISSWERender *effect;
 	//-----------------------------------
 
 	//-----------------------------------
 	//SCENE NODES
 	irr::scene::ICameraSceneNode *monitorCamera;
-	//-----------------------------------
-
-	//-----------------------------------
-	//VALUES
-	irr::core::stringc monitorName;
-	bool enabled;
-
-	bool renderXEffect;
-	bool renderFullPostTraitements;
 	//-----------------------------------
 
 };

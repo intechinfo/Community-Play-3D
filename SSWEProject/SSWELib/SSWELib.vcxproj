@@ -258,6 +258,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="include\ISSWECoreData.h" />
     <ClInclude Include="include\ISSWEEvents.h" />
     <ClInclude Include="include\ISSWELibPlugin.h" />
+    <ClInclude Include="include\ISSWERender.h" />
     <ClInclude Include="include\ITool.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWELib.h" />

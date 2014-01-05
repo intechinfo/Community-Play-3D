@@ -597,7 +597,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				case CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT: {
 					devices->setRenderFullPostTraitements(!devices->isRenderingFullPostTraitements());
 					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
-						devices->getMonitorRegister()->getMonitor(i)->setRenderingXEffectFullTraitement(devices->isRenderingFullPostTraitements());
+						devices->getMonitorRegister()->getMonitor(i)->setRenderingFullTraitement(devices->isRenderingFullPostTraitements());
 					}
 				}
 					break;
@@ -618,7 +618,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
                     devices->setXEffectDrawable(!devices->isXEffectDrawable());
 					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
-						devices->getMonitorRegister()->getMonitor(i)->setXEffectRendered(devices->isXEffectDrawable());
+						devices->getMonitorRegister()->getMonitor(i)->setRenderRenderer(devices->isXEffectDrawable());
 					}
                     break;
                     
@@ -1115,16 +1115,16 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
     if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (!event.KeyInput.PressedDown) {
 
-			if (devices->getGUIEnvironment()->getFocus() != devices->getGUIEnvironment()->getRootGUIElement()) {
-				return false;
-			}
+			//if (devices->getGUIEnvironment()->getFocus() != devices->getGUIEnvironment()->getRootGUIElement()) {
+			//	return false;
+			//}
 			switch (event.KeyInput.Key) {
                     
                 case KEY_KEY_X:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
                         devices->setXEffectDrawable(!devices->isXEffectDrawable());
 						for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
-							devices->getMonitorRegister()->getMonitor(i)->setXEffectRendered(devices->isXEffectDrawable());
+							devices->getMonitorRegister()->getMonitor(i)->setRenderRenderer(devices->isXEffectDrawable());
 						}
                     }
                     break;

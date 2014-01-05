@@ -26,10 +26,6 @@ CGenericMonitor::~CGenericMonitor() {
 
 void CGenericMonitor::init() {
 	monitorName = "Generic Monitor";
-
-	enabled = true;
-	renderFullPostTraitements = false;
-	renderXEffect = true;
 }
 
 void CGenericMonitor::setActiveCamera(irr::scene::ICameraSceneNode *camera) {
@@ -42,16 +38,12 @@ void CGenericMonitor::setSceneManager(irr::scene::ISceneManager *sceneManager) {
 }
 
 void CGenericMonitor::drawScene() {
-	if (renderXEffect) {
-		effect->setActiveSceneManager(smgr);
-		effect->update(renderFullPostTraitements);
+	if (renderRenderer) {
+		renderer->setActiveSceneManager(smgr);
+		renderer->update(renderFull);
     } else {
         smgr->drawAll();
     }
-}
-
-void CGenericMonitor::renderXEffectFullPostTraitement(irr::video::ITexture *texture) {
-    
 }
 
 void CGenericMonitor::drawGUI() {

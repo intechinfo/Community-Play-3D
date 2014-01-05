@@ -704,6 +704,9 @@
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.h">
       <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="include\ISSWERender.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

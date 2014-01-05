@@ -117,7 +117,7 @@ CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
 }
 
 CUIWindowEditFilters::~CUIWindowEditFilters() {
-    
+	loggerWindow->remove();
 }
 
 void CUIWindowEditFilters::createLogWindow() {
