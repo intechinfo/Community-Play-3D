@@ -182,7 +182,7 @@ void CUIMaterialEditor::open(ISceneNode *node) {
     //VIEW PORT
     viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710)); 
     if (viewPort) {
-		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
+		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuadPtr());
         viewPort->setSceneManager(smgr);
 		viewPort->setRenderScreenQuad(true);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 

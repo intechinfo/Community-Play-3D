@@ -21,6 +21,7 @@ namespace irr {
             setDebugName("CGUIViewport");
 #endif
 			renderScreenQuad = false;
+			ScreenQuadPtr = 0;
         }
         
         CGUIViewport::~CGUIViewport() {
@@ -103,10 +104,11 @@ namespace irr {
                         cam->setFOV(oldFieldOfView * viewPort.getHeight() / (AbsoluteRect.getHeight() - 2));
 
                         //SceneManager->drawAll();
-						if (renderScreenQuad)
-							ScreenQuad.render(driver);
-						else
+						if (renderScreenQuad) {
+							ScreenQuadPtr->render(driver);
+						} else {
 							SceneManager->drawAll();
+						}
 
                         cam->setFOV(oldFieldOfView);
                         
@@ -129,10 +131,6 @@ namespace irr {
             if (SceneManager)
                 SceneManager->grab();
         }
-
-		void CGUIViewport::setScreenQuad(CScreenQuad quad) {
-			ScreenQuad = quad;
-		}
         
         scene::ISceneManager* CGUIViewport::getSceneManager() const {
             return SceneManager;

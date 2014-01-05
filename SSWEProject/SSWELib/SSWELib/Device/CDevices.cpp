@@ -232,7 +232,6 @@ void CDevices::updateDevice() {
 #else
     
     if (renderXEffect) {
-		irr::core::matrix4 viewProj;
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 		effect->update(renderFullPostTraitements);
     } else {
@@ -360,6 +359,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
 	camera_maya->bindTargetAndRotation(true);
 	camera_maya->setFarValue(42000.0f);
+	camera_maya->setNearValue(1.f);
 	camera_maya->setName("editor:MayaCamera");
 	camera_maya->setID(-1);
 	camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);

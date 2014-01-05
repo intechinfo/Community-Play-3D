@@ -19,8 +19,8 @@ namespace irr {
             virtual void draw();
             
             virtual void setSceneManager(scene::ISceneManager* scene);
-			virtual void setScreenQuad(CScreenQuad quad);
 			virtual void setRenderScreenQuad(bool render) { renderScreenQuad = render; }
+			void setScreenQuad(CScreenQuad *quad) { ScreenQuadPtr = quad; }
             
             virtual scene::ISceneManager* getSceneManager() const;
             
@@ -31,7 +31,7 @@ namespace irr {
         private:
             
             scene::ISceneManager* SceneManager;
-			CScreenQuad ScreenQuad;
+			CScreenQuad *ScreenQuadPtr;
 			bool renderScreenQuad;
             
             bool OverrideColorEnabled;

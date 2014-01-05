@@ -64,7 +64,8 @@ CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
 
 	viewPort = new CGUIViewport(devices->getGUIEnvironment(), window, 1, rect<s32>(10, 60, 460, 350));
     if (viewPort) {
-		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
+		//viewPort->setScreenQuad(devices->getXEffect()->getScreenQuad());
+		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuadPtr());
 		viewPort->setSceneManager(devices->getXEffect()->getActiveSceneManager());
 		viewPort->setRenderScreenQuad(true);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
@@ -80,6 +81,8 @@ CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
 	editFilter = gui->addButton(rect<s32>(750, 60, 850, 80), window, -1, L"Edit", L"Edit selected filter");
 	addFilter = gui->addButton(rect<s32>(870, 60, 890, 80), window, -1, L"+", L"Add a filter");
 	removeFilter = gui->addButton(rect<s32>(850, 60, 870, 80), window, -1, L"-", L"Remove selected filter");
+
+	openLogger = gui->addButton(rect<s32>(490, 350, 590, 370), window, -1, L"Open Logs", L"Open Logs Window");
 
 	close = gui->addButton(rect<s32>(790, 380, 890, 410), window, -1, L"Close", L"Close this window");
 
@@ -109,25 +112,58 @@ CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
 
 	//OTHERS
 	devices->getEventReceiver()->AddEventReceiver(this, window);
+
+	this->createLogWindow();
 }
 
 CUIWindowEditFilters::~CUIWindowEditFilters() {
     
 }
 
+void CUIWindowEditFilters::createLogWindow() {
+	IGUIEnvironment *gui = devices->getGUIEnvironment();
+
+	loggerWindow = gui->addWindow(rect<s32>(380, 110, 1370, 480), false, L"Filters Log", 0, -1);
+	loggerWindow->getCloseButton()->setVisible(false);
+
+	logEditBox = gui->addEditBox(L"", rect<s32>(10, 30, 980, 330), true, loggerWindow, -1);
+	logEditBox->setMultiLine(true);
+	logEditBox->setWordWrap(true);
+	logEditBox->setAutoScroll(true);
+
+	closeLogWindow = gui->addButton(rect<s32>(880, 340, 980, 360), loggerWindow, -1, L"Close", L"Close Logs Window");
+	devices->getCore()->centerWindow(loggerWindow, devices->getVideoDriver()->getScreenSize());
+
+	loggerWindow->setVisible(false);
+}
+
 void CUIWindowEditFilters::reloadFilters() {
+	ELOG_LEVEL logLevel = devices->getDevice()->getLogger()->getLogLevel();
+	devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+	stringw logText = L"--------------------------------------------\n\n";
+	logText += L"Compiling Filters\n\n";
+	logEditBox->setText(L"");
+
 	devices->getXEffect()->removeAllPostProcessingEffects();
 
 	array<SFilter> *arrayf = devices->getCoreData()->getEffectFilters();
 	array<stringc> newCodes;
 
 	for (u32 i=0; i < arrayf->size(); i++) {
+		logText += arrayf->operator[](i).getName().c_str();
+		logText += "\n";
+
 		if (arrayf->operator[](i).getPixelShader() == "") {
 			newCodes.push_back("wanted_error();");
 		} else {
 			newCodes.push_back(arrayf->operator[](i).getPixelShader());
 		}
 	}
+
+	logText += L"\n--------------------------------------------\n\n";
+
+	logEditBox->setText(logText.c_str());
+	bool success = true;
 
 	irr::core::array<s32> materialTypes = devices->getXEffect()->reloadPostProcessingEffects(newCodes);
 	stringc errors = "";
@@ -139,6 +175,7 @@ void CUIWindowEditFilters::reloadFilters() {
 		} else {
 			//devices->getXEffect()->setPostProcessingRenderCallback(materialTypes[i], arrayf->operator[](i).getPostProcessingCallback());
 			CFilterCallback *cb = new CFilterCallback(materialTypes[i], &arrayf->operator[](i));
+			devices->getXEffect()->setPostProcessingRenderCallback(materialTypes[i], cb);
 			arrayf->operator[](i).setPostProcessingCallback(cb);
 		}
 		arrayf->operator[](i).setMaterial(materialTypes[i]);
@@ -146,9 +183,27 @@ void CUIWindowEditFilters::reloadFilters() {
 
 	if (errors != "")
 		devices->addInformationDialog("Errors", errors, EMBF_OK, true);
+
+	stringw text = logEditBox->getText();
+	if (success) {
+		text += "Success";
+	} else {
+		text += "Failure";
+	}
+	logEditBox->setText(text.c_str());
+
+	devices->getDevice()->getLogger()->setLogLevel(logLevel);
+
 }
 
 bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
+
+	if (event.EventType == EET_LOG_TEXT_EVENT) {
+		stringw textLogEvent = logEditBox->getText();
+		textLogEvent += event.LogEvent.Text;
+		textLogEvent += L"\n";
+		logEditBox->setText(textLogEvent.c_str());
+	}
 
 	if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
@@ -255,6 +310,13 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 					codeEditor->setAutoSave(true);
 				}
 			}
+			if (event.GUIEvent.Caller == openLogger) {
+				loggerWindow->setVisible(true);
+				devices->getGUIEnvironment()->getRootGUIElement()->bringToFront(loggerWindow);
+			}
+			if (event.GUIEvent.Caller == closeLogWindow) {
+				loggerWindow->setVisible(false);
+			}
 		}
 	}
 
@@ -264,6 +326,8 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 				if (event.KeyInput.Key == KEY_RETURN) {
 					if (filters->getSelected() != -1) {
 						this->reloadFilters();
+						//std::thread t(&CUIWindowEditFilters::reloadFilters, *this);
+						//t.detach();
 					}
 				}
 				if (event.KeyInput.Key == KEY_KEY_O) {
@@ -582,7 +646,7 @@ int core_setPixelShaderConstantMatrix4(lua_State *L) {
 //MATRIXES
 
 int mat4_gc(lua_State *L) {
-	//printf("## __core__gc\n");
+	//printf("## __mat4__gc\n");
 	return 0;
 }
 int mat4_index(lua_State *L) {
@@ -595,7 +659,7 @@ int mat4_newindex(lua_State *L) {
 }
 
 int mat4_new(lua_State *L) {
-	//printf("## __scene__new\n");
+	//printf("## __mat4__new\n");
 
 	lua_newuserdata(L,sizeof(userData));
     luaL_getmetatable(L, "Matrix4");
@@ -616,7 +680,7 @@ int mat4_getTransform(lua_State *L) {
 
 //UTILS
 int utils_gc(lua_State *L) {
-	//printf("## __core__gc\n");
+	//printf("## __utils__gc\n");
 	return 0;
 }
 int utils_index(lua_State *L) {
@@ -629,7 +693,7 @@ int utils_newindex(lua_State *L) {
 }
 
 int utils_new(lua_State *L) {
-	//printf("## __core__new\n");
+	//printf("## __utils__new\n");
 
 	lua_newuserdata(L,sizeof(userData));
     luaL_getmetatable(L, "Utils");
@@ -675,7 +739,7 @@ int utils_getScreenCoordinatesFrom3DPosition(lua_State *L) {
 
 //DRIVER
 int driver_gc(lua_State *L) {
-	//printf("## __core__gc\n");
+	//printf("## __driver__gc\n");
 	return 0;
 }
 int driver_index(lua_State *L) {
@@ -688,7 +752,7 @@ int driver_newindex(lua_State *L) {
 }
 
 int driver_new(lua_State *L) {
-	//printf("## __core__new\n");
+	//printf("## __driver__new\n");
 
 	lua_newuserdata(L,sizeof(userData));
     luaL_getmetatable(L, "Driver");

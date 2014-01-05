@@ -497,7 +497,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g));
             
-			if (DepthPassArray[i]->getType() != ESNT_BILLBOARD) {
+			ESCENE_NODE_TYPE type = DepthPassArray[i]->getType();
+
+			if (type == ESNT_MESH || type == ESNT_ANIMATED_MESH || type == ESNT_OCTREE || type == ESNT_TERRAIN
+				|| type == ESNT_CUBE || type == ESNT_SPHERE) {
 				DepthPassArray[i]->setMaterialType(irr::video::EMT_SOLID);
 				DepthPassArray[i]->setMaterialTexture(0, blackTextureLS);
 			}

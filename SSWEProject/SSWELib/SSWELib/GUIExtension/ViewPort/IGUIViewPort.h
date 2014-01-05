@@ -23,7 +23,7 @@ namespace irr {
             }
             
             virtual void setSceneManager(scene::ISceneManager* scene) = 0;
-			virtual void setScreenQuad(CScreenQuad quad) = 0;
+			virtual void setScreenQuad(CScreenQuad *quad) = 0;
 			virtual void setRenderScreenQuad(bool render) = 0;
             
             virtual scene::ISceneManager* getSceneManager() const = 0;

@@ -94,7 +94,10 @@ public:
 class SSWE_RENDERS_API ScreenQuadCB : public irr::video::IShaderConstantSetCallBack {
 public:
 	ScreenQuadCB(EffectHandler* effectIn, bool defaultV = true) 
-		: effect(effectIn), defaultVertexShader(defaultV) {};
+		: effect(effectIn), defaultVertexShader(defaultV)
+	{
+		uniformDescriptors.clear();
+	};
 
 	EffectHandler* effect;
 	bool defaultVertexShader;
@@ -173,15 +176,17 @@ public:
 	};
 
 	void cleanUniformDescriptors() {
-		irr::core::map<irr::core::stringc, SUniformDescriptor>::Iterator mapIter = uniformDescriptors.getIterator();
-		for(;!mapIter.atEnd();mapIter++) {
-			if(mapIter.getNode()->getValue().fPointer == 0)
-				continue;
+		if (uniformDescriptors.size() > 0) {
+			irr::core::map<irr::core::stringc, SUniformDescriptor>::Iterator mapIter = uniformDescriptors.getIterator();
+			for(;!mapIter.atEnd();mapIter++) {
+				if(mapIter.getNode()->getValue().fPointer == 0)
+					continue;
 
-			delete mapIter.getNode()->getValue().fPointer;
+				delete mapIter.getNode()->getValue().fPointer;
+			}
+
+			uniformDescriptors.clear();
 		}
-
-		uniformDescriptors.clear();
 	}
 
 	irr::core::map<irr::core::stringc, SUniformDescriptor> uniformDescriptors;

@@ -32,25 +32,33 @@ private:
 	//METHODS
 	void createLuaState(lua_State *L);
 	void reloadFilters();
+
+	void createLogWindow();
 	//-----------------------------------
 
 	//-----------------------------------
 	//MAIN WINDOW
 	IGUIWindow *window;
 
-	IGUIViewport *viewPort;
+	CGUIViewport *viewPort;
 	IGUICheckBox *useVSM;
 	IGUICheckBox *enableDepthPass;
 
 	IGUIListBox *filters;
 	IGUIButton *editFilter, *editCallback;
 	IGUIButton *addFilter, *removeFilter;
+	IGUIButton *openLogger;
 
 	IGUIButton *close;
 
 	//OTHERS
 	IGUIContextMenu *menu;
 	IGUIFileOpenDialog *openShader;
+
+	//LOGGER
+	IGUIWindow *loggerWindow;
+	IGUIEditBox *logEditBox;
+	IGUIButton *closeLogWindow;
 	//-----------------------------------
 
 };

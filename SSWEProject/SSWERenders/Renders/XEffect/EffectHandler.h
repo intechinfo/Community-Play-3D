@@ -534,6 +534,11 @@ public:
 		return ScreenQuad;
 	}
 
+	CScreenQuad *getScreenQuadPtr()
+	{
+		return &ScreenQuad;
+	}
+
 	/// Sets the active scene manager.
 	void setActiveSceneManager(irr::scene::ISceneManager* smgrIn)
 	{
