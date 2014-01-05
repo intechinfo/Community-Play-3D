@@ -83,7 +83,8 @@ bool CUIScriptEditor::OnEvent(const SEvent &event) {
 
 			if (event.GUIEvent.Caller == addFile) {
 				irr::core::stringc test = "scene = Scene.new()\n";
-				test += "scene:loadMesh(\"data/Characters/wolfa13.b3d\")\n";
+				test += "node = scene:getSceneNodeByName(\"#object:myName\")\n";
+				test += "mc = scene:getTerrainMaterialCount(node)\n";
 				SScriptFile scptf(test.c_str(), "unnamed");
 				devices->getCoreData()->getScriptFiles()->push_back(scptf);
 				files->addItem(scptf.getName().c_str());
@@ -107,9 +108,9 @@ bool CUIScriptEditor::OnEvent(const SEvent &event) {
 					devices->getScripting()->setScriptFile(devices->getCoreData()->getScriptFiles()->operator[](files->getSelected()).getFile());
 					devices->getScripting()->setScriptName(devices->getCoreData()->getScriptFiles()->operator[](files->getSelected()).getName());
 					CScripting *c = devices->getScripting();
-					//std::thread runScript_t(&CScripting::runScript_t, c);
-					//runScript_t.detach();
-					devices->getScripting()->runScript_t();
+					std::thread runScript_t(&CScripting::runScript_t, *c);
+					runScript_t.detach();
+					//devices->getScripting()->runScript_t();
 				}
 			}
 		}

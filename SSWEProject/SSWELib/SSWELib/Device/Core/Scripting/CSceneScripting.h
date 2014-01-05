@@ -17,7 +17,7 @@ public:
 	CSceneScripting(CDevices *_devices);
 	~CSceneScripting();
 
-	void loadMesh(irr::core::stringc path, irr::scene::ESCENE_NODE_TYPE type=irr::scene::ESNT_UNKNOWN);
+	IMesh* loadMesh(irr::core::stringc path, irr::scene::ESCENE_NODE_TYPE type=irr::scene::ESNT_UNKNOWN);
 
 	//MESHES
 	s32 addTerrainMeshSceneNode(irr::core::stringc path, ISceneNode *parent=0);
@@ -45,6 +45,8 @@ public:
 	stringc getTerrainMaterialName(s32 ti, s32 mi);
 	void setTerrainMaterialNumber(s32 ti, s32 mi, s32 mati);
 	s32 getMaterialIDByName(stringc name);
+
+	irr::scene::ISceneManager *getSceneManager() { return smgr; }
 
 private:
 

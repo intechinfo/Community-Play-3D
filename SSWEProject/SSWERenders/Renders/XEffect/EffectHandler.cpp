@@ -532,8 +532,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g).MaterialType);
             
-            DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)DepthT);
-            
+            DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)Depth);
             DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
             DepthPassArray[i]->render();
 

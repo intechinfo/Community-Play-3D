@@ -20,8 +20,9 @@ CSceneScripting::~CSceneScripting() {
 }
 
 //MESHES
-void CSceneScripting::loadMesh(irr::core::stringc path, irr::scene::ESCENE_NODE_TYPE type) {
+IMesh *CSceneScripting::loadMesh(irr::core::stringc path, irr::scene::ESCENE_NODE_TYPE type) {
 	irr::scene::IMesh *mesh = smgr->getMesh(path.c_str());
+	return mesh;
 }
 
 s32 CSceneScripting::addTerrainMeshSceneNode(irr::core::stringc path, ISceneNode *parent) {
