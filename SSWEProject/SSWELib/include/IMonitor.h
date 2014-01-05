@@ -1,9 +1,9 @@
 #ifndef IMONITOR_H
 #define IMONITOR_H
 
-#include <iostream>
 #include <irrlicht.h>
-#include <Renders/XEffect/XEffects.h>
+
+#include <ISSWERender.h>
 
 class IMonitor
 {
@@ -26,11 +26,10 @@ public:
 	virtual irr::scene::ICameraSceneNode* getActiveCamera() = 0;
 	virtual void setSceneManager(irr::scene::ISceneManager *sceneManager) =0;
 	virtual irr::scene::ISceneManager* getSceneManager() = 0;
-	virtual void setToolsSceneManager(irr::scene::ISceneManager *sceneManager) = 0;
 	virtual void setGUIEnvironment(irr::gui::IGUIEnvironment *guiEnv) =0;
 	virtual irr::gui::IGUIEnvironment* getGUIEnvironment() = 0;
-	virtual void setXEffect(EffectHandler *xEffect) = 0;
-	virtual EffectHandler* getXEffect() = 0; 
+	virtual void setXEffect(ISSWERender *xEffect) = 0;
+	virtual ISSWERender* getXEffect() = 0; 
 
 
 	virtual void drawScene() = 0;
