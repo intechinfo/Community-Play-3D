@@ -134,7 +134,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			newMonitor->setActiveCamera(devices->getRenderingSceneManager()->getActiveCamera());
 			newMonitor->setSceneManager(devices->getRenderingSceneManager());
 			newMonitor->setGUIEnvironment(devices->getGUIEnvironment());
-			newMonitor->setXEffect(devices->getXEffect());
+			newMonitor->setRender(devices->getXEffect());
 			newMonitor->setName(path);
             
 			SMonitor m(newMonitor, hdll);

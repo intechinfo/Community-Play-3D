@@ -260,6 +260,8 @@
 		0E2E3D381103E3F4002DE8D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0930CE550EC39F4500D63866 /* IOKit.framework */; };
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
+		2E202BE4187B55D000F44BB0 /* CUIWindowEditFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */; };
+		2E202BE5187B55D000F44BB0 /* CUIWindowEditFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E202BE3187B55D000F44BB0 /* CUIWindowEditFilters.h */; };
 		2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E2B176C186E1FEC000E6DAF /* ISSWERender.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E2B176B186E1FEC000E6DAF /* ISSWERender.h */; };
 		2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
@@ -315,10 +317,7 @@
 		2E2CA4D1182D6E7D000BA9DA /* CGUIViewPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6135182983A300FB1027 /* CGUIViewPort.h */; };
 		2E2CA4D2182D6E7D000BA9DA /* IGUIViewPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6136182983A300FB1027 /* IGUIViewPort.h */; };
 		2E2CA4D3182D6E7D000BA9DA /* CUIWindowEditDOF.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C613A182983A300FB1027 /* CUIWindowEditDOF.h */; };
-		2E2CA4D4182D6E7D000BA9DA /* CRenderCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C613E182983A300FB1027 /* CRenderCallback.h */; };
-		2E2CA4D5182D6E7D000BA9DA /* CRenderCallbackScripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6140182983A300FB1027 /* CRenderCallbackScripting.h */; };
 		2E2CA4D6182D6E7D000BA9DA /* CShaderCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6142182983A300FB1027 /* CShaderCallback.h */; };
-		2E2CA4D7182D6E7D000BA9DA /* CUIWindowEditEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6144182983A300FB1027 /* CUIWindowEditEffects.h */; };
 		2E2CA4D8182D6E7D000BA9DA /* CUIWindowEditMaterials.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6146182983A300FB1027 /* CUIWindowEditMaterials.h */; };
 		2E2CA4D9182D6E7D000BA9DA /* CUIWindowEditMaterialsCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6148182983A300FB1027 /* CUIWindowEditMaterialsCallback.h */; };
 		2E2CA4DA182D6E7D000BA9DA /* CRotationAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C614C182983A300FB1027 /* CRotationAnimator.h */; };
@@ -379,6 +378,8 @@
 		2E2CA511182D6E7D000BA9DA /* UIWindowRender.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61CA182983A500FB1027 /* UIWindowRender.h */; };
 		2E2CA512182D6E7D000BA9DA /* SSWELib.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61CC182983A500FB1027 /* SSWELib.h */; };
 		2E2CA513182D6E7D000BA9DA /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61CE182983A500FB1027 /* stdafx.h */; };
+		2E4437E1187B57C50024A476 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
+		2E4437E2187B58980024A476 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E56A2271828EF9500D63D65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E56A2281828EFA100D63D65 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
 		2E6C5F7C1829812E00FB1027 /* shadergroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F54182980F900FB1027 /* shadergroup.cpp */; };
@@ -470,14 +471,8 @@
 		2E6C62AA182983CD00FB1027 /* IGUIViewPort.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6136182983A300FB1027 /* IGUIViewPort.h */; };
 		2E6C62AB182983CD00FB1027 /* CUIWindowEditDOF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6139182983A300FB1027 /* CUIWindowEditDOF.cpp */; };
 		2E6C62AC182983CD00FB1027 /* CUIWindowEditDOF.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C613A182983A300FB1027 /* CUIWindowEditDOF.h */; };
-		2E6C62AD182983CD00FB1027 /* CRenderCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C613D182983A300FB1027 /* CRenderCallback.cpp */; };
-		2E6C62AE182983CD00FB1027 /* CRenderCallback.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C613E182983A300FB1027 /* CRenderCallback.h */; };
-		2E6C62AF182983CD00FB1027 /* CRenderCallbackScripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C613F182983A300FB1027 /* CRenderCallbackScripting.cpp */; };
-		2E6C62B0182983CD00FB1027 /* CRenderCallbackScripting.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6140182983A300FB1027 /* CRenderCallbackScripting.h */; };
 		2E6C62B1182983CD00FB1027 /* CShaderCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6141182983A300FB1027 /* CShaderCallback.cpp */; };
 		2E6C62B2182983CD00FB1027 /* CShaderCallback.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6142182983A300FB1027 /* CShaderCallback.h */; };
-		2E6C62B3182983CD00FB1027 /* CUIWindowEditEffects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6143182983A300FB1027 /* CUIWindowEditEffects.cpp */; };
-		2E6C62B4182983CD00FB1027 /* CUIWindowEditEffects.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6144182983A300FB1027 /* CUIWindowEditEffects.h */; };
 		2E6C62B5182983CD00FB1027 /* CUIWindowEditMaterials.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6145182983A300FB1027 /* CUIWindowEditMaterials.cpp */; };
 		2E6C62B6182983CD00FB1027 /* CUIWindowEditMaterials.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6146182983A300FB1027 /* CUIWindowEditMaterials.h */; };
 		2E6C62B7182983CD00FB1027 /* CUIWindowEditMaterialsCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6147182983A300FB1027 /* CUIWindowEditMaterialsCallback.cpp */; };
@@ -2096,6 +2091,8 @@
 		0E2E3E321103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2E147AAC182FC6870030435D /* ICollisionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ICollisionManager.h; sourceTree = "<group>"; };
 		2E147AAD182FC8530030435D /* ISSWECore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECore.h; sourceTree = "<group>"; };
+		2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditFilters.cpp; sourceTree = "<group>"; };
+		2E202BE3187B55D000F44BB0 /* CUIWindowEditFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIWindowEditFilters.h; sourceTree = "<group>"; };
 		2E2B176B186E1FEC000E6DAF /* ISSWERender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWERender.h; sourceTree = "<group>"; };
 		2E6B3D57182E7964006E12C6 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F51182980CD00FB1027 /* libSSWERenders.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSWERenders.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2190,14 +2187,8 @@
 		2E6C6136182983A300FB1027 /* IGUIViewPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGUIViewPort.h; sourceTree = "<group>"; };
 		2E6C6139182983A300FB1027 /* CUIWindowEditDOF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditDOF.cpp; sourceTree = "<group>"; };
 		2E6C613A182983A300FB1027 /* CUIWindowEditDOF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIWindowEditDOF.h; sourceTree = "<group>"; };
-		2E6C613D182983A300FB1027 /* CRenderCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRenderCallback.cpp; sourceTree = "<group>"; };
-		2E6C613E182983A300FB1027 /* CRenderCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRenderCallback.h; sourceTree = "<group>"; };
-		2E6C613F182983A300FB1027 /* CRenderCallbackScripting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRenderCallbackScripting.cpp; sourceTree = "<group>"; };
-		2E6C6140182983A300FB1027 /* CRenderCallbackScripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRenderCallbackScripting.h; sourceTree = "<group>"; };
 		2E6C6141182983A300FB1027 /* CShaderCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CShaderCallback.cpp; sourceTree = "<group>"; };
 		2E6C6142182983A300FB1027 /* CShaderCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CShaderCallback.h; sourceTree = "<group>"; };
-		2E6C6143182983A300FB1027 /* CUIWindowEditEffects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditEffects.cpp; sourceTree = "<group>"; };
-		2E6C6144182983A300FB1027 /* CUIWindowEditEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIWindowEditEffects.h; sourceTree = "<group>"; };
 		2E6C6145182983A300FB1027 /* CUIWindowEditMaterials.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditMaterials.cpp; sourceTree = "<group>"; };
 		2E6C6146182983A300FB1027 /* CUIWindowEditMaterials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIWindowEditMaterials.h; sourceTree = "<group>"; };
 		2E6C6147182983A300FB1027 /* CUIWindowEditMaterialsCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditMaterialsCallback.cpp; sourceTree = "<group>"; };
@@ -3134,6 +3125,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E4437E2187B58980024A476 /* libIrrlicht.a in Frameworks */,
+				2E4437E1187B57C50024A476 /* libSSWERenders.a in Frameworks */,
 				2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */,
 				2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */,
 				2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */,
@@ -4583,14 +4576,10 @@
 		2E6C613C182983A300FB1027 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				2E6C613D182983A300FB1027 /* CRenderCallback.cpp */,
-				2E6C613E182983A300FB1027 /* CRenderCallback.h */,
-				2E6C613F182983A300FB1027 /* CRenderCallbackScripting.cpp */,
-				2E6C6140182983A300FB1027 /* CRenderCallbackScripting.h */,
+				2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */,
+				2E202BE3187B55D000F44BB0 /* CUIWindowEditFilters.h */,
 				2E6C6141182983A300FB1027 /* CShaderCallback.cpp */,
 				2E6C6142182983A300FB1027 /* CShaderCallback.h */,
-				2E6C6143182983A300FB1027 /* CUIWindowEditEffects.cpp */,
-				2E6C6144182983A300FB1027 /* CUIWindowEditEffects.h */,
 				2E6C6145182983A300FB1027 /* CUIWindowEditMaterials.cpp */,
 				2E6C6146182983A300FB1027 /* CUIWindowEditMaterials.h */,
 				2E6C6147182983A300FB1027 /* CUIWindowEditMaterialsCallback.cpp */,
@@ -5802,11 +5791,8 @@
 				2E2CA4D1182D6E7D000BA9DA /* CGUIViewPort.h in Headers */,
 				2E2CA4D2182D6E7D000BA9DA /* IGUIViewPort.h in Headers */,
 				2E2CA4D3182D6E7D000BA9DA /* CUIWindowEditDOF.h in Headers */,
-				2E2CA4D4182D6E7D000BA9DA /* CRenderCallback.h in Headers */,
-				2E2CA4D5182D6E7D000BA9DA /* CRenderCallbackScripting.h in Headers */,
 				2E2CA4D6182D6E7D000BA9DA /* CShaderCallback.h in Headers */,
 				2E8F3B1E184AB0160073A3A3 /* ISSWEEvents.h in Headers */,
-				2E2CA4D7182D6E7D000BA9DA /* CUIWindowEditEffects.h in Headers */,
 				2E2CA4D8182D6E7D000BA9DA /* CUIWindowEditMaterials.h in Headers */,
 				2E2CA4D9182D6E7D000BA9DA /* CUIWindowEditMaterialsCallback.h in Headers */,
 				2E2CA4DA182D6E7D000BA9DA /* CRotationAnimator.h in Headers */,
@@ -5854,6 +5840,7 @@
 				2E2CA501182D6E7D000BA9DA /* CUIMaterialEditorTextures.h in Headers */,
 				2E2CA502182D6E7D000BA9DA /* CNodeFactory.h in Headers */,
 				2E2CA503182D6E7D000BA9DA /* CUINodeFactoryCreateMeshWithTangents.h in Headers */,
+				2E202BE5187B55D000F44BB0 /* CUIWindowEditFilters.h in Headers */,
 				2EE402BA18494DD70058DD93 /* CGUINode.h in Headers */,
 				2E2CA504182D6E7D000BA9DA /* CUINodeFactoryPlanarMapping.h in Headers */,
 				2E2CA505182D6E7D000BA9DA /* CUIWindowAddNewTerrain.h in Headers */,
@@ -7151,14 +7138,8 @@
 				2E6C62AA182983CD00FB1027 /* IGUIViewPort.h in Sources */,
 				2E6C62AB182983CD00FB1027 /* CUIWindowEditDOF.cpp in Sources */,
 				2E6C62AC182983CD00FB1027 /* CUIWindowEditDOF.h in Sources */,
-				2E6C62AD182983CD00FB1027 /* CRenderCallback.cpp in Sources */,
-				2E6C62AE182983CD00FB1027 /* CRenderCallback.h in Sources */,
-				2E6C62AF182983CD00FB1027 /* CRenderCallbackScripting.cpp in Sources */,
-				2E6C62B0182983CD00FB1027 /* CRenderCallbackScripting.h in Sources */,
 				2E6C62B1182983CD00FB1027 /* CShaderCallback.cpp in Sources */,
 				2E6C62B2182983CD00FB1027 /* CShaderCallback.h in Sources */,
-				2E6C62B3182983CD00FB1027 /* CUIWindowEditEffects.cpp in Sources */,
-				2E6C62B4182983CD00FB1027 /* CUIWindowEditEffects.h in Sources */,
 				2E6C62B5182983CD00FB1027 /* CUIWindowEditMaterials.cpp in Sources */,
 				2E6C62B6182983CD00FB1027 /* CUIWindowEditMaterials.h in Sources */,
 				2E6C62B7182983CD00FB1027 /* CUIWindowEditMaterialsCallback.cpp in Sources */,
@@ -7197,6 +7178,7 @@
 				2E6C62D7182983CD00FB1027 /* CUILoadNodesGroup.cpp in Sources */,
 				2E6C62D8182983CD00FB1027 /* CUILoadNodesGroup.h in Sources */,
 				2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */,
+				2E202BE4187B55D000F44BB0 /* CUIWindowEditFilters.cpp in Sources */,
 				2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */,
 				2E6C62D9182983CD00FB1027 /* CUIRenderingInfos.cpp in Sources */,
 				2E6C62DA182983CD00FB1027 /* CUIRenderingInfos.h in Sources */,
