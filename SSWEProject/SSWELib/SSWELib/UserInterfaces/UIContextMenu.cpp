@@ -30,7 +30,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
 		#endif
 	#else
-		#ifndef SSWE_RELEASE
+		#ifdef SSWE_RELEASE
 			pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
 			//pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
 		#endif

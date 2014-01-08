@@ -1,0 +1,1407 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <numberOfObjects value="3" />
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="2048" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="-242.019958" Y="180.351410" Z="468.187439" />
+			 <rotation X="4.756676" Y="140.714157" Z="0.000000" />
+
+		 </camera>
+
+		 <fpsCameraSettings>
+
+			 <ellipsoidRadius X="3.000000" Y="15.000000" Z="3.000000" />
+			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <slidingValue value="0.000500" />
+
+		 </fpsCameraSettings>
+
+		 <effect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+			 <materialType>
+				 <pixelShaderType type="171060784" /> 
+				 <vertexShaderType type="540159536" /> 
+				 <baseMaterial type="1866683248" /> 
+				 <name cname="nmapping.spkg" />
+				 <vertex shader=
+"uniform vec3 fvLightPosition1;
+uniform vec3 fvLightPosition2;
+uniform vec3 fvLightPosition3;
+uniform vec3 fvLightPosition4;
+
+uniform float fLightStrength1;
+uniform float fLightStrength2;
+uniform float fLightStrength3;
+uniform float fLightStrength4;
+
+uniform mat4 matWorldInverse;
+
+varying vec2 Texcoord;
+varying vec3 ViewDirection;
+varying vec3 LightDirection1;
+varying vec3 LightDirection2;
+varying vec3 LightDirection3;
+varying vec3 LightDirection4;
+varying vec4 LightDistMultiplier;
+   
+float getLengthSQR (vec3 vec)
+{
+return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z);
+}  
+   
+void main( void )
+{
+   
+   mat4 LightTransform= gl_ModelViewMatrix;
+   LightTransform=LightTransform*matWorldInverse;
+      
+   gl_Position = ftransform();
+   Texcoord    = gl_MultiTexCoord0.xy;
+    
+   vec4 fvObjectPosition = gl_ModelViewMatrix * gl_Vertex;
+   vec4 fvLightPos1 = LightTransform * vec4(fvLightPosition1,1.0);
+   vec4 fvLightPos2 = LightTransform * vec4(fvLightPosition2,1.0);
+   vec4 fvLightPos3 = LightTransform * vec4(fvLightPosition3,1.0);
+   vec4 fvLightPos4 = LightTransform * vec4(fvLightPosition4,1.0);
+   
+   vec3 fvViewDirection  =  - fvObjectPosition.xyz;
+   
+   vec3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz);
+   vec3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz);
+   vec3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz);
+   vec3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz);
+   
+   LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0));
+   LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0));
+   LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0));
+   LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0));
+     
+   vec3 fvNormal         = gl_NormalMatrix * gl_Normal;
+   
+   vec3 fvTangent   = -vec3(abs(gl_Normal.y) + abs(gl_Normal.z), abs(gl_Normal.x), 0);
+   vec3 fvBinormal =cross(fvTangent,gl_Normal);  
+   fvTangent=gl_NormalMatrix*cross(fvBinormal,gl_Normal);
+   fvBinormal=gl_NormalMatrix*fvBinormal;
+ 
+      
+   ViewDirection.x  = dot( fvTangent, fvViewDirection );
+   ViewDirection.y  = dot( fvBinormal, fvViewDirection );
+   ViewDirection.z  = dot( fvNormal, fvViewDirection );
+   
+   LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz );
+   LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz );
+   LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz );
+   
+   LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz );
+   LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz );
+   LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz );
+   
+   LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz );
+   LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz );
+   LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz );
+   
+   LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz );
+   LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz );
+   LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz );
+   
+}
+
+
+" />
+				 <pixel shader=
+"uniform vec4 fvAmbient;
+uniform vec4 fvLight1Color;
+uniform vec4 fvLight2Color;
+uniform vec4 fvLight3Color;
+uniform vec4 fvLight4Color;
+
+uniform float fSpecularPower;
+uniform float fSpecularStrength;
+uniform float fBumpStrength;
+
+uniform sampler2D baseMap;
+uniform sampler2D bumpMap;
+
+varying vec2 Texcoord;
+varying vec3 ViewDirection;
+varying vec3 LightDirection1;
+varying vec3 LightDirection2;
+varying vec3 LightDirection3;
+varying vec3 LightDirection4;
+varying vec4 LightDistMultiplier;
+
+void main( void )
+{
+   
+   vec3  fvLightDirection1 = normalize( LightDirection1 );
+   vec3  fvLightDirection2 = normalize( LightDirection2 );
+   vec3  fvLightDirection3 = normalize( LightDirection3 );
+   vec3  fvLightDirection4 = normalize( LightDirection4 );
+   
+   vec3  fvNormal         = texture2D( bumpMap, Texcoord ).yxz;
+   fvNormal.xy*=2.0;
+   fvNormal.xy-=1.0;
+   
+   fvNormal=(vec3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal;
+   
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1; 
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1; 
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1; 
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1; 
+   
+   vec3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 ); 
+   vec3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 ); 
+   vec3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 ); 
+   vec3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 ); 
+   
+   vec3  fvViewDirection  = normalize( ViewDirection );
+   
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) );
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) );
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) );
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) );
+   
+   vec4  fvBaseColor      = texture2D( baseMap, Texcoord );
+   
+   vec4  fvTotalAmbient   = fvAmbient * fvBaseColor; 
+   
+   vec4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*LightDistMultiplier[0]; 
+   vec4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*LightDistMultiplier[0];
+   
+         fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*LightDistMultiplier[1]; 
+         fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*LightDistMultiplier[1];  
+   
+         fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*LightDistMultiplier[2]; 
+         fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*LightDistMultiplier[2];  
+         
+         fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*LightDistMultiplier[3]; 
+         fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*LightDistMultiplier[3]; 
+   
+   vec4 color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));
+   if(color.r>1.0){color.gb+=color.r-1.0;}
+   if(color.g>1.0){color.rb+=color.g-1.0;}
+   if(color.b>1.0){color.rg+=color.b-1.0;}
+   gl_FragColor = color;
+
+}
+
+
+" />
+				 <constants value="pint baseMap 0
+pint bumpMap 1
+
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+pfloat fLightStrength1 80
+pfloat fLightStrength2 80
+pfloat fLightStrength3 80
+pfloat fLightStrength4 80
+
+pvector3df fvLightPosition1 532 650 -122
+pvector3df fvLightPosition2 -532 650 -122
+pvector3df fvLightPosition3 -532 650 -122
+pvector3df fvLightPosition4 532 650 -122
+
+pSColor fvAmbient 1 1 1 1
+pSColor fvLight1Color 0.02 0.02 0.02 0.02
+pSColor fvLight2Color 0.02 0.02 0.02 0.02
+pSColor fvLight3Color 0.02 0.02 0.02 0.02
+pSColor fvLight4Color 0.02 0.02 0.02 0.02
+
+pfloat fSpecularPower 20
+pfloat fSpecularStrength 0.9
+pfloat fBumpStrength 40
+
+
+" />
+			 </materialType>
+
+
+		 </materialTypes>
+
+		 <scripts>
+
+
+		 </scripts>
+
+	</config>
+
+
+
+	<scene>
+
+		 <terrain>
+
+			 <path file="data/architecture/beach/beach/beach.3ds" />
+
+			 <type esnt="mesh" />
+
+			 <factory> 
+
+
+			 </factory> 
+
+			 <name c8name="#map:myName" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Waterfall_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Waterfall_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="1" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_BoatTop_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_BoatTop_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="3">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="4">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_HideoutCliffs_R_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_HideoutCliffs_R_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="5">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_HideoutCliffs_L_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_HideoutCliffs_L_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="6">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Sand.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Sand.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="7">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_MapSky08.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_MapSky08.jpg_copy" />
+						 <texture id="2" path="shaders/Textures/Water/waterDUDV.png" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="0" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="1" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="8">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Ground.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Ground.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="9">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="10">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Forge_01_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Forge_01_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="11">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="12">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Ground_Dirt.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Ground_Dirt.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="13">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="0" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="1" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="14">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_MapBase_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_MapBase_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="15">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Map_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Map_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="16">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Ground_Transition.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Ground_Transition.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="17">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Dock_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Dock_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="18">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="19">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="20">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Wall_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="21">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Awnings_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Awnings_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="22">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_CopperSculpture_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_CopperSculpture_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="23">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Building02_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Building02_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="24">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Building01_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Building01_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="25">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Hideout_Building03_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Hideout_Building03_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="26">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_Vegetation_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_Vegetation_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="1" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="27">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="28">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_BoatBottom_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_BoatBottom_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="29">
+					 <textures>
+						 <texture id="0" path="data/Architecture/Beach/Beach/tex/T_HideoutCliffs_Babies_D.jpg" />
+						 <texture id="1" path="data/Architecture/Beach/Beach/tex/T_HideoutCliffs_Babies_D.jpg_copy" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="-0.524000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="0.105556" Y="0.105556" Z="0.105556" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+
+		 </terrain>
+
+		 <object>
+
+			 <path file="billboard" />
+
+			 <name c8name="#object:new_bill_board" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="shaders/Textures/Sun/sun.png" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="12" />
+
+			 	 </material>
+			 </materials>
+			 <position X="113.874115" Y="650.816711" Z="-363.541199" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="3" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <light>
+
+			 <name c8name="#light:1" />
+
+			 <position X="-532.715576" Y="650.842041" Z="-122.590881" />
+			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="100.000000" />
+			 <farValue value="3000.000000" />
+			 <autoRecalculate value="0" />
+
+			 <shadows resol="4096" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
+
+
+	</scene>
+
+</rootScene>
