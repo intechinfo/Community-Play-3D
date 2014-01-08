@@ -46,6 +46,7 @@ private:
 	//-----------------------------------
 	//METHODS
 	void resetCodeBox();
+	void build();
 	//-----------------------------------
     
 	//-----------------------------------
@@ -81,16 +82,12 @@ private:
 	IGUIButton *gLoadFromFile, *gEdit;
 
 	CGUIEditBoxIRB *constantsCodeBox;
-	IGUIComboBox *editorChoice;
 
-	IGUIStaticText *separator, *previewText, *previewObjectText, *editText;
+	IGUIStaticText *separator, *previewText, *previewObjectText;
 
 	IGUIViewport *viewPort;
 	IGUIButton *buildMaterial, *editPreviewNode;
 	IGUIComboBox *previewNodeChoice;
-
-	IGUIListBox *console;
-	ELOG_LEVEL logLevel;
 
 	IGUIButton *closeEditMaterialWindow;
 

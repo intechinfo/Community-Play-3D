@@ -330,8 +330,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     //CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, 0);
     //editLight->open(devices->getCoreData()->getLightsNodes()->operator[](0), "#light:");
 
-    //CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
-	//editMaterials->open();
+    CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
+	editMaterials->open();
 
     //CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
     //matEditor->open(devices->getCoreData()->getTerrainNodes()->operator[](0));
@@ -362,7 +362,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getLightsData()->operator[](0).getLensFlareBillBoardSceneNode());
 	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
 
-	CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
+	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {

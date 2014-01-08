@@ -24,7 +24,7 @@ float4 pixelMain(VertexToFragment IN) : COLOR0
 	float3 lVec=IN.LEnd-IN.LStart;
 	float3 lDir=normalize(lVec);
 	float lLength=length(lVec);
-	float currentDepth=tex2D(Tex2,IN.ProjCoord.xy).a*lLength;
+	float currentDepth=tex2D(Tex2,IN.ProjCoord.xy).r*lLength;
 	float3 currentWPos=IN.LStart+currentDepth*lDir;
 
 	float4 screenColor=tex2D(Tex1,IN.ProjCoord.xy);

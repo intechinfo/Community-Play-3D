@@ -21,8 +21,6 @@ CUIWindowEditMaterialsCallback::CUIWindowEditMaterialsCallback(CDevices *_device
 
 	planeMesh = 0;
 	previewNode = 0;
-
-	console = 0;
 }
 
 CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {
@@ -75,23 +73,17 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     gLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 160, 260, 180), editMaterialWindow, -1, L"Load From File", L"Load From File");
     gEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 160, 370, 180), editMaterialWindow, -1, L"Edit", L"Edit constants");
 
-    devices->getGUIEnvironment()->addStaticText(L"On Set Constants", rect<s32>(10, 200, 440, 220), false, true, editMaterialWindow, -1, false);
+    devices->getGUIEnvironment()->addStaticText(L"Console :", rect<s32>(10, 200, 440, 220), false, true, editMaterialWindow, -1, false);
     constantsCodeBox = new CGUIEditBoxIRB(L"", true, true, devices->getGUIEnvironment(), editMaterialWindow, -1, rect<s32>(10, 220, 440, 430), devices->getDevice());
 	constantsCodeBox->setMultiLine(true);
-    stringw text = callback->getConstants();
-    constantsCodeBox->setText(text.c_str());
 	constantsCodeBox->clearKeywords();
     constantsCodeBox->setOverrideColor(SColor(180, 32, 32, 32));
     constantsCodeBox->setBackgroundColor(SColor(255, 200, 200, 200));
     constantsCodeBox->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
     constantsCodeBox->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
-    constantsCodeBox->addConstantsShaderKeyWords();
-                
-    editText = devices->getGUIEnvironment()->addStaticText(L"Edit :", rect<s32>(10, 440, 50, 460), false, true, editMaterialWindow, -1, false);
-    editorChoice = devices->getGUIEnvironment()->addComboBox(rect<s32>(50, 440, 440, 460), editMaterialWindow, -1);
-    editorChoice->addItem(L"Constants");
-    editorChoice->addItem(L"Vertex Shader");
-    editorChoice->addItem(L"Pixel Shader");
+	constantsCodeBox->addKeyword("Compiling...", SColor(255, 0, 255, 150), true);
+	constantsCodeBox->addKeyword("Success", SColor(255, 255, 0, 150), true);
+	constantsCodeBox->addKeyword("Failure", SColor(255, 0, 0, 150), true);
                 
     separator = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(445, 40, 455, 500), true, true, editMaterialWindow, -1, false);
                 
@@ -177,25 +169,9 @@ void CUIWindowEditMaterialsCallback::resetCodeBox() {
     constantsCodeBox->setBackgroundColor(SColor(255, 200, 200, 200));
     constantsCodeBox->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
     constantsCodeBox->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
-
-	stringw text ;
-	switch (editorChoice->getSelected()) {
-		case 0:
-			text = callback->getConstants();
-			constantsCodeBox->setText(text.c_str());
-			break;
-		case 1:
-			text = callback->getVertexShader();
-			constantsCodeBox->setText(text.c_str());
-			break;
-		case 2:
-			text = callback->getPixelShader();
-			constantsCodeBox->setText(text.c_str());
-			break;
-
-		default:
-			break;
-	}
+	constantsCodeBox->addKeyword("Compiling...", SColor(255, 0, 255, 150), true);
+	constantsCodeBox->addKeyword("Success", SColor(255, 255, 0, 150), true);
+	constantsCodeBox->addKeyword("Failure", SColor(255, 0, 0, 150), true);
 
 	if (editMaterialWindow->getRelativePosition().getWidth() == devices->getVideoDriver()->getScreenSize().Width) {
 		constantsCodeBox->setRelativePosition(rect<s32>(10, 220, separator->getRelativePosition().UpperLeftCorner.X-10,
@@ -203,10 +179,49 @@ void CUIWindowEditMaterialsCallback::resetCodeBox() {
 	}
 }
 
+void CUIWindowEditMaterialsCallback::build() {
+	ELOG_LEVEL logLevel = devices->getDevice()->getLogger()->getLogLevel();
+	devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
+
+	constantsCodeBox->setText(L"");
+
+	stringw text = "---------------------------------\n";
+	text += "Compiling...\n\n";
+	constantsCodeBox->setText(text.c_str());
+
+	callback->setVertexShaderType((E_VERTEX_SHADER_TYPE)vShaderType->getSelected());
+	callback->setPixelShaderType((E_PIXEL_SHADER_TYPE)pShaderType->getSelected());
+	callback->setBaseMaterial((E_MATERIAL_TYPE)bShaderType->getSelected());
+
+	callback->buildMaterial(devices->getVideoDriver());
+
+	previewNode->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
+
+	devices->getDevice()->getLogger()->setLogLevel(logLevel);
+
+	text = constantsCodeBox->getText();
+	text += "\n---------------------------------\n";
+	constantsCodeBox->setText(text.c_str());
+
+	text = constantsCodeBox->getText();
+	if (callback->getMaterial() != -1) {
+		text += "Success\n";
+	} else {
+		text += "Failure\n";
+	}
+
+	constantsCodeBox->setText(text.c_str());
+}
+
 bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 
-	if (event.EventType == EET_KEY_INPUT_EVENT) {
+	if (event.EventType == EET_LOG_TEXT_EVENT) {
+		if (constantsCodeBox) {
+			stringw text = constantsCodeBox->getText();
+			text += event.LogEvent.Text;
 
+			constantsCodeBox->setText(text.c_str());
+		}
 	}
 
 	if (event.EventType == EET_USER_EVENT) {
@@ -216,15 +231,6 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 				if(editWaterAddon != NULL)
 					editWaterAddon->setVisible(true);
 			}
-		}
-	}
-
-	if (event.EventType == EET_LOG_TEXT_EVENT) {
-		if (console) {
-			console->clear();
-			console->addItem(stringw(event.LogEvent.Text).c_str());
-			console->setSelected(console->getItemCount()-1);
-			console->setToolTipText(stringw(console->getListItem(console->getSelected())).c_str());
 		}
 	}
 
@@ -271,6 +277,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
 		if (element == vEdit) {
 			CUICodeEditor *codeEditor = callback->modifyVertexShader(devices);
+			editMaterialWindow->addChild(codeEditor->getWindow());
 			codeEditor->setAutoSave(true);
 			codeEditor->setAlwaysBringToFront(true);
 		}
@@ -281,6 +288,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
 		if (element == pEdit) {
 			CUICodeEditor *codeEditor = callback->modifyPixelShader(devices);
+			editMaterialWindow->addChild(codeEditor->getWindow());
 			codeEditor->setAutoSave(true);
 			codeEditor->setAlwaysBringToFront(true);
 		}
@@ -291,29 +299,20 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
 		if (element == cEdit) {
 			CUICodeEditor *codeEditor = callback->modifyConstants(devices);
+			editMaterialWindow->addChild(codeEditor->getWindow());
 			codeEditor->setAutoSave(true);
 			codeEditor->setAlwaysBringToFront(true);
 		}
             
 		if (element == buildMaterial) {
-			callback->setVertexShaderType((E_VERTEX_SHADER_TYPE)vShaderType->getSelected());
-			callback->setPixelShaderType((E_PIXEL_SHADER_TYPE)pShaderType->getSelected());
-			callback->setBaseMaterial((E_MATERIAL_TYPE)bShaderType->getSelected());
-                
-			callback->buildMaterial(devices->getVideoDriver());
-
-			previewNode->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
-
-			if (console) {
-				console->clear();
-			}
+			std::thread t(&CUIWindowEditMaterialsCallback::build, *this);
+			t.detach();
 		}
                 
 		if (element == closeEditMaterialWindow) {
 			smgr->clear();
 			editMaterialWindow->remove();
 			editMaterialWindow = 0;
-			console = 0;
 			devices->setRenderScene(true);
 			devices->getEventReceiver()->RemoveEventReceiver(this);
 			if(editWaterAddon != NULL)
@@ -351,17 +350,6 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 																			editMaterialWindow->getRelativePosition().getHeight()-40));
 				constantsCodeBox->setRelativePosition(rect<s32>(10, 220, separator->getRelativePosition().UpperLeftCorner.X-10,
 																editMaterialWindow->getRelativePosition().getHeight()-50));
-				editText->setRelativePosition(position2di(editText->getRelativePosition().UpperLeftCorner.X,
-															editMaterialWindow->getRelativePosition().getHeight()-40));
-				editorChoice->setRelativePosition(position2di(editText->getRelativePosition().getWidth(), 
-																editText->getRelativePosition().UpperLeftCorner.Y));
-				console = devices->getGUIEnvironment()->addListBox(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X,
-																			editPreviewNode->getRelativePosition().UpperLeftCorner.Y+40, 
-																			editMaterialWindow->getRelativePosition().getWidth()-15,
-																			closeEditMaterialWindow->getRelativePosition().UpperLeftCorner.Y-10),
-																			editMaterialWindow, -1, true);
-				console->setAutoScrollEnabled(true);
-				devices->getDevice()->getLogger()->setLogLevel(ELL_ERROR);
 				devices->setRenderScene(false);
 			} else {
 				editMaterialWindow->setRelativePosition(rect<s32>(180, 140, 1090, 660));
@@ -376,12 +364,6 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 				previewNodeChoice->setRelativePosition(rect<s32>(720, 340, 890, 360));
 				closeEditMaterialWindow->setRelativePosition(rect<s32>(800, 480, 900, 510));
 				constantsCodeBox->setRelativePosition(rect<s32>(10, 220, 440, 430));
-				editText->setRelativePosition(rect<s32>(10, 440, 50, 460));
-				editorChoice->setRelativePosition(rect<s32>(50, 440, 440, 460));
-				if (console) {
-					console->remove();
-					console = 0;
-				}
 				devices->setRenderScene(true);
 			}
 		}
@@ -449,37 +431,10 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 				viewPort->setSceneManager(devices->getSceneManager());
 			}
         }
-            
-        if (event.GUIEvent.Caller == editorChoice) {
-            editingConstants = false;
-            editingVertexShader = false;
-            editingPixelShader = false;
-            switch (editorChoice->getSelected()) {
-                case 0:
-                    editingConstants = true;
-                    resetCodeBox();
-					constantsCodeBox->addConstantsShaderKeyWords();
-                    break;
-                case 1:
-                    editingVertexShader = true;
-                    resetCodeBox();
-					constantsCodeBox->addShaderKeywords();
-                    break;
-                case 2:
-                    editingPixelShader = true;
-                    resetCodeBox();
-					constantsCodeBox->addShaderKeywords();
-                    break;
-
-                default:
-                    break;
-            }
-            editorChoice->setTabStop(true);
-        }
     }
 
 	if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
-        if (event.GUIEvent.Caller == constantsCodeBox) {
+        /*if (event.GUIEvent.Caller == constantsCodeBox) {
 
             if (editingConstants) {
                 callback->setConstants(constantsCodeBox->getText());
@@ -488,7 +443,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
             } else if (editingPixelShader) {
                 callback->setPixelShader(constantsCodeBox->getText());
             }
-        }
+        }*/
     }
 
 	if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
