@@ -745,6 +745,16 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
     }
     
     if (event.EventType == EET_GUI_EVENT) {
+        
+        IGUIElement *selectedElement = event.GUIEvent.Caller;
+        bool treat = false;
+        while (selectedElement != 0 && selectedElement->getParent() != devices->getGUIEnvironment()->getRootGUIElement()) {
+            if (selectedElement->getParent() == editWindow) {
+                treat = true;
+                break;
+            }
+            selectedElement = selectedElement->getParent();
+        }
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
 			if (event.GUIEvent.Caller == editWindow) {
@@ -878,52 +888,55 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 ebNodePositionZ->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Z).c_str());
 			}
             
-            s32 id = event.GUIEvent.Caller->getID();
-            switch (id) {
-                    
-                case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_1:
-                    //devices->getGUIEnvironment()->addFileOpenDialog(L"Choose the fist texture layer");
-                    devices->createFileOpenDialog(L"Choose the first texture layer", 0);
-                    currentBrowse = 1;
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_2:
-                    devices->createFileOpenDialog(L"Choose the second texture layer", 0);
-                    currentBrowse = 2;
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_3:
-                    devices->createFileOpenDialog(L"Choose the third texture layer", 0);
-                    currentBrowse = 3;
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_4:
-                    devices->createFileOpenDialog(L"Choose the fourth texture layer", 0);
-                    currentBrowse = 4;
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_SELECT_1:
-                    devices->createFileOpenDialog(L"Choose Texture 1 for this material", 0);
-                    currentBrowse = 11;
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_SELECT_2:
-                    devices->createFileOpenDialog(L"Choose Texture 2 for this material", 0);
-                    currentBrowse = 12;
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_SELECT_3:
-                    devices->createFileOpenDialog(L"Choose Texture 3 for this material", 0);
-                    currentBrowse = 13;
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_SELECT_4:
-                    devices->createFileOpenDialog(L"Choose Texture 4 for this material", 0);
-                    currentBrowse = 14;
-                    break;
-                    
-                default:
-                    break;
+            if (treat) {
+            
+                s32 id = event.GUIEvent.Caller->getID();
+                switch (id) {
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_1:
+                        //devices->getGUIEnvironment()->addFileOpenDialog(L"Choose the fist texture layer");
+                        devices->createFileOpenDialog(L"Choose the first texture layer", 0);
+                        currentBrowse = 1;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_2:
+                        devices->createFileOpenDialog(L"Choose the second texture layer", 0);
+                        currentBrowse = 2;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_3:
+                        devices->createFileOpenDialog(L"Choose the third texture layer", 0);
+                        currentBrowse = 3;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_TEXLAYER_4:
+                        devices->createFileOpenDialog(L"Choose the fourth texture layer", 0);
+                        currentBrowse = 4;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_SELECT_1:
+                        devices->createFileOpenDialog(L"Choose Texture 1 for this material", 0);
+                        currentBrowse = 11;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_SELECT_2:
+                        devices->createFileOpenDialog(L"Choose Texture 2 for this material", 0);
+                        currentBrowse = 12;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_SELECT_3:
+                        devices->createFileOpenDialog(L"Choose Texture 3 for this material", 0);
+                        currentBrowse = 13;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_SELECT_4:
+                        devices->createFileOpenDialog(L"Choose Texture 4 for this material", 0);
+                        currentBrowse = 14;
+                        break;
+                        
+                    default:
+                        break;
+                }
             }
 			if (event.GUIEvent.Caller == browseSavedAnimations) {
 				browseSavedAnimationDialog = devices->createFileOpenDialog(L"Choose the animation file",
@@ -934,216 +947,218 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
         
         //EDIT BOXES
         if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
-            s32 id = event.GUIEvent.Caller->getID();
-            
-            switch (id) {
-                //DIFFUSE COLOR -----------------------------------------------
-                case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_A: {
-                    stringc alpha = "";
-                    alpha += mNodeDiffuseColorA->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
+            if (treat) {
+                s32 id = event.GUIEvent.Caller->getID();
+                switch (id) {
+                    //DIFFUSE COLOR -----------------------------------------------
+                    case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_A: {
+                        stringc alpha = "";
+                        alpha += mNodeDiffuseColorA->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_R: {
+                        stringc red = "";
+                        red += mNodeDiffuseColorR->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setRed(devices->getCore()->getU32(red.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_G: {
+                        stringc green = "";
+                        green += mNodeDiffuseColorG->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setGreen(devices->getCore()->getU32(green.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_B: {
+                        stringc blue = "";
+                        blue += mNodeDiffuseColorB->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setBlue(devices->getCore()->getU32(blue.c_str()));
+                    }
+                        break;
+                        
+                    //AMBIANT COLOR -----------------------------------------------
+                    case CXT_EDIT_WINDOW_EVENTS_AMBIANT_A: {
+                        stringc alpha = "";
+                        alpha += mNodeAmbiantColorA->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_AMBIANT_R: {
+                        stringc red = "";
+                        red += mNodeAmbiantColorR->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setRed(devices->getCore()->getU32(red.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_AMBIANT_G: {
+                        stringc green = "";
+                        green += mNodeAmbiantColorG->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setGreen(devices->getCore()->getU32(green.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_AMBIANT_B: {
+                        stringc blue = "";
+                        blue += mNodeAmbiantColorB->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setBlue(devices->getCore()->getU32(blue.c_str()));
+                    }
+                        break;
+                        
+                    //SPECULAR COLOR -----------------------------------------------
+                    case CXT_EDIT_WINDOW_EVENTS_SPECULAR_A: {
+                        stringc alpha = "";
+                        alpha += mNodeSpecularColorA->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_SPECULAR_R: {
+                        stringc red = "";
+                        red += mNodeSpecularColorR->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setRed(devices->getCore()->getU32(red.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_SPECULAR_G: {
+                        stringc green = "";
+                        green += mNodeSpecularColorG->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setGreen(devices->getCore()->getU32(green.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_SPECULAR_B: {
+                        stringc blue = "";
+                        blue += mNodeSpecularColorB->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setBlue(devices->getCore()->getU32(blue.c_str()));
+                    }
+                        break;
+                        
+                    //EMISSIVE COLOR -----------------------------------------------
+                    case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_A: {
+                        stringc alpha = "";
+                        alpha += mNodeEmissiveColorA->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_R: {
+                        stringc red = "";
+                        red += mNodeEmissiveColorR->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setRed(devices->getCore()->getU32(red.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_G: {
+                        stringc green = "";
+                        green += mNodeEmissiveColorG->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setGreen(devices->getCore()->getU32(green.c_str()));
+                    }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_B: {
+                        stringc blue = "";
+                        blue += mNodeEmissiveColorB->getText();
+                        nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setBlue(devices->getCore()->getU32(blue.c_str()));
+                    }
+                        break;
+                        
+                    default:
+                        break;
                 }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_R: {
-                    stringc red = "";
-                    red += mNodeDiffuseColorR->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setRed(devices->getCore()->getU32(red.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_G: {
-                    stringc green = "";
-                    green += mNodeDiffuseColorG->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setGreen(devices->getCore()->getU32(green.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_DIFFUSE_B: {
-                    stringc blue = "";
-                    blue += mNodeDiffuseColorB->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).DiffuseColor.setBlue(devices->getCore()->getU32(blue.c_str()));
-                }
-                    break;
-                    
-                //AMBIANT COLOR -----------------------------------------------
-                case CXT_EDIT_WINDOW_EVENTS_AMBIANT_A: {
-                    stringc alpha = "";
-                    alpha += mNodeAmbiantColorA->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_AMBIANT_R: {
-                    stringc red = "";
-                    red += mNodeAmbiantColorR->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setRed(devices->getCore()->getU32(red.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_AMBIANT_G: {
-                    stringc green = "";
-                    green += mNodeAmbiantColorG->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setGreen(devices->getCore()->getU32(green.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_AMBIANT_B: {
-                    stringc blue = "";
-                    blue += mNodeAmbiantColorB->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).AmbientColor.setBlue(devices->getCore()->getU32(blue.c_str()));
-                }
-                    break;
-                    
-                //SPECULAR COLOR -----------------------------------------------
-                case CXT_EDIT_WINDOW_EVENTS_SPECULAR_A: {
-                    stringc alpha = "";
-                    alpha += mNodeSpecularColorA->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_SPECULAR_R: {
-                    stringc red = "";
-                    red += mNodeSpecularColorR->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setRed(devices->getCore()->getU32(red.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_SPECULAR_G: {
-                    stringc green = "";
-                    green += mNodeSpecularColorG->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setGreen(devices->getCore()->getU32(green.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_SPECULAR_B: {
-                    stringc blue = "";
-                    blue += mNodeSpecularColorB->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).SpecularColor.setBlue(devices->getCore()->getU32(blue.c_str()));
-                }
-                    break;
-                    
-                //EMISSIVE COLOR -----------------------------------------------
-                case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_A: {
-                    stringc alpha = "";
-                    alpha += mNodeEmissiveColorA->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setAlpha(devices->getCore()->getU32(alpha.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_R: {
-                    stringc red = "";
-                    red += mNodeEmissiveColorR->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setRed(devices->getCore()->getU32(red.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_G: {
-                    stringc green = "";
-                    green += mNodeEmissiveColorG->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setGreen(devices->getCore()->getU32(green.c_str()));
-                }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_EMISSIVE_B: {
-                    stringc blue = "";
-                    blue += mNodeEmissiveColorB->getText();
-                    nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.setBlue(devices->getCore()->getU32(blue.c_str()));
-                }
-                    break;
-                    
-                default:
-                    break;
             }
         }
         
         //CHECKBOXES
         if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
-            s32 id = event.GUIEvent.Caller->getID();
-            
-            switch (id) {
+            if (treat) {
+                s32 id = event.GUIEvent.Caller->getID();
+                switch (id) {
+                        
+                    //SET NODE LIGHTING OR NOT
+                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_LIGHTING:
+                        nodeToEdit->setMaterialFlag(EMF_LIGHTING, generalLighting->isChecked());
+                        generalLighting->setChecked(generalLighting->isChecked());
+                        break;
+                        
+                    //SET NODE VISIBLE OR UNVISIBLE
+                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_VISIBLE:
+                        nodeToEdit->setVisible(generalVisible->isChecked());
+                        generalVisible->setChecked(nodeToEdit->isVisible());
+                        break;
+                        
+                    //ADD OR REMOVE NODE FROM DEPTH PASS
+                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS:
+                        if (nodeToDepthPass->isChecked()) {
+                            devices->getXEffect()->addNodeToDepthPass(nodeToEdit);
+                        } else {
+                            devices->getXEffect()->removeNodeFromDepthPass(nodeToEdit);
+                        }
+                        break;
+                        
+                    //EXCLUDE NODE FROM LIGHTING CALCULATION
+                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC:
+                        if (excludeLightingCalc->isChecked()) {
+                            devices->getXEffect()->excludeNodeFromLightingCalculations(nodeToEdit);
+                        } else {
+                            devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_RECEIVE);
+                        }
+                        break;
+                        
+                    //LIGHTING
+                    case CXT_EDIT_WINDOW_EVENTS_LIGHTING:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).Lighting = lighting->isChecked();
+                    break;
+                        
+                    //FILTERS
+                    case CXT_EDIT_WINDOW_EVENTS_ANISOTROPIC_FILTER:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ANISOTROPIC_FILTER, anisotropicFilter->isChecked());
+                        break;
+                    case CXT_EDIT_WINDOW_EVENTS_BILINEAR_FILTER:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_BILINEAR_FILTER, bilinearFilter->isChecked());
+                        break;
+                    case CXT_EDIT_WINDOW_EVENTS_TRILINEAR_FILTER:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_TRILINEAR_FILTER, trilinearFilter->isChecked());
+                        break;
+                        
+                    //ANTI ALIASING
+                    case CXT_EDIT_WINDOW_EVENTS_ANTI_ALIASING:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ANTI_ALIASING, antiAliasing->isChecked());
+                        break;
+                        
+                    //CULLING
+                    case CXT_EDIT_WINDOW_EVENTS_BACK_FACE_CULLING:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_BACK_FACE_CULLING, backFaceCulling->isChecked());
+                        break;
+                    case CXT_EDIT_WINDOW_EVENTS_FRONT_FACE_CULLING:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_FRONT_FACE_CULLING, frontFaceCulling->isChecked());
+                        break;
+                        
+                    //COLOR
+                    case CXT_EDIT_WINDOW_EVENTS_COLOR_MASK:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_COLOR_MASK, colorMask->isChecked());
+                        break;
+                    case CXT_EDIT_WINDOW_EVENTS_COLOR_MATERIAL:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_COLOR_MATERIAL, colorMaterial->isChecked());
+                        break;
                     
-                //SET NODE LIGHTING OR NOT
-                case CXT_EDIT_WINDOW_EVENTS_GENERAL_LIGHTING:
-                    nodeToEdit->setMaterialFlag(EMF_LIGHTING, generalLighting->isChecked());
-                    generalLighting->setChecked(generalLighting->isChecked());
-                    break;
-                    
-                //SET NODE VISIBLE OR UNVISIBLE
-                case CXT_EDIT_WINDOW_EVENTS_GENERAL_VISIBLE:
-                    nodeToEdit->setVisible(generalVisible->isChecked());
-                    generalVisible->setChecked(nodeToEdit->isVisible());
-                    break;
-                    
-                //ADD OR REMOVE NODE FROM DEPTH PASS
-                case CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS:
-                    if (nodeToDepthPass->isChecked()) {
-                        devices->getXEffect()->addNodeToDepthPass(nodeToEdit);
-                    } else {
-                        devices->getXEffect()->removeNodeFromDepthPass(nodeToEdit);
-                    }
-                    break;
-                    
-                //EXCLUDE NODE FROM LIGHTING CALCULATION
-                case CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC:
-                    if (excludeLightingCalc->isChecked()) {
-                        devices->getXEffect()->excludeNodeFromLightingCalculations(nodeToEdit);
-                    } else {
-                        devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_RECEIVE);
-                    }
-                    break;
-                    
-                //LIGHTING
-                case CXT_EDIT_WINDOW_EVENTS_LIGHTING:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).Lighting = lighting->isChecked();
-                break;
-                    
-                //FILTERS
-                case CXT_EDIT_WINDOW_EVENTS_ANISOTROPIC_FILTER:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ANISOTROPIC_FILTER, anisotropicFilter->isChecked());
-                    break;
-                case CXT_EDIT_WINDOW_EVENTS_BILINEAR_FILTER:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_BILINEAR_FILTER, bilinearFilter->isChecked());
-                    break;
-                case CXT_EDIT_WINDOW_EVENTS_TRILINEAR_FILTER:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_TRILINEAR_FILTER, trilinearFilter->isChecked());
-                    break;
-                    
-                //ANTI ALIASING
-                case CXT_EDIT_WINDOW_EVENTS_ANTI_ALIASING:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ANTI_ALIASING, antiAliasing->isChecked());
-                    break;
-                    
-                //CULLING
-                case CXT_EDIT_WINDOW_EVENTS_BACK_FACE_CULLING:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_BACK_FACE_CULLING, backFaceCulling->isChecked());
-                    break;
-                case CXT_EDIT_WINDOW_EVENTS_FRONT_FACE_CULLING:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_FRONT_FACE_CULLING, frontFaceCulling->isChecked());
-                    break;
-                    
-                //COLOR
-                case CXT_EDIT_WINDOW_EVENTS_COLOR_MASK:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_COLOR_MASK, colorMask->isChecked());
-                    break;
-                case CXT_EDIT_WINDOW_EVENTS_COLOR_MATERIAL:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_COLOR_MATERIAL, colorMaterial->isChecked());
-                    break;
-                
-                //WRITING
-                case CXT_EDIT_WINDOW_EVENTS_TEXTURE_WRAP:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_TEXTURE_WRAP, textureWrap->isChecked());
-                    break;
-                case CXT_EDIT_WINDOW_EVENTS_ZBUFFER:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ZBUFFER, zbuffer->isChecked());
-                    break;
-                case CXT_EDIT_WINDOW_EVENTS_ZWRITE_ENABLE:
-                    nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ZWRITE_ENABLE, zwriteEnable->isChecked());
-                    break;
-                    
-                default:
-                    break;
+                    //WRITING
+                    case CXT_EDIT_WINDOW_EVENTS_TEXTURE_WRAP:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_TEXTURE_WRAP, textureWrap->isChecked());
+                        break;
+                    case CXT_EDIT_WINDOW_EVENTS_ZBUFFER:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ZBUFFER, zbuffer->isChecked());
+                        break;
+                    case CXT_EDIT_WINDOW_EVENTS_ZWRITE_ENABLE:
+                        nodeToEdit->getMaterial(materialsBar->getPos()).setFlag(EMF_ZWRITE_ENABLE, zwriteEnable->isChecked());
+                        break;
+                        
+                    default:
+                        break;
+                }
             }
 
 			//DRAW ANIMATIONS
@@ -1234,74 +1249,76 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
         }
         
         if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
-            s32 id = event.GUIEvent.Caller->getID();
-            
-            switch (id) {
-                //MATERIAL CHANGED
-                case CXT_EDIT_WINDOW_EVENTS_MATERIALS: {
-                    stringw material = L"Material Number : ";
-                    material += materialsBar->getPos();
-                    materialNumber->setText(material.c_str());
-                    
-                    setMaterialTextures();
+            if (treat) {
+                s32 id = event.GUIEvent.Caller->getID();
+                switch (id) {
+                    //MATERIAL CHANGED
+                    case CXT_EDIT_WINDOW_EVENTS_MATERIALS: {
+                        stringw material = L"Material Number : ";
+                        material += materialsBar->getPos();
+                        materialNumber->setText(material.c_str());
+                        
+                        setMaterialTextures();
+                    }
+                        break;
+                        
+                    default:
+                        break;
                 }
-                    break;
-                    
-                default:
-                    break;
             }
         }
         
         //COMBOX BOX CHANGED
         if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
-            s32 id = event.GUIEvent.Caller->getID();
-            
-            switch (id) {
-                case CXT_EDIT_WINDOW_EVENTS_PATCH_SIZE:
-                    ((ITerrainSceneNode *)nodeToEdit)->setLODOfPatch(0, 0);
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
-                    if (generalMaterialCB->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
-                        nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
-                    } else {
-						nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial());
-                    }
+            if (treat) {
+                s32 id = event.GUIEvent.Caller->getID();
+                switch (id) {
+                    case CXT_EDIT_WINDOW_EVENTS_PATCH_SIZE:
+                        ((ITerrainSceneNode *)nodeToEdit)->setLODOfPatch(0, 0);
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
+                        if (generalMaterialCB->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
+                            nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
+                        } else {
+                            nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial());
+                        }
 
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_MATERIAL_TYPE:
-                    //nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
-                    if (materialType->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
-                        nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
-                    } else {
-                        nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](materialType->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial();
-                    }
-                    break;
-                    
-                case CXT_EDIT_WINDOW_EVENTS_GENERAL_SHADOWS:
-                    devices->getXEffect()->removeShadowFromNode(nodeToEdit);
-                    switch (shadowed->getSelected()) {
-                        case 0:
-                            devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_CAST);
-                            break;
-                        case 1:
-                            devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_RECEIVE);
-                            break;
-                        case 2:
-                            devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_BOTH);
-                            break;
-                        case 3:
-                            devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_EXCLUDE);
-                            break;
-                            
-                        default:
-                            break;
-                    }
-                    break;
-                    
-                default:
-                    break;
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_MATERIAL_TYPE:
+                        //nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
+                        if (materialType->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
+                            nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
+                        } else {
+                            nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](materialType->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial();
+                        }
+                        break;
+                        
+                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_SHADOWS:
+                        devices->getXEffect()->removeShadowFromNode(nodeToEdit);
+                        switch (shadowed->getSelected()) {
+                            case 0:
+                                devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_CAST);
+                                break;
+                            case 1:
+                                devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_RECEIVE);
+                                break;
+                            case 2:
+                                devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_BOTH);
+                                break;
+                            case 3:
+                                devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_EXCLUDE);
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                        break;
+                        
+                    default:
+                        break;
+                }
             }
 			if (event.GUIEvent.Caller == chooseSavedAnimation) {
 				if (drawAnimations->isChecked()) {
@@ -1317,6 +1334,9 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
         }
         
         //TEXTURE LAYER SELECTED
+        if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
+            currentBrowse = 0;
+        }
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
             IGUIFileOpenDialog* dialog = (IGUIFileOpenDialog*)event.GUIEvent.Caller;
 			if (dialog == browseSavedAnimationDialog) {

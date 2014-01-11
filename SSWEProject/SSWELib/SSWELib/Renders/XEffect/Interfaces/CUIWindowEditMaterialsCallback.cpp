@@ -305,10 +305,14 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
             
 		if (element == buildMaterial) {
+            #ifndef _IRR_OSX_PLATFORM_
 			std::thread t(&CUIWindowEditMaterialsCallback::build, *this);
 			t.detach();
+            #else
+            this->build();
+            #endif
 		}
-                
+        
 		if (element == closeEditMaterialWindow) {
 			smgr->clear();
 			editMaterialWindow->remove();
