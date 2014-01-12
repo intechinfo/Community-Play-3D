@@ -126,6 +126,10 @@ class SSWE_LIB_API CGUIFileSelector : public IGUIFileOpenDialog {
 	  void populateLinuxFAV();
 
 	  void setStartingPath(core::stringw path);
+    
+      void setDrawWindow(bool draw) { drawWindow = draw; }
+    
+      IGUIListBox *getLstBox() { return FileBox; }
 
 
    protected:

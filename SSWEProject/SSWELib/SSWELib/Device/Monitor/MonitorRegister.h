@@ -2,7 +2,6 @@
 #define MONITORREGISTER_H
 
 #include "IMonitorRegisterer.h"
-#include <vector>
 
 class MonitorRegister : public IMonitorRegisterer
 {

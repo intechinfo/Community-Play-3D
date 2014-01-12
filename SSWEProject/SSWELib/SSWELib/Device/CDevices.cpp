@@ -12,6 +12,9 @@
 
 #include "Core/CCoreUserInterface.h"
 
+//#include "../GUIExtension/FileSelector/CGUIFileSelector.h"
+#include "../GUIExtension/FileLoader/CUIFileLoader.h"
+
 CDevices::CDevices(CCoreUserInterface *_coreUserInterface) {
     //DEVICE
 	Device = 0;
@@ -34,8 +37,6 @@ CDevices::CDevices(CCoreUserInterface *_coreUserInterface) {
 	renderFullPostTraitements = false;
 
     editBoxEntered = false;
-
-    window = 0;
 
     projectName = L"";
 	contextName = L"";
@@ -435,17 +436,7 @@ void CDevices::rebuildXEffect() {
 }
 
 IGUIFileOpenDialog *CDevices::createFileOpenDialog(stringw title, IGUIElement *parent) {
-    window = gui->addWindow(rect<s32>(100, 100, 960, 590), true, 
-                            L"Open File Dialog", parent, -1);
-    
-	dialog = this->createFileOpenDialog(title, CGUIFileSelector::EFST_OPEN_DIALOG, window);
-    dialog->setRelativePosition(rect<s32>(0, 20, 560, 440));
-    
-    gui->addButton(rect<s32>(320, 450, 430, 480), window, DEVICES_FILE_OPEN_DIALOG_EVENTS_OK, L"Ok", L"Accept");
-    gui->addButton(rect<s32>(440, 450, 550, 480), window, DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE, L"Close", L"Close this window");
-    dialogPreview = gui->addImage(rect<s32>(570, 20, 1260-410, 440), window, -1, L"Image Preview (Double Click To View)");
-
-	return dialog;
+    return this->createFileOpenDialog(title, CGUIFileSelector::EFST_OPEN_DIALOG, parent, false);
 }
 
 CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal) {
@@ -453,7 +444,8 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
 }
 
 CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal) {
-    CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, parent, 1, type);
+    //CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, parent, 1, type);
+    CGUIFileSelector *selector = (CGUIFileSelector *)(new CUIFileLoader(this))->create(title, type, parent, modal);
     
     selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
     selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
@@ -552,50 +544,6 @@ bool CDevices::OnEvent(const SEvent &event) {
     }
     
     if (event.EventType == EET_GUI_EVENT) {
-        if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
-            s32 id = event.GUIEvent.Caller->getID();
-            
-            switch (id) {
-                case DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE: {
-					SEvent ev;
-					ev.EventType = EET_GUI_EVENT;
-					ev.GUIEvent.EventType = EGET_FILE_CHOOSE_DIALOG_CANCELLED;
-					ev.GUIEvent.Caller = dialog;
-					ev.GUIEvent.Element = dialog;
-					receiver.OnEvent(ev);
-
-                    window = 0;
-				}
-                    break;
-                    
-                case DEVICES_FILE_OPEN_DIALOG_EVENTS_OK: {
-					SEvent ev;
-					ev.EventType = EET_GUI_EVENT;
-					ev.GUIEvent.EventType = EGET_FILE_SELECTED;
-					ev.GUIEvent.Caller = dialog;
-					ev.GUIEvent.Element = dialog;
-					receiver.OnEvent(ev);
-				}
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        
-        if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
-            if (window) {
-                window->remove();
-                window = 0;
-            }
-        }
-        
-        if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
-            if (window) {
-                window->remove();
-                window = 0;
-            }
-        }
         
         if (event.EventType == EET_GUI_EVENT) {
             if (event.GUIEvent.EventType == EGET_EDITBOX_MARKING_CHANGED) {
@@ -613,17 +561,6 @@ bool CDevices::OnEvent(const SEvent &event) {
         if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
             setEditBoxEntered(false);
             getObjectPlacement()->setAllowMoving(true);
-        }
-    }
-    
-    if (event.EventType == EET_MOUSE_INPUT_EVENT) {
-        if (event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) {
-            if (window) {
-                if (window->isVisible()) {
-                    dialogPreview->setImage(driver->getTexture(dialog->getFileName()));
-                    dialogPreview->setScaleImage(true);
-                }
-            }
         }
     }
     

@@ -21,7 +21,6 @@
 #include "../../../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
-#include "../GUIExtension/FileSelector/CGUIFileSelector.h"
 
 #include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
 
@@ -244,13 +243,6 @@ private:
 	stringc workingDirectory;
 
 	CScripting *scripting;
-	//-----------------------------------
-
-	//-----------------------------------
-	//UI ADVANCED OPEN FILE DIALOG
-	IGUIWindow *window;
-	IGUIFileOpenDialog *dialog;
-	IGUIImage *dialogPreview;
 	//-----------------------------------
 
 	//-----------------------------------

@@ -95,7 +95,7 @@ CGUIFileSelector::CGUIFileSelector(const wchar_t* title, IGUIEnvironment* enviro
 	FileNameText->grab();
 
 	//FileNameText = Environment->addEditBox(0, core::rect<s32>(10, 30, RelativeRect.getWidth()-90, 50), true, this, -1);
-	PathNameText = Environment->addEditBox(0, core::rect<s32>(180, 10+yoffset, RelativeRect.getWidth()-10, 30+yoffset), true, this, -1);
+	PathNameText = Environment->addEditBox(0, core::rect<s32>(10, 10+yoffset, RelativeRect.getWidth()-10, 30+yoffset), true, this, -1);
 	PathNameText->setSubElement(true);
 	PathNameText->setAlignment(EGUIA_UPPERLEFT, EGUIA_LOWERRIGHT, EGUIA_UPPERLEFT, EGUIA_UPPERLEFT);
 	PathNameText->setTextAlignment(EGUIA_UPPERLEFT, EGUIA_UPPERLEFT);

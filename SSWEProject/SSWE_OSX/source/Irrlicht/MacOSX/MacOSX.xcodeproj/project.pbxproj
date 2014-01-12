@@ -793,6 +793,8 @@
 		2EE402BA18494DD70058DD93 /* CGUINode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B818494DD70058DD93 /* CGUINode.h */; };
 		2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */; };
 		2EE402BE18494F970058DD93 /* CUIParticleEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402BC18494F970058DD93 /* CUIParticleEditor.h */; };
+		2EE53DE4188232F900848E0E /* CUIFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE53DE2188232F800848E0E /* CUIFileLoader.cpp */; };
+		2EE53DE5188232F900848E0E /* CUIFileLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE53DE3188232F800848E0E /* CUIFileLoader.h */; };
 		2EFCDE521852773F00CC9622 /* CUIParticleEditorAddGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */; };
 		2EFCDE531852773F00CC9622 /* CUIParticleEditorAddGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */; };
 		3430E4D61022C391006271FD /* CTarReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3430E4D41022C391006271FD /* CTarReader.h */; };
@@ -2453,6 +2455,8 @@
 		2EE402B818494DD70058DD93 /* CGUINode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGUINode.h; sourceTree = "<group>"; };
 		2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticleEditor.cpp; path = ParticlesEditor/CUIParticleEditor.cpp; sourceTree = "<group>"; };
 		2EE402BC18494F970058DD93 /* CUIParticleEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditor.h; path = ParticlesEditor/CUIParticleEditor.h; sourceTree = "<group>"; };
+		2EE53DE2188232F800848E0E /* CUIFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIFileLoader.cpp; sourceTree = "<group>"; };
+		2EE53DE3188232F800848E0E /* CUIFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIFileLoader.h; sourceTree = "<group>"; };
 		2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticleEditorAddGroup.cpp; path = ParticlesEditor/CUIParticleEditorAddGroup.cpp; sourceTree = "<group>"; };
 		2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditorAddGroup.h; path = ParticlesEditor/CUIParticleEditorAddGroup.h; sourceTree = "<group>"; };
 		3430E4D41022C391006271FD /* CTarReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTarReader.h; sourceTree = "<group>"; };
@@ -4491,6 +4495,7 @@
 		2E6C6126182983A200FB1027 /* GUIExtension */ = {
 			isa = PBXGroup;
 			children = (
+				2EE53DE1188232F800848E0E /* FileLoader */,
 				2EE402B2184947990058DD93 /* NodesEditor */,
 				2E6C6127182983A300FB1027 /* CodeEditor */,
 				2E6C612A182983A300FB1027 /* FileSelector */,
@@ -5212,6 +5217,15 @@
 			path = NodesEditor;
 			sourceTree = "<group>";
 		};
+		2EE53DE1188232F800848E0E /* FileLoader */ = {
+			isa = PBXGroup;
+			children = (
+				2EE53DE2188232F800848E0E /* CUIFileLoader.cpp */,
+				2EE53DE3188232F800848E0E /* CUIFileLoader.h */,
+			);
+			path = FileLoader;
+			sourceTree = "<group>";
+		};
 		34EF91900F65F9AD000B5651 /* loader */ = {
 			isa = PBXGroup;
 			children = (
@@ -5798,6 +5812,7 @@
 				2E2CA4DA182D6E7D000BA9DA /* CRotationAnimator.h in Headers */,
 				2E2CA4DB182D6E7D000BA9DA /* ISceneNodeAnimatorFinishing.h in Headers */,
 				2E2CA4DC182D6E7D000BA9DA /* CRiggedCamera.h in Headers */,
+				2EE53DE5188232F900848E0E /* CUIFileLoader.h in Headers */,
 				2E2CA4DD182D6E7D000BA9DA /* CSceneNodeAnimatorCameraUpVector.h in Headers */,
 				2E2CA4DE182D6E7D000BA9DA /* CloudSceneNode.h in Headers */,
 				2E2CA4DF182D6E7D000BA9DA /* LensFlareSceneNode.h in Headers */,
@@ -7131,6 +7146,7 @@
 				2E6C62A3182983CD00FB1027 /* CGUIFileSelector.h in Sources */,
 				2E6C62A4182983CD00FB1027 /* GraphKat.cpp in Sources */,
 				2E6C62A5182983CD00FB1027 /* GraphKat.h in Sources */,
+				2EE53DE4188232F900848E0E /* CUIFileLoader.cpp in Sources */,
 				2E6C62A6182983CD00FB1027 /* ProgressBar.cpp in Sources */,
 				2E6C62A7182983CD00FB1027 /* ProgressBar.h in Sources */,
 				2E6C62A8182983CD00FB1027 /* CGUIViewPort.cpp in Sources */,
