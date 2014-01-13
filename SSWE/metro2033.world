@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="249.204056" Y="5.108088" Z="-173.379089" />
-			 <rotation X="19.027594" Y="331.607025" Z="0.000000" />
+			 <position X="238.426392" Y="-3.554751" Z="-165.907104" />
+			 <rotation X="9.513569" Y="111.964165" Z="0.000000" />
 
 		 </camera>
 
@@ -4547,7 +4547,7 @@
 			 	 </material>
 			 	 <material id="128">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/floor_asphalt_snow.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -6087,7 +6087,7 @@
 			 	 </material>
 			 	 <material id="172">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/metal_d8.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -6157,7 +6157,7 @@
 			 	 </material>
 			 	 <material id="174">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/metal_1.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -6192,7 +6192,7 @@
 			 	 </material>
 			 	 <material id="175">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/metal_1.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -12002,7 +12002,7 @@
 			 	 </material>
 			 	 <material id="341">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/door_dver_b.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -13542,7 +13542,7 @@
 			 	 </material>
 			 	 <material id="385">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/bricks_kirpic_1.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -13892,7 +13892,7 @@
 			 	 </material>
 			 	 <material id="395">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/concrete_beton.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -22397,7 +22397,7 @@
 			 	 </material>
 			 	 <material id="638">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/wm_pyatno_2.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -22579,7 +22579,7 @@
 			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 
 			 <radius value="100.000000" />
-			 <farValue value="500.000000" />
+			 <farValue value="100.000000" />
 			 <autoRecalculate value="0" />
 
 			 <shadows resol="4096" />

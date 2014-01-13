@@ -98,7 +98,7 @@ CUIWindowAddOctTree::CUIWindowAddOctTree(CDevices *_devices, IGUIListBox *_terra
 }
 
 CUIWindowAddOctTree::~CUIWindowAddOctTree() {
-
+    
 }
 
 void CUIWindowAddOctTree::open() {
@@ -110,7 +110,7 @@ void CUIWindowAddOctTree::open() {
 		addOctTreeWindow->remove();
 	}
 
-	addOctTreeWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(440, 130, 740, 320), true, L"Add a terrain mesh", 0, -1);
+	addOctTreeWindow = devices->getGUIEnvironment()->addWindow(rect<s32>(440, 130, 740, 320), false, L"Add a terrain mesh", 0, -1);
 	devices->getGUIEnvironment()->addStaticText(L"Type : ", rect<s32>(10, 30, 60, 50), false, false, addOctTreeWindow, -1, false);
 	terrainTypecb = devices->getGUIEnvironment()->addComboBox(rect<s32>(60, 30, 290, 50), addOctTreeWindow, -1);
 	terrainTypecb->addItem(L"MESH");

@@ -1,0 +1,755 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <numberOfObjects value="3" />
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="1024" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="-1210.750000" Y="-24.544754" Z="830.003662" />
+			 <rotation X="345.729309" Y="306.249603" Z="0.000000" />
+
+		 </camera>
+
+		 <fpsCameraSettings>
+
+			 <ellipsoidRadius X="30.000000" Y="60.000000" Z="30.000000" />
+			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <slidingValue value="0.000500" />
+
+		 </fpsCameraSettings>
+
+		 <effect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+
+		 </materialTypes>
+
+		 <scripts>
+
+
+		 </scripts>
+
+	</config>
+
+
+
+	<scene>
+
+		 <terrain>
+
+			 <path file="/Users/julienmoreau-mathis/Desktop/Nala Editor/SSWE/data/Architecture/l00_intro/l00_intro/l00_intro.3ds" />
+
+			 <type esnt="mesh" />
+
+			 <factory> 
+
+
+			 </factory> 
+
+			 <name c8name="#map:myName" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/floor_asphalt_snow.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/floor_asphalt_snow.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="3">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="4">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="5">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/concrete_beton_floor.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="6">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/concrete_opalubka06.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="7">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="8">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/concrete_bashnya.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="9">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="10">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/wall_kraskirpich_s.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="11">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/bricks_kirpic_1.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="12">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="13">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="14">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="15">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="16">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="17">
+					 <textures>
+						 <texture id="0" path="data/Architecture/l00_intro/l00_intro/tex/concrete_opalubka06.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="127" g="127" b="127" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="0.050000" Y="0.050000" Z="0.050000" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+
+		 </terrain>
+
+		 <light>
+
+			 <name c8name="#light:1" />
+
+			 <position X="-1369.269409" Y="93.505646" Z="441.127075" />
+			 <target X="-1213.249268" Y="-3.444787" Z="771.975037" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="100.000000" />
+			 <farValue value="500.000000" />
+			 <autoRecalculate value="0" />
+
+			 <shadows resol="4096" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
+
+		 <light>
+
+			 <name c8name="#light:reception" />
+
+			 <position X="-1225.833862" Y="-29.406488" Z="847.864197" />
+			 <target X="-1300.283081" Y="-8.870054" Z="827.589844" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="100.000000" />
+			 <farValue value="5000.000000" />
+			 <autoRecalculate value="0" />
+
+			 <shadows resol="4096" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
+
+
+	</scene>
+
+</rootScene>

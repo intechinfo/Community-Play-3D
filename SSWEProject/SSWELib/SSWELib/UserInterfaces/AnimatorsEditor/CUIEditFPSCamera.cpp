@@ -70,7 +70,7 @@ bool CUIEditFPSCamera::OnEvent(const SEvent &event) {
                 
 				devices->getCollisionManager()->getFPSCameraSettings()->getCameraAnimator()->setMoveSpeed(devices->getCore()->getF32(ms->getText()));
                 devices->getCameraRig()->setMoveSpeed(devices->getCore()->getF32(ms->getText()));
-
+                
 				devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getFPSCamera());
 				//devices->getCollisionManager()->createAnimatorCollisionCamera(devices->getCameraRig()->getCameraSceneNode());
 				devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());

@@ -445,7 +445,8 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
 
 CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal) {
     //CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, parent, 1, type);
-    CGUIFileSelector *selector = (CGUIFileSelector *)(new CUIFileLoader(this))->create(title, type, parent, modal);
+    CUIFileLoader *loader = new CUIFileLoader(this);
+    CGUIFileSelector *selector = (CGUIFileSelector*)loader->create(title, type, parent, modal);
     
     selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
     selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
@@ -459,7 +460,7 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
 
 	if (modal) {
 		IGUIElement *modalg = gui->addModalScreen(parent);
-		modalg->addChild(selector);
+		modalg->addChild(loader->getWindow());
 	}
     
     return selector;

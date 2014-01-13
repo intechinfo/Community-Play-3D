@@ -22,6 +22,9 @@ public:
     
     bool OnEvent(const SEvent &event);
     
+    //GUI ELEMENTS
+    IGUIWindow *getWindow() { return window; }
+    
 private:
     
     //-----------------------------------
