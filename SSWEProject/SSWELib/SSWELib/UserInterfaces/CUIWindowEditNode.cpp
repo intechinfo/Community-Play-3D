@@ -206,7 +206,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
                                                                     CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS, L"Depth pass...");
         excludeLightingCalc = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isNodeExcludedFromLightingCalculations(nodeToEdit), 
                                                                         rect<s32>(160, 470, 420, 490), generalTab, 
-                                                                        CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC, L"Exclude Lighting Calculation");
+                                                                        CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC, L"Light Scattering Pass");
         
         //ADVANCED TERRAIN
         devices->getGUIEnvironment()->addStaticText(L"Patch Size : ", rect<s32>(10, 5, 90, 25), true, true, advancedTab, -1, true);
@@ -1100,12 +1100,15 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                         break;
                         
                     //EXCLUDE NODE FROM LIGHTING CALCULATION
-                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC:
-                        if (excludeLightingCalc->isChecked()) {
+                    case CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC: {
+                        /*if (excludeLightingCalc->isChecked()) {
                             devices->getXEffect()->excludeNodeFromLightingCalculations(nodeToEdit);
                         } else {
                             devices->getXEffect()->addShadowToNode(nodeToEdit, devices->getXEffectFilterType(), ESM_RECEIVE);
-                        }
+                        }*/
+						EffectHandler *effect = devices->getXEffect();
+						excludeLightingCalc->isChecked() ? effect->addNodeToLightScatteringPass(nodeToEdit) : effect->removeNodeFromLightScatteringPass(nodeToEdit);
+					}
                         break;
                         
                     //LIGHTING

@@ -22,7 +22,7 @@ void CCore::maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition) {
 		window->setRelativePosition(minRelativePosition);
 		window->setDraggable(true);
 	} else {
-		window->setRelativePosition(rect<s32>(0, 75, device->getVideoDriver()->getScreenSize().Width, device->getVideoDriver()->getScreenSize().Height-20));
+		window->setRelativePosition(rect<s32>(0, 75, device->getVideoDriver()->getScreenSize().Width+2, device->getVideoDriver()->getScreenSize().Height-20));
 		window->setDraggable(false);
 	}
 }

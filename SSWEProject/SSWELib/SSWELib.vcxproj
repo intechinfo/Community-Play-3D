@@ -171,6 +171,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.cpp" />
     <ClCompile Include="SSWELib\Device\Monitor\MonitorRegister.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
+    <ClCompile Include="SSWELib\GUIExtension\FileLoader\CUIFileLoader.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\FileSelector\CGUIFileSelector.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\Graph2D\GraphKat.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\NodesEditor\CGUINode.cpp" />
@@ -277,6 +278,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.h" />
     <ClInclude Include="SSWELib\Device\Monitor\MonitorRegister.h" />
     <ClInclude Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.h" />
+    <ClInclude Include="SSWELib\GUIExtension\FileLoader\CUIFileLoader.h" />
     <ClInclude Include="SSWELib\GUIExtension\FileSelector\CGUIFileSelector.h" />
     <ClInclude Include="SSWELib\GUIExtension\Graph2D\GraphKat.h" />
     <ClInclude Include="SSWELib\GUIExtension\NodesEditor\CGUINode.h" />

@@ -364,7 +364,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
     
-    devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
+    //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
 }
 
 CUIContextMenu::~CUIContextMenu() {

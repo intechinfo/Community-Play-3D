@@ -136,6 +136,9 @@
     <Filter Include="SSWELib\GUIExtension\NodesEditor">
       <UniqueIdentifier>{d9210517-ad0e-4b48-b383-1bfae7718fb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\GUIExtension\FileLoader">
+      <UniqueIdentifier>{62b40de5-ea6c-45df-b714-dcd48682c10c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -395,6 +398,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.cpp">
       <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\GUIExtension\FileLoader\CUIFileLoader.cpp">
+      <Filter>SSWELib\GUIExtension\FileLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -706,6 +712,9 @@
     </ClInclude>
     <ClInclude Include="include\ISSWERender.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\GUIExtension\FileLoader\CUIFileLoader.h">
+      <Filter>SSWELib\GUIExtension\FileLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

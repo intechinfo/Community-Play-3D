@@ -20,6 +20,7 @@ CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
 	effect = new EffectHandler(devices->getDevice(), devices->getDevice()->getVideoModeList()->getDesktopResolution(), true, true, true);
 	effect->setActiveSceneManager(smgr);
 	effect->addShadowToNode(_node, devices->getXEffectFilterType(), ESM_BOTH);
+	effect->setUseDepthOfField(false);
 
 	//NODES
 	node = _node;

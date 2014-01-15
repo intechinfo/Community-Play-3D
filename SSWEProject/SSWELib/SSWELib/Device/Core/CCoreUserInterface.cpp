@@ -144,20 +144,20 @@ void CCoreUserInterface::update() {
 
     if (logWindow) {
         if (logWindow->getRelativePosition().getHeight() == 520) {
-            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-320, driver->getScreenSize().Height-520));
+            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-320, driver->getScreenSize().Height-540));
         } else {
-            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-1000, driver->getScreenSize().Height-600));
+            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-1000, driver->getScreenSize().Height-620));
         }
     }
 
 	if (devices->getRenderingSceneManager()->getActiveCamera()->getAnimators().size() > 0) {
-		core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
+		/*core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
 		if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
 			if (gui->getFocus() == 0 && devices->isCtrlPushed())
                 ((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
 			else
 				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
-		}
+		}*/
 	}
 }
 
@@ -210,9 +210,11 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
 
     if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (!event.KeyInput.PressedDown) {
+			#ifndef SSWE_RELEASE
 			if (event.KeyInput.Key == KEY_ESCAPE) {
 				devices->getDevice()->closeDevice();
 			}
+			#endif
 
 			if (event.KeyInput.Key == KEY_KEY_F && devices->isCtrlPushed() && devices->isShiftPushed()) {
 				if (!devices->isEditBoxEntered()) {

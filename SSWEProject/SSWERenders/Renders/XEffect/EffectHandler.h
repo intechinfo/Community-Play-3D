@@ -250,6 +250,33 @@ public:
 	/// This function is now unrelated to shadow mapping. It simply removes a node to the screen space depth map render, for use
 	/// with post processing effects that require screen depth info.
 	void removeNodeFromDepthPass(irr::scene::ISceneNode *node);
+
+	/// Add node to the light scattering pass
+	void addNodeToLightScatteringPass(irr::scene::ISceneNode *node) {
+		bool founded = false;
+		irr::s32 i = 0;
+    
+		while (!founded && i < LightScatteringPass.size()) {
+			if (LightScatteringPass[i] == node) {
+				founded = true;
+			}
+			i++;
+		}
+    
+		if (!founded) {
+			LightScatteringPass.push_back(node);
+		} else {
+			printf("Node already depth passed\n");
+		}
+	}
+
+	/// Remove node from the light scattering pass
+	void removeNodeFromLightScatteringPass(irr::scene::ISceneNode *node) {
+		s32 i = LightScatteringPass.binary_search(node);
+	
+		if(i != -1) 
+			LightScatteringPass.erase(i);
+	}
     
     //Check if depth pass is enabled
     bool isDepthPassEnabled() { return DepthPass; }
@@ -685,6 +712,7 @@ private:
 	irr::core::array<SShadowLight> LightList;
 	irr::core::array<SShadowNode> ShadowNodeArray;
 	irr::core::array<irr::scene::ISceneNode*> DepthPassArray;
+	irr::core::array<irr::scene::ISceneNode*> LightScatteringPass;
 
 	irr::core::dimension2du ScreenRTTSize;
 	irr::video::SColor ClearColour;

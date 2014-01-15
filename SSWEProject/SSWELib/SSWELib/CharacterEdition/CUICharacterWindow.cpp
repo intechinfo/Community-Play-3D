@@ -37,7 +37,6 @@ void CUICharacterWindow::open() {
 	characterWindow->getMaximizeButton()->setVisible(true);
 	characterWindow->getMinimizeButton()->setVisible(true);
     
-    
     //-----------------------------------
     //MENU
     menu = devices->getGUIEnvironment()->addMenu(characterWindow);

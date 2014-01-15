@@ -178,7 +178,7 @@ void CUIMaterialEditorTextures::update(SMaterial *material) {
         materialToEdit->Wireframe = false;
     }
     materialToEdit = material;
-    materialToEdit->Wireframe = true;
+    //materialToEdit->Wireframe = true;
 }
 
 void CUIMaterialEditorTextures::addEnterValue(stringw title) {

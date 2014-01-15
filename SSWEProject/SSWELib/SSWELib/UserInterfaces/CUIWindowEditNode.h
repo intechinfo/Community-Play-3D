@@ -136,7 +136,7 @@ private:
     IGUICheckBox *generalLighting, *generalVisible;
     IGUIComboBox *generalMaterialCB;
     IGUIComboBox *shadowed;
-    IGUICheckBox *nodeToDepthPass, *excludeLightingCalc;
+    IGUICheckBox *nodeToDepthPass, *excludeLightingCalc; //EXCLUDE LIGHTING CALCULATION IS NOW LIGHT SCATTERING
     
     //HEIGHT MAPS TAB
     IGUIComboBox *patchSize;

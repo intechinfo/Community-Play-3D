@@ -489,27 +489,27 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	if (useLightScattering) {
 		driver->setRenderTarget(LightScatteringRTT, true, true, SColor(255, 0, 0, 0));
 
-		for(u32 i = 0;i < DepthPassArray.size();++i)
+		for(u32 i = 0;i < LightScatteringPass.size();++i)
 		{
-			core::array<irr::video::SMaterial> BufferMaterialList(DepthPassArray[i]->getMaterialCount());
+			core::array<irr::video::SMaterial> BufferMaterialList(LightScatteringPass[i]->getMaterialCount());
 			BufferMaterialList.set_used(0);
 
-			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
-				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g));
+			for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g)
+				BufferMaterialList.push_back(LightScatteringPass[i]->getMaterial(g));
             
-			ESCENE_NODE_TYPE type = DepthPassArray[i]->getType();
+			ESCENE_NODE_TYPE type = LightScatteringPass[i]->getType();
 
 			if (type == ESNT_MESH || type == ESNT_ANIMATED_MESH || type == ESNT_OCTREE || type == ESNT_TERRAIN
 				|| type == ESNT_CUBE || type == ESNT_SPHERE) {
-				DepthPassArray[i]->setMaterialType(irr::video::EMT_SOLID);
-				DepthPassArray[i]->setMaterialTexture(0, blackTextureLS);
+				LightScatteringPass[i]->setMaterialType(irr::video::EMT_SOLID);
+				LightScatteringPass[i]->setMaterialTexture(0, blackTextureLS);
 			}
             
-            DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
-            DepthPassArray[i]->render();
+            LightScatteringPass[i]->OnAnimate(device->getTimer()->getTime());
+            LightScatteringPass[i]->render();
 
-			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
-				DepthPassArray[i]->getMaterial(g) = BufferMaterialList[g];
+			for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g)
+				LightScatteringPass[i]->getMaterial(g) = BufferMaterialList[g];
 		}
         
         driver->setRenderTarget(0, false, false);
