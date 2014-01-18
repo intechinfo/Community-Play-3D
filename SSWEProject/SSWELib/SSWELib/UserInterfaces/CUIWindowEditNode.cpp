@@ -204,7 +204,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         
         nodeToDepthPass = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isDepthPassed(nodeToEdit), rect<s32>(10, 470, 150, 490), generalTab, 
                                                                     CXT_EDIT_WINDOW_EVENTS_GENERAL_DEPTH_PASS, L"Depth pass...");
-        excludeLightingCalc = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isNodeExcludedFromLightingCalculations(nodeToEdit), 
+        excludeLightingCalc = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->isLightScatteringPassed(nodeToEdit),
                                                                         rect<s32>(160, 470, 420, 490), generalTab, 
                                                                         CXT_EDIT_WINDOW_EVENTS_GENERAL_EXCL_LIGHT_CALC, L"Light Scattering Pass");
         

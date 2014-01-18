@@ -278,6 +278,23 @@ public:
 			LightScatteringPass.erase(i);
 	}
     
+    /// Check is node is depth passed
+    bool isLightScatteringPassed(irr::scene::ISceneNode *node) {
+        bool lspassed = false;
+        bool founded = false;
+        irr::s32 i = 0;
+        
+        while (!founded && i < LightScatteringPass.size()) {
+            if (LightScatteringPass[i] == node) {
+                lspassed = true;
+                founded = true;
+            }
+            i++;
+        }
+        
+        return lspassed;
+    }
+    
     //Check if depth pass is enabled
     bool isDepthPassEnabled() { return DepthPass; }
 

@@ -189,14 +189,14 @@ define out. */
 //! Define _IRR_COMPILE_WITH_SOFTWARE_ to compile the Irrlicht engine with software driver
 /** If you do not need the software driver, or want to use Burning's Video instead,
 comment this define out */
-#define _IRR_COMPILE_WITH_SOFTWARE_
+//#define _IRR_COMPILE_WITH_SOFTWARE_
 #ifdef NO_IRR_COMPILE_WITH_SOFTWARE_
 #undef _IRR_COMPILE_WITH_SOFTWARE_
 #endif
 
 //! Define _IRR_COMPILE_WITH_BURNINGSVIDEO_ to compile the Irrlicht engine with Burning's video driver
 /** If you do not need this software driver, you can comment this define out. */
-#define _IRR_COMPILE_WITH_BURNINGSVIDEO_
+//#define _IRR_COMPILE_WITH_BURNINGSVIDEO_
 #ifdef NO_IRR_COMPILE_WITH_BURNINGSVIDEO_
 #undef _IRR_COMPILE_WITH_BURNINGSVIDEO_
 #endif
@@ -357,7 +357,7 @@ tool <http://developer.nvidia.com/object/nvperfhud_home.html>. */
 
 //! Define _IRR_COMPILE_WITH_IRR_SCENE_LOADER_ if you want to be able to load
 /** .irr scenes using ISceneManager::loadScene */
-#define _IRR_COMPILE_WITH_IRR_SCENE_LOADER_
+//#define _IRR_COMPILE_WITH_IRR_SCENE_LOADER_
 #ifdef NO_IRR_COMPILE_WITH_IRR_SCENE_LOADER_
 #undef _IRR_COMPILE_WITH_IRR_SCENE_LOADER_
 #endif

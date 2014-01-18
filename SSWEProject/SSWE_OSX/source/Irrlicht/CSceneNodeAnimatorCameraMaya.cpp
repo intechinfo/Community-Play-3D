@@ -33,7 +33,10 @@ CSceneNodeAnimatorCameraMaya::CSceneNodeAnimatorCameraMaya(gui::ICursorControl* 
 
 	allKeysUp();
 
-	eventsAllowed = true;
+	controlDown = false;
+
+	currentZoomWheel = 0.f;
+	zoomingWheel = false;
 }
 
 
@@ -52,23 +55,12 @@ CSceneNodeAnimatorCameraMaya::~CSceneNodeAnimatorCameraMaya()
 //! for changing their position, look at target or whatever.
 bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 {
-	if (event.EventType != EET_MOUSE_INPUT_EVENT && event.EventType != EET_KEY_INPUT_EVENT)
-		return false;
-
-	if (event.EventType == EET_KEY_INPUT_EVENT)
-	{
-        #ifndef _IRR_OSX_PLATFORM_
-		if (event.KeyInput.Control)
-			eventsAllowed = true;
-		else
-			eventsAllowed = false;
-        #endif
-		if (!event.KeyInput.Control) {
-			MouseKeys[0] = false;
-			MouseKeys[2] = false;
-			MouseKeys[1] = false;
-		}
+	if (event.EventType == EET_KEY_INPUT_EVENT) {
+		controlDown = event.KeyInput.Control;
 	}
+
+	if (event.EventType != EET_MOUSE_INPUT_EVENT || !controlDown)
+		return false;
 
 	switch(event.MouseInput.Event)
 	{
@@ -88,13 +80,19 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 		MouseKeys[2] = false;
 		break;
 	case EMIE_MMOUSE_LEFT_UP:
-		if (eventsAllowed)
 		MouseKeys[1] = false;
 		break;
 	case EMIE_MOUSE_MOVED:
 		MousePos = CursorControl->getRelativePosition();
 		break;
 	case EMIE_MOUSE_WHEEL:
+        #ifndef _IRR_OSX_PLATFORM_
+		currentZoomWheel = event.MouseInput.Wheel;
+        #else
+        currentZoomWheel = event.MouseInput.Wheel * 0.05f;
+        #endif
+		zoomingWheel = true;
+		break;
 	case EMIE_LMOUSE_DOUBLE_CLICK:
 	case EMIE_RMOUSE_DOUBLE_CLICK:
 	case EMIE_MMOUSE_DOUBLE_CLICK:
@@ -104,13 +102,6 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 	case EMIE_COUNT:
 		return false;
 	}
-
-	if (!eventsAllowed) {
-		MouseKeys[0] = false;
-		MouseKeys[2] = false;
-		MouseKeys[1] = false;
-	}
-
 	return true;
 }
 
@@ -149,7 +140,19 @@ void CSceneNodeAnimatorCameraMaya::animateNode(ISceneNode *node, u32 timeMs)
 	f32 nRotY = RotY;
 	f32 nZoom = CurrentZoom;
 
-	if ( (isMouseKeyDown(0) && isMouseKeyDown(2)) || isMouseKeyDown(1) )
+	if (zoomingWheel)
+	{
+		const f32 old = CurrentZoom;
+		CurrentZoom = CurrentZoom - currentZoomWheel * ZoomSpeed;
+		nZoom = CurrentZoom;
+
+		if (nZoom < 0)
+			nZoom = CurrentZoom = old;
+		zoomingWheel = false;
+		currentZoomWheel = 0.f;
+	}
+
+	if ( (isMouseKeyDown(0) && isMouseKeyDown(2)) || isMouseKeyDown(1))
 	{
 		if (!Zooming)
 		{

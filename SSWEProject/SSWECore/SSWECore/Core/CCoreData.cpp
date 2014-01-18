@@ -220,6 +220,7 @@ void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
     if (indice != -1) {
         effect->removeNodeFromDepthPass(terrainsData[indice].getNode());
         effect->removeShadowFromNode(terrainsData[indice].getNode());
+        effect->removeNodeFromLightScatteringPass(terrainsData[indice].getNode());
         terrainsData[indice].getNode()->remove();
         terrainsData[indice].removeClonedNodes();
         terrainsData.erase(indice);
@@ -232,6 +233,7 @@ void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
     if (indice != -1) {
         effect->removeNodeFromDepthPass(objectsData[indice].getNode());
         effect->removeShadowFromNode(objectsData[indice].getNode());
+        effect->removeNodeFromLightScatteringPass(objectsData[indice].getNode());
         objectsData[indice].getNode()->remove();
         objectsData[indice].removeClonedNodes();
         objectsData.erase(indice);
@@ -244,6 +246,7 @@ void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
     if (indice != -1) {
         effect->removeNodeFromDepthPass(treesData[indice].getNode());
         effect->removeShadowFromNode(treesData[indice].getNode());
+        effect->removeNodeFromLightScatteringPass(treesData[indice].getNode());
         treesData[indice].getNode()->remove();
         treesData[indice].removeClonedNodes();
         treesData.erase(indice);
@@ -258,16 +261,19 @@ void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
         if (ldata.getLensFlareSceneNode()) {
             effect->removeNodeFromDepthPass(ldata.getLensFlareSceneNode());
             effect->removeShadowFromNode(ldata.getLensFlareSceneNode());
+            effect->removeNodeFromLightScatteringPass(ldata.getLensFlareSceneNode());
             ldata.getLensFlareSceneNode()->remove();
         }
         if (ldata.getLensFlareBillBoardSceneNode()) {
             effect->removeNodeFromDepthPass(ldata.getLensFlareBillBoardSceneNode());
             effect->removeShadowFromNode(ldata.getLensFlareBillBoardSceneNode());
+            effect->removeNodeFromLightScatteringPass(ldata.getLensFlareBillBoardSceneNode());
             ldata.getLensFlareBillBoardSceneNode()->remove();
         }
         if (ldata.getLensFlareMeshSceneNode()) {
             effect->removeNodeFromDepthPass(ldata.getLensFlareMeshSceneNode());
             effect->removeShadowFromNode(ldata.getLensFlareMeshSceneNode());
+            effect->removeNodeFromLightScatteringPass(ldata.getLensFlareMeshSceneNode());
             effect->getIrrlichtDevice()->getVideoDriver()->removeOcclusionQuery(ldata.getLensFlareMeshSceneNode());
             ldata.getLensFlareMeshSceneNode()->remove();
         }
@@ -283,6 +289,7 @@ void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
     if (indice != -1) {
         effect->removeNodeFromDepthPass(volumeLightsData[indice].getNode());
         effect->removeShadowFromNode(volumeLightsData[indice].getNode());
+        effect->removeNodeFromLightScatteringPass(volumeLightsData[indice].getNode());
         volumeLightsData[indice].getNode()->remove();
         volumeLightsData[indice].removeClonedNodes();
         volumeLightsData.erase(indice);
@@ -298,12 +305,16 @@ void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
         effect->removeNodeFromDepthPass(waterSurfaces[indice].getWaterSurface()->getWaterSceneNode());
         //effect->removeShadowFromNode(waterSurfaces[indice].getWaterSurface()->getWaterNode());
         effect->removeShadowFromNode(waterSurfaces[indice].getWaterSurface()->getWaterSceneNode());
+        effect->removeNodeFromLightScatteringPass(waterSurfaces[indice].getWaterSurface()->getWaterSceneNode());
         waterSurfaces[indice].getWaterSurface()->remove();
         waterSurfaces[indice].removeClonedNodes();
         waterSurfaces.erase(indice);
         effect->setAllShadowLightsRecalculate();
         return;
     }
+    
+    //IF NOT FOUND, THEN SIMPLY REMOVE FROM THE SCENE GRAPH
+    node->remove();
 }
 
 SData *CCoreData::copySDataOfSceneNode(irr::scene::ISceneNode *node) {

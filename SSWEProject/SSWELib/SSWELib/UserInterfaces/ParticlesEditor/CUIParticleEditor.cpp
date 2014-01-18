@@ -232,6 +232,41 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
             }
         }
         
+        if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
+            if (addModelWindow) {
+                for (u32 i=0; i < paramNames.size(); i++) {
+                    if (event.GUIEvent.Caller == addModelFlagsEnabled[i]) {
+                        if (!addModelFlagsEnabled[i]->isChecked()) {
+                            addModelFlagsMutable[i]->setEnabled(false);
+                            addModelFlagsMutable[i]->setChecked(false);
+                            addModelFlagsrandom[i]->setEnabled(false);
+                            addModelFlagsrandom[i]->setChecked(false);
+                            addModelFlagsInterpolated[i]->setEnabled(false);
+                            addModelFlagsInterpolated[i]->setChecked(false);
+                        } else {
+                            addModelFlagsMutable[i]->setEnabled(true);
+                            addModelFlagsrandom[i]->setEnabled(true);
+                            addModelFlagsInterpolated[i]->setEnabled(true);
+                        }
+                    }
+                    if (event.GUIEvent.Caller == addModelFlagsInterpolated[i]) {
+                        if (addModelFlagsInterpolated[i]->isChecked()) {
+                            addModelFlagsMutable[i]->setChecked(false);
+                        } else {
+                            addModelFlagsMutable[i]->setEnabled(true);
+                        }
+                    }
+                    if (event.GUIEvent.Caller == addModelFlagsMutable[i]) {
+                        if (addModelFlagsMutable[i]->isChecked()) {
+                            addModelFlagsInterpolated[i]->setChecked(false);
+                        } else {
+                            addModelFlagsInterpolated[i]->setEnabled(true);
+                        }
+                    }
+                }
+            }
+        }
+        
         if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
             if (event.GUIEvent.Caller == menu->getSubMenu(1)) {
                 if (menu->getSubMenu(1)->getSelectedItem() == 6) {
@@ -393,6 +428,25 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
                             model->setLifeTime(model->getLifeTimeMin(), value);
                         }
+                        /*
+                        FLAGS EDITOR
+                        nodeModel->addButton(L"Edit Enabled Flags...");
+                        nodeModel->addButton(L"Edit Mutable Flags...");
+                        nodeModel->addButton(L"Edit Random Flags...");
+                        nodeModel->addButton(L"Edit Interpolated Flags...");
+                        */
+                        if (name == "Edit Enabled Flags...") {
+                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_ENABLED, window, paramNames);
+                        }
+                        if (name == "Edit Mutable Flags...") {
+                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_MUTABLE, window, paramNames);
+                        }
+                        if (name == "Edit Random Flags...") {
+                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_RANDOM, window, paramNames);
+                        }
+                        if (name == "Edit Interpolated Flags...") {
+                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_INTERPOLATED, window, paramNames);
+                        }
                     }
                     //RENDERER
                     if (psdt == EPSDT_RENDERER) {
@@ -471,7 +525,7 @@ void CUIParticleEditor::addGroup() {
         return;
     }
     
-    SPK::System *system;
+    SPK::System *system=0;
     E_PS_DATA_TYPE psdt = (E_PS_DATA_TYPE)selectedNode->getDataType();
     if (psdt == EPSDT_SYSTEM) {
         system = (SPK::System*)selectedNode->getData();
@@ -479,22 +533,23 @@ void CUIParticleEditor::addGroup() {
         return;
     }
     
-    bool enableFlags;
-    bool mutableFlags;
-    bool randomFlags;
-    bool interpolatedFlags;
-    for (u32 i=0; i < 10; i++) {
+    int enableFlags;// = SPK::FLAG_RED | SPK::FLAG_GREEN | SPK::FLAG_BLUE;
+    int mutableFlags=0;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
+    int randomFlags=0;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
+    int interpolatedFlags=0;// = SPK::FLAG_NONE;
+    
+    for (int i=0; i < 10; i++) {
         if (addModelFlagsEnabled[i]->isChecked()) {
-            enableFlags |= (SPK::ModelParamFlag)i;
+            enableFlags |= static_cast<SPK::ModelParamFlag>(i);
         }
         if (addModelFlagsMutable[i]->isChecked()) {
-            mutableFlags |= (SPK::ModelParamFlag)i;
+            mutableFlags |= static_cast<SPK::ModelParamFlag>(i);
         }
         if (addModelFlagsrandom[i]->isChecked()) {
-            randomFlags |= (SPK::ModelParamFlag)i;
+            randomFlags |= static_cast<SPK::ModelParamFlag>(i);
         }
         if (addModelFlagsInterpolated[i]->isChecked()) {
-            interpolatedFlags |= (SPK::ModelParamFlag)i;
+            interpolatedFlags |= static_cast<SPK::ModelParamFlag>(i);
         }
     }
     
@@ -507,6 +562,7 @@ void CUIParticleEditor::addGroup() {
     createGroup(selectedNode, model, group, system);
     
     addModelWindow->remove();
+    addModelWindow = 0;
     selectedNode = 0;
     
 }
@@ -524,10 +580,10 @@ void CUIParticleEditor::openAddModel() {
     gui->addStaticText(L"Interpolated : ", rect<s32>(520, 30, 620, 50), true, true, addModelWindow, -1, true);
     
     for (u32 i=0; i < paramNames.size(); i++) {
-        addModelFlagsEnabled[i] = gui->addCheckBox(true, rect<s32>(10, 50, 160, 70), addModelWindow, i, paramNames[i].c_str());
-        addModelFlagsMutable[i] = gui->addCheckBox(true, rect<s32>(180, 50, 330, 70), addModelWindow, i, paramNames[i].c_str());
-        addModelFlagsrandom[i] = gui->addCheckBox(true, rect<s32>(350, 50, 500, 70), addModelWindow, i, paramNames[i].c_str());
-        addModelFlagsInterpolated[i] = gui->addCheckBox(true, rect<s32>(520, 50, 670, 70), addModelWindow, i, paramNames[i].c_str());
+        addModelFlagsEnabled[i] = gui->addCheckBox(false, rect<s32>(10, 50, 160, 70), addModelWindow, i, paramNames[i].c_str());
+        (addModelFlagsMutable[i] = gui->addCheckBox(false, rect<s32>(180, 50, 330, 70), addModelWindow, i, paramNames[i].c_str()))->setEnabled(false);
+        (addModelFlagsrandom[i] = gui->addCheckBox(false, rect<s32>(350, 50, 500, 70), addModelWindow, i, paramNames[i].c_str()))->setEnabled(false);
+        (addModelFlagsInterpolated[i] = gui->addCheckBox(false, rect<s32>(520, 50, 670, 70), addModelWindow, i, paramNames[i].c_str()))->setEnabled(false);
         
         addModelFlagsEnabled[i]->setRelativePosition(position2di(10, 50+(20*i)));
         addModelFlagsMutable[i]->setRelativePosition(position2di(180, 50+(20*i)));

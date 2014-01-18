@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="1" />
+		 <numberOfObjects value="4" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="8.691608" Y="84.324944" Z="87.274284" />
-			 <rotation X="25.370031" Y="184.285797" Z="0.000000" />
+			 <position X="176.234482" Y="54.656853" Z="-106.971359" />
+			 <rotation X="339.323456" Y="302.857056" Z="0.000000" />
 
 		 </camera>
 
@@ -51,39 +51,32 @@
 
 	<scene>
 
-		 <terrain>
+		 <object>
 
-			 <path file="/Users/julienmoreau-mathis/Desktop/Nala Editor/SSWE/data/JESSE/weapon_sword.obj" />
+			 <path file="hillPlaneMesh" />
 
-			 <type esnt="octtree" mppn="256" />
-
-			 <factory> 
-
-
-			 </factory> 
-
-			 <name c8name="#map:myName" />
+			 <name c8name="#object:new_hille_plane_mesh" />
 
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="data/JESSE/sword_texture.png" />
+						 <texture id="0" path="" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
 
 					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="149" g="149" b="149" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
 
 					 <lighting value="0" />
 
 					 <materialTypeParam1 value="0.000000" />
 					 <materialTypeParam2 value="0.000000" />
 
-					 <shininess value="1.280000" />
+					 <shininess value="0.000000" />
 					 <thickness value="1.000000" />
 
 					 <antiAliasing value="1" />
@@ -103,12 +96,179 @@
 			 </materials>
 			 <position X="0.000000" Y="0.000000" Z="0.000000" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.450089" Y="1.450089" Z="1.450089" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="0" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <object>
+
+			 <path file="billboard" />
+
+			 <name c8name="#object:new_bill_board" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="shaders/Textures/LF/sun.png" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="12" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-426.247681" Y="443.027039" Z="474.920410" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
 
 			 <visible bool="1" />
-			 <shadowMode mode="2" />
+			 <shadowMode mode="3" />
+			 <actions>
+			 </actions>
 
-		 </terrain>
+		 </object>
+
+		 <object>
+
+			 <path file="/Users/julienmoreau-mathis/Desktop/Nala Editor/SSWE/data/Trees/k4_treepack1/tree 1a - 1b/tree1a_lod0.obj" />
+
+			 <name c8name="#object:myName" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/Trees/k4_treepack1/tree 1a - 1b/bark1.tga" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/Trees/k4_treepack1/tree 1a - 1b/leafs1.tga" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="0" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="14" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="10.850662" Y="10.850662" Z="10.850662" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <light>
+
+			 <name c8name="#light:1" />
+
+			 <position X="-72.171387" Y="393.524017" Z="108.332031" />
+			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="100.000000" />
+			 <farValue value="1000.000000" />
+			 <autoRecalculate value="0" />
+
+			 <shadows resol="4096" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
 
 
 	</scene>

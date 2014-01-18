@@ -312,13 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWECore/SSWECore/Core/CCoreData.cpp"
-            timestampString = "408312451.420832"
+            timestampString = "411699502.202449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
-            landmarkName = "CCoreData::destroyMonitor(IMonitor *monitor)"
-            landmarkType = "5">
+            startingLineNumber = "396"
+            endingLineNumber = "396">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -374,11 +372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWECore/SSWECore/Core/CCoreData.cpp"
-            timestampString = "405788289.519191"
+            timestampString = "411699502.202449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect)"
             landmarkType = "5">
          </BreakpointContent>

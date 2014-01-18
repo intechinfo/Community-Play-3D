@@ -281,291 +281,304 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 	}
 
 	if (event.EventType == EET_GUI_EVENT) {
-		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			if (event.GUIEvent.Caller == editWindow) {
-				SEvent ev;
-				ev.EventType = EET_GUI_EVENT;
-				ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-				ev.GUIEvent.Caller = closeButton;
-				ev.GUIEvent.Element = closeButton;
-				OnEvent(ev);
-			}
-		}
+        
+        IGUIElement *selectedElement = event.GUIEvent.Caller;
+        bool treat = false;
+        while (selectedElement != 0 && selectedElement->getParent() != devices->getGUIEnvironment()->getRootGUIElement()) {
+            if (selectedElement->getParent() == editWindow) {
+                treat = true;
+                break;
+            }
+            selectedElement = selectedElement->getParent();
+        }
+        
+        if (treat) {
+            if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+                if (event.GUIEvent.Caller == editWindow) {
+                    SEvent ev;
+                    ev.EventType = EET_GUI_EVENT;
+                    ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
+                    ev.GUIEvent.Caller = closeButton;
+                    ev.GUIEvent.Element = closeButton;
+                    OnEvent(ev);
+                }
+            }
 
-		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
-			if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
-				//devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
-			}
+            if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+                if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
+                    //devices->getEventReceiver()->AddMinimizedWindow(this, editWindow);
+                }
 
-			s32 id = event.GUIEvent.Caller->getID();
-			switch (id) {
+                s32 id = event.GUIEvent.Caller->getID();
+                switch (id) {
 
-				case CXT_EDIT_LIGHT_WINDOW_EVENTS_GENERAL_POSITION:
-					ebNodePositionX->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().X).c_str());
-					ebNodePositionY->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Y).c_str());
-					ebNodePositionZ->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Z).c_str());
-					break;
+                    case CXT_EDIT_LIGHT_WINDOW_EVENTS_GENERAL_POSITION:
+                        ebNodePositionX->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().X).c_str());
+                        ebNodePositionY->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Y).c_str());
+                        ebNodePositionZ->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Z).c_str());
+                        break;
 
-				case CXT_EDIT_LIGHT_WINDOW_EVENTS_GENERAL_TARGET:
-					ebNodeTargetX->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().X).c_str());
-					ebNodeTargetY->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Y).c_str());
-					ebNodeTargetZ->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Z).c_str());
-					break;
+                    case CXT_EDIT_LIGHT_WINDOW_EVENTS_GENERAL_TARGET:
+                        ebNodeTargetX->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().X).c_str());
+                        ebNodeTargetY->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Y).c_str());
+                        ebNodeTargetZ->setText(devices->getCore()->getStrNumber(devices->getCursorPosition().Z).c_str());
+                        break;
 
-				case CXT_EDIT_LIGHT_WINDOW_EVENTS_ADVANCED_DIFFUSE_COLOR:
-					devices->getGUIEnvironment()->addColorSelectDialog(L"Color Edition", false, 0, -1);
-					break;
+                    case CXT_EDIT_LIGHT_WINDOW_EVENTS_ADVANCED_DIFFUSE_COLOR:
+                        devices->getGUIEnvironment()->addColorSelectDialog(L"Color Edition", false, 0, -1);
+                        break;
 
-				case CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON:
-					//GENERAL
-					nodeToEdit->setName(ebNodeName->getText());
-					nodeToEdit->setPosition(devices->getCore()->getVector3df(stringc(ebNodePositionX->getText()),
-																			 stringc(ebNodePositionY->getText()),
-																			 stringc(ebNodePositionZ->getText())));
-					nodeToEdit->setRotation(devices->getCore()->getVector3df(stringc(ebNodeTargetX->getText()),
-																			 stringc(ebNodeTargetY->getText()),
-																			 stringc(ebNodeTargetZ->getText())));
-					nodeToEdit->setRadius(devices->getCore()->getF32(stringc(ebNodeRadius->getText()).c_str()));
+                    case CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON:
+                        //GENERAL
+                        nodeToEdit->setName(ebNodeName->getText());
+                        nodeToEdit->setPosition(devices->getCore()->getVector3df(stringc(ebNodePositionX->getText()),
+                                                                                 stringc(ebNodePositionY->getText()),
+                                                                                 stringc(ebNodePositionZ->getText())));
+                        nodeToEdit->setRotation(devices->getCore()->getVector3df(stringc(ebNodeTargetX->getText()),
+                                                                                 stringc(ebNodeTargetY->getText()),
+                                                                                 stringc(ebNodeTargetZ->getText())));
+                        nodeToEdit->setRadius(devices->getCore()->getF32(stringc(ebNodeRadius->getText()).c_str()));
 
-					//ADVANCED DIFFUSE
-					nodeToEdit->getLightData().DiffuseColor.r = devices->getCore()->getF32(stringc(ebNodeDiffuseColorR->getText()).c_str());
-					nodeToEdit->getLightData().DiffuseColor.g = devices->getCore()->getF32(stringc(ebNodeDiffuseColorG->getText()).c_str());
-					nodeToEdit->getLightData().DiffuseColor.b = devices->getCore()->getF32(stringc(ebNodeDiffuseColorB->getText()).c_str());
-					nodeToEdit->getLightData().DiffuseColor.a = devices->getCore()->getF32(stringc(ebNodeDiffuseColorA->getText()).c_str());
-					//ADVANCED AMBIANT
-					nodeToEdit->getLightData().AmbientColor.r = devices->getCore()->getF32(stringc(ebNodeAmbiantColorR->getText()).c_str());
-					nodeToEdit->getLightData().AmbientColor.g = devices->getCore()->getF32(stringc(ebNodeAmbiantColorG->getText()).c_str());
-					nodeToEdit->getLightData().AmbientColor.b = devices->getCore()->getF32(stringc(ebNodeAmbiantColorB->getText()).c_str());
-					nodeToEdit->getLightData().AmbientColor.a = devices->getCore()->getF32(stringc(ebNodeAmbiantColorA->getText()).c_str());
-					//ADVANCED SPECULAR
-					nodeToEdit->getLightData().SpecularColor.r = devices->getCore()->getF32(stringc(ebNodeSpecularColorR->getText()).c_str());
-					nodeToEdit->getLightData().SpecularColor.g = devices->getCore()->getF32(stringc(ebNodeSpecularColorG->getText()).c_str());
-					nodeToEdit->getLightData().SpecularColor.b = devices->getCore()->getF32(stringc(ebNodeSpecularColorB->getText()).c_str());
-					nodeToEdit->getLightData().SpecularColor.a = devices->getCore()->getF32(stringc(ebNodeSpecularColorA->getText()).c_str());
+                        //ADVANCED DIFFUSE
+                        nodeToEdit->getLightData().DiffuseColor.r = devices->getCore()->getF32(stringc(ebNodeDiffuseColorR->getText()).c_str());
+                        nodeToEdit->getLightData().DiffuseColor.g = devices->getCore()->getF32(stringc(ebNodeDiffuseColorG->getText()).c_str());
+                        nodeToEdit->getLightData().DiffuseColor.b = devices->getCore()->getF32(stringc(ebNodeDiffuseColorB->getText()).c_str());
+                        nodeToEdit->getLightData().DiffuseColor.a = devices->getCore()->getF32(stringc(ebNodeDiffuseColorA->getText()).c_str());
+                        //ADVANCED AMBIANT
+                        nodeToEdit->getLightData().AmbientColor.r = devices->getCore()->getF32(stringc(ebNodeAmbiantColorR->getText()).c_str());
+                        nodeToEdit->getLightData().AmbientColor.g = devices->getCore()->getF32(stringc(ebNodeAmbiantColorG->getText()).c_str());
+                        nodeToEdit->getLightData().AmbientColor.b = devices->getCore()->getF32(stringc(ebNodeAmbiantColorB->getText()).c_str());
+                        nodeToEdit->getLightData().AmbientColor.a = devices->getCore()->getF32(stringc(ebNodeAmbiantColorA->getText()).c_str());
+                        //ADVANCED SPECULAR
+                        nodeToEdit->getLightData().SpecularColor.r = devices->getCore()->getF32(stringc(ebNodeSpecularColorR->getText()).c_str());
+                        nodeToEdit->getLightData().SpecularColor.g = devices->getCore()->getF32(stringc(ebNodeSpecularColorG->getText()).c_str());
+                        nodeToEdit->getLightData().SpecularColor.b = devices->getCore()->getF32(stringc(ebNodeSpecularColorB->getText()).c_str());
+                        nodeToEdit->getLightData().SpecularColor.a = devices->getCore()->getF32(stringc(ebNodeSpecularColorA->getText()).c_str());
 
-					break;
+                        break;
 
-				case CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON:
-					nodeToEdit->setDebugDataVisible(EDS_OFF);
-					editWindow->remove();
-					devices->getEventReceiver()->RemoveEventReceiver(this);
-					delete this;
-					break;
+                    case CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON:
+                        nodeToEdit->setDebugDataVisible(EDS_OFF);
+                        editWindow->remove();
+                        devices->getEventReceiver()->RemoveEventReceiver(this);
+                        delete this;
+                        break;
 
-				default:
-					break;
-			}
+                    default:
+                        break;
+                }
 
-			if (event.GUIEvent.Caller == sphereTextureBrowse) {
-				currentBrowse = 1;
-				devices->createFileOpenDialog(L"Choose sphere texture", 0);
-			}
-			if (event.GUIEvent.Caller == bbTextureBrowse) {
-				currentBrowse = 2;
-				devices->createFileOpenDialog(L"Choose billboard texture", 0);
-			}
-			if (event.GUIEvent.Caller == lfnTextureBrowse) {
-				currentBrowse = 3;
-				devices->createFileOpenDialog(L"Choose Lens Flare texture", 0);
-			}
+                if (event.GUIEvent.Caller == sphereTextureBrowse) {
+                    currentBrowse = 1;
+                    devices->createFileOpenDialog(L"Choose sphere texture", 0);
+                }
+                if (event.GUIEvent.Caller == bbTextureBrowse) {
+                    currentBrowse = 2;
+                    devices->createFileOpenDialog(L"Choose billboard texture", 0);
+                }
+                if (event.GUIEvent.Caller == lfnTextureBrowse) {
+                    currentBrowse = 3;
+                    devices->createFileOpenDialog(L"Choose Lens Flare texture", 0);
+                }
 
-			if (event.GUIEvent.Caller == lfnCursorPosition) {
-				IMeshSceneNode *lfNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
-				//SET LENS FLARE NODE TO THE ABSOLUTE CURSOR POSITION
-				matrix4 matr = devices->getCursor()->getAbsoluteTransformation();
-				const matrix4 w2n(lfNode->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
-				matr = (w2n*matr);
-				lfNode->setPosition(matr.getTranslation());
-				lfNode->setRotation(matr.getRotationDegrees());
-				lfNode->updateAbsolutePosition();
-			}
+                if (event.GUIEvent.Caller == lfnCursorPosition) {
+                    IMeshSceneNode *lfNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
+                    //SET LENS FLARE NODE TO THE ABSOLUTE CURSOR POSITION
+                    matrix4 matr = devices->getCursor()->getAbsoluteTransformation();
+                    const matrix4 w2n(lfNode->getParent()->getAbsoluteTransformation(), matrix4::EM4CONST_INVERSE);
+                    matr = (w2n*matr);
+                    lfNode->setPosition(matr.getTranslation());
+                    lfNode->setRotation(matr.getRotationDegrees());
+                    lfNode->updateAbsolutePosition();
+                }
 
-			if (event.GUIEvent.Caller == lfn0Position) {
-				IMeshSceneNode *lfNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
-				lfNode->setPosition(vector3df(0));
-			}
+                if (event.GUIEvent.Caller == lfn0Position) {
+                    IMeshSceneNode *lfNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
+                    lfNode->setPosition(vector3df(0));
+                }
 
-			if (event.GUIEvent.Caller == lfnArrowMeshPosition) {
-				devices->getObjectPlacement()->setNodeToPlace(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
-			}
+                if (event.GUIEvent.Caller == lfnArrowMeshPosition) {
+                    devices->getObjectPlacement()->setNodeToPlace(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
+                }
 
-			if (event.GUIEvent.Caller == editBillBoardLensFlare) {
-				CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-				editNode->open(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode(), "#object", true);
-			}
-		}
+                if (event.GUIEvent.Caller == editBillBoardLensFlare) {
+                    CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
+                    editNode->open(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode(), "#object", true);
+                }
+            }
 
-		if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
-			if (event.GUIEvent.Caller->getID() == CXT_EDIT_LIGHT_WINDOW_EVENTS_ADVANCED_RESOLUTION) {
+            if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
+                if (event.GUIEvent.Caller->getID() == CXT_EDIT_LIGHT_WINDOW_EVENTS_ADVANCED_RESOLUTION) {
 
-				stringc resolutionw = resolutionComboBox->getItem(resolutionComboBox->getSelected());
-				u32 resolution = devices->getCore()->getU32(resolutionw.c_str());
-				devices->getXEffect()->getShadowLight(index).setShadowMapResolution(resolution);
+                    stringc resolutionw = resolutionComboBox->getItem(resolutionComboBox->getSelected());
+                    u32 resolution = devices->getCore()->getU32(resolutionw.c_str());
+                    devices->getXEffect()->getShadowLight(index).setShadowMapResolution(resolution);
 
-				shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false));
-				shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true));
+                    shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false));
+                    shadowMapPreview2->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), true));
 
-				if (resolution == 4086) {
-					devices->addWarningDialog(L"Warning",
-											  L"This quality of shadows can make the World Editor CRASHING !\n\n"
-											  L"I cannot make sure the render will be successful...",
-											  EMBF_OK);
-				}
-			}
-		}
+                    if (resolution == 4086) {
+                        devices->addWarningDialog(L"Warning",
+                                                  L"This quality of shadows can make the World Editor CRASHING !\n\n"
+                                                  L"I cannot make sure the render will be successful...",
+                                                  EMBF_OK);
+                    }
+                }
+            }
 
-		if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
-			//SHADOW LIGHTS CHECKBOX
-			if (event.GUIEvent.Caller == autoRecalculate) {
-				devices->getXEffect()->getShadowLight(index).setAutoRecalculate(autoRecalculate->isChecked());
-			}
-			//LENS FLARE CHECKBOX
-			if (event.GUIEvent.Caller == lensFlare) {
-				if (lensFlare->isChecked()) {
-					IMeshSceneNode* meshNode = devices->getSceneManager()->addSphereSceneNode(1, 16, devices->getSceneManager()->getRootSceneNode());
-					meshNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
-					meshNode->setMaterialFlag(EMF_LIGHTING, false);
-					meshNode->setScale(vector3d<f32>(0, 0, 0));
-					meshNode->setParent(nodeToEdit);
-					meshNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_mesh")).c_str());
-					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareMeshSceneNode(meshNode);
+            if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {
+                //SHADOW LIGHTS CHECKBOX
+                if (event.GUIEvent.Caller == autoRecalculate) {
+                    devices->getXEffect()->getShadowLight(index).setAutoRecalculate(autoRecalculate->isChecked());
+                }
+                //LENS FLARE CHECKBOX
+                if (event.GUIEvent.Caller == lensFlare) {
+                    if (lensFlare->isChecked()) {
+                        IMeshSceneNode* meshNode = devices->getSceneManager()->addSphereSceneNode(1, 16, devices->getSceneManager()->getRootSceneNode());
+                        meshNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+                        meshNode->setMaterialFlag(EMF_LIGHTING, false);
+                        meshNode->setScale(vector3d<f32>(0, 0, 0));
+                        meshNode->setParent(nodeToEdit);
+                        meshNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_mesh")).c_str());
+                        devices->getCoreData()->getLightsData()->operator[](index).setLensFlareMeshSceneNode(meshNode);
 
-					IBillboardSceneNode* bill = devices->getSceneManager()->addBillboardSceneNode(meshNode);
-					bill->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
-					bill->setMaterialFlag(EMF_LIGHTING, false);
-					bill->setSize(dimension2d<f32>(0, 0));
-					bill->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_bill")).c_str());
-					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(bill);
+                        IBillboardSceneNode* bill = devices->getSceneManager()->addBillboardSceneNode(meshNode);
+                        bill->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+                        bill->setMaterialFlag(EMF_LIGHTING, false);
+                        bill->setSize(dimension2d<f32>(0, 0));
+                        bill->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_bill")).c_str());
+                        devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(bill);
 
-					CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
-					lensFlareNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_node")).c_str());
-					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(lensFlareNode);
+                        CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
+                        lensFlareNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_node")).c_str());
+                        devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(lensFlareNode);
 
-					core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();
-					element++;
-					for (; element != lensFlareTab->getChildren().end(); ++element) {
-						(*element)->setEnabled(true);
-					}
-					devices->getVideoDriver()->addOcclusionQuery(meshNode, meshNode->getMesh());
-                    
-                    devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+                        core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();
+                        element++;
+                        for (; element != lensFlareTab->getChildren().end(); ++element) {
+                            (*element)->setEnabled(true);
+                        }
+                        devices->getVideoDriver()->addOcclusionQuery(meshNode, meshNode->getMesh());
+                        
+                        devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 
-				} else {
-					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode());
-					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
-					devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode());
-                    
-                    devices->getVideoDriver()->removeOcclusionQuery(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
+                    } else {
+                        devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode());
+                        devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
+                        devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode());
+                        
+                        devices->getVideoDriver()->removeOcclusionQuery(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
 
-					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->remove();
-					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(0);
+                        devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->remove();
+                        devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(0);
 
-					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->remove();
-					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(0);
+                        devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->remove();
+                        devices->getCoreData()->getLightsData()->operator[](index).setLensFlareSceneNode(0);
 
-					devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->remove();
-					devices->getCoreData()->getLightsData()->operator[](index).setLensFlareMeshSceneNode(0);
+                        devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->remove();
+                        devices->getCoreData()->getLightsData()->operator[](index).setLensFlareMeshSceneNode(0);
 
-					core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();
-					element++;
-					for (; element != lensFlareTab->getChildren().end(); ++element) {
-						(*element)->setEnabled(false);
-					}
-                    
-                    devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
-				}
-			}
-		}
+                        core::list<IGUIElement *>::ConstIterator element = lensFlareTab->getChildren().begin();
+                        element++;
+                        for (; element != lensFlareTab->getChildren().end(); ++element) {
+                            (*element)->setEnabled(false);
+                        }
+                        
+                        devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+                    }
+                }
+            }
 
-		if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
-			//LENS FLARE STRENGTH
-			if (event.GUIEvent.Caller == lfStrength) {
-				stringc strength_c = lfStrength->getText();
-				f32 strength = devices->getCore()->getF32(strength_c.c_str());
-				devices->getCoreData()->getLightsData()->operator[](index).setLensFlareStrengthFactor(strength);
-			}
+            if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
+                //LENS FLARE STRENGTH
+                if (event.GUIEvent.Caller == lfStrength) {
+                    stringc strength_c = lfStrength->getText();
+                    f32 strength = devices->getCore()->getF32(strength_c.c_str());
+                    devices->getCoreData()->getLightsData()->operator[](index).setLensFlareStrengthFactor(strength);
+                }
 
-			//LENS FLARE SPHERE SCALE
-			if (event.GUIEvent.Caller == sphereX) {
-				stringc scalex_c = sphereX->getText();
-				f32 scalex = devices->getCore()->getF32(scalex_c.c_str());
-				IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
-				node->setScale(vector3df(scalex, node->getScale().Y, node->getScale().Z));
-			}
+                //LENS FLARE SPHERE SCALE
+                if (event.GUIEvent.Caller == sphereX) {
+                    stringc scalex_c = sphereX->getText();
+                    f32 scalex = devices->getCore()->getF32(scalex_c.c_str());
+                    IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
+                    node->setScale(vector3df(scalex, node->getScale().Y, node->getScale().Z));
+                }
 
-			if (event.GUIEvent.Caller == sphereY) {
-				stringc scaley_c = sphereY->getText();
-				f32 scaley = devices->getCore()->getF32(scaley_c.c_str());
-				IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
-				node->setScale(vector3df(node->getScale().X, scaley, node->getScale().Z));
-			}
+                if (event.GUIEvent.Caller == sphereY) {
+                    stringc scaley_c = sphereY->getText();
+                    f32 scaley = devices->getCore()->getF32(scaley_c.c_str());
+                    IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
+                    node->setScale(vector3df(node->getScale().X, scaley, node->getScale().Z));
+                }
 
-			if (event.GUIEvent.Caller == sphereZ) {
-				stringc scalez_c = sphereZ->getText();
-				f32 scalez = devices->getCore()->getF32(scalez_c.c_str());
-				IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
-				node->setScale(vector3df(node->getScale().X, node->getScale().Y, scalez));
-			}
+                if (event.GUIEvent.Caller == sphereZ) {
+                    stringc scalez_c = sphereZ->getText();
+                    f32 scalez = devices->getCore()->getF32(scalez_c.c_str());
+                    IMeshSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
+                    node->setScale(vector3df(node->getScale().X, node->getScale().Y, scalez));
+                }
 
-			//LENS FLARE DIMENSIONS BB
-			if (event.GUIEvent.Caller == bbW) {
-				stringc widthBB_c = bbW->getText();
-				f32 widthBB = devices->getCore()->getF32(widthBB_c.c_str());
-				IBillboardSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
-				node->setSize(dimension2d<f32>(widthBB, node->getSize().Height));
-			}
+                //LENS FLARE DIMENSIONS BB
+                if (event.GUIEvent.Caller == bbW) {
+                    stringc widthBB_c = bbW->getText();
+                    f32 widthBB = devices->getCore()->getF32(widthBB_c.c_str());
+                    IBillboardSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
+                    node->setSize(dimension2d<f32>(widthBB, node->getSize().Height));
+                }
 
-			if (event.GUIEvent.Caller == bbH) {
-				stringc heightBB_c = bbH->getText();
-				f32 heightBB = devices->getCore()->getF32(heightBB_c.c_str());
-				IBillboardSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
-				node->setSize(dimension2d<f32>(node->getSize().Width, heightBB));
-			}
+                if (event.GUIEvent.Caller == bbH) {
+                    stringc heightBB_c = bbH->getText();
+                    f32 heightBB = devices->getCore()->getF32(heightBB_c.c_str());
+                    IBillboardSceneNode *node = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
+                    node->setSize(dimension2d<f32>(node->getSize().Width, heightBB));
+                }
 
-			//SHADOW LIGHT FAR VALUE
-			if (event.GUIEvent.Caller == farValueSL) {
-				s32 farValue = devices->getCore()->getF32(stringc(farValueSL->getText()).c_str());
-				devices->getXEffect()->getShadowLight(index).setFarValue(farValue);
-			}
-		}
+                //SHADOW LIGHT FAR VALUE
+                if (event.GUIEvent.Caller == farValueSL) {
+                    s32 farValue = devices->getCore()->getF32(stringc(farValueSL->getText()).c_str());
+                    devices->getXEffect()->getShadowLight(index).setFarValue(farValue);
+                }
+            }
 
-		if (event.GUIEvent.EventType == EGET_SPINBOX_CHANGED) {
-			if (event.GUIEvent.Caller == bbWH) {
-				IBillboardSceneNode *bbNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
-				bbNode->setSize(dimension2d<f32>(bbNode->getSize().Width+bbWH->getValue(), bbNode->getSize().Height+bbWH->getValue()));
-				bbWH->setValue(0);
-			}
+            if (event.GUIEvent.EventType == EGET_SPINBOX_CHANGED) {
+                if (event.GUIEvent.Caller == bbWH) {
+                    IBillboardSceneNode *bbNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
+                    bbNode->setSize(dimension2d<f32>(bbNode->getSize().Width+bbWH->getValue(), bbNode->getSize().Height+bbWH->getValue()));
+                    bbWH->setValue(0);
+                }
 
-			if (event.GUIEvent.Caller == sphereXYZ) {
-				IMeshSceneNode *sphereNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
-				sphereNode->setScale(vector3df(sphereNode->getScale().X+sphereXYZ->getValue(), sphereNode->getScale().Y+sphereXYZ->getValue(),
-											   sphereNode->getScale().Z+sphereXYZ->getValue()));
-				sphereXYZ->setValue(0);
-			}
-		}
+                if (event.GUIEvent.Caller == sphereXYZ) {
+                    IMeshSceneNode *sphereNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
+                    sphereNode->setScale(vector3df(sphereNode->getScale().X+sphereXYZ->getValue(), sphereNode->getScale().Y+sphereXYZ->getValue(),
+                                                   sphereNode->getScale().Z+sphereXYZ->getValue()));
+                    sphereXYZ->setValue(0);
+                }
+            }
 
-		if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
-			IGUIFileOpenDialog *dialog = ((IGUIFileOpenDialog *)event.GUIEvent.Caller);
+            if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
+                IGUIFileOpenDialog *dialog = ((IGUIFileOpenDialog *)event.GUIEvent.Caller);
 
-			//LENS FLARE NODE
-			if (currentBrowse == 1) {
-				stringw path = dialog->getFileName();
-				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
-				sphereTexture->setText(path.c_str());
-			}
+                //LENS FLARE NODE
+                if (currentBrowse == 1) {
+                    stringw path = dialog->getFileName();
+                    devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+                    sphereTexture->setText(path.c_str());
+                }
 
-			if (currentBrowse == 2) {
-				stringw path = dialog->getFileName();
-				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
-				bbTexture->setText(path.c_str());
-			}
+                if (currentBrowse == 2) {
+                    stringw path = dialog->getFileName();
+                    devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+                    bbTexture->setText(path.c_str());
+                }
 
-			if (currentBrowse == 3) {
-				stringw path = dialog->getFileName();
-				devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
-				lfnTexture->setText(path.c_str());
-			}
-		}
+                if (currentBrowse == 3) {
+                    stringw path = dialog->getFileName();
+                    devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode()->setMaterialTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+                    lfnTexture->setText(path.c_str());
+                }
+            }
+        }
 	}
 
 	return false;

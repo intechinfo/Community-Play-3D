@@ -261,9 +261,7 @@
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
 		2E202BE4187B55D000F44BB0 /* CUIWindowEditFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */; };
-		2E202BE5187B55D000F44BB0 /* CUIWindowEditFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E202BE3187B55D000F44BB0 /* CUIWindowEditFilters.h */; };
 		2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
-		2E2B176C186E1FEC000E6DAF /* ISSWERender.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E2B176B186E1FEC000E6DAF /* ISSWERender.h */; };
 		2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
 		2E2CA48F182D6DD7000BA9DA /* CCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C601D182981B700FB1027 /* CCollisionManager.h */; };
 		2E2CA491182D6DD7000BA9DA /* CCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6020182981B700FB1027 /* CCore.h */; };
@@ -288,96 +286,6 @@
 		2E2CA4B2182D6DF8000BA9DA /* XEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F64182980FA00FB1027 /* XEffects.h */; };
 		2E2CA4B4182D6DF8000BA9DA /* SSWERenders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
 		2E2CA4B6182D6DF8000BA9DA /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
-		2E2CA4B7182D6E7D000BA9DA /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6340182985E100FB1027 /* stdafx.h */; };
-		2E2CA4B8182D6E7D000BA9DA /* DLLExport.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C60FC182983A200FB1027 /* DLLExport.h */; };
-		2E2CA4B9182D6E7D000BA9DA /* IDevices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C60FD182983A200FB1027 /* IDevices.h */; };
-		2E2CA4BA182D6E7D000BA9DA /* IGraphicTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C60FE182983A200FB1027 /* IGraphicTool.h */; };
-		2E2CA4BB182D6E7D000BA9DA /* IMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C60FF182983A200FB1027 /* IMonitor.h */; };
-		2E2CA4BC182D6E7D000BA9DA /* IMonitorRegisterer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6100182983A200FB1027 /* IMonitorRegisterer.h */; };
-		2E2CA4BD182D6E7D000BA9DA /* ISSWELibPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6101182983A200FB1027 /* ISSWELibPlugin.h */; };
-		2E2CA4BE182D6E7D000BA9DA /* ITool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6102182983A200FB1027 /* ITool.h */; };
-		2E2CA4BF182D6E7D000BA9DA /* CAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6106182983A200FB1027 /* CAction.h */; };
-		2E2CA4C0182D6E7D000BA9DA /* CUICharacterWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6108182983A200FB1027 /* CUICharacterWindow.h */; };
-		2E2CA4C1182D6E7D000BA9DA /* CUIEditBones.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C610A182983A200FB1027 /* CUIEditBones.h */; };
-		2E2CA4C2182D6E7D000BA9DA /* CAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C610D182983A200FB1027 /* CAnimation.h */; };
-		2E2CA4C3182D6E7D000BA9DA /* CFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C610F182983A200FB1027 /* CFrame.h */; };
-		2E2CA4C4182D6E7D000BA9DA /* CManualAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6111182983A200FB1027 /* CManualAction.h */; };
-		2E2CA4C5182D6E7D000BA9DA /* CDevices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6114182983A200FB1027 /* CDevices.h */; };
-		2E2CA4C6182D6E7D000BA9DA /* CCoreUserInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6117182983A200FB1027 /* CCoreUserInterface.h */; };
-		2E2CA4C7182D6E7D000BA9DA /* CRenderCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6119182983A200FB1027 /* CRenderCore.h */; };
-		2E2CA4C8182D6E7D000BA9DA /* CFileSystemScripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C611C182983A200FB1027 /* CFileSystemScripting.h */; };
-		2E2CA4C9182D6E7D000BA9DA /* CLuaBinds.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C611E182983A200FB1027 /* CLuaBinds.h */; };
-		2E2CA4CA182D6E7D000BA9DA /* CSceneScripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6120182983A200FB1027 /* CSceneScripting.h */; };
-		2E2CA4CB182D6E7D000BA9DA /* CUIScriptEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6122182983A200FB1027 /* CUIScriptEditor.h */; };
-		2E2CA4CC182D6E7D000BA9DA /* MonitorRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6125182983A200FB1027 /* MonitorRegister.h */; };
-		2E2CA4CD182D6E7D000BA9DA /* CGUICodeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6129182983A300FB1027 /* CGUICodeEditor.h */; };
-		2E2CA4CE182D6E7D000BA9DA /* CGUIFileSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C612C182983A300FB1027 /* CGUIFileSelector.h */; };
-		2E2CA4CF182D6E7D000BA9DA /* GraphKat.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C612F182983A300FB1027 /* GraphKat.h */; };
-		2E2CA4D0182D6E7D000BA9DA /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6132182983A300FB1027 /* ProgressBar.h */; };
-		2E2CA4D1182D6E7D000BA9DA /* CGUIViewPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6135182983A300FB1027 /* CGUIViewPort.h */; };
-		2E2CA4D2182D6E7D000BA9DA /* IGUIViewPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6136182983A300FB1027 /* IGUIViewPort.h */; };
-		2E2CA4D3182D6E7D000BA9DA /* CUIWindowEditDOF.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C613A182983A300FB1027 /* CUIWindowEditDOF.h */; };
-		2E2CA4D6182D6E7D000BA9DA /* CShaderCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6142182983A300FB1027 /* CShaderCallback.h */; };
-		2E2CA4D8182D6E7D000BA9DA /* CUIWindowEditMaterials.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6146182983A300FB1027 /* CUIWindowEditMaterials.h */; };
-		2E2CA4D9182D6E7D000BA9DA /* CUIWindowEditMaterialsCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6148182983A300FB1027 /* CUIWindowEditMaterialsCallback.h */; };
-		2E2CA4DA182D6E7D000BA9DA /* CRotationAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C614C182983A300FB1027 /* CRotationAnimator.h */; };
-		2E2CA4DB182D6E7D000BA9DA /* ISceneNodeAnimatorFinishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C614D182983A300FB1027 /* ISceneNodeAnimatorFinishing.h */; };
-		2E2CA4DC182D6E7D000BA9DA /* CRiggedCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6150182983A300FB1027 /* CRiggedCamera.h */; };
-		2E2CA4DD182D6E7D000BA9DA /* CSceneNodeAnimatorCameraUpVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6151182983A300FB1027 /* CSceneNodeAnimatorCameraUpVector.h */; };
-		2E2CA4DE182D6E7D000BA9DA /* CloudSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6154182983A300FB1027 /* CloudSceneNode.h */; };
-		2E2CA4DF182D6E7D000BA9DA /* LensFlareSceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6156182983A300FB1027 /* LensFlareSceneNode.h */; };
-		2E2CA4E0182D6E7D000BA9DA /* SceneNodeAnimatorFollowCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6158182983A300FB1027 /* SceneNodeAnimatorFollowCamera.h */; };
-		2E2CA4E1182D6E7D000BA9DA /* CTerrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C615B182983A300FB1027 /* CTerrain.h */; };
-		2E2CA4E2182D6E7D000BA9DA /* CTerrainPager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C615D182983A300FB1027 /* CTerrainPager.h */; };
-		2E2CA4E3182D6E7D000BA9DA /* CTerrainSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6160182983A300FB1027 /* CTerrainSystem.h */; };
-		2E2CA4E4182D6E7D000BA9DA /* CWaterSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6163182983A300FB1027 /* CWaterSurface.h */; };
-		2E2CA4E5182D6E7D000BA9DA /* CExporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6166182983A300FB1027 /* CExporter.h */; };
-		2E2CA4E6182D6E7D000BA9DA /* CImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6168182983A300FB1027 /* CImporter.h */; };
-		2E2CA4E7182D6E7D000BA9DA /* CUIEditFPSCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C616C182983A400FB1027 /* CUIEditFPSCamera.h */; };
-		2E2CA4E8182D6E7D000BA9DA /* CUIWindowEditNodeAnimators.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C616E182983A400FB1027 /* CUIWindowEditNodeAnimators.h */; };
-		2E2CA4E9182D6E7D000BA9DA /* CUICodeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6171182983A400FB1027 /* CUICodeEditor.h */; };
-		2E2CA4EA182D6E7D000BA9DA /* CUILoadNodesGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6173182983A400FB1027 /* CUILoadNodesGroup.h */; };
-		2E2CA4EB182D6E7D000BA9DA /* CUIRenderingInfos.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6175182983A400FB1027 /* CUIRenderingInfos.h */; };
-		2E2CA4EC182D6E7D000BA9DA /* CUIRightSceneTreeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6177182983A400FB1027 /* CUIRightSceneTreeView.h */; };
-		2E2CA4ED182D6E7D000BA9DA /* CUISceneView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6179182983A400FB1027 /* CUISceneView.h */; };
-		2E2CA4EE182D6E7D000BA9DA /* CUIWindowEditGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C617B182983A400FB1027 /* CUIWindowEditGrid.h */; };
-		2E2CA4EF182D6E7D000BA9DA /* CUIWindowEditLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C617D182983A400FB1027 /* CUIWindowEditLight.h */; };
-		2E2CA4F0182D6E7D000BA9DA /* CUIWindowEditNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C617F182983A400FB1027 /* CUIWindowEditNode.h */; };
-		2E2CA4F1182D6E7D000BA9DA /* CUIWindowEditVolumeLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6181182983A400FB1027 /* CUIWindowEditVolumeLight.h */; };
-		2E2CA4F2182D6E7D000BA9DA /* CUIWindowEditWater.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6183182983A400FB1027 /* CUIWindowEditWater.h */; };
-		2E2CA4F3182D6E7D000BA9DA /* CUIWindowExportScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6185182983A400FB1027 /* CUIWindowExportScene.h */; };
-		2E2CA4F4182D6E7D000BA9DA /* CUIWindowOpenScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6187182983A400FB1027 /* CUIWindowOpenScene.h */; };
-		2E2CA4F5182D6E7D000BA9DA /* CUIWindowsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6189182983A400FB1027 /* CUIWindowsManager.h */; };
-		2E2CA4F6182D6E7D000BA9DA /* CUIWindowAddLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C618C182983A400FB1027 /* CUIWindowAddLight.h */; };
-		2E2CA4F7182D6E7D000BA9DA /* CUIWindowAddObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C618E182983A400FB1027 /* CUIWindowAddObject.h */; };
-		2E2CA4F8182D6E7D000BA9DA /* CUIWindowAddTerrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6190182983A400FB1027 /* CUIWindowAddTerrain.h */; };
-		2E2CA4F9182D6E7D000BA9DA /* CUIWindowAddTree.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6192182983A400FB1027 /* CUIWindowAddTree.h */; };
-		2E2CA4FA182D6E7D000BA9DA /* CUIWindowAddVolumeLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6194182983A400FB1027 /* CUIWindowAddVolumeLight.h */; };
-		2E2CA4FB182D6E7D000BA9DA /* CUIWindowAddWatersSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6196182983A400FB1027 /* CUIWindowAddWatersSurface.h */; };
-		2E2CA4FC182D6E7D000BA9DA /* UIMainWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6198182983A400FB1027 /* UIMainWindow.h */; };
-		2E2CA4FD182D6E7D000BA9DA /* CMaterialEditorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C619B182983A400FB1027 /* CMaterialEditorFactory.h */; };
-		2E2CA4FE182D6E7D000BA9DA /* CUIMaterialEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C619D182983A400FB1027 /* CUIMaterialEditor.h */; };
-		2E2CA4FF182D6E7D000BA9DA /* CUIMaterialEditorColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61A0182983A400FB1027 /* CUIMaterialEditorColors.h */; };
-		2E2CA500182D6E7D000BA9DA /* CUIMaterialEditorFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61A2182983A400FB1027 /* CUIMaterialEditorFlags.h */; };
-		2E2CA501182D6E7D000BA9DA /* CUIMaterialEditorTextures.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61A4182983A400FB1027 /* CUIMaterialEditorTextures.h */; };
-		2E2CA502182D6E7D000BA9DA /* CNodeFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61A7182983A500FB1027 /* CNodeFactory.h */; };
-		2E2CA503182D6E7D000BA9DA /* CUINodeFactoryCreateMeshWithTangents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61A9182983A500FB1027 /* CUINodeFactoryCreateMeshWithTangents.h */; };
-		2E2CA504182D6E7D000BA9DA /* CUINodeFactoryPlanarMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61AB182983A500FB1027 /* CUINodeFactoryPlanarMapping.h */; };
-		2E2CA505182D6E7D000BA9DA /* CUIWindowAddNewTerrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61AD182983A500FB1027 /* CUIWindowAddNewTerrain.h */; };
-		2E2CA506182D6E7D000BA9DA /* CGrassPainter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61B0182983A500FB1027 /* CGrassPainter.h */; };
-		2E2CA507182D6E7D000BA9DA /* CTerrainPainter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61B2182983A500FB1027 /* CTerrainPainter.h */; };
-		2E2CA508182D6E7D000BA9DA /* CUITerrainPainting.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61B4182983A500FB1027 /* CUITerrainPainting.h */; };
-		2E2CA509182D6E7D000BA9DA /* CUISSWEOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61B7182983A500FB1027 /* CUISSWEOptions.h */; };
-		2E2CA50A182D6E7D000BA9DA /* CPluginsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61BA182983A500FB1027 /* CPluginsManager.h */; };
-		2E2CA50B182D6E7D000BA9DA /* CUIPluginsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61BC182983A500FB1027 /* CUIPluginsManager.h */; };
-		2E2CA50C182D6E7D000BA9DA /* CProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61BF182983A500FB1027 /* CProcess.h */; };
-		2E2CA50D182D6E7D000BA9DA /* CUIProcessesLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61C1182983A500FB1027 /* CUIProcessesLogger.h */; };
-		2E2CA50E182D6E7D000BA9DA /* CUITextureEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61C4182983A500FB1027 /* CUITextureEditor.h */; };
-		2E2CA50F182D6E7D000BA9DA /* CUITexturesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61C6182983A500FB1027 /* CUITexturesManager.h */; };
-		2E2CA510182D6E7D000BA9DA /* UIContextMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61C8182983A500FB1027 /* UIContextMenu.h */; };
-		2E2CA511182D6E7D000BA9DA /* UIWindowRender.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61CA182983A500FB1027 /* UIWindowRender.h */; };
-		2E2CA512182D6E7D000BA9DA /* SSWELib.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61CC182983A500FB1027 /* SSWELib.h */; };
-		2E2CA513182D6E7D000BA9DA /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C61CE182983A500FB1027 /* stdafx.h */; };
 		2E4437E1187B57C50024A476 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
 		2E4437E2187B58980024A476 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E56A2271828EF9500D63D65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
@@ -625,7 +533,6 @@
 		2E83A6FB182E8C7C006BE319 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
 		2E83A6FC182E8C80006BE319 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E83A6FD182E8C8E006BE319 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
-		2E8F3B1E184AB0160073A3A3 /* ISSWEEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8F3B1D184AB0160073A3A3 /* ISSWEEvents.h */; };
 		2E92B64C1849289E00D955F8 /* shadergroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F55182980F900FB1027 /* shadergroup.h */; };
 		2E92B64D1849289E00D955F8 /* shadermaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F57182980F900FB1027 /* shadermaterial.h */; };
 		2E92B64E1849289E00D955F8 /* PostProcessMotionBlurhlsl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F59182980F900FB1027 /* PostProcessMotionBlurhlsl.h */; };
@@ -777,26 +684,19 @@
 		2E92B78918492B9600D955F8 /* SPK_SFML.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74318492B9600D955F8 /* SPK_SFML.h */; };
 		2E92B78A18492C4B00D955F8 /* libSPARK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E92B6751849289E00D955F8 /* libSPARK.a */; };
 		2E92B78E18492D8600D955F8 /* CUIParticlesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B78C18492D8600D955F8 /* CUIParticlesEditor.cpp */; };
-		2E92B78F18492D8600D955F8 /* CUIParticlesEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B78D18492D8600D955F8 /* CUIParticlesEditor.h */; };
 		2E932B24182E80E0005FB341 /* libSSWECore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60191829818300FB1027 /* libSSWECore.a */; };
 		2E932B25182E82F0005FB341 /* CCgMaterialRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5484EA168A959800119951 /* CCgMaterialRenderer.cpp */; };
 		2E932B26182E8311005FB341 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5687431719AE69007C0D05 /* CImageLoaderDDS.cpp */; };
 		2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */; };
-		2EAA30FB1854CF5400AE73CC /* RealisticWater.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EAA30F91854CF5400AE73CC /* RealisticWater.h */; };
+		2EBDA183188881680020D61A /* CUIEditParticleFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */; };
 		2EDA7A63182B9AF70047322E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDA7A62182B9AF70047322E /* main.cpp */; };
 		2EDC9AEC185BE88A003F7BF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
 		2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
 		2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
 		2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */; };
-		2EE402B6184947990058DD93 /* CGUINodesEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B4184947990058DD93 /* CGUINodesEditor.h */; };
 		2EE402B918494DD70058DD93 /* CGUINode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B718494DD70058DD93 /* CGUINode.cpp */; };
-		2EE402BA18494DD70058DD93 /* CGUINode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402B818494DD70058DD93 /* CGUINode.h */; };
 		2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */; };
-		2EE402BE18494F970058DD93 /* CUIParticleEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE402BC18494F970058DD93 /* CUIParticleEditor.h */; };
 		2EE53DE4188232F900848E0E /* CUIFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE53DE2188232F800848E0E /* CUIFileLoader.cpp */; };
-		2EE53DE5188232F900848E0E /* CUIFileLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE53DE3188232F800848E0E /* CUIFileLoader.h */; };
-		2EFCDE521852773F00CC9622 /* CUIParticleEditorAddGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */; };
-		2EFCDE531852773F00CC9622 /* CUIParticleEditorAddGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */; };
 		3430E4D61022C391006271FD /* CTarReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3430E4D41022C391006271FD /* CTarReader.h */; };
 		3430E4D71022C391006271FD /* CTarReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3430E4D51022C391006271FD /* CTarReader.cpp */; };
 		344FD4A61039E98C0045FD3F /* CMountPointReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */; };
@@ -2447,6 +2347,8 @@
 		2EA927EA182FB9D8003470EB /* stdafx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWEGenericMonitor/stdafx.h; sourceTree = "<group>"; };
 		2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RealisticWater.cpp; sourceTree = "<group>"; };
 		2EAA30F91854CF5400AE73CC /* RealisticWater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealisticWater.h; sourceTree = "<group>"; };
+		2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIEditParticleFlags.cpp; path = ParticlesEditor/CUIEditParticleFlags.cpp; sourceTree = "<group>"; };
+		2EBDA182188881680020D61A /* CUIEditParticleFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIEditParticleFlags.h; path = ParticlesEditor/CUIEditParticleFlags.h; sourceTree = "<group>"; };
 		2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECoreData.h; sourceTree = "<group>"; };
 		2EDA7A62182B9AF70047322E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../examples/specialFX/main.cpp; sourceTree = "<group>"; };
 		2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINodesEditor.cpp; sourceTree = "<group>"; };
@@ -2457,8 +2359,6 @@
 		2EE402BC18494F970058DD93 /* CUIParticleEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditor.h; path = ParticlesEditor/CUIParticleEditor.h; sourceTree = "<group>"; };
 		2EE53DE2188232F800848E0E /* CUIFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIFileLoader.cpp; sourceTree = "<group>"; };
 		2EE53DE3188232F800848E0E /* CUIFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIFileLoader.h; sourceTree = "<group>"; };
-		2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticleEditorAddGroup.cpp; path = ParticlesEditor/CUIParticleEditorAddGroup.cpp; sourceTree = "<group>"; };
-		2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditorAddGroup.h; path = ParticlesEditor/CUIParticleEditorAddGroup.h; sourceTree = "<group>"; };
 		3430E4D41022C391006271FD /* CTarReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTarReader.h; sourceTree = "<group>"; };
 		3430E4D51022C391006271FD /* CTarReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTarReader.cpp; sourceTree = "<group>"; };
 		344FD4A41039E98C0045FD3F /* CMountPointReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CMountPointReader.cpp; sourceTree = "<group>"; };
@@ -5188,12 +5088,12 @@
 		2E92B78B18492CA900D955F8 /* ParticlesEditor */ = {
 			isa = PBXGroup;
 			children = (
+				2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */,
+				2EBDA182188881680020D61A /* CUIEditParticleFlags.h */,
 				2E92B78C18492D8600D955F8 /* CUIParticlesEditor.cpp */,
 				2E92B78D18492D8600D955F8 /* CUIParticlesEditor.h */,
 				2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */,
 				2EE402BC18494F970058DD93 /* CUIParticleEditor.h */,
-				2EFCDE501852773F00CC9622 /* CUIParticleEditorAddGroup.cpp */,
-				2EFCDE511852773F00CC9622 /* CUIParticleEditorAddGroup.h */,
 			);
 			name = ParticlesEditor;
 			sourceTree = "<group>";
@@ -5775,106 +5675,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E2CA4B7182D6E7D000BA9DA /* stdafx.h in Headers */,
-				2E2CA4B8182D6E7D000BA9DA /* DLLExport.h in Headers */,
-				2E2CA4B9182D6E7D000BA9DA /* IDevices.h in Headers */,
-				2E2CA4BA182D6E7D000BA9DA /* IGraphicTool.h in Headers */,
-				2E2CA4BB182D6E7D000BA9DA /* IMonitor.h in Headers */,
-				2E2CA4BC182D6E7D000BA9DA /* IMonitorRegisterer.h in Headers */,
-				2E2CA4BD182D6E7D000BA9DA /* ISSWELibPlugin.h in Headers */,
-				2E2CA4BE182D6E7D000BA9DA /* ITool.h in Headers */,
-				2E2CA4BF182D6E7D000BA9DA /* CAction.h in Headers */,
-				2E2CA4C0182D6E7D000BA9DA /* CUICharacterWindow.h in Headers */,
-				2E2CA4C1182D6E7D000BA9DA /* CUIEditBones.h in Headers */,
-				2E2CA4C2182D6E7D000BA9DA /* CAnimation.h in Headers */,
-				2E2CA4C3182D6E7D000BA9DA /* CFrame.h in Headers */,
-				2E2CA4C4182D6E7D000BA9DA /* CManualAction.h in Headers */,
-				2E2CA4C5182D6E7D000BA9DA /* CDevices.h in Headers */,
-				2E2CA4C6182D6E7D000BA9DA /* CCoreUserInterface.h in Headers */,
-				2E2CA4C7182D6E7D000BA9DA /* CRenderCore.h in Headers */,
-				2E2CA4C8182D6E7D000BA9DA /* CFileSystemScripting.h in Headers */,
-				2E2CA4C9182D6E7D000BA9DA /* CLuaBinds.h in Headers */,
-				2E2CA4CA182D6E7D000BA9DA /* CSceneScripting.h in Headers */,
-				2E2CA4CB182D6E7D000BA9DA /* CUIScriptEditor.h in Headers */,
-				2E2CA4CC182D6E7D000BA9DA /* MonitorRegister.h in Headers */,
-				2E2CA4CD182D6E7D000BA9DA /* CGUICodeEditor.h in Headers */,
-				2E92B78F18492D8600D955F8 /* CUIParticlesEditor.h in Headers */,
-				2E2CA4CE182D6E7D000BA9DA /* CGUIFileSelector.h in Headers */,
-				2E2CA4CF182D6E7D000BA9DA /* GraphKat.h in Headers */,
-				2E2CA4D0182D6E7D000BA9DA /* ProgressBar.h in Headers */,
-				2E2CA4D1182D6E7D000BA9DA /* CGUIViewPort.h in Headers */,
-				2E2CA4D2182D6E7D000BA9DA /* IGUIViewPort.h in Headers */,
-				2E2CA4D3182D6E7D000BA9DA /* CUIWindowEditDOF.h in Headers */,
-				2E2CA4D6182D6E7D000BA9DA /* CShaderCallback.h in Headers */,
-				2E8F3B1E184AB0160073A3A3 /* ISSWEEvents.h in Headers */,
-				2E2CA4D8182D6E7D000BA9DA /* CUIWindowEditMaterials.h in Headers */,
-				2E2CA4D9182D6E7D000BA9DA /* CUIWindowEditMaterialsCallback.h in Headers */,
-				2E2CA4DA182D6E7D000BA9DA /* CRotationAnimator.h in Headers */,
-				2E2CA4DB182D6E7D000BA9DA /* ISceneNodeAnimatorFinishing.h in Headers */,
-				2E2CA4DC182D6E7D000BA9DA /* CRiggedCamera.h in Headers */,
-				2EE53DE5188232F900848E0E /* CUIFileLoader.h in Headers */,
-				2E2CA4DD182D6E7D000BA9DA /* CSceneNodeAnimatorCameraUpVector.h in Headers */,
-				2E2CA4DE182D6E7D000BA9DA /* CloudSceneNode.h in Headers */,
-				2E2CA4DF182D6E7D000BA9DA /* LensFlareSceneNode.h in Headers */,
-				2E2CA4E0182D6E7D000BA9DA /* SceneNodeAnimatorFollowCamera.h in Headers */,
-				2E2CA4E1182D6E7D000BA9DA /* CTerrain.h in Headers */,
-				2E2CA4E2182D6E7D000BA9DA /* CTerrainPager.h in Headers */,
-				2E2CA4E3182D6E7D000BA9DA /* CTerrainSystem.h in Headers */,
-				2E2CA4E4182D6E7D000BA9DA /* CWaterSurface.h in Headers */,
-				2E2CA4E5182D6E7D000BA9DA /* CExporter.h in Headers */,
-				2E2CA4E6182D6E7D000BA9DA /* CImporter.h in Headers */,
-				2E2CA4E7182D6E7D000BA9DA /* CUIEditFPSCamera.h in Headers */,
-				2E2CA4E8182D6E7D000BA9DA /* CUIWindowEditNodeAnimators.h in Headers */,
-				2E2CA4E9182D6E7D000BA9DA /* CUICodeEditor.h in Headers */,
-				2E2CA4EA182D6E7D000BA9DA /* CUILoadNodesGroup.h in Headers */,
-				2E2CA4EB182D6E7D000BA9DA /* CUIRenderingInfos.h in Headers */,
-				2E2CA4EC182D6E7D000BA9DA /* CUIRightSceneTreeView.h in Headers */,
-				2E2CA4ED182D6E7D000BA9DA /* CUISceneView.h in Headers */,
-				2E2CA4EE182D6E7D000BA9DA /* CUIWindowEditGrid.h in Headers */,
-				2E2CA4EF182D6E7D000BA9DA /* CUIWindowEditLight.h in Headers */,
-				2E2CA4F0182D6E7D000BA9DA /* CUIWindowEditNode.h in Headers */,
-				2E2CA4F1182D6E7D000BA9DA /* CUIWindowEditVolumeLight.h in Headers */,
-				2EFCDE531852773F00CC9622 /* CUIParticleEditorAddGroup.h in Headers */,
-				2E2CA4F2182D6E7D000BA9DA /* CUIWindowEditWater.h in Headers */,
-				2E2CA4F3182D6E7D000BA9DA /* CUIWindowExportScene.h in Headers */,
-				2E2CA4F4182D6E7D000BA9DA /* CUIWindowOpenScene.h in Headers */,
-				2E2B176C186E1FEC000E6DAF /* ISSWERender.h in Headers */,
-				2E2CA4F5182D6E7D000BA9DA /* CUIWindowsManager.h in Headers */,
-				2E2CA4F6182D6E7D000BA9DA /* CUIWindowAddLight.h in Headers */,
-				2E2CA4F7182D6E7D000BA9DA /* CUIWindowAddObject.h in Headers */,
-				2E2CA4F8182D6E7D000BA9DA /* CUIWindowAddTerrain.h in Headers */,
-				2E2CA4F9182D6E7D000BA9DA /* CUIWindowAddTree.h in Headers */,
-				2E2CA4FA182D6E7D000BA9DA /* CUIWindowAddVolumeLight.h in Headers */,
-				2E2CA4FB182D6E7D000BA9DA /* CUIWindowAddWatersSurface.h in Headers */,
-				2E2CA4FC182D6E7D000BA9DA /* UIMainWindow.h in Headers */,
-				2E2CA4FD182D6E7D000BA9DA /* CMaterialEditorFactory.h in Headers */,
-				2E2CA4FE182D6E7D000BA9DA /* CUIMaterialEditor.h in Headers */,
-				2E2CA4FF182D6E7D000BA9DA /* CUIMaterialEditorColors.h in Headers */,
-				2E2CA500182D6E7D000BA9DA /* CUIMaterialEditorFlags.h in Headers */,
-				2EAA30FB1854CF5400AE73CC /* RealisticWater.h in Headers */,
-				2E2CA501182D6E7D000BA9DA /* CUIMaterialEditorTextures.h in Headers */,
-				2E2CA502182D6E7D000BA9DA /* CNodeFactory.h in Headers */,
-				2E2CA503182D6E7D000BA9DA /* CUINodeFactoryCreateMeshWithTangents.h in Headers */,
-				2E202BE5187B55D000F44BB0 /* CUIWindowEditFilters.h in Headers */,
-				2EE402BA18494DD70058DD93 /* CGUINode.h in Headers */,
-				2E2CA504182D6E7D000BA9DA /* CUINodeFactoryPlanarMapping.h in Headers */,
-				2E2CA505182D6E7D000BA9DA /* CUIWindowAddNewTerrain.h in Headers */,
-				2E2CA506182D6E7D000BA9DA /* CGrassPainter.h in Headers */,
-				2EE402B6184947990058DD93 /* CGUINodesEditor.h in Headers */,
-				2E2CA507182D6E7D000BA9DA /* CTerrainPainter.h in Headers */,
-				2E2CA508182D6E7D000BA9DA /* CUITerrainPainting.h in Headers */,
-				2E2CA509182D6E7D000BA9DA /* CUISSWEOptions.h in Headers */,
-				2E2CA50A182D6E7D000BA9DA /* CPluginsManager.h in Headers */,
-				2E2CA50B182D6E7D000BA9DA /* CUIPluginsManager.h in Headers */,
-				2E2CA50C182D6E7D000BA9DA /* CProcess.h in Headers */,
-				2E2CA50D182D6E7D000BA9DA /* CUIProcessesLogger.h in Headers */,
-				2E2CA50E182D6E7D000BA9DA /* CUITextureEditor.h in Headers */,
-				2E2CA50F182D6E7D000BA9DA /* CUITexturesManager.h in Headers */,
-				2E2CA510182D6E7D000BA9DA /* UIContextMenu.h in Headers */,
-				2E2CA511182D6E7D000BA9DA /* UIWindowRender.h in Headers */,
-				2E2CA512182D6E7D000BA9DA /* SSWELib.h in Headers */,
-				2E2CA513182D6E7D000BA9DA /* stdafx.h in Headers */,
-				2EE402BE18494F970058DD93 /* CUIParticleEditor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7153,6 +6953,7 @@
 				2E6C62A9182983CD00FB1027 /* CGUIViewPort.h in Sources */,
 				2E6C62AA182983CD00FB1027 /* IGUIViewPort.h in Sources */,
 				2E6C62AB182983CD00FB1027 /* CUIWindowEditDOF.cpp in Sources */,
+				2EBDA183188881680020D61A /* CUIEditParticleFlags.cpp in Sources */,
 				2E6C62AC182983CD00FB1027 /* CUIWindowEditDOF.h in Sources */,
 				2E6C62B1182983CD00FB1027 /* CShaderCallback.cpp in Sources */,
 				2E6C62B2182983CD00FB1027 /* CShaderCallback.h in Sources */,
@@ -7254,7 +7055,6 @@
 				2E6C6310182983CD00FB1027 /* CGrassPainter.h in Sources */,
 				2E6C6311182983CD00FB1027 /* CTerrainPainter.cpp in Sources */,
 				2E6C6312182983CD00FB1027 /* CTerrainPainter.h in Sources */,
-				2EFCDE521852773F00CC9622 /* CUIParticleEditorAddGroup.cpp in Sources */,
 				2E92B78E18492D8600D955F8 /* CUIParticlesEditor.cpp in Sources */,
 				2E6C6313182983CD00FB1027 /* CUITerrainPainting.cpp in Sources */,
 				2E6C6314182983CD00FB1027 /* CUITerrainPainting.h in Sources */,

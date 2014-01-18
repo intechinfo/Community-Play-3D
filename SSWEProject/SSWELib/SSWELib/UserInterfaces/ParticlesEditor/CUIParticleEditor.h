@@ -15,6 +15,8 @@
 #include "../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../GUIExtension/NodesEditor/CGUINodesEditor.h"
 
+#include "CUIEditParticleFlags.h"
+
 class CUIParticleEditor : public IEventReceiver {
 
 public:
