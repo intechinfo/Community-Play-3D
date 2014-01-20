@@ -32,6 +32,7 @@ private:
 
 	//-----------------------------------
 	//DEVICE ELEMENTS
+	CCoreUserInterface *coreUserInterface;
 	CDevices *devices;
 
 	IVideoDriver *driver;

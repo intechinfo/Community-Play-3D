@@ -232,8 +232,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleFlags.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.cpp" />
-    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditorAddGroup.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditor.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.cpp" />
@@ -342,8 +342,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.h" />
     <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleFlags.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.h" />
-    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditorAddGroup.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditor.h" />
     <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.h" />

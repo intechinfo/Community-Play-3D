@@ -9,40 +9,20 @@
 #include "stdafx.h"
 #include "CUIEditBones.h"
 
+#ifndef _IRR_OSX_PLATFORM_
+    CRITICAL_SECTION CriticalSectionEditBones;
+#endif
+
 #ifdef _IRR_OSX_PLATFORM_
 #include <pthread.h>
 static pthread_mutex_t cs_mutex =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #endif
 
 CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMesh *mesh, ISceneNode *pnode) {
-    devices = new CDevices(_devices->getCoreUserInterface());
-    
-    SIrrlichtCreationParameters params;
-    #ifdef _IRR_OSX_PLATFORM_
-    params.DriverType=irr::video::EDT_OPENGL;
-    //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
-    //params.WindowSize = dimension2d<u32>(1920, 1070);
-    //params.WindowSize = dimension2d<u32>(1280, 690);
-    params.WindowSize = dimension2du(1680, 946);
-    #else
-	params.DriverType=EDT_DIRECT3D9;
-    params.WindowSize = dimension2d<u32>(800, 600);
-    #endif
-    params.Bits=32;
-    #ifdef _IRR_OSX_PLATFORM_
-    params.Fullscreen = false;
-    #else
-    params.Fullscreen = false;
-    #endif
-	params.Stencilbuffer=false;
-	params.Vsync=true;
-	params.AntiAlias=true;
-    params.ZBufferBits = 32;
-	params.EventReceiver=0;
-	params.DriverMultithreaded = true;
-    devices->createDevice(params);
-    
-    devices->getCoreUserInterface()->addDevices(devices);
+	coreUserInterface = new CCoreUserInterface();
+    devices = coreUserInterface->getDevices();
+
+	_devices->getCoreUserInterface()->addUserInterface(coreUserInterface);
     
 	//DEVICES
 	//devices = _devices;
@@ -207,7 +187,7 @@ void CUIEditBones::open() {
 }
 
 void CUIEditBones::update() {
-    
+
 }
 
 void CUIEditBones::close() {

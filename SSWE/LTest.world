@@ -286,7 +286,7 @@ pfloat fBumpStrength 5
 
 		 <object>
 
-			 <path file="/Users/julienmoreau-mathis/Desktop/Nala Editor/SSWE/data/Characters/sintel/sintel_update.x" />
+			 <path file="data/Characters/sintel/sintel_update.x" />
 
 			 <name c8name="#object:myName" />
 
