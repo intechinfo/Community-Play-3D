@@ -60,8 +60,6 @@ private:
 	CGridSceneNode *grid;
 	IBoneSceneNode *lastBoneSceneNode;
 	ICameraSceneNode *camera;
-
-	CUIEditBones *editBones;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -107,6 +105,7 @@ private:
     
 	ILightSceneNode* light;
 	IAnimatedMeshSceneNode *node;
+    IAnimatedMesh *mesh;
 	//-----------------------------------
 
 	//-----------------------------------

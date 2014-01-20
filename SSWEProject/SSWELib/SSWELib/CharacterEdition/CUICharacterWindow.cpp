@@ -25,7 +25,7 @@ CUICharacterWindow::CUICharacterWindow(CDevices *_devices) {
 }
 
 CUICharacterWindow::~CUICharacterWindow() {
-    delete editBones;
+    
 }
 
 void CUICharacterWindow::open() {
@@ -156,7 +156,7 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
             node->remove();
             node = 0;
         }
-		IAnimatedMesh *mesh = smgr->getMesh(devices->getCoreData()->getObjectsData()->operator[](index).getPath());
+		mesh = smgr->getMesh(devices->getCoreData()->getObjectsData()->operator[](index).getPath());
 		node = smgr->addAnimatedMeshSceneNode(mesh);
         node->setPosition(pnode->getPosition());
         node->setRotation(pnode->getRotation());
@@ -205,9 +205,6 @@ void CUICharacterWindow::setModel(IAnimatedMeshSceneNode *pnode, s32 index) {
     nameAction->setEnabled(false);
     speedAction->setEnabled(false);
     previewAction->setEnabled(false);
-
-	editBones = new CUIEditBones(devices, node);
-	devices->getEventReceiver()->AddEventReceiver(editBones);
 }
 
 void CUICharacterWindow::exportAnimatedModel() {
@@ -217,7 +214,7 @@ void CUICharacterWindow::exportAnimatedModel() {
 	fprintf(export_file, "<rootAnim>\n\n");
 	for (u32 i=0; i < actions.size(); i++) {
 		fprintf(export_file, "\t");
-		fprintf(export_file, actions[i]->getXMLValues().c_str());
+		fprintf(export_file, "%s", actions[i]->getXMLValues().c_str());
 	}
 	fprintf(export_file, "\n</rootAnim>\n");
 	fclose(export_file);
@@ -240,7 +237,6 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
             switch (tempMenu->getItemCommandId(tempMenu->getSelectedItem())) {
                 //FILE
                 case CXT_EDIT_WINDOW_CHARACTER_EVENTS_CLOSE:
-					editBones->close();
                     characterWindow->remove();
                     viewPort->remove();
                     if (node) {
@@ -253,7 +249,6 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                     characterWindow = 0;
                     actions.clear();
 					devices->getEventReceiver()->RemoveEventReceiver(this);
-					devices->getEventReceiver()->RemoveEventReceiver(editBones);
 					devices->setRenderScene(true);
 					delete this;
 					return false;
@@ -263,25 +258,10 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 					saveDialog = devices->createFileOpenDialog(L"Select the directory", CGUIFileSelector::EFST_SAVE_DIALOG, characterWindow);
 					break;
 
-				case CXT_EDIT_WINDOW_CHARACTER_EVENTS_ENTER_BONES_EDITION:
-					node->setDebugDataVisible(EDS_SKELETON);
-					//devices->getEventReceiver()->AddMinimizedWindow(this, characterWindow);
-					characterWindow->setVisible(false);
-					devices->getSceneManagers()->push_back(smgr);
-					devices->setSceneManagerToDraw(smgr);
-					smgr->setActiveCamera(devices->getMayaCamera());
-					devices->getSecondSceneManager()->setActiveCamera(devices->getMayaCamera());
-					devices->getDevice()->setInputReceivingSceneManager(smgr);
-					node->setAnimationSpeed(0);
-					node->setFrameLoop(0, 0);
-					node->setLoopMode(true);
-					node->render();
-					node->setJointMode(EJUOR_CONTROL);
-					devices->setContextName("Bones Edition");
-					editBones->open();
-					//cameraMaya->setUpVector(camera->getPosition());
-					//cameraMaya->setTarget(node->getPosition());
-					devices->setRenderScene(true);
+				case CXT_EDIT_WINDOW_CHARACTER_EVENTS_ENTER_BONES_EDITION: {
+                    CUIEditBones *editBones = new CUIEditBones(devices, mesh, node);
+                    editBones->open();
+                }
 					break;
                     
                 default:
@@ -424,7 +404,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
                     break;
             }
 
-			if (event.GUIEvent.Caller == editBones->getCloseButton()) {
+			/*if (event.GUIEvent.Caller == editBones->getCloseButton()) {
 				devices->getObjectPlacement()->setNodeToPlace(0);
 				devices->getObjectPlacement()->setArrowVisible(false);
 				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
@@ -436,7 +416,7 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 				devices->getDevice()->setInputReceivingSceneManager(devices->getSceneManager());
 				devices->setContextName("General");
 				editBones->close();
-			}
+			}*/
         }
 
         if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {

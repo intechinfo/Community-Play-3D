@@ -533,12 +533,12 @@ void CUIParticleEditor::addGroup() {
         return;
     }
     
-    int enableFlags;// = SPK::FLAG_RED | SPK::FLAG_GREEN | SPK::FLAG_BLUE;
-    int mutableFlags=0;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
-    int randomFlags=0;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
-    int interpolatedFlags=0;// = SPK::FLAG_NONE;
+    int enableFlags = SPK::FLAG_RED | SPK::FLAG_GREEN | SPK::FLAG_BLUE;
+    int mutableFlags = SPK::FLAG_NONE;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
+    int randomFlags = SPK::FLAG_NONE;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
+    int interpolatedFlags = SPK::FLAG_NONE;// = SPK::FLAG_NONE;
     
-    for (int i=0; i < 10; i++) {
+    for (size_t i=0; i < 10; ++i) {
         if (addModelFlagsEnabled[i]->isChecked()) {
             enableFlags |= static_cast<SPK::ModelParamFlag>(i);
         }
@@ -554,6 +554,12 @@ void CUIParticleEditor::addGroup() {
     }
     
     SPK::Model* model = SPK::Model::create(enableFlags, mutableFlags, randomFlags, interpolatedFlags);
+    using namespace SPK;
+    /*SPK::Model *model = SPK::Model::create(FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX,
+                                           FLAG_RED | FLAG_GREEN | FLAG_ALPHA | FLAG_ANGLE,
+                                           FLAG_RED | FLAG_GREEN | FLAG_TEXTURE_INDEX | FLAG_ANGLE,
+                                           FLAG_SIZE);
+    */
     model->setName("New Model");
     
     SPK::Group *group = SPK::Group::create(model, devices->getCore()->getF32(addModelCapacity->getText()));

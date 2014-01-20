@@ -23,7 +23,7 @@ CUIParticleEditorFlags::CUIParticleEditorFlags(CDevices *_devices, SPK::Model *_
     
     SPK::Model *model = _model;
     u32 currenty = 25;
-    for (int i=0; i < modelParams.size(); i++) {
+    for (size_t i=0; i < modelParams.size(); i++) {
         bool add = false;
         
         add = model->isEnabled(static_cast<SPK::ModelParam>(i));

@@ -9,21 +9,53 @@
 #include "stdafx.h"
 #include "CUIEditBones.h"
 
-CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
+#ifdef _IRR_OSX_PLATFORM_
+#include <pthread.h>
+static pthread_mutex_t cs_mutex =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+#endif
+
+CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMesh *mesh, ISceneNode *pnode) {
+    devices = new CDevices(_devices->getCoreUserInterface());
+    
+    SIrrlichtCreationParameters params;
+    #ifdef _IRR_OSX_PLATFORM_
+    params.DriverType=irr::video::EDT_OPENGL;
+    //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
+    //params.WindowSize = dimension2d<u32>(1920, 1070);
+    //params.WindowSize = dimension2d<u32>(1280, 690);
+    params.WindowSize = dimension2du(1680, 946);
+    #else
+	params.DriverType=EDT_DIRECT3D9;
+    params.WindowSize = dimension2d<u32>(800, 600);
+    #endif
+    params.Bits=32;
+    #ifdef _IRR_OSX_PLATFORM_
+    params.Fullscreen = false;
+    #else
+    params.Fullscreen = false;
+    #endif
+	params.Stencilbuffer=false;
+	params.Vsync=true;
+	params.AntiAlias=true;
+    params.ZBufferBits = 32;
+	params.EventReceiver=0;
+	params.DriverMultithreaded = true;
+    devices->createDevice(params);
+    
+    devices->getCoreUserInterface()->addDevices(devices);
+    
 	//DEVICES
-	devices = _devices;
+	//devices = _devices;
 	driver = devices->getVideoDriver();
 	smgr = devices->getSceneManager();
 	gui = devices->getGUIEnvironment();
 
-	//EFFECT
-	effect = new EffectHandler(devices->getDevice(), devices->getDevice()->getVideoModeList()->getDesktopResolution(), true, true, true);
-	effect->setActiveSceneManager(smgr);
-	effect->addShadowToNode(_node, devices->getXEffectFilterType(), ESM_BOTH);
-	effect->setUseDepthOfField(false);
-
 	//NODES
-	node = _node;
+    node = smgr->addAnimatedMeshSceneNode(mesh);
+    node->setPosition(pnode->getPosition());
+    node->setRotation(pnode->getRotation());
+    node->setScale(pnode->getScale());
+    node->setMaterialFlag(EMF_LIGHTING, false);
 
 	node->animateJoints(true);
 
@@ -54,11 +86,11 @@ CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
 }
 
 CUIEditBones::~CUIEditBones() {
-	for (u32 i=0; i < arrayFrames.size(); i++) {
+	/*for (u32 i=0; i < arrayFrames.size(); i++) {
 		delete arrayFrames[i];
 	}
 	arrayFrames.clear();
-	delete effect;
+	delete effect;*/
 }
 
 void CUIEditBones::open() {
@@ -175,13 +207,7 @@ void CUIEditBones::open() {
 }
 
 void CUIEditBones::update() {
-
-	bool updateXEffect = devices->isXEffectDrawable();
-	devices->setXEffectDrawable(false);
-	while (updateView) {
-		devices->reupdate();
-	}
-	devices->setXEffectDrawable(updateXEffect);
+    
 }
 
 void CUIEditBones::close() {

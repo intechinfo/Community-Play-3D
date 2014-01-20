@@ -126,6 +126,9 @@ CCoreUserInterface::CCoreUserInterface() {
 	//stringw test = "test de texte \n";
 	//CUICodeEditor *c = new CUICodeEditor(devices, &test, true);
 	//c->setAutoSave(true);
+    
+    devicesArray.clear();
+    devicesArray.set_used(0);
 }
 
 CCoreUserInterface::~CCoreUserInterface() {
@@ -135,6 +138,18 @@ CCoreUserInterface::~CCoreUserInterface() {
 void CCoreUserInterface::update() {
 
     devices->updateDevice();
+    
+    for (u32 i=0; i < devicesArray.size(); i++) {
+        if (devicesArray[i]->getDevice()->run()) {
+            IVideoDriver *ddriver = devicesArray[i]->getVideoDriver();
+            
+            devicesArray[i]->updateEntities();
+            
+            driver->beginScene(true, true, SColor(0x0));
+            devicesArray[i]->updateDevice();
+            driver->endScene();
+        }
+    }
 
     contextMenuInstance->update();
 	windowsManagerInstance->update();

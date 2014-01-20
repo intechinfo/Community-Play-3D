@@ -38,6 +38,15 @@ public:
 
 	void setLogEventWindowVisible(bool visible) { logVisible = visible; }
 	bool isLogEventWindowVisible() { return logVisible; }
+    
+    void addDevices(CDevices *_devices) { devicesArray.push_back(_devices); }
+    void removeDevices(CDevices *_devices) {
+        s32 i = devicesArray.binary_search(_devices);
+        if (i != -1) {
+            delete devicesArray[i];
+            devicesArray.erase(i);
+        }
+    }
 	//-----------------------------------
 
 private:
@@ -61,6 +70,8 @@ private:
 	bool logVisible;
 
 	dimension2d<u32> windowSize;
+    
+    array<CDevices *> devicesArray;
 	//-----------------------------------
 
 	//-----------------------------------

@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="106.592636" Y="140.008591" Z="-48.146160" />
-			 <rotation X="39.513680" Y="295.000000" Z="0.000000" />
+			 <position X="237.273132" Y="177.151291" Z="97.683449" />
+			 <rotation X="31.712465" Y="251.249969" Z="0.000000" />
 
 		 </camera>
 
@@ -239,8 +239,8 @@ pfloat fBumpStrength 5
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="height_maps/rock.png" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -286,7 +286,7 @@ pfloat fBumpStrength 5
 
 		 <object>
 
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/sintel/sintel_update.x" />
+			 <path file="/Users/julienmoreau-mathis/Desktop/Nala Editor/SSWE/data/Characters/sintel/sintel_update.x" />
 
 			 <name c8name="#object:myName" />
 
@@ -714,7 +714,7 @@ pfloat fBumpStrength 5
 			 </materials>
 			 <position X="0.000000" Y="0.000000" Z="0.000000" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="30.810822" Y="30.810822" Z="30.810822" />
+			 <scale X="49.703033" Y="49.703033" Z="49.703033" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
@@ -743,15 +743,15 @@ pfloat fBumpStrength 5
 			 <lensFlare>
 				 <mesh> 
 					 <scale X="24.000000" Y="24.000000" Z="24.000000" />
-					 <texture path="shaders/textures/lf/mesh.png" />
+					 <texture path="shaders/Textures/LF/mesh.png" />
 				 </mesh> 
 				 <bill> 
 					 <size Width="60.000000" Height="60.000000" />
-					 <texture path="shaders/textures/lf/sun.png" />
+					 <texture path="shaders/Textures/LF/sun.png" />
 				 </bill> 
 				 <lfsn> 
 					 <strength value="10000.000000" />
-					 <texture path="shaders/textures/lf/flare.png" />
+					 <texture path="shaders/Textures/LF/flare.png" />
 					 <falseOcclusion value="0" />
 				 </lfsn> 
 				 <position X="0.000000" Y="0.000000" Z="0.000000" />

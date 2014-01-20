@@ -18,7 +18,7 @@ class CUIEditBones : public IEventReceiver {
 
 public:
 
-	CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node);
+	CUIEditBones(CDevices *_devices, IAnimatedMesh *mesh, ISceneNode *pnode);
 	~CUIEditBones();
 
 	void open();
@@ -33,7 +33,6 @@ private:
 	//-----------------------------------
 	//DEVICE ELEMENTS
 	CDevices *devices;
-	EffectHandler *effect;
 
 	IVideoDriver *driver;
 	ISceneManager *smgr;
