@@ -78,12 +78,12 @@ void CUINodeFactoryCreateMeshWithTangents::create() {
 		SWaterSurfacesData wsdata(ws, 0);
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}*/
-    
+
     SData *data = devices->getCoreData()->copySDataOfSceneNode(nodeToEdit);
     data->setNode(newNode);
     data->setMesh(tangentsMesh);
 
-	devices->getXEffect()->addShadowToNode(newNode, devices->getXEffectFilterType(), 
+	devices->getXEffect()->addShadowToNode(newNode, devices->getXEffectFilterType(),
 											devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType()));
 	devices->getCollisionManager()->setCollisionToAnOctTreeNode(newNode);
 
@@ -108,11 +108,13 @@ bool CUINodeFactoryCreateMeshWithTangents::OnEvent(const SEvent &event) {
 		}
 		if (event.GUIEvent.EventType == EGET_MESSAGEBOX_OK) {
 			if (event.GUIEvent.Caller == sure) {
-                #ifndef _IRR_OSX_PLATFORM_
-				std::thread create_t(&CUINodeFactoryCreateMeshWithTangents::create, *this);
-				create_t.join();
-                #else
+                #ifdef _IRR_OSX_PLATFORM_
+				create();
+                #elif _SSWE_LINUX_
                 create();
+                #else
+                std::thread create_t(&CUINodeFactoryCreateMeshWithTangents::create, *this);
+				create_t.join();
                 #endif
 
 				devices->getEventReceiver()->RemoveEventReceiver(this);

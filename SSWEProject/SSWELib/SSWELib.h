@@ -18,10 +18,13 @@
 	#define SSWELIBCALLCONV __cdecl
 #endif
 
-#ifndef _IRR_OSX_PLATFORM_
+#ifdef _IRR_OSX_PLATFORM_
 extern "C" SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice();
 extern "C" SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
+#elif _SSWE_LINUX_
+extern "C" CCoreUserInterface* createSSWEDevice();
+extern "C" void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
 #else
-CCoreUserInterface* createSSWEDevice();
-void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
+extern "C" SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice();
+extern "C" SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
 #endif

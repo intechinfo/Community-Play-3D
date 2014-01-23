@@ -12,18 +12,21 @@
 #include "../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 
 CCoreUserInterface::CCoreUserInterface() {
-    
+
     //-----------------------------------
     //DEVICE
 
     #ifdef _IRR_OSX_PLATFORM_
-    params.DriverType=irr::video::EDT_OPENGL;
+        params.DriverType=irr::video::EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
         //params.WindowSize = dimension2d<u32>(1920, 1070);
         //params.WindowSize = dimension2d<u32>(1280, 690);
         params.WindowSize = dimension2du(1680, 946);
+    #elif _SSWE_LINUX_
+        params.DriverType=EDT_OPENGL;
+        params.WindowSize = dimension2d<u32>(800, 600);
     #else
-	params.DriverType=EDT_DIRECT3D9;
+        params.DriverType=EDT_DIRECT3D9;
         params.WindowSize = dimension2d<u32>(800, 600);
     #endif
         params.Bits=32;
@@ -34,11 +37,11 @@ CCoreUserInterface::CCoreUserInterface() {
     #endif
 	params.Stencilbuffer=false;
 	params.Vsync=true;
-	params.AntiAlias=true; 
+	params.AntiAlias=true;
     params.ZBufferBits = 32;
 	params.EventReceiver=0;
 	params.DriverMultithreaded = true;
-	
+
 	if (params.Fullscreen) {
 		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);
 		params.WindowSize = tempDevice->getVideoModeList()->getDesktopResolution();
@@ -48,11 +51,11 @@ CCoreUserInterface::CCoreUserInterface() {
 
 	devices = new CDevices(this);
 	devices->createDevice(params);
-    
+
     driver = devices->getVideoDriver();
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
-    
+
     windowSize = devices->getVideoDriver()->getScreenSize();
 
 	#ifdef SSWE_RELEASE
@@ -71,7 +74,7 @@ CCoreUserInterface::CCoreUserInterface() {
 	windowsManagerInstance = new CUIWindowsManager(devices);
 
     //-----------------------------------
-    
+
     //-----------------------------------
     //GUI SKIN
 
@@ -79,9 +82,9 @@ CCoreUserInterface::CCoreUserInterface() {
 	IGUIFont *FontM = gui->getFont("GUI/fontlucida.png");
     skin_window_classic->setFont(FontM);
     gui->setSkin(skin_window_classic);
-    
+
 	programmersImage = gui->addImage(driver->getTexture("GUI/ss_logo.png"), position2d<s32>(0, driver->getScreenSize().Height-16));
-    
+
     skin_window_classic->setColor(EGDC_BUTTON_TEXT, SColor(255,0xAA,0xAA,0xAA));
 	skin_window_classic->setColor(EGDC_3D_HIGH_LIGHT, SColor(255,0x22,0x22,0x22));
 	skin_window_classic->setColor(EGDC_3D_FACE, SColor(255,0x44,0x44,0x44));
@@ -94,7 +97,7 @@ CCoreUserInterface::CCoreUserInterface() {
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/info.png"));
 
     //-----------------------------------
-    
+
     //-----------------------------------
     //LOG CONSOLE
 
@@ -162,22 +165,22 @@ void CCoreUserInterface::update() {
 }
 
 bool CCoreUserInterface::OnEvent(const SEvent &event) {
-    
+
     if (devices->getVideoDriver()->getScreenSize() != windowSize) {
         windowSize = devices->getVideoDriver()->getScreenSize();
     }
-    
+
     if (event.EventType == EET_GUI_EVENT) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             if (event.GUIEvent.Caller == contextMenuInstance->getConsoleButton()) {
                 logVisible = !logVisible;
                 logWindow->setVisible(logVisible);
             }
-            
+
             if (event.GUIEvent.Caller == clear) {
                 logListBox->clear();
             }
-            
+
             if (event.GUIEvent.Caller == logWindow->getMaximizeButton()) {
                 if (logWindow->getRelativePosition().getHeight() == 520) {
                     logWindow->setRelativePosition(rect<s32>(0, 0, 1000, 600));
@@ -199,7 +202,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
             }
         }
     }
-    
+
     if (event.EventType == EET_LOG_TEXT_EVENT && logListBox) {
 		if (event.LogEvent.Text) {
 			stringw text = event.LogEvent.Text;
@@ -221,7 +224,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
 					CUIEditFPSCamera *editFPS = new CUIEditFPSCamera(devices);
 				}
 			}
-        
+
 			if (event.KeyInput.Key == KEY_KEY_M && devices->isCtrlPushed() && devices->isShiftPushed()) {
 				if (!devices->isEditBoxEntered()) {
 					devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
@@ -235,7 +238,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
 			}
 		}
     }
-    
+
     return false;
 }
 

@@ -108,9 +108,12 @@ bool CUIScriptEditor::OnEvent(const SEvent &event) {
 					devices->getScripting()->setScriptFile(devices->getCoreData()->getScriptFiles()->operator[](files->getSelected()).getFile());
 					devices->getScripting()->setScriptName(devices->getCoreData()->getScriptFiles()->operator[](files->getSelected()).getName());
 					CScripting *c = devices->getScripting();
+					#ifndef _SSWE_LINUX_
 					std::thread runScript_t(&CScripting::runScript_t, *c);
 					runScript_t.detach();
-					//devices->getScripting()->runScript_t();
+					#else
+                    devices->getScripting()->runScript_t();
+					#endif
 				}
 			}
 		}

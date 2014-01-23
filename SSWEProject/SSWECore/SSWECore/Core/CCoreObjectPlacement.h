@@ -14,10 +14,14 @@
 #include "../CCollisionManager.h"
 #include "../SceneNodes/CGridSceneNode.h"
 
+#ifndef _SSWE_LINUX_
 class SSWE_CORE_API CCoreObjectPlacement : public IEventReceiver {
-  
+#else
+class CCoreObjectPlacement : public IEventReceiver {
+#endif
+
 public:
-    
+
 	typedef enum {
 		Undefined,
 		Position,
@@ -27,9 +31,9 @@ public:
 
     CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl *_cursorCtrl, CCollisionManager *_colMgr, ISceneManager *otherSmgr);
     ~CCoreObjectPlacement();
-    
+
     bool OnEvent(const SEvent &event);
-    
+
     void setNodeToPlace(ISceneNode *node);
     ISceneNode *getNodeToPlace() { return nodeToPlace; }
     void setLightNode(ISceneNode *node);
@@ -39,24 +43,24 @@ public:
 	f32 getSmallestArrow();
 	void setArrowType(ArrowType AT);
 	void setScaleToNode(IAnimatedMeshSceneNode *arrowLineNode, f32 valueToAdd);
-    
+
     void refresh(ISceneNode *cursorPosition);
-    
+
     CGridSceneNode *getGridSceneNode() { return gridSceneNode; }
 	CGridSceneNode *getYGridSceneNode() { return yGridSceneNode; }
-    
+
     bool isPlacing() { return isMoving; }
 	ArrowType getArrowType() { return arrowType; }
     void setAllowMoving(bool _allowMoving) { allowMoving = _allowMoving; }
-    
+
 private:
-    
+
     ISceneManager *smgr;
     ICursorControl *cursorCtrl;
     CCollisionManager *colMgr;
 
 	ArrowType arrowType;
-    
+
     /*vector3df cameraPosition;
 	vector3df cameraRotation;*/
 	vector3df mousePosition;
@@ -66,10 +70,10 @@ private:
 	plane3df plane;
 
 	line3d<f32> ray;
-    
+
     ISceneNode *nodeToPlace;
 	ISceneNode *selectedArrow;
-    
+
     IAnimatedMesh *arrowYLine;
     IAnimatedMeshSceneNode *arrowYLineNode;
 	IAnimatedMesh *arrowXLine;
@@ -80,12 +84,12 @@ private:
     IAnimatedMeshSceneNode *arrowYXZLineNode;
 
     ISceneNode *lightNode;
-    
+
 	ISceneCollisionManager *collisionManager;
 
     CGridSceneNode *gridSceneNode;
 	CGridSceneNode *yGridSceneNode;
-    
+
     bool isMoving;
     bool allowMoving;
 	bool allowFreeMoving;

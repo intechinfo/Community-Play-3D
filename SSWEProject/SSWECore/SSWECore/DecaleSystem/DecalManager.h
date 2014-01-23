@@ -18,7 +18,11 @@ using namespace core;
 using namespace scene;
 using namespace io;
 
+#ifndef _SSWE_LINUX_
 class SSWE_CORE_API DecalManager {
+#else
+class DecalManager {
+#endif
 private:
 	irr::scene::ISceneManager* smgr;
 	irr::video::IVideoDriver* driver;

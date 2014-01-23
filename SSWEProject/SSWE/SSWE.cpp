@@ -13,12 +13,16 @@
 
 #ifdef SSWE_RELEASE
     #ifndef _IRR_OSX_PLATFORM_
+    #ifndef _SSWE_LINUX_
         #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+    #endif
     #endif
 #endif
 
 #ifndef _IRR_OSX_PLATFORM_
+#ifndef _SSWE_LINUX_
 #include <Windows.h>
+#endif
 #endif
 
 #include "../SSWELib/SSWELib.h"

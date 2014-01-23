@@ -1,7 +1,7 @@
 #ifndef __C_GRAPH_H_INCLUDED__
 #define __C_GRAPH_H_INCLUDED__
 
-#include <Irrlicht.h>
+#include <irrlicht.h>
 using namespace irr;
 using namespace core;
 using namespace scene;

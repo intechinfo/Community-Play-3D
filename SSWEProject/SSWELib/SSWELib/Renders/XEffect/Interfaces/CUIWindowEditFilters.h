@@ -11,6 +11,7 @@
 
 #include "../../../Device/CDevices.h"
 
+#include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 
 class CUIWindowEditFilters : public IEventReceiver {

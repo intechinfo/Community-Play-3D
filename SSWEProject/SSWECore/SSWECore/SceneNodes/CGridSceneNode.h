@@ -8,12 +8,15 @@
 
 namespace irr {
     namespace scene {
-
+        #ifndef _SSWE_LINUX_
         class SSWE_CORE_API CGridSceneNode : public ISceneNode {
+        #else
+        class CGridSceneNode : public ISceneNode {
+        #endif
 
         public:
 
-            CGridSceneNode(ISceneNode* parent, ISceneManager* smgr, s32 id = -1, 
+            CGridSceneNode(ISceneNode* parent, ISceneManager* smgr, s32 id = -1,
                            u32 spacing = 8, u32 size = 1024, video::SColor gridcolor = video::SColor(255,128,128,128),
                            u32 accentlineoffset = 8, video::SColor accentgridcolor = video::SColor(255,192,192,192),
                            bool axislinestate = false);
@@ -47,27 +50,27 @@ namespace irr {
             video::SColor GetAxisLineXColor();
 
             video::SColor GetAxisLineZColor();
-            
+
             void SetSpacing(u32 newspacing);
-            
+
             void SetSize(u32 newsize);
-            
+
             void SetGridColor(video::SColor newcolor);
-            
+
             void SetAccentlineOffset(u32 newoffset);
-            
+
             void SetAccentlineColor(video::SColor newcolor);
-            
+
             void SetAxisLineActive(bool active);
-            
+
             void SetAxisLineXColor(video::SColor XLine);
-            
+
             void SetAxisLineZColor(video::SColor ZLine);
-            
+
             void SetMaterial(video::SMaterial newMaterial);
-            
+
         private:
-            
+
             u32 m_spacing;
             u32 m_size;
             video::SColor m_gridcolor;
@@ -76,10 +79,10 @@ namespace irr {
             bool m_AxisLineState;
             video::SColor m_XLineColor;
             video::SColor m_ZLineColor;
-            
+
             SMeshBuffer Buffer;
         };
-        
+
     };
 };
 

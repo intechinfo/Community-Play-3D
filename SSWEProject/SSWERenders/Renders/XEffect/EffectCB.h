@@ -8,14 +8,18 @@ using namespace scene;
 using namespace video;
 using namespace core;
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack {
+#else
+class DepthShaderCB : public video::IShaderConstantSetCallBack {
+#endif
 public:
 	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
 
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
 		IVideoDriver* driver = services->getVideoDriver();
 
-		worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
+		worldViewProj = driver->getTransform(video::ETS_PROJECTION);
 		worldViewProj *= driver->getTransform(video::ETS_VIEW);
 		worldViewProj *= driver->getTransform(video::ETS_WORLD);
 
@@ -29,11 +33,15 @@ public:
 	core::matrix4 worldViewProj;
 };
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API GodRaysCB : public IPostProcessingRenderCallback {
-    
+#else
+class GodRaysCB : public IPostProcessingRenderCallback {
+#endif
+
 public:
 	GodRaysCB(irr::s32 materialTypeIn) : materialType(materialTypeIn) {}
-    
+
 	void OnPreRender(EffectHandler* effect) {
         core::vector2di scrPos = effect->getIrrlichtDevice()->getSceneManager()->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(screenPosition);
         core::vector2df screen((float)scrPos.X/(float)effect->getIrrlichtDevice()->getVideoDriver()->getScreenSize().Width,
@@ -41,16 +49,20 @@ public:
         screen.Y = 1-screen.Y;
         effect->setPostProcessingEffectConstant(materialType, "lightPositionOnScreen", reinterpret_cast<f32*>(&screen), 2);
     }
-    
+
 	void OnPostRender(EffectHandler* effect) {}
-    
+
     //virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {}
-    
+
     core::vector3df screenPosition;
     irr::s32 materialType;
 };
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API ShadowShaderCB : public video::IShaderConstantSetCallBack {
+#else
+class ShadowShaderCB : public video::IShaderConstantSetCallBack {
+#endif
 public:
 	ShadowShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
 
@@ -59,21 +71,21 @@ public:
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
 		IVideoDriver* driver = services->getVideoDriver();
 
-		matrix4 worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
+		matrix4 worldViewProj = driver->getTransform(video::ETS_PROJECTION);
 		worldViewProj *= driver->getTransform(video::ETS_VIEW);
 		worldViewProj *= driver->getTransform(video::ETS_WORLD);
 		services->setVertexShaderConstant("mWorldViewProj", worldViewProj.pointer(), 16);
 
-		worldViewProj = ProjLink;			
+		worldViewProj = ProjLink;
 		worldViewProj *= ViewLink;
 		worldViewProj *= driver->getTransform(video::ETS_WORLD);
 		services->setVertexShaderConstant("mWorldViewProj2", worldViewProj.pointer(), 16);
 
 		driver->getTransform(video::ETS_WORLD).getInverse(invWorld);
 		vector3df lightPosOS = LightLink;
-		invWorld.transformVect(lightPosOS); 
+		invWorld.transformVect(lightPosOS);
 		services->setVertexShaderConstant("LightPos", reinterpret_cast<f32*>(&lightPosOS.X), 4);
-		
+
 		services->setVertexShaderConstant("MaxD", reinterpret_cast<f32*>(&FarLink), 1);
 		services->setVertexShaderConstant("MAPRES", &MapRes, 1);
 
@@ -90,10 +102,13 @@ public:
 	f32 FarLink, MapRes;
 };
 
-
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API ScreenQuadCB : public irr::video::IShaderConstantSetCallBack {
+#else
+class ScreenQuadCB : public irr::video::IShaderConstantSetCallBack {
+#endif
 public:
-	ScreenQuadCB(EffectHandler* effectIn, bool defaultV = true) 
+	ScreenQuadCB(EffectHandler* effectIn, bool defaultV = true)
 		: effect(effectIn), defaultVertexShader(defaultV)
 	{
 		uniformDescriptors.clear();
@@ -105,13 +120,13 @@ public:
 	virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {
 		if(services->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL) {
 			irr::s32 TexVar = 0;
-			services->setPixelShaderConstant("ColorMapSampler", (irr::s32*)(&TexVar), 1); 
+			services->setPixelShaderConstant("ColorMapSampler", (irr::s32*)(&TexVar), 1);
 
 			TexVar = 1;
-			services->setPixelShaderConstant("ScreenMapSampler", (irr::s32*)(&TexVar), 1); 
+			services->setPixelShaderConstant("ScreenMapSampler", (irr::s32*)(&TexVar), 1);
 
 			TexVar = 2;
-			services->setPixelShaderConstant("DepthMapSampler", (irr::s32*)(&TexVar), 1); 
+			services->setPixelShaderConstant("DepthMapSampler", (irr::s32*)(&TexVar), 1);
 
 			TexVar = 3;
 			services->setPixelShaderConstant("UserMapSampler", (irr::s32*)(&TexVar), 1);

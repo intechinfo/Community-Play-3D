@@ -14,7 +14,11 @@
 
 #include <ICollisionManager.h>
 
+#ifndef _SSWE_LINUX_
 class SSWE_CORE_API SFPSCameraSettings : public IFPSCameraSettings {
+#else
+class SFPSCameraSettings : public IFPSCameraSettings {
+#endif
 
 public:
 	SFPSCameraSettings() {
@@ -89,44 +93,48 @@ private:
 	f32 slidingValue;
 };
 
+#ifndef _SSWE_LINUX_
 class SSWE_CORE_API CCollisionManager : public ICollisionManager {
-    
+#else
+class CCollisionManager : public ICollisionManager {
+#endif
+
 public:
-	
+
 	CCollisionManager(ISceneManager *_smgr);
 	~CCollisionManager();
 
 	void reset() {
 		meta->removeAllTriangleSelectors();
 	}
-	
+
     //-----------------------------------
     //METHODS
 	void setCollisionToAnUnknownNode(IMesh *mesh, ISceneNode *node);
     ITriangleSelector *setCollisionToAnOctTreeNode(ISceneNode *node);
     void setCollisionToAnAnimatedNode(ISceneNode *node);
     void setCollisionFromBoundingBox(ISceneNode *node);
-    
+
 	SFPSCameraSettings *getFPSCameraSettings() { return fpsCameraSettings; }
     void createAnimatorCollisionCamera(ISceneNode *camera);
-    
+
     IMetaTriangleSelector *getMetaTriangleSelectors() { return meta; }
     //-----------------------------------
-	
+
 private:
-    
+
     //-----------------------------------
     //DEVICE PROPERTIES
     ISceneManager *smgr;
 
 	SFPSCameraSettings *fpsCameraSettings;
     //-----------------------------------
-    
+
     //-----------------------------------
     //ATTRIBUTES
     IMetaTriangleSelector *meta;
     //-----------------------------------
-    
+
 };
 
 #endif

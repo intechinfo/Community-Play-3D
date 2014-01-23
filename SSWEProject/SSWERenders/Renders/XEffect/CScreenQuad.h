@@ -4,7 +4,11 @@
 #include <SSWERenders.h>
 #include <irrlicht.h>
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API CScreenQuad
+#else
+class CScreenQuad
+#endif
 {
 public:
 	CScreenQuad()

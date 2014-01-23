@@ -12,17 +12,17 @@
 #include <irrlicht.h>
 
 #include <IMonitor.h>
-#include <DLLExport.h>
+//#include <DLLExport.h>
 
-class CGenericMonitor : public IMonitor {
+class CCGenericMonitor : public IMonitor {
 public:
 
-	CGenericMonitor();
-	~CGenericMonitor();
+    CCGenericMonitor();
+    ~CCGenericMonitor();
 
 	//-----------------------------------
 	//IMONITOR
-	void init();
+    void init();
 	void destroy() { }
 
 	void setActiveCamera(irr::scene::ICameraSceneNode *camera);

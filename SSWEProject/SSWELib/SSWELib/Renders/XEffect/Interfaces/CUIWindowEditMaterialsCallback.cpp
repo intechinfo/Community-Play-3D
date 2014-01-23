@@ -32,7 +32,7 @@ CUIWindowEditMaterialsCallback::~CUIWindowEditMaterialsCallback() {
 }
 
 void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
-	
+
 	callback = _callback;
 
 	if (callback == 0) {
@@ -61,14 +61,14 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
 	devices->getGUIEnvironment()->addStaticText(L"Constants", rect<s32>(10, 70, 150, 90), false, true, editMaterialWindow, -1, false);
     cLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 70, 260, 90), editMaterialWindow, -1, L"Load From File", L"Load From File");
     cEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 70, 370, 90), editMaterialWindow, -1, L"Edit", L"Edit constants");
-                
+
     devices->getGUIEnvironment()->addStaticText(L"Vertex Shader Type", rect<s32>(10, 90, 150, 110), false, true, editMaterialWindow, -1, false);
     vShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 90, 440, 110), editMaterialWindow, -1);
     devices->getGUIEnvironment()->addStaticText(L"Pixel Shader Type", rect<s32>(10, 110, 150, 130), false, true, editMaterialWindow, -1, false);
     pShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 110, 440, 130), editMaterialWindow, -1);
     devices->getGUIEnvironment()->addStaticText(L"Base Material", rect<s32>(10, 130, 150, 150), false, true, editMaterialWindow, -1, false);
     bShaderType = devices->getGUIEnvironment()->addComboBox(rect<s32>(150, 130, 440, 150), editMaterialWindow, -1);
-                
+
 	devices->getGUIEnvironment()->addStaticText(L"Geometry", rect<s32>(10, 160, 150, 180), false, true, editMaterialWindow, -1, false);
     gLoadFromFile = devices->getGUIEnvironment()->addButton(rect<s32>(150, 160, 260, 180), editMaterialWindow, -1, L"Load From File", L"Load From File");
     gEdit = devices->getGUIEnvironment()->addButton(rect<s32>(260, 160, 370, 180), editMaterialWindow, -1, L"Edit", L"Edit constants");
@@ -84,9 +84,9 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
 	constantsCodeBox->addKeyword("Compiling...", SColor(255, 0, 255, 150), true);
 	constantsCodeBox->addKeyword("Success", SColor(255, 255, 0, 150), true);
 	constantsCodeBox->addKeyword("Failure", SColor(255, 0, 0, 150), true);
-                
+
     separator = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(445, 40, 455, 500), true, true, editMaterialWindow, -1, false);
-                
+
     previewText = devices->getGUIEnvironment()->addStaticText(L"Preview :", rect<s32>(460, 40, 560, 62), false, true, editMaterialWindow, -1, false);
     viewPort = new CGUIViewport(devices->getGUIEnvironment(), editMaterialWindow, 1, rect<s32>(460, 60, 890, 330));
 	smgr = devices->getSceneManager()->createNewSceneManager();
@@ -94,18 +94,18 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
         viewPort->setSceneManager(smgr);
         smgr->setAmbientLight(SColorf(0.9f, 0.9f, 0.9f));
         viewPort->setOverrideColor(SColor(255, 0, 200, 0));
-                    
+
         previewNode = smgr->addCubeSceneNode();
         previewNode->setMaterialFlag(EMF_LIGHTING, false);
         previewNode->setScale(vector3df(2, 2, 2));
-        previewNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) + 
+        previewNode->setMaterialTexture(0, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) +
                                                                                     stringc("shaders/Textures/predefined/diffuse.tga")).c_str()));
-        previewNode->setMaterialTexture(1, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) + 
+        previewNode->setMaterialTexture(1, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) +
                                                                                     stringc("shaders/Textures/predefined/normal.tga")).c_str()));
-		previewNode->setMaterialTexture(2, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) + 
+		previewNode->setMaterialTexture(2, devices->getVideoDriver()->getTexture((stringc(devices->getWorkingDirectory().c_str()) +
                                                                                     stringc("shaders/Textures/predefined/specular.tga")).c_str()));
         previewNode->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
-                    
+
         ICameraSceneNode *camera = smgr->addCameraSceneNode();
         camera->setFarValue(50.f);
         camera->setPosition(vector3df(-20.f, 15.f, -17.f));
@@ -115,10 +115,10 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
         //camera->addAnimator(anim);
         anim->drop();
     }
-                
-    buildMaterial = devices->getGUIEnvironment()->addButton(rect<s32>(460, 340, 590, 360), editMaterialWindow, -1, L"Build Material", 
+
+    buildMaterial = devices->getGUIEnvironment()->addButton(rect<s32>(460, 340, 590, 360), editMaterialWindow, -1, L"Build Material",
                                                             L"Build Material with selected settings");
-    editPreviewNode = devices->getGUIEnvironment()->addButton(rect<s32>(460, 360, 590, 380), editMaterialWindow, -1, L"Edit Preview Node", 
+    editPreviewNode = devices->getGUIEnvironment()->addButton(rect<s32>(460, 360, 590, 380), editMaterialWindow, -1, L"Edit Preview Node",
                                                                 L"Edit the selected preview node");
     previewObjectText = devices->getGUIEnvironment()->addStaticText(L"Preview Object :", rect<s32>(610, 340, 720, 360), false, true, editMaterialWindow, -1, false);
     previewNodeChoice = devices->getGUIEnvironment()->addComboBox(rect<s32>(720, 340, 890, 360), editMaterialWindow, -1);
@@ -126,7 +126,7 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     previewNodeChoice->addItem(L"Plane");
     previewNodeChoice->addItem(L"Sphere");
 	previewNodeChoice->addItem(L"Current Scene");
-                
+
     closeEditMaterialWindow = devices->getGUIEnvironment()->addButton(rect<s32>(800, 480, 900, 510), editMaterialWindow, -1, L"Close", L"Close Window");
 
 	if(waterSurfaceData != NULL && editWaterAddon == NULL)
@@ -150,7 +150,7 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
     }
 	vShaderType->setSelected((E_VERTEX_SHADER_TYPE)(callback->getVertexShaderType()));
 	pShaderType->setSelected((E_PIXEL_SHADER_TYPE)callback->getPixelShaderType());
-                
+
     //FILL BASE MATERIAL COMBO BOX
     CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
     editNode->createMaterialTypesComboBox(bShaderType);
@@ -256,7 +256,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 
 	if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 		IGUIElement *element = event.GUIEvent.Caller;
-            
+
 		//WINDOW PART
 		if (event.GUIEvent.Caller == editMaterialWindow->getMinimizeButton()) {
 			//devices->getEventReceiver()->AddMinimizedWindow(this, editMaterialWindow);
@@ -303,16 +303,18 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			codeEditor->setAutoSave(true);
 			codeEditor->setAlwaysBringToFront(true);
 		}
-            
+
 		if (element == buildMaterial) {
-            #ifndef _IRR_OSX_PLATFORM_
-			std::thread t(&CUIWindowEditMaterialsCallback::build, *this);
-			t.detach();
-            #else
+            #ifdef _IRR_OSX_PLATFORM_
+			this->build();
+            #elif _SSWE_LINUX_
             this->build();
+            #else
+            std::thread t(&CUIWindowEditMaterialsCallback::build, *this);
+			t.detach();
             #endif
 		}
-        
+
 		if (element == closeEditMaterialWindow) {
 			smgr->clear();
 			editMaterialWindow->remove();
@@ -337,7 +339,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 														40, editMaterialWindow->getRelativePosition().getWidth()-10, 450));
 				previewText->setRelativePosition(position2di(viewPort->getRelativePosition().UpperLeftCorner.X, 25));
 				separator->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X - 20, 25,
-															viewPort->getRelativePosition().UpperLeftCorner.X - 10, 
+															viewPort->getRelativePosition().UpperLeftCorner.X - 10,
 															editMaterialWindow->getRelativePosition().getHeight()-10));
 				buildMaterial->setRelativePosition(position2di(viewPort->getRelativePosition().UpperLeftCorner.X,
 																viewPort->getRelativePosition().UpperLeftCorner.Y
@@ -394,7 +396,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
                 previewNode->remove();
                 previewNode = 0;
             }
-                
+
             if (previewNodeChoice->getSelected() == 0) {
                 previewNode = smgr->addCubeSceneNode();
                 previewNode->getMaterial(0).MaterialType = (E_MATERIAL_TYPE)callback->getMaterial();
@@ -406,7 +408,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
                 previewNode->setScale(scale);
                 previewNode->setMaterialFlag(EMF_LIGHTING, false);
             }
-                
+
             if (previewNodeChoice->getSelected() == 1) {
                 previewNode = smgr->addMeshSceneNode(planeMesh, 0);
                 previewNode->getMaterial(0).MaterialType = (E_MATERIAL_TYPE)callback->getMaterial();
@@ -418,7 +420,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
                 previewNode->setScale(scale);
                 previewNode->setMaterialFlag(EMF_LIGHTING, false);
             }
-                
+
             if (previewNodeChoice->getSelected() == 2) {
                 previewNode = smgr->addSphereSceneNode();
 				previewNode->getMaterial(0).MaterialType = (E_MATERIAL_TYPE)callback->getMaterial();

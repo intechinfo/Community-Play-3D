@@ -8,7 +8,11 @@
 //------------------------------------------CALLBACKS------------------------------------------
 //---------------------------------------------------------------------------------------------
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API SSAORenderCallback : public SSWE_RENDERS_EXPORTS IPostProcessingRenderCallback {
+#else
+class SSAORenderCallback : public IPostProcessingRenderCallback {
+#endif
 
 public:
 
@@ -29,7 +33,11 @@ private:
 
 };
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API LightScatteringCallback : public SSWE_RENDERS_EXPORTS IPostProcessingRenderCallback {
+#else
+class LightScatteringCallback : public IPostProcessingRenderCallback {
+#endif
 
 public:
 
@@ -55,7 +63,11 @@ private:
 //-----------------------------------RENDER CALLBACKS------------------------------------------
 //---------------------------------------------------------------------------------------------
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API CRenderCallbacks {
+#else
+class CRenderCallbacks {
+#endif
 
 public:
 

@@ -24,7 +24,7 @@ CUILoadNodesGroup::CUILoadNodesGroup(CDevices *_devices) {
 	extensioneb = gui->addEditBox(L".obj", rect<s32>(100, 20, 220, 40), true, window, -1);
 
 	chooseDirectory = gui->addButton(rect<s32>(10, 50, 130, 70), window, -1, L"Choose Directory", L"Choose Directory");
-	directoryStaticText = gui->addStaticText(stringw(devices->getDevice()->getFileSystem()->getWorkingDirectory()).c_str(), 
+	directoryStaticText = gui->addStaticText(stringw(devices->getDevice()->getFileSystem()->getWorkingDirectory()).c_str(),
 											 rect<s32>(130, 50, 310, 70), true, true, window, -1, true);
 
 	accept = gui->addButton(rect<s32>(210, 110, 310, 140), window, -1, L"Accept", L"Accept");
@@ -97,8 +97,14 @@ bool CUILoadNodesGroup::OnEvent(const SEvent &event) {
 
 			if (event.GUIEvent.Caller == accept) {
 				window->setVisible(false);
+				#ifdef _IRR_OSX_PLATFORM_
+                loadGroup();
+				#elif _SSWE_LINUX_
+                loadGroup();
+				#else
 				std::thread loadGroup_t(&CUILoadNodesGroup::loadGroup, *this);
 				loadGroup_t.detach();
+				#endif
 			}
 
 			if (event.GUIEvent.Caller == cancel) {

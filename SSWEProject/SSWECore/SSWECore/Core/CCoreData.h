@@ -75,7 +75,7 @@ struct SData {
 			cnode = core->clone(node, path, core->getDevice()->getSceneManager());
 		else
 			cnode = node->clone();
-		
+
 		if (cnode) {
 			cnode->setPosition(position);
 			clonedNodes.push_back(cnode);
@@ -183,7 +183,7 @@ private:
 
 struct SMeshWithTangentsData {
 
-	SMeshWithTangentsData(ISceneNode *_node, bool _recalculateNormals=false, bool _smooth=false, bool _angleWeighted=false, 
+	SMeshWithTangentsData(ISceneNode *_node, bool _recalculateNormals=false, bool _smooth=false, bool _angleWeighted=false,
 						  bool _recalculateTangents=true) {
 		node = _node;
 		recalculateNormals = _recalculateNormals;
@@ -206,7 +206,7 @@ struct SMeshWithTangentsData {
 
 private:
 	ISceneNode *node;
-	
+
 	bool recalculateNormals;
 	bool smooth;
 	bool angleWeighted;
@@ -223,19 +223,19 @@ public:
 		file = _file;
 		name = _name;
 	}
-    
+
     SScriptFile() {
         SScriptFile("", "unnamed");
     }
-    
+
 	stringw getFile() { return file; }
 	stringw getName() { return name; }
 	stringw *getFilePointer() { return &file; }
 	stringw *getNamePointer() { return &name; }
-    
+
 	void setFile(stringw _file) { file = _file; }
 	void setName(stringw _name) { name = _name; }
-    
+
 private:
 	stringw file;
 	stringw name;
@@ -289,7 +289,7 @@ private:
 	stringw pixelShader;
 	stringc name;
 	stringw callback;
-	
+
 	s32 material;
 
 	lua_State *L;
@@ -302,7 +302,7 @@ private:
 //---------------------------------------------------------------------------------------------
 //MESHES
 struct STerrainsData : public SData {
-	
+
 	STerrainsData() : SData(0, 0, "", ESNT_UNKNOWN) {
 		STerrainsData(0, 0, "", 0, ESNT_UNKNOWN);
 	}
@@ -344,7 +344,7 @@ private:
 //----------------------------------TREES---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API STreesData : SData {
+struct STreesData : SData {
 
 	STreesData(IMesh *_mesh, ISceneNode *_node, stringw _path, ESCENE_NODE_TYPE _type=ESNT_OCTREE, u32 _minPolysPerNode=0)
 		: SData(_node, _mesh, _path, _type)
@@ -400,9 +400,9 @@ private:
 //----------------------------------LIGHTS-----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SLightsData : SData {
+struct SLightsData : SData {
 
-	SLightsData(ISceneNode *_node, IMeshSceneNode *_lensFlareMeshSceneNode=0, 
+	SLightsData(ISceneNode *_node, IMeshSceneNode *_lensFlareMeshSceneNode=0,
 				IBillboardSceneNode *_lensFlareBillBoardSceneNode=0,
 				CLensFlareSceneNode *_lensFlareSceneNode=0)
 				: SData(_node, 0, L"", ESNT_LIGHT)
@@ -450,7 +450,7 @@ private:
 //----------------------------------VOLUME LIGHTS---------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SSWE_CORE_API SVolumeLightsData : SData {
+struct SVolumeLightsData : SData {
 
 	SVolumeLightsData(IVolumeLightSceneNode *_node) : SData(_node, 0, L"", ESNT_VOLUME_LIGHT)
 	{
@@ -467,7 +467,7 @@ private:
 
 struct SWaterSurfacesData : SData {
 public:
-    
+
     SWaterSurfacesData(RealisticWaterSceneNode *_waterSurface, CShaderCallback *_callback, stringw _packagePath = L"", stringw _meshPath = L"")
     : SData(_waterSurface->getWaterSceneNode(), _waterSurface->getWaterMesh(), _meshPath, ESNT_WATER_SURFACE)
 	{
@@ -475,16 +475,16 @@ public:
 		callback = _callback;
 		packagePath = _packagePath;
     }
-    
+
 	//void remove() { delete this; }
 	void setwaterSurface(RealisticWaterSceneNode *_waterSurface) { waterSurface = _waterSurface; }
 	void setCallback(CShaderCallback *_callback) { callback = _callback; }
 	void setPackagePath(stringw _packagePath) { packagePath = _packagePath; }
-    
+
 	RealisticWaterSceneNode *getWaterSurface() { return waterSurface; }
 	CShaderCallback *getShaderCallback() { return callback; }
 	stringw getPackagePath() { return packagePath; }
-    
+
 private:
 	RealisticWaterSceneNode *waterSurface;
 	CShaderCallback *callback;
@@ -512,14 +512,14 @@ public:
 
 	stringw getName() { return name; }
 	stringw getScript() { return script; }
-    
+
     void setData(void *_data) { data = _data; }
     void *getData() { return data; }
 
 private:
 	stringw name;
 	stringw script;
-    
+
     void *data;
 };
 
@@ -533,12 +533,12 @@ public:
         name = _name;
         script = 0;
         update = true;
-        
+
         baseNode = 0;
-        
+
         systems.clear();
     }
-    
+
     //GENERAL INFORMATIONS
     void createScript() {
         script = new SScriptFile("", "new script");
@@ -549,13 +549,13 @@ public:
         script = 0;
     }
     SScriptFile *getScript() { return script; }
-    
+
     void setName(stringc _name) { name = _name; }
     stringc getName() { return name; }
-    
+
     bool isUpdating() { return update; }
     void setUpdate(bool _update) { update = _update; }
-    
+
     ISceneNode *getBaseNode() { return baseNode; }
     void createBaseNode(ISceneManager *smgr) {
         baseNode = smgr->addEmptySceneNode();
@@ -567,32 +567,32 @@ public:
         baseNode = 0;
         this->setNode(0);
     }
-    
+
     //SPARK SYSTEMS
     array<SPK::System *> *getSystems() { return &systems; }
-    
+
     void clear() {
         for (u32 i=0; i < systems.size(); i++) {
             ((SPK::IRR::IRRSystem*)systems[i])->remove();
             delete systems[i];
         }
-        
+
         systems.clear();
-        
+
         if (baseNode != 0) {
             destroyBaseNode();
         }
     }
-    
+
 private:
     //GENERAL INFORMATIONS
     stringc name;
     SScriptFile *script;
-    
+
     bool update;
-    
+
     ISceneNode *baseNode;
-    
+
     //SPARK SYSTEMS
     array<SPK::System *> systems;
 };
@@ -619,10 +619,12 @@ private:
 //MONITORS
 struct SMonitor {
 public:
-    #ifndef _IRR_OSX_PLATFORM_
-	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
-    #else
+    #ifdef _IRR_OSX_PLATFORM_
+	SMonitor(IMonitor *_monitor, void *_hdll) {
+    #elif _SSWE_LINUX_
     SMonitor(IMonitor *_monitor, void *_hdll) {
+    #else
+    SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
     #endif
 		monitor = _monitor;
 		hdll = _hdll;
@@ -635,20 +637,25 @@ public:
 	IMonitor *getMonitor() { return monitor; }
 	void setMonitor(IMonitor *_monitor) { monitor = _monitor; }
 
-    #ifndef _IRR_OSX_PLATFORM_
-	HINSTANCE getInstance() { return hdll; }
-    void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
-    #else
+    #ifdef _IRR_OSX_PLATFORM_
+	void *getInstance() { return hdll; }
+    void setInstance(void *_hdll) { hdll = _hdll; }
+    #elif _SSWE_LINUX_
     void *getInstance() { return hdll; }
     void setInstance(void *_hdll) { hdll = _hdll; }
+    #else
+    HINSTANCE getInstance() { return hdll; }
+    void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
     #endif
 
 	void freeInstance() {
 		if (hdll) {
-            #ifndef _IRR_OSX_PLATFORM_
-			FreeLibrary(hdll);
-            #else
+            #ifdef _IRR_OSX_PLATFORM_
+			dlclose(hdll);
+            #elif _SSWE_LINUX_
             dlclose(hdll);
+            #else
+            FreeLibrary(hdll);
             #endif
 		}
 	}
@@ -656,52 +663,63 @@ public:
 private:
 
 	IMonitor *monitor;
-    #ifndef _IRR_OSX_PLATFORM_
-	HINSTANCE hdll;
+    #ifdef _IRR_OSX_PLATFORM_
+	void *hdll;
+    #elif _SSWE_LINUX_
+    void *hdll;
     #else
-    void *hdll;    
+    HINSTANCE hdll;
     #endif
 };
 
 //SSWE PLUGINS
 struct SSSWEPlugin {
 public:
-    #ifndef _IRR_OSX_PLATFORM_
-    SSSWEPlugin(ISSWELibPlugin *_plugin, HINSTANCE _hdll) {
-    #else
+    #ifdef _IRR_OSX_PLATFORM_
     SSSWEPlugin(ISSWELibPlugin *_plugin, void *_hdll) {
+    #elif _SSWE_LINUX_
+    SSSWEPlugin(ISSWELibPlugin *_plugin, void *_hdll) {
+    #else
+    SSSWEPlugin(ISSWELibPlugin *_plugin, HINSTANCE _hdll) {
     #endif
         plugin = _plugin;
         hdll = _hdll;
     }
-        
+
     void freeInstance() {
         if (hdll) {
-            #ifndef _IRR_OSX_PLATFORM_
-			FreeLibrary(hdll);
-            #else
+            #ifdef _IRR_OSX_PLATFORM_
+			dlclose(hdll);
+            #elif _SSWE_LINUX_
             dlclose(hdll);
+            #else
+            FreeLibrary(hdll);
             #endif
 		}
     }
-    
+
     ISSWELibPlugin *getPlugin() { return plugin; }
     void setMonitor(ISSWELibPlugin *_plugin) { plugin = _plugin; }
-        
-    #ifndef _IRR_OSX_PLATFORM_
-    HINSTANCE getInstance() { return hdll; }
-    void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
-    #else
+
+    #ifdef _IRR_OSX_PLATFORM_
     void *getInstance() { return hdll; }
     void setInstance(void *_hdll) { hdll = _hdll; }
+    #elif _SSWE_LINUX_
+    void *getInstance() { return hdll; }
+    void setInstance(void *_hdll) { hdll = _hdll; }
+    #else
+    HINSTANCE getInstance() { return hdll; }
+    void setInstance(HINSTANCE _hdll) { hdll = _hdll; }
     #endif
-    
+
 private:
     ISSWELibPlugin *plugin;
-    #ifndef _IRR_OSX_PLATFORM_
-    HINSTANCE hdll;
-    #else
+    #ifdef _IRR_OSX_PLATFORM_
     void *hdll;
+    #elif _SSWE_LINUX_
+    void *hdll;
+    #else
+    HINSTANCE hdll;
     #endif
 };
 
@@ -713,7 +731,11 @@ private:
 //----------------------------------CORE DATA CLASS--------------------------------------------
 //---------------------------------------------------------------------------------------------
 
+#ifndef _SSWE_LINUX_
 class SSWE_CORE_API CCoreData : public ISSWECoreData {
+#else
+class CCoreData : public ISSWECoreData {
+#endif
 
 public:
 
@@ -739,7 +761,7 @@ public:
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfVolumeLightNodes();
 	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
-    
+
     void removeSceneNode(ISceneNode *node, EffectHandler *effect);
     SData *copySDataOfSceneNode(irr::scene::ISceneNode *node);
 	//-----------------------------------
@@ -808,7 +830,7 @@ public:
 
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
 	//-----------------------------------
-    
+
     //-----------------------------------
 	//PARTICLE SYSTEMS
     array<SParticleSystem> *getParticleSystems() { return &particleSystems; }
@@ -816,7 +838,7 @@ public:
         array<SData> *datas = new array<SData>();
 		for (u32 i=0; i < particleSystems.size(); i++)
 			datas->push_back(particleSystems[i]);
-        
+
 		return datas;
     }
     //-----------------------------------
@@ -836,7 +858,7 @@ public:
 	//PLUGINS
 	array<SMonitor> *getMonitors() { return &monitors; }
     array<SSSWEPlugin> *getSSWEPlugins() { return &sswePlugins; }
-    
+
     void destroyMonitor(IMonitor *monitor);
     void destroySSWEPlugin(ISSWELibPlugin *plugin);
 	//-----------------------------------
@@ -859,7 +881,7 @@ private:
 
 	array<SPlanarTextureMappingData> planarTextureMappingValues;
 	//-----------------------------------
-    
+
     //-----------------------------------
 	//PARTICLE SYSTEMS
     array<SParticleSystem> particleSystems;

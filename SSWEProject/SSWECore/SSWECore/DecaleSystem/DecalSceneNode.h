@@ -30,7 +30,11 @@ const int DECAL_SCENE_NODE_ID = 'decl';
 #define SHOW_DEBUG_BOX false
 #endif
 
+#ifndef _SSWE_LINUX_
 class SSWE_CORE_API DecalSceneNode : public irr::scene::ISceneNode {
+#else
+class DecalSceneNode : public irr::scene::ISceneNode {
+#endif
 private:
 	scene::IMesh* mesh;
 	video::ITexture* texture;

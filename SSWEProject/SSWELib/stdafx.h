@@ -25,5 +25,7 @@
 #include <cstdlib>
 
 #ifndef _IRR_OSX_PLATFORM_
-    extern CRITICAL_SECTION CriticalSection;
+    #ifndef _SSWE_LINUX_
+        extern CRITICAL_SECTION CriticalSection;
+    #endif
 #endif

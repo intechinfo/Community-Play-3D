@@ -5,7 +5,11 @@
 #include <irrlicht.h>
 using namespace irr;
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API CMotionBlurCallback : public video::IShaderConstantSetCallBack
+#else
+class CMotionBlurCallback : public video::IShaderConstantSetCallBack
+#endif
 {
 private:
     float m_ScreenWidth, m_ScreenHeight, m_Strength;
@@ -16,7 +20,7 @@ public:
        m_ScreenWidth  = screenWidth;
        m_ScreenHeight = screenHeight;
        m_Strength     = strength;
-       
+
        texture1 = 0;
        texture2 = 1;
    }
@@ -26,7 +30,7 @@ public:
            services->setPixelShaderConstant("texture1", &texture1, 1);
            services->setPixelShaderConstant("texture2", &texture2, 1);
        }
-       
+
        if (services->getVideoDriver()->getDriverType() != video::EDT_OPENGL) {
            services->setVertexShaderConstant("screenWidth", &m_ScreenWidth, 1);
            services->setVertexShaderConstant("screenHeight", &m_ScreenHeight, 1);
@@ -45,13 +49,13 @@ private:
 	video::ITexture*    m_rtNext;
 	video::ITexture*    m_rtPrev;
 	video::ITexture*    m_rtAccum;
-   
+
 	irr::core::stringc vertex_shader;
 	irr::core::stringc pixel_shader_1;
 	irr::core::stringc pixel_shader_2;
 
 	CMotionBlurCallback* callback;
-   
+
 public:
 
    IPostProcessMotionBlur(scene::ISceneNode* parent, scene::ISceneManager* smgr, s32 id)
@@ -63,7 +67,7 @@ public:
       m_Vertices[3] = video::S3DVertex(1.0f, -1.0f, 0.0f, 0, 0, 0, video::SColor(0), 1.0f, 1.0f);
       m_Vertices[4] = video::S3DVertex(-1.0f, -1.0f, 0.0f, 0, 0, 0, video::SColor(0), 0.0f, 1.0f);
       m_Vertices[5] = video::S3DVertex(1.0f, 1.0f, 0.0f, 0, 0, 0, video::SColor(0), 1.0f, 0.0f);
-       
+
 #ifndef _IRR_OSX_PLATFORM_
 	  vertex_shader = ""
 		"float screenWidth;\n"
@@ -85,7 +89,7 @@ public:
 		"   Out.texCoord.y = 0.5 * (1.0 - position.y + (1.0 / screenHeight));\n"
 		"   return Out; \n"
 		"}\n";
-		
+
 	pixel_shader_1 = ""
 		"sampler texture1 : register(s0);\n"
 		"sampler texture2 : register(s1);\n"
@@ -96,10 +100,10 @@ public:
 		"{\n"
 		"   float4 tex1 = tex2D(texture1, texCoord);\n"
 		"   float4 tex2 = tex2D(texture2, texCoord);\n"
-		   
+
 		"   return lerp(tex1, tex2, strength);\n"
 		"}\n";
-		
+
 	pixel_shader_2 = ""
 		"sampler texture1 : register(s0);\n"
 
@@ -117,7 +121,7 @@ public:
     " gl_Position = vec4(Position.xy, 0.0, 1.0);"
     "vTexCoord =Position.xy *.5 + .5;"
     "}";
-    
+
     pixel_shader_1 =
     "uniform sampler2D texture1;"
     "uniform sampler2D texture2;"
@@ -127,8 +131,8 @@ public:
     "{"
     "  gl_FragColor = mix( texture2D( texture1, vTexCoord ), texture2D( texture2, vTexCoord ), vec4( strength,strength,strength,strength) );"
     "}";
-    
-    
+
+
     pixel_shader_2 =
     "uniform sampler2D texture1;"
     "varying vec2 vTexCoord;"

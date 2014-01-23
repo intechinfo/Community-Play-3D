@@ -6,7 +6,11 @@
 #include <irrlicht.h>
 using namespace irr;
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API ShaderMaterial
+#else
+class ShaderMaterial
+#endif
 {
     public:
         s32 material;

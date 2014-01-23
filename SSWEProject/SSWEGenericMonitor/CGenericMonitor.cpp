@@ -10,31 +10,31 @@
 #include "CGenericMonitor.h"
 
 void *createMonitor() {
-	return static_cast< void* > (new CGenericMonitor);
+	return static_cast< void* >(new CCGenericMonitor);
 }
 
-CGenericMonitor::CGenericMonitor() {
-
-}
-
-CGenericMonitor::~CGenericMonitor() {
+CCGenericMonitor::CCGenericMonitor() {
 
 }
 
-void CGenericMonitor::init() {
+CCGenericMonitor::~CCGenericMonitor() {
+
+}
+
+void CCGenericMonitor::init() {
 	monitorName = "Generic Monitor";
 }
 
-void CGenericMonitor::setActiveCamera(irr::scene::ICameraSceneNode *camera) {
+void CCGenericMonitor::setActiveCamera(irr::scene::ICameraSceneNode *camera) {
 	monitorCamera = camera;
 }
 
-void CGenericMonitor::setSceneManager(irr::scene::ISceneManager *sceneManager) {
+void CCGenericMonitor::setSceneManager(irr::scene::ISceneManager *sceneManager) {
 	smgr = sceneManager;
 	driver = smgr->getVideoDriver();
 }
 
-void CGenericMonitor::drawScene() {
+void CCGenericMonitor::drawScene() {
 	if (renderRenderer) {
 		renderer->setActiveSceneManager(smgr);
 		renderer->update(renderFull);
@@ -43,6 +43,6 @@ void CGenericMonitor::drawScene() {
     }
 }
 
-void CGenericMonitor::drawGUI() {
+void CCGenericMonitor::drawGUI() {
 	gui->drawAll();
 }

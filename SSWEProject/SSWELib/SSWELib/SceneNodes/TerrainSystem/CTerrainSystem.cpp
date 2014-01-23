@@ -58,7 +58,7 @@ CTerrainSystem::CTerrainSystem(ISceneManager *smgr, stringc hgtmap, u32 divFacto
 
 CTerrainSystem::~CTerrainSystem() {
 
-	ISceneNode::~ISceneNode();
+	//ISceneNode::~ISceneNode();
 }
 
 void CTerrainSystem::OnRegisterSceneNode() {

@@ -28,11 +28,18 @@
 #include <mutex>
 
 #ifndef _IRR_OSX_PLATFORM_
-	#include <Windows.h>
+    #ifndef _SSWE_LINUX_
+        #include <Windows.h>
+	#endif
 #endif
 
-
-#include "src/Bullet-C-Api.h"
-#include "src/btBulletDynamicsCommon.h"
-#include "src/btBulletCollisionCommon.h"
+#ifndef _SSWE_LINUX_
+    #include "src/Bullet-C-Api.h"
+    #include "src/btBulletDynamicsCommon.h"
+    #include "src/btBulletCollisionCommon.h"
+#else
+    #include <src/Bullet-C-Api.h>
+    #include <src/btBulletDynamicsCommon.h>
+    #include <src/btBulletCollisionCommon.h>
+#endif
 

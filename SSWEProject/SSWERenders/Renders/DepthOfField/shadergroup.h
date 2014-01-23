@@ -7,7 +7,11 @@
 #include <list>
 using namespace irr;
 
+#ifndef _SSWE_LINUX_
 class SSWE_RENDERS_API ShaderGroup
+#else
+extern "C" class ShaderGroup
+#endif
 {
     public:
         float sampleDist0;

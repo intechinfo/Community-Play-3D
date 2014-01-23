@@ -10,11 +10,11 @@
 
 CUIMaterialEditor::CUIMaterialEditor(CDevices *_devices) {
     devices = _devices;
-    
+
     driver = devices->getVideoDriver();
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
-    
+
     selectedMaterial = 0;
 
 	mtFactory = new CMaterialEditorFactory(devices);
@@ -28,7 +28,7 @@ CUIMaterialEditor::~CUIMaterialEditor() {
 
 	initialElementsPosition.clear();
 	initialElementsPosition = NULL;
-    
+
 	delete matEditorTextures;
 	delete matEditorColors;
 	delete matEditorFlags;
@@ -42,7 +42,7 @@ void CUIMaterialEditor::maximize() {
 		materialsView->remove();
 		materialsView = gui->addTreeView(rect<s32>(10, 70, 280, 540), meWindow, -1, true, true, false);
 
-		devices->getCore()->maximizeWindow(meWindow, rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
+		devices->getCore()->maximizeWindow(meWindow, rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2,
 													 driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2));
 		tabctrl->setRelativePosition(rect<int>(310, 70, 1140, 680));
 		close->setRelativePosition(rect<s32>(1040, 690, 1140, 720));
@@ -56,18 +56,18 @@ void CUIMaterialEditor::maximize() {
 		s32 lastWindowHeight = meWindow->getRelativePosition().getHeight();
 		s32 offsetUpperLower = materialsView->getRelativePosition().UpperLeftCorner.Y;
 
-		devices->getCore()->maximizeWindow(meWindow, rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
+		devices->getCore()->maximizeWindow(meWindow, rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2,
 													 driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2));
 		tabctrl->setRelativePosition(rect<s32>(meWindow->getRelativePosition().getWidth()-offsetWindowTabCtrl-tabctrl->getRelativePosition().getWidth(),
 											   positionTabCtrl.Y,
 											   meWindow->getRelativePosition().getWidth()-offsetWindowTabCtrl,
 											   meWindow->getRelativePosition().getHeight()-50));
-		separatorText->setRelativePosition(rect<s32>(tabctrl->getRelativePosition().UpperLeftCorner.X - offsetLeftViewTabCtrl, 
+		separatorText->setRelativePosition(rect<s32>(tabctrl->getRelativePosition().UpperLeftCorner.X - offsetLeftViewTabCtrl,
 													 separatorText->getRelativePosition().UpperLeftCorner.Y,
-													 tabctrl->getRelativePosition().UpperLeftCorner.X - offsetLeftViewTabCtrl + 10, 
+													 tabctrl->getRelativePosition().UpperLeftCorner.X - offsetLeftViewTabCtrl + 10,
 													 meWindow->getRelativePosition().getHeight()-50));
 		viewPort->setRelativePosition(rect<s32>(viewPort->getRelativePosition().UpperLeftCorner.X,
-												//viewPort->getRelativePosition().UpperLeftCorner.Y, 
+												//viewPort->getRelativePosition().UpperLeftCorner.Y,
 												meWindow->getRelativePosition().getHeight()/2 + offsetUpperLower - 50,
 												separatorText->getRelativePosition().UpperLeftCorner.X - 20,
 												meWindow->getRelativePosition().getHeight()-5));
@@ -80,8 +80,8 @@ void CUIMaterialEditor::maximize() {
 		materialsView = gui->addTreeView(rect<s32>(materialsViewRect.UpperLeftCorner.X,
 												   materialsViewRect.UpperLeftCorner.Y,
 												   separatorText->getRelativePosition().UpperLeftCorner.X-20,
-												   materialsViewRect.UpperLeftCorner.Y + 
-												   //materialsViewRect.getHeight()), 
+												   materialsViewRect.UpperLeftCorner.Y +
+												   //materialsViewRect.getHeight()),
 												   meWindow->getRelativePosition().getHeight()/2 - 55),
 										 meWindow, -1, true, true, false);
 
@@ -96,11 +96,11 @@ void CUIMaterialEditor::minimize() {
 		materialsView->remove();
 		materialsView = gui->addTreeView(rect<s32>(10, 70, 280, 540), meWindow, -1, true, true, false);
 		mtFactory->reupdateTreeView(nodeToEdit, materialsView, rootTreeViewNode, imageList);
-		meWindow->setRelativePosition(rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
+		meWindow->setRelativePosition(rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2,
 											    driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2));
 	} else {
 		rect<s32> rpWindow = meWindow->getRelativePosition();
-		meWindow->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height - 36, 
+		meWindow->setRelativePosition(rect<s32>(0, driver->getScreenSize().Height - 36,
 												driver->getScreenSize().Width+2, driver->getScreenSize().Height-16));
 	}
 }
@@ -110,10 +110,10 @@ void CUIMaterialEditor::open(ISceneNode *node) {
 		return;
 
     nodeToEdit = node;
-    
+
     //WINDOW
-    meWindow = gui->addWindow(rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2, 
-                                        driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2), 
+    meWindow = gui->addWindow(rect<s32>(driver->getScreenSize().Width/2 - 1150/2, driver->getScreenSize().Height/2 - 730/2,
+                                        driver->getScreenSize().Width/2 + 1150/2, driver->getScreenSize().Height/2 + 730/2),
 										false, stringw(stringw(L"Material Editor : ") + stringw(node->getName())).c_str(), 0, -1);
 	//meWindow->getCloseButton()->remove();
 	meWindow->getMinimizeButton()->setVisible(true);
@@ -121,19 +121,19 @@ void CUIMaterialEditor::open(ISceneNode *node) {
 
 	mtFactory->setParentGUIElement(meWindow);
 	mtFactory->setSceneNode(node);
-    
+
     //CONTEXT MENU
     menu = gui->addMenu(meWindow);
     menu->addItem(L"File", -1, true, true);
 	menu->addItem(L"Edit", -1, true, true);
 	menu->addItem(L"Factory", -1, true, true);
-    
+
 	menu->getSubMenu(0)->addItem(L"Open Saved Materials", 1);
     menu->getSubMenu(0)->addSeparator();
 	menu->getSubMenu(0)->addItem(L"Save", 2);
 	menu->getSubMenu(0)->addSeparator();
 	menu->getSubMenu(0)->addItem(L"Close", 3);
-    
+
 	menu->getSubMenu(1)->addItem(L"Restore", 1);
 
 	menu->getSubMenu(2)->addItem(L"Make And Create All Texture Layer 2 Normal Map", 1);
@@ -143,12 +143,12 @@ void CUIMaterialEditor::open(ISceneNode *node) {
 	menu->getSubMenu(2)->addItem(L"Set All Specular Color To Values...", -1);
 	menu->getSubMenu(2)->addItem(L"Set All Diffuse Color To Values...", -1);
 	menu->getSubMenu(2)->addItem(L"Set All Ambiant Color To Values...", -1);
-    
+
     //TOOL BAR
     bar = devices->getGUIEnvironment()->addToolBar(meWindow, -1);
     bar->setRelativePosition(position2di(0, 40));
     bar->setRelativePosition(rect<s32>(0, 43, 795, 70));
-    
+
     ITexture* image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/folder.png"));
 	bar->addButton(-1, 0, L"Open Saved Animation Configuration", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/edit.png"));
@@ -157,17 +157,17 @@ void CUIMaterialEditor::open(ISceneNode *node) {
 	bar->addButton(0, 0, L"Export this scene", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/help.png"));
 	bar->addButton(0, 0, L"Open Help", image, 0, false, true);
-    
+
     //TREE VIEW
     materialsView = gui->addTreeView(rect<s32>(10, 70, 280, 540), meWindow, -1, true, true, false);
-    
+
     imageList = devices->getGUIEnvironment()->createImageList(driver->getTexture(stringc(devices->getWorkingDirectory().c_str()) +
-                                                                                                stringc("GUI/iconlist.png")), 
+                                                                                                stringc("GUI/iconlist.png")),
                                                                              dimension2d<int>(16, 16), true);
 	if (imageList) {
 		materialsView->setImageList(imageList);
 	}
-    
+
     rootTreeViewNode = materialsView->getRoot()->addChildBack((stringw("Materials (") + stringw(node->getMaterialCount())
                                                               + stringw(")")).c_str(), 0);
     rootTreeViewNode->setExpanded(true);
@@ -178,30 +178,30 @@ void CUIMaterialEditor::open(ISceneNode *node) {
         treeNode->setData(&node->getMaterial(i));
     }
     rootTreeViewNode->getFirstChild()->setSelected(true);
-    
+
     //VIEW PORT
-    viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710)); 
+    viewPort = new CGUIViewport(gui, meWindow, 1, rect<s32>(10, 550, 280, 710));
     if (viewPort) {
 		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuadPtr());
         viewPort->setSceneManager(smgr);
 		viewPort->setRenderScreenQuad(true);
-        viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
+        viewPort->setOverrideColor(SColor(255, 0, 0, 0));
     }
 	//viewPort = devices->getGUIEnvironment()->addImage(rect<s32>(10, 550, 280, 710), meWindow, -1);
 	//viewPort->setImage(devices->getXEffect()->getScreenQuad().rt[1]);
 	//viewPort->setScaleImage(true);
-    
+
     separatorText = gui->addStaticText(L"", rect<s32>(290, 70, 300, 710), true, true, meWindow, -1, false);
-    
+
     //TABS
     tabctrl = gui->addTabControl(rect<int>(310, 70, 1140, 680), meWindow, true, true, 0);
     texturesTab = tabctrl->addTab(L"Textures");
     colorsTab = tabctrl->addTab(L"Colors");
 	flagsTab = tabctrl->addTab(L"Flags & Params");
-    
+
     lastTabTextColor = texturesTab->getTextColor();
     texturesTab->setTextColor(SColor(255, 255, 255, 255));
-    
+
     //---------------------------------------------------------------------------------------------------------
 	//GENERAL TAB
     matEditorTextures = new CUIMaterialEditorTextures(devices, texturesTab, nodeToEdit);
@@ -240,7 +240,7 @@ void CUIMaterialEditor::open(ISceneNode *node) {
 		scrollbar->setText(L"editor:material_editor_scroll_bar_name");
     }
     //---------------------------------------------------------------------------------------------------------
-    
+
     close = gui->addButton(rect<s32>(1040, 690, 1140, 720), meWindow, -1, L"Close", L"Close The Window");
 
 	devices->getEventReceiver()->AddEventReceiver(this, meWindow);
@@ -253,7 +253,7 @@ void CUIMaterialEditor::updateElementsPositionsI(IGUIScrollBar *scroolbar) {
 	for (; element != tab->getChildren().end(); ++element) {
 		IGUIElement *it = (IGUIElement *)*element;
 		if (it != scroolbar && it->getType() != EGUIET_FILE_OPEN_DIALOG && it->getType() != EGUIET_WINDOW) {
-			it->setRelativePosition(position2di(initialElementsPosition[tab->getNumber()][j].X, 
+			it->setRelativePosition(position2di(initialElementsPosition[tab->getNumber()][j].X,
 												initialElementsPosition[tab->getNumber()][j].Y - scroolbar->getPos()));
 		}
 		j++;
@@ -263,14 +263,14 @@ void CUIMaterialEditor::updateElementsPositionsI(IGUIScrollBar *scroolbar) {
 void CUIMaterialEditor::update() {
 	selectedMaterial = (SMaterial *)materialsView->getSelected()->getData();
     restoreMaterial = (SMaterial *)materialsView->getSelected()->getData();
-                    
+
     matEditorTextures->update(selectedMaterial);
 	matEditorColors->update(selectedMaterial);
 	matEditorFlags->update(selectedMaterial);
 }
 
 bool CUIMaterialEditor::OnEvent(const SEvent &event) {
-    
+
 	if (event.EventType == EET_USER_EVENT) {
 		if (event.UserEvent.UserData1 == ECUE_REACTIVE_MINIMIZED_WINDOW) {
 			if (event.UserEvent.UserData2 == meWindow->getReferenceCount()) {
@@ -286,19 +286,23 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 			if (tempMenu == menu->getSubMenu(2)) {
 				s32 id = tempMenu->getItemCommandId(tempMenu->getSelectedItem());
 				if (id == 1) {
-                    #ifndef _IRR_OSX_PLATFORM_
+                    #ifdef _IRR_OSX_PLATFORM_
+                        mtFactory->setCreateAllTextureLayer2NormalMapped();
+                    #elif _SSWE_LINUX_
+                        mtFactory->setCreateAllTextureLayer2NormalMapped();
+                    #else
                         std::thread scatl(&CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped, *mtFactory);
                         scatl.detach();
-                    #else
-                        mtFactory->setCreateAllTextureLayer2NormalMapped();
                     #endif
 				}
 				if (id == 2) {
-                    #ifndef _IRR_OSX_PLATFORM_
+                    #ifdef _IRR_OSX_PLATFORM_
+                        mtFactory->setAllTextureLayer2NormalMapped(9.0f);
+                    #elif _SSWE_LINUX_
+                        mtFactory->setAllTextureLayer2NormalMapped(9.0f);
+                    #else
                         std::thread satlnm(&CMaterialEditorFactory::setAllTextureLayer2NormalMapped, *mtFactory, 9.0f);
                         satlnm.detach();
-                    #else
-                        mtFactory->setAllTextureLayer2NormalMapped(9.0f);
                     #endif
 				}
 				//update();
@@ -330,7 +334,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 
             if (event.GUIEvent.Caller == close) {
                 nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
-                
+
                 meWindow->remove();
 				meWindow = 0;
 
@@ -338,7 +342,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
                 delete this;
             }
         }
-        
+
         //IF TREE VIEW
         if (event.GUIEvent.EventType == EGET_TREEVIEW_NODE_SELECT) {
             if (event.GUIEvent.Caller == materialsView) {
@@ -347,7 +351,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
                 }
             }
         }
-        
+
         //IF TAB CONTROLLER CHANGED
         if (event.GUIEvent.EventType == EGET_TAB_CHANGED) {
             if (event.GUIEvent.Caller == tabctrl) {
@@ -357,7 +361,7 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
                 tabctrl->getTab(tabctrl->getActiveTab())->setTextColor(SColor(255, 255, 255, 255));
             }
         }
-        
+
         //IF A SCROLL BAR CHANGED
         if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
             for (u32 i=0; i < scbars.size(); i++) {
@@ -390,6 +394,6 @@ bool CUIMaterialEditor::OnEvent(const SEvent &event) {
 			}
 		}
 	}
-    
+
     return false;
 }
