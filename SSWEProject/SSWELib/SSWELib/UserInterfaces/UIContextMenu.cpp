@@ -23,23 +23,24 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	pluginsManager = new CPluginsManager(devices);
 
 	//SETS GENERIC MONITOR AS DEFAULT
-	#ifndef _IRR_OSX_PLATFORM_
-		#ifndef SSWE_RELEASE
+	#ifdef _IRR_OSX_PLATFORM_
+        pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
+	#elif _SSWE_LINUX_
+        #ifdef SSWE_RELEASE
+            pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
+        #endif
+	#else
+        #ifndef SSWE_RELEASE
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
 		#else
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
-		#endif
-	#else
-		#ifdef SSWE_RELEASE
-			pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
-			//pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
 		#endif
 	#endif
 
     //-----------------------------------
     //MENU
     menu = devices->getGUIEnvironment()->addMenu();
-    
+
     menu->addItem(L"World Editor", CXT_MENU_EVENTS_WORLD_EDITOR, false, false, false, false);
     menu->addItem(L"File", -1, true, true);
 	menu->addItem(L"Edit", -1, true, true);
@@ -200,10 +201,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
     //-----------------------------------
     //TOOLBAR
+
+    devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(devices->getWorkingDirectory());
     bar = devices->getGUIEnvironment()->addToolBar(0, -1);
     bar->setRelativePosition(position2d<int>(0, menu->getRelativePosition().getHeight()+7));
 	ITexture* image = devices->getVideoDriver()->getTexture("GUI/folder.png");
-	bar->addButton(CXT_MENU_EVENTS_OPEN_SCRIPT, 0, L"Open a scene", image, 0, false, true);
+	IGUIButton *bbb = bar->addButton(CXT_MENU_EVENTS_OPEN_SCRIPT, 0, L"Open a scene", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/edit.png");
 	bar->addButton(CXT_MENU_EVENTS_EDIT_NODE, 0, L"Edit Selected Node", image, 0, false, true);
 	image = devices->getVideoDriver()->getTexture("GUI/save.png");
@@ -232,7 +235,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 	IVideoDriver *driver = devices->getVideoDriver();
 	contextNameText = gui->addStaticText(L"", rect<s32>(bar->getRelativePosition().getWidth()-400, 5,
-														bar->getRelativePosition().getWidth(), 25), 
+														bar->getRelativePosition().getWidth(), 25),
 										true, true, bar, -1, true);
 	contextNameText->setBackgroundColor(SColor(255, 0, 0, 0));
 	contextNameText->setOverrideColor(SColor(255, 255, 255, 255));
@@ -351,7 +354,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	//pluginsManager->loadSSWEPlugin("SSWEWEBPLUGIN_D");
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
-    
+
     CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 
 	//LIGHT SCATTERING
@@ -363,12 +366,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
 
 	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
-    
+
     //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
 }
 
 CUIContextMenu::~CUIContextMenu() {
-    
+
 }
 
 void CUIContextMenu::update() {
@@ -431,7 +434,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
         //-----------------------------------
         //CONTEXT MENU EVENT
 		if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
-            
+
             IGUIContextMenu *tempMenu = (IGUIContextMenu *)event.GUIEvent.Caller;
 
 			if (tempMenu == monitorsMenu) {
@@ -445,7 +448,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_FILE_QUIT:
                     devices->getDevice()->closeDevice();
                     break;
-                    
+
                 case CXT_MENU_EVENTS_FILE_CLEAN_SCENE:
                     devices->getGUIEnvironment()->addMessageBox(L"Are you sure ?",
                                                                 L"Are you sure you want to clean all the scene ?\n\n"
@@ -453,7 +456,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                                                                 CXT_MENU_EVENTS_FILE_CLEAN_SCENE_OK,
                                                                 devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + stringc("/GUI/info.png")));
                     break;
-                    
+
                 case CXT_MENU_EVENTS_OPEN_SCRIPT:
                     openSceneInstance->open();
                     break;
@@ -466,27 +469,27 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					CUILoadNodesGroup *loadGroup = new CUILoadNodesGroup(devices);
 				}
 					break;
-                    
+
                 case CXT_MENU_EVENTS_FILE_RENDER: {
                     CUIWindowRender *render = new CUIWindowRender(devices);
                     render->open();
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_FILE_EXPORT_SCENE: {
                     exportSceneInstance->setPathFile(openSceneInstance->getPathFile());
                     exportSceneInstance->open();
                 }
                     break;
                 //-----------------------------------
-                
+
                 //-----------------------------------
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE: {
 					ISceneNode *prefix = mainWindowInstance->getSelectedNode().getNode();
 					if (prefix->getType() != ESNT_LIGHT) {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+						editNode->open(mainWindowInstance->getSelectedNode().getNode(),
 									   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                     } else {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
@@ -495,7 +498,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE: {
 					ISceneNode *prefix = mainWindowInstance->getSelectedNode().getNode();
 					if (prefix->getType() != ESNT_LIGHT) {
@@ -504,9 +507,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
 
                 }
-                    
+
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_LIGHTING: {
                     array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
                     for (int i=0; i < nodes.size(); i++) {
@@ -514,7 +517,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_SET_ALL_NODES_NOT_LIGHTING: {
                     array<ISceneNode *> nodes = devices->getCoreData()->getAllSceneNodes();
                     for (int i=0; i < nodes.size(); i++) {
@@ -526,7 +529,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_EDIT_GRID_SCENE_NODE:
                     editGridInstance->open();
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_CLONE:
                     mainWindowInstance->cloneNode();
                     break;
@@ -536,18 +539,18 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				}
 					break;
                 //-----------------------------------
-                
+
                 //-----------------------------------
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_VIEW_MAYA_CAMERA:
                     devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());
                     break;
-                    
+
                 case CXT_MENU_EVENTS_VIEW_FPS_CAMERA: {
                     CUIEditFPSCamera *editFPS = new CUIEditFPSCamera(devices);
 				}
                     break;
-                    
+
                 case CXT_MENU_EVENTS_VIEW_VIEW_TREE_NODES_WINDOW:
                     sceneViewInstance->open();
                     break;
@@ -556,7 +559,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					CUITexturesManager *texmgr = new CUITexturesManager(devices);
 				}
 					break;
-                    
+
                 case CXT_MENU_EVENTS_VIEW_WIREFRAME: {
 					ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode().getNode();
                     if (nodeWireFrame) {
@@ -616,14 +619,14 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						devices->getRenderCallbacks()->removeSSAO();
 					}
 					break;
-                    
+
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
                     devices->setXEffectDrawable(!devices->isXEffectDrawable());
 					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
 						devices->getMonitorRegister()->getMonitor(i)->setRenderRenderer(devices->isXEffectDrawable());
 					}
                     break;
-                    
+
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT: {
                     //CUIWindowEditEffects *editEffects = new CUIWindowEditEffects(devices);
                     //editEffects->open();
@@ -664,15 +667,15 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
                     break;
                 //-----------------------------------
-                    
+
                 //-----------------------------------
                 //CONTEXT MENU SCENE EVENT
-                    
+
                 case CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS: {
                     CUIParticlesEditor *pse = new CUIParticlesEditor(devices);
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_SCENE_ADD_TERRAIN:
                     mainWindowInstance->openAddTerrain();
                     break;
@@ -688,9 +691,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE:
                     mainWindowInstance->openAddWaterSurface();
                     break;
-                    
+
                 //-----------------------------------
-                
+
 				//-----------------------------------
                 //CONTEXT MENU MESH FACTORY EVENT
 				case CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE:
@@ -727,7 +730,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
 					break;
-                    
+
                 case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYBOX: {
                     if (devices->getSkyBox()) {
 						CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
@@ -735,7 +738,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYBOX: {
                     if (devices->getSkyBox()) {
 						CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
@@ -832,18 +835,18 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_RENDERING_INFOS: {
                     CUIRenderingInfos *renderInfos = new CUIRenderingInfos(devices);
                 }
-                    break; 
+                    break;
 
 				case CXT_MENU_EVENTS_HIDE_DRAW_MAIN_WINDOW:
 					mainWindowInstance->getMainWindow()->setVisible(!mainWindowInstance->getMainWindow()->isVisible());
 					break;
                 //-----------------------------------
-                    
+
 				//-----------------------------------
                 //HELP MENU EVENT
 				case CXT_MENU_EVENTS_HELP_ABOUT:
 					//devices->addInformationDialog(L"About...", L"Created by Julien Moreau-Mathis\n"
-					//										   L"All rights reserved", 
+					//										   L"All rights reserved",
 					//							  EMBF_OK);
                     devices->getGUIEnvironment()->addMessageBox(L"About...", L"Created by Julien Moreau-Mathis\n"
                                                                              L"All rights reserved",
@@ -861,7 +864,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
             }
         }
         //-----------------------------------
-        
+
         if (event.GUIEvent.EventType == EGET_MESSAGEBOX_OK) {
             switch (id) {
                 case CXT_MENU_EVENTS_FILE_CLEAN_SCENE_OK:
@@ -878,15 +881,15 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeAllTriangleSelectors();
                     break;
-                    
+
                 default:
                     break;
             }
         }
-        
+
         //-----------------------------------
         //COMBO BOX GUI EVENT
-        
+
         if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
             if (event.GUIEvent.Caller == comboModecb) {
                 if (comboModecb->getSelected() == 0) {
@@ -904,10 +907,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 }
             }
         }
-        
+
         //-----------------------------------
         //LISTBOX GUI EVENT
-        
+
         if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED) {
             submenu = menu->getSubMenu(2);
 			ISceneNode *node = mainWindowInstance->getSelectedNode().getNode();
@@ -917,7 +920,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 } else {
                     submenu->setItemChecked(5, false);
                 }
-                
+
                 if (node->getMaterial(0).PointCloud) {
                     submenu->setItemChecked(6, true);
                 } else {
@@ -937,9 +940,9 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				}
 			}
 		}
-        
+
         //-----------------------------------
-        
+
         //-----------------------------------
         //BUTTON GUI EVENT
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
@@ -996,12 +999,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_OPEN_SCRIPT:
                     openSceneInstance->open();
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_NODE: {
 					stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
                     if (prefix != "#light") {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+						editNode->open(mainWindowInstance->getSelectedNode().getNode(),
 									  mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                     } else {
                         CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
@@ -1010,12 +1013,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EXPORT_SCENE:
                     exportSceneInstance->setPathFile(openSceneInstance->getPathFile());
                     exportSceneInstance->open();
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_AO: {
 					if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
 						if (mainWindowInstance->getSelectedNode().getNode()) {
@@ -1026,7 +1029,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 case CXT_MENU_EVENTS_EDIT_MATERIAL_SHADERS: {
                     CUIWindowEditMaterials *editMat = new CUIWindowEditMaterials(devices);
                     editMat->open();
@@ -1060,7 +1063,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
 					break;
-                    
+
                 case CXT_MENU_EVENTS_HELP:
                     devices->getGUIEnvironment()->addMessageBox(L"How to ?",
                                                                 L"KEY CODES : \n"
@@ -1070,23 +1073,23 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                                                                 L"X     : Draw Shadows \n"
                                                                 L"L     : Set the selected node lighting \n"
                                                                 L"C     : Clone the selected node\n"
-                                                                L"E     : Edit the selected node\n", 
+                                                                L"E     : Edit the selected node\n",
                                                                 false, EMBF_OK, 0, -1,
-                                                                devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + 
+                                                                devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() +
                                                                                                       stringc("/GUI/help.png")));
-                    
+
                     break;
                 //-----------------------------------
                 //-----------------------------------
-                //SECOND TOOLBAR 
+                //SECOND TOOLBAR
                 case CXT_BAR_EVENTS_RENDER: {
                     CUIWindowRender *render = new CUIWindowRender(devices);
                     render->open();
                 }
                     break;
-                    
+
                 case CXT_BAR_EVENTS_LOG_WINDOW:
-                    
+
                     break;
 
 				case CXT_MENU_EVENTS_CREATE_CUBE:
@@ -1104,16 +1107,16 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				case CXT_MENU_EVENTS_CREATE_LIGHT:
 					nodeFactory->createLightSceneNode();
 					break;
-                    
+
                 //-----------------------------------
-                    
+
                 default:
                     break;
             }
         }
         //-----------------------------------
     }
-    
+
     if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (!event.KeyInput.PressedDown) {
 
@@ -1121,7 +1124,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 			//	return false;
 			//}
 			switch (event.KeyInput.Key) {
-                    
+
                 case KEY_KEY_X:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && devices->isShiftPushed()) {
                         devices->setXEffectDrawable(!devices->isXEffectDrawable());
@@ -1130,7 +1133,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						}
                     }
                     break;
-                    
+
                 case KEY_KEY_W: {
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
 						ISceneNode *nodeWireFrame = mainWindowInstance->getSelectedNode().getNode();
@@ -1148,7 +1151,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 case KEY_KEY_A:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && !devices->isShiftPushed()) {
 						if (mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()) == "#object") {
@@ -1169,25 +1172,25 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						}
 					}
                     break;
-                    
+
                 case KEY_KEY_O:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
                         openSceneInstance->open();
                     }
                     break;
-                    
+
                 case KEY_KEY_S:
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {
                         exportSceneInstance->open();
                     }
                     break;
-                    
+
                 case KEY_KEY_E: {
 					if (!devices->isEditBoxEntered() && devices->isCtrlPushed() && !devices->isShiftPushed()) {
 						stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
                         if (prefix != "#light") {
                             CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-							editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+							editNode->open(mainWindowInstance->getSelectedNode().getNode(),
 										   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                         } else {
                             CUIWindowEditLight *editLight = new CUIWindowEditLight(devices, mainWindowInstance->getActiveListBox()->getSelected());
@@ -1211,7 +1214,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						stringc prefix = mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode());
                         if (prefix != "#volumeLight") {
                             CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-							editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
+							editNode->open(mainWindowInstance->getSelectedNode().getNode(),
 										   mainWindowInstance->getSelectedNodePrefix(mainWindowInstance->getSelectedNode().getNode()));
                         } else {
                             CUIWindowEditVolumeLight *editVolumeLight = new CUIWindowEditVolumeLight(devices);
@@ -1221,13 +1224,13 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
-                    
+
                 default:
                     break;
-                    
+
             }
         }
     }
-    
+
     return false;
 }

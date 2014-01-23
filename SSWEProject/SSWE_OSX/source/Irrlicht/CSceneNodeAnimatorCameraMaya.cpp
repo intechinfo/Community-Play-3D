@@ -56,10 +56,16 @@ CSceneNodeAnimatorCameraMaya::~CSceneNodeAnimatorCameraMaya()
 bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 {
 	if (event.EventType == EET_KEY_INPUT_EVENT) {
+        #ifndef _IRR_LINUX_PLATFORM_
 		controlDown = event.KeyInput.Control;
+		#else
+		if (event.KeyInput.Key == irr::KEY_LCONTROL) {
+            controlDown = event.KeyInput.PressedDown;
+		}
+		#endif
 	}
 
-	if (event.EventType != EET_MOUSE_INPUT_EVENT || !controlDown)
+	if (event.EventType != EET_MOUSE_INPUT_EVENT)
 		return false;
 
 	switch(event.MouseInput.Event)
@@ -86,8 +92,10 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 		MousePos = CursorControl->getRelativePosition();
 		break;
 	case EMIE_MOUSE_WHEEL:
-        #ifndef _IRR_OSX_PLATFORM_
+        #ifdef _IRR_OSX_PLATFORM_
 		currentZoomWheel = event.MouseInput.Wheel;
+        #elif _IRRLICHT_LINUX_
+        currentZoomWheel = event.MouseInput.Wheel;
         #else
         currentZoomWheel = event.MouseInput.Wheel * 0.05f;
         #endif
@@ -113,7 +121,7 @@ void CSceneNodeAnimatorCameraMaya::animateNode(ISceneNode *node, u32 timeMs)
 	//Alt + LM + MM = Dolly forth/back in view direction (speed % distance camera pivot - max distance to pivot)
 	//Alt + MM = Move on camera plane (Screen center is about the mouse pointer, depending on move speed)
 
-	if (!node || node->getType() != ESNT_CAMERA)
+	if (!node || node->getType() != ESNT_CAMERA || !controlDown)
 		return;
 
 	ICameraSceneNode* camera = static_cast<ICameraSceneNode*>(node);
@@ -304,7 +312,7 @@ void CSceneNodeAnimatorCameraMaya::setDistance(f32 distance)
 	CurrentZoom=distance;
 }
 
-		
+
 //! Gets the rotation speed
 f32 CSceneNodeAnimatorCameraMaya::getRotateSpeed() const
 {

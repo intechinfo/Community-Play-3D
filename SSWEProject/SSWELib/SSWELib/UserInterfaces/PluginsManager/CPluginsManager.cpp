@@ -21,10 +21,12 @@ array<stringc> CPluginsManager::getAllMonitorsPluginsNames() {
 	for (u32 j=0; j < fl->getFileCount(); j++) {
 		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 			stringw pluginname = fl->getFileName(j);
-            #ifndef _IRR_OSX_PLATFORM_
-			pluginname.remove(".dll");
+            #ifdef _IRR_OSX_PLATFORM_
+			pluginname.remove(".dylib");
+            #elif _SSWE_LINUX_
+            pluginname.remove(".so");
             #else
-            pluginname.remove(".dylib");
+            pluginname.remove(".dll");
             #endif
 			names.push_back(pluginname);
 		}
@@ -45,10 +47,12 @@ array<stringc> CPluginsManager::getAllSSWEPluginsNames() {
 	for (u32 j=0; j < fl->getFileCount(); j++) {
 		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 			stringw pluginname = fl->getFileName(j);
-            #ifndef _IRR_OSX_PLATFORM_
-			pluginname.remove(".dll");
+            #ifdef _IRR_OSX_PLATFORM_
+			pluginname.remove(".dylib");
+            #elif _SSWE_LINUX_
+            pluginname.remove(".so");
             #else
-            pluginname.remove(".dylib");
+            pluginname.remove(".dll");
             #endif
 			names.push_back(pluginname);
 		}
@@ -77,16 +81,17 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 
 	//IF MONITOR DOESN'T EXISTS, TRY AND LOAD IT
 	stringc ppath = devices->getWorkingDirectory().c_str();
-	ppath += "plugins/monitors/";
+	ppath += "Plugins/Monitors/";
 	ppath += path;
-    #ifndef _IRR_OSX_PLATFORM_
-	ppath += ".dll";
+    #ifdef _IRR_OSX_PLATFORM_
+	ppath += ".dylib";
+    #elif _SSWE_LINUX_
+    ppath += ".so";
     #else
-    ppath += ".dylib";
+    ppath += ".dll";
     #endif
 
-    #ifndef _IRR_OSX_PLATFORM_
-    #ifndef _SSWE_LINUX_
+    #ifdef _IRR_WINDOWS_API_
 	HINSTANCE hdll = NULL;
 	IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();
@@ -113,10 +118,8 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
 		}
 	}
-	#endif
 
     #else
-
     void* hdll = NULL;
 	IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();

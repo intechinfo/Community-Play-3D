@@ -301,7 +301,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#else
 	Device = irr::createDevice(EDT_OPENGL, dimension2du(800, 600), 32, false, false, true, 0);
 	#endif
-    Device->setWindowCaption(L"Soganatsu Studios World Editor V1");
+    Device->setWindowCaption(L"Eternal 3D");
 	Device->setResizable(true);
 
     driver = Device->getVideoDriver();
@@ -320,6 +320,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#else
 		workingDirectory += "/";
 	#endif
+
+    Device->getFileSystem()->changeWorkingDirectoryTo(workingDirectory);
 
 	//DRAW SPLASH SCREEN
 	ITexture *splashScreen = driver->getTexture("GUI/scs/sc1.png");
