@@ -720,6 +720,7 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
+	irr::s32 LightScatteringBlack;
 
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
@@ -728,7 +729,7 @@ private:
 	irr::video::ITexture* DepthRTT;
 
 	bool useLightScattering;
-	irr::video::ITexture *LightScatteringRTT, *blackTextureLS;
+	irr::video::ITexture *LightScatteringRTT;
 
     irr::video::ITexture* currentShadowMapTexture;
     irr::video::ITexture* currentSecondaryShadowMap;
