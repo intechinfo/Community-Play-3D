@@ -308,6 +308,7 @@ pfloat fBumpStrength 40
 		 <object>
 
 			 <path file="billboard" />
+			 <path file="data/Characters/sintel/sintel_update.x" />
 
 			 <name c8name="#object:new_bill_board" />
 

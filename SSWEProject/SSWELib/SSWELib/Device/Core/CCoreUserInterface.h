@@ -35,18 +35,21 @@ public:
 	bool OnEvent(const SEvent &event);
 
 	void update();
+	void updateDevices();
 
 	void setLogEventWindowVisible(bool visible) { logVisible = visible; }
 	bool isLogEventWindowVisible() { return logVisible; }
     
-    void addDevices(CDevices *_devices) { devicesArray.push_back(_devices); }
-    void removeDevices(CDevices *_devices) {
-        s32 i = devicesArray.binary_search(_devices);
+    void addUserInterface(CCoreUserInterface *_device) { devicesArray.push_back(_device); }
+    void removeUserInterface(CCoreUserInterface *_device) {
+        s32 i = devicesArray.binary_search(_device);
         if (i != -1) {
             delete devicesArray[i];
             devicesArray.erase(i);
         }
     }
+
+	array<CCoreUserInterface *> *getCoreUserInterfaces() { return &devicesArray; }
 	//-----------------------------------
 
 private:
@@ -71,7 +74,7 @@ private:
 
 	dimension2d<u32> windowSize;
     
-    array<CDevices *> devicesArray;
+    array<CCoreUserInterface *> devicesArray;
 	//-----------------------------------
 
 	//-----------------------------------

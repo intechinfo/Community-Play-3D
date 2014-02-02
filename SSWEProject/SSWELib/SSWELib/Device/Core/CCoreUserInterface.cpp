@@ -135,21 +135,23 @@ CCoreUserInterface::~CCoreUserInterface() {
 
 }
 
+void CCoreUserInterface::updateDevices() {
+	for (u32 i=0; i < devicesArray.size(); i++) {
+		CCoreUserInterface *coreUserInterface = devicesArray[i];
+		if (coreUserInterface->getDevices()->getDevice()->run()) {
+			if (coreUserInterface->getDevices()->getDevice()->isWindowActive()) {
+				coreUserInterface->getDevices()->updateEntities();
+				coreUserInterface->getVideoDriver()->beginScene(true, true, SColor(0x0));
+				coreUserInterface->update();
+				coreUserInterface->getVideoDriver()->endScene();
+			}
+		}
+    }
+}
+
 void CCoreUserInterface::update() {
 
     devices->updateDevice();
-    
-    for (u32 i=0; i < devicesArray.size(); i++) {
-        if (devicesArray[i]->getDevice()->run()) {
-            IVideoDriver *ddriver = devicesArray[i]->getVideoDriver();
-            
-            devicesArray[i]->updateEntities();
-            
-            driver->beginScene(true, true, SColor(0x0));
-            devicesArray[i]->updateDevice();
-            driver->endScene();
-        }
-    }
 
     contextMenuInstance->update();
 	windowsManagerInstance->update();

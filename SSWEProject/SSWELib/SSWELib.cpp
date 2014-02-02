@@ -133,6 +133,8 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 			#endif
             
         }
+
+		coreUserInterface->updateDevices();
 	}
 
     #ifndef _IRR_OSX_PLATFORM_
