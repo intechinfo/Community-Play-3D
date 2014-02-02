@@ -214,7 +214,8 @@ array<ISceneNode *> CCoreData::getArrayOfWaterSurfaceNodes() {
 	return nodes;
 }
 
-void CCoreData::removeSceneNode(ISceneNode *node, EffectHandler *effect) {
+void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
+	EffectHandler *effect = (EffectHandler *)_effect;
     //SEARCH TERRAINS
     s32 indice = getArrayOfTerrainNodes().binary_search(node);
     if (indice != -1) {

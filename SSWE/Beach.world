@@ -260,7 +260,7 @@ VS_OUTPUT vertexMain( float3 Position  : POSITION0,
 
 			 <path file="data/architecture/beach/beach/beach.3ds" />
 
-			 <type esnt="mesh" />
+			 <type esnt="mesh" mppn="2048" />
 
 			 <factory> 
 

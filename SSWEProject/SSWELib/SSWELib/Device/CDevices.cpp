@@ -189,7 +189,7 @@ void CDevices::updateDevice() {
                         if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
                             monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
 
-                        monitor->drawScene();
+						monitor->drawScene();
                     }
 
                     if(renderFullPostTraitements && renderXEffect) {
@@ -297,7 +297,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
 
 	Device = createDeviceEx(parameters);
-    Device->setWindowCaption(L"Soganatsu Studios World Editor V1");
+    Device->setWindowCaption(L"Eternal 3D");
 	Device->setResizable(true);
     
     driver = Device->getVideoDriver();
@@ -396,7 +396,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_4PCF;
+	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);

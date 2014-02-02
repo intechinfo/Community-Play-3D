@@ -9,10 +9,10 @@
 #include "../SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
 #include "../SSWELib/SceneNodes/Camera/CRiggedCamera.h"
 
-#include "ICollisionManager.h"
-#include "ISSWECore.h"
-#include "ISSWECoreData.h"
-#include "ISSWERender.h"
+#include <ICollisionManager.h>
+#include <ISSWECore.h>
+#include <ISSWECoreData.h>
+#include <ISSWERender.h>
 
 class IDevices {
 public: 

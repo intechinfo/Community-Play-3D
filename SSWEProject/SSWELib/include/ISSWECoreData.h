@@ -3,14 +3,10 @@
 
 #include <irrlicht.h>
 
-#include "../Lua52/include/lua.hpp"
+#include <ISSWERender.h>
 
-#include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
-#include "../../../SSWERenders/Renders/XEffect/EffectCB.h"
-
-#include "src/Bullet-C-Api.h"
-#include "src/btBulletDynamicsCommon.h"
-#include "src/btBulletCollisionCommon.h"
+#include <ISSWEShaderCallback.h>
+class CShaderCallback;
 
 struct SData;
 struct SFilter;
@@ -48,7 +44,7 @@ public:
 	virtual irr::core::array<irr::scene::ISceneNode *> getArrayOfVolumeLightNodes() = 0;
 	virtual irr::core::array<irr::scene::ISceneNode *> getArrayOfWaterSurfaceNodes() = 0;
     
-    virtual void removeSceneNode(irr::scene::ISceneNode *node, EffectHandler *effect) = 0;
+    virtual void removeSceneNode(irr::scene::ISceneNode *node, ISSWERender *effect) = 0;
     virtual SData *copySDataOfSceneNode(irr::scene::ISceneNode *node) = 0;
 	//-----------------------------------
     
