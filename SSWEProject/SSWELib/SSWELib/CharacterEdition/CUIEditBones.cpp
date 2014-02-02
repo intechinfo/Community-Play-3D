@@ -17,10 +17,10 @@ CUIEditBones::CUIEditBones(CDevices *_devices, IAnimatedMeshSceneNode *_node) {
 	gui = devices->getGUIEnvironment();
 
 	//EFFECT
-	effect = new EffectHandler(devices->getDevice(), devices->getDevice()->getVideoModeList()->getDesktopResolution(), true, true, true);
+	/*effect = new EffectHandler(devices->getDevice(), devices->getDevice()->getVideoModeList()->getDesktopResolution(), true, true, true);
 	effect->setActiveSceneManager(smgr);
 	effect->addShadowToNode(_node, devices->getXEffectFilterType(), ESM_BOTH);
-	effect->setUseDepthOfField(false);
+	effect->setUseDepthOfField(false);*/
 
 	//NODES
 	node = _node;
@@ -58,7 +58,6 @@ CUIEditBones::~CUIEditBones() {
 		delete arrayFrames[i];
 	}
 	arrayFrames.clear();
-	delete effect;
 }
 
 void CUIEditBones::open() {

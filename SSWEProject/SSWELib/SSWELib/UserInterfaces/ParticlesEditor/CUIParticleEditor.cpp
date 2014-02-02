@@ -533,31 +533,42 @@ void CUIParticleEditor::addGroup() {
         return;
     }
     
-    int enableFlags;// = SPK::FLAG_RED | SPK::FLAG_GREEN | SPK::FLAG_BLUE;
-    int mutableFlags=0;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
-    int randomFlags=0;// = SPK::FLAG_RED | SPK::FLAG_GREEN;
-    int interpolatedFlags=0;// = SPK::FLAG_NONE;
+	int enableFlags = 0;
+    int mutableFlags = 0;
+    int randomFlags = 0;
+    int interpolatedFlags = 0;
     
-    for (int i=0; i < 10; i++) {
+    for (size_t i=0; i < 10; i++) {
+		int tempFlag = 1 << static_cast<SPK::ModelParamFlag>(i);
         if (addModelFlagsEnabled[i]->isChecked()) {
-            enableFlags |= static_cast<SPK::ModelParamFlag>(i);
+			enableFlags += tempFlag;
         }
         if (addModelFlagsMutable[i]->isChecked()) {
-            mutableFlags |= static_cast<SPK::ModelParamFlag>(i);
+            mutableFlags += tempFlag;
         }
         if (addModelFlagsrandom[i]->isChecked()) {
-            randomFlags |= static_cast<SPK::ModelParamFlag>(i);
+            randomFlags += tempFlag;
         }
         if (addModelFlagsInterpolated[i]->isChecked()) {
-            interpolatedFlags |= static_cast<SPK::ModelParamFlag>(i);
+            interpolatedFlags += tempFlag;
         }
     }
-    
+
+	enableFlags /= 2;
+	mutableFlags /= 2;
+	randomFlags /= 2;
+	interpolatedFlags /= 2;
+
+	//int enabledtest = SPK::FLAG_RED | SPK::FLAG_GREEN | SPK::FLAG_BLUE | SPK::FLAG_ALPHA | SPK::FLAG_SIZE;
+	//int enabledtest2 = SPK::FLAG_RED | SPK::FLAG_GREEN | SPK::FLAG_BLUE;
+
     SPK::Model* model = SPK::Model::create(enableFlags, mutableFlags, randomFlags, interpolatedFlags);
     model->setName("New Model");
     
     SPK::Group *group = SPK::Group::create(model, devices->getCore()->getF32(addModelCapacity->getText()));
     group->setName("New Group");
+
+	system->addGroup(group);
     
     createGroup(selectedNode, model, group, system);
     
@@ -572,7 +583,8 @@ void CUIParticleEditor::openAddModel() {
     IGUIEnvironment *gui = devices->getGUIEnvironment();
     
 	addModelWindow = gui->addWindow(rect<s32>(680, 560, 1370, 910), true, L"Add Group", window, -1);
-    devices->getCore()->centerWindow(addModelWindow, devices->getVideoDriver()->getScreenSize());
+	devices->getCore()->centerWindow(addModelWindow, dimension2du(window->getRelativePosition().getWidth(),
+																  window->getRelativePosition().getHeight()));
     
     gui->addStaticText(L"Enabled Flags : ", rect<s32>(10, 30, 110, 50), true, true, addModelWindow, -1, true);
     gui->addStaticText(L"Mutable Flags : ", rect<s32>(170, 30, 270, 50), true, true, addModelWindow, -1, true);
@@ -631,6 +643,4 @@ void CUIParticleEditor::createGroup(CGUINode *node, SPK::Model *model, SPK::Grou
     groupNode->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
     groupNode->addButton(L"Add Renderer");
     groupNode->addButton(L"Add Emitter");
-    
-    system->addGroup(group);
 }

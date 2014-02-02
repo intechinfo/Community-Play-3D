@@ -79,7 +79,13 @@ void CImporter::buildTerrain() {
 	} else if (type == "octtree") {
 		minPolysPerNode = xmlReader->getAttributeValueAsInt("mppn");
 		mesh = smgr->getMesh(path.c_str());
-		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
+		u32 numberOfVertices = 0;
+		for (u32 i=0; i < mesh->getMeshBufferCount(); i++) {
+			numberOfVertices += mesh->getMeshBuffer(i)->getVertexCount();
+		}
+		node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ? 
+													 numberOfVertices/(minPolysPerNode+1)
+													 : numberOfVertices/minPolysPerNode);
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {

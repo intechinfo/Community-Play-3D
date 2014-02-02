@@ -151,7 +151,6 @@ void CRenderCallbacks::removeSSAO() {
 
 	reffect->getIrrlichtDevice()->getVideoDriver()->removeTexture(ssaoRenderCallback->getTexture());
 	ssaoRenderCallback->setTexture(0);
-	delete ssaoRenderCallback;
 	ssaoRenderCallback = 0;
 }
 
