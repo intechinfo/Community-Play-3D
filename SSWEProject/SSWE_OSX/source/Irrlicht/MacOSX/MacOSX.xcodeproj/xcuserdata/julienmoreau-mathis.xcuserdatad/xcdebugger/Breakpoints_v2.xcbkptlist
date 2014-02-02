@@ -279,22 +279,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../../../SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp"
-            timestampString = "405703548.81458"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "CPluginsManager::loadMonitorPlugin(stringc path)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../../../../SSWETestPlugin/CSSWELibTestPlugin.cpp"
             timestampString = "405703844.493333"
             startingColumnNumber = "9223372036854775807"
@@ -426,6 +410,22 @@
             startingLineNumber = "180"
             endingLineNumber = "180"
             landmarkName = "CUITexturesManager::OnEvent(const SEvent &amp;event)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp"
+            timestampString = "412292502.862471"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "CPluginsManager::loadMonitorPlugin(stringc path)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -18,6 +18,8 @@ public:
     virtual void update(bool updateOcclusionQueries = false, irr::video::ITexture* outputTarget = 0) = 0;
     virtual void setActiveSceneManager(irr::scene::ISceneManager* smgrIn) = 0;
     
+    virtual irr::IrrlichtDevice *getIrrlichtDevice() = 0;
+    
 };
 
 #endif

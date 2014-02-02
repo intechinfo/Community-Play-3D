@@ -127,7 +127,7 @@
 		<key>SSWEGenericMonitor.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>28</integer>
+			<integer>29</integer>
 		</dict>
 		<key>SSWELib.xcscheme</key>
 		<dict>
@@ -140,6 +140,11 @@
 			<integer>23</integer>
 		</dict>
 		<key>SSWEWebExportPlugin.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>28</integer>
+		</dict>
+		<key>SSWE_RELEASE.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>27</integer>
@@ -183,6 +188,11 @@
 			<true/>
 		</dict>
 		<key>0E2E3D2C1103E3F4002DE8D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2E01BC7A18985359001A93E3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

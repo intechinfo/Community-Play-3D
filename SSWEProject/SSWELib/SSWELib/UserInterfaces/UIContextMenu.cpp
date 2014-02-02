@@ -32,7 +32,6 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	#else
 		#ifdef SSWE_RELEASE
 			pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
-			//pluginsManager->loadMonitorPlugin("libSSWEGenericMonitor");
 		#endif
 	#endif
 
@@ -352,7 +351,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
     
-    CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 
 	//LIGHT SCATTERING
 	/*devices->getRenderCallbacks()->buildLightScattering();

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2E6B3D46182E7964006E12C6"
-               BuildableName = "libSSWEGenericMonitor.dylib"
-               BlueprintName = "SSWEGenericMonitor"
+               BlueprintIdentifier = "B81CFF4A097FE3050057C06F"
+               BuildableName = "SSWE.app"
+               BlueprintName = "SSWE"
                ReferencedContainer = "container:MacOSX.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,10 +44,19 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B81CFF4A097FE3050057C06F"
+            BuildableName = "SSWE.app"
+            BlueprintName = "SSWE"
+            ReferencedContainer = "container:MacOSX.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -57,6 +66,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B81CFF4A097FE3050057C06F"
+            BuildableName = "SSWE.app"
+            BlueprintName = "SSWE"
+            ReferencedContainer = "container:MacOSX.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
