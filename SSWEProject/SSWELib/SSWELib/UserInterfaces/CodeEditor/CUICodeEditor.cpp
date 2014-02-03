@@ -63,6 +63,7 @@ CUICodeEditor::CUICodeEditor(CDevices *_devices, stringw *code, bool _single) {
     codeEditor->setBackgroundColor(SColor(255, 200, 200, 200));
     codeEditor->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
     codeEditor->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
+	codeEditor->setWordWrap(false);
 	if (textData != 0)
 		codeEditor->setText(textData->c_str());
 	//-----------------------------------

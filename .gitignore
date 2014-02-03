@@ -48,6 +48,11 @@ x64/
 *.bi
 *.unsuccessfulbuild
 *.sdf
+*.o
+*.d
+*.a
+*.cmake
+*.so
 
 # Visual C++ cache files
 ipch/

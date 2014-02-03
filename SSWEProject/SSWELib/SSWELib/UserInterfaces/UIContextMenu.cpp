@@ -35,6 +35,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 		#else
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
 		#endif
+<<<<<<< HEAD
+=======
+	#else
+		#ifdef SSWE_RELEASE
+			pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
+		#endif
+>>>>>>> 98982be63c0eb4af676bb57f976eb999ecfc21e8
 	#endif
 
     //-----------------------------------
@@ -354,8 +361,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	//pluginsManager->loadSSWEPlugin("SSWEWEBPLUGIN_D");
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
+<<<<<<< HEAD
 
     CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+=======
+    
+    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+>>>>>>> 98982be63c0eb4af676bb57f976eb999ecfc21e8
 
 	//LIGHT SCATTERING
 	/*devices->getRenderCallbacks()->buildLightScattering();

@@ -116,7 +116,7 @@ CCoreUserInterface::CCoreUserInterface() {
 
     clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
 
-    logVisible = false;
+    logVisible = true;
     logWindow->setVisible(logVisible);
 
     //-----------------------------------

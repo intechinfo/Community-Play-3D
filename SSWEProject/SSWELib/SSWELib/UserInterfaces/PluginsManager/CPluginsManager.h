@@ -2,6 +2,7 @@
 #define __C_PLUGINS_MANAGER_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
+#include <DLLExport.h>
 
 class CPluginsManager {
 

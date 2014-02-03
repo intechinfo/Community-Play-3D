@@ -253,7 +253,7 @@ pfloat fBumpStrength 40
 
 		 <terrain>
 
-			 <path file="data/architecture/beach/beach/beach.3ds" />
+			 <path file="data/Architecture/Beach/Beach/Beach.3ds" />
 
 			 <type esnt="mesh" />
 

@@ -189,7 +189,7 @@ void CDevices::updateDevice() {
                         if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
                             monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
 
-                        monitor->drawScene();
+						monitor->drawScene();
                     }
 
                     if(renderFullPostTraitements && renderXEffect) {
@@ -296,11 +296,15 @@ void CDevices::drawGUI() {
 void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
 
+<<<<<<< HEAD
     #ifndef _SSWE_LINUX_
 	Device = irr::createDeviceEx(parameters);
 	#else
 	Device = irr::createDevice(EDT_OPENGL, dimension2du(800, 600), 32, false, false, true, 0);
 	#endif
+=======
+	Device = createDeviceEx(parameters);
+>>>>>>> 98982be63c0eb4af676bb57f976eb999ecfc21e8
     Device->setWindowCaption(L"Eternal 3D");
 	Device->setResizable(true);
 
@@ -402,7 +406,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_4PCF;
+	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);

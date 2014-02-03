@@ -260,6 +260,12 @@
 		0E2E3D381103E3F4002DE8D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0930CE550EC39F4500D63866 /* IOKit.framework */; };
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
+		2E1C22E41893036B003033A3 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
+		2E1C22E51893036E003033A3 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
+		2E1C22F418930905003033A3 /* libSSWELib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60F91829835E00FB1027 /* libSSWELib.a */; };
+		2E1C22FE18930B68003033A3 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
+		2E1C22FF18930B68003033A3 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
+		2E1C230018930B68003033A3 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2E202BE4187B55D000F44BB0 /* CUIWindowEditFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */; };
 		2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
@@ -286,8 +292,6 @@
 		2E2CA4B2182D6DF8000BA9DA /* XEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F64182980FA00FB1027 /* XEffects.h */; };
 		2E2CA4B4182D6DF8000BA9DA /* SSWERenders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
 		2E2CA4B6182D6DF8000BA9DA /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
-		2E4437E1187B57C50024A476 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
-		2E4437E2187B58980024A476 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E56A2271828EF9500D63D65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E56A2281828EFA100D63D65 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
 		2E6C5F7C1829812E00FB1027 /* shadergroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F54182980F900FB1027 /* shadergroup.cpp */; };
@@ -507,20 +511,10 @@
 		2E6C6331182985A400FB1027 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E6C6341182985E100FB1027 /* SSWE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C633E182985E100FB1027 /* SSWE.cpp */; };
 		2E6C6342182985E100FB1027 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C633F182985E100FB1027 /* stdafx.cpp */; };
-		2E6C6349182986D000FB1027 /* libSSWECore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60191829818300FB1027 /* libSSWECore.a */; };
-		2E6C634A182986D000FB1027 /* libSSWELib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60F91829835E00FB1027 /* libSSWELib.a */; };
-		2E6C634B182986D000FB1027 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
 		2E6C634D182986E000FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
-		2E6C63511829874A00FB1027 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E6C63521829874A00FB1027 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E6C63531829874A00FB1027 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
-		2E6C6354182987D000FB1027 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E6C6355182987D000FB1027 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E6C6356182987D000FB1027 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2E6C6357182987EB00FB1027 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
 		2E6C6358182987EB00FB1027 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
 		2E6C6359182987EB00FB1027 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
-		2E6C635A1829888B00FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
 		2E6C635B1829889D00FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
 		2E6E673C182D909A00A79A68 /* CSSWELibTestPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E6738182D909A00A79A68 /* CSSWELibTestPlugin.cpp */; };
 		2E6E673D182D909A00A79A68 /* CSSWELibTestPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E6739182D909A00A79A68 /* CSSWELibTestPlugin.h */; };
@@ -564,10 +558,6 @@
 		2E92B6691849289E00D955F8 /* SSWERenders.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
 		2E92B66A1849289E00D955F8 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F67182980FA00FB1027 /* stdafx.cpp */; };
 		2E92B66B1849289E00D955F8 /* stdafx.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
-		2E92B66D1849289E00D955F8 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E92B66E1849289E00D955F8 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E92B66F1849289E00D955F8 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
-		2E92B6701849289E00D955F8 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
 		2E92B6711849289E00D955F8 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E92B6B9184928ED00D955F8 /* SPK_BufferHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B677184928EC00D955F8 /* SPK_BufferHandler.cpp */; };
 		2E92B6BA184928ED00D955F8 /* SPK_DEF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B678184928EC00D955F8 /* SPK_DEF.cpp */; };
@@ -689,7 +679,6 @@
 		2E932B26182E8311005FB341 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5687431719AE69007C0D05 /* CImageLoaderDDS.cpp */; };
 		2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */; };
 		2EBDA183188881680020D61A /* CUIEditParticleFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */; };
-		2EDA7A63182B9AF70047322E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDA7A62182B9AF70047322E /* main.cpp */; };
 		2EDC9AEC185BE88A003F7BF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
 		2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
 		2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
@@ -955,7 +944,6 @@
 		4CA5CBA90A4869DD00ADB3D7 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4C53E1650A484C2C0014E966 /* MainMenu.nib */; };
 		4CA5CBAE0A4869E600ADB3D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C0054A30A48470500C844C2 /* main.cpp */; };
 		4CA5CBAF0A4869F300ADB3D7 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
-		4CA5CBB10A486A0200ADB3D7 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		4CA5CBB20A486A0D00ADB3D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C0054B00A48470500C844C2 /* main.cpp */; };
 		4CA5CBB30A486A1300ADB3D7 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4C53E1650A484C2C0014E966 /* MainMenu.nib */; };
 		4CA5CBB40A486A1600ADB3D7 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
@@ -1595,6 +1583,83 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0946CCA30EC99BBE00D945A5;
 			remoteInfo = 19.MouseAndJoystick;
+		};
+		2E1C22E618930476003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = libIrrlicht.a;
+		};
+		2E1C22E818930479003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C5DAF182980CD00FB1027;
+			remoteInfo = SSWERenders;
+		};
+		2E1C22EA1893050E003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6B3D46182E7964006E12C6;
+			remoteInfo = SSWEGenericMonitor;
+		};
+		2E1C22EC189308CB003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C5DAF182980CD00FB1027;
+			remoteInfo = SSWERenders;
+		};
+		2E1C22EE189308CF003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C60611829835E00FB1027;
+			remoteInfo = SSWELib;
+		};
+		2E1C22F0189308D3003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C5F8F1829818300FB1027;
+			remoteInfo = SSWECore;
+		};
+		2E1C22F2189308D6003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E92B6481849289E00D955F8;
+			remoteInfo = SPARK;
+		};
+		2E1C22F61893096C003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C5DAF182980CD00FB1027;
+			remoteInfo = SSWERenders;
+		};
+		2E1C22F818930A04003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E92B6481849289E00D955F8;
+			remoteInfo = SPARK;
+		};
+		2E1C22FA18930A0D003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C5DAF182980CD00FB1027;
+			remoteInfo = SSWERenders;
+		};
+		2E1C22FC18930A10003033A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C5F8F1829818300FB1027;
+			remoteInfo = SSWECore;
 		};
 		2E6C6332182985AA00FB1027 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2350,7 +2415,6 @@
 		2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIEditParticleFlags.cpp; path = ParticlesEditor/CUIEditParticleFlags.cpp; sourceTree = "<group>"; };
 		2EBDA182188881680020D61A /* CUIEditParticleFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIEditParticleFlags.h; path = ParticlesEditor/CUIEditParticleFlags.h; sourceTree = "<group>"; };
 		2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECoreData.h; sourceTree = "<group>"; };
-		2EDA7A62182B9AF70047322E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../examples/specialFX/main.cpp; sourceTree = "<group>"; };
 		2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINodesEditor.cpp; sourceTree = "<group>"; };
 		2EE402B4184947990058DD93 /* CGUINodesEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGUINodesEditor.h; sourceTree = "<group>"; };
 		2EE402B718494DD70058DD93 /* CGUINode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINode.cpp; sourceTree = "<group>"; };
@@ -3029,8 +3093,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E4437E2187B58980024A476 /* libIrrlicht.a in Frameworks */,
-				2E4437E1187B57C50024A476 /* libSSWERenders.a in Frameworks */,
+				2E1C22E51893036E003033A3 /* libSSWERenders.a in Frameworks */,
+				2E1C22E41893036B003033A3 /* libIrrlicht.a in Frameworks */,
 				2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */,
 				2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */,
 				2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */,
@@ -3051,9 +3115,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6C635B1829889D00FB1027 /* liblua.a in Frameworks */,
-				2E6C63511829874A00FB1027 /* BulletCollision.framework in Frameworks */,
-				2E6C63521829874A00FB1027 /* BulletDynamics.framework in Frameworks */,
-				2E6C63531829874A00FB1027 /* LinearMath.framework in Frameworks */,
 				2E6C6330182985A000FB1027 /* libIrrlicht.a in Frameworks */,
 				2E6C632D1829847B00FB1027 /* libSSWERenders.a in Frameworks */,
 			);
@@ -3094,10 +3155,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E92B66D1849289E00D955F8 /* BulletCollision.framework in Frameworks */,
-				2E92B66E1849289E00D955F8 /* BulletDynamics.framework in Frameworks */,
-				2E92B66F1849289E00D955F8 /* LinearMath.framework in Frameworks */,
-				2E92B6701849289E00D955F8 /* liblua.a in Frameworks */,
 				2E92B6711849289E00D955F8 /* libIrrlicht.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3212,14 +3269,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E6C635A1829888B00FB1027 /* liblua.a in Frameworks */,
-				2E6C6354182987D000FB1027 /* BulletCollision.framework in Frameworks */,
-				2E6C6355182987D000FB1027 /* BulletDynamics.framework in Frameworks */,
-				2E6C6356182987D000FB1027 /* LinearMath.framework in Frameworks */,
-				2E6C6349182986D000FB1027 /* libSSWECore.a in Frameworks */,
-				2E6C634A182986D000FB1027 /* libSSWELib.a in Frameworks */,
-				2E6C634B182986D000FB1027 /* libSSWERenders.a in Frameworks */,
-				4CA5CBB10A486A0200ADB3D7 /* libIrrlicht.a in Frameworks */,
+				2E1C22FE18930B68003033A3 /* BulletCollision.framework in Frameworks */,
+				2E1C22FF18930B68003033A3 /* BulletDynamics.framework in Frameworks */,
+				2E1C230018930B68003033A3 /* LinearMath.framework in Frameworks */,
+				2E1C22F418930905003033A3 /* libSSWELib.a in Frameworks */,
 				4C53E27D0A4850D60014E966 /* Cocoa.framework in Frameworks */,
 				4C53E27E0A4850D60014E966 /* OpenGL.framework in Frameworks */,
 				092511450D744ADE006784D9 /* Carbon.framework in Frameworks */,
@@ -3288,7 +3341,6 @@
 		0867D691FE84028FC02AAC07 /* MacOSX */ = {
 			isa = PBXGroup;
 			children = (
-				2EDA7A61182B9AE70047322E /* SpecialDatGenerator */,
 				2E6C5D971829801C00FB1027 /* SSWEProject */,
 				2E6C5D961829801100FB1027 /* Irrlicht */,
 			);
@@ -5098,14 +5150,6 @@
 			name = ParticlesEditor;
 			sourceTree = "<group>";
 		};
-		2EDA7A61182B9AE70047322E /* SpecialDatGenerator */ = {
-			isa = PBXGroup;
-			children = (
-				2EDA7A62182B9AF70047322E /* main.cpp */,
-			);
-			name = SpecialDatGenerator;
-			sourceTree = "<group>";
-		};
 		2EE402B2184947990058DD93 /* NodesEditor */ = {
 			isa = PBXGroup;
 			children = (
@@ -6182,6 +6226,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E1C22E918930479003033A3 /* PBXTargetDependency */,
+				2E1C22E718930476003033A3 /* PBXTargetDependency */,
 			);
 			name = SSWEGenericMonitor;
 			productName = SSWEWebExportPlugin;
@@ -6217,6 +6263,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E1C22F71893096C003033A3 /* PBXTargetDependency */,
 				2E6C6335182985B100FB1027 /* PBXTargetDependency */,
 			);
 			name = SSWECore;
@@ -6235,6 +6282,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E1C22FD18930A10003033A3 /* PBXTargetDependency */,
+				2E1C22FB18930A0D003033A3 /* PBXTargetDependency */,
+				2E1C22F918930A04003033A3 /* PBXTargetDependency */,
 				2E6C6339182985B900FB1027 /* PBXTargetDependency */,
 			);
 			name = SSWELib;
@@ -6450,6 +6500,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E1C22F3189308D6003033A3 /* PBXTargetDependency */,
+				2E1C22F1189308D3003033A3 /* PBXTargetDependency */,
+				2E1C22EF189308CF003033A3 /* PBXTargetDependency */,
+				2E1C22ED189308CB003033A3 /* PBXTargetDependency */,
+				2E1C22EB1893050E003033A3 /* PBXTargetDependency */,
 				B81CFF4B097FE3050057C06F /* PBXTargetDependency */,
 			);
 			name = SSWE;
@@ -7511,7 +7566,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EDA7A63182B9AF70047322E /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7972,6 +8026,61 @@
 			isa = PBXTargetDependency;
 			target = 0946CCA30EC99BBE00D945A5 /* 19.MouseAndJoystick */;
 			targetProxy = 0E2E3D931103EB41002DE8D7 /* PBXContainerItemProxy */;
+		};
+		2E1C22E718930476003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
+			targetProxy = 2E1C22E618930476003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22E918930479003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C5DAF182980CD00FB1027 /* SSWERenders */;
+			targetProxy = 2E1C22E818930479003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22EB1893050E003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6B3D46182E7964006E12C6 /* SSWEGenericMonitor */;
+			targetProxy = 2E1C22EA1893050E003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22ED189308CB003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C5DAF182980CD00FB1027 /* SSWERenders */;
+			targetProxy = 2E1C22EC189308CB003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22EF189308CF003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C60611829835E00FB1027 /* SSWELib */;
+			targetProxy = 2E1C22EE189308CF003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22F1189308D3003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C5F8F1829818300FB1027 /* SSWECore */;
+			targetProxy = 2E1C22F0189308D3003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22F3189308D6003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E92B6481849289E00D955F8 /* SPARK */;
+			targetProxy = 2E1C22F2189308D6003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22F71893096C003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C5DAF182980CD00FB1027 /* SSWERenders */;
+			targetProxy = 2E1C22F61893096C003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22F918930A04003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E92B6481849289E00D955F8 /* SPARK */;
+			targetProxy = 2E1C22F818930A04003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22FB18930A0D003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C5DAF182980CD00FB1027 /* SSWERenders */;
+			targetProxy = 2E1C22FA18930A0D003033A3 /* PBXContainerItemProxy */;
+		};
+		2E1C22FD18930A10003033A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C5F8F1829818300FB1027 /* SSWECore */;
+			targetProxy = 2E1C22FC18930A10003033A3 /* PBXContainerItemProxy */;
 		};
 		2E6C6333182985AA00FB1027 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -8670,7 +8779,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -8683,7 +8792,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Renders_prefix.pch;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -8698,16 +8807,29 @@
 					../../../include,
 					../../../../SSWERenders,
 					../../../../SSWELib/include,
+					"../../../../OpenFrameworks/libs/openFrameworks/**/**",
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				INSTALL_PATH = /usr/local/bin;
+				LD_NO_PIE = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx",
+				);
+				LINKER_DISPLAYS_MANGLED_NAMES = NO;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				OTHER_LDFLAGS = (
+					"-read_only_relocs",
+					suppress,
+				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = SSWEGenericMonitor;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
 				STRIP_STYLE = debugging;
 				VALIDATE_PRODUCT = NO;
 				VERSIONING_SYSTEM = "";
@@ -8734,7 +8856,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_NS_ASSERTIONS = NO;
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -8749,7 +8871,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Renders_prefix.pch;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -8764,18 +8886,31 @@
 					../../../include,
 					../../../../SSWERenders,
 					../../../../SSWELib/include,
+					"../../../../OpenFrameworks/libs/openFrameworks/**/**",
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				INSTALL_PATH = /usr/local/bin;
+				LD_NO_PIE = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx",
+				);
+				LINKER_DISPLAYS_MANGLED_NAMES = NO;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DMACOSX";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				OTHER_LDFLAGS = (
+					"-read_only_relocs",
+					suppress,
+				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = SSWEGenericMonitor;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
 				STRIP_STYLE = debugging;
 				VALIDATE_PRODUCT = NO;
 				VERSIONING_SYSTEM = "";
@@ -9775,6 +9910,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -9827,6 +9963,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;

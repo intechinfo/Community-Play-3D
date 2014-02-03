@@ -761,8 +761,13 @@ public:
 	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfVolumeLightNodes();
 	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
+<<<<<<< HEAD
 
     void removeSceneNode(ISceneNode *node, EffectHandler *effect);
+=======
+    
+    void removeSceneNode(ISceneNode *node, ISSWERender *_effect);
+>>>>>>> 98982be63c0eb4af676bb57f976eb999ecfc21e8
     SData *copySDataOfSceneNode(irr::scene::ISceneNode *node);
 	//-----------------------------------
 

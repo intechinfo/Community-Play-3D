@@ -11,20 +11,12 @@
 
 #include <irrlicht.h>
 
+#include <ISSWEShaderCallback.h>
+
 class CDevices;
 class CUICodeEditor;
 
-enum ESHADER_TYPE {
-	EST_VERTEX = 0,
-	EST_PIXEL
-};
-
-enum ECOLOR_TYPE {
-	ECT_SCOLORF = 0,
-	ECT_SCOLOR
-};
-
-class CShaderCallback : public irr::video::IShaderConstantSetCallBack {
+class CShaderCallback : public irr::video::IShaderConstantSetCallBack, public IShaderCallback {
 
 public:
 
