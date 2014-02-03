@@ -108,10 +108,8 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             nodesEditor->addNode(nodeModel);
             nodeModel->addTextField(L"Name :", stringw(nodeModel->getName()).c_str());
             nodeModel->add2ParametersFields(L"Life Time ", L"Min", L"Max", group->getModel()->getLifeTimeMin(), group->getModel()->getLifeTimeMax());
-            nodeModel->addButton(L"Edit Enabled Flags...");
-            nodeModel->addButton(L"Edit Mutable Flags...");
-            nodeModel->addButton(L"Edit Random Flags...");
-            nodeModel->addButton(L"Edit Interpolated Flags...");
+            nodeModel->addButton(L"Edit Values...");
+			nodeModel->addButton(L"Edit Interpolators...");
             
             CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
             nodeRenderer->setName(group->getRenderer()->getName().c_str());
@@ -435,17 +433,11 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         nodeModel->addButton(L"Edit Random Flags...");
                         nodeModel->addButton(L"Edit Interpolated Flags...");
                         */
-                        if (name == "Edit Enabled Flags...") {
+                        if (name == "Edit Values...") {
                             CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_ENABLED, window, paramNames);
                         }
-                        if (name == "Edit Mutable Flags...") {
-                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_MUTABLE, window, paramNames);
-                        }
-                        if (name == "Edit Random Flags...") {
-                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_RANDOM, window, paramNames);
-                        }
-                        if (name == "Edit Interpolated Flags...") {
-                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_INTERPOLATED, window, paramNames);
+                        if (name == "Edit Interpolators...") {
+                            //CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_MUTABLE, window, paramNames);
                         }
                     }
                     //RENDERER
@@ -633,10 +625,8 @@ void CUIParticleEditor::createGroup(CGUINode *node, SPK::Model *model, SPK::Grou
     
     modelNode->addTextField(L"Name :", stringw(modelNode->getName()).c_str());
     modelNode->add2ParametersFields(L"Life Time ", L"Min", L"Max", model->getLifeTimeMin(), model->getLifeTimeMax());
-    modelNode->addButton(L"Edit Enabled Flags...");
-    modelNode->addButton(L"Edit Mutable Flags...");
-    modelNode->addButton(L"Edit Random Flags...");
-    modelNode->addButton(L"Edit Interpolated Flags...");
+    modelNode->addButton(L"Edit Values...");
+    modelNode->addButton(L"Edit Interpolators...");
     
     groupNode->addTextField(L"Name :", stringw(groupNode->getName()).c_str());
     groupNode->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));

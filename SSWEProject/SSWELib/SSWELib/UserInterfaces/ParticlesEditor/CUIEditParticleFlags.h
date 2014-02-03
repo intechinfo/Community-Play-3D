@@ -36,15 +36,14 @@ private:
     //-----------------------------------
 	//DEVICE && DATAS
     CDevices *devices;
-    
-    array<IGUIElement *> paramsElements;
+
+	SPK::Model *model;
     //-----------------------------------
     
     //-----------------------------------
 	//GUI ELEMENTS
-    
     IGUIWindow *window;
-    
+    array<IGUIElement *> paramsElements;
     //-----------------------------------
     
 };
