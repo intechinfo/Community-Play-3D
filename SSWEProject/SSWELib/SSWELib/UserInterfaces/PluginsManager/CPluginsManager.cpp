@@ -122,10 +122,12 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 	pvFunctv createMonitor;
     hdll = dlopen(stringc(ppath).c_str(), RTLD_LAZY);
     if (hdll == NULL) {
+        printf("%s\n", stringc(ppath + L"\nAn error occured\nCannot load the monitor plugin\n" + dlerror()).c_str());
         devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the monitor plugin").c_str(), EMBF_OK);
     } else {
         createMonitor = reinterpret_cast < pvFunctv > (dlsym(hdll, "createMonitor"));
         if (createMonitor == NULL) {
+            printf("%s\n", stringc(ppath + L"\nAn error occured\nCannot find the process \"createMonitor\" into the dynamic library\n" + dlerror()).c_str());
 			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createMonitor\" into the dynamic library").c_str(), EMBF_OK);
 		} else {
 			newMonitor = static_cast < IMonitor* > (createMonitor());
