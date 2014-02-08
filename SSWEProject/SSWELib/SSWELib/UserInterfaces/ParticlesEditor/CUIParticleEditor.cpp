@@ -9,6 +9,9 @@
 #include "stdafx.h"
 #include "CUIParticleEditor.h"
 
+#include "CUIEditParticleFlags.h"
+#include "CUIEditParticleInterpolators.h"
+
 CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
     devices = _devices;
@@ -271,6 +274,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                     devices->getEventReceiver()->RemoveEventReceiver(this);
                     window->remove();
                     delete this;
+					return true;
                 }
             }
             if (event.GUIEvent.Caller == menu->getSubMenu(2)) {
@@ -434,10 +438,11 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         nodeModel->addButton(L"Edit Interpolated Flags...");
                         */
                         if (name == "Edit Values...") {
-                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_ENABLED, window, paramNames);
+                            CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, window, paramNames);
                         }
                         if (name == "Edit Interpolators...") {
                             //CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_MUTABLE, window, paramNames);
+							CUIParticleEditorInterpolators *interpolatorsEditor = new CUIParticleEditorInterpolators(devices, model, window);
                         }
                     }
                     //RENDERER

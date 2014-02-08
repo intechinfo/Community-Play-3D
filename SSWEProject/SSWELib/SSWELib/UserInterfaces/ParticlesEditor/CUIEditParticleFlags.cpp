@@ -9,14 +9,17 @@
 #include "stdafx.h"
 #include "CUIEditParticleFlags.h"
 
-CUIParticleEditorFlags::CUIParticleEditorFlags(CDevices *_devices, SPK::Model *_model, E_PARTICLE_FLAG_TYPE _type, IGUIElement *parent, array<stringw> &modelParams) {
+CUIParticleEditorFlags::CUIParticleEditorFlags(CDevices *_devices, SPK::Model *_model, IGUIElement *parent, array<stringw> &modelParams) {
     devices = _devices;
 
 	model = _model;
     
     IGUIEnvironment *gui = devices->getGUIEnvironment();
     //GUI
-    window = gui->addWindow(rect<s32>(660, 270, 1360, 330), false, L"Particle System Editor", parent, -1);
+	stringw windowName = L"Particle System Editor Parameters : ";
+	windowName += model->getName().c_str();
+
+	window = gui->addWindow(rect<s32>(660, 270, 1360, 330), false, windowName.c_str(), parent, -1);
     window->getMinimizeButton()->setVisible(true);
     window->getMaximizeButton()->setVisible(true);
     devices->getCore()->centerWindow(window, (dimension2du)parent->getRelativePosition().getSize());
@@ -89,9 +92,9 @@ CUIParticleEditorFlags::CUIParticleEditorFlags(CDevices *_devices, SPK::Model *_
 										   rect<s32>(610, currenty, 680, currenty+20), true, window, i);
 					edit->setName("MaxDeath");
 				}
+				fillWindow(20, window);
+				currenty += 20;
 			}
-            fillWindow(currenty, window);
-            currenty += 20;
         }
     }
 }
@@ -104,12 +107,20 @@ void CUIParticleEditorFlags::fillWindow(u32 currenty, IGUIElement *element) {
     window->setRelativePosition(rect<s32>(window->getRelativePosition().UpperLeftCorner.X,
                                           window->getRelativePosition().UpperLeftCorner.Y,
                                           window->getRelativePosition().LowerRightCorner.X,
-                                          window->getRelativePosition().LowerRightCorner.Y + currenty - 25));
+                                          window->getRelativePosition().LowerRightCorner.Y + currenty));
 }
 
 bool CUIParticleEditorFlags::OnEvent(const SEvent &event) {
     
 	if (event.EventType == EET_GUI_EVENT) {
+
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			if (event.GUIEvent.Caller == window) {
+				devices->getEventReceiver()->RemoveEventReceiver(this);
+				delete this;
+				return false;
+			}
+		}
 
 		IGUIElement *element = event.GUIEvent.Caller;
 		while (element->getParent() != devices->getGUIEnvironment()->getRootGUIElement()) {

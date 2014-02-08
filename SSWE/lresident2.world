@@ -292,7 +292,7 @@ pfloat fBumpStrength 5
 
 			 <path file="data/Nouveau dossier/re5village part 4/vill.obj" />
 
-			 <type esnt="mesh" />
+			 <type esnt="octtree" mppn="256" />
 
 			 <factory> 
 
