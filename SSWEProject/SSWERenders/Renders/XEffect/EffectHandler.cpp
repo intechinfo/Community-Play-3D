@@ -27,8 +27,8 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize, "ColorMapSampler");
 	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
 
+	//LIGHT SCATTERING PASS
 	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
-	//blackTextureLS = driver->addRenderTargetTexture(dimension2du(4, 4), "LightScatteringBlackTexture");
 	IImage *imLightScatteringRTT = driver->createImage(irr::video::ECF_R5G6B5, dimension2du(4, 4));
 	for (u32 i=0; i < 4; i++) {
 		for (u32 j=0; j < 4; j++) {
@@ -38,7 +38,13 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	blackTextureLS = driver->addTexture("LightScatteringBlackTexture", imLightScatteringRTT);
 	imLightScatteringRTT->drop();
 	useLightScattering = true;
-    
+
+	//REFLECTION PASS
+	useReflectionPass = true;
+	ReflectionRTT = driver->addRenderTargetTexture(ScreenRTTSize, "ReflectionPassRTT");
+	cameraForPasses = smgr->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0, 0, 0), -1, false);
+
+	//OTHERS
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
     
@@ -513,6 +519,43 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		}
         
         driver->setRenderTarget(0, false, false);
+	}
+
+	if (useReflectionPass) {
+		const f32 CLIP_PLANE_OFFSET_Y = 5.0f;
+		irr::scene::ICameraSceneNode *currentCamera = smgr->getActiveCamera();
+
+		driver->setRenderTarget(ReflectionRTT, true, true, SColor(255, 0, 0, 0));
+
+		cameraForPasses->setFarValue(currentCamera->getFarValue());
+		cameraForPasses->setFOV(currentCamera->getFOV());
+
+		//Set position
+		core::vector3df position = currentCamera->getAbsolutePosition();
+		position.Y = -position.Y + 2 * 0; //position of the water
+		cameraForPasses->setPosition(position);
+
+		//Set target
+		core::vector3df target = currentCamera->getTarget();
+		target.Y = -target.Y + 2 * 0;
+		cameraForPasses->setTarget(target);
+
+		smgr->setActiveCamera(cameraForPasses);
+
+		//reflection clipping plane
+		core::plane3d<f32> reflectionClipPlane(0, 0 - CLIP_PLANE_OFFSET_Y, 0, 0, 1, 0);
+		//driver->setClipPlane(0, reflectionClipPlane, true);
+
+		smgr->drawAll();
+
+		//driver->enableClipPlane(0, false);
+
+		smgr->setActiveCamera(currentCamera);
+		currentCamera->OnAnimate(device->getTimer()->getTime());
+		currentCamera->OnRegisterSceneNode();
+		currentCamera->render();
+
+		driver->setRenderTarget(0, false, false);
 	}
 
 	// Perform depth pass after rendering, to ensure animations stay up to date.

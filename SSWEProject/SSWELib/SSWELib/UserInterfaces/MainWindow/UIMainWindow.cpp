@@ -870,6 +870,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (objectsListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
 					devices->getDOF()->remove(getSelectedNode().getNode());
 
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());

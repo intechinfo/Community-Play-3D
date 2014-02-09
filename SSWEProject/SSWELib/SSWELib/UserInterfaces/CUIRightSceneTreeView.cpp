@@ -161,6 +161,9 @@ void CUIRightSceneTreeView::addChildrenBackSDataRecursively(IGUITreeViewNode *tr
 
 	core::list<ISceneNode *>::ConstIterator it = node.getNode()->getChildren().begin();
 	for (; it != node.getNode()->getChildren().end(); ++it) {
+		if ((*it)->getReferenceCount() == 0)
+			continue;
+
 		imageIndex = getImageListIndexForNodeType((*it)->getType());
 		
 		nodeTreeView = treeNode->addChildBack(stringw((*it)->getName()).c_str(), 0, imageIndex);

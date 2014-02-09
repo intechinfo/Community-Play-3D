@@ -17,7 +17,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     devices = _devices;
     
     //----------TEST-----------------
-    /*SParticleSystem ps("test");
+    SParticleSystem ps("test");
     ps.createBaseNode(devices->getSceneManager());
     
     System::setClampStep(true,0.1f);
@@ -31,7 +31,6 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	fireRenderer->enableRenderingHint(DEPTH_WRITE,false);
 	fireRenderer->setAtlasDimensions(2,2);
     fireRenderer->setName("Fire Renderer");
-    ps.getRenderers()->push_back(fireRenderer);
     
     IRRQuadRenderer* smokeRenderer = IRRQuadRenderer::create(devices->getDevice());
 	smokeRenderer->setScale(0.3f,0.3f);
@@ -41,7 +40,6 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	smokeRenderer->enableRenderingHint(DEPTH_WRITE,false);
 	smokeRenderer->setAtlasDimensions(2,2);
     smokeRenderer->setName("Smoke Renderer");
-    ps.getRenderers()->push_back(smokeRenderer);
     
     Model* fireModel = Model::create(FLAG_RED | FLAG_GREEN | FLAG_BLUE | FLAG_ALPHA | FLAG_SIZE | FLAG_ANGLE | FLAG_TEXTURE_INDEX,
                                      FLAG_RED | FLAG_GREEN | FLAG_ALPHA | FLAG_ANGLE,
@@ -56,7 +54,6 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     fireModel->setParam(PARAM_SIZE, 10.0);
 	fireModel->setLifeTime(1.0f,1.5f);
     fireModel->setName("Fire Model");
-    ps.getModels()->push_back(fireModel);
     
 	Interpolator* interpolator = fireModel->getInterpolator(PARAM_SIZE);
 	interpolator->addEntry(0.5f,2.0f,5.0f);
@@ -75,7 +72,6 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	smokeModel->setParam(PARAM_ANGLE,0.0f,2.0f * PI,0.0f,2.0f * PI);
 	smokeModel->setLifeTime(5.0f,5.0f);
     smokeModel->setName("Smoke Model");
-    ps.getModels()->push_back(smokeModel);
     
 	interpolator = smokeModel->getInterpolator(PARAM_ALPHA);
 	interpolator->addEntry(0.0f,0.0f);
@@ -89,42 +85,36 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	fireEmitter1->setFlow(40);
 	fireEmitter1->setForce(1.0f,2.5f);
     fireEmitter1->setName("Fire Emitter 1");
-    ps.getEmitters()->push_back(fireEmitter1);
     
 	StraightEmitter* fireEmitter2 = StraightEmitter::create(Vector3D(1.0f,0.6f,0.0f));
 	fireEmitter2->setZone(Sphere::create(Vector3D(0.15f,-1.2f,0.075f),0.1f));
 	fireEmitter2->setFlow(15);
 	fireEmitter2->setForce(0.5f,1.5f);
     fireEmitter2->setName("Fire Emitter 2");
-    ps.getEmitters()->push_back(fireEmitter2);
     
 	StraightEmitter* fireEmitter3 = StraightEmitter::create(Vector3D(-0.6f,0.8f,-0.8f));
 	fireEmitter3->setZone(Sphere::create(Vector3D(-0.375f,-1.15f,-0.375f),0.3f));
 	fireEmitter3->setFlow(15);
 	fireEmitter3->setForce(0.5f,1.5f);
     fireEmitter3->setName("Fire Emitter 3");
-    ps.getEmitters()->push_back(fireEmitter3);
     
 	StraightEmitter* fireEmitter4 = StraightEmitter::create(Vector3D(-0.8f,0.5f,0.2f));
 	fireEmitter4->setZone(Sphere::create(Vector3D(-0.255f,-1.2f,0.225f),0.2f));
 	fireEmitter4->setFlow(10);
 	fireEmitter4->setForce(0.5f,1.5f);
     fireEmitter4->setName("Fire Emitter 4");
-    ps.getEmitters()->push_back(fireEmitter4);
     
 	StraightEmitter* fireEmitter5 = StraightEmitter::create(Vector3D(0.1f,0.8f,-1.0f));
 	fireEmitter5->setZone(Sphere::create(Vector3D(-0.075f,-1.2f,-0.3f),0.2f));
 	fireEmitter5->setFlow(10);
 	fireEmitter5->setForce(0.5f,1.5f);
     fireEmitter5->setName("Fire Emitter 5");
-    ps.getEmitters()->push_back(fireEmitter5);
     
 	Emitter *smokeEmitter = SphericEmitter::create(Vector3D(0.0f,1.0f,0.0f),0.0f,0.5f * PI);
 	smokeEmitter->setZone(Sphere::create(Vector3D(),1.2f));
 	smokeEmitter->setFlow(25);
 	smokeEmitter->setForce(0.5f,1.0f);
     smokeEmitter->setName("smoke Emitter");
-    ps.getEmitters()->push_back(smokeEmitter);
     
 	// Groups
 	Group *fireGroup = Group::create(fireModel,135);
@@ -137,7 +127,6 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	fireGroup->setGravity(Vector3D(0.0f,3.0f,0.0f));
 	fireGroup->enableAABBComputing(true);
     fireGroup->setName("Fire Group");
-    ps.getGroups()->push_back(fireGroup);
     
 	Group *smokeGroup = Group::create(smokeModel,135);
 	smokeGroup->addEmitter(smokeEmitter);
@@ -145,7 +134,6 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	smokeGroup->setGravity(Vector3D(0.0f,0.4f,0.0f));
 	smokeGroup->enableAABBComputing(true);
     smokeGroup->setName("Smoke Group");
-    ps.getGroups()->push_back(smokeGroup);
 	
 	// System
 	System *particleSystem = IRRSystem::create(ps.getBaseNode(), devices->getSceneManager());
@@ -157,11 +145,11 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     
     devices->getCoreData()->getParticleSystems()->push_back(ps);
     ps.getBaseNode()->setName(L"ParticleTest");
-    devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));*/
+    //devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
     
-    SParticleSystem ps("new particle system");
+    /*SParticleSystem ps("new particle system");
     ps.createBaseNode(devices->getSceneManager());
-    devices->getCoreData()->getParticleSystems()->push_back(ps);
+    devices->getCoreData()->getParticleSystems()->push_back(ps);*/
     //----------TEST-----------------
     
     IGUIEnvironment *gui = devices->getGUIEnvironment();
@@ -197,7 +185,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     
     devices->getEventReceiver()->AddEventReceiver(this, window);
     
-    CUIParticleEditor *pse = new CUIParticleEditor(devices, &devices->getCoreData()->getParticleSystems()->operator[](0));
+    //CUIParticleEditor *pse = new CUIParticleEditor(devices, &devices->getCoreData()->getParticleSystems()->operator[](0));
 }
 
 CUIParticlesEditor::~CUIParticlesEditor() {
