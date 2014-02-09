@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SSWERenders" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Windows">
+				<Option platforms="Windows;" />
+				<Option output="../../bin/Win32-gcc/Demo" prefix_auto="0" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add directory="../../lib/Win32-gcc" />
+				</Linker>
+			</Target>
+			<Target title="Linux">
+				<Option platforms="Unix;" />
+				<Option output="SSWELinuxOutput/libSSWERenders" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-Wextra" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-fPIC" />
+					<Add option="-fno-exceptions" />
+					<Add option="-D_IRR_STATIC_LIB_" />
+					<Add option="-D_SSWE_LINUX_" />
+					<Add directory="../SSWERenders" />
+					<Add directory="include" />
+					<Add directory="../SSWELib/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-shared" />
+					<Add option="-fPIC" />
+					<Add library="Xxf86vm" />
+					<Add library="Xcursor" />
+					<Add library="Irrlicht" />
+					<Add library="GL" />
+					<Add directory="lib/Linux" />
+				</Linker>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="Windows;Linux;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-g" />
+			<Add directory="../../include" />
+		</Compiler>
+		<Linker>
+			<Add library="Irrlicht" />
+			<Add directory="../../lib/gcc" />
+		</Linker>
+		<Unit filename="../SSWERenders/Renders/DepthOfField/shadergroup.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/DepthOfField/shadergroup.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/DepthOfField/shadermaterial.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/DepthOfField/shadermaterial.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/PostProcessor/PostProcessMotionBlurhlsl.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/CScreenQuad.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/CShaderPre.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/CShaderPre.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/EffectCB.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/EffectHandler.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/EffectHandler.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/EffectShaders.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Renders/XEffect/XEffects.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/Resource.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/SSWERenders.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/SSWERenders.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/stdafx.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/stdafx.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWERenders/targetver.h">
+			<Option target="Linux" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

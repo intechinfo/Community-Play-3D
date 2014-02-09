@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SSWECore" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Windows">
+				<Option platforms="Windows;" />
+				<Option output="SSWELinuxOutput/libSSWECore" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add directory="../../lib/Win32-gcc" />
+				</Linker>
+			</Target>
+			<Target title="Linux">
+				<Option platforms="Unix;" />
+				<Option output="SSWELinuxOutput/libSSWECore.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-fPIC" />
+					<Add option="-fno-exceptions" />
+					<Add option="-D_IRR_STATIC_LIB_" />
+					<Add option="-D_SSWE_LINUX_" />
+					<Add directory="../SSWERenders" />
+					<Add directory="include" />
+					<Add directory="../SSWELib/include" />
+				</Compiler>
+				<Linker>
+					<Add library="Xxf86vm" />
+					<Add library="Xcursor" />
+					<Add library="Irrlicht" />
+					<Add library="GL" />
+					<Add library="SSWELinuxOutput/libSSWERenders.a" />
+					<Add directory="lib/Linux" />
+				</Linker>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="Windows;Linux;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-g" />
+			<Add directory="../../include" />
+			<Add directory="../SSWECore" />
+			<Add directory="../SSWELib/include" />
+			<Add directory="../Bullet/libs/" />
+			<Add directory="../Lua52/include" />
+			<Add directory="../Bullet/libs/src" />
+			<Add directory="../SPARK/SPARK155/include" />
+		</Compiler>
+		<Linker>
+			<Add library="Irrlicht" />
+			<Add directory="../../lib/gcc" />
+		</Linker>
+		<Unit filename="../SSWECore/Resource.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/CCollisionManager.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/CCollisionManager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCore.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCore.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCoreData.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCoreData.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCoreObjectPlacement.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCoreObjectPlacement.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCorePhysics.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/Core/CCorePhysics.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/DecaleSystem/CBatchingMesh.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/DecaleSystem/CBatchingMesh.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/DecaleSystem/DecalManager.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/DecaleSystem/DecalManager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/DecaleSystem/DecalSceneNode.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/DecaleSystem/DecalSceneNode.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/SceneNodes/CGridSceneNode.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/SSWECore/SceneNodes/CGridSceneNode.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/stdafx.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/stdafx.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWECore/targetver.h">
+			<Option target="Linux" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

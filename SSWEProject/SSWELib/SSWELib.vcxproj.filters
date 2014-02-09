@@ -402,6 +402,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleFlags.cpp">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -718,6 +721,9 @@
     </ClInclude>
     <ClInclude Include="include\ISSWEShaderCallback.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

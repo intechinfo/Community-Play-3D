@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SSWELib" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Windows">
+				<Option platforms="Windows;" />
+				<Option output="SSWELinuxOutput/libSSWECore" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add directory="../../lib/Win32-gcc" />
+				</Linker>
+			</Target>
+			<Target title="Linux">
+				<Option platforms="Unix;" />
+				<Option output="SSWELinuxOutput/libSSWELib.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option external_deps="SSWELinuxOutput/libSSWERenders.a;SSWELinuxOutput/libSSWECore.a;" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-fPIC" />
+					<Add option="-fno-exceptions" />
+					<Add option="-D_IRR_STATIC_LIB_" />
+					<Add option="-D_SSWE_LINUX_" />
+					<Add directory="../SSWELib" />
+					<Add directory="../Bullet/libs" />
+					<Add directory="../SSWECore" />
+					<Add directory="include" />
+					<Add directory="../SSWELib/include" />
+					<Add directory="../SSWERenders" />
+				</Compiler>
+				<Linker>
+					<Add library="Xxf86vm" />
+					<Add library="Xcursor" />
+					<Add library="Irrlicht" />
+					<Add library="GL" />
+					<Add library="SSWELinuxOutput/libSSWERenders.a" />
+					<Add library="SSWELinuxOutput/libSSWECore.a" />
+					<Add directory="lib/Linux" />
+				</Linker>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="Windows;Linux;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-g" />
+			<Add directory="../../include" />
+			<Add directory="../SSWECore" />
+			<Add directory="../SSWELib/include" />
+			<Add directory="../Bullet/libs/" />
+			<Add directory="../Lua52/include" />
+			<Add directory="../Bullet/libs/src" />
+			<Add directory="../SPARK/SPARK155/include" />
+		</Compiler>
+		<Linker>
+			<Add library="Irrlicht" />
+			<Add directory="../../lib/gcc" />
+		</Linker>
+		<Unit filename="../SSWELib/SSWELib.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/CAction.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/CAction.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/CUICharacterWindow.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/CUICharacterWindow.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/CUIEditBones.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/CUIEditBones.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/ManualAnimation/CAnimation.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/ManualAnimation/CAnimation.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/ManualAnimation/CFrame.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/ManualAnimation/CFrame.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/ManualAnimation/CManualAction.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/CharacterEdition/ManualAnimation/CManualAction.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/CDevices.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/CDevices.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/CCoreUserInterface.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/CCoreUserInterface.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/CRenderCore.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/CRenderCore.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CFileSystemScripting.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CFileSystemScripting.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CLuaBinds.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CLuaBinds.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CSceneScripting.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CSceneScripting.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CUIScriptEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Core/Scripting/CUIScriptEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Monitor/MonitorRegister.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Device/Monitor/MonitorRegister.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/CodeEditor/CGUICodeEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/CodeEditor/CGUICodeEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/FileLoader/CUIFileLoader.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/FileLoader/CUIFileLoader.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/FileSelector/CGUIFileSelector.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/Graph2D/GraphKat.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/Graph2D/GraphKat.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINode.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINode.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINodesEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINodesEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/ProgressBar/ProgressBar.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/ProgressBar/ProgressBar.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/GUIExtension/ViewPort/IGUIViewPort.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/DepthOfField/CUIWindowEditDOF.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/DepthOfField/CUIWindowEditDOF.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditFilters.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditFilters.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterials.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterials.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Animators/CRotationAnimator.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Animators/CRotationAnimator.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Animators/ISceneNodeAnimatorFinishing.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Camera/CRiggedCamera.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Camera/CRiggedCamera.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Camera/CSceneNodeAnimatorCameraUpVector.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/TerrainSystem/CTerrainSystem.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/TerrainSystem/CTerrainSystem.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Terrains/CTerrain.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Terrains/CTerrain.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Scenes/CExporter.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Scenes/CExporter.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Scenes/CImporter.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/Scenes/CImporter.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIEditFPSCamera.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIEditFPSCamera.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIWindowEditNodeAnimators.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIWindowEditNodeAnimators.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUILoadNodesGroup.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUILoadNodesGroup.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIRenderingInfos.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIRenderingInfos.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIRightSceneTreeView.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIRightSceneTreeView.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUISceneView.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUISceneView.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditGrid.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditGrid.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditLight.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditLight.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditNode.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditNode.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditVolumeLight.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditVolumeLight.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditWater.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowEditWater.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowExportScene.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowExportScene.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowOpenScene.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowOpenScene.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowsManager.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CUIWindowsManager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CodeEditor/CUICodeEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/CodeEditor/CUICodeEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddLight.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddLight.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddObject.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddObject.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTerrain.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTerrain.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTree.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTree.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddVolumeLight.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddVolumeLight.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddWatersSurface.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddWatersSurface.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/UIMainWindow.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MainWindow/UIMainWindow.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/CMaterialEditorFactory.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/CMaterialEditorFactory.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/CUIMaterialEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/CUIMaterialEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorColors.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorColors.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorFlags.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorFlags.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorTextures.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorTextures.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CNodeFactory.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CNodeFactory.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryCreateMeshWithTangents.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryCreateMeshWithTangents.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryPlanarMapping.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryPlanarMapping.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CUIWindowAddNewTerrain.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/CUIWindowAddNewTerrain.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CGrassPainter.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CGrassPainter.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CTerrainPainter.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CTerrainPainter.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CUITerrainPainting.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CUITerrainPainting.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/Options/CUISSWEOptions.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/Options/CUISSWEOptions.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticlesEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticlesEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/PluginsManager/CUIPluginsManager.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/PluginsManager/CUIPluginsManager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CProcess.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CProcess.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITextureEditor.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITextureEditor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITexturesManager.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITexturesManager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/UIContextMenu.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/UIContextMenu.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/UIWindowRender.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/UIWindowRender.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/DLLExport.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ICollisionManager.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/IDevices.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/IGraphicTool.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/IMonitor.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/IMonitorRegisterer.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ISSWECore.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ISSWECoreData.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ISSWEEvents.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ISSWELibPlugin.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ISSWERender.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ITool.h">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/stdafx.cpp">
+			<Option target="Linux" />
+		</Unit>
+		<Unit filename="../SSWELib/stdafx.h">
+			<Option target="Linux" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

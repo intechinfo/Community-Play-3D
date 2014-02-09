@@ -1,0 +1,2967 @@
+# depslib dependency file v1.0
+1390509268 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.cpp
+	"stdafx.h"
+	"SSWELib.h"
+	<stdio.h>
+	<pthread.h>
+
+1390431159 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/stdafx.h
+	<irrlicht.h>
+	<SSWECore.h>
+	"SSWECore.h"
+	<SSWECore.h>
+	<SSWELib.h>
+	"SSWELib/Device/CDevices.h"
+	"SSWECore/Core/CCore.h"
+	<SSWECore/Core/CCoreData.h>
+	<iostream>
+	<sstream>
+	<vector>
+	<cstdlib>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrlicht.h
+	"IrrCompileConfig.h"
+	"aabbox3d.h"
+	"CDynamicMeshBuffer.h"
+	"CIndexBuffer.h"
+	"CMeshBuffer.h"
+	"coreutil.h"
+	"CVertexBuffer.h"
+	"dimension2d.h"
+	"ECullingTypes.h"
+	"EDebugSceneTypes.h"
+	"EDriverFeatures.h"
+	"EDriverTypes.h"
+	"EGUIAlignment.h"
+	"EGUIElementTypes.h"
+	"EHardwareBufferFlags.h"
+	"EMaterialFlags.h"
+	"EMaterialTypes.h"
+	"EMeshWriterEnums.h"
+	"EMessageBoxFlags.h"
+	"ESceneNodeAnimatorTypes.h"
+	"ESceneNodeTypes.h"
+	"ETerrainElements.h"
+	"fast_atof.h"
+	"heapsort.h"
+	"IAnimatedMesh.h"
+	"IAnimatedMeshMD2.h"
+	"IAnimatedMeshMD3.h"
+	"IAnimatedMeshSceneNode.h"
+	"IAttributeExchangingObject.h"
+	"IAttributes.h"
+	"IBillboardSceneNode.h"
+	"IBillboardTextSceneNode.h"
+	"IBoneSceneNode.h"
+	"ICameraSceneNode.h"
+	"ICursorControl.h"
+	"IDummyTransformationSceneNode.h"
+	"IDynamicMeshBuffer.h"
+	"IEventReceiver.h"
+	"IFileList.h"
+	"IFileSystem.h"
+	"IGeometryCreator.h"
+	"IGPUProgrammingServices.h"
+	"IGUIButton.h"
+	"IGUICheckBox.h"
+	"IGUIColorSelectDialog.h"
+	"IGUIComboBox.h"
+	"IGUIContextMenu.h"
+	"IGUIEditBox.h"
+	"IGUIElement.h"
+	"IGUIElementFactory.h"
+	"IGUIEnvironment.h"
+	"IGUIFileOpenDialog.h"
+	"IGUIFont.h"
+	"IGUIFontBitmap.h"
+	"IGUIImage.h"
+	"IGUIInOutFader.h"
+	"IGUIListBox.h"
+	"IGUIMeshViewer.h"
+	"IGUIScrollBar.h"
+	"IGUISkin.h"
+	"IGUISpinBox.h"
+	"IGUISpriteBank.h"
+	"IGUIStaticText.h"
+	"IGUITabControl.h"
+	"IGUITable.h"
+	"IGUIToolbar.h"
+	"IGUIWindow.h"
+	"IGUITreeView.h"
+	"IImage.h"
+	"IImageLoader.h"
+	"IImageWriter.h"
+	"IIndexBuffer.h"
+	"ILightSceneNode.h"
+	"ILogger.h"
+	"IMaterialRenderer.h"
+	"IMaterialRendererServices.h"
+	"IMesh.h"
+	"IMeshBuffer.h"
+	"IMeshCache.h"
+	"IMeshLoader.h"
+	"IMeshManipulator.h"
+	"IMeshSceneNode.h"
+	"IMeshWriter.h"
+	"IColladaMeshWriter.h"
+	"IMetaTriangleSelector.h"
+	"IOSOperator.h"
+	"IParticleSystemSceneNode.h"
+	"IQ3LevelMesh.h"
+	"IQ3Shader.h"
+	"IReadFile.h"
+	"IReferenceCounted.h"
+	"irrArray.h"
+	"IRandomizer.h"
+	"IrrlichtDevice.h"
+	"irrList.h"
+	"irrMap.h"
+	"irrMath.h"
+	"irrString.h"
+	"irrTypes.h"
+	"path.h"
+	"irrXML.h"
+	"ISceneCollisionManager.h"
+	"ISceneLoader.h"
+	"ISceneManager.h"
+	"ISceneNode.h"
+	"ISceneNodeAnimator.h"
+	"ISceneNodeAnimatorCameraFPS.h"
+	"ISceneNodeAnimatorCameraMaya.h"
+	"ISceneNodeAnimatorCollisionResponse.h"
+	"ISceneNodeAnimatorFactory.h"
+	"ISceneNodeFactory.h"
+	"ISceneUserDataSerializer.h"
+	"IShaderConstantSetCallBack.h"
+	"IShadowVolumeSceneNode.h"
+	"ISkinnedMesh.h"
+	"ITerrainSceneNode.h"
+	"ITextSceneNode.h"
+	"ITexture.h"
+	"ITimer.h"
+	"ITriangleSelector.h"
+	"IVertexBuffer.h"
+	"IVideoDriver.h"
+	"IVideoModeList.h"
+	"IVolumeLightSceneNode.h"
+	"IWriteFile.h"
+	"IXMLReader.h"
+	"IXMLWriter.h"
+	"ILightManager.h"
+	"Keycodes.h"
+	"line2d.h"
+	"line3d.h"
+	"matrix4.h"
+	"plane3d.h"
+	"position2d.h"
+	"quaternion.h"
+	"rect.h"
+	"S3DVertex.h"
+	"SAnimatedMesh.h"
+	"SceneParameters.h"
+	"SColor.h"
+	"SExposedVideoData.h"
+	"SIrrCreationParameters.h"
+	"SKeyMap.h"
+	"SLight.h"
+	"SMaterial.h"
+	"SMesh.h"
+	"SMeshBuffer.h"
+	"SMeshBufferLightMap.h"
+	"SMeshBufferTangents.h"
+	"SParticle.h"
+	"SSharedMeshBuffer.h"
+	"SSkinMeshBuffer.h"
+	"SVertexIndex.h"
+	"SViewFrustum.h"
+	"triangle3d.h"
+	"vector2d.h"
+	"vector3d.h"
+	"SIrrCreationParameters.h"
+
+1390422046 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IrrCompileConfig.h
+	<stdio.h>
+	<xtl.h>
+	<tchar.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/aabbox3d.h
+	"irrMath.h"
+	"plane3d.h"
+	"line3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrMath.h
+	"IrrCompileConfig.h"
+	"irrTypes.h"
+	<math.h>
+	<float.h>
+	<stdlib.h>
+	<limits.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrTypes.h
+	"IrrCompileConfig.h"
+	<wchar.h>
+	<crtdbg.h>
+	"assert.h"
+	<stdlib.h>
+	<crtdbg.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/plane3d.h
+	"irrMath.h"
+	"vector3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/vector3d.h
+	"irrMath.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/line3d.h
+	"irrTypes.h"
+	"vector3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/CDynamicMeshBuffer.h
+	"IDynamicMeshBuffer.h"
+	"CVertexBuffer.h"
+	"CIndexBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IDynamicMeshBuffer.h
+	"IMeshBuffer.h"
+	"IVertexBuffer.h"
+	"IIndexBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMeshBuffer.h
+	"IReferenceCounted.h"
+	"SMaterial.h"
+	"aabbox3d.h"
+	"S3DVertex.h"
+	"SVertexIndex.h"
+	"EHardwareBufferFlags.h"
+	"EPrimitiveTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IReferenceCounted.h
+	"irrTypes.h"
+	"leakHunter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/leakHunter.h
+	"IrrCompileConfig.h"
+	"irrArray.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrArray.h
+	"irrTypes.h"
+	"heapsort.h"
+	"irrAllocator.h"
+	"irrMath.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/heapsort.h
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrAllocator.h
+	"irrTypes.h"
+	<new>
+	<memory.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SMaterial.h
+	"SColor.h"
+	"matrix4.h"
+	"irrArray.h"
+	"irrMath.h"
+	"EMaterialTypes.h"
+	"EMaterialFlags.h"
+	"SMaterialLayer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SColor.h
+	"irrTypes.h"
+	"irrMath.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/matrix4.h
+	"irrMath.h"
+	"vector3d.h"
+	"vector2d.h"
+	"plane3d.h"
+	"aabbox3d.h"
+	"rect.h"
+	"irrString.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/vector2d.h
+	"irrMath.h"
+	"dimension2d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/dimension2d.h
+	"irrTypes.h"
+	"irrMath.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/rect.h
+	"irrTypes.h"
+	"dimension2d.h"
+	"position2d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/position2d.h
+	"vector2d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrString.h
+	"irrTypes.h"
+	"irrAllocator.h"
+	"irrMath.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EMaterialTypes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EMaterialFlags.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SMaterialLayer.h
+	"matrix4.h"
+	"irrAllocator.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/S3DVertex.h
+	"vector3d.h"
+	"vector2d.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SVertexIndex.h
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EHardwareBufferFlags.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EPrimitiveTypes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IVertexBuffer.h
+	"IReferenceCounted.h"
+	"irrArray.h"
+	"S3DVertex.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IIndexBuffer.h
+	"IReferenceCounted.h"
+	"irrArray.h"
+	"SVertexIndex.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/CVertexBuffer.h
+	"IVertexBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/CIndexBuffer.h
+	"IIndexBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/CMeshBuffer.h
+	"irrArray.h"
+	"IMeshBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/coreutil.h
+	"irrString.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/path.h
+	"irrString.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ECullingTypes.h
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EDebugSceneTypes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EDriverFeatures.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EDriverTypes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EGUIAlignment.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EGUIElementTypes.h
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EMeshWriterEnums.h
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EMessageBoxFlags.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ESceneNodeAnimatorTypes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ESceneNodeTypes.h
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ETerrainElements.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/fast_atof.h
+	"irrMath.h"
+	"irrString.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IAnimatedMesh.h
+	"aabbox3d.h"
+	"IMesh.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMesh.h
+	"IReferenceCounted.h"
+	"SMaterial.h"
+	"EHardwareBufferFlags.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IAnimatedMeshMD2.h
+	"IAnimatedMesh.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IAnimatedMeshMD3.h
+	"IAnimatedMesh.h"
+	"IQ3Shader.h"
+	"quaternion.h"
+	"irrpack.h"
+	"irrunpack.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IQ3Shader.h
+	"irrArray.h"
+	"fast_atof.h"
+	"IFileSystem.h"
+	"IVideoDriver.h"
+	"coreutil.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IFileSystem.h
+	"IReferenceCounted.h"
+	"IXMLReader.h"
+	"IFileArchive.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IXMLReader.h
+	"IReferenceCounted.h"
+	"irrXML.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrXML.h
+	<stdio.h>
+	"IrrCompileConfig.h"
+	<irrXML.h>
+	<string>
+	<irrXML.h>
+	<irrXML.h>
+	<irrXML.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IFileArchive.h
+	"IReadFile.h"
+	"IFileList.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IReadFile.h
+	"IReferenceCounted.h"
+	"coreutil.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IFileList.h
+	"IReferenceCounted.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IVideoDriver.h
+	"rect.h"
+	"SColor.h"
+	"ITexture.h"
+	"irrArray.h"
+	"matrix4.h"
+	"plane3d.h"
+	"dimension2d.h"
+	"position2d.h"
+	"SMaterial.h"
+	"IMeshBuffer.h"
+	"triangle3d.h"
+	"EDriverTypes.h"
+	"EDriverFeatures.h"
+	"SExposedVideoData.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ITexture.h
+	"IReferenceCounted.h"
+	"IImage.h"
+	"dimension2d.h"
+	"EDriverTypes.h"
+	"path.h"
+	"matrix4.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IImage.h
+	"IReferenceCounted.h"
+	"position2d.h"
+	"rect.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/triangle3d.h
+	"vector3d.h"
+	"line3d.h"
+	"plane3d.h"
+	"aabbox3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SExposedVideoData.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/quaternion.h
+	"irrTypes.h"
+	"irrMath.h"
+	"matrix4.h"
+	"vector3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrpack.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrunpack.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IAnimatedMeshSceneNode.h
+	"ISceneNode.h"
+	"IBoneSceneNode.h"
+	"IAnimatedMeshMD2.h"
+	"IAnimatedMeshMD3.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneNode.h
+	"IAttributeExchangingObject.h"
+	"ESceneNodeTypes.h"
+	"ECullingTypes.h"
+	"EDebugSceneTypes.h"
+	"ISceneNodeAnimator.h"
+	"ITriangleSelector.h"
+	"SMaterial.h"
+	"irrString.h"
+	"aabbox3d.h"
+	"matrix4.h"
+	"irrList.h"
+	"IAttributes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IAttributeExchangingObject.h
+	"IReferenceCounted.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneNodeAnimator.h
+	"IReferenceCounted.h"
+	"vector3d.h"
+	"ESceneNodeAnimatorTypes.h"
+	"IAttributeExchangingObject.h"
+	"IEventReceiver.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IEventReceiver.h
+	"ILogger.h"
+	"Keycodes.h"
+	"irrString.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ILogger.h
+	"IReferenceCounted.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/Keycodes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ITriangleSelector.h
+	"IReferenceCounted.h"
+	"triangle3d.h"
+	"aabbox3d.h"
+	"matrix4.h"
+	"line3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrList.h
+	"irrTypes.h"
+	"irrAllocator.h"
+	"irrMath.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IAttributes.h
+	"IReferenceCounted.h"
+	"SColor.h"
+	"vector3d.h"
+	"vector2d.h"
+	"line2d.h"
+	"line3d.h"
+	"triangle3d.h"
+	"position2d.h"
+	"rect.h"
+	"dimension2d.h"
+	"matrix4.h"
+	"quaternion.h"
+	"plane3d.h"
+	"triangle3d.h"
+	"line2d.h"
+	"line3d.h"
+	"irrString.h"
+	"irrArray.h"
+	"IXMLReader.h"
+	"EAttributes.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/line2d.h
+	"irrTypes.h"
+	"vector2d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EAttributes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IBoneSceneNode.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IBillboardSceneNode.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IBillboardTextSceneNode.h
+	"IBillboardSceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ICameraSceneNode.h
+	"ISceneNode.h"
+	"IEventReceiver.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ICursorControl.h
+	"IReferenceCounted.h"
+	"position2d.h"
+	"rect.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IDummyTransformationSceneNode.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGeometryCreator.h
+	"IReferenceCounted.h"
+	"IMesh.h"
+	"IImage.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGPUProgrammingServices.h
+	"EShaderTypes.h"
+	"EMaterialTypes.h"
+	"EPrimitiveTypes.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EShaderTypes.h
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIButton.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIElement.h
+	"IAttributeExchangingObject.h"
+	"irrList.h"
+	"rect.h"
+	"irrString.h"
+	"IEventReceiver.h"
+	"EGUIElementTypes.h"
+	"EGUIAlignment.h"
+	"IAttributes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUICheckBox.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIColorSelectDialog.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIComboBox.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIContextMenu.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIEditBox.h
+	"IGUIElement.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIElementFactory.h
+	"IReferenceCounted.h"
+	"EGUIElementTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIEnvironment.h
+	"IReferenceCounted.h"
+	"IGUISkin.h"
+	"rect.h"
+	"EMessageBoxFlags.h"
+	"IEventReceiver.h"
+	"IXMLReader.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUISkin.h
+	"IAttributeExchangingObject.h"
+	"EGUIAlignment.h"
+	"SColor.h"
+	"rect.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIFileOpenDialog.h
+	"IGUIElement.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIFont.h
+	"IReferenceCounted.h"
+	"SColor.h"
+	"rect.h"
+	"irrString.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIFontBitmap.h
+	"IGUIFont.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIImage.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIInOutFader.h
+	"IGUIElement.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIListBox.h
+	"IGUIElement.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIMeshViewer.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIScrollBar.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUISpinBox.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUISpriteBank.h
+	"IReferenceCounted.h"
+	"irrArray.h"
+	"SColor.h"
+	"rect.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIStaticText.h
+	"IGUIElement.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUITabControl.h
+	"IGUIElement.h"
+	"SColor.h"
+	"IGUISkin.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUITable.h
+	"IGUIElement.h"
+	"irrTypes.h"
+	"SColor.h"
+	"IGUISkin.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIToolbar.h
+	"IGUIElement.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIWindow.h
+	"IGUIElement.h"
+	"EMessageBoxFlags.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUITreeView.h
+	"IGUIElement.h"
+	"IGUIImageList.h"
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IGUIImageList.h
+	"IGUIElement.h"
+	"rect.h"
+	"irrTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IImageLoader.h
+	"IReferenceCounted.h"
+	"IImage.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IImageWriter.h
+	"IReferenceCounted.h"
+	"irrString.h"
+	"coreutil.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ILightSceneNode.h
+	"ISceneNode.h"
+	"SLight.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SLight.h
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMaterialRenderer.h
+	"IReferenceCounted.h"
+	"SMaterial.h"
+	"S3DVertex.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMaterialRendererServices.h
+	"SMaterial.h"
+	"S3DVertex.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMeshCache.h
+	"IReferenceCounted.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMeshLoader.h
+	"IReferenceCounted.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMeshManipulator.h
+	"IReferenceCounted.h"
+	"vector3d.h"
+	"aabbox3d.h"
+	"matrix4.h"
+	"IAnimatedMesh.h"
+	"IMeshBuffer.h"
+	"SVertexManipulator.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SVertexManipulator.h
+	"S3DVertex.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMeshSceneNode.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMeshWriter.h
+	"IReferenceCounted.h"
+	"EMeshWriterEnums.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IColladaMeshWriter.h
+	"IMeshWriter.h"
+	"ISceneNode.h"
+	"IAnimatedMesh.h"
+	"SMaterial.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IMetaTriangleSelector.h
+	"ITriangleSelector.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IOSOperator.h
+	"IReferenceCounted.h"
+	"irrString.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleSystemSceneNode.h
+	"ISceneNode.h"
+	"IParticleAnimatedMeshSceneNodeEmitter.h"
+	"IParticleBoxEmitter.h"
+	"IParticleCylinderEmitter.h"
+	"IParticleMeshEmitter.h"
+	"IParticleRingEmitter.h"
+	"IParticleSphereEmitter.h"
+	"IParticleAttractionAffector.h"
+	"IParticleFadeOutAffector.h"
+	"IParticleGravityAffector.h"
+	"IParticleRotationAffector.h"
+	"dimension2d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleAnimatedMeshSceneNodeEmitter.h
+	"IParticleEmitter.h"
+	"IAnimatedMeshSceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleEmitter.h
+	"IAttributeExchangingObject.h"
+	"SParticle.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SParticle.h
+	"vector3d.h"
+	"dimension2d.h"
+	"SColor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleBoxEmitter.h
+	"IParticleEmitter.h"
+	"aabbox3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleCylinderEmitter.h
+	"IParticleEmitter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleMeshEmitter.h
+	"IParticleEmitter.h"
+	"IMesh.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleRingEmitter.h
+	"IParticleEmitter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleSphereEmitter.h
+	"IParticleEmitter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleAttractionAffector.h
+	"IParticleAffector.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleAffector.h
+	"IAttributeExchangingObject.h"
+	"SParticle.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleFadeOutAffector.h
+	"IParticleAffector.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleGravityAffector.h
+	"IParticleAffector.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IParticleRotationAffector.h
+	"IParticleAffector.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IQ3LevelMesh.h
+	"IAnimatedMesh.h"
+	"IQ3Shader.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IRandomizer.h
+	"IReferenceCounted.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IrrlichtDevice.h
+	"IReferenceCounted.h"
+	"dimension2d.h"
+	"IVideoDriver.h"
+	"EDriverTypes.h"
+	"EDeviceTypes.h"
+	"IEventReceiver.h"
+	"ICursorControl.h"
+	"IVideoModeList.h"
+	"ITimer.h"
+	"IOSOperator.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/EDeviceTypes.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IVideoModeList.h
+	"IReferenceCounted.h"
+	"dimension2d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ITimer.h
+	"IReferenceCounted.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/irrMap.h
+	"irrTypes.h"
+	"irrMath.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneCollisionManager.h
+	"IReferenceCounted.h"
+	"vector3d.h"
+	"triangle3d.h"
+	"position2d.h"
+	"line3d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneLoader.h
+	"IReferenceCounted.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneManager.h
+	"IReferenceCounted.h"
+	"irrArray.h"
+	"irrString.h"
+	"path.h"
+	"vector3d.h"
+	"dimension2d.h"
+	"SColor.h"
+	"ETerrainElements.h"
+	"ESceneNodeTypes.h"
+	"ESceneNodeAnimatorTypes.h"
+	"EMeshWriterEnums.h"
+	"SceneParameters.h"
+	"IGeometryCreator.h"
+	"ISkinnedMesh.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SceneParameters.h
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISkinnedMesh.h
+	"irrArray.h"
+	"IBoneSceneNode.h"
+	"IAnimatedMesh.h"
+	"SSkinMeshBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SSkinMeshBuffer.h
+	"IMeshBuffer.h"
+	"S3DVertex.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneNodeAnimatorCameraFPS.h
+	"ISceneNodeAnimator.h"
+	"IEventReceiver.h"
+	"irrArray.h"
+
+1390422046 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneNodeAnimatorCameraMaya.h
+	"ISceneNodeAnimator.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneNodeAnimatorCollisionResponse.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneNodeAnimatorFactory.h
+	"IReferenceCounted.h"
+	"ESceneNodeAnimatorTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneNodeFactory.h
+	"IReferenceCounted.h"
+	"ESceneNodeTypes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ISceneUserDataSerializer.h
+	"IReferenceCounted.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IShaderConstantSetCallBack.h
+	"IReferenceCounted.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IShadowVolumeSceneNode.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ITerrainSceneNode.h
+	"ETerrainElements.h"
+	"ISceneNode.h"
+	"IDynamicMeshBuffer.h"
+	"irrArray.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ITextSceneNode.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IVolumeLightSceneNode.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IWriteFile.h
+	"IReferenceCounted.h"
+	"path.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/IXMLWriter.h
+	"IReferenceCounted.h"
+	"irrArray.h"
+	"irrString.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/ILightManager.h
+	"IReferenceCounted.h"
+	"irrArray.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SAnimatedMesh.h
+	"IAnimatedMesh.h"
+	"IMesh.h"
+	"aabbox3d.h"
+	"irrArray.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SIrrCreationParameters.h
+	"EDriverTypes.h"
+	"EDeviceTypes.h"
+	"dimension2d.h"
+	"ILogger.h"
+	"position2d.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SKeyMap.h
+	"Keycodes.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SMesh.h
+	"IMesh.h"
+	"IMeshBuffer.h"
+	"aabbox3d.h"
+	"irrArray.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SMeshBuffer.h
+	"CMeshBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SMeshBufferLightMap.h
+	"CMeshBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SMeshBufferTangents.h
+	"CMeshBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SSharedMeshBuffer.h
+	"irrArray.h"
+	"IMeshBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWE_OSX/include/SViewFrustum.h
+	"plane3d.h"
+	"vector3d.h"
+	"line3d.h"
+	"aabbox3d.h"
+	"matrix4.h"
+	"IVideoDriver.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore.h
+
+1390436245 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.h
+	"SSWELib/Device/Core/CCoreUserInterface.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/CCoreUserInterface.h
+	"../CDevices.h"
+	"../../UserInterfaces/UIContextMenu.h"
+	"../../UserInterfaces/CUIRightSceneTreeView.h"
+	"../../UserInterfaces/CUIWindowsManager.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/CDevices.h
+	<IDevices.h>
+	<ISSWELibPlugin.h>
+	"../../../SSWECore/SSWECore/Core/CCore.h"
+	"../../../SSWECore/SSWECore/Core/CCoreData.h"
+	"Core/CRenderCore.h"
+	"Core/Scripting/CLuaBinds.h"
+	"../../../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
+	"../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
+	"../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
+	"Monitor/MonitorRegister.h"
+	"../SceneNodes/Camera/CRiggedCamera.h"
+	<omp.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IDevices.h
+	"../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
+	"../SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
+	"../SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
+	"../SSWELib/SceneNodes/Camera/CRiggedCamera.h"
+	"ICollisionManager.h"
+	"ISSWECore.h"
+	"ISSWECoreData.h"
+	"ISSWERender.h"
+
+1390428812 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreObjectPlacement.h
+	<SSWECore.h>
+	"../CCollisionManager.h"
+	"../SceneNodes/CGridSceneNode.h"
+
+1390428054 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/CCollisionManager.h
+	"stdafx.h"
+	"Core/CCore.h"
+	<ICollisionManager.h>
+
+1390425977 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/stdafx.h
+	<SSWECore.h>
+	"SSWECore.h"
+	<iostream>
+	<string>
+	<sstream>
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<assert.h>
+	<stdlib.h>
+	<stdio.h>
+	<irrlicht.h>
+	<memory>
+	<thread>
+	<mutex>
+	<Windows.h>
+	"src/Bullet-C-Api.h"
+	"src/btBulletDynamicsCommon.h"
+	"src/btBulletCollisionCommon.h"
+	<src/Bullet-C-Api.h>
+	<src/btBulletDynamicsCommon.h>
+	<src/btBulletCollisionCommon.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/Bullet-C-Api.h
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/btBulletDynamicsCommon.h
+	"btBulletCollisionCommon.h"
+	"BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+	"BulletDynamics/Dynamics/btSimpleDynamicsWorld.h"
+	"BulletDynamics/Dynamics/btRigidBody.h"
+	"BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
+	"BulletDynamics/ConstraintSolver/btHingeConstraint.h"
+	"BulletDynamics/ConstraintSolver/btConeTwistConstraint.h"
+	"BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h"
+	"BulletDynamics/ConstraintSolver/btSliderConstraint.h"
+	"BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h"
+	"BulletDynamics/ConstraintSolver/btUniversalConstraint.h"
+	"BulletDynamics/ConstraintSolver/btHinge2Constraint.h"
+	"BulletDynamics/ConstraintSolver/btGearConstraint.h"
+	"BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+	"BulletDynamics/Vehicle/btRaycastVehicle.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/btBulletCollisionCommon.h
+	"BulletCollision/CollisionDispatch/btCollisionWorld.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+	"BulletCollision/CollisionShapes/btBoxShape.h"
+	"BulletCollision/CollisionShapes/btSphereShape.h"
+	"BulletCollision/CollisionShapes/btCapsuleShape.h"
+	"BulletCollision/CollisionShapes/btCylinderShape.h"
+	"BulletCollision/CollisionShapes/btConeShape.h"
+	"BulletCollision/CollisionShapes/btStaticPlaneShape.h"
+	"BulletCollision/CollisionShapes/btConvexHullShape.h"
+	"BulletCollision/CollisionShapes/btTriangleMesh.h"
+	"BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btTriangleMeshShape.h"
+	"BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+	"BulletCollision/CollisionShapes/btCompoundShape.h"
+	"BulletCollision/CollisionShapes/btTetrahedronShape.h"
+	"BulletCollision/CollisionShapes/btEmptyShape.h"
+	"BulletCollision/CollisionShapes/btMultiSphereShape.h"
+	"BulletCollision/CollisionShapes/btUniformScalingShape.h"
+	"BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h"
+	"BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
+	"BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+	"BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+	"BulletCollision/BroadphaseCollision/btAxisSweep3.h"
+	"BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h"
+	"BulletCollision/BroadphaseCollision/btDbvtBroadphase.h"
+	"LinearMath/btQuaternion.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btDefaultMotionState.h"
+	"LinearMath/btQuickprof.h"
+	"LinearMath/btIDebugDraw.h"
+	"LinearMath/btSerializer.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btCollisionWorld.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"btCollisionObject.h"
+	"btCollisionDispatcher.h"
+	"BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btVector3.h
+	"btScalar.h"
+	"btMinMax.h"
+	"btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btScalar.h
+	<math.h>
+	<stdlib.h>
+	<float.h>
+	<ppcintrinsics.h>
+	<emmintrin.h>
+	<stdio.h>
+	<assert.h>
+	<assert.h>
+	<spu_printf.h>
+	<assert.h>
+	<smmintrin.h>
+	<tmmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<assert.h>
+	<stdio.h>
+	<assert.h>
+	<arm_neon.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btMinMax.h
+	"btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btAlignedAllocator.h
+	"btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btTransform.h
+	"btMatrix3x3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btMatrix3x3.h
+	"btVector3.h"
+	"btQuaternion.h"
+	<stdio.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btQuaternion.h
+	"btVector3.h"
+	"btQuadWord.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btQuadWord.h
+	"btScalar.h"
+	"btMinMax.h"
+	<altivec.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btCollisionObject.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btMotionState.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btMotionState.h
+	"btTransform.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btAlignedObjectArray.h
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<memory.h>
+	<string.h>
+	<new>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btCollisionDispatcher.h
+	"BulletCollision/BroadphaseCollision/btDispatcher.h"
+	"BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+	"BulletCollision/CollisionDispatch/btManifoldResult.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btCollisionCreateFunc.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btDispatcher.h
+	"LinearMath/btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"btManifoldPoint.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransformUtil.h"
+	"physics_effects/base_level/solver/pfx_constraint_row.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btTransformUtil.h
+	"btTransform.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionDispatch/btManifoldResult.h
+	"BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+	"BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
+	"LinearMath/btTransform.h"
+	"BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btVector3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h
+	"LinearMath/btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionDispatch/btCollisionObject.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btMotionState.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h
+	"LinearMath/btScalar.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h
+	"btBroadphaseInterface.h"
+	"btBroadphaseProxy.h"
+	"btOverlappingPairCallback.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h
+	"btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btBoxShape.h
+	"btPolyhedralConvexShape.h"
+	"btCollisionMargin.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btMinMax.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h
+	"LinearMath/btMatrix3x3.h"
+	"btConvexInternalShape.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btConvexInternalShape.h
+	"btConvexShape.h"
+	"LinearMath/btAabbUtil2.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btConvexShape.h
+	"btCollisionShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btCollisionShape.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btCollisionMargin.h
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btAabbUtil2.h
+	"btTransform.h"
+	"btVector3.h"
+	"btMinMax.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btSphereShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btCapsuleShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btCylinderShape.h
+	"btBoxShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btConeShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btStaticPlaneShape.h
+	"btConcaveShape.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btConcaveShape.h
+	"btCollisionShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"btTriangleCallback.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btTriangleCallback.h
+	"LinearMath/btVector3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btConvexHullShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btTriangleMesh.h
+	"btTriangleIndexVertexArray.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h
+	"btStridingMeshInterface.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btStridingMeshInterface.h
+	"LinearMath/btVector3.h"
+	"btTriangleCallback.h"
+	"btConcaveShape.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h
+	"btTriangleMeshShape.h"
+	"btOptimizedBvh.h"
+	"LinearMath/btAlignedAllocator.h"
+	"btTriangleInfoMap.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btTriangleMeshShape.h
+	"btConcaveShape.h"
+	"btStridingMeshInterface.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btOptimizedBvh.h
+	"BulletCollision/BroadphaseCollision/btQuantizedBvh.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btQuantizedBvh.h
+	<stdio.h>
+	<stdlib.h>
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btTriangleInfoMap.h
+	"LinearMath/btHashMap.h"
+	"LinearMath/btSerializer.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btHashMap.h
+	"btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btSerializer.h
+	"btScalar.h"
+	"btStackAlloc.h"
+	"btHashMap.h"
+	<memory.h>
+	<string.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btStackAlloc.h
+	"btScalar.h"
+	"btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h
+	"BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h
+	"btTriangleMeshShape.h"
+	"btOptimizedBvh.h"
+	"LinearMath/btAlignedAllocator.h"
+	"btTriangleInfoMap.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btTriangleMeshShape.h
+	"btConcaveShape.h"
+	"btStridingMeshInterface.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btConcaveShape.h
+	"btCollisionShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"btTriangleCallback.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btCollisionShape.h
+	"LinearMath/btTransform.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btTriangleCallback.h
+	"LinearMath/btVector3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btStridingMeshInterface.h
+	"LinearMath/btVector3.h"
+	"btTriangleCallback.h"
+	"btConcaveShape.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btOptimizedBvh.h
+	"BulletCollision/BroadphaseCollision/btQuantizedBvh.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionShapes/btTriangleInfoMap.h
+	"LinearMath/btHashMap.h"
+	"LinearMath/btSerializer.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btCompoundShape.h
+	"btCollisionShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btTetrahedronShape.h
+	"btPolyhedralConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btEmptyShape.h
+	"btConcaveShape.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btMatrix3x3.h"
+	"btCollisionMargin.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btMultiSphereShape.h
+	"btConvexInternalShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btAabbUtil2.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionShapes/btUniformScalingShape.h
+	"btConvexShape.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h
+	"btActivatingCollisionAlgorithm.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"BulletCollision/CollisionDispatch/btCollisionCreateFunc.h"
+	"btCollisionDispatcher.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btActivatingCollisionAlgorithm.h
+	"BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h
+	"LinearMath/btScalar.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h
+	"btCollisionConfiguration.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/CollisionDispatch/btCollisionConfiguration.h
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h
+	"btOverlappingPairCache.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h
+	"btBroadphaseInterface.h"
+	"btBroadphaseProxy.h"
+	"btOverlappingPairCallback.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h
+	"btBroadphaseProxy.h"
+	"LinearMath/btVector3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h
+	"LinearMath/btScalar.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btAxisSweep3.h
+	"LinearMath/btVector3.h"
+	"btOverlappingPairCache.h"
+	"btBroadphaseInterface.h"
+	"btBroadphaseProxy.h"
+	"btOverlappingPairCallback.h"
+	"btDbvtBroadphase.h"
+	<stdio.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h
+	"BulletCollision/BroadphaseCollision/btDbvt.h"
+	"BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+	"LinearMath/btQuickprof.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/BroadphaseCollision/btDbvt.h
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"LinearMath/btAabbUtil2.h"
+	<emmintrin.h>
+	<memory.h>
+	<string.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/LinearMath/btQuickprof.h
+	<stdio.h>
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<new>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h
+	"btBroadphaseInterface.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btOverlappingPairCache.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btQuaternion.h
+	"btVector3.h"
+	"btQuadWord.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btVector3.h
+	"btScalar.h"
+	"btMinMax.h"
+	"btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btScalar.h
+	<math.h>
+	<stdlib.h>
+	<float.h>
+	<ppcintrinsics.h>
+	<emmintrin.h>
+	<stdio.h>
+	<assert.h>
+	<assert.h>
+	<spu_printf.h>
+	<assert.h>
+	<smmintrin.h>
+	<tmmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<assert.h>
+	<stdio.h>
+	<assert.h>
+	<arm_neon.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btMinMax.h
+	"btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btAlignedAllocator.h
+	"btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btQuadWord.h
+	"btScalar.h"
+	"btMinMax.h"
+	<altivec.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btTransform.h
+	"btMatrix3x3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btMatrix3x3.h
+	"btVector3.h"
+	"btQuaternion.h"
+	<stdio.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btDefaultMotionState.h
+	"btMotionState.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btMotionState.h
+	"btTransform.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btQuickprof.h
+	<stdio.h>
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<new>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btIDebugDraw.h
+	"btVector3.h"
+	"btTransform.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btSerializer.h
+	"btScalar.h"
+	"btStackAlloc.h"
+	"btHashMap.h"
+	<memory.h>
+	<string.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btStackAlloc.h
+	"btScalar.h"
+	"btAlignedAllocator.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btHashMap.h
+	"btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/LinearMath/btAlignedObjectArray.h
+	"btScalar.h"
+	"btAlignedAllocator.h"
+	<memory.h>
+	<string.h>
+	<new>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h
+	"btDynamicsWorld.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/Dynamics/btDynamicsWorld.h
+	"BulletCollision/CollisionDispatch/btCollisionWorld.h"
+	"BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionDispatch/btCollisionWorld.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+	"btCollisionObject.h"
+	"btCollisionDispatcher.h"
+	"BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
+	"LinearMath/btAlignedObjectArray.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletCollision/CollisionDispatch/btCollisionDispatcher.h
+	"BulletCollision/BroadphaseCollision/btDispatcher.h"
+	"BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+	"BulletCollision/CollisionDispatch/btManifoldResult.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btCollisionCreateFunc.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/ConstraintSolver/btContactSolverInfo.h
+	"LinearMath/btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/Dynamics/btSimpleDynamicsWorld.h
+	"btDynamicsWorld.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/Dynamics/btRigidBody.h
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btTransform.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btJacobianEntry.h
+	"LinearMath/btMatrix3x3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btTypedConstraint.h
+	"LinearMath/btScalar.h"
+	"btSolverConstraint.h"
+	"BulletDynamics/Dynamics/btRigidBody.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btSolverConstraint.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"btJacobianEntry.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btSolverBody.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btSolverBody.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btTransformUtil.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/Dynamics/btRigidBody.h
+	"LinearMath/btAlignedObjectArray.h"
+	"LinearMath/btTransform.h"
+	"BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+	"BulletCollision/CollisionDispatch/btCollisionObject.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btHingeConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btSliderConstraint.h
+	"LinearMath/btVector3.h"
+	"btJacobianEntry.h"
+	"btTypedConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btUniversalConstraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btHinge2Constraint.h
+	"LinearMath/btVector3.h"
+	"btTypedConstraint.h"
+	"btGeneric6DofSpringConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btGearConstraint.h
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/ConstraintSolver/btTypedConstraint.h
+	"LinearMath/btScalar.h"
+	"btSolverConstraint.h"
+	"BulletDynamics/Dynamics/btRigidBody.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/ConstraintSolver/btSolverConstraint.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"btJacobianEntry.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btSolverBody.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/ConstraintSolver/btJacobianEntry.h
+	"LinearMath/btMatrix3x3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/ConstraintSolver/btSolverBody.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btMatrix3x3.h"
+	"LinearMath/btAlignedAllocator.h"
+	"LinearMath/btTransformUtil.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+	"BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+	"BulletDynamics/ConstraintSolver/btSolverBody.h"
+	"BulletDynamics/ConstraintSolver/btSolverConstraint.h"
+	"BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
+	"BulletDynamics/ConstraintSolver/btConstraintSolver.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/ConstraintSolver/btConstraintSolver.h
+	"LinearMath/btScalar.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/Vehicle/btRaycastVehicle.h
+	"BulletDynamics/Dynamics/btRigidBody.h"
+	"BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+	"btVehicleRaycaster.h"
+	"LinearMath/btAlignedObjectArray.h"
+	"btWheelInfo.h"
+	"BulletDynamics/Dynamics/btActionInterface.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/Vehicle/btVehicleRaycaster.h
+	"LinearMath/btVector3.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs//src/BulletDynamics/Vehicle/btWheelInfo.h
+	"LinearMath/btVector3.h"
+	"LinearMath/btTransform.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Bullet/libs/src/BulletDynamics/Dynamics/btActionInterface.h
+	"LinearMath/btScalar.h"
+	"btRigidBody.h"
+
+1390428625 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCore.h
+	<SSWECore.h>
+	"SSWECore.h"
+	<irrlicht.h>
+	<ISSWECore.h>
+	<iostream>
+	<string>
+	<sstream>
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<assert.h>
+	<stdlib.h>
+	<stdio.h>
+	<memory>
+	<thread>
+	<mutex>
+	<dlfcn.h>
+	<dlfcn.h>
+	<Windows.h>
+	"../../../SPARK/SPARK155/include/SPK.h"
+	"../../../SPARK/SPARK155/include/SPK_IRR.h"
+	"src/Bullet-C-Api.h"
+	"src/btBulletDynamicsCommon.h"
+	"src/btBulletCollisionCommon.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECore.h
+	<iostream>
+	<irrlicht.h>
+	<ITool.h>
+	"src/Bullet-C-Api.h"
+	"src/btBulletDynamicsCommon.h"
+	"src/btBulletCollisionCommon.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ITool.h
+	<irrlicht.h>
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/SPK.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Vector3D.h"
+	"Core/SPK_Buffer.h"
+	"Core/SPK_ArrayBuffer.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_Transformable.h"
+	"Core/SPK_BufferHandler.h"
+	"Core/SPK_RegWrapper.h"
+	"Core/SPK_Renderer.h"
+	"Core/SPK_System.h"
+	"Core/SPK_Particle.h"
+	"Core/SPK_Pool.h"
+	"Core/SPK_Zone.h"
+	"Core/SPK_Interpolator.h"
+	"Core/SPK_Model.h"
+	"Core/SPK_Emitter.h"
+	"Core/SPK_Modifier.h"
+	"Core/SPK_Group.h"
+	"Core/SPK_Factory.h"
+	"Extensions/Zones/SPK_AABox.h"
+	"Extensions/Zones/SPK_Point.h"
+	"Extensions/Zones/SPK_Sphere.h"
+	"Extensions/Zones/SPK_Plane.h"
+	"Extensions/Zones/SPK_Line.h"
+	"Extensions/Zones/SPK_Ring.h"
+	"Extensions/Zones/SPK_Cylinder.h"
+	"Extensions/Emitters/SPK_StraightEmitter.h"
+	"Extensions/Emitters/SPK_SphericEmitter.h"
+	"Extensions/Emitters/SPK_NormalEmitter.h"
+	"Extensions/Emitters/SPK_RandomEmitter.h"
+	"Extensions/Emitters/SPK_StaticEmitter.h"
+	"Extensions/Modifiers/SPK_Obstacle.h"
+	"Extensions/Modifiers/SPK_Destroyer.h"
+	"Extensions/Modifiers/SPK_PointMass.h"
+	"Extensions/Modifiers/SPK_ModifierGroup.h"
+	"Extensions/Modifiers/SPK_LinearForce.h"
+	"Extensions/Modifiers/SPK_Collision.h"
+	"Extensions/Modifiers/SPK_Vortex.h"
+	"Extensions/Modifiers/SPK_Rotator.h"
+	"Extensions/Renderers/SPK_PointRendererInterface.h"
+	"Extensions/Renderers/SPK_LineRendererInterface.h"
+	"Extensions/Renderers/SPK_Oriented3DRendererInterface.h"
+	"Extensions/Renderers/SPK_QuadRendererInterface.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_DEF.h
+	<cstdlib>
+	<cmath>
+	<algorithm>
+	<deque>
+	<list>
+	<iostream>
+	<vector>
+	<limits>
+	<map>
+	<set>
+	<string>
+	<cstring>
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Vector3D.h
+	"Core/SPK_DEF.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Buffer.h
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_ArrayBuffer.h
+	"Core/SPK_Buffer.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Registerable.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Vector3D.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Transformable.h
+	"Core/SPK_Vector3D.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_BufferHandler.h
+	"Core/SPK_DEF.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_RegWrapper.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Renderer.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_BufferHandler.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_System.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_Transformable.h"
+	"Core/SPK_Vector3D.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Particle.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Vector3D.h"
+	"Core/SPK_Pool.h"
+	"Core/SPK_Model.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Pool.h
+	"Core/SPK_DEF.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Model.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_Interpolator.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Interpolator.h
+	"Core/SPK_DEF.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Zone.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_Transformable.h"
+	"Core/SPK_Vector3D.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Emitter.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_Transformable.h"
+	"Core/SPK_Zone.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Modifier.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Vector3D.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_BufferHandler.h"
+	"Core/SPK_Zone.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Group.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+	"Core/SPK_Transformable.h"
+	"Core/SPK_Vector3D.h"
+	"Core/SPK_Pool.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Core/SPK_Factory.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Registerable.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Zones/SPK_AABox.h
+	"Core/SPK_Zone.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Zones/SPK_Point.h
+	"Core/SPK_Zone.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Zones/SPK_Sphere.h
+	"Core/SPK_Zone.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Zones/SPK_Plane.h
+	"Core/SPK_Zone.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Zones/SPK_Line.h
+	"Core/SPK_Zone.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Zones/SPK_Ring.h
+	"Core/SPK_Zone.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Zones/SPK_Cylinder.h
+	"Core/SPK_Zone.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Emitters/SPK_StraightEmitter.h
+	"Core/SPK_Emitter.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Emitters/SPK_SphericEmitter.h
+	"Core/SPK_Emitter.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Emitters/SPK_NormalEmitter.h
+	"Core/SPK_Emitter.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Emitters/SPK_RandomEmitter.h
+	"Core/SPK_Emitter.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Emitters/SPK_StaticEmitter.h
+	"Core/SPK_Emitter.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_Obstacle.h
+	"Core/SPK_Modifier.h"
+	"Core/SPK_Particle.h"
+	"Core/SPK_Zone.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_Destroyer.h
+	"Core/SPK_Modifier.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_PointMass.h
+	"Core/SPK_Modifier.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_ModifierGroup.h
+	"Core/SPK_Modifier.h"
+	"Core/SPK_Particle.h"
+	"Core/SPK_Zone.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_LinearForce.h
+	"Core/SPK_Modifier.h"
+	"Core/SPK_Model.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_Collision.h
+	"Core/SPK_Modifier.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_Vortex.h
+	"Core/SPK_Modifier.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Modifiers/SPK_Rotator.h
+	"Core/SPK_Modifier.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Renderers/SPK_PointRendererInterface.h
+	"Core/SPK_DEF.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Renderers/SPK_LineRendererInterface.h
+	"Core/SPK_DEF.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Renderers/SPK_Oriented3DRendererInterface.h
+	"Core/SPK_Vector3D.h"
+	"Core/SPK_Group.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/Extensions/Renderers/SPK_QuadRendererInterface.h
+	"Core/SPK_DEF.h"
+	"Core/SPK_Particle.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/SPK_IRR.h
+	"RenderingAPIs/Irrlicht/SPK_IRR_DEF.h"
+	"RenderingAPIs/Irrlicht/SPK_IRRSystem.h"
+	"RenderingAPIs/Irrlicht/SPK_IRRBuffer.h"
+	"RenderingAPIs/Irrlicht/SPK_IRRRenderer.h"
+	"RenderingAPIs/Irrlicht/SPK_IRRPointRenderer.h"
+	"RenderingAPIs/Irrlicht/SPK_IRRLineRenderer.h"
+	"RenderingAPIs/Irrlicht/SPK_IRRQuadRenderer.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/RenderingAPIs/Irrlicht/SPK_IRR_DEF.h
+	<irrlicht.h>
+	"Core/SPK_Vector3D.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/RenderingAPIs/Irrlicht/SPK_IRRSystem.h
+	"RenderingAPIs/Irrlicht/SPK_IRR_DEF.h"
+	"Core/SPK_System.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/RenderingAPIs/Irrlicht/SPK_IRRBuffer.h
+	"RenderingAPIs/Irrlicht/SPK_IRR_DEF.h"
+	"Core/SPK_Buffer.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/RenderingAPIs/Irrlicht/SPK_IRRRenderer.h
+	"RenderingAPIs/Irrlicht/SPK_IRR_DEF.h"
+	"RenderingAPIs/Irrlicht/SPK_IRRBuffer.h"
+	"Core/SPK_Renderer.h"
+	"Core/SPK_Group.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/RenderingAPIs/Irrlicht/SPK_IRRPointRenderer.h
+	"RenderingAPIs/Irrlicht/SPK_IRRRenderer.h"
+	"Extensions/Renderers/SPK_PointRendererInterface.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/RenderingAPIs/Irrlicht/SPK_IRRLineRenderer.h
+	"RenderingAPIs/Irrlicht/SPK_IRRRenderer.h"
+	"Extensions/Renderers/SPK_LineRendererInterface.h"
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SPARK/SPARK155/include/RenderingAPIs/Irrlicht/SPK_IRRQuadRenderer.h
+	"RenderingAPIs/Irrlicht/SPK_IRRRenderer.h"
+	"Extensions/Renderers/SPK_QuadRendererInterface.h"
+	"Extensions/Renderers/SPK_Oriented3DRendererInterface.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ICollisionManager.h
+	<irrlicht.h>
+
+1390428794 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/SceneNodes/CGridSceneNode.h
+	<SSWECore.h>
+	"ISceneNode.h"
+	"SMeshBuffer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h
+	<windows.h>
+	<Shlobj.h>
+	<iostream>
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h
+	"../../../../SSWECore/SSWECore/Core/CCore.h"
+	"CProcess.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CProcess.h
+	"../../../../SSWECore/SSWECore/Core/CCore.h"
+	"../../GUIExtension/ProgressBar/ProgressBar.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ProgressBar/ProgressBar.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Camera/CRiggedCamera.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECoreData.h
+	<irrlicht.h>
+	"../Lua52/include/lua.hpp"
+	"../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
+	"../../../SSWERenders/Renders/XEffect/EffectCB.h"
+	"src/Bullet-C-Api.h"
+	"src/btBulletDynamicsCommon.h"
+	"src/btBulletCollisionCommon.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Lua52/include/lua.hpp
+	"lua.h"
+	"lualib.h"
+	"lauxlib.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Lua52/include/lua.h
+	<stdarg.h>
+	<stddef.h>
+	"luaconf.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Lua52/include/luaconf.h
+	<limits.h>
+	<stddef.h>
+	<stdio.h>
+	<math.h>
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Lua52/include/lualib.h
+	"lua.h"
+
+1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Lua52/include/lauxlib.h
+	<stddef.h>
+	<stdio.h>
+	"lua.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h
+	<irrlicht.h>
+
+1390425265 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectCB.h
+	"EffectHandler.h"
+
+1390425092 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectHandler.h
+	<SSWERenders.h>
+	<irrlicht.h>
+	"CShaderPre.h"
+	"CScreenQuad.h"
+	"../DepthOfField/shadergroup.h"
+	"../DepthOfField/shadermaterial.h"
+	"../../Renders/PostProcessor/PostProcessMotionBlurhlsl.h"
+	<ISSWERender.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/SSWERenders.h
+
+1390424899 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/CShaderPre.h
+	<SSWERenders.h>
+	<irrlicht.h>
+
+1390424918 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/CScreenQuad.h
+	<SSWERenders.h>
+	<irrlicht.h>
+
+1390436939 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/DepthOfField/shadergroup.h
+	<SSWERenders.h>
+	"shadermaterial.h"
+	<irrlicht.h>
+	<list>
+
+1390424851 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/DepthOfField/shadermaterial.h
+	<SSWERenders.h>
+	<irrlicht.h>
+
+1390425045 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/PostProcessMotionBlurhlsl.h
+	<SSWERenders.h>
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWERender.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWELibPlugin.h
+	<irrlicht.h>
+	<IDevices.h>
+
+1390428762 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreData.h
+	"stdafx.h"
+	"CCore.h"
+	"../Lua52/include/lua.hpp"
+	"../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
+	"../../../SSWERenders/Renders/XEffect/EffectCB.h"
+	"../../../SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.h"
+	"../../../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h"
+	"../../../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h"
+	"../../../SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.h"
+	"../../../SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.h"
+	"../../../SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.h"
+	"../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
+	<IMonitor.h>
+	<ISSWECoreData.h>
+	"CCorePhysics.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.h
+	<ISceneNode.h>
+	<S3DVertex.h>
+	<ISceneNode.h>
+	<S3DVertex.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h
+	<ISceneNode.h>
+	<S3DVertex.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.h
+	<irrlicht.h>
+	"CTerrain.h"
+	<vector>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Terrains/CTerrain.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CAction.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IMonitor.h
+	<irrlicht.h>
+	<ISSWERender.h>
+
+1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCorePhysics.h
+	"stdafx.h"
+	"CCore.h"
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/CRenderCore.h
+	"../../../../SSWECore/SSWECore/Core/CCore.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CLuaBinds.h
+	<irrlicht.h>
+	"../Lua52/include/lua.hpp"
+	"CSceneScripting.h"
+	"CFileSystemScripting.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CSceneScripting.h
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CFileSystemScripting.h
+	<irrlicht.h>
+
+1390425174 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h
+	<SSWERenders.h>
+	"../XEffect/EffectHandler.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Monitor/MonitorRegister.h
+	"IMonitorRegisterer.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IMonitorRegisterer.h
+	"IMonitor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/UIContextMenu.h
+	"../Device/CDevices.h"
+	"MainWindow/UIMainWindow.h"
+	"../UserInterfaces/CUIWindowOpenScene.h"
+	"../UserInterfaces/CUIWindowExportScene.h"
+	"CUILoadNodesGroup.h"
+	"CUIWindowEditNode.h"
+	"MaterialEditor/CUIMaterialEditor.h"
+	"CUIWindowEditLight.h"
+	"CUIWindowEditVolumeLight.h"
+	"CUIWindowEditGrid.h"
+	"Options/CUISSWEOptions.h"
+	"NodeFactory/CNodeFactory.h"
+	"NodeFactory/CUINodeFactoryPlanarMapping.h"
+	"NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
+	"NodeFactory/CUIWindowAddNewTerrain.h"
+	"AnimatorsEditor/CUIWindowEditNodeAnimators.h"
+	"AnimatorsEditor/CUIEditFPSCamera.h"
+	"CUISceneView.h"
+	"TexturesManager/CUITexturesManager.h"
+	"CUIRenderingInfos.h"
+	"../CharacterEdition/CUICharacterWindow.h"
+	"UIWindowRender.h"
+	"../Renders/XEffect/Interfaces/CUIWindowEditFilters.h"
+	"../Renders/XEffect/Interfaces/CUIWindowEditMaterials.h"
+	"../Renders/DepthOfField/CUIWindowEditDOF.h"
+	"../Device/Core/Scripting/CUIScriptEditor.h"
+	"PluginsManager/CPluginsManager.h"
+	"PluginsManager/CUIPluginsManager.h"
+	"ParticlesEditor/CUIParticlesEditor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/UIMainWindow.h
+	"../../Device/CDevices.h"
+	"CUIWindowAddTerrain.h"
+	"CUIWindowAddTree.h"
+	"CUIWindowAddObject.h"
+	"CUIWindowAddLight.h"
+	"CUIWindowAddVolumeLight.h"
+	"CUIWindowAddWatersSurface.h"
+	"../CUIWindowEditNode.h"
+	"../CUIWindowEditWater.h"
+	"../MaterialEditor/CUIMaterialEditor.h"
+	"../CUIWindowEditLight.h"
+	"../../Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.h"
+	"../NodeFactory/TerrainPainting/CUITerrainPainting.h"
+	"../NodeFactory/CUINodeFactoryPlanarMapping.h"
+	"../NodeFactory/CUINodeFactoryCreateMeshWithTangents.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTerrain.h
+	"../../Device/CDevices.h"
+	"../../SceneNodes/TerrainSystem/CTerrainSystem.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/TerrainSystem/CTerrainSystem.h
+	"stdafx.h"
+	<irrlicht.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTree.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddObject.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddLight.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddVolumeLight.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddWatersSurface.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditNode.h
+	"../Device/CDevices.h"
+	"../CharacterEdition/CAction.h"
+	<ISSWECore.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditWater.h
+	"../Device/CDevices.h"
+	"ITool.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/CUIMaterialEditor.h
+	"../../Device/CDevices.h"
+	"../../GUIExtension/ViewPort/IGUIViewPort.h"
+	"../../GUIExtension/ViewPort/CGUIViewPort.h"
+	"CMaterialEditorFactory.h"
+	"General/CUIMaterialEditorTextures.h"
+	"General/CUIMaterialEditorColors.h"
+	"General/CUIMaterialEditorFlags.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ViewPort/IGUIViewPort.h
+	<IGUIElement.h>
+	<SColor.h>
+	"../../../SSWERenders/Renders/XEffect/CScreenQuad.h"
+
+1390431062 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.h
+	"IGUIViewPort.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/CMaterialEditorFactory.h
+	"../../Device/CDevices.h"
+	"../../GUIExtension/ProgressBar/ProgressBar.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorTextures.h
+	"../../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorColors.h
+	"../../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorFlags.h
+	"../../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditLight.h
+	"../Device/CDevices.h"
+	"CUIWindowEditNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.h
+	"../../../Device/CDevices.h"
+	"../../../UserInterfaces/CUIWindowEditNode.h"
+	"../../../UserInterfaces/CUIWindowEditWater.h"
+	"../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+	"../../../GUIExtension/CodeEditor/CGUICodeEditor.h"
+	"../../../GUIExtension/ViewPort/CGUIViewPort.h"
+	"CShaderCallback.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CodeEditor/CUICodeEditor.h
+	"../../Device/CDevices.h"
+	<ITool.h>
+	"../../GUIExtension/CodeEditor/CGUICodeEditor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/CodeEditor/CGUICodeEditor.h
+	"IrrCompileConfig.h"
+	"IrrlichtDevice.h"
+	"IGUIEditBox.h"
+	"irrArray.h"
+	"IOSOperator.h"
+	"IGUIScrollBar.h"
+	"IGUIStaticText.h"
+	"IGUIButton.h"
+	"IGUIContextMenu.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CUITerrainPainting.h
+	"../../../Device/CDevices.h"
+	"CTerrainPainter.h"
+	"CGrassPainter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CTerrainPainter.h
+	"../../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CGrassPainter.h
+	"../../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryPlanarMapping.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryCreateMeshWithTangents.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowOpenScene.h
+	"../Device/CDevices.h"
+	"../Scenes/CImporter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Scenes/CImporter.h
+	"../Device/CDevices.h"
+	"../UserInterfaces/CUIWindowEditNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowExportScene.h
+	"../Device/CDevices.h"
+	"../Scenes/CExporter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Scenes/CExporter.h
+	"../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUILoadNodesGroup.h
+	"../Device/CDevices.h"
+	"MaterialEditor/CMaterialEditorFactory.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditVolumeLight.h
+	"../Device/CDevices.h"
+	"CUIWindowEditNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditGrid.h
+	"../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/Options/CUISSWEOptions.h
+	"../../Device/CDevices.h"
+	"../../Scenes/CExporter.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CNodeFactory.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUIWindowAddNewTerrain.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIWindowEditNodeAnimators.h
+	"../../Device/CDevices.h"
+	"../CUIWindowEditNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIEditFPSCamera.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUISceneView.h
+	"../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITexturesManager.h
+	"../../Device/CDevices.h"
+	"CUITextureEditor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITextureEditor.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIRenderingInfos.h
+	"../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CUICharacterWindow.h
+	"../Device/CDevices.h"
+	"../UserInterfaces/CUIWindowEditNode.h"
+	"../GUIExtension/ViewPort/CGUIViewPort.h"
+	"CUIEditBones.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CUIEditBones.h
+	"../Device/CDevices.h"
+	"../UserInterfaces/CUIWindowEditNode.h"
+	"ManualAnimation/CFrame.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/ManualAnimation/CFrame.h
+	<irrlicht.h>
+	"CAnimation.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/ManualAnimation/CAnimation.h
+	<irrlicht.h>
+	"CManualAction.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/ManualAnimation/CManualAction.h
+	<irrlicht.h>
+	"../../SceneNodes/Animators/CRotationAnimator.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Animators/CRotationAnimator.h
+	"ISceneNodeAnimatorFinishing.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Animators/ISceneNodeAnimatorFinishing.h
+	"ISceneNode.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/UIWindowRender.h
+	"../Device/CDevices.h"
+	"../GUIExtension/ViewPort/CGUIViewPort.h"
+
+1390432421 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditFilters.h
+	"../../../Device/CDevices.h"
+	"../../../GUIExtension/ViewPort/CGUIViewPort.h"
+	"../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterials.h
+	"../../../Device/CDevices.h"
+	"../../../UserInterfaces/CUIWindowEditNode.h"
+	"../../../GUIExtension/CodeEditor/CGUICodeEditor.h"
+	"../../../GUIExtension/ViewPort/CGUIViewPort.h"
+	"CShaderCallback.h"
+	"CUIWindowEditMaterialsCallback.h"
+	<fstream>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/DepthOfField/CUIWindowEditDOF.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CUIScriptEditor.h
+	"../../CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CUIPluginsManager.h
+	"../../Device/CDevices.h"
+	"CPluginsManager.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticlesEditor.h
+	"../../Device/CDevices.h"
+	"CUIParticleEditor.h"
+
+1390422046 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.h
+	"../../Device/CDevices.h"
+	"../../GUIExtension/ViewPort/CGUIViewPort.h"
+	"../../GUIExtension/NodesEditor/CGUINodesEditor.h"
+	"CUIEditParticleFlags.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINodesEditor.h
+	"../../Device/CDevices.h"
+	"CGUINode.h"
+
+1390432190 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINode.h
+	<irrlicht.h>
+	<ISSWEEvents.h>
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEEvents.h
+	<irrlicht.h>
+
+1390422046 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.h
+	"../../Device/CDevices.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIRightSceneTreeView.h
+	"UIContextMenu.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowsManager.h
+	"../Device/CDevices.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CAction.cpp
+	"stdafx.h"
+	"CAction.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CUICharacterWindow.cpp
+	"stdafx.h"
+	"CUICharacterWindow.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CUIEditBones.cpp
+	"stdafx.h"
+	"CUIEditBones.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/ManualAnimation/CAnimation.cpp
+	"stdafx.h"
+	"CAnimation.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/ManualAnimation/CFrame.cpp
+	"stdafx.h"
+	"CFrame.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/ManualAnimation/CManualAction.cpp
+	"stdafx.h"
+	"CManualAction.h"
+
+1390510535 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/CDevices.cpp
+	"stdafx.h"
+	"CDevices.h"
+	"Core/CCoreUserInterface.h"
+	"../GUIExtension/FileLoader/CUIFileLoader.h"
+
+1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/FileLoader/CUIFileLoader.h
+	"../../Device/CDevices.h"
+
+1390510517 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/CCoreUserInterface.cpp
+	"stdafx.h"
+	"CCoreUserInterface.h"
+	"../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/CRenderCore.cpp
+	"stdafx.h"
+	"CRenderCore.h"
+	"../CDevices.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CFileSystemScripting.cpp
+	"stdafx.h"
+	"CFileSystemScripting.h"
+	"../../CDevices.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CLuaBinds.cpp
+	"stdafx.h"
+	"CLuaBinds.h"
+	"../../CDevices.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CSceneScripting.cpp
+	"stdafx.h"
+	"CSceneScripting.h"
+	"../../CDevices.h"
+
+1390431481 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CUIScriptEditor.cpp
+	"stdafx.h"
+	"CUIScriptEditor.h"
+	"../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Monitor/MonitorRegister.cpp
+	"stdafx.h"
+	"MonitorRegister.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/CodeEditor/CGUICodeEditor.cpp
+	"stdafx.h"
+	"CGUICodeEditor.h"
+	"IGUIScrollBar.h"
+	"IGUISkin.h"
+	"IGUIEnvironment.h"
+	"IGUIFont.h"
+	"IVideoDriver.h"
+	"IrrlichtDevice.h"
+	"rect.h"
+	"Keycodes.h"
+	<iostream>
+	<vector>
+	<sstream>
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/FileLoader/CUIFileLoader.cpp
+	"stdafx.h"
+	"CUIFileLoader.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/FileSelector/CGUIFileSelector.cpp
+	"stdafx.h"
+	"CGUIFileSelector.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/Graph2D/GraphKat.cpp
+	"stdafx.h"
+	"GraphKat.h"
+
+1390431512 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/Graph2D/GraphKat.h
+	<irrlicht.h>
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINode.cpp
+	"stdafx.h"
+	"CGUINode.h"
+	"CGUINodesEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINodesEditor.cpp
+	"stdafx.h"
+	"CGUINodesEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ProgressBar/ProgressBar.cpp
+	"stdafx.h"
+	"ProgressBar.h"
+
+1390432225 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.cpp
+	"stdafx.h"
+	"CGUIViewPort.h"
+	<IGUIEnvironment.h>
+	<ISceneManager.h>
+	<ICameraSceneNode.h>
+	<IVideoDriver.h>
+	<IGUISkin.h>
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/DepthOfField/CUIWindowEditDOF.cpp
+	"stdafx.h"
+	"CUIWindowEditDOF.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.cpp
+	"stdafx.h"
+	"CShaderCallback.h"
+	"../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditFilters.cpp
+	"stdafx.h"
+	"CUIWindowEditFilters.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterials.cpp
+	"stdafx.h"
+	"CUIWindowEditMaterials.h"
+
+1390432490 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.cpp
+	"stdafx.h"
+	"CUIWindowEditMaterialsCallback.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Animators/CRotationAnimator.cpp
+	"stdafx.h"
+	"CRotationAnimator.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Camera/CRiggedCamera.cpp
+	"stdafx.h"
+	"CRiggedCamera.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.cpp
+	"stdafx.h"
+	"CloudSceneNode.h"
+	"IVideoDriver.h"
+	"ISceneManager.h"
+	"ICameraSceneNode.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.cpp
+	"stdafx.h"
+	"LensFlareSceneNode.h"
+	<IVideoDriver.h>
+	<ISceneManager.h>
+	<ISceneCollisionManager.h>
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.cpp
+	"stdafx.h"
+	"SceneNodeAnimatorFollowCamera.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Terrains/CTerrain.cpp
+	"stdafx.h"
+	"CTerrain.h"
+	<irrlicht.h>
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Terrains/CTerrainPager.cpp
+	"stdafx.h"
+	"../../SSWECore/SSWECore/CCollisionManager.h"
+	"CTerrainPager.h"
+	<irrlicht.h>
+
+1390432527 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/TerrainSystem/CTerrainSystem.cpp
+	"stdafx.h"
+	"CTerrainSystem.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/WaterSurface/CWaterSurface.cpp
+	"stdafx.h"
+	"CWaterSurface.h"
+
+1390432547 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.cpp
+	"stdafx.h"
+	"RealisticWater.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Scenes/CExporter.cpp
+	"stdafx.h"
+	"CExporter.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Scenes/CImporter.cpp
+	"stdafx.h"
+	"CImporter.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIEditFPSCamera.cpp
+	"stdafx.h"
+	"CUIEditFPSCamera.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/AnimatorsEditor/CUIWindowEditNodeAnimators.cpp
+	"stdafx.h"
+	"CUIWindowEditNodeAnimators.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CodeEditor/CUICodeEditor.cpp
+	"stdafx.h"
+	"CUICodeEditor.h"
+
+1390432626 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUILoadNodesGroup.cpp
+	"stdafx.h"
+	"CUILoadNodesGroup.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIRenderingInfos.cpp
+	"stdafx.h"
+	"CUIRenderingInfos.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIRightSceneTreeView.cpp
+	"stdafx.h"
+	"CUIRightSceneTreeView.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUISceneView.cpp
+	"stdafx.h"
+	"CUISceneView.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditGrid.cpp
+	"stdafx.h"
+	"CUIWindowEditGrid.h"
+
+1390422046 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditLight.cpp
+	"stdafx.h"
+	"CUIWindowEditLight.h"
+
+1390422046 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditNode.cpp
+	"stdafx.h"
+	"CUIWindowEditNode.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditVolumeLight.cpp
+	"stdafx.h"
+	"CUIWindowEditVolumeLight.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowEditWater.cpp
+	"stdafx.h"
+	"CUIWindowEditWater.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowExportScene.cpp
+	"stdafx.h"
+	"CUIWindowExportScene.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowOpenScene.cpp
+	"stdafx.h"
+	"CUIWindowOpenScene.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIWindowsManager.cpp
+	"stdafx.h"
+	"CUIWindowsManager.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddLight.cpp
+	"stdafx.h"
+	"CUIWindowAddLight.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddObject.cpp
+	"stdafx.h"
+	"CUIWindowAddObject.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTerrain.cpp
+	"stdafx.h"
+	"CUIWindowAddTerrain.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddTree.cpp
+	"stdafx.h"
+	"CUIWindowAddTree.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddVolumeLight.cpp
+	"stdafx.h"
+	"CUIWindowAddVolumeLight.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/CUIWindowAddWatersSurface.cpp
+	"stdafx.h"
+	"CUIWindowAddWatersSurface.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/UIMainWindow.cpp
+	"stdafx.h"
+	"UIMainWindow.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/CMaterialEditorFactory.cpp
+	"stdafx.h"
+	"CMaterialEditorFactory.h"
+
+1390432762 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/CUIMaterialEditor.cpp
+	"stdafx.h"
+	"CUIMaterialEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorColors.cpp
+	"stdafx.h"
+	"CUIMaterialEditorColors.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorFlags.cpp
+	"stdafx.h"
+	"CUIMaterialEditorFlags.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/General/CUIMaterialEditorTextures.cpp
+	"stdafx.h"
+	"CUIMaterialEditorTextures.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CNodeFactory.cpp
+	"stdafx.h"
+	"CNodeFactory.h"
+
+1390432812 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryCreateMeshWithTangents.cpp
+	"stdafx.h"
+	"CUINodeFactoryCreateMeshWithTangents.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryPlanarMapping.cpp
+	"stdafx.h"
+	"CUINodeFactoryPlanarMapping.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUIWindowAddNewTerrain.cpp
+	"stdafx.h"
+	"CUIWindowAddNewTerrain.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CGrassPainter.cpp
+	"stdafx.h"
+	"CGrassPainter.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CTerrainPainter.cpp
+	"stdafx.h"
+	"CTerrainPainter.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/TerrainPainting/CUITerrainPainting.cpp
+	"stdafx.h"
+	"CUITerrainPainting.h"
+	"../../MainWindow/UIMainWindow.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/Options/CUISSWEOptions.cpp
+	"stdafx.h"
+	"CUISSWEOptions.h"
+
+1390422046 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.cpp
+	"stdafx.h"
+	"CUIEditParticleFlags.h"
+
+1390422046 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.cpp
+	"stdafx.h"
+	"CUIParticleEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticlesEditor.cpp
+	"stdafx.h"
+	"CUIParticlesEditor.h"
+
+1390513363 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp
+	"stdafx.h"
+	"CPluginsManager.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CUIPluginsManager.cpp
+	"stdafx.h"
+	"CUIPluginsManager.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CProcess.cpp
+	"stdafx.h"
+	"CProcess.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.cpp
+	"stdafx.h"
+	"CUIProcessesLogger.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITextureEditor.cpp
+	"stdafx.h"
+	"CUITextureEditor.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/TexturesManager/CUITexturesManager.cpp
+	"stdafx.h"
+	"CUITexturesManager.h"
+
+1390516994 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/UIContextMenu.cpp
+	"stdafx.h"
+	"UIContextMenu.h"
+
+1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/UIWindowRender.cpp
+	"stdafx.h"
+	"UIWindowRender.h"
+
+1390433035 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/stdafx.cpp
+	"stdafx.h"
+
