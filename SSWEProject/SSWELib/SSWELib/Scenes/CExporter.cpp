@@ -163,9 +163,9 @@ void CExporter::exportConfig() {
 		fprintf(export_file, "\t\t\t\t <vertexShaderType type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShaderType());
 		fprintf(export_file, "\t\t\t\t <baseMaterial type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getBaseMaterial());
 		fprintf(export_file, "\t\t\t\t <name cname=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName().c_str());
-		fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader()).c_str());
-		fprintf(export_file, "\t\t\t\t <pixel shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader()).c_str());
-		fprintf(export_file, "\t\t\t\t <constants value=\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getConstants()).c_str());
+		fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader()).replace("\r", "\n").c_str());
+		fprintf(export_file, "\t\t\t\t <pixel shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader()).replace("\r", "\n").c_str());
+		fprintf(export_file, "\t\t\t\t <constants value=\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getConstants()).replace("\r", "\n").c_str());
         
 		fprintf(export_file, "\t\t\t </materialType>\n\n");
 	}

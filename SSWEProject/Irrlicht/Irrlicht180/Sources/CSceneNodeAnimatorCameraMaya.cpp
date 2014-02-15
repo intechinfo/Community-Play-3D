@@ -59,9 +59,7 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 		controlDown = event.KeyInput.Control;
 	}
 
-	if (event.EventType != EET_MOUSE_INPUT_EVENT || !controlDown) {
-		MousePos = CursorControl->getRelativePosition();
-		allKeysUp();
+	if (event.EventType != EET_MOUSE_INPUT_EVENT) {
 		return false;
 	}
 
@@ -112,8 +110,12 @@ void CSceneNodeAnimatorCameraMaya::animateNode(ISceneNode *node, u32 timeMs)
 	//Alt + LM + MM = Dolly forth/back in view direction (speed % distance camera pivot - max distance to pivot)
 	//Alt + MM = Move on camera plane (Screen center is about the mouse pointer, depending on move speed)
 
-	if (!controlDown)
+	MousePos = CursorControl->getRelativePosition();
+
+	if (!controlDown) {
+		allKeysUp();
 		return;
+	}
 
 	if (!node || node->getType() != ESNT_CAMERA)
 		return;

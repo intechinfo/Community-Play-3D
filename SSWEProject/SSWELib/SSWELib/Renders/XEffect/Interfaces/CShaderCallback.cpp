@@ -26,11 +26,17 @@ CShaderCallback::~CShaderCallback() {
 }
 
 CUICodeEditor *CShaderCallback::modifyVertexShader(CDevices *devices) {
+	vertexShader = vertexShader.replace("	", "    ");
+	vertexShader = vertexShader.replace("\r", "\n");
+
 	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &vertexShader, true);
 	return codeEditor;
 }
 
 CUICodeEditor *CShaderCallback::modifyPixelShader(CDevices *devices) {
+	pixelShader = pixelShader.replace("	", "    ");
+	pixelShader = pixelShader.replace("\r", "\n");
+
 	CUICodeEditor *codeEditor = new CUICodeEditor(devices, &pixelShader, true);
 	return codeEditor;
 }
@@ -276,14 +282,18 @@ void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
         
     buildConstants(driver);
 
+	CShaderPreprocessor spp(driver);
+
     if (driver->getDriverType() == irr::video::EDT_OPENGL) {
         material = gpu->addHighLevelShaderMaterial(stringc(vertexShader).c_str(), "main", vertexShaderType,
                                                     stringc(pixelShader).c_str(), "main", pixelShaderType,
                                                     this, baseMaterial);
     } else {
-		material = gpu->addHighLevelShaderMaterial(stringc(vertexShader).c_str(), "vertexMain", vertexShaderType,
-													stringc(pixelShader).c_str(), "pixelMain", pixelShaderType,
-													this, baseMaterial);
+		vertexShader = vertexShader.replace("\r", "\n");
+		pixelShader = pixelShader.replace("\r", "\n");
+		material = gpu->addHighLevelShaderMaterial(spp.ppShader(stringc(vertexShader).c_str()).c_str(), "vertexMain", vertexShaderType,
+												   spp.ppShader(stringc(pixelShader).c_str()).c_str(), "pixelMain", pixelShaderType,
+												   this, baseMaterial);
     }
 }
 

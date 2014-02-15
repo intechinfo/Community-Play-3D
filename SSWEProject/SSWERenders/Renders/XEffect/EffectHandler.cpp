@@ -605,7 +605,11 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 									outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
 
 			ScreenQuad.render(driver);
+
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
+
+			ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
+			ScreenQuad.getMaterial().setTexture(2, DepthRTT);
 		}
 	}
     

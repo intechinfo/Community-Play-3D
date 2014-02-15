@@ -114,20 +114,29 @@ void CMaterialEditorFactory::setAllTextureLayer2NormalMapped(f32 factor) {
 }
  
 ITexture *CMaterialEditorFactory::copyTexture(stringc nameOfTexture, ITexture *texture) {
-	ITexture *tex = devices->getVideoDriver()->addTexture(dimension2du(texture->getOriginalSize().Width, texture->getOriginalSize().Height), 
-														  nameOfTexture.c_str(), texture->getColorFormat());
-    
-	u8* pixelsTex = (u8 *)tex->lock();
-	u8 *pixelsTexm = (u8 *)texture->lock();
-	for(u32 ui = 0; ui < tex->getOriginalSize().Width * tex->getOriginalSize().Height; ui++) {
-		for (u32 uj=0; uj < 3; uj++) {
-			*pixelsTex = *pixelsTexm;
-			pixelsTex++; pixelsTexm++;
-		}
-		pixelsTex++; pixelsTexm++;
-	}
-	tex->unlock();
-	texture->unlock();
+
+	IImage *image = driver->createImage(texture, position2di(0, 0), texture->getOriginalSize());
+                    
+    for (u32 i=0; i < image->getDimension().Width; i++) {
+        for (u32 j=0; j < image->getDimension().Height; j++ ) {
+            SColor pixel = image->getPixel(i, j);
+            u32 red = pixel.getRed();
+            u32 green = pixel.getGreen();
+            u32 blue = pixel.getBlue();
+            f32 average = 0.3*red + 0.59*green + 0.11*blue;
+
+            if (average > 100) {
+                //average = 192;
+            }
+			if (average < 50) {
+				//average = 0;
+			}
+                            
+            image->setPixel(i, j, SColor(255, average, average, average));
+        }
+    }
+
+	ITexture *tex = devices->getVideoDriver()->addTexture(nameOfTexture.c_str(), image);
 
 	return tex;
 }

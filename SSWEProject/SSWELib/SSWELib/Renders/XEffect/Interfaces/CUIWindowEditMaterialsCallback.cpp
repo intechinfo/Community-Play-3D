@@ -268,7 +268,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		//EDIT MATERIAL WINDOW
 		if (element == editPreviewNode) {
 			CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-			editNode->open(previewNode, "#object:", editMaterialWindow);
+			editNode->open(previewNode, "#object:", false);
 		}
 
 		if (element == vLoadFromFile) {
