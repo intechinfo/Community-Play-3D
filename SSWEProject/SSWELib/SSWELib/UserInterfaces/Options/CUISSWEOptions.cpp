@@ -22,6 +22,7 @@ CUISSWEOptions::CUISSWEOptions(CDevices *_devices) {
 
 	tabctrl = gui->addTabControl(rect<s32>(3, 21, 470, 280), window, true, true, -1);
 	fpsTab = tabctrl->addTab(L"FPS Camera", -1);
+	renderingTab = tabctrl->addTab(L"Rendering", -1);
 
 	//FPS TAB
 	gui->addStaticText(L"Move Forward : ", rect<s32>(10, 10, 110, 30), true, true, fpsTab, -1, true);
@@ -37,6 +38,16 @@ CUISSWEOptions::CUISSWEOptions(CDevices *_devices) {
 
 	fpsInfoText = gui->addStaticText(L"Click on button and press the key you want.", rect<s32>(10, 140, 390, 160), true, true, fpsTab, -1, true);
 
+	//RENDERING TAB
+	gui->addStaticText(L"Quad Resolution : ", rect<s32>(10, 5, 120, 25), true, true, renderingTab, -1, true);
+	quadResolutioncb = gui->addComboBox(rect<s32>(120, 5, 280, 25), renderingTab, -1);
+	for (u32 i=0; i < devices->getDevice()->getVideoModeList()->getVideoModeCount(); i++) {
+		stringw resol = "";
+		resol += devices->getDevice()->getVideoModeList()->getVideoModeResolution(i).Width;
+		resol += "x";
+		resol += devices->getDevice()->getVideoModeList()->getVideoModeResolution(i).Height;
+		quadResolutioncb->addItem(resol.c_str());
+	}
 	//-----------------------------------
 
 	devices->getEventReceiver()->AddEventReceiver(this, window);
@@ -85,6 +96,15 @@ bool CUISSWEOptions::OnEvent(const SEvent &event) {
 			devices->getEventReceiver()->RemoveEventReceiver(this);
 			window->remove();
 			delete this;
+		}
+
+		if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
+			if (event.GUIEvent.Caller == quadResolutioncb) {
+				if (quadResolutioncb->getSelected() >= 0) {
+					s32 selected = quadResolutioncb->getSelected();
+					devices->getXEffect()->setScreenRenderTargetResolution(devices->getDevice()->getVideoModeList()->getVideoModeResolution(selected));
+				}
+			}
 		}
 	}
 

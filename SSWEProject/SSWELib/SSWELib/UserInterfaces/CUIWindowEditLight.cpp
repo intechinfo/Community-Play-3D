@@ -247,6 +247,8 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 
 		autoRecalculate = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->getShadowLight(index).isAutoRecalculate(),
 																	rect<s32>(10, 330, 190, 350), shadowLightTab, -1, L"Set Auto Recalculate");
+		isTorchMode = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->getShadowLight(index).isTorchMode(),
+																rect<s32>(200, 330, 380, 350), shadowLightTab, -1, L"Torch Mode");
 
 		//WINDOW BUTTONS
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
@@ -431,6 +433,10 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                 if (event.GUIEvent.Caller == autoRecalculate) {
                     devices->getXEffect()->getShadowLight(index).setAutoRecalculate(autoRecalculate->isChecked());
                 }
+				//TORCH MODE
+				if (event.GUIEvent.Caller == isTorchMode) {
+					devices->getXEffect()->getShadowLight(index).setTorchMode(isTorchMode->isChecked());
+				}
                 //LENS FLARE CHECKBOX
                 if (event.GUIEvent.Caller == lensFlare) {
                     if (lensFlare->isChecked()) {

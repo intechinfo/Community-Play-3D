@@ -78,6 +78,7 @@ private:
 	IGUIEditBox *farValueSL;
 	IGUIImage *shadowMapPreview, *shadowMapPreview2;
 	IGUICheckBox *autoRecalculate;
+	IGUICheckBox *isTorchMode;
     //-----------------------------------
     
     //-----------------------------------

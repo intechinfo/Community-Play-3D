@@ -109,8 +109,17 @@ void CDevices::updateEntities() {
 			effect->getShadowLight(i).setRecalculate(true);
 		}
 
-		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
-        effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
+		if (!effect->getShadowLight(i).isTorchMode()) {
+			effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
+			effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
+		} else {
+			vector3df camPos = smgr->getActiveCamera()->getPosition();
+			camPos.X += 10.f;
+			camPos.Y += 10.f;
+
+			effect->getShadowLight(i).setPosition(camPos);
+			effect->getShadowLight(i).setTarget(smgr->getActiveCamera()->getTarget());
+		}
         
         /*effect->getShadowLight(i).setLightColor(SColorf
 												 (((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.r,
@@ -392,6 +401,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
     if (driver->getDriverType() == EDT_DIRECT3D9)
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
+		//effect = new EffectHandler(Device, dimension2du(800, 600), true, true, true);
     else
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);

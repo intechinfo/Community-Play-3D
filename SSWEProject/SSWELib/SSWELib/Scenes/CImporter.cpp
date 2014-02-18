@@ -106,6 +106,7 @@ void CImporter::buildTerrain() {
 		readViewModes(node);
 
         devices->getCollisionManager()->setCollisionToAnOctTreeNode(node);
+
 		tdata.setMesh(mesh);
 		tdata.setNode(node);
 		tdata.setPath(path);

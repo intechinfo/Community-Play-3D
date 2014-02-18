@@ -37,10 +37,10 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	}
 	blackTextureLS = driver->addTexture("LightScatteringBlackTexture", imLightScatteringRTT);
 	imLightScatteringRTT->drop();
-	useLightScattering = true;
+	useLightScattering = false;
 
 	//REFLECTION PASS
-	useReflectionPass = true;
+	useReflectionPass = false;
 	ReflectionRTT = driver->addRenderTargetTexture(ScreenRTTSize, "ReflectionPassRTT");
 	cameraForPasses = smgr->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0, 0, 0), -1, false);
 
@@ -196,25 +196,25 @@ void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2d
 	bool tempTexFlagMipMaps = driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
 	bool tempTexFlag32 = driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT);
     
-	if(ScreenRTT)
-		driver->removeTexture(ScreenRTT);
+	//if(ScreenRTT)
+	//	driver->removeTexture(ScreenRTT);
     
-    ScreenRTT = driver->addRenderTargetTexture(resolution);
+    ScreenRTT = driver->addRenderTargetTexture(resolution, "ScreenRTT");
     
-	if(ScreenQuad.rt[0])
-		driver->removeTexture(ScreenQuad.rt[0]);
+	//if(ScreenQuad.rt[0])
+	//	driver->removeTexture(ScreenQuad.rt[0]);
     
-	ScreenQuad.rt[0] = driver->addRenderTargetTexture(resolution);
+	ScreenQuad.rt[0] = driver->addRenderTargetTexture(resolution, "ColorMapSampler");
     
-	if(ScreenQuad.rt[1])
-		driver->removeTexture(ScreenQuad.rt[1]);
+	//if(ScreenQuad.rt[1])
+	//	driver->removeTexture(ScreenQuad.rt[1]);
     
-	ScreenQuad.rt[1] = driver->addRenderTargetTexture(resolution);
+	ScreenQuad.rt[1] = driver->addRenderTargetTexture(resolution, "ScreenMapSampler");
     
 	if(DepthRTT != 0)
 	{
-		driver->removeTexture(DepthRTT);
-		DepthRTT = driver->addRenderTargetTexture(resolution);
+		//driver->removeTexture(DepthRTT);
+		DepthRTT = driver->addRenderTargetTexture(ScreenRTTSize, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
 	}
     
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
@@ -280,6 +280,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 {
 	if(shadowsUnsupported || smgr->getActiveCamera() == 0)
 		return;
+
+	irr::core::vector3df optCameraPos = smgr->getActiveCamera()->getPosition();
+	f32 nearValue = smgr->getActiveCamera()->getNearValue();
+	smgr->getActiveCamera()->setNearValue(0.1f);
 	
 	if(!ShadowNodeArray.empty() && !LightList.empty())
 	{
@@ -294,7 +298,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		const u32 LightListSize = LightList.size();
 		for(u32 l = 0;l < LightListSize;++l) {
             
-            if (LightList[l].getFarValue() == 0)
+			if (LightList[l].getFarValue() == 0 || LightList[l].getPosition().getDistanceFrom(optCameraPos) > LightList[l].getFarValue())
                 continue;
             
 			currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
@@ -452,6 +456,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	{
 		driver->setRenderTarget(ScreenQuad.rt[0], true, true, SColor(0xffffffff));
 	}
+
+	smgr->getActiveCamera()->setNearValue(nearValue);
 	
 	//driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 	//smgr->drawAll();

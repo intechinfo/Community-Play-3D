@@ -66,7 +66,13 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
             
 			if (devices->getCore()->textureAlreadyExists(texmname, devices->getVideoDriver()) == -1) {
 				ITexture *texm = node->getMaterial(i).TextureLayer[0].Texture;
-				ITexture *tex = copyTexture(texmname.c_str(), texm);
+
+				ITexture *tex;
+				if (node->getMaterial(i).TextureLayer[1].Texture)
+					tex = node->getMaterial(i).TextureLayer[1].Texture;
+				else
+					tex = copyTexture(texmname.c_str(), texm);
+
 				devices->getVideoDriver()->makeNormalMapTexture(tex, 9.0f);
 				node->getMaterial(i).setTexture(0, texm);
 				node->getMaterial(i).setTexture(1, tex);

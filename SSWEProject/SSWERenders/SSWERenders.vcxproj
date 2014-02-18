@@ -69,6 +69,7 @@
       <ModuleDefinitionFile>.\SSWERenders.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output</AdditionalLibraryDirectories>
       <AdditionalDependencies>Irrlicht_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

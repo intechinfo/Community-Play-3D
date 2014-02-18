@@ -104,15 +104,9 @@ struct SShadowLight
 	bool isAutoRecalculate() { return autoRecalculate; }
 	void setAutoRecalculate(bool _autoRecalculate) { autoRecalculate = _autoRecalculate; }
 
-	irr::core::array<irr::scene::ISceneNode *> *getLightShaftsBBs() { return &lsBBs; }
-	void createLightShaftCamera(irr::scene::ISceneManager *smgr) {
-		irr::scene::ICameraSceneNode *currentCamera = smgr->getActiveCamera();
-		lsCamera = smgr->addCameraSceneNode();
-		lsCamera->setNearValue(currentCamera->getNearValue());
-		lsCamera->setFarValue(farPlane);
-		smgr->setActiveCamera(currentCamera);
-	}
-	irr::scene::ICameraSceneNode *getLightShaftCamera() { return lsCamera; }
+	/// Sets if is torch mode
+	bool isTorchMode() { return isCamera; }
+	void setTorchMode(bool use) { isCamera = use; }
 
 private:
 
@@ -131,10 +125,7 @@ private:
 
 	bool recalculate;
 	bool autoRecalculate;
-
-	/// Light Shafts
-	irr::core::array<irr::scene::ISceneNode *> lsBBs;
-	irr::scene::ICameraSceneNode *lsCamera;
+	bool isCamera;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -267,6 +258,10 @@ public:
 	//Check if light scattering pass is enabled
 	bool isLightScatteringPassEnabled() { return useLightScattering; }
 	void enableLightScatteringPass(bool enable) { useLightScattering = enable; }
+
+	//Check if reflection pass is enabled
+	bool isReflectionPassEnabled() { return useReflectionPass; }
+	void setReflectionPassEnabled(bool use) { useReflectionPass = use; }
     
     //Check if depth pass is enabled
     bool isDepthPassEnabled() { return DepthPass; }
