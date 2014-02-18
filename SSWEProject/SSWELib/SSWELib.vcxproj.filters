@@ -139,6 +139,9 @@
     <Filter Include="SSWELib\GUIExtension\FileLoader">
       <UniqueIdentifier>{62b40de5-ea6c-45df-b714-dcd48682c10c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\Radiosity">
+      <UniqueIdentifier>{9f27b298-0f12-4352-9c9e-55f95e35c7c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -404,6 +407,15 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.cpp">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\Radiosity\CUILightMapsCreator.cpp">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\Radiosity\CUVTree.cpp">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\Radiosity\mtrand.cpp">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -724,6 +736,21 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.h">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\CUILightMapsCreator.h">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\CUVTree.h">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\mtrand.h">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\types.h">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\CRadiosityGenerator.h">
+      <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

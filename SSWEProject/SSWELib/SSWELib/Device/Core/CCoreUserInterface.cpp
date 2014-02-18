@@ -23,7 +23,7 @@ CCoreUserInterface::CCoreUserInterface() {
         //params.WindowSize = dimension2d<u32>(1280, 690);
         params.WindowSize = dimension2du(1680, 946);
     #else
-	params.DriverType=EDT_DIRECT3D9;
+		params.DriverType=EDT_DIRECT3D9;
         params.WindowSize = dimension2d<u32>(800, 600);
     #endif
         params.Bits=32;

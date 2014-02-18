@@ -58,7 +58,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SSWE_EDITOR;WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -112,7 +112,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;SSWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SSWE_EDITOR;WIN32;_WINDOWS;NDEBUG;_USRDLL;SSWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -240,6 +240,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\Radiosity\CUILightMapsCreator.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\Radiosity\CUVTree.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\Radiosity\mtrand.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\UIContextMenu.cpp" />
@@ -352,6 +355,11 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CPluginsManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CProcess.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ProcessesLogger\CUIProcessesLogger.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\CRadiosityGenerator.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\CUILightMapsCreator.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\CUVTree.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\mtrand.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Radiosity\types.h" />
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.h" />
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\UIContextMenu.h" />

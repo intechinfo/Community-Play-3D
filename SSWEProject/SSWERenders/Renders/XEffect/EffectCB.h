@@ -8,6 +8,25 @@ using namespace scene;
 using namespace video;
 using namespace core;
 
+class SelectionPassCB : public video::IShaderConstantSetCallBack {
+public:
+	SelectionPassCB(EffectHandler* effectIn) : effect(effectIn) {};
+
+	virtual void OnSetConstants(video::IMaterialRendererServices *services, s32 userData) {
+		IVideoDriver* driver = services->getVideoDriver();
+
+		worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
+		worldViewProj *= driver->getTransform(video::ETS_VIEW);
+		worldViewProj *= driver->getTransform(video::ETS_WORLD);
+
+		services->setVertexShaderConstant("worldViewProj", worldViewProj.pointer(), 16);
+	}
+
+private:
+	EffectHandler *effect;
+	core::matrix4 worldViewProj;
+};
+
 class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack {
 public:
 	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn) {};

@@ -83,9 +83,10 @@ void CImporter::buildTerrain() {
 		for (u32 i=0; i < mesh->getMeshBufferCount(); i++) {
 			numberOfVertices += mesh->getMeshBuffer(i)->getVertexCount();
 		}
-		node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ? 
+		/*node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ? 
 													 numberOfVertices/(minPolysPerNode+1)
-													 : numberOfVertices/minPolysPerNode);
+													 : numberOfVertices/minPolysPerNode);*/
+		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {

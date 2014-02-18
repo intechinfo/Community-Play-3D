@@ -11,6 +11,8 @@
 
 #include "UIContextMenu.h"
 
+#include "Radiosity/CUILightMapsCreator.h"
+
 class CUIRightSceneTreeView : public IEventReceiver {
     
 public:

@@ -64,6 +64,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
     //addChildrenBackWithSDataArray(particlesNode, worldCore->getParticleSystemsSData());
 
+
 }
 
 CUIRightSceneTreeView::~CUIRightSceneTreeView() {
@@ -251,8 +252,9 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				rightClickCxtMenu->addItem(L"Scale Mesh", 5, true, false, false, false);
 				rightClickCxtMenu->addSeparator();
 				rightClickCxtMenu->addItem(L"Apply Physic", 6, true, false, false, true);
+				rightClickCxtMenu->addItem(L"Generate LightMaps...", 7, true, false, false, true);
 				rightClickCxtMenu->addSeparator();
-				rightClickCxtMenu->addItem(L"Remove", 7, true, false, false, true);
+				rightClickCxtMenu->addItem(L"Remove", 8, true, false, false, true);
 			}
 		}
 
@@ -364,8 +366,18 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 					if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 5) {
 
 					}
+
+					if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 7) {
+						if (node->getType() == ESNT_MESH || node->getType() == ESNT_OCTREE) {
+							SSelectedNode ssn = cxtMenu->getMainWindow()->getSelectedNode();
+							if (ssn.getMesh() && ssn.getNode()) {
+								u32 nindice = devices->getCoreData()->getTerrainNodeIndice(ssn.getNode());
+								CUILightsMapCreator *gene = new CUILightsMapCreator(devices, &devices->getCoreData()->getTerrainsData()->operator[](nindice));
+							}
+						}
+					}
                     
-                    if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 7) {
+                    if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 8) {
                         if (sceneView->getSelected()->getData()) {
                             devices->getCoreData()->removeSceneNode((ISceneNode *)sceneView->getSelected()->getData(), devices->getXEffect());
                             devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);

@@ -380,6 +380,19 @@ u32 CCoreData::getObjectNodeIndice(ISceneNode *node) {
 	return ni;
 }
 
+u32 CCoreData::getTerrainNodeIndice(ISceneNode *node) {
+	u32 ni = -1;
+
+	for (u32 i=0; i < terrainsData.size(); i++) {
+		if (terrainsData[i].getNode() == node) {
+			ni = i;
+			break;
+		}
+	}
+
+	return ni;
+}
+
 //---------------------------------------------------------------------------------------------
 //----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------

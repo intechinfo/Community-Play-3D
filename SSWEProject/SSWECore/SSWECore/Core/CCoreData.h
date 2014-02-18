@@ -756,6 +756,7 @@ public:
 		return datas;
 	}
 	u32 getTerrainsCount() { return terrainsData.size(); }
+	u32 getTerrainNodeIndice(ISceneNode *node);
 
 	//TREES
 	array<STreesData> *getTreesData() { return &treesData; }

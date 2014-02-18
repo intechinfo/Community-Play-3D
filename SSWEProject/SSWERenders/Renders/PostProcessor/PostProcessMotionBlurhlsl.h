@@ -5,11 +5,14 @@
 #include <irrlicht.h>
 using namespace irr;
 
+#include "../XEffect/CScreenQuad.h"
+
 class SSWE_RENDERS_API CMotionBlurCallback : public video::IShaderConstantSetCallBack
 {
-private:
+public:
     float m_ScreenWidth, m_ScreenHeight, m_Strength;
     int texture1, texture2;
+	u32 m_time;
 public:
    CMotionBlurCallback(float screenWidth, float screenHeight, float strength)
    {
@@ -51,6 +54,9 @@ private:
 	irr::core::stringc pixel_shader_2;
 
 	CMotionBlurCallback* callback;
+
+	bool renderSQ;
+	CScreenQuad *quad;
    
 public:
 
@@ -63,6 +69,9 @@ public:
       m_Vertices[3] = video::S3DVertex(1.0f, -1.0f, 0.0f, 0, 0, 0, video::SColor(0), 1.0f, 1.0f);
       m_Vertices[4] = video::S3DVertex(-1.0f, -1.0f, 0.0f, 0, 0, 0, video::SColor(0), 0.0f, 1.0f);
       m_Vertices[5] = video::S3DVertex(1.0f, 1.0f, 0.0f, 0, 0, 0, video::SColor(0), 1.0f, 0.0f);
+
+	  quad = 0;
+	  renderSQ = false;
        
 #ifndef _IRR_OSX_PLATFORM_
 	  vertex_shader = ""
@@ -178,12 +187,23 @@ public:
       callback->drop();
    }
 
+   void render(CScreenQuad *_quad) {
+	   renderSQ = (_quad != 0) ? true : false;
+	   quad = _quad;
+
+	   this->render();
+   }
+
    virtual void render()
    {
       u16 indices[] = {0, 1, 2, 3, 4, 5};
       video::IVideoDriver* driver = SceneManager->getVideoDriver();
-      driver->setRenderTarget(m_rtNext, true, true, 0);
-      SceneManager->drawAll();
+	  driver->setRenderTarget(m_rtNext, true, true, 0);
+	  if (!renderSQ) {
+		  SceneManager->drawAll();
+	  } else {
+		  quad->render(driver);
+	  }
 
       driver->setRenderTarget(m_rtAccum, true, true, 0);
       driver->setMaterial(m_Material1);
@@ -202,6 +222,9 @@ public:
       driver->setMaterial(m_Material2);
       driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
       driver->drawIndexedTriangleList(&m_Vertices[0], 6, &indices[0], 2);
+
+	  renderSQ = false;
+	  quad = 0;
    }
    virtual video::SMaterial& getMaterial(s32 i)
    {

@@ -115,6 +115,8 @@ private:
     
     void setMaterialTextures();
     s32 getMaterialTypeCB(E_MATERIAL_TYPE type);
+
+	void applyToMeshBuffers(u32 id, ITexture *tex);
     
     //-----------------------------------
     //EDIT WINDOW USER INTERFACE ELEMENTS
@@ -184,6 +186,9 @@ private:
     
     //FLAGS & Materials
     u32 rsCurrentPos, totalSpacing;
+
+	s32 lastMaterialType;
+	u32 lastMaterial;
     //-----------------------------------
     
 };

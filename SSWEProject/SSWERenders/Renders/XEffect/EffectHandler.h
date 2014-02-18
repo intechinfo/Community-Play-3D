@@ -46,6 +46,7 @@ struct SShadowLight
 
 		recalculate = true;
 		autoRecalculate = false;
+		isCamera = false;
 	}
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position) {
@@ -176,6 +177,10 @@ public:
     void removeShadowLight(int index) {
         LightList.erase(index);
     }
+
+	void removeShadowLights() {
+		LightList.clear();
+	}
 
 	/// Retrieves a reference to a shadow light. You may get the max amount from getShadowLightCount.
 	SShadowLight& getShadowLight(irr::u32 index)
@@ -390,6 +395,10 @@ public:
 	void update(bool  updateOcclusionQueries = false, irr::video::ITexture* outputTarget = 0);
 
 	void updateEffect();
+
+	///Special To Calculate Radiosity
+	void updateRadiosity(const irr::u32 time, const bool screenSpaceOnly,irr::video::ITexture* outputTarget = 0, 
+				irr::scene::ISceneNode* node =0 , irr::core::array<irr::scene::IMeshBuffer*>* buffers= 0);
 
 	/// Adds a shadow to the scene node. The filter type specifies how many shadow map samples
 	/// to take, a higher value can produce a smoother or softer result. The shadow mode can
@@ -624,6 +633,10 @@ public:
 			LightList[i].setRecalculate(true);
 	}
 
+	#ifdef SSWE_EDITOR
+	irr::s32 getSelectionMaterial() { return SelectionMaterial; }
+	#endif
+
 private:
 
 	struct SShadowNode
@@ -680,6 +693,9 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
+	#ifdef SSWE_EDITOR
+	irr::s32 SelectionMaterial;
+	#endif
 	
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;

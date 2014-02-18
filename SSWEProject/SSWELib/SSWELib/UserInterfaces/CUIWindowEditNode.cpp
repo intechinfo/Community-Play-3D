@@ -410,6 +410,9 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
 		}
 
         //APPLY MATERIAL 0 DEFAULT VALUES
+		lastMaterial = 0;
+		lastMaterialType = nodeToEdit->getMaterial(0).MaterialType;
+
         setMaterialTextures();
 
 		devices->getEventReceiver()->AddEventReceiver(this, editWindow, this);
@@ -424,6 +427,15 @@ void CUIWindowEditNode::activateCloseButtons(bool activateCloseButton, bool acti
 }
 
 void CUIWindowEditNode::setMaterialTextures() {
+	stringw material = L"Material Number : ";
+    material += materialsBar->getPos();
+    materialNumber->setText(material.c_str());
+
+	nodeToEdit->getMaterial(lastMaterial).MaterialType = (E_MATERIAL_TYPE)lastMaterialType;
+	lastMaterial = materialsBar->getPos();
+	lastMaterialType = nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType;
+	nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = (E_MATERIAL_TYPE)devices->getXEffect()->getSelectionMaterial();
+
     //LIGHTING
     if (nodeToEdit->getMaterial(materialsBar->getPos()).Lighting == true) {
         lighting->setChecked(true);
@@ -488,12 +500,12 @@ void CUIWindowEditNode::setMaterialTextures() {
     mNodeEmissiveColorG->setText(devices->getCore()->getStrNumber(nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.getGreen()).c_str());
     mNodeEmissiveColorB->setText(devices->getCore()->getStrNumber(nodeToEdit->getMaterial(materialsBar->getPos()).EmissiveColor.getBlue()).c_str());
     
-    nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
+    /*nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
     nodeToEdit->getMaterial(materialsBar->getPos()).Wireframe = true;
     
     if (nodeToEdit->getMaterialCount() == 1) {
         nodeToEdit->getMaterial(0).Wireframe = false;
-    }
+    }*/
     
     materialType->setSelected(getMaterialTypeCB(nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType));
     
@@ -683,6 +695,14 @@ void CUIWindowEditNode::update() {
 			}
 		}
 	}
+
+}
+
+void CUIWindowEditNode::applyToMeshBuffers(u32 id, ITexture *tex) {
+	if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
+		for (u32 i=0; i < ((IMeshSceneNode*)nodeToEdit)->getMesh()->getMeshBufferCount(); i++)
+			((IMeshSceneNode*)nodeToEdit)->getMesh()->getMeshBuffer(i)->getMaterial().setTexture(id, tex);
+	}
 }
 
 bool CUIWindowEditNode::OnEvent(const SEvent &event) {
@@ -707,6 +727,56 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 				this->createMaterialTypesComboBox(generalMaterialCB);
 				this->createMaterialTypesComboBox(materialType);
 			}
+
+			//GET SELECTED MATERIAL
+			/*if (devices->getGUIEnvironment()->getFocus() == 0 && !devices->isCtrlPushed() && !devices->isShiftPushed()) {
+				ISceneCollisionManager *collisionManager = devices->getSceneManager()->getSceneCollisionManager();
+				ICursorControl *cursorCtrl = devices->getDevice()->getCursorControl();
+
+				core::line3d<f32> ray = collisionManager->getRayFromScreenCoordinates(cursorCtrl->getPosition());
+				vector3df intersection;
+				triangle3df hitTriangle;
+				ISceneNode *selectedMouseNode = collisionManager->getSceneNodeAndCollisionPointFromRay(ray, intersection, hitTriangle, 0, 0);
+
+				if (selectedMouseNode == nodeToEdit) {
+					IMesh *mnode;
+					if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
+						mnode = ((IMeshSceneNode*)nodeToEdit)->getMesh();
+					} else if (nodeToEdit->getType() == ESNT_ANIMATED_MESH) {
+						mnode = ((IAnimatedMeshSceneNode*)nodeToEdit)->getMesh();
+					}
+					u32 nearestBuffer = 0;
+					f32 distanceMin = -1.0f;
+
+					for (u32 i=0; i < mnode->getMeshBufferCount(); i++) {
+						mnode->getMeshBuffer(i)->recalculateBoundingBox();
+						S3DVertex *vertices = (S3DVertex *)mnode->getMeshBuffer(i)->getVertices();
+						for (u32 j=0; j < mnode->getMeshBuffer(i)->getVertexCount(); j++) {
+							if (distanceMin == -1) {
+								distanceMin = hitTriangle.pointA.getDistanceFrom(vertices[j].Pos);
+							} else {
+								f32 distanceFromA = hitTriangle.pointA.getDistanceFrom(vertices[j].Pos);
+								f32 distanceFromB = hitTriangle.pointB.getDistanceFrom(vertices[j].Pos);
+								f32 distanceFromC = hitTriangle.pointC.getDistanceFrom(vertices[j].Pos);
+								if (distanceFromA < distanceMin) {
+									nearestBuffer = i;
+									distanceMin = distanceFromA;
+								}
+								if (distanceFromB < distanceMin) {
+									nearestBuffer = i;
+									distanceMin = distanceFromB;
+								}
+								if (distanceFromC < distanceMin) {
+									nearestBuffer = i;
+									distanceMin = distanceFromC;
+								}
+							}
+						}
+					}
+					materialsBar->setPos(nearestBuffer);
+					setMaterialTextures();
+				}
+			}*/
 		}
 	}
 
@@ -716,9 +786,6 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 if (!devices->isEditBoxEntered()) {
                     if (materialsBar->getPos() > 0) {
                         materialsBar->setPos(materialsBar->getPos() - 1);
-                        stringw material = L"Material Number : ";
-                        material += materialsBar->getPos();
-                        materialNumber->setText(material.c_str());
                         
                         setMaterialTextures();
                     }
@@ -729,9 +796,6 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 if (!devices->isEditBoxEntered()) {
                     if (materialsBar->getPos() < nodeToEdit->getMaterialCount()) {
                         materialsBar->setPos(materialsBar->getPos() + 1);
-                        stringw material = L"Material Number : ";
-                        material += materialsBar->getPos();
-                        materialNumber->setText(material.c_str());
                         
                         setMaterialTextures();
                     }
@@ -740,6 +804,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
             
             if (event.KeyInput.Key == KEY_RETURN) {
                 nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
+				nodeToEdit->getMaterial(lastMaterial).MaterialType = (E_MATERIAL_TYPE)lastMaterialType;
             }
         }
     }
@@ -826,6 +891,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					nodeToEdit->setDebugDataVisible(EDS_OFF);
 					nodeToEdit->setMaterialFlag(EMF_WIREFRAME, false);
 				}
+				nodeToEdit->getMaterial(lastMaterial).MaterialType = (E_MATERIAL_TYPE)lastMaterialType;
                 editWindow->remove();
                 devices->getEventReceiver()->RemoveEventReceiver(this);
                 delete this;
@@ -859,6 +925,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 if (!stringw(ebTextureLayerPath2->getText()).equals_ignore_case(L"Empty")) {
                 nodeToEdit->setMaterialTexture(1, 
                             devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath2->getText()).c_str()));
+				applyToMeshBuffers(1, devices->getVideoDriver()->getTexture(stringc(ebTextureLayerPath2->getText()).c_str()));
                 }
                 if (!stringw(ebTextureLayerPath3->getText()).equals_ignore_case(L"Empty")) {
                 nodeToEdit->setMaterialTexture(2, 
@@ -1257,10 +1324,6 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                 switch (id) {
                     //MATERIAL CHANGED
                     case CXT_EDIT_WINDOW_EVENTS_MATERIALS: {
-                        stringw material = L"Material Number : ";
-                        material += materialsBar->getPos();
-                        materialNumber->setText(material.c_str());
-                        
                         setMaterialTextures();
                     }
                         break;
@@ -1283,8 +1346,10 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                     case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
                         if (generalMaterialCB->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
                             nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
+							lastMaterialType = getMaterialType(generalMaterialCB->getSelected());
                         } else {
                             nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial());
+							lastMaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial();
                         }
 
                         break;
