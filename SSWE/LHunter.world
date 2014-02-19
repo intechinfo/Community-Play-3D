@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-211.651184" Y="58.773506" Z="-80.160156" />
-			 <rotation X="18.054689" Y="299.464233" Z="0.000000" />
+			 <position X="290.251343" Y="69.140404" Z="-15.913570" />
+			 <rotation X="8.936222" Y="107.142639" Z="0.000000" />
 
 		 </camera>
 
@@ -147749,12 +147749,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/props_multiprovod_01.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -147784,7 +147784,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -147819,7 +147819,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="3">
@@ -147854,12 +147854,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="4">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/props_multiprovod_01.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -147889,12 +147889,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="5">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/props_multiprovod_01.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -147924,7 +147924,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -147959,12 +147959,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="7">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_tunnel.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -147994,12 +147994,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="8">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_tunnel.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -148029,7 +148029,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="9">
@@ -148064,7 +148064,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="10">
@@ -148099,12 +148099,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="11">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/veh_rai.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -148134,12 +148134,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="12">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/veh_rai.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -148169,7 +148169,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="13">
@@ -148204,7 +148204,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="14">
@@ -148239,7 +148239,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="15">
@@ -148274,7 +148274,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="16">
@@ -148309,12 +148309,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="17">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_tunnel.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -148344,12 +148344,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="18">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_tunnel.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -148379,7 +148379,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="19">
@@ -148414,7 +148414,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="20">
@@ -148449,7 +148449,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="21">
@@ -148484,7 +148484,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="22">
@@ -148519,7 +148519,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="23">
@@ -148554,7 +148554,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="24">
@@ -148589,7 +148589,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="25">
@@ -148624,7 +148624,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="26">
@@ -148659,7 +148659,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="27">
@@ -148694,7 +148694,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="28">
@@ -148729,7 +148729,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="29">
@@ -148764,7 +148764,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="30">
@@ -148799,7 +148799,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="31">
@@ -148834,7 +148834,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="32">
@@ -148869,7 +148869,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="33">
@@ -148904,7 +148904,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="34">
@@ -148939,7 +148939,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="35">
@@ -148974,7 +148974,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="36">
@@ -149009,7 +149009,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="37">
@@ -149044,7 +149044,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="38">
@@ -149079,7 +149079,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="39">
@@ -149114,7 +149114,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="40">
@@ -149149,7 +149149,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="41">
@@ -149184,7 +149184,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="42">
@@ -149219,7 +149219,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="43">
@@ -149254,7 +149254,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="44">
@@ -149289,7 +149289,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="45">
@@ -149324,7 +149324,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="46">
@@ -149359,7 +149359,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="47">
@@ -149394,7 +149394,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="48">
@@ -149429,7 +149429,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="49">
@@ -149464,7 +149464,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="50">
@@ -149499,7 +149499,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="51">
@@ -149534,7 +149534,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="52">
@@ -149569,7 +149569,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="53">
@@ -149604,7 +149604,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="54">
@@ -149639,7 +149639,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="55">
@@ -149674,7 +149674,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="56">
@@ -149709,7 +149709,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="57">
@@ -149744,7 +149744,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="58">
@@ -149779,7 +149779,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="59">
@@ -149814,7 +149814,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="60">
@@ -149849,7 +149849,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="61">
@@ -149884,7 +149884,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="62">
@@ -149919,7 +149919,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="63">
@@ -149954,7 +149954,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="64">
@@ -149989,7 +149989,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="65">
@@ -150024,7 +150024,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="66">
@@ -150059,7 +150059,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="67">
@@ -150094,7 +150094,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="68">
@@ -150129,7 +150129,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="69">
@@ -150164,7 +150164,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="70">
@@ -150199,7 +150199,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="71">
@@ -150234,7 +150234,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="72">
@@ -150269,7 +150269,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="73">
@@ -150304,7 +150304,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="74">
@@ -150339,7 +150339,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="75">
@@ -150374,7 +150374,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="76">
@@ -150409,7 +150409,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="77">
@@ -150444,7 +150444,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="78">
@@ -150479,7 +150479,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="79">
@@ -150514,7 +150514,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="80">
@@ -150549,7 +150549,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="81">
@@ -150584,7 +150584,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="82">
@@ -150619,7 +150619,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="83">
@@ -150654,7 +150654,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="84">
@@ -150689,7 +150689,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="85">
@@ -150724,7 +150724,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="86">
@@ -150759,7 +150759,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="87">
@@ -150794,7 +150794,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="88">
@@ -150829,7 +150829,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="89">
@@ -150864,7 +150864,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="90">
@@ -150899,7 +150899,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="91">
@@ -150934,7 +150934,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="92">
@@ -150969,7 +150969,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="93">
@@ -151004,7 +151004,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="94">
@@ -151039,7 +151039,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="95">
@@ -151074,7 +151074,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="96">
@@ -151109,7 +151109,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="97">
@@ -151144,12 +151144,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="98">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/veh_rail_bolt.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151179,12 +151179,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="99">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/veh_rail_bolt.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151214,7 +151214,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="100">
@@ -151249,12 +151249,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="101">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/props_box_2.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151284,7 +151284,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="102">
@@ -151319,7 +151319,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="103">
@@ -151354,7 +151354,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="104">
@@ -151389,7 +151389,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="105">
@@ -151424,7 +151424,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="106">
@@ -151459,12 +151459,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="107">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/grnd_sand.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151494,7 +151494,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="108">
@@ -151529,7 +151529,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="109">
@@ -151564,7 +151564,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="110">
@@ -151599,12 +151599,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="111">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/floor_for_sleeper_2.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151634,7 +151634,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="112">
@@ -151669,12 +151669,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="113">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_dirt.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151704,7 +151704,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="114">
@@ -151739,12 +151739,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="115">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151774,12 +151774,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="116">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151809,12 +151809,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="117">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151844,12 +151844,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="118">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151879,12 +151879,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="119">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151914,7 +151914,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="120">
@@ -151949,12 +151949,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="121">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -151984,7 +151984,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="122">
@@ -152019,12 +152019,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="123">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152054,12 +152054,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="124">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152089,12 +152089,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="125">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152124,12 +152124,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="126">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152159,7 +152159,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="127">
@@ -152194,12 +152194,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="128">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152229,12 +152229,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="129">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152264,12 +152264,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="130">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152299,12 +152299,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="131">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152334,12 +152334,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="132">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152369,12 +152369,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="133">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152404,7 +152404,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="134">
@@ -152439,12 +152439,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="135">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152474,7 +152474,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="136">
@@ -152509,12 +152509,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="137">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/metal_d6.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152544,12 +152544,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="138">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/metal_d6.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152579,12 +152579,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="139">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/metal_3.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152614,12 +152614,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="140">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/wood_boards.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152649,12 +152649,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="141">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/wood_boards.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152684,7 +152684,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="142">
@@ -152719,7 +152719,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="143">
@@ -152754,7 +152754,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="144">
@@ -152789,7 +152789,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="145">
@@ -152824,12 +152824,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="146">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/metal_balka.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152859,12 +152859,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="147">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_germozatvor.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -152894,7 +152894,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="148">
@@ -152929,7 +152929,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="149">
@@ -152964,7 +152964,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="150">
@@ -152999,7 +152999,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="151">
@@ -153034,7 +153034,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="152">
@@ -153069,7 +153069,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="153">
@@ -153104,7 +153104,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="154">
@@ -153139,7 +153139,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="155">
@@ -153174,7 +153174,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="156">
@@ -153209,7 +153209,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="157">
@@ -153244,7 +153244,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="158">
@@ -153279,7 +153279,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="159">
@@ -153314,7 +153314,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="160">
@@ -153349,7 +153349,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="161">
@@ -153384,7 +153384,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="162">
@@ -153419,7 +153419,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="163">
@@ -153454,7 +153454,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="164">
@@ -153489,12 +153489,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="165">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/veh_rai.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153524,7 +153524,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="166">
@@ -153559,7 +153559,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="167">
@@ -153594,12 +153594,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="168">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/veh_rail_bolt.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153629,12 +153629,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="169">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/veh_rail_bolt.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153664,12 +153664,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="170">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/metal_3.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153699,12 +153699,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="171">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/metal_3.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153734,12 +153734,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="172">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/floor_for_sleeper.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153769,12 +153769,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="173">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/floor_for_sleeper.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153804,12 +153804,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="174">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_blok_09.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153839,12 +153839,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="175">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_blok_09.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153874,12 +153874,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="176">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153909,12 +153909,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="177">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153944,12 +153944,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="178">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_opalubka_uniq.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -153979,12 +153979,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="179">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_vihod_wall_01.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -154014,12 +154014,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="180">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/concrete_vihod_wall_01.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -154049,7 +154049,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="181">
@@ -154084,7 +154084,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="182">
@@ -154119,7 +154119,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="183">
@@ -154154,7 +154154,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="184">
@@ -154189,7 +154189,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="185">
@@ -154224,7 +154224,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="186">
@@ -154259,7 +154259,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="187">
@@ -154294,7 +154294,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="188">
@@ -154329,7 +154329,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="189">
@@ -154364,7 +154364,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="190">
@@ -154399,7 +154399,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="191">
@@ -154434,7 +154434,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="192">
@@ -154469,7 +154469,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="193">
@@ -154504,7 +154504,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="194">
@@ -154539,7 +154539,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="195">
@@ -154574,7 +154574,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="196">
@@ -154609,7 +154609,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="197">
@@ -154644,7 +154644,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="198">
@@ -154679,7 +154679,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="199">
@@ -154714,7 +154714,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="200">
@@ -154749,7 +154749,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="201">
@@ -154784,7 +154784,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="202">
@@ -154819,7 +154819,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="203">
@@ -154854,7 +154854,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="204">
@@ -154889,7 +154889,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="205">
@@ -154924,7 +154924,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="206">
@@ -154959,7 +154959,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="207">
@@ -154994,7 +154994,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="208">
@@ -155029,7 +155029,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="209">
@@ -155064,7 +155064,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="210">
@@ -155099,7 +155099,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="211">
@@ -155134,7 +155134,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="212">
@@ -155169,7 +155169,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="213">
@@ -155204,7 +155204,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="214">
@@ -155239,7 +155239,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="215">
@@ -155274,7 +155274,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="216">
@@ -155309,7 +155309,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="217">
@@ -155344,7 +155344,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="218">
@@ -155379,7 +155379,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="219">
@@ -155414,7 +155414,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="220">
@@ -155449,7 +155449,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="221">
@@ -155484,7 +155484,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="222">
@@ -155519,7 +155519,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="223">
@@ -155554,7 +155554,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="224">
@@ -155589,7 +155589,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="225">
@@ -155624,7 +155624,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="226">
@@ -155659,7 +155659,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="227">
@@ -155694,7 +155694,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="228">
@@ -155729,7 +155729,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="229">
@@ -155764,7 +155764,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="230">
@@ -155799,7 +155799,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="231">
@@ -155834,7 +155834,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="232">
@@ -155869,7 +155869,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="233">
@@ -155904,7 +155904,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="234">
@@ -155939,7 +155939,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="235">
@@ -155974,7 +155974,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="236">
@@ -156009,7 +156009,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="237">
@@ -156044,7 +156044,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="238">
@@ -156079,7 +156079,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="239">
@@ -156114,7 +156114,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="240">
@@ -156149,7 +156149,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="241">
@@ -156184,7 +156184,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="242">
@@ -156219,7 +156219,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="243">
@@ -156254,7 +156254,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="244">
@@ -156289,7 +156289,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="245">
@@ -156324,7 +156324,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="246">
@@ -156359,7 +156359,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="247">
@@ -156394,7 +156394,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="248">
@@ -156429,7 +156429,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="249">
@@ -156464,7 +156464,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="250">
@@ -156499,7 +156499,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="251">
@@ -156534,7 +156534,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="252">
@@ -156569,7 +156569,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="253">
@@ -156604,7 +156604,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="254">
@@ -156639,7 +156639,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="255">
@@ -156674,7 +156674,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="256">
@@ -156709,7 +156709,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="257">
@@ -156744,7 +156744,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="258">
@@ -156779,7 +156779,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="259">
@@ -156814,7 +156814,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="260">
@@ -156849,7 +156849,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="261">
@@ -156884,7 +156884,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="262">
@@ -156919,7 +156919,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="263">
@@ -156954,7 +156954,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="264">
@@ -156989,7 +156989,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="265">
@@ -157024,7 +157024,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="266">
@@ -157059,12 +157059,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="267">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/metal_staircase_01.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -157094,12 +157094,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="268">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/architecture/hunter/hunter/hunter/tex/props_multiprovod_01.jpg" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -157129,7 +157129,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="269">
@@ -157164,7 +157164,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="270">
@@ -157199,7 +157199,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="271">
@@ -157234,7 +157234,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="30" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>

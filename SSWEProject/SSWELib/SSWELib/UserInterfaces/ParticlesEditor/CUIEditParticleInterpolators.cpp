@@ -25,6 +25,12 @@ CUIParticleEditorInterpolators::CUIParticleEditorInterpolators(CDevices *_device
     devices->getCore()->centerWindow(window, (dimension2du)parent->getRelativePosition().getSize());
     
     devices->getEventReceiver()->AddEventReceiver(this);
+
+	SPK::Interpolator *it = model->getInterpolator(SPK::PARAM_BLUE);
+	std::set<SPK::InterpolatorEntry>::iterator t = it->getGraph().begin();
+	for (; t != it->getGraph().end(); ++t) {
+
+	}
 }
 
 CUIParticleEditorInterpolators::~CUIParticleEditorInterpolators() {
