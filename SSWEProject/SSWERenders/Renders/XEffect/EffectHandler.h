@@ -635,6 +635,8 @@ public:
 
 	#ifdef SSWE_EDITOR
 	irr::s32 getSelectionMaterial() { return SelectionMaterial; }
+
+	void setFPSCamera(irr::scene::ICameraSceneNode *camera) { FPSCamera = camera; }
 	#endif
 
 private:
@@ -695,6 +697,7 @@ private:
 	irr::s32 VSMBlurV;
 	#ifdef SSWE_EDITOR
 	irr::s32 SelectionMaterial;
+	irr::scene::ICameraSceneNode *FPSCamera;
 	#endif
 	
 	DepthShaderCB* depthMC;

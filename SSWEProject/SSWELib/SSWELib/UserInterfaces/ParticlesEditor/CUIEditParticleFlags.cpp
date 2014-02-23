@@ -138,29 +138,30 @@ bool CUIParticleEditorFlags::OnEvent(const SEvent &event) {
 			size_t id = edit->getID();
 			SPK::ModelParam param = static_cast<SPK::ModelParam>(id);
 			f32 value = devices->getCore()->getF32(edit->getText());
+			stringc name = edit->getName();
 
-			if (edit->getName() == "Death0") {
+			if (name == "Death0") {
 				model->setParam(param, value);
 			}
 
-			if (edit->getName() == "Rand0" || edit->getName() == "Rand1" || edit->getName() == "Birth" || edit->getName() == "Death") {
+			if (name == "Rand0" || name == "Rand1" || name == "Birth" || name == "Death") {
 				f32 rand0 = model->getParamValue(param, 0);
 				f32 rand1 = model->getParamValue(param, 1);
-				if (edit->getName() == "Rand0" || edit->getName() == "Birth")
+				if (name == "Rand0" || name == "Birth")
 					model->setParam(param, value, rand1);
 				else
 					model->setParam(param, rand0, value);
 			}
-			if (edit->getName() == "MinBirth" || edit->getName() == "MaxBirth" || edit->getName() == "MinDeath" || edit->getName() == "MaxDeath") {
+			if (name == "MinBirth" || name == "MaxBirth" || name == "MinDeath" || name == "MaxDeath") {
 				f32 minBirth = model->getParamValue(param, 0);
 				f32 maxBirth = model->getParamValue(param, 1);
 				f32 minDeath = model->getParamValue(param, 2);
 				f32 maxDeath = model->getParamValue(param, 3);
-				if (edit->getName() == "MinBirth")
+				if (name == "MinBirth")
 					model->setParam(param, value, maxBirth, minDeath, maxDeath);
-				else if (edit->getName() == "MaxBirth")
+				else if (name == "MaxBirth")
 					model->setParam(param, minBirth, value, minDeath, maxDeath);
-				else if (edit->getName() == "MinDeath")
+				else if (name == "MinDeath")
 					model->setParam(param, minBirth, maxBirth, value, maxDeath);
 				else
 					model->setParam(param, minBirth, maxBirth, minDeath, value);

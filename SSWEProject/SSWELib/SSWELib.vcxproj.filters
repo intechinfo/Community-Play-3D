@@ -417,6 +417,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\Radiosity\mtrand.cpp">
       <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditZone.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -751,6 +754,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\Radiosity\CRadiosityGenerator.h">
       <Filter>SSWELib\UserInterfaces\Radiosity</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditZone.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

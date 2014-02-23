@@ -143,7 +143,10 @@ IGUIComboBox *CGUINode::addComboBox(stringw name) {
         
         gui->addStaticText(name.c_str(), rect<s32>(1, 0, 180, 20), true, true, t, -1, true);
         
-        IGUIComboBox *c = gui->addComboBox(rect<s32>(1, 20, 180, 40), t, -1);
+		rect<s32> normalPos = t->getRelativePosition();
+		IGUIComboBox *c = gui->addComboBox(rect<s32>(normalPos.UpperLeftCorner.X+1, normalPos.UpperLeftCorner.Y+20, 
+													 normalPos.UpperLeftCorner.X+180, normalPos.UpperLeftCorner.Y+40),
+										   this->window, -1);
         c->setName(stringc(name + "cb").c_str());
         
         return c;

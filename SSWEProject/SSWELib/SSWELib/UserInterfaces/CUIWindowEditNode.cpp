@@ -1358,8 +1358,10 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                         //nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
                         if (materialType->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
                             nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = getMaterialType(materialType->getSelected());
+							lastMaterialType = getMaterialType(materialType->getSelected());
                         } else {
                             nodeToEdit->getMaterial(materialsBar->getPos()).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](materialType->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial();
+							lastMaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](materialType->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial();
                         }
                         break;
                         

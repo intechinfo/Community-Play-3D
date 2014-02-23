@@ -82,6 +82,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	// The emitters are arranged so that the fire looks realistic
 	StraightEmitter* fireEmitter1 = StraightEmitter::create(Vector3D(0.0f,1.0f,0.0f));
 	fireEmitter1->setZone(Sphere::create(Vector3D(0.0f,-1.0f,0.0f),0.5f));
+	fireEmitter1->getZone()->setName("SPHERE:emitter1");
 	fireEmitter1->setFlow(40);
 	fireEmitter1->setForce(1.0f,2.5f);
     fireEmitter1->setName("Fire Emitter 1");
@@ -147,7 +148,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     ps.getBaseNode()->setName(L"ParticleTest");
     //devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
     
-    /*SParticleSystem ps("new particle system");
+    /*SParticleSystem ps("New Particle System");
     ps.createBaseNode(devices->getSceneManager());
     devices->getCoreData()->getParticleSystems()->push_back(ps);*/
     //----------TEST-----------------
@@ -185,7 +186,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     
     devices->getEventReceiver()->AddEventReceiver(this, window);
     
-    //CUIParticleEditor *pse = new CUIParticleEditor(devices, &devices->getCoreData()->getParticleSystems()->operator[](0));
+    CUIParticleEditor *pse = new CUIParticleEditor(devices, &devices->getCoreData()->getParticleSystems()->operator[](0));
 }
 
 CUIParticlesEditor::~CUIParticlesEditor() {

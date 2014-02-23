@@ -474,14 +474,14 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
         driver->updateAllOcclusionQueries(true);
 	}
 
-	if (useDOF && smgr->getActiveCamera()->getType() != ESNT_CAMERA_MAYA) {
+	if (useDOF) {
 		dof->render(true);
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 	} else {
 		dof->render(false);
 	}
 
-	if (useMotionBlur && smgr->getActiveCamera()->getType() != ESNT_CAMERA_MAYA) {
+	if (useMotionBlur && smgr->getActiveCamera() == FPSCamera) {
 		f32 distanceLength = smgr->getActiveCamera()->getRotation().getDistanceFrom(lastCameraRotation);
 		f32 seconds = (device->getTimer()->getTime() - motionBlur->getCallback()->m_time) / 1000.f;
 		motionBlur->getCallback()->m_Strength = ((distanceLength/seconds) * 0.4f) / (25.f / seconds);
@@ -665,7 +665,6 @@ irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resoluti
     
 	return shadowMapTexture;
 }
-
 
 irr::video::ITexture* EffectHandler::generateRandomVectorTexture(const irr::core::dimension2du& dimensions,
                                                                  const irr::core::stringc& name)

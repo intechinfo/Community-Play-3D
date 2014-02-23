@@ -11,6 +11,7 @@
 
 #include "CUIEditParticleFlags.h"
 #include "CUIEditParticleInterpolators.h"
+#include "CUIParticlesEditZone.h"
 
 CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
@@ -505,8 +506,8 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             emitter->setForce(emitter->getForceMin(), force);
                         }
                         //ZONES
-                        if (name == "Configure Zone") {
-                            
+                        if (name == "Configure Zone...") {
+							CUIParticlesEditZone *editZone = new CUIParticlesEditZone(devices, emitter, window);
                         }
                     }
                 }
