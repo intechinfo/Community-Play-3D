@@ -414,7 +414,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
 	effect->enableDepthPass(false);
-	effect->setFPSCamera(camera_fps);
+	effect->setFPSCamera(camera_rig->getCameraSceneNode());
 
 	dof = effect->getDOF();
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);

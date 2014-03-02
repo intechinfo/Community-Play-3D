@@ -571,11 +571,11 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 		//reflection clipping plane
 		core::plane3d<f32> reflectionClipPlane(0, 0 - CLIP_PLANE_OFFSET_Y, 0, 0, 1, 0);
-		//driver->setClipPlane(0, reflectionClipPlane, true);
+		driver->setClipPlane(0, reflectionClipPlane, true);
 
 		smgr->drawAll();
 
-		//driver->enableClipPlane(0, false);
+		driver->enableClipPlane(0, false);
 
 		smgr->setActiveCamera(currentCamera);
 		currentCamera->OnAnimate(device->getTimer()->getTime());
@@ -592,7 +592,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
         //driver->setRenderTarget(DepthRTT, true, true, SColor(255, 0, 0, 0));
 
 		// Set max distance constant for depth shader.
-		depthMC->FarLink = 500.f;//smgr->getActiveCamera()->getFarValue();
+		depthMC->FarLink = smgr->getActiveCamera()->getFarValue();
 
 		for(u32 i = 0;i < DepthPassArray.size();++i)
 		{

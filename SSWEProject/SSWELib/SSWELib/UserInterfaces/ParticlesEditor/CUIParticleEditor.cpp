@@ -230,6 +230,9 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
         }
         if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
             if (event.GUIEvent.Caller == openRendererTexture) {
+				if (selectedNode != 0) {
+
+				}
                 selectedNode = 0;
             }
         }
@@ -494,7 +497,9 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             node->getInterface()->setName(event.GUIEvent.Element->getText());
                         }
                         if (name == "Flow") {
-                            emitter->setFlow(devices->getCore()->getF32(event.GUIEvent.Element->getText()));
+							if (stringc(event.GUIEvent.Element->getText()) != "") {
+								emitter->setFlow(devices->getCore()->getF32(event.GUIEvent.Element->getText()));
+							}
                         }
                         //FORCE
                         if (name == "Force Min") {

@@ -223,7 +223,6 @@ void CUIParticlesEditZone::createExternalGUIElements() {
 		this->create1Param("Radius :", relativePositionElementY)->setName("SPHERE:radius");
 	}
 
-	//window->setRelativePosition(rect<s32>(550, 210, 830, 410));
 	window->setRelativePosition(rect<s32>(window->getRelativePosition().UpperLeftCorner.X,
 										  window->getRelativePosition().UpperLeftCorner.Y,
 										  window->getRelativePosition().LowerRightCorner.X,
@@ -347,8 +346,8 @@ bool CUIParticlesEditZone::OnEvent(const SEvent &event) {
 					}
 				}
 
-				if (name == "RING::p0x" || name == "RING:p0y" || name == "RING:p0z"
-					|| name == "RING::p1x" || name == "RING:p1y") {
+				if (name == "RING::normalx" || name == "RING:normaly" || name == "RING:normalz"
+					|| name == "RING::minRadius" || name == "RING:maxRadius") {
 
 					SPK::Vector3D v = ((SPK::Ring*)emitter->getZone())->getNormal();
 					SPK::Ring *ring = (SPK::Ring*)emitter->getZone();
@@ -370,11 +369,6 @@ bool CUIParticlesEditZone::OnEvent(const SEvent &event) {
 						ring->setRadius(ring->getMinRadius(), value);
 					}
 				}
-				//params.x->setName("RING:normalx");
-				//params.y->setName("RING:normaly");
-				//params.z->setName("RING:normalz");
-				//params2.param1->setName("RING:minRadius");
-				//params2.param2->setName("RING:maxRadius");
 
 				if (name == "SPHERE:radius") {
 					SPK::Vector3D v = ((SPK::Sphere*)emitter->getZone())->getRadius();

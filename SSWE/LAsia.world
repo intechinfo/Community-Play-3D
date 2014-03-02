@@ -1,0 +1,1696 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <numberOfObjects value="2" />
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="1024" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="183.307648" Y="176.832413" Z="164.538940" />
+			 <rotation X="27.355497" Y="216.428665" Z="0.000000" />
+
+		 </camera>
+
+		 <fpsCameraSettings>
+
+			 <ellipsoidRadius X="5.000000" Y="15.000000" Z="5.000000" />
+			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <slidingValue value="0.000500" />
+
+		 </fpsCameraSettings>
+
+		 <effect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="water_shader.spkg" />
+				 <vertex shader=
+"float4x4 mWorldViewProj;
+
+float4x4 mWorld;
+
+float4   CamPos;
+
+float    Time;
+
+float    sinWave;
+
+
+
+float wavesHeight;
+
+
+
+
+
+struct VS_OUTPUT
+
+{
+
+  float4 Position   : POSITION0;
+
+  float4 waterpos   : TEXCOORD0;
+
+  float3 WorldView  : TEXCOORD1;
+
+  float2 TexCoords  : TEXCOORD2;
+
+  float3 MultiVar   : TEXCOORD3;
+
+};
+
+VS_OUTPUT vertexMain( float3 Position  : POSITION0,
+
+                      float2 TexCoords : TEXCOORD0 )
+
+{
+
+  VS_OUTPUT OUT = (VS_OUTPUT)0;
+
+  OUT.Position = mul(float4(Position.x,Position.y,Position.z,1.0), mWorldViewProj);
+
+  OUT.waterpos = float4(Position.x,Position.y,Position.z,1.0);
+
+  OUT.MultiVar.y = Time / 10000.0;
+
+  if (sinWave > 0.0)
+
+  {
+
+    OUT.MultiVar.x = (sin((Position.x/3.0) + (Time * 10.0 / 10000.0))) +
+
+                     (cos((Position.z/3.0) + (Time * 10.0 / 10000.0)));
+
+    OUT.Position.y += OUT.MultiVar.x * wavesHeight;
+
+  }
+
+  
+
+  OUT.MultiVar.z = CamPos.y;
+
+  float4 PosW = mul(float4(Position.x,Position.y,Position.z,1.0), mWorld);
+
+  OUT.WorldView = CamPos.xyz - PosW.xyz;
+
+  OUT.TexCoords = TexCoords + float2(OUT.MultiVar.y, OUT.MultiVar.y);
+
+  return(OUT);
+
+}
+
+" />
+				 <pixel shader=
+"float4x4 mWorldViewProjP;
+
+float    sinWaveP;
+
+float    refractionP;
+
+float    seaLevel;
+
+sampler2D ReflectionTexture : register(s2);
+
+sampler2D NormalMap         : register(s0);
+
+sampler2D DUDVMap           : register(s1);
+
+float4 pixelMain( float4 waterpos   : TEXCOORD0,
+
+                  float3 WorldView  : TEXCOORD1,
+
+                  float2 TexCoord   : TEXCOORD2,
+
+                  float3 MultiVar   : TEXCOORD3
+
+                ) : COLOR0
+
+{
+
+  float4 projCoord = mul(waterpos, mWorldViewProjP);
+
+  projCoord.x = projCoord.x / projCoord.w / 2.0 + 0.5;
+
+  projCoord.y = projCoord.y / projCoord.w / 2.0 + 0.5;
+
+  if (sinWaveP > 0.0)
+
+  {
+
+    projCoord.x += sin(MultiVar.x * 5) * (2 / 1000.0);
+
+    projCoord.y += cos(MultiVar.x * 5) * (2 / 1000.0);
+
+    TexCoord.x  += sin(MultiVar.x * 5) * (5 / 1000.0);
+
+    TexCoord.y  += cos(MultiVar.x * 5) * (5 / 1000.0);
+
+  }
+
+  if (refractionP > 0.0)
+
+  {
+
+    float4 DUDVoffset = tex2D(DUDVMap,TexCoord);
+
+    projCoord.x += (DUDVoffset.x / 40.0) - (1.0 / 80.0);
+
+    projCoord.y += (DUDVoffset.y / 40.0) - (1.0 / 80.0);
+
+  }
+
+  projCoord = clamp(projCoord, 0.001, 0.999);
+
+  float4 normal = float4(0.0, 1.0, 0.0, 0.0);
+
+  if(MultiVar.z < seaLevel)
+
+    projCoord.y = 1.0 - projCoord.y;
+
+  float4 refTex = tex2D(ReflectionTexture,projCoord);
+
+  float facing = (1.0 - max(dot(normalize(WorldView), normalize(normal.xyz)), 0));
+
+  float4 MultCol = float4(1.0,1.0,1.0,1.0);
+
+  
+
+  refTex = (refTex + float4(0.0,0.0,0.0,0.0)) * MultCol;
+
+  float4 norMap =  tex2D(NormalMap,TexCoord);
+
+  float lightComp = 1.0 - max(dot(normalize(norMap.xyz),normalize(abs(WorldView))),0.0);
+
+  float4 finalCol = refTex;
+
+  if(MultiVar.z < seaLevel)
+
+    finalCol *= 0.8;
+
+  finalCol.a = 0.6 + (facing / 2.0);
+
+  finalCol += lightComp;
+
+  return(finalCol);
+
+};
+
+" />
+				 <constants value="vmatrix4 mWorld world[0] 0 0 dontMakeInverse
+vmatrix4 mWorldViewProj proj[0] view[0] 0 mWorld
+pmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorld
+
+vvector3df CamPos camPos4
+
+vfloat Time + ctime 10
+vfloat sinWave 1
+pfloat sinWaveP 1
+vfloat refractionP 1
+pfloat seaLevel -144
+
+vfloat wavesHeight 0
+" />
+			 </materialType>
+
+
+		 </materialTypes>
+
+		 <scripts>
+
+
+		 </scripts>
+
+	</config>
+
+
+
+	<scene>
+
+		 <terrain>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/asiapagoda/asiapagoda/asiapagoda.obj" />
+
+			 <type esnt="mesh" />
+
+			 <factory> 
+
+
+			 </factory> 
+
+			 <name c8name="#map:myName" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/scum.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="12" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="shaders/textures/water/waves2.jpg" />
+						 <texture id="1" path="shaders/textures/water/waterdudv.png" />
+						 <texture id="2" path="data/Lights/skydome.jpg" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_dirtasian_02.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="3">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_light.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="4">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="5">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="6">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="7">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="8">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_floor01_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="9">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_floor01_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="10">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_column_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="11">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="12">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="13">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="14">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_wall03_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="15">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_wall03_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="16">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="17">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="18">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_grassasian_tiled02.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="19">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_wall03_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="20">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="21">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="22">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="23">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_wall03_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="24">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="25">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="26">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="27">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="28">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="29">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="30">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="31">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="32">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="33">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="34">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/asiapagoda/asiapagoda/tex/t_asia_bridge_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="35">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="36">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="37">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="38">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="39">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ReflectionPassRTT" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+
+		 </terrain>
+
+		 <light>
+
+			 <name c8name="#light:1" />
+
+			 <position X="0.000000" Y="550.593994" Z="186.785110" />
+			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="100.000000" />
+			 <farValue value="2000.000000" />
+			 <autoRecalculate value="0" />
+
+			 <shadows resol="4096" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
+
+
+	</scene>
+
+</rootScene>

@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="40.408897" Y="156.019562" Z="-502.464264" />
-			 <rotation X="18.054718" Y="350.714233" Z="0.000000" />
+			 <position X="46.901962" Y="64.405136" Z="63.772434" />
+			 <rotation X="15.197507" Y="299.464661" Z="0.000000" />
 
 		 </camera>
 
@@ -44,6 +44,38 @@
 				 <name cname="NORMAL MAPPING" />
 				 <vertex shader=
 "float4x4 matWorldInverse; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -107,7 +139,71 @@ float4x4 ModelViewMatrix;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float4x4 ModelViewProjectionMatrix;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -171,7 +267,71 @@ float3 fvLightPosition1;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float3 fvLightPosition2; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -235,7 +395,71 @@ float3 fvLightPosition3;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float3 fvLightPosition4; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -299,7 +523,71 @@ float fLightStrength1;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float fLightStrength2; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -363,7 +651,71 @@ float fLightStrength3;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float fLightStrength4; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -427,7 +779,71 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -491,7 +907,71 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float2 Texcoord            : TEXCOORD0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -555,7 +1035,71 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 LightDirection1      : TEXCOORD2; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -619,7 +1163,71 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 LightDirection3      : TEXCOORD4; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -683,6 +1291,38 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float4 LightDistMultiplier  : TEXCOORD6;
 
 
@@ -715,7 +1355,71 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -779,7 +1483,71 @@ float getLengthSQR (float3 vec)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 { 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -843,7 +1611,71 @@ float getLengthSQR (float3 vec)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -907,7 +1739,71 @@ struct VS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -971,7 +1867,71 @@ struct VS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 Normal           : NORMAL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1035,7 +1995,71 @@ struct VS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1099,7 +2123,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1163,7 +2251,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1227,7 +2379,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1291,7 +2507,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    LightTransform= mul(matWorldInverse, LightTransform);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1355,7 +2635,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1419,7 +2763,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1483,7 +2891,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1547,7 +3019,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1611,6 +3147,38 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
 
 
@@ -1643,7 +3211,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1707,7 +3339,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1771,6 +3467,38 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
 
 
@@ -1803,7 +3531,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1867,7 +3659,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 fvBinormal   = cross(fvTangent,IN.Normal);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1931,7 +3787,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1995,7 +3915,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2059,7 +4043,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2123,7 +4171,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2187,7 +4299,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2251,7 +4427,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2315,7 +4555,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2379,7 +4683,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2443,7 +4811,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2507,7 +4939,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2571,7 +5067,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2637,7 +5197,71 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float4 fvLight1Color; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2701,7 +5325,71 @@ float4 fvLight2Color;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float4 fvLight3Color; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2765,7 +5453,71 @@ float4 fvLight4Color;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float fSpecularPower; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2829,7 +5581,71 @@ float fSpecularStrength;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float fBumpStrength; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2893,6 +5709,38 @@ sampler2D baseMap      : register(s0);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 sampler2D bumpMap      : register(s1); 
 
 
@@ -2925,7 +5773,71 @@ sampler2D bumpMap      : register(s1);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 struct PS_INPUT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2989,7 +5901,71 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float2 Texcoord            : TEXCOORD0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3053,7 +6029,71 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 LightDirection1      : TEXCOORD2; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3117,7 +6157,71 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3 LightDirection3      : TEXCOORD4; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3181,6 +6285,38 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float4 LightDistMultiplier  : TEXCOORD6;
 
 
@@ -3213,7 +6349,71 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3277,7 +6477,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3341,7 +6605,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3405,7 +6733,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3469,6 +6861,38 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
 
 
@@ -3501,7 +6925,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3565,7 +7053,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    fvNormal.xy-=1.0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3629,6 +7181,38 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    fvNormal=normalize(fvNormal);
 
 
@@ -3661,7 +7245,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3725,7 +7373,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3789,7 +7501,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3853,7 +7629,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3917,7 +7757,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3981,7 +7885,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4045,7 +8013,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4109,7 +8141,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4173,7 +8269,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4237,7 +8397,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4301,7 +8525,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4365,7 +8653,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4429,7 +8781,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4493,7 +8909,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    if(color.g>1.0){color.rb+=color.g-1.0;} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4557,7 +9037,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4621,7 +9165,71 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4662,7 +9270,23 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
+
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+
+
+
+
+
+
+
+
 
 
 
@@ -4686,7 +9310,31 @@ vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vfloat fLightStrength1 80
+
+
+
+
+
+
+
+
 
 
 
@@ -4702,7 +9350,23 @@ vfloat fLightStrength2 80
 
 
 
+
+
+
+
+
+
+
+
 vfloat fLightStrength3 80
+
+
+
+
+
+
+
+
 
 
 
@@ -4726,7 +9390,31 @@ vfloat fLightStrength4 80
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vvector3df fvLightPosition1 150 640 -34
+
+
+
+
+
+
+
+
 
 
 
@@ -4742,7 +9430,23 @@ vvector3df fvLightPosition2 150 640 -34
 
 
 
+
+
+
+
+
+
+
+
 vvector3df fvLightPosition3 150 640 -34
+
+
+
+
+
+
+
+
 
 
 
@@ -4766,7 +9470,31 @@ vvector3df fvLightPosition4 150 640 -34
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 pSColor fvAmbient 1 0.7 0.7 0.7
+
+
+
+
+
+
+
+
 
 
 
@@ -4782,6 +9510,14 @@ pSColor fvLight1Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
+
+
+
 pSColor fvLight2Color 1 0.02 0.02 0.02
 
 
@@ -4790,7 +9526,23 @@ pSColor fvLight2Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
+
+
+
 pSColor fvLight3Color 1 0.02 0.02 0.02
+
+
+
+
+
+
+
+
 
 
 
@@ -4814,7 +9566,31 @@ pSColor fvLight4Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 pfloat fSpecularPower 20
+
+
+
+
+
+
+
+
 
 
 
@@ -4830,7 +9606,23 @@ pfloat fSpecularStrength 0.9
 
 
 
+
+
+
+
+
+
+
+
 pfloat fBumpStrength 50
+
+
+
+
+
+
+
+
 
 
 
@@ -4855,7 +9647,23 @@ pfloat fBumpStrength 50
 
 
 
+
+
+
+
+
+
+
+
                  float3 fvLightPosition2;
+
+
+
+
+
+
+
+
 
 
 
@@ -4871,6 +9679,14 @@ pfloat fBumpStrength 50
 
 
 
+
+
+
+
+
+
+
+
                  float4x4 matWorld;
 
 
@@ -4879,7 +9695,23 @@ pfloat fBumpStrength 50
 
 
 
+
+
+
+
+
+
+
+
                  float4x4 matWorldViewProjection;
+
+
+
+
+
+
+
+
 
 
 
@@ -4903,7 +9735,31 @@ pfloat fBumpStrength 50
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 struct VS_INPUT 
+
+
+
+
+
+
+
+
 
 
 
@@ -4919,7 +9775,23 @@ struct VS_INPUT
 
 
 
+
+
+
+
+
+
+
+
                    float4 Position : POSITION0;
+
+
+
+
+
+
+
+
 
 
 
@@ -4935,7 +9807,23 @@ struct VS_INPUT
 
 
 
+
+
+
+
+
+
+
+
                    float3 Normal :   NORMAL0;
+
+
+
+
+
+
+
+
 
 
 
@@ -4951,7 +9839,23 @@ struct VS_INPUT
 
 
 
+
+
+
+
+
+
+
+
                    float3 Tangent :  TANGENT0;
+
+
+
+
+
+
+
+
 
 
 
@@ -4967,7 +9871,31 @@ struct VS_INPUT
 
 
 
+
+
+
+
+
+
+
+
                    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4991,7 +9919,23 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
                    {
+
+
+
+
+
+
+
+
 
 
 
@@ -5007,7 +9951,23 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
                    float2 Texcoord :        TEXCOORD0;
+
+
+
+
+
+
+
+
 
 
 
@@ -5023,7 +9983,23 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
                    float3 LightDirection1:   TEXCOORD2;
+
+
+
+
+
+
+
+
 
 
 
@@ -5039,7 +10015,23 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
                    float3 truViewDir:        TEXCOORD4;
+
+
+
+
+
+
+
+
 
 
 
@@ -5055,6 +10047,14 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
    
 
 
@@ -5063,7 +10063,31 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
+
+
+
+
                    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5087,7 +10111,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    {
+
+
+
+
+
+
+
+
 
 
 
@@ -5103,7 +10143,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    OUT.Position = mul( IN.Position, matWorldViewProjection );
+
+
+
+
+
+
+
+
 
 
 
@@ -5119,7 +10175,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -5135,7 +10207,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -5151,7 +10239,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    OUT.truViewDir=viewVec;
+
+
+
+
+
+
+
+
 
 
 
@@ -5167,7 +10271,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    float3 lightVec2 = fvLightPosition2 - RealPos;
+
+
+
+
+
+
+
+
 
 
 
@@ -5183,6 +10303,14 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    float3 tViewVec;
 
 
@@ -5191,7 +10319,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    float3 tLightVec1;
+
+
+
+
+
+
+
+
 
 
 
@@ -5215,7 +10359,31 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  float3 Tangent = normalize(IN.Tangent);
+
+
+
+
+
+
+
+
 
 
 
@@ -5231,7 +10399,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    float3 Binormal = cross( Normal , Tangent );
+
+
+
+
+
+
+
+
 
 
 
@@ -5247,7 +10431,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -5263,7 +10463,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    Binormal = mul( matWorldInv,Binormal );
+
+
+
+
+
+
+
+
 
 
 
@@ -5279,6 +10495,14 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    OUT.truNormal=Normal;
 
 
@@ -5287,7 +10511,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -5303,7 +10543,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    tViewVec.y = dot(viewVec,Binormal);
+
+
+
+
+
+
+
+
 
 
 
@@ -5319,7 +10575,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -5335,7 +10607,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    tLightVec1.y = dot(lightVec1,Binormal);
+
+
+
+
+
+
+
+
 
 
 
@@ -5359,7 +10647,31 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  tLightVec2.x = dot(lightVec2,Tangent);
+
+
+
+
+
+
+
+
 
 
 
@@ -5375,6 +10687,14 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    tLightVec2.z = dot(lightVec2,Normal);
 
 
@@ -5383,7 +10703,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -5399,7 +10735,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                    OUT.LightDirection1 = tLightVec1;
+
+
+
+
+
+
+
+
 
 
 
@@ -5415,7 +10767,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -5431,7 +10799,23 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
                   }
+
+
+
+
+
+
+
+
 
 
 
@@ -5442,6 +10826,14 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
                    " />
 				 <pixel shader=
 "float4 LightColor1;
+
+
+
+
+
+
+
+
 
 
 
@@ -5465,6 +10857,22 @@ VS_OUTPUT vertexMain( VS_INPUT IN )
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 sampler2D baseMap;
 
 
@@ -5473,7 +10881,23 @@ sampler2D baseMap;
 
 
 
+
+
+
+
+
+
+
+
                    sampler2D bumpMap;
+
+
+
+
+
+
+
+
 
 
 
@@ -5497,6 +10921,22 @@ sampler2D baseMap;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float2 cube2uv(float3 IN){
 
 
@@ -5505,7 +10945,23 @@ float2 cube2uv(float3 IN){
 
 
 
+
+
+
+
+
+
+
+
                    float2 uv=0;
+
+
+
+
+
+
+
+
 
 
 
@@ -5529,6 +10985,22 @@ float2 cube2uv(float3 IN){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if(inSQ.x<0){inSQ.x=-inSQ.x;}
 
 
@@ -5537,7 +11009,23 @@ if(inSQ.x<0){inSQ.x=-inSQ.x;}
 
 
 
+
+
+
+
+
+
+
+
                    if(inSQ.y<0){inSQ.y=-inSQ.y;}
+
+
+
+
+
+
+
+
 
 
 
@@ -5561,7 +11049,31 @@ if(inSQ.x<0){inSQ.x=-inSQ.x;}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
+
+
+
+
+
+
+
+
 
 
 
@@ -5577,7 +11089,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.x=0.125;
+
+
+
+
+
+
+
+
 
 
 
@@ -5593,7 +11121,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.x+=IN.z/IN.x*0.125;
+
+
+
+
+
+
+
+
 
 
 
@@ -5609,7 +11153,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }else{
+
+
+
+
+
+
+
+
 
 
 
@@ -5625,7 +11185,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.y=0.25;
+
+
+
+
+
+
+
+
 
 
 
@@ -5641,6 +11217,14 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.y+=IN.y/IN.x*0.25;
 
 
@@ -5649,6 +11233,14 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }
 
 
@@ -5657,7 +11249,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }
+
+
+
+
+
+
+
+
 
 
 
@@ -5673,7 +11281,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    if(IN.y>0){
+
+
+
+
+
+
+
+
 
 
 
@@ -5689,7 +11313,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.y=0.75;
+
+
+
+
+
+
+
+
 
 
 
@@ -5705,6 +11345,14 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.y+=IN.z/IN.y*0.25;
 
 
@@ -5713,7 +11361,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }else{
+
+
+
+
+
+
+
+
 
 
 
@@ -5729,7 +11393,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.y=0.75;
+
+
+
+
+
+
+
+
 
 
 
@@ -5745,6 +11425,14 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.y+=IN.z/IN.y*0.25;
 
 
@@ -5753,6 +11441,14 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }
 
 
@@ -5761,7 +11457,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }
+
+
+
+
+
+
+
+
 
 
 
@@ -5777,6 +11489,14 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    if(IN.z>0){
 
 
@@ -5785,7 +11505,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.x=0.375;
+
+
+
+
+
+
+
+
 
 
 
@@ -5801,7 +11537,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.x-=IN.x/IN.z*0.125;
+
+
+
+
+
+
+
+
 
 
 
@@ -5817,7 +11569,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }else{
+
+
+
+
+
+
+
+
 
 
 
@@ -5833,6 +11601,14 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.y=0.75;
 
 
@@ -5841,7 +11617,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    uv.x-=IN.x/IN.z*0.125;
+
+
+
+
+
+
+
+
 
 
 
@@ -5865,6 +11657,22 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  }
 
 
@@ -5873,7 +11681,23 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
                    }
+
+
+
+
+
+
+
+
 
 
 
@@ -5897,7 +11721,31 @@ if(inSQ.x>=inSQ.y&&inSQ.x>=inSQ.z){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 return uv; 
+
+
+
+
+
+
+
+
 
 
 
@@ -5921,7 +11769,31 @@ return uv;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 struct PS_INPUT 
+
+
+
+
+
+
+
+
 
 
 
@@ -5937,7 +11809,23 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
                    float2 Texcoord :        TEXCOORD0;
+
+
+
+
+
+
+
+
 
 
 
@@ -5953,7 +11841,23 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
                    float3 LightDirection1:   TEXCOORD2;
+
+
+
+
+
+
+
+
 
 
 
@@ -5969,7 +11873,23 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
                    float3 truViewDir:        TEXCOORD4;
+
+
+
+
+
+
+
+
 
 
 
@@ -5985,7 +11905,23 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -6009,7 +11945,31 @@ struct PS_INPUT
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 float4 pixelMain( PS_INPUT IN ) : COLOR0
+
+
+
+
+
+
+
+
 
 
 
@@ -6025,7 +11985,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    float4 base = tex2D(baseMap,IN.Texcoord);
+
+
+
+
+
+
+
+
 
 
 
@@ -6041,6 +12017,14 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    normal = normal*2-1;
 
 
@@ -6049,7 +12033,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -6065,7 +12065,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -6081,6 +12097,14 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    float3 lightDir2 = normalize(IN.LightDirection2);
 
 
@@ -6089,7 +12113,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -6105,6 +12145,14 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    float3 truNormal=normalize(IN.truNormal);
 
 
@@ -6113,7 +12161,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -6129,7 +12193,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    float3 halfView2 = normalize(viewDir+lightDir2);
+
+
+
+
+
+
+
+
 
 
 
@@ -6145,6 +12225,14 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    float4 refl = tex2D(refMap,cube2uv(reflVec));
 
 
@@ -6153,7 +12241,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -6169,6 +12273,14 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    float specular1 = pow(dot(halfView1,normal),68)*base.w;
 
 
@@ -6177,7 +12289,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
    
+
+
+
+
+
+
+
+
 
 
 
@@ -6193,7 +12321,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    float specular2 = pow(dot(halfView2,normal),68)*base.w;
+
+
+
+
+
+
+
+
 
 
 
@@ -6209,7 +12353,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                    return(saturate(base *(diffuse1+specular1)*LightColor1 + 
+
+
+
+
+
+
+
+
 
 
 
@@ -6225,7 +12385,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
                   }
+
+
+
+
+
+
+
+
 
 
 
@@ -6242,7 +12418,23 @@ float4 pixelMain( PS_INPUT IN ) : COLOR0
 
 
 
+
+
+
+
+
+
+
+
 vvector3df fvLightPosition2 0 100 0
+
+
+
+
+
+
+
+
 
 
 
@@ -6258,6 +12450,14 @@ vvector3df fvEyePosition camPos4
 
 
 
+
+
+
+
+
+
+
+
 vmatrix4 matWorld world[0] 0 0 0
 
 
@@ -6266,7 +12466,23 @@ vmatrix4 matWorld world[0] 0 0 0
 
 
 
+
+
+
+
+
+
+
+
 vmatrix4 matWorldViewProjection proj[0] view[0] world[0] 0
+
+
+
+
+
+
+
+
 
 
 
@@ -6290,6 +12506,22 @@ vmatrix4 matWorldInv world[1] 0 0 0
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 pSColor LightColor1 0.5 0.5 0.5
 
 
@@ -6298,7 +12530,23 @@ pSColor LightColor1 0.5 0.5 0.5
 
 
 
+
+
+
+
+
+
+
+
 pSColor LightColor2 1 0.5 0.5 0.5
+
+
+
+
+
+
+
+
 
 
 
@@ -6317,13 +12565,25 @@ pSColor LightColor2 1 0.5 0.5 0.5
 				 <vertex shader=
 "float4x4 mWorldViewProj;
 
+
+
 float4x4 mWorld;
+
+
 
 float4   CamPos;
 
+
+
 float    Time;
 
+
+
 float    sinWave;
+
+
+
+
 
 
 
@@ -6333,164 +12593,328 @@ float wavesHeight;
 
 
 
+
+
+
+
+
+
 struct VS_OUTPUT
 
+
+
 {
+
+
 
   float4 Position   : POSITION0;
 
+
+
   float4 waterpos   : TEXCOORD0;
+
+
 
   float3 WorldView  : TEXCOORD1;
 
+
+
   float2 TexCoords  : TEXCOORD2;
+
+
 
   float3 MultiVar   : TEXCOORD3;
 
+
+
 };
+
+
 
 VS_OUTPUT vertexMain( float3 Position  : POSITION0,
 
+
+
                       float2 TexCoords : TEXCOORD0 )
+
+
 
 {
 
+
+
   VS_OUTPUT OUT = (VS_OUTPUT)0;
+
+
 
   OUT.Position = mul(float4(Position.x,Position.y,Position.z,1.0), mWorldViewProj);
 
+
+
   OUT.waterpos = float4(Position.x,Position.y,Position.z,1.0);
+
+
 
   OUT.MultiVar.y = Time / 10000.0;
 
+
+
   if (sinWave > 0.0)
+
+
 
   {
 
+
+
     OUT.MultiVar.x = (sin((Position.x/3.0) + (Time * 10.0 / 10000.0))) +
+
+
 
                      (cos((Position.z/3.0) + (Time * 10.0 / 10000.0)));
 
+
+
     OUT.Position.y += OUT.MultiVar.x * wavesHeight;
+
+
 
   }
 
+
+
   
+
+
 
   OUT.MultiVar.z = CamPos.y;
 
+
+
   float4 PosW = mul(float4(Position.x,Position.y,Position.z,1.0), mWorld);
+
+
 
   OUT.WorldView = CamPos.xyz - PosW.xyz;
 
+
+
   OUT.TexCoords = TexCoords + float2(OUT.MultiVar.y, OUT.MultiVar.y);
+
+
 
   return(OUT);
 
+
+
 }
+
+
 
 " />
 				 <pixel shader=
 "float4x4 mWorldViewProjP;
 
+
+
 float    sinWaveP;
+
+
 
 float    refractionP;
 
+
+
 float    seaLevel;
+
+
 
 sampler2D ReflectionTexture : register(s0);
 
+
+
 sampler2D NormalMap         : register(s1);
+
+
 
 sampler2D DUDVMap           : register(s2);
 
+
+
 float4 pixelMain( float4 waterpos   : TEXCOORD0,
+
+
 
                   float3 WorldView  : TEXCOORD1,
 
+
+
                   float2 TexCoord   : TEXCOORD2,
+
+
 
                   float3 MultiVar   : TEXCOORD3
 
+
+
                 ) : COLOR0
+
+
 
 {
 
+
+
   float4 projCoord = mul(waterpos, mWorldViewProjP);
+
+
 
   projCoord.x = projCoord.x / projCoord.w / 2.0 + 0.5;
 
+
+
   projCoord.y = projCoord.y / projCoord.w / 2.0 + 0.5;
+
+
 
   if (sinWaveP > 0.0)
 
+
+
   {
+
+
 
     projCoord.x += sin(MultiVar.x * 5) * (2 / 1000.0);
 
+
+
     projCoord.y += cos(MultiVar.x * 5) * (2 / 1000.0);
+
+
 
     TexCoord.x  += sin(MultiVar.x * 5) * (5 / 1000.0);
 
+
+
     TexCoord.y  += cos(MultiVar.x * 5) * (5 / 1000.0);
 
+
+
   }
+
+
 
   if (refractionP > 0.0)
 
+
+
   {
+
+
 
     float4 DUDVoffset = tex2D(DUDVMap,TexCoord);
 
+
+
     projCoord.x += (DUDVoffset.x / 40.0) - (1.0 / 80.0);
+
+
 
     projCoord.y += (DUDVoffset.y / 40.0) - (1.0 / 80.0);
 
+
+
   }
+
+
 
   projCoord = clamp(projCoord, 0.001, 0.999);
 
+
+
   float4 normal = float4(0.0, 1.0, 0.0, 0.0);
 
+
+
   if(MultiVar.z < seaLevel)
+
+
 
     projCoord.y = 1.0 - projCoord.y;
 
+
+
   float4 refTex = tex2D(ReflectionTexture,projCoord);
+
+
 
   float facing = (1.0 - max(dot(normalize(WorldView), normalize(normal.xyz)), 0));
 
+
+
   float4 MultCol = float4(0.4,0.7,1.0,0.0);
+
+
 
   
 
+
+
   refTex = (refTex + float4(0.0,0.2,0.0,0.0)) * MultCol;
+
+
 
   float4 norMap =  tex2D(NormalMap,TexCoord);
 
+
+
   float lightComp = 1.0 - max(dot(normalize(norMap.xyz),normalize(abs(WorldView))),0.0);
+
+
 
   float4 finalCol = refTex;
 
+
+
   if(MultiVar.z < seaLevel)
+
+
 
     finalCol *= 0.8;
 
+
+
   finalCol.a = 0.6 + (facing / 2.0);
+
+
 
   finalCol += lightComp;
 
+
+
   return(finalCol);
 
+
+
 };
+
+
 
 " />
 				 <constants value="vmatrix4 mWorld world[0] 0 0 dontMakeInverse
 
+
+
 vmatrix4 mWorldViewProj proj[0] view[0] 0 mWorld
 
+
+
 pmatrix4 mWorldViewProjP proj[0] view[0] 0 mWorld
+
+
+
+
 
 
 
@@ -6498,19 +12922,37 @@ vvector3df CamPos camPos4
 
 
 
+
+
+
+
 vfloat Time + ctime realTime
+
+
 
 vfloat sinWave 1
 
+
+
 pfloat sinWaveP 1
 
+
+
 vfloat refractionP 1
+
+
 
 pfloat seaLevel -144
 
 
 
+
+
+
+
 vfloat wavesHeight 3
+
+
 
 " />
 			 </materialType>
@@ -6522,183 +12964,358 @@ vfloat wavesHeight 3
 				 <name cname="BETTER WATER" />
 				 <vertex shader=
 "/*
+
  * Copyright (c) 2013, elvman
+
  * All rights reserved.
+
  *
+
  * Redistribution and use in source and binary forms, with or without
+
  * modification, are permitted provided that the following conditions are met:
+
  *     * Redistributions of source code must retain the above copyright
+
  *       notice, this list of conditions and the following disclaimer.
+
  *     * Redistributions in binary form must reproduce the above copyright
+
  *       notice, this list of conditions and the following disclaimer in the
+
  *       documentation and/or other materials provided with the distribution.
+
  *
+
  * THIS SOFTWARE IS PROVIDED BY elvman ``AS IS'' AND ANY
+
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+
  * DISCLAIMED. IN NO EVENT SHALL elvman BE LIABLE FOR ANY
+
  * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
  */
 
+
+
 //float4x4    View;
+
 float4x4    WorldViewProj;  // World * View * Projection transformation
+
 float4x4    WorldReflectionViewProj;  // World * Reflection View * Projection transformation
+
+
 
 float        WaveLength;
 
+
+
 float        Time;
+
 float        WindForce;
+
 float2        WindDirection;
 
+
+
 // Vertex shader output structure
+
 struct VS_OUTPUT
+
 {
+
     float4 position                    : POSITION;   // vertex position
+
     
+
     float2 bumpMapTexCoord            : TEXCOORD0;
+
     float3 refractionMapTexCoord    : TEXCOORD1;
+
     float3 reflectionMapTexCoord    : TEXCOORD2;
+
     
+
     float3 position3D                : TEXCOORD3;
+
 };
+
+
 
 struct VS_INPUT
+
 {
+
     float4 position        : POSITION;
+
     float4 color        : COLOR0;
+
     float2 texCoord0    : TEXCOORD0;
+
 };
 
+
+
 VS_OUTPUT vertexMain(VS_INPUT input)
+
 {
+
     VS_OUTPUT output;
 
+
+
     // transform position to clip space
+
     float4 pos = mul(input.position, WorldViewProj);
+
     output.position = pos;
+
     
+
     // calculate vawe coords
+
     output.bumpMapTexCoord = input.texCoord0 / WaveLength + Time * WindForce * WindDirection;
 
+
+
     // refraction texcoords
+
     output.refractionMapTexCoord.x = 0.5 * (pos.w + pos.x);
+
     output.refractionMapTexCoord.y = 0.5 * (pos.w - pos.y);
+
     output.refractionMapTexCoord.z = pos.w;
+
                                 
+
     // reflection texcoords
+
     pos = mul(input.position, WorldReflectionViewProj);    
+
     output.reflectionMapTexCoord.x = 0.5 * (pos.w + pos.x);
+
     output.reflectionMapTexCoord.y = 0.5 * (pos.w - pos.y);
+
     output.reflectionMapTexCoord.z = pos.w;
+
     
+
     // position of the vertex
+
     output.position3D = input.position;
+
     
+
     return output;
+
 }
+
 " />
 				 <pixel shader=
 "/*
+
  * Copyright (c) 2013, elvman
+
  * All rights reserved.
+
  *
+
  * Redistribution and use in source and binary forms, with or without
+
  * modification, are permitted provided that the following conditions are met:
+
  *     * Redistributions of source code must retain the above copyright
+
  *       notice, this list of conditions and the following disclaimer.
+
  *     * Redistributions in binary form must reproduce the above copyright
+
  *       notice, this list of conditions and the following disclaimer in the
+
  *       documentation and/or other materials provided with the distribution.
+
  *
+
  * THIS SOFTWARE IS PROVIDED BY elvman ``AS IS'' AND ANY
+
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+
  * DISCLAIMED. IN NO EVENT SHALL elvman BE LIABLE FOR ANY
+
  * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
  */
 
+
+
 float3        CameraPosition;  // Position of main position
+
 float        WaveHeight;
 
+
+
 float4        WaterColor;
+
 float        ColorBlendFactor;
 
+
+
 sampler2D    WaterBump; //coverage
+
 sampler2D    RefractionMap; //coverage
+
 sampler2D    ReflectionMap; //coverage
 
+
+
 // Pixel shader output structure
+
 struct PS_OUTPUT
+
 {
+
     float4 color : COLOR0;  // Pixel color    
+
 };
+
+
 
 struct PS_INPUT
+
 {
+
     float4 position                    : POSITION;   // vertex position
+
     
+
     float2 bumpMapTexCoord            : TEXCOORD0;
+
     float3 refractionMapTexCoord    : TEXCOORD1;
+
     float3 reflectionMapTexCoord    : TEXCOORD2;
+
         
+
     float3 position3D                : TEXCOORD3;
+
 };
+
     
+
 PS_OUTPUT pixelMain( PS_INPUT input )
+
 { 
+
     PS_OUTPUT output;
+
     
+
     //bump color
+
     float4 bumpColor = tex2D(WaterBump, input.bumpMapTexCoord);
+
     float2 perturbation = WaveHeight * (bumpColor.rg - 0.5);
+
     
+
     //refraction
+
     float2 ProjectedRefractionTexCoords = saturate(input.refractionMapTexCoord.xy / input.refractionMapTexCoord.z + perturbation);
+
     //calculate final refraction color
+
     float4 refractiveColor = tex2D(RefractionMap, ProjectedRefractionTexCoords );
+
     
+
     //reflection
+
     float2 ProjectedReflectionTexCoords = saturate(input.reflectionMapTexCoord.xy / input.reflectionMapTexCoord.z + perturbation);
+
     //calculate final reflection color
+
     float4 reflectiveColor = tex2D(ReflectionMap, ProjectedReflectionTexCoords );
 
+
+
     //fresnel
+
     float3 eyeVector = normalize(CameraPosition - input.position3D);
+
     float3 upVector = float3(0.0, 1.0, 0.0);
+
     
+
     //fresnel can not be lower than 0
+
     float fresnelTerm = max( dot(eyeVector, upVector), 0.0 );
+
     
+
     float4 combinedColor = refractiveColor * fresnelTerm + reflectiveColor * (1.0 - fresnelTerm);
+
     
+
     output.color = ColorBlendFactor * WaterColor + (1.0 - ColorBlendFactor) * combinedColor;
 
+
+
     return output;
+
 }
+
+
+
 
 
 " />
 				 <constants value="vmatrix4 WorldViewProj proj[0] view[0] world[0] 0
+
 vmatrix4 WorldReflectionViewProj proj[0] view[0] world[0] 0
+
 vfloat WaveLength 0.1
+
 vfloat Time + ctime 1000
+
 vfloat WindForce 0.001
+
 vvector2df 10 0
 
+
+
 pvector3df CameraPosition camPos
+
 pfloat WaveHeight 1
+
 pSColor WaterColor 1 1 1 1
+
 pfloat ColorBlendFactor 0.1
+
 " />
 			 </materialType>
 
@@ -6762,7 +13379,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
@@ -6797,7 +13414,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -6832,7 +13449,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="3">
@@ -6867,7 +13484,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="4">
@@ -6902,7 +13519,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="5">
@@ -6937,7 +13554,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -6972,7 +13589,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="7">
@@ -7007,7 +13624,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="8">
@@ -7042,7 +13659,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="9">
@@ -7077,7 +13694,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="10">
@@ -7112,7 +13729,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="11">
@@ -7147,7 +13764,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="12">
@@ -7182,7 +13799,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="13">
@@ -7217,7 +13834,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="14">
@@ -7252,7 +13869,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="15">
@@ -7287,7 +13904,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="16">
@@ -7322,7 +13939,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="17">
@@ -7357,7 +13974,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="18">
@@ -7392,7 +14009,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="19">
@@ -7427,7 +14044,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="20">
@@ -7462,7 +14079,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="21">
@@ -7497,7 +14114,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="22">
@@ -7532,7 +14149,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="23">
@@ -7567,7 +14184,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="24">
@@ -7602,7 +14219,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="25">
@@ -7637,7 +14254,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="26">
@@ -7672,7 +14289,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="27">
@@ -7707,7 +14324,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="28">
@@ -7742,7 +14359,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="29">
@@ -7777,7 +14394,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="30">
@@ -7812,7 +14429,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="31">
@@ -7847,7 +14464,7 @@ pfloat ColorBlendFactor 0.1
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
@@ -7859,130 +14476,6 @@ pfloat ColorBlendFactor 0.1
 			 <shadowMode mode="2" />
 
 		 </terrain>
-
-		 <object>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/demo/desertarena/exopilot/intro walk.x" />
-
-			 <name c8name="#object:cry" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="1.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="data/architecture/demo/desertarena/exopilot/exopilot/tex/hatchet.jpg" />
-						 <texture id="1" path="data/architecture/demo/desertarena/exopilot/exopilot/tex/hatchet_n.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="1.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="2">
-					 <textures>
-						 <texture id="0" path="data/architecture/demo/desertarena/exopilot/exopilot/tex/exo_pilot.jpg" />
-						 <texture id="1" path="data/architecture/demo/desertarena/exopilot/exopilot/tex/exo_pilot_n.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="1.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 </materials>
-			 <position X="-2.351028" Y="30.534637" Z="13.366665" />
-			 <rotation X="0.000000" Y="211.080048" Z="0.000000" />
-			 <scale X="0.233333" Y="0.233333" Z="0.233333" />
-
-			 <visible bool="0" />
-			 <shadowMode mode="2" />
-			 <actions>
-			 </actions>
-
-		 </object>
 
 		 <object>
 
@@ -8033,6 +14526,95 @@ pfloat ColorBlendFactor 0.1
 
 			 <visible bool="1" />
 			 <shadowMode mode="3" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/demo/desertarena/exopilot/exo_walk.x" />
+
+			 <name c8name="#object:exo" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/architecture/demo/desertarena/exopilot/exopilot/tex/hatchet.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/architecture/demo/desertarena/exopilot/exopilot/tex/exo_pilot.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-3.837627" Y="31.385674" Z="57.641529" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="0.166667" Y="0.166667" Z="0.166667" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
 			 <actions>
 			 </actions>
 

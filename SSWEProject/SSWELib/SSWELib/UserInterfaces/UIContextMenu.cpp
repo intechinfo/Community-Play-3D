@@ -354,7 +354,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
     
-    CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 
 	//LIGHT SCATTERING
 	/*devices->getRenderCallbacks()->buildLightScattering();
@@ -854,7 +854,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					//										   L"All rights reserved", 
 					//							  EMBF_OK);
                     devices->getGUIEnvironment()->addMessageBox(L"About...", L"Created by Julien Moreau-Mathis\n"
-                                                                             L"All rights reserved",
+                                                                             L"Not for commercial use and not for free use, only alpha-testing.",
                                                                 true, EMBF_OK, 0, -1,
                                                                 devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + "GUI/ss_logo.png"));
 					break;

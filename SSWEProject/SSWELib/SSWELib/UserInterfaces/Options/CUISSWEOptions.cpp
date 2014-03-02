@@ -48,6 +48,14 @@ CUISSWEOptions::CUISSWEOptions(CDevices *_devices) {
 		resol += devices->getDevice()->getVideoModeList()->getVideoModeResolution(i).Height;
 		quadResolutioncb->addItem(resol.c_str());
 	}
+
+	gui->addStaticText(L"Camera Far Value :", rect<s32>(10, 60, 120, 79), true, true, renderingTab, -1, true);
+	cameraFarValuescb = gui->addScrollBar(true, rect<s32>(120, 60, 450, 80), renderingTab, -1);
+	cameraFarValuescb->setMin(0);
+	cameraFarValuescb->setMax(100000);
+	cameraFarValuescb->setSmallStep(1);
+	cameraFarValuescb->setLargeStep(1);
+	cameraFarValuescb->setPos(devices->getMayaCamera()->getFarValue());
 	//-----------------------------------
 
 	devices->getEventReceiver()->AddEventReceiver(this, window);
@@ -104,6 +112,12 @@ bool CUISSWEOptions::OnEvent(const SEvent &event) {
 					s32 selected = quadResolutioncb->getSelected();
 					devices->getXEffect()->setScreenRenderTargetResolution(devices->getDevice()->getVideoModeList()->getVideoModeResolution(selected));
 				}
+			}
+		}
+
+		if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
+			if (event.GUIEvent.Caller == cameraFarValuescb) {
+				devices->getMayaCamera()->setFarValue(cameraFarValuescb->getPos());
 			}
 		}
 	}
