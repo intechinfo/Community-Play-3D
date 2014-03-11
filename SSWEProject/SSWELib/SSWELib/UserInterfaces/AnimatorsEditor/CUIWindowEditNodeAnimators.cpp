@@ -528,6 +528,8 @@ void CUIWindowEditNodeAnimators::open(ISceneNode *node, stringw prefix) {
 		devices->getGUIEnvironment()->addStaticText(L"Node Selected : ", rect<s32>(2, 20, 110, 40), true, false, editWindow, -1, false);
 		nodeSelectedComboBox = devices->getGUIEnvironment()->addComboBox(rect<s32>(110, 20, 650, 40), editWindow, -1);
 		sceneNodeArray = devices->getCoreData()->getAllSceneNodes();
+		sceneNodeArray.push_back(devices->getFPSCamera());
+		sceneNodeArray.push_back(devices->getMayaCamera());
 		for(u32 i = 0; i < sceneNodeArray.size(); i++) {
 			nodeSelectedComboBox->addItem(stringw(sceneNodeArray[i]->getName()).c_str(), 0);
 			if(sceneNodeArray[i]->getName() == nodeToEdit->getName()) {

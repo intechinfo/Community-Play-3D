@@ -197,6 +197,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\SceneNodes\WaterSurface\RealisticWater.cpp" />
     <ClCompile Include="SSWELib\Scenes\CExporter.cpp" />
     <ClCompile Include="SSWELib\Scenes\CImporter.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.cpp" />
@@ -313,6 +314,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\SceneNodes\WaterSurface\RealisticWater.h" />
     <ClInclude Include="SSWELib\Scenes\CExporter.h" />
     <ClInclude Include="SSWELib\Scenes\CImporter.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.h" />
     <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.h" />
     <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.h" />

@@ -1,65 +1,209 @@
-float4x4 matWorldViewProjection;
-float4x4 matWorld;
-float tileSize;
-float4 viewPos;
- 
-struct VS_INPUT 
+uniform float4x4 worldViewProj;
+uniform float4x4 mWorld;
+uniform float3 eyePositionO;
+uniform float3 LightPos;
+uniform float time; //Runs from 0 to 10 per second.
+
+#define PPLighting
+
+void vertexMain(
+
+    float4 position    : POSITION,
+    float3 normal    : NORMAL,
+    
+    float2 texCoord     : TEXCOORD0,
+    float3 tangent : TEXCOORD1,
+
+    float4 vertColor : COLOR, //In this implementation a per vertex lightmap is used
+
+    out float4 oVertColor          : COLOR,
+    out float2 oTexCoord          : TEXCOORD0,
+    out float2 oTexCoord2          : TEXCOORD1,
+    out float4 oPosition           : POSITION,
+    out float3 oEyeDirTan          : TEXCOORD2,
+    out float4 oPositionViewProj    : TEXCOORD3
+    #ifdef PPLighting
+        ,out float3 oLightDir    : TEXCOORD4,
+        out float3 oNormal    : TEXCOORD5
+    #endif
+)
 {
-   float4 Position : POSITION0;
-   float2 Texcoord : TEXCOORD0;
-   float3 Normal :   NORMAL0; 
-};
- 
-struct VS_OUTPUT 
-{
-   float4 Position :        POSITION0;
-   float2 TexcoordX :       TEXCOORD0;
-   float2 TexcoordY :       TEXCOORD1;
-   float2 TexcoordZ :       TEXCOORD2;
-   float3 viewDirection   : TEXCOORD3;
-   float3x3 tangentSpace :  TEXCOORD4;
-};
- 
-VS_OUTPUT vertexMain( VS_INPUT Input )
-{
-   VS_OUTPUT Output;
- 
-   Output.Position         = mul( Input.Position, matWorldViewProjection );
-   float4 realPos          = mul( Input.Position,matWorld);
-   
-   Output.viewDirection = (realPos-viewPos).xyz;
-   
-   Output.TexcoordX         = realPos.zy/tileSize;
-   Output.TexcoordY         = realPos.xz/tileSize;
-   Output.TexcoordZ         = realPos.xy/tileSize;
-   
-   float3 worldNormal = Input.Normal;
-   float3 n = worldNormal;
-   n*=n;
-   
-   float3 xtan,ytan,ztan;
-   float3 xbin,ybin,zbin;
-   
-   xtan = float3(0,0,1);
-   xbin = float3(0,1,0);
-   
-   ytan = float3(1,0,0);
-   ybin = float3(0,0,1);
-   
-   ztan = float3(1,0,0);
-   zbin = float3(0,1,0);
-   
-   float3 worldBinormal = xbin*n.x+ybin*n.y+zbin*n.z;
-   float3 worldTangent = xtan*n.x+ytan*n.y+ztan*n.z;
-   
-   worldNormal = mul(matWorld,worldNormal);
-   worldBinormal = mul(matWorld,worldBinormal);
-   worldTangent = mul(matWorld,worldTangent);
-   
-   Output.tangentSpace[0]   = worldTangent;
-   Output.tangentSpace[1]   = worldBinormal; 
-   Output.tangentSpace[2]   = worldNormal;
-      
-   return( Output );
-   
+    oPosition = mul(position, worldViewProj); //oPosition must be output to satisy pipeline.
+    oPositionViewProj = oPosition;
+
+    oTexCoord = texCoord;
+    oTexCoord2 = float2((texCoord.x+time*0.2)/2,(texCoord.y+time*0.2)/2); // offset second texture coordinate
+                                        // according to time for wind texture
+
+    oVertColor = vertColor;
+    
+    float3 posWorld = mul(position, mWorld);
+    float3 eyeDirO = normalize(-(eyePositionO-posWorld)) ; //eye vector in object space
+    
+    #ifdef PPLighting
+    oLightDir = normalize(LightPos-posWorld);
+    oNormal = normal;
+    #endif
+    
+    // Using mesh-defined tangents. (Uncomment section to calculate them ourselves.)
+    tangent = float3(abs(normal.y) + abs(normal.z),abs(normal.x),0);
+    
+    float3 binormal = cross(tangent,normal);
+    float3x3 TBNMatrix = float3x3(tangent,binormal,normal); 
+
+    oEyeDirTan = normalize(mul(eyeDirO,TBNMatrix)); // eye vector in tangent space
+}
+
+#define MAX_RAYDEPTH 19 //Number of iterations.
+
+#define PLANE_NUM 16.0 //Number of grass slice grid planes per unit in tangent space.
+
+#define PLANE_NUM_INV (1.0/PLANE_NUM)
+#define PLANE_NUM_INV_DIV2 (PLANE_NUM_INV/2)
+
+#define GRASS_SLICE_NUM 8 // Number of grass slices in texture grassblades.
+
+#define GRASS_SLICE_NUM_INV (1.0/GRASS_SLICE_NUM)
+#define GRASS_SLICE_NUM_INV_DIV2 (GRASS_SLICE_NUM_INV/2)
+
+#define GRASSDEPTH GRASS_SLICE_NUM_INV //Depth set to inverse of number of grass slices so no stretching occurs.
+
+#define TC1_TO_TC2_RATIO 8 //Ratio of texture coordinate set 1 to texture coordinate set 2, used for the animation lookup.
+
+#define PREMULT (GRASS_SLICE_NUM_INV*PLANE_NUM) //Saves a multiply in the shader.
+
+#define AVERAGE_COLOR float4(0.32156,0.513725,0.0941176,1.0) //Used to fill remaining opacity, can be replaced by a texture lookup.
+
+sampler2D grassblades : register(s0);
+sampler2D ground : register(s1);
+sampler2D windnoise : register(s2);
+
+void  pixelMain(
+
+    in float4 vertColor      : COLOR,
+    
+    in float2 texCoord           : TEXCOORD0,
+    in float2 texCoord2          : TEXCOORD1,
+    in float3 eyeDirTan          : TEXCOORD2,
+    in float4 positionViewProj  : TEXCOORD3,
+    #ifdef PPLighting
+    in float3 LightDir    : TEXCOORD4,
+    in float3 Normal    : TEXCOORD5,
+    #endif
+    
+    out float4 color    : COLOR
+    ,out float depth        : DEPTH)
+{    
+    
+    //Initialize increments/decrements and per fragment constants
+    color = float4(0.0,0.0,0.0,0.0);
+
+    float2 plane_offset = float2(0.0,0.0);                    
+    float3 rayEntry = float3(texCoord.xy,0.0);
+    float zOffset = 0.0;
+    bool zFlag = 1;    //The signs of eyeDirTan determines if we increment or decrement along the tangent space axis
+    //plane_correct, planemod and pre_dir_correct are used to avoid unneccessary if-conditions. 
+
+     float2 signf = float2(sign(eyeDirTan.x),sign(eyeDirTan.y));    
+     float2 plane_correct = float2((signf.x+1)*GRASS_SLICE_NUM_INV_DIV2,
+                                   (signf.y+1)*GRASS_SLICE_NUM_INV_DIV2);
+     float2 planemod = float2(floor(rayEntry.x*PLANE_NUM)/PLANE_NUM,
+                              floor(rayEntry.y*PLANE_NUM)/PLANE_NUM);
+    
+    
+
+    float2 pre_dir_correct = float2((signf.x+1)*PLANE_NUM_INV_DIV2,
+                                    (signf.y+1)*PLANE_NUM_INV_DIV2);
+                                    
+    int hitcount;
+    
+    float2 orthoLookup; //Will contain texture lookup coordinates for grassblades texture.
+        for(hitcount =0; hitcount < MAX_RAYDEPTH ; hitcount++) // %([MAX_RAYDEPTH]+1) speeds up compilation.
+                                     // It may prove to be faster to early exit this loop
+                                         // depending on the hardware used.
+    {
+
+        //Calculate positions of the intersections with the next grid planes on the u,v tangent space axis independently.
+
+            float2 dir_correct = float2(signf.x*plane_offset.x+pre_dir_correct.x,
+                                        signf.y*plane_offset.y+pre_dir_correct.y);            
+        float2 distance = float2((planemod.x + dir_correct.x - rayEntry.x)/(eyeDirTan.x),
+                                 (planemod.y + dir_correct.y - rayEntry.y)/(eyeDirTan.y));
+                     
+         float3 rayHitpointX = rayEntry + eyeDirTan *distance.x;   
+          float3 rayHitpointY = rayEntry + eyeDirTan *distance.y;
+        
+        //Check if we hit the ground. If so, calculate the intersection and look up the ground texture and blend colors.
+    
+          if ((rayHitpointX.z <= -GRASSDEPTH)&& (rayHitpointY.z <= -GRASSDEPTH))     
+          {
+              float distanceZ = (-GRASSDEPTH)/eyeDirTan.z; // rayEntry.z is 0.0 anyway 
+    
+              float3 rayHitpointZ = rayEntry + eyeDirTan *distanceZ;
+            float2 orthoLookupZ = float2(rayHitpointZ.x,rayHitpointZ.y);
+                        
+              color = (color)+((1.0-color.w) * tex2D(ground,orthoLookupZ));
+              if(zFlag ==1) 
+            zOffset = distanceZ; // write the distance from rayEntry to intersection
+              zFlag = 0; //Early exit here if faster.        
+          }  
+          else
+         {
+             
+             
+    
+             //check if we hit a u or v plane, calculate lookup accordingly with wind shear displacement.
+            if(distance.x <= distance.y)
+             {
+                 float4 windX = (tex2D(windnoise,texCoord2+rayHitpointX.xy/TC1_TO_TC2_RATIO)-0.5)/2;
+                
+                float lookupX = -(rayHitpointX.z+(planemod.x+signf.x*plane_offset.x)*PREMULT)-plane_correct.x;
+                orthoLookup=float2(rayHitpointX.y+windX.x*(GRASSDEPTH+rayHitpointX.z),lookupX); 
+                
+                plane_offset.x += PLANE_NUM_INV; // increment/decrement to next grid plane on u axis
+                if(zFlag==1) zOffset = distance.x;
+            }
+            else {
+                float4 windY = (tex2D(windnoise,texCoord2+rayHitpointY.xy/TC1_TO_TC2_RATIO)-0.5)/2;
+             
+                float lookupY = -(rayHitpointY.z+(planemod.y+signf.y*plane_offset.y)*PREMULT)-plane_correct.y;
+                orthoLookup = float2(rayHitpointY.x+windY.y*(GRASSDEPTH+rayHitpointY.z) ,lookupY);
+             
+                plane_offset.y += PLANE_NUM_INV;  // increment/decrement to next grid plane on v axis
+                if(zFlag==1) zOffset = distance.y;
+
+    float4 biased;
+         biased.xy = orthoLookup;
+         biased.z = 0;
+         biased.w = -100.0;
+            
+           color += (1.0-color.w)*tex2Dbias(grassblades,biased);//orthoLookup)
+                    
+              }
+               
+                 color += (1.0-color.w)*tex2D(grassblades,orthoLookup);
+     
+                 if(color.w >= 0.49)
+            {zFlag = 0;}    //Early exit here if faster.
+          }
+    }    
+    
+        color += (1.0-color.w)*tex2D(ground,orthoLookup);     //Fill remaining transparency in case there is some left. Can be replaced by a texture lookup
+                                            //into a fully opaque grass slice using orthoLookup.
+        
+        
+        //color.xyz *= (vertColor.xyz);     //Modulate with per vertex lightmap,as an alternative, modulate with N*L for dynamic lighting.
+    
+    #ifdef PPLighting
+        color.xyz *= dot(LightDir,Normal);
+    #endif
+     
+        //zOffset is along eye direction, transform and add to vertex position to get correct z-value.
+       // BlindSide NOTE: Commented this section out as it causes a bug.
+     positionViewProj += mul(eyeDirTan.xzy*zOffset,worldViewProj); 
+    
+       //Divide by homogenous part.
+      depth = positionViewProj.z / positionViewProj.w;
+    
+     //color.xyz = depth;
 }

@@ -82,9 +82,6 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addSeparator();
     submenu->addItem(L"Clone (CTRL+SHIFT+C)", CXT_MENU_EVENTS_EDIT_CLONE);
 	submenu->addSeparator();
-	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
-	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
-	submenu->addSeparator();
 	submenu->addItem(L"Preferences...", CXT_MENU_EVENTS_EDIT_OPTIONS);
 
 	//VIEW
@@ -99,7 +96,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Point Cloud", CXT_MENU_EVENTS_VIEW_POINTCLOUD, true, false, false, false);
 
 	//ANIMATORS
-    submenu = menu->getSubMenu(i++);
+    submenu = menu->getSubMenu(i);
+	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
+	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
+	submenu->addSeparator();
+	submenu->addItem(L"Scenario Maker...", CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER);
+	submenu->addSeparator();
+	submenu->addItem(L"Add Animator...", -1, true, true, false, false);
+	submenu = submenu->getSubMenu(3);
+	i++;
 
 	//RENDERS
     submenu = menu->getSubMenu(i);
@@ -299,7 +304,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"LTest.world";
+			stringw scene_to_import = L"LTest2.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());

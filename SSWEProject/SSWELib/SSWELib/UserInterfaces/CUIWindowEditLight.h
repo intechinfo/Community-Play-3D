@@ -76,6 +76,7 @@ private:
     IGUIButton *lfnArrowMeshPosition;
 
 	IGUIEditBox *farValueSL;
+	IGUIEditBox *fovSL;
 	IGUIImage *shadowMapPreview, *shadowMapPreview2;
 	IGUICheckBox *autoRecalculate;
 	IGUICheckBox *isTorchMode;

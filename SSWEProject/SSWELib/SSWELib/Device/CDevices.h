@@ -123,7 +123,7 @@ public:
 	ICameraSceneNode *getFPSCamera() { return camera_fps; }
 	ICameraSceneNode *getMayaCamera() { return camera_maya; }
 	CCameraRig *getCameraRig() { return camera_rig; }
-	vector3df oldRotation;
+	ICameraSceneNode *getScenarioCamera() { return scenarioCamera; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -221,7 +221,7 @@ private:
 	//-----------------------------------
 	//CAMERAS
 	SKeyMap keyMap[9];
-	ICameraSceneNode *camera_fps, *camera_maya;
+	ICameraSceneNode *camera_fps, *camera_maya, *scenarioCamera;
 	CCameraRig *camera_rig;
 	ISceneNodeAnimatorCameraFPS *animatorFPS;
 

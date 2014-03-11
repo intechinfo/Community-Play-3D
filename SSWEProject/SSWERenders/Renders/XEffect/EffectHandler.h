@@ -30,12 +30,15 @@ struct SShadowLight
 					const irr::core::vector3df& position, 
 					const irr::core::vector3df& target,
 					irr::video::SColorf lightColour = irr::video::SColor(0xffffffff), 
-					irr::f32 nearValue = 10.0, irr::f32 farValue = 100.0,
+					irr::f32 _nearValue = 10.0, irr::f32 farValue = 100.0,
 					irr::f32 fov = 90.0 * irr::core::DEGTORAD64, bool directional = false)
 					:	pos(position), tar(target), farPlane(directional ? 1.0f : farValue), diffuseColour(lightColour), 
 						mapRes(shadowMapResolution)
 	{
-		nearValue = nearValue <= 0.0f ? 0.1f : nearValue;
+		_nearValue = _nearValue <= 0.0f ? 0.1f : _nearValue;
+		this->nearValue = _nearValue;
+		frontOfView = fov;
+		isDirectional = directional;
 
 		updateViewMatrix();
 		
@@ -84,6 +87,26 @@ struct SShadowLight
 		recalculate = true;
 	}
 
+	/// Gets the near value
+	irr::f32 getNearValue() { return nearValue; }
+	void setNearValue(irr::f32 _nearValue) {
+		nearValue = _nearValue;
+		if(isDirectional)
+			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
+		else
+			projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+	}
+
+	/// Gets the fov value
+	irr::f32 getFOV() { return frontOfView; }
+	void setFOV(irr::f32 _fov) {
+		frontOfView = _fov;
+		if(isDirectional)
+			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
+		else
+			projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+	}
+
 	/// Gets the light's color.
 	const irr::video::SColorf& getLightColor() const { return diffuseColour; }
 	void setLightColor(const irr::video::SColorf& lightColour)  {
@@ -120,13 +143,14 @@ private:
 
 	irr::video::SColorf diffuseColour;
 	irr::core::vector3df pos, tar;
-	irr::f32 farPlane;
+	irr::f32 farPlane, frontOfView, nearValue;
 	irr::core::matrix4 viewMat, projMat;
 	irr::u32 mapRes;
 
 	bool recalculate;
 	bool autoRecalculate;
 	bool isCamera;
+	bool isDirectional;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after

@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="4" />
+		 <numberOfObjects value="3" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="288.897736" Y="204.369629" Z="334.908630" />
-			 <rotation X="21.276752" Y="225.357086" Z="0.000000" />
+			 <position X="-136.401459" Y="68.727142" Z="-135.708267" />
+			 <rotation X="343.465088" Y="38.571487" Z="0.000000" />
 
 		 </camera>
 
@@ -44,151 +44,295 @@
 				 <name cname="normal_mapping_package.spkg" />
 				 <vertex shader=
 "float4x4 matWorldInverse; 
+
 float4x4 ModelViewMatrix;
+
 float4x4 ModelViewProjectionMatrix;
+
 float3 fvLightPosition1; 
+
 float3 fvLightPosition2; 
+
 float3 fvLightPosition3; 
+
 float3 fvLightPosition4; 
+
 float fLightStrength1; 
+
 float fLightStrength2; 
+
 float fLightStrength3; 
+
 float fLightStrength4; 
+
 struct VS_OUTPUT
+
 {
+
    float4 Position            : POSITION0;
+
    float2 Texcoord            : TEXCOORD0;
+
    float3 ViewDirection      : TEXCOORD1; 
+
    float3 LightDirection1      : TEXCOORD2; 
+
    float3 LightDirection2      : TEXCOORD3; 
+
    float3 LightDirection3      : TEXCOORD4; 
+
    float3 LightDirection4      : TEXCOORD5; 
+
    float4 LightDistMultiplier  : TEXCOORD6;
+
 };
+
 float getLengthSQR (float3 vec) 
+
 { 
+
    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+
 }  
+
 struct VS_INPUT
+
 {
+
    float3 Position         : POSITION0;
+
    float3 Normal           : NORMAL;
+
    float2 Texcoord         : TEXCOORD0;
+
 };
+
 VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+
 {    
+
    VS_OUTPUT OUT = (VS_OUTPUT)0;
+
    OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+
    OUT.Texcoord = IN.Texcoord;
+
    
+
    float4x4 LightTransform= ModelViewMatrix; 
+
    LightTransform= mul(matWorldInverse, LightTransform);
+
    float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+
    float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+
    float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+
    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+
    float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+
    float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+
    float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+
    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+
    float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+
    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+
    
+
    OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+
    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+
    OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+
    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+
    
+
    float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+
    float3 fvBinormal   = cross(fvTangent,IN.Normal);
+
    float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+
    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+
    fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+
    
+
    OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+
    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+
    OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+
    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+
    OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+
    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+
    OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+
    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+
    OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+
    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+
    OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+
    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+
    OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+
    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+
    OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+
    
+
    return OUT;
+
 }
+
 " />
 				 <pixel shader=
 "float4 fvAmbient;
+
 float4 fvLight1Color; 
+
 float4 fvLight2Color; 
+
 float4 fvLight3Color; 
+
 float4 fvLight4Color; 
+
 float fSpecularPower; 
+
 float fSpecularStrength; 
+
 float fBumpStrength; 
+
 sampler2D baseMap      : register(s0); 
+
 sampler2D bumpMap      : register(s1); 
+
 struct PS_INPUT
+
 {   
+
    float2 Texcoord            : TEXCOORD0;
+
    float3 ViewDirection      : TEXCOORD1; 
+
    float3 LightDirection1      : TEXCOORD2; 
+
    float3 LightDirection2      : TEXCOORD3;
+
    float3 LightDirection3      : TEXCOORD4; 
+
    float3 LightDirection4      : TEXCOORD5; 
+
    float4 LightDistMultiplier  : TEXCOORD6;
+
 };
+
 float4 pixelMain( in PS_INPUT IN ) : COLOR
+
 {
+
    float4 color = float4(0,0,0,0);
+
    float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+
    float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+
    float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+
    float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+
    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+
    
+
    fvNormal.xy*=2.0; 
+
    fvNormal.xy-=1.0;
+
    fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+
    fvNormal=normalize(fvNormal);
+
    
+
    float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+
    float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+
    float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+
    float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+
    float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+
    float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+
    float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+
    float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+
    float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+
    float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+
    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+
    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+
    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+
    float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+
    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+
    float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+
    float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+
    fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+
    fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+
    fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+
    fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+
    fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+
    fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+
    color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+
    if(color.r>1.0){color.gb+=color.r-1.0;} 
+
    if(color.g>1.0){color.rb+=color.g-1.0;} 
+
    if(color.b>1.0){color.rg+=color.b-1.0;} 
+
    
+
    return color;
+
 }
+
 " />
 				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
 
@@ -197,7 +341,21 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
+
+
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+
+
+
+
+
+
+
 
 
 
@@ -218,7 +376,28 @@ vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vfloat fLightStrength1 80
+
+
+
+
+
+
+
 
 
 
@@ -232,7 +411,21 @@ vfloat fLightStrength2 80
 
 
 
+
+
+
+
+
+
+
 vfloat fLightStrength3 80
+
+
+
+
+
+
+
 
 
 
@@ -253,7 +446,28 @@ vfloat fLightStrength4 80
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 vvector3df fvLightPosition1 150 240 -34
+
+
+
+
+
+
+
 
 
 
@@ -267,7 +481,21 @@ vvector3df fvLightPosition2 150 240 -34
 
 
 
+
+
+
+
+
+
+
 vvector3df fvLightPosition3 150 240 -34
+
+
+
+
+
+
+
 
 
 
@@ -288,7 +516,28 @@ vvector3df fvLightPosition4 150 240 -34
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 pSColor fvAmbient 1 0.7 0.7 0.7
+
+
+
+
+
+
+
 
 
 
@@ -302,6 +551,13 @@ pSColor fvLight1Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
+
+
 pSColor fvLight2Color 1 0.02 0.02 0.02
 
 
@@ -309,7 +565,21 @@ pSColor fvLight2Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
+
+
 pSColor fvLight3Color 1 0.02 0.02 0.02
+
+
+
+
+
+
+
 
 
 
@@ -330,7 +600,28 @@ pSColor fvLight4Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 pfloat fSpecularPower 20
+
+
+
+
+
+
+
 
 
 
@@ -344,7 +635,21 @@ pfloat fSpecularStrength 0.9
 
 
 
+
+
+
+
+
+
+
 pfloat fBumpStrength 5
+
+
+
+
+
+
+
 
 
 
@@ -364,7 +669,15 @@ pfloat fBumpStrength 5
 
 
 
+
+
+
+
 uniform float4x4 mWorld;
+
+
+
+
 
 
 
@@ -372,11 +685,27 @@ uniform float3 eyePositionO;
 
 
 
+
+
+
+
 uniform float3 LightPos;
 
 
 
+
+
+
+
 uniform float time; //Runs from 0 to 10 per second.
+
+
+
+
+
+
+
+
 
 
 
@@ -392,7 +721,23 @@ uniform float time; //Runs from 0 to 10 per second.
 
 
 
+
+
+
+
+
+
+
+
 void vertexMain(
+
+
+
+
+
+
+
+
 
 
 
@@ -404,7 +749,15 @@ void vertexMain(
 
 
 
+
+
+
+
     float3 normal    : NORMAL,
+
+
+
+
 
 
 
@@ -412,11 +765,27 @@ void vertexMain(
 
 
 
+
+
+
+
     float2 texCoord     : TEXCOORD0,
 
 
 
+
+
+
+
     float3 tangent : TEXCOORD1,
+
+
+
+
+
+
+
+
 
 
 
@@ -432,7 +801,19 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     out float4 oVertColor          : COLOR,
+
+
+
+
 
 
 
@@ -440,7 +821,15 @@ void vertexMain(
 
 
 
+
+
+
+
     out float2 oTexCoord2          : TEXCOORD1,
+
+
+
+
 
 
 
@@ -448,7 +837,15 @@ void vertexMain(
 
 
 
+
+
+
+
     out float3 oEyeDirTan          : TEXCOORD2,
+
+
+
+
 
 
 
@@ -456,7 +853,15 @@ void vertexMain(
 
 
 
+
+
+
+
     #ifdef PPLighting
+
+
+
+
 
 
 
@@ -464,7 +869,15 @@ void vertexMain(
 
 
 
+
+
+
+
         out float3 oNormal    : TEXCOORD5
+
+
+
+
 
 
 
@@ -472,7 +885,15 @@ void vertexMain(
 
 
 
+
+
+
+
 )
+
+
+
+
 
 
 
@@ -480,7 +901,15 @@ void vertexMain(
 
 
 
+
+
+
+
     oPosition = mul(position, worldViewProj); //oPosition must be output to satisy pipeline.
+
+
+
+
 
 
 
@@ -492,11 +921,27 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     oTexCoord = texCoord;
 
 
 
+
+
+
+
     oTexCoord2 = float2((texCoord.x+time*0.2)/2,(texCoord.y+time*0.2)/2); // offset second texture coordinate
+
+
+
+
 
 
 
@@ -508,11 +953,27 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     oVertColor = vertColor;
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -520,11 +981,23 @@ void vertexMain(
 
 
 
+
+
+
+
     float3 eyeDirO = normalize(-(eyePositionO-posWorld)) ; //eye vector in object space
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -532,7 +1005,15 @@ void vertexMain(
 
 
 
+
+
+
+
     oLightDir = normalize(LightPos-posWorld);
+
+
+
+
 
 
 
@@ -540,11 +1021,23 @@ void vertexMain(
 
 
 
+
+
+
+
     #endif
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -552,7 +1045,15 @@ void vertexMain(
 
 
 
+
+
+
+
     tangent = float3(abs(normal.y) + abs(normal.z),abs(normal.x),0);
+
+
+
+
 
 
 
@@ -560,7 +1061,15 @@ void vertexMain(
 
 
 
+
+
+
+
     float3 binormal = cross(tangent,normal);
+
+
+
+
 
 
 
@@ -572,11 +1081,31 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     oEyeDirTan = normalize(mul(eyeDirO,TBNMatrix)); // eye vector in tangent space
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -592,7 +1121,23 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define PLANE_NUM 16.0 //Number of grass slice grid planes per unit in tangent space.
+
+
+
+
+
+
+
+
 
 
 
@@ -604,7 +1149,19 @@ void vertexMain(
 
 
 
+
+
+
+
 #define PLANE_NUM_INV_DIV2 (PLANE_NUM_INV/2)
+
+
+
+
+
+
+
+
 
 
 
@@ -620,11 +1177,31 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define GRASS_SLICE_NUM_INV (1.0/GRASS_SLICE_NUM)
 
 
 
+
+
+
+
 #define GRASS_SLICE_NUM_INV_DIV2 (GRASS_SLICE_NUM_INV/2)
+
+
+
+
+
+
+
+
 
 
 
@@ -640,7 +1217,23 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define TC1_TO_TC2_RATIO 8 //Ratio of texture coordinate set 1 to texture coordinate set 2, used for the animation lookup.
+
+
+
+
+
+
+
+
 
 
 
@@ -656,7 +1249,23 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define AVERAGE_COLOR float4(0.32156,0.513725,0.0941176,1.0) //Used to fill remaining opacity, can be replaced by a texture lookup.
+
+
+
+
+
+
+
+
 
 
 
@@ -668,11 +1277,27 @@ sampler2D grassblades : register(s0);
 
 
 
+
+
+
+
 sampler2D ground : register(s1);
 
 
 
+
+
+
+
 sampler2D windnoise : register(s2);
+
+
+
+
+
+
+
+
 
 
 
@@ -688,11 +1313,27 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
     in float4 vertColor      : COLOR,
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -700,7 +1341,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     in float2 texCoord2          : TEXCOORD1,
+
+
+
+
 
 
 
@@ -708,7 +1357,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     in float4 positionViewProj  : TEXCOORD3,
+
+
+
+
 
 
 
@@ -716,7 +1373,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     in float3 LightDir    : TEXCOORD4,
+
+
+
+
 
 
 
@@ -724,11 +1389,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     #endif
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -736,7 +1413,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     ,out float depth        : DEPTH)
+
+
+
+
 
 
 
@@ -744,11 +1429,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     
 
 
 
+
+
+
+
     //Initialize increments/decrements and per fragment constants
+
+
+
+
 
 
 
@@ -760,7 +1457,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
     float2 plane_offset = float2(0.0,0.0);                    
+
+
+
+
 
 
 
@@ -768,11 +1477,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     float zOffset = 0.0;
 
 
 
+
+
+
+
     bool zFlag = 1;    //The signs of eyeDirTan determines if we increment or decrement along the tangent space axis
+
+
+
+
 
 
 
@@ -784,7 +1505,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
      float2 signf = float2(sign(eyeDirTan.x),sign(eyeDirTan.y));    
+
+
+
+
 
 
 
@@ -792,7 +1525,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                                    (signf.y+1)*GRASS_SLICE_NUM_INV_DIV2);
+
+
+
+
 
 
 
@@ -800,15 +1541,35 @@ void  pixelMain(
 
 
 
+
+
+
+
                               floor(rayEntry.y*PLANE_NUM)/PLANE_NUM);
 
 
 
+
+
+
+
     
 
 
 
+
+
+
+
     
+
+
+
+
+
+
+
+
 
 
 
@@ -820,7 +1581,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                                     (signf.y+1)*PLANE_NUM_INV_DIV2);
+
+
+
+
 
 
 
@@ -828,7 +1597,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     int hitcount;
+
+
+
+
 
 
 
@@ -836,7 +1613,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     float2 orthoLookup; //Will contain texture lookup coordinates for grassblades texture.
+
+
+
+
 
 
 
@@ -844,7 +1629,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                                      // It may prove to be faster to early exit this loop
+
+
+
+
 
 
 
@@ -852,7 +1645,19 @@ void  pixelMain(
 
 
 
+
+
+
+
     {
+
+
+
+
+
+
+
+
 
 
 
@@ -868,7 +1673,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
             float2 dir_correct = float2(signf.x*plane_offset.x+pre_dir_correct.x,
+
+
+
+
 
 
 
@@ -876,7 +1693,15 @@ void  pixelMain(
 
 
 
+
+
+
+
         float2 distance = float2((planemod.x + dir_correct.x - rayEntry.x)/(eyeDirTan.x),
+
+
+
+
 
 
 
@@ -884,7 +1709,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                      
+
+
+
+
 
 
 
@@ -892,7 +1725,15 @@ void  pixelMain(
 
 
 
+
+
+
+
           float3 rayHitpointY = rayEntry + eyeDirTan *distance.y;
+
+
+
+
 
 
 
@@ -900,11 +1741,23 @@ void  pixelMain(
 
 
 
+
+
+
+
         //Check if we hit the ground. If so, calculate the intersection and look up the ground texture and blend colors.
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -912,7 +1765,15 @@ void  pixelMain(
 
 
 
+
+
+
+
           {
+
+
+
+
 
 
 
@@ -920,7 +1781,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -928,7 +1797,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             float2 orthoLookupZ = float2(rayHitpointZ.x,rayHitpointZ.y);
+
+
+
+
 
 
 
@@ -936,7 +1813,15 @@ void  pixelMain(
 
 
 
+
+
+
+
               color = (color)+((1.0-color.w) * tex2D(ground,orthoLookupZ));
+
+
+
+
 
 
 
@@ -944,7 +1829,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             zOffset = distanceZ; // write the distance from rayEntry to intersection
+
+
+
+
 
 
 
@@ -952,7 +1845,15 @@ void  pixelMain(
 
 
 
+
+
+
+
           }  
+
+
+
+
 
 
 
@@ -960,15 +1861,31 @@ void  pixelMain(
 
 
 
+
+
+
+
          {
 
 
 
+
+
+
+
              
 
 
 
+
+
+
+
              
+
+
+
+
 
 
 
@@ -976,7 +1893,15 @@ void  pixelMain(
 
 
 
+
+
+
+
              //check if we hit a u or v plane, calculate lookup accordingly with wind shear displacement.
+
+
+
+
 
 
 
@@ -984,7 +1909,15 @@ void  pixelMain(
 
 
 
+
+
+
+
              {
+
+
+
+
 
 
 
@@ -992,7 +1925,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 
+
+
+
+
 
 
 
@@ -1000,7 +1941,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 orthoLookup=float2(rayHitpointX.y+windX.x*(GRASSDEPTH+rayHitpointX.z),lookupX); 
+
+
+
+
 
 
 
@@ -1008,7 +1957,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 plane_offset.x += PLANE_NUM_INV; // increment/decrement to next grid plane on u axis
+
+
+
+
 
 
 
@@ -1016,7 +1973,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             }
+
+
+
+
 
 
 
@@ -1024,11 +1989,23 @@ void  pixelMain(
 
 
 
+
+
+
+
                 float4 windY = (tex2D(windnoise,texCoord2+rayHitpointY.xy/TC1_TO_TC2_RATIO)-0.5)/2;
 
 
 
+
+
+
+
              
+
+
+
+
 
 
 
@@ -1036,7 +2013,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 orthoLookup = float2(rayHitpointY.x+windY.y*(GRASSDEPTH+rayHitpointY.z) ,lookupY);
+
+
+
+
 
 
 
@@ -1044,7 +2029,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 plane_offset.y += PLANE_NUM_INV;  // increment/decrement to next grid plane on v axis
+
+
+
+
 
 
 
@@ -1056,7 +2049,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
     float4 biased;
+
+
+
+
 
 
 
@@ -1064,7 +2069,15 @@ void  pixelMain(
 
 
 
+
+
+
+
          biased.z = 0;
+
+
+
+
 
 
 
@@ -1072,7 +2085,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             
+
+
+
+
 
 
 
@@ -1080,7 +2101,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                     
+
+
+
+
 
 
 
@@ -1088,7 +2117,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                
+
+
+
+
 
 
 
@@ -1096,7 +2133,15 @@ void  pixelMain(
 
 
 
+
+
+
+
      
+
+
+
+
 
 
 
@@ -1104,7 +2149,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             {zFlag = 0;}    //Early exit here if faster.
+
+
+
+
 
 
 
@@ -1112,11 +2165,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     }    
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1124,15 +2189,31 @@ void  pixelMain(
 
 
 
+
+
+
+
                                             //into a fully opaque grass slice using orthoLookup.
 
 
 
+
+
+
+
         
 
 
 
+
+
+
+
         
+
+
+
+
 
 
 
@@ -1140,7 +2221,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1148,7 +2237,15 @@ void  pixelMain(
 
 
 
+
+
+
+
         color.xyz *= dot(LightDir,Normal);
+
+
+
+
 
 
 
@@ -1156,7 +2253,15 @@ void  pixelMain(
 
 
 
+
+
+
+
      
+
+
+
+
 
 
 
@@ -1164,7 +2269,15 @@ void  pixelMain(
 
 
 
+
+
+
+
        // BlindSide NOTE: Commented this section out as it causes a bug.
+
+
+
+
 
 
 
@@ -1172,7 +2285,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1180,7 +2301,15 @@ void  pixelMain(
 
 
 
+
+
+
+
       depth = positionViewProj.z / positionViewProj.w;
+
+
+
+
 
 
 
@@ -1188,11 +2317,23 @@ void  pixelMain(
 
 
 
+
+
+
+
      //color.xyz = depth;
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
@@ -1202,7 +2343,15 @@ void  pixelMain(
 
 
 
+
+
+
+
 uniform float4x4 mWorld;
+
+
+
+
 
 
 
@@ -1210,11 +2359,27 @@ uniform float3 eyePositionO;
 
 
 
+
+
+
+
 uniform float3 LightPos;
 
 
 
+
+
+
+
 uniform float time; //Runs from 0 to 10 per second.
+
+
+
+
+
+
+
+
 
 
 
@@ -1230,7 +2395,23 @@ uniform float time; //Runs from 0 to 10 per second.
 
 
 
+
+
+
+
+
+
+
+
 void vertexMain(
+
+
+
+
+
+
+
+
 
 
 
@@ -1242,7 +2423,15 @@ void vertexMain(
 
 
 
+
+
+
+
     float3 normal    : NORMAL,
+
+
+
+
 
 
 
@@ -1250,11 +2439,27 @@ void vertexMain(
 
 
 
+
+
+
+
     float2 texCoord     : TEXCOORD0,
 
 
 
+
+
+
+
     float3 tangent : TEXCOORD1,
+
+
+
+
+
+
+
+
 
 
 
@@ -1270,7 +2475,19 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     out float4 oVertColor          : COLOR,
+
+
+
+
 
 
 
@@ -1278,7 +2495,15 @@ void vertexMain(
 
 
 
+
+
+
+
     out float2 oTexCoord2          : TEXCOORD1,
+
+
+
+
 
 
 
@@ -1286,7 +2511,15 @@ void vertexMain(
 
 
 
+
+
+
+
     out float3 oEyeDirTan          : TEXCOORD2,
+
+
+
+
 
 
 
@@ -1294,7 +2527,15 @@ void vertexMain(
 
 
 
+
+
+
+
     #ifdef PPLighting
+
+
+
+
 
 
 
@@ -1302,7 +2543,15 @@ void vertexMain(
 
 
 
+
+
+
+
         out float3 oNormal    : TEXCOORD5
+
+
+
+
 
 
 
@@ -1310,7 +2559,15 @@ void vertexMain(
 
 
 
+
+
+
+
 )
+
+
+
+
 
 
 
@@ -1318,7 +2575,15 @@ void vertexMain(
 
 
 
+
+
+
+
     oPosition = mul(position, worldViewProj); //oPosition must be output to satisy pipeline.
+
+
+
+
 
 
 
@@ -1330,11 +2595,27 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     oTexCoord = texCoord;
 
 
 
+
+
+
+
     oTexCoord2 = float2((texCoord.x+time*0.2)/2,(texCoord.y+time*0.2)/2); // offset second texture coordinate
+
+
+
+
 
 
 
@@ -1346,11 +2627,27 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     oVertColor = vertColor;
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1358,11 +2655,23 @@ void vertexMain(
 
 
 
+
+
+
+
     float3 eyeDirO = normalize(-(eyePositionO-posWorld)) ; //eye vector in object space
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1370,7 +2679,15 @@ void vertexMain(
 
 
 
+
+
+
+
     oLightDir = normalize(LightPos-posWorld);
+
+
+
+
 
 
 
@@ -1378,11 +2695,23 @@ void vertexMain(
 
 
 
+
+
+
+
     #endif
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1390,7 +2719,15 @@ void vertexMain(
 
 
 
+
+
+
+
     tangent = float3(abs(normal.y) + abs(normal.z),abs(normal.x),0);
+
+
+
+
 
 
 
@@ -1398,7 +2735,15 @@ void vertexMain(
 
 
 
+
+
+
+
     float3 binormal = cross(tangent,normal);
+
+
+
+
 
 
 
@@ -1410,11 +2755,31 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
     oEyeDirTan = normalize(mul(eyeDirO,TBNMatrix)); // eye vector in tangent space
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -1430,7 +2795,23 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define PLANE_NUM 16.0 //Number of grass slice grid planes per unit in tangent space.
+
+
+
+
+
+
+
+
 
 
 
@@ -1442,7 +2823,19 @@ void vertexMain(
 
 
 
+
+
+
+
 #define PLANE_NUM_INV_DIV2 (PLANE_NUM_INV/2)
+
+
+
+
+
+
+
+
 
 
 
@@ -1458,11 +2851,31 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define GRASS_SLICE_NUM_INV (1.0/GRASS_SLICE_NUM)
 
 
 
+
+
+
+
 #define GRASS_SLICE_NUM_INV_DIV2 (GRASS_SLICE_NUM_INV/2)
+
+
+
+
+
+
+
+
 
 
 
@@ -1478,7 +2891,23 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define TC1_TO_TC2_RATIO 8 //Ratio of texture coordinate set 1 to texture coordinate set 2, used for the animation lookup.
+
+
+
+
+
+
+
+
 
 
 
@@ -1494,7 +2923,23 @@ void vertexMain(
 
 
 
+
+
+
+
+
+
+
+
 #define AVERAGE_COLOR float4(0.32156,0.513725,0.0941176,1.0) //Used to fill remaining opacity, can be replaced by a texture lookup.
+
+
+
+
+
+
+
+
 
 
 
@@ -1506,11 +2951,27 @@ sampler2D grassblades : register(s0);
 
 
 
+
+
+
+
 sampler2D ground : register(s1);
 
 
 
+
+
+
+
 sampler2D windnoise : register(s2);
+
+
+
+
+
+
+
+
 
 
 
@@ -1526,11 +2987,27 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
     in float4 vertColor      : COLOR,
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1538,7 +3015,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     in float2 texCoord2          : TEXCOORD1,
+
+
+
+
 
 
 
@@ -1546,7 +3031,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     in float4 positionViewProj  : TEXCOORD3,
+
+
+
+
 
 
 
@@ -1554,7 +3047,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     in float3 LightDir    : TEXCOORD4,
+
+
+
+
 
 
 
@@ -1562,11 +3063,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     #endif
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1574,7 +3087,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     ,out float depth        : DEPTH)
+
+
+
+
 
 
 
@@ -1582,11 +3103,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     
 
 
 
+
+
+
+
     //Initialize increments/decrements and per fragment constants
+
+
+
+
 
 
 
@@ -1598,7 +3131,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
     float2 plane_offset = float2(0.0,0.0);                    
+
+
+
+
 
 
 
@@ -1606,11 +3151,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     float zOffset = 0.0;
 
 
 
+
+
+
+
     bool zFlag = 1;    //The signs of eyeDirTan determines if we increment or decrement along the tangent space axis
+
+
+
+
 
 
 
@@ -1622,7 +3179,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
      float2 signf = float2(sign(eyeDirTan.x),sign(eyeDirTan.y));    
+
+
+
+
 
 
 
@@ -1630,7 +3199,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                                    (signf.y+1)*GRASS_SLICE_NUM_INV_DIV2);
+
+
+
+
 
 
 
@@ -1638,15 +3215,35 @@ void  pixelMain(
 
 
 
+
+
+
+
                               floor(rayEntry.y*PLANE_NUM)/PLANE_NUM);
 
 
 
+
+
+
+
     
 
 
 
+
+
+
+
     
+
+
+
+
+
+
+
+
 
 
 
@@ -1658,7 +3255,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                                     (signf.y+1)*PLANE_NUM_INV_DIV2);
+
+
+
+
 
 
 
@@ -1666,7 +3271,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     int hitcount;
+
+
+
+
 
 
 
@@ -1674,7 +3287,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     float2 orthoLookup; //Will contain texture lookup coordinates for grassblades texture.
+
+
+
+
 
 
 
@@ -1682,7 +3303,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                                      // It may prove to be faster to early exit this loop
+
+
+
+
 
 
 
@@ -1690,7 +3319,19 @@ void  pixelMain(
 
 
 
+
+
+
+
     {
+
+
+
+
+
+
+
+
 
 
 
@@ -1706,7 +3347,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
             float2 dir_correct = float2(signf.x*plane_offset.x+pre_dir_correct.x,
+
+
+
+
 
 
 
@@ -1714,7 +3367,15 @@ void  pixelMain(
 
 
 
+
+
+
+
         float2 distance = float2((planemod.x + dir_correct.x - rayEntry.x)/(eyeDirTan.x),
+
+
+
+
 
 
 
@@ -1722,7 +3383,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                      
+
+
+
+
 
 
 
@@ -1730,7 +3399,15 @@ void  pixelMain(
 
 
 
+
+
+
+
           float3 rayHitpointY = rayEntry + eyeDirTan *distance.y;
+
+
+
+
 
 
 
@@ -1738,11 +3415,23 @@ void  pixelMain(
 
 
 
+
+
+
+
         //Check if we hit the ground. If so, calculate the intersection and look up the ground texture and blend colors.
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1750,7 +3439,15 @@ void  pixelMain(
 
 
 
+
+
+
+
           {
+
+
+
+
 
 
 
@@ -1758,7 +3455,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1766,7 +3471,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             float2 orthoLookupZ = float2(rayHitpointZ.x,rayHitpointZ.y);
+
+
+
+
 
 
 
@@ -1774,7 +3487,15 @@ void  pixelMain(
 
 
 
+
+
+
+
               color = (color)+((1.0-color.w) * tex2D(ground,orthoLookupZ));
+
+
+
+
 
 
 
@@ -1782,7 +3503,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             zOffset = distanceZ; // write the distance from rayEntry to intersection
+
+
+
+
 
 
 
@@ -1790,7 +3519,15 @@ void  pixelMain(
 
 
 
+
+
+
+
           }  
+
+
+
+
 
 
 
@@ -1798,15 +3535,31 @@ void  pixelMain(
 
 
 
+
+
+
+
          {
 
 
 
+
+
+
+
              
 
 
 
+
+
+
+
              
+
+
+
+
 
 
 
@@ -1814,7 +3567,15 @@ void  pixelMain(
 
 
 
+
+
+
+
              //check if we hit a u or v plane, calculate lookup accordingly with wind shear displacement.
+
+
+
+
 
 
 
@@ -1822,7 +3583,15 @@ void  pixelMain(
 
 
 
+
+
+
+
              {
+
+
+
+
 
 
 
@@ -1830,7 +3599,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 
+
+
+
+
 
 
 
@@ -1838,7 +3615,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 orthoLookup=float2(rayHitpointX.y+windX.x*(GRASSDEPTH+rayHitpointX.z),lookupX); 
+
+
+
+
 
 
 
@@ -1846,7 +3631,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 plane_offset.x += PLANE_NUM_INV; // increment/decrement to next grid plane on u axis
+
+
+
+
 
 
 
@@ -1854,7 +3647,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             }
+
+
+
+
 
 
 
@@ -1862,11 +3663,23 @@ void  pixelMain(
 
 
 
+
+
+
+
                 float4 windY = (tex2D(windnoise,texCoord2+rayHitpointY.xy/TC1_TO_TC2_RATIO)-0.5)/2;
 
 
 
+
+
+
+
              
+
+
+
+
 
 
 
@@ -1874,7 +3687,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 orthoLookup = float2(rayHitpointY.x+windY.y*(GRASSDEPTH+rayHitpointY.z) ,lookupY);
+
+
+
+
 
 
 
@@ -1882,7 +3703,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                 plane_offset.y += PLANE_NUM_INV;  // increment/decrement to next grid plane on v axis
+
+
+
+
 
 
 
@@ -1894,7 +3723,19 @@ void  pixelMain(
 
 
 
+
+
+
+
+
+
+
+
     float4 biased;
+
+
+
+
 
 
 
@@ -1902,7 +3743,15 @@ void  pixelMain(
 
 
 
+
+
+
+
          biased.z = 0;
+
+
+
+
 
 
 
@@ -1910,7 +3759,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             
+
+
+
+
 
 
 
@@ -1918,7 +3775,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                     
+
+
+
+
 
 
 
@@ -1926,7 +3791,15 @@ void  pixelMain(
 
 
 
+
+
+
+
                
+
+
+
+
 
 
 
@@ -1934,7 +3807,15 @@ void  pixelMain(
 
 
 
+
+
+
+
      
+
+
+
+
 
 
 
@@ -1942,7 +3823,15 @@ void  pixelMain(
 
 
 
+
+
+
+
             {zFlag = 0;}    //Early exit here if faster.
+
+
+
+
 
 
 
@@ -1950,11 +3839,23 @@ void  pixelMain(
 
 
 
+
+
+
+
     }    
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1962,15 +3863,31 @@ void  pixelMain(
 
 
 
+
+
+
+
                                             //into a fully opaque grass slice using orthoLookup.
 
 
 
+
+
+
+
         
 
 
 
+
+
+
+
         
+
+
+
+
 
 
 
@@ -1978,7 +3895,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -1986,7 +3911,15 @@ void  pixelMain(
 
 
 
+
+
+
+
         color.xyz *= dot(LightDir,Normal);
+
+
+
+
 
 
 
@@ -1994,7 +3927,15 @@ void  pixelMain(
 
 
 
+
+
+
+
      
+
+
+
+
 
 
 
@@ -2002,7 +3943,15 @@ void  pixelMain(
 
 
 
+
+
+
+
        // BlindSide NOTE: Commented this section out as it causes a bug.
+
+
+
+
 
 
 
@@ -2010,7 +3959,15 @@ void  pixelMain(
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -2018,7 +3975,15 @@ void  pixelMain(
 
 
 
+
+
+
+
       depth = positionViewProj.z / positionViewProj.w;
+
+
+
+
 
 
 
@@ -2026,7 +3991,15 @@ void  pixelMain(
 
 
 
+
+
+
+
      //color.xyz = depth;
+
+
+
+
 
 
 
@@ -2034,16 +4007,30 @@ void  pixelMain(
 
 
 
+
+
+
+
 " />
 				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0
 
+
+
 vmatrix4 mWorld world[0] 0 0 0
+
+
 
 vvector3df eyePositionO camPos4
 
+
+
 vvector3df LightPos 308 455 343
 
+
+
 vfloat time + ctime 1000
+
+
 
 " />
 			 </materialType>
@@ -2061,60 +4048,6 @@ vfloat time + ctime 1000
 
 
 	<scene>
-
-		 <object>
-
-			 <path file="billboard" />
-
-			 <name c8name="#object:new_bill_board" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="shaders/textures/lf/sun.png" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="12" />
-
-			 	 </material>
-			 </materials>
-			 <position X="1423.161377" Y="1422.691895" Z="3012.589355" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="3" />
-			 <actions>
-			 </actions>
-
-		 </object>
 
 		 <object>
 
@@ -2190,7 +4123,7 @@ vfloat time + ctime 1000
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="13" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 </materials>
@@ -2207,9 +4140,9 @@ vfloat time + ctime 1000
 
 		 <object>
 
-			 <path file="hillPlaneMesh" />
+			 <path file="billboard" />
 
-			 <name c8name="#object:new_hille_plane_mesh" />
+			 <name c8name="#object:new_hille_plane_mesh_with_tangents" />
 
 			 <materials>
 			 	 <material id="0">
@@ -2244,7 +4177,7 @@ vfloat time + ctime 1000
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-2" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
@@ -2277,7 +4210,21 @@ vfloat time + ctime 1000
 			 <shadows resol="4096" />
 
 			 <lensFlare>
-			 </lensFlare>
+				 <mesh> 
+					 <scale X="0.000000" Y="0.000000" Z="0.000000" />
+					 <texture path="" />
+				 </mesh> 
+				 <bill> 
+					 <size Width="200.000000" Height="200.000000" />
+					 <texture path="shaders/textures/lf/sun.png" />
+				 </bill> 
+				 <lfsn> 
+					 <strength value="0.000000" />
+					 <texture path="" />
+					 <falseOcclusion value="0" />
+				 </lfsn> 
+				 <position X="0.000000" Y="0.000000" Z="0.000000" />
+ 			 </lensFlare>
 
 		 </light>
 

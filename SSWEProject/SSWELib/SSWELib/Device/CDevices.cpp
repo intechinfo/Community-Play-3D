@@ -119,6 +119,7 @@ void CDevices::updateEntities() {
 
 			effect->getShadowLight(i).setPosition(camPos);
 			effect->getShadowLight(i).setTarget(smgr->getActiveCamera()->getTarget());
+			effect->getShadowLight(i).setNearValue(smgr->getActiveCamera()->getNearValue());
 		}
         
         /*effect->getShadowLight(i).setLightColor(SColorf
@@ -373,7 +374,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_maya->setName("editor:MayaCamera");
 	camera_maya->setID(-1);
 	camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-	oldRotation = vector3df(0);
     
 	smgr->setActiveCamera(camera_maya);
 	effectSmgr->setActiveCamera(camera_maya);
@@ -408,7 +408,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
-	effect->setAmbientColor(SColor(255, 64, 64, 64));
+	effect->setAmbientColor(SColor(255, 0, 0, 0));
 	effect->setUseMotionBlur(false);
 	effect->setUseVSMShadows(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
@@ -464,8 +464,13 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
 
     stringw rootPath = stringw(workingDirectory).c_str();
 	selector->addPlacePaths(L"SSWE", rootPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
-    stringw shadersPath = stringw(workingDirectory + (driver->getDriverType() == EDT_OPENGL ? "shaders/GLSL" : "shaders/HLSL"));
-    selector->addPlacePaths(L"SHADERS", shadersPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+
+    stringw matShadersPath = stringw(workingDirectory + (driver->getDriverType() == EDT_OPENGL ? "shaders/Materials/GLSL/" : "shaders/Materials"));
+    selector->addPlacePaths(L"MATERIAL SHADERS", matShadersPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+
+	stringw shadersPath = stringw(workingDirectory + (driver->getDriverType() == EDT_OPENGL ? "shaders/GLSL" : "shaders/HLSL"));
+    selector->addPlacePaths(L"FILTER SHADERS", shadersPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+
     stringw currentPath = stringw(Device->getFileSystem()->getWorkingDirectory()).c_str();
 	selector->addPlacePaths(L"CURRENT", currentPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
 

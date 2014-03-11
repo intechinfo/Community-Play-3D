@@ -142,6 +142,9 @@
     <Filter Include="SSWELib\UserInterfaces\Radiosity">
       <UniqueIdentifier>{9f27b298-0f12-4352-9c9e-55f95e35c7c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker">
+      <UniqueIdentifier>{5c325b18-4cdb-447b-b6ac-d1d2b88edb17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -419,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditZone.cpp">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.cpp">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -757,6 +763,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditZone.h">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.h">
+      <Filter>SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

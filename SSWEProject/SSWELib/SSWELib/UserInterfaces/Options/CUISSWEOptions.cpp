@@ -118,6 +118,7 @@ bool CUISSWEOptions::OnEvent(const SEvent &event) {
 		if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {
 			if (event.GUIEvent.Caller == cameraFarValuescb) {
 				devices->getMayaCamera()->setFarValue(cameraFarValuescb->getPos());
+				devices->getFPSCamera()->setFarValue(cameraFarValuescb->getPos());
 			}
 		}
 	}
