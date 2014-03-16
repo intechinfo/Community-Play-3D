@@ -26,7 +26,7 @@ CUIWindowEditDOF::CUIWindowEditDOF(CDevices *_devices) {
 	ranges[0] = SRange(0, 99, 10);
 	ranges[1] = SRange(0, 40, 100);
 	ranges[2] = SRange(0, devices->getMayaCamera()->getFarValue(), 10000);
-	ranges[3] = SRange(0, 1570, 1000);
+	ranges[3] = SRange(0, 1570, 10000);
 
 	for (u32 i=0; i < 4; i++) {
 		IGUIStaticText *tempText = gui->addStaticText(values[i].txt.c_str(), rect<s32>(10, 30, 750, 50), true, true, window, -1, false);

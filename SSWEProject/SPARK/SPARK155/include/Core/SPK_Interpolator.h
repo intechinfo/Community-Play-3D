@@ -55,6 +55,10 @@ namespace SPK
 		float y0;	/**< y first value of this entry */
 		float y1;	/**< y second value of this entry */
 
+		const void setX(float _x) { x = _x; }
+		void setY0(float _y0) { y0 = _y0; }
+		void setY1(float _y1) { y1 = _y1; }
+
 		/** @brief Default constructor of interpolator entry. All values are set to 0 */
 		InterpolatorEntry() : x(0.0f),y0(0.0f),y1(0.0f) {}
 

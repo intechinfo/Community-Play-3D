@@ -12,7 +12,7 @@
 
 #include "Core/CCoreUserInterface.h"
 
-//#include "../GUIExtension/FileSelector/CGUIFileSelector.h"
+#include "../GUIExtension/CodeEditor/CGUICodeEditor.h"
 #include "../GUIExtension/FileLoader/CUIFileLoader.h"
 
 CDevices::CDevices(CCoreUserInterface *_coreUserInterface) {
@@ -109,9 +109,25 @@ void CDevices::updateEntities() {
 			effect->getShadowLight(i).setRecalculate(true);
 		}
 
+<<<<<<< HEAD
 		effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
         effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
 
+=======
+		if (!effect->getShadowLight(i).isTorchMode()) {
+			effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
+			effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
+		} else {
+			vector3df camPos = smgr->getActiveCamera()->getPosition();
+			camPos.X += 10.f;
+			camPos.Y += 10.f;
+
+			effect->getShadowLight(i).setPosition(camPos);
+			effect->getShadowLight(i).setTarget(smgr->getActiveCamera()->getTarget());
+			effect->getShadowLight(i).setNearValue(smgr->getActiveCamera()->getNearValue());
+		}
+        
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
         /*effect->getShadowLight(i).setLightColor(SColorf
 												 (((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.r,
                                                  ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
@@ -371,8 +387,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_maya->setName("editor:MayaCamera");
 	camera_maya->setID(-1);
 	camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
+<<<<<<< HEAD
 	oldRotation = vector3df(0);
 
+=======
+    
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
 	smgr->setActiveCamera(camera_maya);
 	effectSmgr->setActiveCamera(camera_maya);
 
@@ -398,7 +418,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
     if (driver->getDriverType() == EDT_DIRECT3D9)
-        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
+        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
+		//effect = new EffectHandler(Device, dimension2du(800, 600), true, true, true);
     else
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
@@ -411,6 +432,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
 	effect->enableDepthPass(false);
+	effect->setFPSCamera(camera_fps);
 
 	dof = effect->getDOF();
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
@@ -460,8 +482,13 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
 
     stringw rootPath = stringw(workingDirectory).c_str();
 	selector->addPlacePaths(L"SSWE", rootPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
-    stringw shadersPath = stringw(workingDirectory + (driver->getDriverType() == EDT_OPENGL ? "shaders/GLSL" : "shaders/HLSL"));
-    selector->addPlacePaths(L"SHADERS", shadersPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+
+    stringw matShadersPath = stringw(workingDirectory + (driver->getDriverType() == EDT_OPENGL ? "shaders/Materials/GLSL/" : "shaders/Materials"));
+    selector->addPlacePaths(L"MATERIAL SHADERS", matShadersPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+
+	stringw shadersPath = stringw(workingDirectory + (driver->getDriverType() == EDT_OPENGL ? "shaders/GLSL" : "shaders/HLSL"));
+    selector->addPlacePaths(L"FILTER SHADERS", shadersPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
+
     stringw currentPath = stringw(Device->getFileSystem()->getWorkingDirectory()).c_str();
 	selector->addPlacePaths(L"CURRENT", currentPath, driver->getTexture(workingDirectory + "GUI/folder.png"));
 
@@ -489,6 +516,18 @@ IGUIWindow *CDevices::addWarningDialog(stringw title, stringw text, s32 flag) {
     IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), true, flag, 0, -1,
                        gui->getVideoDriver()->getTexture(workingDirectory + stringc("/GUI/warning.png")));
 	return window;
+}
+
+IGUICodeEditor *CDevices::createGUICodeEditor() {
+	return new CUICodeEditor(this, 0, true);
+}
+
+ISData *CDevices::getSelectedData() {
+	ISData *data;
+	ISceneNode *node = coreUserInterface->getMainWindow()->getSelectedNode().getNode();
+	data = worldCoreData->copySDataOfSceneNode(node);
+
+	return data;
 }
 
 bool CDevices::OnEvent(const SEvent &event) {

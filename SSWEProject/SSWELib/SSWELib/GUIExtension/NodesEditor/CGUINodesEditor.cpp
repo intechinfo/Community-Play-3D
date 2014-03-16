@@ -205,18 +205,18 @@ bool CGUINodesEditor::OnEvent(const SEvent& event)
                     
                     if (event.MouseInput.X < lastMousePosition.X) {
                         if (lastMousePosition.X - event.MouseInput.X > 10)
-                            xstep = -5;
+                            xstep = -10;
                     } else {
                         if (event.MouseInput.X - lastMousePosition.X > 10)
-                            xstep = 5;
+                            xstep = 10;
                     }
                     
                     if (event.MouseInput.Y < lastMousePosition.Y) {
                         if (lastMousePosition.Y - event.MouseInput.Y > 10)
-                            ystep = -5;
+                            ystep = -10;
                     } else {
                         if (event.MouseInput.Y - lastMousePosition.Y > 10)
-                            ystep = 5;
+                            ystep = 10;
                     }
                     
                     for (u32 i=0; i < nodes.size(); i++)

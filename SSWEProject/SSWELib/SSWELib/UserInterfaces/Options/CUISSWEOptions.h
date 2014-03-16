@@ -40,6 +40,11 @@ private:
 	IGUITab *fpsTab;
 	SFPSKeyMap fpsButtons[5];
 	IGUIStaticText *fpsInfoText;
+
+	//RENDERING
+	IGUITab*renderingTab;
+	IGUIComboBox *quadResolutioncb;
+	IGUIScrollBar *cameraFarValuescb;
 	//-----------------------------------
 
 };

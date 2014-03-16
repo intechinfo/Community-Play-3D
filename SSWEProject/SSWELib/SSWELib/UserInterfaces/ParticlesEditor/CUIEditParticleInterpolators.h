@@ -23,7 +23,10 @@ private:
     
     //-----------------------------------
 	//METHODS
+	void openAddEditWindow(f32 x, f32 y, f32 y1);
+	void removeEditWindow();
 
+	void fillTable();
     //-----------------------------------
     
     //-----------------------------------
@@ -37,6 +40,25 @@ private:
 	//GUI ELEMENTS
     IGUIWindow *window;
 
+	IGUIListBox *paramsList; array<SPK::Interpolator*> interpolators;
+	IGUICheckBox *enableLooping;
+	IGUIEditBox *scaleXVariationeb, *offsetXVariationeb;
+
+	IGUIButton *editEntry, *addEntryb, *removeEntry;
+	IGUITable *entriesTable;
+
+	IGUIButton *close;
+
+	//EDIT ENTRY
+	enum E_ENTRY_EDIT_TYPE {
+		EEDT_UNKNOWN = 0,
+		EEDT_ADD,
+		EEDT_EDIT
+	};
+	E_ENTRY_EDIT_TYPE entryEditType;
+	IGUIWindow *editEntryWindow;
+	IGUIEditBox *xeditentry, *yeditentry, *y1editentry;
+	IGUIButton *editEntryOk, *editEntryCancel;
     //-----------------------------------
     
 };

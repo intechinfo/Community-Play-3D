@@ -32,8 +32,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	#else
         #ifndef SSWE_RELEASE
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+			pluginsManager->loadSSWEPlugin("SSWEULTIMATETOOL_D");
 		#else
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
+			pluginsManager->loadSSWEPlugin("SSWEULTIMATETOOL");
 		#endif
 	#endif
 
@@ -84,9 +86,6 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addSeparator();
     submenu->addItem(L"Clone (CTRL+SHIFT+C)", CXT_MENU_EVENTS_EDIT_CLONE);
 	submenu->addSeparator();
-	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
-	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
-	submenu->addSeparator();
 	submenu->addItem(L"Preferences...", CXT_MENU_EVENTS_EDIT_OPTIONS);
 
 	//VIEW
@@ -101,7 +100,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Point Cloud", CXT_MENU_EVENTS_VIEW_POINTCLOUD, true, false, false, false);
 
 	//ANIMATORS
-    submenu = menu->getSubMenu(i++);
+    submenu = menu->getSubMenu(i);
+	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
+	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
+	submenu->addSeparator();
+	submenu->addItem(L"Scenario Maker...", CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER);
+	submenu->addSeparator();
+	submenu->addItem(L"Add Animator...", -1, true, true, false, false);
+	submenu = submenu->getSubMenu(3);
+	i++;
 
 	//RENDERS
     submenu = menu->getSubMenu(i);
@@ -113,6 +120,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     submenu->addItem(L"Draw Motion Blur", CXT_MENU_EVENTS_RENDERS_MOTION_BLUR_DRAW, true, false,
 					devices->getXEffect()->isUsingMotionBlur(), true);
 	submenu->addItem(L"Draw SSAO", CXT_MENU_EVENTS_RENDERS_SSAO, true, false, devices->getRenderCallbacks()->getSSAORenderCallback(), true);
+	submenu->addSeparator();
+	submenu->addItem(L"Reflection Pass", CXT_MENU_EVENTS_ALLOW_REFLECTION_PASS, true, false, devices->getXEffect()->isReflectionPassEnabled(), true);
+	submenu->addItem(L"Light Scattering Pass", CXT_MENU_EVENTS_ALLOW_LIGHT_SCATTERING_PASS, true, false, devices->getXEffect()->isLightScatteringPassEnabled(), true);
     submenu = menu->getSubMenu(i);
 	submenu = submenu->getSubMenu(1);
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
@@ -300,9 +310,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"LTest.world";
+			stringw scene_to_import = L"LTest2.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			impoterInstance->importScene(scene_to_import.c_str());
+			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -619,7 +629,17 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						devices->getRenderCallbacks()->removeSSAO();
 					}
 					break;
+<<<<<<< HEAD
 
+=======
+				case CXT_MENU_EVENTS_ALLOW_REFLECTION_PASS:
+					devices->getXEffect()->setReflectionPassEnabled(!devices->getXEffect()->isReflectionPassEnabled());
+					break;
+				case CXT_MENU_EVENTS_ALLOW_LIGHT_SCATTERING_PASS:
+					devices->getXEffect()->enableLightScatteringPass(!devices->getXEffect()->isLightScatteringPassEnabled());
+					break;
+                    
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:
                     devices->setXEffectDrawable(!devices->isXEffectDrawable());
 					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
@@ -849,7 +869,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					//										   L"All rights reserved",
 					//							  EMBF_OK);
                     devices->getGUIEnvironment()->addMessageBox(L"About...", L"Created by Julien Moreau-Mathis\n"
-                                                                             L"All rights reserved",
+                                                                             L"Not for commercial use and not for free use, only alpha-testing.",
                                                                 true, EMBF_OK, 0, -1,
                                                                 devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + "GUI/ss_logo.png"));
 					break;

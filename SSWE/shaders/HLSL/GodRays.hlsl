@@ -11,9 +11,9 @@ float2 lightPositionOnScreen;
 
 float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
 {
-	float decay=0.96815;
-	float exposure=0.2;
-	float density=0.26;
+	float decay=0.97815;
+	float exposure=0.92;
+	float density=0.966;
 	float weight=0.58767;
 
 	int NUM_SAMPLES = 100;

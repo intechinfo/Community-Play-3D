@@ -199,8 +199,19 @@ public:
     }
 
     void AddEventReceiver(IEventReceiver * receiver, IGUIWindow *window=0, IUpdate *autoUpdate=0) {
-        mEventReceivers.push_back(receiver);
-		mEventReceiversUpdate.push_back(autoUpdate);
+		u32 indice = mEventReceivers.size();
+		for (u32 i=0; i < mEventReceivers.size(); i++) {
+			if (mEventReceivers[i] == receiver) {
+				indice = i;
+				break;
+			}
+		}
+		if (indice != mEventReceivers.size()) {
+			mEventReceiversUpdate[indice] = autoUpdate;
+		} else {
+			mEventReceivers.push_back(receiver);
+			mEventReceiversUpdate.push_back(autoUpdate);
+		}
 		if (window) {
 			IGUIStaticText *txt = gui->addStaticText(window->getText(), rect<s32>(0, 0, 0, 0), false, false, 0, -1, false);
  			txt->setToolTipText(window->getText());
@@ -208,8 +219,13 @@ public:
  			txt->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
 			txt->setID(mGuiWindows.size());
 			txt->setDrawBorder(false);
-			mNames.push_back(txt);
-			mGuiWindows.push_back(window);
+			if (indice != mEventReceivers.size()) {
+				mNames.push_back(txt);
+				mGuiWindows.push_back(window);
+			} else {
+				mNames[indice] = txt;
+				mGuiWindows[indice] = window;
+			}
 			if (window)
 				gui->setFocus(window);
 		} else {

@@ -38,6 +38,8 @@ public:
 
 	void setLogEventWindowVisible(bool visible) { logVisible = visible; }
 	bool isLogEventWindowVisible() { return logVisible; }
+
+	CUIMainWindow *getMainWindow() { return contextMenuInstance->getMainWindow(); }
 	//-----------------------------------
 
 private:

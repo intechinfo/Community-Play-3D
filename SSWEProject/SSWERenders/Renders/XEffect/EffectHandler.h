@@ -13,29 +13,37 @@
 
 #include <ISSWERender.h>
 
+/// Shadow light constructor. The first parameter is the square shadow map resolution.
+/// This should be a power of 2 number, and within reasonable size to achieve optimal
+/// performance and quality. Recommended sizes are 512 to 4096 subject to your target
+/// hardware and quality requirements. The next two parameters are position and target,
+/// the next one is the light color. The next two are very important parameters,
+/// the far value and the near value. The higher the near value, and the lower the
+/// far value, the better the depth precision of the shadows will be, however it will
+/// cover a smaller volume. The next is the FOV, if the light was to be considered
+/// a camera, this would be similar to setting the camera's field of view. The last
+/// parameter is whether the light is directional or not, if it is, an orthogonal
+/// projection matrix will be created instead of a perspective one.
 struct SShadowLight
 {
-	/// Shadow light constructor. The first parameter is the square shadow map resolution.
-	/// This should be a power of 2 number, and within reasonable size to achieve optimal
-	/// performance and quality. Recommended sizes are 512 to 4096 subject to your target
-	/// hardware and quality requirements. The next two parameters are position and target,
-	/// the next one is the light color. The next two are very important parameters,
-	/// the far value and the near value. The higher the near value, and the lower the
-	/// far value, the better the depth precision of the shadows will be, however it will
-	/// cover a smaller volume. The next is the FOV, if the light was to be considered
-	/// a camera, this would be similar to setting the camera's field of view. The last
-	/// parameter is whether the light is directional or not, if it is, an orthogonal
-	/// projection matrix will be created instead of a perspective one.
 	SShadowLight(	irr::u32 shadowMapResolution,
 					const irr::core::vector3df& position,
 					const irr::core::vector3df& target,
+<<<<<<< HEAD
 					irr::video::SColorf lightColour = irr::video::SColor(0xffffffff),
 					irr::f32 nearValue = 10.0, irr::f32 farValue = 100.0,
+=======
+					irr::video::SColorf lightColour = irr::video::SColor(0xffffffff), 
+					irr::f32 _nearValue = 10.0, irr::f32 farValue = 100.0,
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
 					irr::f32 fov = 90.0 * irr::core::DEGTORAD64, bool directional = false)
 					:	pos(position), tar(target), farPlane(directional ? 1.0f : farValue), diffuseColour(lightColour),
 						mapRes(shadowMapResolution)
 	{
-		nearValue = nearValue <= 0.0f ? 0.1f : nearValue;
+		_nearValue = _nearValue <= 0.0f ? 0.1f : _nearValue;
+		this->nearValue = _nearValue;
+		frontOfView = fov;
+		isDirectional = directional;
 
 		updateViewMatrix();
 
@@ -46,7 +54,9 @@ struct SShadowLight
 
 		recalculate = true;
 		autoRecalculate = false;
+		isCamera = false;
 	}
+
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position) {
 		pos = position;
@@ -57,6 +67,7 @@ struct SShadowLight
 		tar = target;
 		updateViewMatrix();
 	}
+
 	/// Gets the light's position.
 	const irr::core::vector3df& getPosition() const { return pos; }
 	const irr::core::vector3df& getTarget()  const { return tar; }
@@ -83,6 +94,26 @@ struct SShadowLight
 		recalculate = true;
 	}
 
+	/// Gets the near value
+	irr::f32 getNearValue() { return nearValue; }
+	void setNearValue(irr::f32 _nearValue) {
+		nearValue = _nearValue;
+		if(isDirectional)
+			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
+		else
+			projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+	}
+
+	/// Gets the fov value
+	irr::f32 getFOV() { return frontOfView; }
+	void setFOV(irr::f32 _fov) {
+		frontOfView = _fov;
+		if(isDirectional)
+			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
+		else
+			projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+	}
+
 	/// Gets the light's color.
 	const irr::video::SColorf& getLightColor() const { return diffuseColour; }
 	void setLightColor(const irr::video::SColorf& lightColour)  {
@@ -104,15 +135,28 @@ struct SShadowLight
 	bool isAutoRecalculate() { return autoRecalculate; }
 	void setAutoRecalculate(bool _autoRecalculate) { autoRecalculate = _autoRecalculate; }
 
-	irr::core::array<irr::scene::ISceneNode *> *getLightShaftsBBs() { return &lsBBs; }
-	void createLightShaftCamera(irr::scene::ISceneManager *smgr) {
-		irr::scene::ICameraSceneNode *currentCamera = smgr->getActiveCamera();
-		lsCamera = smgr->addCameraSceneNode();
-		lsCamera->setNearValue(currentCamera->getNearValue());
-		lsCamera->setFarValue(farPlane);
-		smgr->setActiveCamera(currentCamera);
+	/// Sets if is torch mode
+	bool isTorchMode() { return isCamera; }
+	void setTorchMode(bool use) { isCamera = use; }
+
+	/// Change the shadow light mode
+	void setLightType(E_SHADOW_LIGHT_TYPE type) {
+		pointShadowLights.clear();
+		isDirectional = false;
+		projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+
+		updateViewMatrix();
+		if (type == ESLT_DIRECTIONAL) {
+			isDirectional = true;
+			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
+		} else {
+			for (u32 i=0; i < 5; i++) {
+				pointShadowLights.push_back(SShadowLight(this->getShadowMapResolution(), this->getPosition(),
+														 this->getTarget(), this->getLightColor(), this->getNearValue(), 
+														 this->getFarValue(), this->getFOV(), false));
+			}
+		}
 	}
-	irr::scene::ICameraSceneNode *getLightShaftCamera() { return lsCamera; }
 
 private:
 
@@ -125,16 +169,16 @@ private:
 
 	irr::video::SColorf diffuseColour;
 	irr::core::vector3df pos, tar;
-	irr::f32 farPlane;
+	irr::f32 farPlane, frontOfView, nearValue;
 	irr::core::matrix4 viewMat, projMat;
 	irr::u32 mapRes;
 
 	bool recalculate;
 	bool autoRecalculate;
+	bool isCamera;
+	bool isDirectional;
 
-	/// Light Shafts
-	irr::core::array<irr::scene::ISceneNode *> lsBBs;
-	irr::scene::ICameraSceneNode *lsCamera;
+	irr::core::array<SShadowLight> pointShadowLights;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -193,6 +237,10 @@ public:
     void removeShadowLight(int index) {
         LightList.erase(index);
     }
+
+	void removeShadowLights() {
+		LightList.clear();
+	}
 
 	/// Retrieves a reference to a shadow light. You may get the max amount from getShadowLightCount.
 	SShadowLight& getShadowLight(irr::u32 index)
@@ -276,6 +324,13 @@ public:
 	bool isLightScatteringPassEnabled() { return useLightScattering; }
 	void enableLightScatteringPass(bool enable) { useLightScattering = enable; }
 
+<<<<<<< HEAD
+=======
+	//Check if reflection pass is enabled
+	bool isReflectionPassEnabled() { return useReflectionPass; }
+	void setReflectionPassEnabled(bool use) { useReflectionPass = use; }
+    
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
     //Check if depth pass is enabled
     bool isDepthPassEnabled() { return DepthPass; }
 
@@ -403,6 +458,10 @@ public:
 	void update(bool  updateOcclusionQueries = false, irr::video::ITexture* outputTarget = 0);
 
 	void updateEffect();
+
+	///Special To Calculate Radiosity
+	void updateRadiosity(const irr::u32 time, const bool screenSpaceOnly,irr::video::ITexture* outputTarget = 0, 
+				irr::scene::ISceneNode* node =0 , irr::core::array<irr::scene::IMeshBuffer*>* buffers= 0);
 
 	/// Adds a shadow to the scene node. The filter type specifies how many shadow map samples
 	/// to take, a higher value can produce a smoother or softer result. The shadow mode can
@@ -637,6 +696,12 @@ public:
 			LightList[i].setRecalculate(true);
 	}
 
+	#ifdef SSWE_EDITOR
+	irr::s32 getSelectionMaterial() { return SelectionMaterial; }
+
+	void setFPSCamera(irr::scene::ICameraSceneNode *camera) { FPSCamera = camera; }
+	#endif
+
 private:
 
 	struct SShadowNode
@@ -693,8 +758,16 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
+<<<<<<< HEAD
 	irr::s32 LightScatteringBlack;
 
+=======
+	#ifdef SSWE_EDITOR
+	irr::s32 SelectionMaterial;
+	irr::scene::ICameraSceneNode *FPSCamera;
+	#endif
+	
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
 

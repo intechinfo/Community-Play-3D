@@ -1,10 +1,5 @@
-vmatrix4 matWorldViewProjection proj[0] view[0] world[0] 0
-vmatrix4 matWorld world[0] 0 0 0
-vfloat tileSize 10
-vvector3df viewPos camPos4
-
-pSColor fvAmbient 1 0.5 0.5 0.5
-pSColor fvSpecular 1 0.1 0.1 0.1
-pSColor fvDiffuse 1 0 0 0
-pfloat fSpecularPower 1
-pvector3df lightDirection camPos4
+vmatrix4 worldViewProj proj[0] view[0] world[0] 0
+vmatrix4 mWorld world[0] 0 0 0
+vvector3df eyePositionO camPos4
+vvector3df LightPos 308 455 343
+vfloat time + ctime 1000

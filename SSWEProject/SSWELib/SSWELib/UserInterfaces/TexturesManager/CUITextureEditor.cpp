@@ -8,7 +8,7 @@
 #include "stdafx.h"
 #include "CUITextureEditor.h"
 
-CUITextureEditor::CUITextureEditor(CDevices *_devices, ITexture *texture) {
+CUITextureEditor::CUITextureEditor(CDevices *_devices, ITexture *texture, IGUIElement *parent) {
 	devices = _devices;
 
 	driver = devices->getVideoDriver();
@@ -22,7 +22,7 @@ CUITextureEditor::CUITextureEditor(CDevices *_devices, ITexture *texture) {
 	tempTexture = devices->getCore()->copyTexture(texturename, textureToEdit, driver);
 
 	//SET UP GUI
-	window = gui->addWindow(rect<s32>(630, 300, 1270, 750), false, L"Texture Editor", 0, -1);
+	window = gui->addWindow(rect<s32>(630, 300, 1270, 750), false, L"Texture Editor", parent, -1);
 	devices->getCore()->centerWindow(window, driver->getScreenSize());
 	window->getMaximizeButton()->setVisible(true);
 	window->getMinimizeButton()->setVisible(true);

@@ -129,7 +129,7 @@ irr::core::array<irr::s32> CRenderCallbacks::buildSSAO() {
 
 	ssaoRenderCallback = new SSAORenderCallback(SSAO);
 	reffect->setPostProcessingRenderCallback(SSAO, ssaoRenderCallback);
-	ssaoRenderCallback->setTexture(reffect->generateRandomVectorTexture(irr::core::dimension2du(512, 512)));
+	ssaoRenderCallback->setTexture(reffect->generateRandomVectorTexture(irr::core::dimension2du(2048, 2048)));
 	reffect->setPostProcessingUserTexture(ssaoRenderCallback->getTexture());
 
 	irr::core::array<irr::s32> materialTypes;

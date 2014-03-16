@@ -2435,7 +2435,7 @@ void CGUIEditBoxIRB::addCppKeywords(irr::video::SColor keywordColor, irr::video:
 	addKeyword("long",keywordColor,true);
 	addKeyword("short",keywordColor,true);
 	addKeyword("while",keywordColor,true);
-	addKeyword("for",keywordColor,true);
+	addKeyword("for",keywordColor,false);
 	addKeyword("do",keywordColor,true);
 	addKeyword("return",keywordColor,true);
 	addKeyword("break",keywordColor,true);
@@ -2645,6 +2645,12 @@ void CGUIEditBoxIRB::paste() {
 		{
 			if (MarkBegin == MarkEnd)
 			{
+				core::stringc tempText = p;
+				tempText = tempText.replace("\t", "    ");
+				tempText = tempText.replace("	", "    ");
+				tempText.remove("\r");
+				p = tempText.c_str();
+
 				replaceText(CursorPos,CursorPos,p);
 				core::stringw s = p;
 				CursorPos += s.size();

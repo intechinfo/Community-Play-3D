@@ -241,8 +241,7 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == openShader) {
 				SFilter f;
 				f.createLuaState();
-				f.setPixelShader(devices->getCore()->getStringcFromFile(openShader->getFileName()));
-				//f.setCallback("filter:setPixelShaderConstantVector2D(\"multiplier\", {x=2, y=3})");
+				f.setPixelShader(devices->getCore()->getStringcFromFile(openShader->getFileName()).replace("\r", "\n"));
 				f.setMaterial(devices->getXEffect()->addPostProcessingEffectFromString(f.getPixelShader().c_str()));
 				
 				stringw name = openShader->getFileName();
@@ -253,8 +252,10 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 				u32 count = devices->getCoreData()->getEffectFilters()->size();
 				this->createLuaState(devices->getCoreData()->getEffectFilters()->operator[](count-1).getLuaState());
 				CFilterCallback *cb = new CFilterCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(),
-														  &devices->getCoreData()->getEffectFilters()->operator[](count-1));
-				devices->getXEffect()->setPostProcessingRenderCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(), cb);
+															&devices->getCoreData()->getEffectFilters()->operator[](count-1));
+				if (f.getMaterial() != -1) {
+					devices->getXEffect()->setPostProcessingRenderCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(), cb);
+				}
 				devices->getCoreData()->getEffectFilters()->operator[](count-1).setPostProcessingCallback(cb);
 
 				filters->addItem(stringw(f.getName()).c_str());
@@ -283,6 +284,9 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == addFilter) {
 				SFilter f;
 				f.createLuaState();
+				this->createLuaState(f.getLuaState());
+				CFilterCallback *cb = new CFilterCallback(f.getMaterial(), &f);
+				f.setPostProcessingCallback(cb);
 				devices->getCoreData()->getEffectFilters()->push_back(f);
 				filters->addItem(stringw(f.getName()).c_str());
 				filters->setSelected(filters->getItemCount()-1);
@@ -364,6 +368,9 @@ int core_setPixelShaderConstantVector2D(lua_State *L);
 int core_setPixelShaderConstantVector3D(lua_State *L);
 int core_setPixelShaderConstantMatrix4(lua_State *L);
 
+int core_setTextureAtIndex(lua_State *L);
+int core_setRttTextureAtIndex(lua_State *L);
+
 static const luaL_Reg core_meta[] = {
 	{"__gc", core_gc},
 	{"__index", core_index},
@@ -378,6 +385,9 @@ static const luaL_Reg core_methods[] = {
 	{"setPixelShaderConstantVector2D", core_setPixelShaderConstantVector2D},
 	{"setPixelShaderConstantVector3D", core_setPixelShaderConstantVector3D},
 	{"setPixelShaderConstantMatrix4", core_setPixelShaderConstantMatrix4},
+
+	{"setTextureAtIndex", core_setTextureAtIndex},
+	{"setRttTextureAtIndex", core_setRttTextureAtIndex},
 	{ NULL, NULL }
 };
 
@@ -643,6 +653,36 @@ int core_setPixelShaderConstantMatrix4(lua_State *L) {
 	return 0;
 }
 
+int core_setTextureAtIndex(lua_State *L) {
+	int argc = lua_gettop(L);
+	if (argc < 3)
+		return 0;
+
+	s32 index = lua_tointeger(L, 2);
+	stringc path = gWorkingPath + lua_tostring(L, 3);
+
+	if (index >= 0) {
+		geffect->getScreenQuadPtr()->getMaterial().setTexture(index, geffect->getIrrlichtDevice()->getVideoDriver()->getTexture(path.c_str()));
+	}
+
+	return 0;
+}
+
+int core_setRttTextureAtIndex(lua_State *L) {
+	int argc = lua_gettop(L);
+	if (argc < 3)
+		return 0;
+
+	s32 index = lua_tointeger(L, 2);
+	stringc path = lua_tostring(L, 3);
+
+	if (index >= 0) {
+		geffect->getScreenQuadPtr()->getMaterial().setTexture(index, geffect->getIrrlichtDevice()->getVideoDriver()->getTexture(path.c_str()));
+	}
+
+	return 0;
+}
+
 //MATRIXES
 
 int mat4_gc(lua_State *L) {
@@ -664,6 +704,9 @@ int mat4_new(lua_State *L) {
 	lua_newuserdata(L,sizeof(userData));
     luaL_getmetatable(L, "Matrix4");
     lua_setmetatable(L, -2); 
+
+	//matrix4 *mat = new matrix4();
+	//lua_pushlightuserdata(L, mat);
 
     return 1;
 }

@@ -62,7 +62,7 @@ const char* SHADOW_PASS_1PT[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n"
 ""
 "float4 pixelMain(float4 Color: TEXCOORD0, float2 Texcoords: TEXCOORD1) : COLOR0"
 "{"
-"	float depth = Color.z / Color.w;\n"
+"	float depth = Color.z / Color.x;\n"
 "	"
 "	float alpha = tex2D(ColorMapSampler, Texcoords).a;\n"
 "	"
@@ -516,6 +516,7 @@ const char* VSM_BLUR_P[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n"
 "	return finalVal / 5.0;\n"
 "}\n"};
 
+<<<<<<< HEAD
 const char *LIGHT_SCATTERING_BLACK_V[ESE_COUNT] = {
 "void main(void) {\n"
 "   gl_Position = ftransform();\n"
@@ -530,6 +531,107 @@ const char *LIGHT_SCATTERING_BLACK_P[ESE_COUNT] = {
 "}\n"
 ,
 "test\n"
+=======
+const char* BLACK_PASS_V[ESE_COUNT] = {
+"void main() {\n"
+"	gl_Position = ftransform();\n"
+"}\n"
+,
+"float4x4 WorldViewProj;\n"
+"\n"
+"struct VertexShaderOutput {\n"
+"	float4 Position : POSITION0;\n"
+"};"
+"\n"
+"struct VertexShaderInput {\n"
+"	float4 Position : POSITION0;\n"
+"};"
+"\n"
+"VertexShaderOutput vertexMain(VertexShaderInput input) {\n"
+"	VertexShaderOutput output = (VertexShaderOutput)0;\n"
+"	output.Position = mul(input.Position, WorldViewProj);\n"
+"	\n"
+"	return output;\n"
+"}\n"
+};
+
+const char* BLACK_PASS_P[ESE_COUNT] = {
+"void main() {\n"
+"	gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+"}\n"
+,
+"struct VertexShaderOutput {\n"
+"	float4 Position : POSITION0;\n"
+"};\n"
+"\n"
+"float4 pixelMain(VertexShaderOutput input) : COLOR0 {\n"
+"	return float4(0.0, 0.0, 0.0, 1.0);\n"
+"}\n"
+};
+
+const char* SELECTION_PASS_V[ESE_COUNT] = {
+""
+,
+"float4x4 worldViewProj;\n"
+"\n"
+"struct VertexShaderOutput {\n"
+"    float4 Position : POSITION0;\n"
+"    float2 TexCoords : TEXCOORD0;\n"
+"};\n"
+"\n"
+"struct VertexShaderInput {\n"
+"    float4 Position : POSITION0;\n"
+"    float2 TexCoords : TEXCOORD0;\n"
+"};\n"
+"\n"
+"VertexShaderOutput vertexMain(VertexShaderInput input) {\n"
+"    VertexShaderOutput output = (VertexShaderOutput)0;\n"
+"\n"
+"    float4 Position = mul(input.Position, worldViewProj);\n"
+"\n"
+"    output.Position = Position;\n"
+"    output.TexCoords = input.TexCoords;\n"
+"\n"
+"    return output;\n"
+"}\n"
+};
+
+const char* SELECTION_PASS_P[ESE_COUNT] = {
+""
+,
+"sampler2D diffuse : register(s0);\n"
+"\n"
+"struct VertexShaderOutput {\n"
+"    float4 Position : POSITION0;\n"
+"    float2 TexCoords : TEXCOORD0;\n"
+"};\n"
+"\n"
+"struct SAverage {\n"
+"    float4 color;\n"
+"    float average;\n"
+"};\n"
+"\n"
+"SAverage getAverageAt(float2 TexCoords) {\n"
+"    SAverage av = (SAverage)0;    av.color = tex2D(diffuse, TexCoords);\n"
+"    av.average = (av.color.r + av.color.g + av.color.b) / 3.0;    return av;\n"
+"}\n"
+"float4 pixelMain(VertexShaderOutput input) : COLOR0 {\n"
+"    SAverage av = getAverageAt(input.TexCoords);\n"
+"\n"
+"    float4 color;\n"
+"    if (av.average < 0.2) {\n"
+"        color = av.color;\n"
+"    } else {\n"
+"        float r = 136;\n"
+"        float g = 84;\n"
+"        float b = 245;\n"
+"        float a = 255;\n"
+"        color = (float4(r, g, b, a) / 255) + (av.color * -av.average);\n"
+"    }\n"
+"\n"
+"    return color;\n"
+"}\n"
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
 };
 
 #endif

@@ -1,18 +1,13 @@
 #ifndef __I_DEVICES_H_INCLUDED__
 #define __I_DEVICES_H_INCLUDED__
 
-//#include "../SSWERenders/Renders/XEffect/XEffects.h"
-
-#include "../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
-
 #include "../SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
-#include "../SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
-#include "../SSWELib/SceneNodes/Camera/CRiggedCamera.h"
 
 #include <ICollisionManager.h>
 #include <ISSWECore.h>
 #include <ISSWECoreData.h>
 #include <ISSWERender.h>
+#include <IGUICodeEditor.h>
 
 class IDevices {
 public: 
@@ -33,10 +28,10 @@ public:
 	virtual bool isEditBoxEntered() = 0;
 	virtual void setEditBoxEntered(bool _editBoxEntered) = 0;
 
-	virtual stringc getWorkingDirectory() = 0;
+	virtual irr::core::stringc getWorkingDirectory() = 0;
 
-	virtual stringw getContextName() = 0;
-	virtual void setContextName(stringw _contextName) = 0;
+	virtual irr::core::stringw getContextName() = 0;
+	virtual void setContextName(irr::core::stringw _contextName) = 0;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -45,12 +40,8 @@ public:
 	virtual E_FILTER_TYPE getXEffectFilterType() = 0;
 	virtual void setXEffectDrawable(bool draw) = 0;
 	virtual bool isXEffectDrawable() = 0;
-	virtual stringc getShaderExt() = 0;
+	virtual irr::core::stringc getShaderExt() = 0;
 	virtual void rebuildXEffect() = 0;
-
-	//virtual CRenderCallbacks *getRenderCallbacks() = 0;
-
-	//virtual ShaderGroup* getDOF() = 0;
 
 	virtual bool isRenderScene() = 0;
 	virtual void setRenderScene(bool _renderScene) = 0;
@@ -68,42 +59,44 @@ public:
 	virtual ISSWECoreData *getCoreData() = 0;
 
 	virtual ICollisionManager *getCollisionManager() = 0;
-	virtual CCoreObjectPlacement *getObjectPlacement() = 0;
-
-	virtual CUIProcessesLogger *getProcessesLogger() = 0;
 	//-----------------------------------
 
 	//-----------------------------------
 	//CAMERAS
-	virtual ICameraSceneNode *getFPSCamera() = 0;
-	virtual ICameraSceneNode *getMayaCamera() = 0;
-	virtual CCameraRig *getCameraRig() = 0;
+	virtual irr::scene::ICameraSceneNode *getFPSCamera() = 0;
+	virtual irr::scene::ICameraSceneNode *getMayaCamera() = 0;
 	//-----------------------------------
 
 	//-----------------------------------
 	//METHODS
 	virtual void createDevice(SIrrlichtCreationParameters parameters) = 0;
 
-	virtual vector3df getCursorPosition() = 0;
-	virtual ISceneNode *getCursor() = 0;
+	virtual irr::core::vector3df getCursorPosition() = 0;
+	virtual irr::scene::ISceneNode *getCursor() = 0;
 
 	//virtual void updateDevice() = 0;
 	//virtual void updateEntities() = 0;
 
 	//virtual void reupdate(EffectHandler *_effect = 0) = 0;
 
-	virtual stringw getProjectName() = 0;
+	virtual irr::core::stringw getProjectName() = 0;
 	//virtual void setProjectName(stringw _projectName) = 0;
 	//-----------------------------------
 
 	//-----------------------------------
 	//UI ADVANCED DIALOG METHODS
-	virtual IGUIFileOpenDialog *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal=false) = 0;
-	virtual IGUIFileOpenDialog *createFileOpenDialog(stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal=false) = 0;
+	virtual irr::gui::IGUIFileOpenDialog *createFileOpenDialog(irr::core::stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, bool modal=false) = 0;
+	virtual irr::gui::IGUIFileOpenDialog *createFileOpenDialog(irr::core::stringw title, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal=false) = 0;
 
-	virtual IGUIWindow *addInformationDialog(stringw title, stringw text, s32 flag, bool modal=true, IGUIElement *parent=0) = 0;
-	virtual IGUIWindow *addErrorDialog(stringw title, stringw text, s32 flag) = 0;
-	virtual IGUIWindow *addWarningDialog(stringw title, stringw text, s32 flag) = 0;
+	virtual irr::gui::IGUIWindow *addInformationDialog(irr::core::stringw title, irr::core::stringw text, irr::s32 flag, bool modal=true, irr::gui::IGUIElement *parent=0) = 0;
+	virtual irr::gui::IGUIWindow *addErrorDialog(irr::core::stringw title, irr::core::stringw text, irr::s32 flag) = 0;
+	virtual irr::gui::IGUIWindow *addWarningDialog(irr::core::stringw title, irr::core::stringw text, irr::s32 flag) = 0;
+	//-----------------------------------
+
+	//-----------------------------------
+	//UI ADVANCED DIALOG METHODS
+	virtual IGUICodeEditor *createGUICodeEditor() = 0;
+	virtual ISData *getSelectedData() = 0;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -111,8 +104,8 @@ public:
 	virtual bool isCtrlPushed() = 0;
 	virtual bool isShiftPushed() = 0;
 
-	virtual SKeyMap getKeyMap(int i) = 0;
-	virtual void setKeyMap(SKeyMap _keyMap, int i) = 0;
+	virtual irr::SKeyMap getKeyMap(int i) = 0;
+	virtual void setKeyMap(irr::SKeyMap _keyMap, int i) = 0;
 	virtual void applyKeyMapOnFPSCamera() = 0;
 };
 

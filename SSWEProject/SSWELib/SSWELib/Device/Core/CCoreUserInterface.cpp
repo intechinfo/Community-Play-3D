@@ -26,7 +26,11 @@ CCoreUserInterface::CCoreUserInterface() {
         params.DriverType=EDT_OPENGL;
         params.WindowSize = dimension2d<u32>(800, 600);
     #else
+<<<<<<< HEAD
         params.DriverType=EDT_DIRECT3D9;
+=======
+		params.DriverType=EDT_DIRECT3D9;
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
         params.WindowSize = dimension2d<u32>(800, 600);
     #endif
         params.Bits=32;
@@ -91,6 +95,8 @@ CCoreUserInterface::CCoreUserInterface() {
 	skin_window_classic->setColor(EGDC_WINDOW, SColor(255,0x66,0x66,0x66));
 	skin_window_classic->setColor(EGDC_EDITABLE, SColor(255,0x66,0x66,0x66));
 	skin_window_classic->setColor(EGDC_INACTIVE_CAPTION, SColor(255,0,0,0));
+	//skin_window_classic->setColor(EGDC_HIGH_LIGHT, SColor(255, 65, 29, 65));
+	skin_window_classic->setColor(EGDC_3D_LIGHT, SColor(255, 32, 32, 32));
 
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/error.png"));
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/warning.png"));

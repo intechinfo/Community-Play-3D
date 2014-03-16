@@ -82,36 +82,42 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	// The emitters are arranged so that the fire looks realistic
 	StraightEmitter* fireEmitter1 = StraightEmitter::create(Vector3D(0.0f,1.0f,0.0f));
 	fireEmitter1->setZone(Sphere::create(Vector3D(0.0f,-1.0f,0.0f),0.5f));
+	fireEmitter1->getZone()->setName("SPHERE:emitter1");
 	fireEmitter1->setFlow(40);
 	fireEmitter1->setForce(1.0f,2.5f);
     fireEmitter1->setName("Fire Emitter 1");
     
 	StraightEmitter* fireEmitter2 = StraightEmitter::create(Vector3D(1.0f,0.6f,0.0f));
 	fireEmitter2->setZone(Sphere::create(Vector3D(0.15f,-1.2f,0.075f),0.1f));
+	fireEmitter2->getZone()->setName("SPHERE:emitter2");
 	fireEmitter2->setFlow(15);
 	fireEmitter2->setForce(0.5f,1.5f);
     fireEmitter2->setName("Fire Emitter 2");
     
 	StraightEmitter* fireEmitter3 = StraightEmitter::create(Vector3D(-0.6f,0.8f,-0.8f));
 	fireEmitter3->setZone(Sphere::create(Vector3D(-0.375f,-1.15f,-0.375f),0.3f));
+	fireEmitter3->getZone()->setName("SPHERE:emitter3");
 	fireEmitter3->setFlow(15);
 	fireEmitter3->setForce(0.5f,1.5f);
     fireEmitter3->setName("Fire Emitter 3");
     
 	StraightEmitter* fireEmitter4 = StraightEmitter::create(Vector3D(-0.8f,0.5f,0.2f));
 	fireEmitter4->setZone(Sphere::create(Vector3D(-0.255f,-1.2f,0.225f),0.2f));
+	fireEmitter4->getZone()->setName("SPHERE:emitter4");
 	fireEmitter4->setFlow(10);
 	fireEmitter4->setForce(0.5f,1.5f);
     fireEmitter4->setName("Fire Emitter 4");
     
 	StraightEmitter* fireEmitter5 = StraightEmitter::create(Vector3D(0.1f,0.8f,-1.0f));
 	fireEmitter5->setZone(Sphere::create(Vector3D(-0.075f,-1.2f,-0.3f),0.2f));
+	fireEmitter5->getZone()->setName("SPHERE:emitter5");
 	fireEmitter5->setFlow(10);
 	fireEmitter5->setForce(0.5f,1.5f);
     fireEmitter5->setName("Fire Emitter 5");
     
 	Emitter *smokeEmitter = SphericEmitter::create(Vector3D(0.0f,1.0f,0.0f),0.0f,0.5f * PI);
 	smokeEmitter->setZone(Sphere::create(Vector3D(),1.2f));
+	smokeEmitter->getZone()->setName("SPHERE:emitter");
 	smokeEmitter->setFlow(25);
 	smokeEmitter->setForce(0.5f,1.0f);
     smokeEmitter->setName("smoke Emitter");
@@ -145,9 +151,9 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     
     devices->getCoreData()->getParticleSystems()->push_back(ps);
     ps.getBaseNode()->setName(L"ParticleTest");
-    //devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
+    devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
     
-    /*SParticleSystem ps("new particle system");
+    /*SParticleSystem ps("New Particle System");
     ps.createBaseNode(devices->getSceneManager());
     devices->getCoreData()->getParticleSystems()->push_back(ps);*/
     //----------TEST-----------------

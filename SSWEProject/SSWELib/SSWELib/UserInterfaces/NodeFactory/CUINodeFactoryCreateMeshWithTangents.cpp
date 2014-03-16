@@ -78,8 +78,13 @@ void CUINodeFactoryCreateMeshWithTangents::create() {
 		SWaterSurfacesData wsdata(ws, 0);
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}*/
+<<<<<<< HEAD
 
     SData *data = devices->getCoreData()->copySDataOfSceneNode(nodeToEdit);
+=======
+    
+    ISData *data = devices->getCoreData()->copySDataOfSceneNode(nodeToEdit);
+>>>>>>> 5e2553de453e5da54ff2626fb7f27a279bea3c72
     data->setNode(newNode);
     data->setMesh(tangentsMesh);
 

@@ -235,6 +235,10 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		devices->getGUIEnvironment()->addStaticText(L"Far Value : ", rect<s32>(10, 20, 90, 40), true, true, shadowLightTab, -1, true);
 		farValueSL = devices->getGUIEnvironment()->addEditBox(stringw(devices->getXEffect()->getShadowLight(index).getFarValue()).c_str(), rect<s32>(90, 20, 190, 40), true, shadowLightTab, -1);
 
+		devices->getGUIEnvironment()->addStaticText(L"FOV Value : ", rect<s32>(200, 20, 280, 40), true, true, shadowLightTab, -1, true);
+		fovSL = devices->getGUIEnvironment()->addEditBox(stringw(devices->getXEffect()->getShadowLight(index).getFOV()).c_str(), rect<s32>(280, 20, 380, 40), true, shadowLightTab, -1);
+
+
 		shadowMapPreview = devices->getGUIEnvironment()->addImage(rect<s32>(10, 50, 250, 310), shadowLightTab, -1, L"Shadow Light Preview 1");
 		shadowMapPreview->setScaleImage(true);
 		shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false, index));
@@ -247,6 +251,8 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 
 		autoRecalculate = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->getShadowLight(index).isAutoRecalculate(),
 																	rect<s32>(10, 330, 190, 350), shadowLightTab, -1, L"Set Auto Recalculate");
+		isTorchMode = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->getShadowLight(index).isTorchMode(),
+																rect<s32>(200, 330, 380, 350), shadowLightTab, -1, L"Torch Mode");
 
 		//WINDOW BUTTONS
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
@@ -255,6 +261,8 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 															  L"Close", L"Close without effect");
 
 		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
+
+
 	}
 }
 
@@ -431,6 +439,10 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                 if (event.GUIEvent.Caller == autoRecalculate) {
                     devices->getXEffect()->getShadowLight(index).setAutoRecalculate(autoRecalculate->isChecked());
                 }
+				//TORCH MODE
+				if (event.GUIEvent.Caller == isTorchMode) {
+					devices->getXEffect()->getShadowLight(index).setTorchMode(isTorchMode->isChecked());
+				}
                 //LENS FLARE CHECKBOX
                 if (event.GUIEvent.Caller == lensFlare) {
                     if (lensFlare->isChecked()) {
@@ -539,6 +551,10 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                     s32 farValue = devices->getCore()->getF32(stringc(farValueSL->getText()).c_str());
                     devices->getXEffect()->getShadowLight(index).setFarValue(farValue);
                 }
+				if (event.GUIEvent.Caller == fovSL) {
+					f32 fov = devices->getCore()->getF32(stringc(fovSL->getText()).c_str());
+					devices->getXEffect()->getShadowLight(index).setFOV(fov * irr::core::DEGTORAD64);
+				}
             }
 
             if (event.GUIEvent.EventType == EGET_SPINBOX_CHANGED) {
