@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1390508439 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWE/SSWE.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWE/SSWE.cpp
 	"stdafx.h"
 	<Windows.h>
 	"../SSWELib/SSWELib.h"
@@ -1003,7 +1003,7 @@
 	"matrix4.h"
 	"IVideoDriver.h"
 
-1390436245 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.h
 	"SSWELib/Device/Core/CCoreUserInterface.h"
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/CCoreUserInterface.h
@@ -1026,29 +1026,29 @@
 	"../SceneNodes/Camera/CRiggedCamera.h"
 	<omp.h>
 
-1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IDevices.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IDevices.h
 	"../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
 	"../SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
 	"../SSWELib/UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
 	"../SSWELib/SceneNodes/Camera/CRiggedCamera.h"
-	"ICollisionManager.h"
-	"ISSWECore.h"
-	"ISSWECoreData.h"
-	"ISSWERender.h"
+	<ICollisionManager.h>
+	<ISSWECore.h>
+	<ISSWECoreData.h>
+	<ISSWERender.h>
 
-1390428812 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreObjectPlacement.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreObjectPlacement.h
 	<SSWECore.h>
 	"../CCollisionManager.h"
 	"../SceneNodes/CGridSceneNode.h"
 
 1389911250 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore.h
 
-1390428054 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/CCollisionManager.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/CCollisionManager.h
 	"stdafx.h"
 	"Core/CCore.h"
 	<ICollisionManager.h>
 
-1390425977 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/stdafx.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/stdafx.h
 	<SSWECore.h>
 	"SSWECore.h"
 	<iostream>
@@ -1777,7 +1777,7 @@
 	"LinearMath/btScalar.h"
 	"btRigidBody.h"
 
-1390428625 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCore.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCore.h
 	<SSWECore.h>
 	"SSWECore.h"
 	<irrlicht.h>
@@ -2082,7 +2082,7 @@
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ICollisionManager.h
 	<irrlicht.h>
 
-1390428794 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/SceneNodes/CGridSceneNode.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/SceneNodes/CGridSceneNode.h
 	<SSWECore.h>
 	"ISceneNode.h"
 	"SMeshBuffer.h"
@@ -2107,14 +2107,10 @@
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/Camera/CRiggedCamera.h
 	<irrlicht.h>
 
-1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECoreData.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECoreData.h
 	<irrlicht.h>
-	"../Lua52/include/lua.hpp"
-	"../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
-	"../../../SSWERenders/Renders/XEffect/EffectCB.h"
-	"src/Bullet-C-Api.h"
-	"src/btBulletDynamicsCommon.h"
-	"src/btBulletCollisionCommon.h"
+	<ISSWERender.h>
+	<ISSWEShaderCallback.h>
 
 1389911238 /home/parallels/Desktop/Soganatsu/SSWEProject/Lua52/include/lua.hpp
 	"lua.h"
@@ -2140,13 +2136,14 @@
 	<stdio.h>
 	"lua.h"
 
-1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h
 	<irrlicht.h>
+	<ISSWEShaderCallback.h>
 
-1390425265 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectCB.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectCB.h
 	"EffectHandler.h"
 
-1390565523 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectHandler.h
+1391965174 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectHandler.h
 	<SSWERenders.h>
 	<irrlicht.h>
 	"CShaderPre.h"
@@ -2158,36 +2155,36 @@
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/SSWERenders.h
 
-1390424899 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/CShaderPre.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/CShaderPre.h
 	<SSWERenders.h>
 	<irrlicht.h>
 
-1390424918 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/CScreenQuad.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/CScreenQuad.h
 	<SSWERenders.h>
 	<irrlicht.h>
 
-1390436939 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/DepthOfField/shadergroup.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/DepthOfField/shadergroup.h
 	<SSWERenders.h>
 	"shadermaterial.h"
 	<irrlicht.h>
 	<list>
 
-1390424851 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/DepthOfField/shadermaterial.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/DepthOfField/shadermaterial.h
 	<SSWERenders.h>
 	<irrlicht.h>
 
-1390425045 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/PostProcessMotionBlurhlsl.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/PostProcessMotionBlurhlsl.h
 	<SSWERenders.h>
 	<irrlicht.h>
 
-1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWERender.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWERender.h
 	<irrlicht.h>
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWELibPlugin.h
 	<irrlicht.h>
 	<IDevices.h>
 
-1390428762 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreData.h
+1391965198 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreData.h
 	"stdafx.h"
 	"CCore.h"
 	"../Lua52/include/lua.hpp"
@@ -2258,7 +2255,7 @@
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CFileSystemScripting.h
 	<irrlicht.h>
 
-1390425174 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h
 	<SSWERenders.h>
 	"../XEffect/EffectHandler.h"
 
@@ -2362,7 +2359,7 @@
 	<SColor.h>
 	"../../../SSWERenders/Renders/XEffect/CScreenQuad.h"
 
-1390431062 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.h
 	"IGUIViewPort.h"
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/CMaterialEditorFactory.h
@@ -2513,7 +2510,7 @@
 	"../Device/CDevices.h"
 	"../GUIExtension/ViewPort/CGUIViewPort.h"
 
-1390432421 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditFilters.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditFilters.h
 	"../../../Device/CDevices.h"
 	"../../../GUIExtension/ViewPort/CGUIViewPort.h"
 	"../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
@@ -2533,8 +2530,9 @@
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CUIScriptEditor.h
 	"../../CDevices.h"
 
-1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.h
 	"../../Device/CDevices.h"
+	<DLLExport.h>
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CUIPluginsManager.h
 	"../../Device/CDevices.h"
@@ -2544,24 +2542,23 @@
 	"../../Device/CDevices.h"
 	"CUIParticleEditor.h"
 
-1390422046 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.h
+1391964893 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.h
 	"../../Device/CDevices.h"
 	"../../GUIExtension/ViewPort/CGUIViewPort.h"
 	"../../GUIExtension/NodesEditor/CGUINodesEditor.h"
-	"CUIEditParticleFlags.h"
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINodesEditor.h
 	"../../Device/CDevices.h"
 	"CGUINode.h"
 
-1390432190 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINode.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINode.h
 	<irrlicht.h>
 	<ISSWEEvents.h>
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEEvents.h
 	<irrlicht.h>
 
-1390422046 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.h
+1391964893 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.h
 	"../../Device/CDevices.h"
 
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIRightSceneTreeView.h
@@ -2585,7 +2582,7 @@
 	"stdafx.h"
 	"CCore.h"
 
-1390422046 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreData.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/Core/CCoreData.cpp
 	"stdafx.h"
 	"CCoreData.h"
 	<ISSWELibPlugin.h>
@@ -2602,7 +2599,7 @@
 	"stdafx.h"
 	"CBatchingMesh.h"
 
-1390428837 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/DecaleSystem/CBatchingMesh.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/DecaleSystem/CBatchingMesh.h
 	<SSWECore.h>
 	<irrlicht.h>
 
@@ -2612,11 +2609,11 @@
 	<map>
 	"CBatchingMesh.h"
 
-1390428880 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/DecaleSystem/DecalManager.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/DecaleSystem/DecalManager.h
 	<irrlicht.h>
 	"DecalSceneNode.h"
 
-1390428859 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/DecaleSystem/DecalSceneNode.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore/DecaleSystem/DecalSceneNode.h
 	<SSWECore.h>
 	<irrlicht.h>
 	<time.h>
@@ -2634,13 +2631,13 @@
 1389911250 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/stdafx.cpp
 	"stdafx.h"
 
-1390509268 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.cpp
 	"stdafx.h"
 	"SSWELib.h"
 	<stdio.h>
 	<pthread.h>
 
-1390431159 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/stdafx.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/stdafx.h
 	<irrlicht.h>
 	<SSWECore.h>
 	"SSWECore.h"
@@ -2662,7 +2659,7 @@
 	"stdafx.h"
 	"CUICharacterWindow.h"
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CUIEditBones.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/CharacterEdition/CUIEditBones.cpp
 	"stdafx.h"
 	"CUIEditBones.h"
 
@@ -2678,7 +2675,7 @@
 	"stdafx.h"
 	"CManualAction.h"
 
-1390518829 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/CDevices.cpp
+1391967982 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/CDevices.cpp
 	"stdafx.h"
 	"CDevices.h"
 	"Core/CCoreUserInterface.h"
@@ -2687,7 +2684,7 @@
 1389911251 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/FileLoader/CUIFileLoader.h
 	"../../Device/CDevices.h"
 
-1390510517 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/CCoreUserInterface.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/CCoreUserInterface.cpp
 	"stdafx.h"
 	"CCoreUserInterface.h"
 	"../../UserInterfaces/CodeEditor/CUICodeEditor.h"
@@ -2712,7 +2709,7 @@
 	"CSceneScripting.h"
 	"../../CDevices.h"
 
-1390431481 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CUIScriptEditor.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Device/Core/Scripting/CUIScriptEditor.cpp
 	"stdafx.h"
 	"CUIScriptEditor.h"
 	"../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
@@ -2748,7 +2745,7 @@
 	"stdafx.h"
 	"GraphKat.h"
 
-1390431512 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/Graph2D/GraphKat.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/Graph2D/GraphKat.h
 	<irrlicht.h>
 
 1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/NodesEditor/CGUINode.cpp
@@ -2764,7 +2761,7 @@
 	"stdafx.h"
 	"ProgressBar.h"
 
-1390432225 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/ViewPort/CGUIViewPort.cpp
 	"stdafx.h"
 	"CGUIViewPort.h"
 	<IGUIEnvironment.h>
@@ -2777,7 +2774,7 @@
 	"stdafx.h"
 	"CUIWindowEditDOF.h"
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.cpp
+1391965815 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.cpp
 	"stdafx.h"
 	"CShaderCallback.h"
 	"../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
@@ -2790,7 +2787,7 @@
 	"stdafx.h"
 	"CUIWindowEditMaterials.h"
 
-1390432490 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.cpp
+1391965346 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Renders/XEffect/Interfaces/CUIWindowEditMaterialsCallback.cpp
 	"stdafx.h"
 	"CUIWindowEditMaterialsCallback.h"
 
@@ -2831,7 +2828,7 @@
 	"CTerrainPager.h"
 	<irrlicht.h>
 
-1390432527 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/TerrainSystem/CTerrainSystem.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/TerrainSystem/CTerrainSystem.cpp
 	"stdafx.h"
 	"CTerrainSystem.h"
 
@@ -2839,7 +2836,7 @@
 	"stdafx.h"
 	"CWaterSurface.h"
 
-1390432547 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.cpp
 	"stdafx.h"
 	"RealisticWater.h"
 
@@ -2847,7 +2844,7 @@
 	"stdafx.h"
 	"CExporter.h"
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Scenes/CImporter.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/Scenes/CImporter.cpp
 	"stdafx.h"
 	"CImporter.h"
 
@@ -2859,11 +2856,11 @@
 	"stdafx.h"
 	"CUIWindowEditNodeAnimators.h"
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CodeEditor/CUICodeEditor.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CodeEditor/CUICodeEditor.cpp
 	"stdafx.h"
 	"CUICodeEditor.h"
 
-1390432626 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUILoadNodesGroup.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUILoadNodesGroup.cpp
 	"stdafx.h"
 	"CUILoadNodesGroup.h"
 
@@ -2871,7 +2868,7 @@
 	"stdafx.h"
 	"CUIRenderingInfos.h"
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIRightSceneTreeView.cpp
+1391964893 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/CUIRightSceneTreeView.cpp
 	"stdafx.h"
 	"CUIRightSceneTreeView.h"
 
@@ -2935,7 +2932,7 @@
 	"stdafx.h"
 	"CUIWindowAddWatersSurface.h"
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/UIMainWindow.cpp
+1391964893 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MainWindow/UIMainWindow.cpp
 	"stdafx.h"
 	"UIMainWindow.h"
 
@@ -2943,7 +2940,7 @@
 	"stdafx.h"
 	"CMaterialEditorFactory.h"
 
-1390432762 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/CUIMaterialEditor.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/MaterialEditor/CUIMaterialEditor.cpp
 	"stdafx.h"
 	"CUIMaterialEditor.h"
 
@@ -2963,7 +2960,7 @@
 	"stdafx.h"
 	"CNodeFactory.h"
 
-1390432812 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryCreateMeshWithTangents.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/NodeFactory/CUINodeFactoryCreateMeshWithTangents.cpp
 	"stdafx.h"
 	"CUINodeFactoryCreateMeshWithTangents.h"
 
@@ -2992,19 +2989,21 @@
 	"stdafx.h"
 	"CUISSWEOptions.h"
 
-1390422046 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.cpp
+1391964893 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleFlags.cpp
 	"stdafx.h"
 	"CUIEditParticleFlags.h"
 
-1390422046 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.cpp
+1391964893 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.cpp
 	"stdafx.h"
 	"CUIParticleEditor.h"
+	"CUIEditParticleFlags.h"
+	"CUIEditParticleInterpolators.h"
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticlesEditor.cpp
+1391964893 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticlesEditor.cpp
 	"stdafx.h"
 	"CUIParticlesEditor.h"
 
-1390513363 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp
 	"stdafx.h"
 	"CPluginsManager.h"
 
@@ -3028,7 +3027,7 @@
 	"stdafx.h"
 	"CUITexturesManager.h"
 
-1390519035 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/UIContextMenu.cpp
+1391965948 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/UIContextMenu.cpp
 	"stdafx.h"
 	"UIContextMenu.h"
 
@@ -3036,7 +3035,7 @@
 	"stdafx.h"
 	"UIWindowRender.h"
 
-1390433035 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/stdafx.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/stdafx.cpp
 	"stdafx.h"
 
 1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/DepthOfField/shadergroup.cpp
@@ -3049,7 +3048,7 @@
 	<irrlicht.h>
 	<iostream>
 
-1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.cpp
+1391466749 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.cpp
 	"stdafx.h"
 	"ScreenSpaceAmbientOcclusion.h"
 
@@ -3060,7 +3059,7 @@
 	<string>
 	<fstream>
 
-1390565848 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectHandler.cpp
+1391965986 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectHandler.cpp
 	"stdafx.h"
 	"EffectHandler.h"
 	"EffectCB.h"
@@ -3069,7 +3068,7 @@
 	<iostream>
 	<fstream>
 
-1390566105 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectShaders.h
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/Renders/XEffect/EffectShaders.h
 
 1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/SSWERenders.cpp
 	"stdafx.h"
@@ -3080,4 +3079,16 @@
 
 1389911251 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWERenders/stdafx.cpp
 	"stdafx.h"
+
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEShaderCallback.h
+	<irrlicht.h>
+
+1391466749 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/DLLExport.h
+
+1391964893 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleInterpolators.h
+	"../../Device/CDevices.h"
+
+1391964893 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleInterpolators.cpp
+	"stdafx.h"
+	"CUIEditParticleInterpolators.h"
 

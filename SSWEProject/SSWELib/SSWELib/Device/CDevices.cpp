@@ -296,15 +296,12 @@ void CDevices::drawGUI() {
 void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     //DEVICE
 
-<<<<<<< HEAD
     #ifndef _SSWE_LINUX_
 	Device = irr::createDeviceEx(parameters);
 	#else
 	Device = irr::createDevice(EDT_OPENGL, dimension2du(800, 600), 32, false, false, true, 0);
 	#endif
-=======
-	Device = createDeviceEx(parameters);
->>>>>>> 98982be63c0eb4af676bb57f976eb999ecfc21e8
+
     Device->setWindowCaption(L"Eternal 3D");
 	Device->setResizable(true);
 
@@ -420,7 +417,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	renderCore = new CRenderCore(this);
 
-	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
+	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_EXCLUDE);
 
 	//ADD EVENTS
 	Device->setEventReceiver(&receiver);

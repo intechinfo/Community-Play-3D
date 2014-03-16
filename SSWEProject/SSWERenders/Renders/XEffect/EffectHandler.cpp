@@ -29,18 +29,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 
 	//LIGHT SCATTERING PASS
 	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
-<<<<<<< HEAD
-	useLightScattering = true;
-
-=======
-	IImage *imLightScatteringRTT = driver->createImage(irr::video::ECF_R5G6B5, dimension2du(4, 4));
-	for (u32 i=0; i < 4; i++) {
-		for (u32 j=0; j < 4; j++) {
-			imLightScatteringRTT->setPixel(i, j, SColor(255, 0, 0, 0));
-		}
-	}
-	blackTextureLS = driver->addTexture("LightScatteringBlackTexture", imLightScatteringRTT);
-	imLightScatteringRTT->drop();
 	useLightScattering = true;
 
 	//REFLECTION PASS
@@ -49,7 +37,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	cameraForPasses = smgr->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0, 0, 0), -1, false);
 
 	//OTHERS
->>>>>>> e58a3f7a52bd70cd76a85dbcaac3df9bde4f8b05
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
 

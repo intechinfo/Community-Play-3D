@@ -13,16 +13,16 @@
 CShaderCallback::CShaderCallback() {
     material = 0;
     name = "";
-    
+
 	constants = "";
     vertexShader = "";
     pixelShader = "";
-    
+
     nullMatrix *= 0;
 }
 
 CShaderCallback::~CShaderCallback() {
-    
+
 }
 
 CUICodeEditor *CShaderCallback::modifyVertexShader(CDevices *devices) {
@@ -48,7 +48,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
     integers.clear();
     integers_c.clear();
 	integers_st.clear();
-    
+
     floats.clear();
     floats_c.clear();
 	floats_st.clear();
@@ -56,28 +56,28 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
 	vectors2D.clear();
 	vectors2D_c.clear();
 	vectors2D_st.clear();
-    
+
     vectors3D.clear();
     vectors3D_c.clear();
 	vectors3D_st.clear();
     vectors3DAs4Values.clear();
-    
+
     matrixes4.clear();
     matrixes4_c.clear();
 	matrixes4_st.clear();
-    
+
     colors.clear();
     colors_c.clear();
 	colors_st.clear();
-    
+
     std::string sConstants(stringc(constants).c_str());
     std::istringstream iss(sConstants);
-    
+
     do
     {
         std::string sub;
         iss >> sub;
-        
+
 		if (sub == "vvector2df" || sub == "pvector2df") {
 			irr::core::vector2df myVector;
             if (sub.c_str()[0] == 'v') {
@@ -107,7 +107,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             }
             iss >> sub;
             vectors3D_c.push_back(sub.c_str());
-            
+
             iss >> sub;
             if (sub == "camPos") {
                 vectors3D.push_back(device->getSceneManager()->getActiveCamera()->getPosition());
@@ -127,7 +127,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
                 vectors3D.push_back(myVector);
             }
         }
-        
+
         if (sub == "vmatrix4" || sub == "pmatrix4") {
             irr::core::matrix4 myMatrix;
             //myMatrix *= 0;
@@ -183,7 +183,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             }
             matrixes4.push_back(myMatrix);
         }
-        
+
         if (sub == "vfloat" || sub == "pfloat") {
             if (sub.c_str()[0] == 'v') {
                 floats_st.push_back(EST_VERTEX);
@@ -211,7 +211,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
                 floats.push_back(value);
             }
         }
-        
+
         if (sub == "vint" || sub == "pint") {
             if (sub.c_str()[0] == 'v') {
                 integers_st.push_back(EST_VERTEX);
@@ -245,7 +245,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
 			color.setBlue(atof(sub.c_str()));
             colors.push_back(color);
         }
-        
+
         if (sub == "vSColor" || sub == "pSColor") {
             irr::video::SColorf color;
             if (sub.c_str()[0] == 'v') {
@@ -266,17 +266,17 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             color.b = atof(sub.c_str());
             colors.push_back(color);
         }
-        
+
     } while (iss);
 }
 
 void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
     irr::video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices();
     material = baseMaterial;
-        
+
     buildConstants(driver);
 
-    if (driver->getDriverType() == irr::video::EDT_OPENGL) {
+    /*if (driver->getDriverType() == irr::video::EDT_OPENGL) {
         material = gpu->addHighLevelShaderMaterial(stringc(vertexShader).c_str(), "main", vertexShaderType,
                                                     stringc(pixelShader).c_str(), "main", pixelShaderType,
                                                     this, baseMaterial);
@@ -284,21 +284,21 @@ void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
 		material = gpu->addHighLevelShaderMaterial(stringc(vertexShader).c_str(), "vertexMain", vertexShaderType,
 													stringc(pixelShader).c_str(), "pixelMain", pixelShaderType,
 													this, baseMaterial);
-    }
+    }*/
 }
 
 void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData) {
 
 	buildConstants(services->getVideoDriver());
-    
-    for (int i=0; i < integers.size(); i++) {
+
+    for (u32 i=0; i < integers.size(); i++) {
         if (integers_st[i] == EST_VERTEX) {
             services->setVertexShaderConstant(integers_c[i].c_str(), (int *)&integers[i], 1);
         } else {
             services->setPixelShaderConstant(integers_c[i].c_str(), (int *)&integers[i], 1);
         }
     }
-    
+
     for (int i=0; i < floats.size(); i++) {
         if (floats_st[i] == EST_VERTEX) {
             services->setVertexShaderConstant(floats_c[i].c_str(), (float *)&floats[i], 1);
@@ -306,7 +306,7 @@ void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *serv
             services->setPixelShaderConstant(floats_c[i].c_str(), (float *)&floats[i], 1);
         }
     }
-    
+
     for (int i=0; i < vectors3D.size(); i++) {
         if (vectors3D_st[i] == EST_VERTEX) {
             if (vectors3DAs4Values[i] == false) {
@@ -328,7 +328,7 @@ void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *serv
             services->setPixelShaderConstant(vectors2D_c[i].c_str(), (float *)&vectors2D[i], 2);
         }
 	}
-    
+
     for (int i=0; i < matrixes4.size(); i++) {
         if (matrixes4_st[i] == EST_VERTEX) {
             services->setVertexShaderConstant(matrixes4_c[i].c_str(), matrixes4[i].pointer(), 16);
@@ -336,7 +336,7 @@ void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *serv
             services->setPixelShaderConstant(matrixes4_c[i].c_str(), matrixes4[i].pointer(), 16);
         }
     }
-    
+
     for (int i=0; i < colors.size(); i++) {
         if (colors_st[i] == EST_VERTEX) {
             services->setVertexShaderConstant(colors_c[i].c_str(), (float*)(&colors[i]), 4);

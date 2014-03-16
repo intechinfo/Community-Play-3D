@@ -305,21 +305,13 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
 
 		if (element == buildMaterial) {
-<<<<<<< HEAD
+
             #ifdef _IRR_OSX_PLATFORM_
 			this->build();
             #elif _SSWE_LINUX_
-=======
-            #ifndef _IRR_OSX_PLATFORM_
-			//std::thread t(&CUIWindowEditMaterialsCallback::build, *this);
-			//t.detach();
-			this->build();
-            #else
->>>>>>> 98982be63c0eb4af676bb57f976eb999ecfc21e8
             this->build();
             #else
-            std::thread t(&CUIWindowEditMaterialsCallback::build, *this);
-			t.detach();
+            this->build();
             #endif
 		}
 

@@ -838,6 +838,14 @@
 			<Option target="Linux" />
 			<Option target="Linux_Release" />
 		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleInterpolators.cpp">
+			<Option target="Linux" />
+			<Option target="Linux_Release" />
+		</Unit>
+		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIEditParticleInterpolators.h">
+			<Option target="Linux" />
+			<Option target="Linux_Release" />
+		</Unit>
 		<Unit filename="../SSWELib/SSWELib/UserInterfaces/ParticlesEditor/CUIParticleEditor.cpp">
 			<Option target="Linux" />
 			<Option target="Linux_Release" />
@@ -959,6 +967,10 @@
 			<Option target="Linux_Release" />
 		</Unit>
 		<Unit filename="../SSWELib/include/ISSWERender.h">
+			<Option target="Linux" />
+			<Option target="Linux_Release" />
+		</Unit>
+		<Unit filename="../SSWELib/include/ISSWEShaderCallback.h">
 			<Option target="Linux" />
 			<Option target="Linux_Release" />
 		</Unit>

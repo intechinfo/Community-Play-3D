@@ -272,13 +272,10 @@ public:
         return lspassed;
     }
 
-<<<<<<< HEAD
-=======
 	//Check if light scattering pass is enabled
 	bool isLightScatteringPassEnabled() { return useLightScattering; }
 	void enableLightScatteringPass(bool enable) { useLightScattering = enable; }
-    
->>>>>>> e58a3f7a52bd70cd76a85dbcaac3df9bde4f8b05
+
     //Check if depth pass is enabled
     bool isDepthPassEnabled() { return DepthPass; }
 
@@ -705,17 +702,12 @@ private:
 	irr::video::ITexture* DepthRTT;
 
 	bool useLightScattering;
-<<<<<<< HEAD
 	irr::video::ITexture *LightScatteringRTT;
-
-=======
-	irr::video::ITexture *LightScatteringRTT, *blackTextureLS;
 
 	bool useReflectionPass;
 	irr::video::ITexture *ReflectionRTT;
 	irr::scene::ICameraSceneNode *cameraForPasses;
-            
->>>>>>> e58a3f7a52bd70cd76a85dbcaac3df9bde4f8b05
+
     irr::video::ITexture* currentShadowMapTexture;
     irr::video::ITexture* currentSecondaryShadowMap;
 
