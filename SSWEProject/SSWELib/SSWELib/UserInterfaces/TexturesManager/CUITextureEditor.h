@@ -15,7 +15,7 @@ class CUITextureEditor: public IEventReceiver {
 
 public:
 
-	CUITextureEditor(CDevices *_devices, ITexture *texture);
+	CUITextureEditor(CDevices *_devices, ITexture *texture, IGUIElement *parent = 0);
 	~CUITextureEditor();
 
 	bool OnEvent(const SEvent &event);

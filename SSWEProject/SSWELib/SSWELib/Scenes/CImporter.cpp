@@ -89,6 +89,7 @@ void CImporter::buildTerrain() {
 		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
+		mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
 			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, false, true, false, true);
 		}

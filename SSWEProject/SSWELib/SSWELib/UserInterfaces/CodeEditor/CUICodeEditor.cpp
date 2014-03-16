@@ -130,9 +130,7 @@ bool CUICodeEditor::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
 			if (event.GUIEvent.Caller == window) {
-				devices->getEventReceiver()->RemoveEventReceiver(this);
-				window->remove();
-				delete this;
+				this->close();
 				return true;
 			}
 		}
@@ -217,6 +215,13 @@ void CUICodeEditor::resize(position2di position) {
 	window->setRelativePosition(position);
 }
 
+IGUIElement *CUICodeEditor::getCodeEditorElement() {
+	if (window && codeEditor)
+		return codeEditor;
+	else
+		return 0;
+}
+
 IGUIElement *CUICodeEditor::getWindow() {
 	if (window)
 		return window;
@@ -232,4 +237,20 @@ void CUICodeEditor::close() {
 	devices->getEventReceiver()->RemoveEventReceiver(this);
 	window->remove();
 	delete this;
+}
+
+void CUICodeEditor::addLUAKeywords() { codeEditor->addLUAKeywords(); }
+void CUICodeEditor::addCppKeywords() { codeEditor->addCppKeywords(); }
+void CUICodeEditor::addShaderKeywords() { codeEditor->addShaderKeywords(); }
+void CUICodeEditor::addConstantsShaderKeyWords() { codeEditor->addConstantsShaderKeyWords(); }
+
+void CUICodeEditor::setBackgroundColor(SColor color) {
+	codeEditor->setBackgroundColor(color);
+}
+
+void CUICodeEditor::addKeyword(stringc keyword, SColor color, bool matchCase) {
+	codeEditor->addKeyword(keyword, color, matchCase);
+}
+void CUICodeEditor::clearKeyWords() {
+	codeEditor->clearKeywords();
 }

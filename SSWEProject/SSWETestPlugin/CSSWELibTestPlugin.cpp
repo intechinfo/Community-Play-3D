@@ -9,6 +9,10 @@
 #include "stdafx.h"
 #include "CSSWELibTestPlugin.h"
 
+using namespace irr;
+using namespace gui;
+using namespace core;
+
 void* createSSWELibPlugin() {
 	return static_cast< void* > (new CSSWELibTestPlugin);
 }
@@ -21,17 +25,14 @@ CSSWELibTestPlugin::~CSSWELibTestPlugin() {
 
 }
 
-void CSSWELibTestPlugin::setDevices(IDevices *_devices) {
-	devices = _devices;
+void CSSWELibTestPlugin::update() {
+
 }
 
 void CSSWELibTestPlugin::close() {
-	//window->remove();
+	window->remove();
 
-	devices->getEventReceiver()->RemoveEventReceiver(this);
-    //devices->getCoreData()->destroySSWEPlugin(this);
-    
-	delete this;
+	ISSWELibPlugin::close();
 }
 
 void CSSWELibTestPlugin::open() {
@@ -80,7 +81,7 @@ void CSSWELibTestPlugin::open() {
 	gui->addStaticText(L"", rect<s32>(210, 70, 220, 410), true, true, window, -1, true);
 
 	//DATAS
-	devices->getEventReceiver()->AddEventReceiver(this, window);
+	ISSWELibPlugin::open();
 
 }
 

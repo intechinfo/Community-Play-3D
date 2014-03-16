@@ -12,9 +12,10 @@
 #include "../../Device/CDevices.h"
 
 #include <ITool.h>
+#include <IGUICodeEditor.h>
 #include "../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 
-class CUICodeEditor : public IEventReceiver, public ITool {
+class CUICodeEditor : public IEventReceiver, public IGUICodeEditor {
 
 public:
 
@@ -34,12 +35,25 @@ public:
 	void resize(rect<s32> position);
 	void resize(position2di position);
 	IGUIElement *getWindow();
+	IGUIElement *getCodeEditorElement();
 	void setVisible(bool visible);
 	void close();
 
 	//-----------------------------------
     //METHODS
 	void maximize(rect<s32> position);
+	//-----------------------------------
+
+	//-----------------------------------
+    //IGUICodeEditor
+	void addLUAKeywords();
+	void addCppKeywords();
+	void addShaderKeywords();
+	void addConstantsShaderKeyWords();
+    void setBackgroundColor(irr::video::SColor color = irr::video::SColor(255, 200, 200, 200));
+
+	void addKeyword(irr::core::stringc keyword, irr::video::SColor color, bool matchCase);
+	void clearKeyWords();
 	//-----------------------------------
 
 private:

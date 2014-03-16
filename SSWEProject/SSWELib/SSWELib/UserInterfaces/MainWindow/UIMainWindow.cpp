@@ -107,6 +107,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
                                                                    L"Delete Particle System", L"Delete the selected particle system.");
     
     mainWindow->setRelativePosition(rect<s32>(10, 80, 430, 580));
+	mainWindow->setRelativePosition(position2di(85, mainWindow->getRelativePosition().UpperLeftCorner.Y));
     //-----------------------------------
 
     //-----------------------------------

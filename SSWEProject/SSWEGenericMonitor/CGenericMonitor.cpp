@@ -46,9 +46,6 @@ void CGenericMonitor::drawScene() {
     } else {
         smgr->drawAll();
     }
-    
-    irr::ILogger *logger = renderer->getIrrlichtDevice()->getLogger();
-
 }
 
 void CGenericMonitor::drawGUI() {

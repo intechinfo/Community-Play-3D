@@ -26,8 +26,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	#ifndef _IRR_OSX_PLATFORM_
 		#ifndef SSWE_RELEASE
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+			pluginsManager->loadSSWEPlugin("SSWEULTIMATETOOL_D");
 		#else
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
+			pluginsManager->loadSSWEPlugin("SSWEULTIMATETOOL");
 		#endif
 	#else
 		#ifdef SSWE_RELEASE

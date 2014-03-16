@@ -11,6 +11,7 @@
 
 #include <IDevices.h>
 #include <ISSWELibPlugin.h>
+#include <IGUICodeEditor.h>
 
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"
@@ -151,6 +152,12 @@ public:
 	IGUIWindow *addInformationDialog(stringw title, stringw text, s32 flag, bool modal=true, IGUIElement *parent=0);
 	IGUIWindow *addErrorDialog(stringw title, stringw text, s32 flag);
 	IGUIWindow *addWarningDialog(stringw title, stringw text, s32 flag);
+	//-----------------------------------
+
+	//-----------------------------------
+	//UI ADVANCED DIALOG METHODS
+	IGUICodeEditor *createGUICodeEditor();
+	ISData *getSelectedData();
 	//-----------------------------------
 
 	//-----------------------------------

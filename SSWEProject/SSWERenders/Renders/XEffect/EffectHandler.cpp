@@ -117,7 +117,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 			Shadow[i] = gpu->addHighLevelShaderMaterial(
                                                         sPP.ppShader(SHADOW_PASS_2V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                         sPP.ppShader(SHADOW_PASS_2P[shaderExt]).c_str(), "pixelMain", pixelProfile,
-                                                        shadowMC, video::EMT_SOLID);
+														shadowMC, video::EMT_SOLID);
 		}
         
 		// Set resolution preprocessor defines.
@@ -248,8 +248,17 @@ void EffectHandler::addPostProcessingEffect(irr::s32 MaterialType, IPostProcessi
 
 void EffectHandler::addShadowToNode(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType, E_SHADOW_MODE shadowMode)
 {
-	SShadowNode snode = {node, shadowMode, filterType};
-	ShadowNodeArray.push_back(snode);
+	bool founded = false;
+	for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+		if (ShadowNodeArray[i].node == node) {
+			founded = true;
+			break;
+		}
+	}
+	if (!founded) {
+		SShadowNode snode = {node, shadowMode, filterType};
+		ShadowNodeArray.push_back(snode);
+	}
 }
 
 

@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CUIMaterialEditorTextures.h"
 
+#include "../../TexturesManager/CUITextureEditor.h"
+
 CUIMaterialEditorTextures::CUIMaterialEditorTextures(CDevices *_devices, IGUIElement *_parent, ISceneNode *node) {
     //-------------------------------------------------------------------------------------------------------
 	//DEVICES DATAS
@@ -67,16 +69,16 @@ CUIMaterialEditorTextures::CUIMaterialEditorTextures(CDevices *_devices, IGUIEle
     
     gui->addStaticText(L"", rect<s32>(779, 26, 789, 296), true, true, parent, -1, false);
     
-    gitex1 = gui->addImage(rect<s32>(129, 156, 259, 286), parent, -1, L"Material Texture 1");
+    gitex1 = gui->addImage(rect<s32>(129, 156, 259, 286), parent, -1, L"Material Texture 1", false);
     gitex1->setImage(node->getMaterial(0).TextureLayer[0].Texture);
     gitex1->setScaleImage(true);
-    gitex2 = gui->addImage(rect<s32>(269, 156, 399, 286), parent, -1, L"Material Texture 2");
+    gitex2 = gui->addImage(rect<s32>(269, 156, 399, 286), parent, -1, L"Material Texture 2", false);
     gitex2->setImage(node->getMaterial(0).TextureLayer[1].Texture);
     gitex2->setScaleImage(true);
-    gitex3 = gui->addImage(rect<s32>(409, 156, 539, 286), parent, -1, L"Material Texture 3");
+    gitex3 = gui->addImage(rect<s32>(409, 156, 539, 286), parent, -1, L"Material Texture 3", false);
     gitex3->setImage(node->getMaterial(0).TextureLayer[2].Texture);
     gitex3->setScaleImage(true);
-    gitex4 = gui->addImage(rect<s32>(549, 156, 679, 286), parent, -1, L"Material Texture 4");
+    gitex4 = gui->addImage(rect<s32>(549, 156, 679, 286), parent, -1, L"Material Texture 4", false);
     gitex4->setImage(node->getMaterial(0).TextureLayer[3].Texture);
     gitex4->setScaleImage(true);
     
@@ -140,7 +142,7 @@ CUIMaterialEditorTextures::CUIMaterialEditorTextures(CDevices *_devices, IGUIEle
     browseLoadTemplate = gui->addButton(rect<s32>(429, 546, 469, 566), parent, -1, L"...", L"Browse For Template");
     saveTemplate = gui->addButton(rect<s32>(29, 566, 149, 586), parent, -1, L"Save Template...", L"Save Template As...");
     
-    layerPreview = gui->addImage(rect<s32>(559, 406, 769, 606), parent, -1, L"Layer Preview");
+    layerPreview = gui->addImage(rect<s32>(559, 406, 769, 606), parent, -1, L"Layer Preview", false);
     layerPreview->setScaleImage(true);
     regenerateBipMapsLevels = gui->addButton(rect<s32>(559, 616, 769, 636), parent, -1, L"Regenerate Mip Map Levels", L"");
     //---------------------------------------------------------------------------------------------------------
@@ -223,6 +225,14 @@ u32 CUIMaterialEditorTextures::getSelectedLayer() {
 
 bool CUIMaterialEditorTextures::OnEvent(const SEvent &event) {
     
+	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		if (event.MouseInput.Event == EMIE_LMOUSE_DOUBLE_CLICK) {
+			if (devices->getGUIEnvironment()->getFocus() == layerPreview) {
+				CUITextureEditor *texEditor = new CUITextureEditor(devices, layerPreview->getImage(), parent->getParent());
+			}
+		}
+	}
+
     if (event.EventType == EET_GUI_EVENT) {
         //IF BUTTON CLICKED
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {

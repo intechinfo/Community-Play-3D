@@ -767,6 +767,9 @@
     <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.h">
       <Filter>SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker</Filter>
     </ClInclude>
+    <ClInclude Include="include\IGUICodeEditor.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

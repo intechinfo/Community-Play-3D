@@ -12,7 +12,7 @@
 
 #include "Core/CCoreUserInterface.h"
 
-//#include "../GUIExtension/FileSelector/CGUIFileSelector.h"
+#include "../GUIExtension/CodeEditor/CGUICodeEditor.h"
 #include "../GUIExtension/FileLoader/CUIFileLoader.h"
 
 CDevices::CDevices(CCoreUserInterface *_coreUserInterface) {
@@ -400,7 +400,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
     if (driver->getDriverType() == EDT_DIRECT3D9)
-        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
+        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
 		//effect = new EffectHandler(Device, dimension2du(800, 600), true, true, true);
     else
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
@@ -408,13 +408,13 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
-	effect->setAmbientColor(SColor(255, 0, 0, 0));
+	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);
 	effect->setUseVSMShadows(false);
     shaderExt = (driver->getDriverType() == EDT_DIRECT3D9) ? ".hlsl" : ".glsl";
 	setXEffectDrawable(true);
 	effect->enableDepthPass(false);
-	effect->setFPSCamera(camera_rig->getCameraSceneNode());
+	effect->setFPSCamera(camera_fps);
 
 	dof = effect->getDOF();
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
@@ -498,6 +498,18 @@ IGUIWindow *CDevices::addWarningDialog(stringw title, stringw text, s32 flag) {
     IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), true, flag, 0, -1, 
                        gui->getVideoDriver()->getTexture(workingDirectory + stringc("/GUI/warning.png")));
 	return window;
+}
+
+IGUICodeEditor *CDevices::createGUICodeEditor() {
+	return new CUICodeEditor(this, 0, true);
+}
+
+ISData *CDevices::getSelectedData() {
+	ISData *data;
+	ISceneNode *node = coreUserInterface->getMainWindow()->getSelectedNode().getNode();
+	data = worldCoreData->copySDataOfSceneNode(node);
+
+	return data;
 }
 
 bool CDevices::OnEvent(const SEvent &event) {

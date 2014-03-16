@@ -13,19 +13,19 @@
 
 #include <ISSWERender.h>
 
+/// Shadow light constructor. The first parameter is the square shadow map resolution.
+/// This should be a power of 2 number, and within reasonable size to achieve optimal
+/// performance and quality. Recommended sizes are 512 to 4096 subject to your target
+/// hardware and quality requirements. The next two parameters are position and target,
+/// the next one is the light color. The next two are very important parameters,
+/// the far value and the near value. The higher the near value, and the lower the
+/// far value, the better the depth precision of the shadows will be, however it will
+/// cover a smaller volume. The next is the FOV, if the light was to be considered
+/// a camera, this would be similar to setting the camera's field of view. The last
+/// parameter is whether the light is directional or not, if it is, an orthogonal
+/// projection matrix will be created instead of a perspective one.
 struct SShadowLight
 {
-	/// Shadow light constructor. The first parameter is the square shadow map resolution.
-	/// This should be a power of 2 number, and within reasonable size to achieve optimal
-	/// performance and quality. Recommended sizes are 512 to 4096 subject to your target
-	/// hardware and quality requirements. The next two parameters are position and target,
-	/// the next one is the light color. The next two are very important parameters,
-	/// the far value and the near value. The higher the near value, and the lower the
-	/// far value, the better the depth precision of the shadows will be, however it will
-	/// cover a smaller volume. The next is the FOV, if the light was to be considered
-	/// a camera, this would be similar to setting the camera's field of view. The last
-	/// parameter is whether the light is directional or not, if it is, an orthogonal
-	/// projection matrix will be created instead of a perspective one.
 	SShadowLight(	irr::u32 shadowMapResolution,
 					const irr::core::vector3df& position, 
 					const irr::core::vector3df& target,
@@ -51,6 +51,7 @@ struct SShadowLight
 		autoRecalculate = false;
 		isCamera = false;
 	}
+
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position) {
 		pos = position;
@@ -61,6 +62,7 @@ struct SShadowLight
 		tar = target;
 		updateViewMatrix();
 	}
+
 	/// Gets the light's position.
 	const irr::core::vector3df& getPosition() const { return pos; }
 	const irr::core::vector3df& getTarget()  const { return tar; }
@@ -132,6 +134,25 @@ struct SShadowLight
 	bool isTorchMode() { return isCamera; }
 	void setTorchMode(bool use) { isCamera = use; }
 
+	/// Change the shadow light mode
+	void setLightType(E_SHADOW_LIGHT_TYPE type) {
+		pointShadowLights.clear();
+		isDirectional = false;
+		projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+
+		updateViewMatrix();
+		if (type == ESLT_DIRECTIONAL) {
+			isDirectional = true;
+			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
+		} else {
+			for (u32 i=0; i < 5; i++) {
+				pointShadowLights.push_back(SShadowLight(this->getShadowMapResolution(), this->getPosition(),
+														 this->getTarget(), this->getLightColor(), this->getNearValue(), 
+														 this->getFarValue(), this->getFOV(), false));
+			}
+		}
+	}
+
 private:
 
 	void updateViewMatrix()
@@ -151,6 +172,8 @@ private:
 	bool autoRecalculate;
 	bool isCamera;
 	bool isDirectional;
+
+	irr::core::array<SShadowLight> pointShadowLights;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after

@@ -43,7 +43,7 @@ class ISSWELibPlugin;
 //-----------------------------------HERITANCES------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SData {
+struct SData : public ISData {
 
 	SData() {
 		SData(0, 0, "", ESNT_UNKNOWN);
@@ -69,7 +69,7 @@ struct SData {
 	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
 
 	//CLONED NODES METHODS
-	ISceneNode *cloneNode(vector3df position, CCore *core=0) {
+	ISceneNode *cloneNode(vector3df position, ISSWECore *core=0) {
 		ISceneNode *cnode = 0;
 		if (core)
 			cnode = core->clone(node, path, core->getDevice()->getSceneManager());
@@ -741,7 +741,7 @@ public:
 	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
     
     void removeSceneNode(ISceneNode *node, ISSWERender *_effect);
-    SData *copySDataOfSceneNode(irr::scene::ISceneNode *node);
+    ISData *copySDataOfSceneNode(irr::scene::ISceneNode *node);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -757,6 +757,16 @@ public:
 	}
 	u32 getTerrainsCount() { return terrainsData.size(); }
 	u32 getTerrainNodeIndice(ISceneNode *node);
+	void addTerrainNode(ISceneNode *node, IMesh *mesh, stringw path, E_TERRAIN_PATCH_SIZE patchSize)
+	{
+			STerrainHMData tdata(mesh, ((ITerrainSceneNode*)node), path, patchSize);
+			terrainsData.push_back(tdata);
+	}
+	void addTerrainNode(ISceneNode *node, IMesh *mesh, stringw path, u32 minPolysPerNode = 0)
+	{
+		STerrainsData tdata(mesh, node, path, minPolysPerNode, (minPolysPerNode == 0) ? ESNT_MESH : ESNT_OCTREE);
+		terrainsData.push_back(tdata);
+	}
 
 	//TREES
 	array<STreesData> *getTreesData() { return &treesData; }
@@ -778,6 +788,9 @@ public:
 		return datas;
 	}
 	u32 getObjectNodeIndice(ISceneNode *node);
+	void addObjectNode(ISceneNode *node, IMesh *mesh, stringw path) {
+		objectsData.push_back(SObjectsData(mesh, node, path));
+	}
 
 	//LIGHTS
 	array<SLightsData> *getLightsData() { return &lightsData; }

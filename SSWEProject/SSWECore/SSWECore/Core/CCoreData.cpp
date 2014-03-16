@@ -318,7 +318,7 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
     node->remove();
 }
 
-SData *CCoreData::copySDataOfSceneNode(irr::scene::ISceneNode *node) {
+ISData *CCoreData::copySDataOfSceneNode(irr::scene::ISceneNode *node) {
     //SEARCH TERRAINS
     s32 indice = getArrayOfTerrainNodes().binary_search(node);
     if (indice != -1) {

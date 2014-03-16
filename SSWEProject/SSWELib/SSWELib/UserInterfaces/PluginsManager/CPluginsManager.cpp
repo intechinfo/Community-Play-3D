@@ -190,6 +190,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
             devices->getCoreData()->getSSWEPlugins()->push_back(sswePlugin);
             
 			newPlugin->setDevices(devices);
+			newPlugin->setWorkingDirectory(devices->getWorkingDirectory() + "Plugins/SSWE/");
 			newPlugin->open();
 		}
 	}
