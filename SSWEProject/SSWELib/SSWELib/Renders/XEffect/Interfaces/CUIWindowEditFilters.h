@@ -11,7 +11,10 @@
 
 #include "../../../Device/CDevices.h"
 
+#include "../../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
+
+class CCoreFilterCallback;
 
 class CUIWindowEditFilters : public IEventReceiver {
 
@@ -27,10 +30,10 @@ public:
 private:
 
 	CDevices *devices;
+	CCoreFilterCallback *fcallback;
 
 	//-----------------------------------
 	//METHODS
-	void createLuaState(lua_State *L);
 	void reloadFilters();
 
 	void createLogWindow();

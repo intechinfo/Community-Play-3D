@@ -268,7 +268,7 @@ public:
 		bool founded = false;
 		irr::s32 i = 0;
     
-		while (!founded && i < LightScatteringPass.size()) {
+		while (!founded && i < (s32)LightScatteringPass.size()) {
 			if (LightScatteringPass[i] == node) {
 				founded = true;
 			}
@@ -296,7 +296,7 @@ public:
         bool founded = false;
         irr::s32 i = 0;
         
-        while (!founded && i < LightScatteringPass.size()) {
+        while (!founded && i < (s32)LightScatteringPass.size()) {
             if (LightScatteringPass[i] == node) {
                 lspassed = true;
                 founded = true;
@@ -332,7 +332,7 @@ public:
         bool founded = false;
         irr::s32 i = 0;
         
-        while (!founded && i < ShadowNodeArray.size()) {
+        while (!founded && i < (s32)ShadowNodeArray.size()) {
             if (ShadowNodeArray[i].node == node) {
                 ShadowNodeArray.erase(i);
                 founded = true;
@@ -347,7 +347,7 @@ public:
         bool founded = false;
         irr::s32 i = 0;
         
-        while (!founded && i < ShadowNodeArray.size()) {
+        while (!founded && i < (s32)ShadowNodeArray.size()) {
             if (ShadowNodeArray[i].node == node) {
                 if (ShadowNodeArray[i].shadowMode == shadowMode && ShadowNodeArray[i].filterType == filterType) {
                     shadowed = true;
@@ -379,7 +379,7 @@ public:
         bool founded = false;
         irr::s32 i = 0;
         
-        while (!founded && i < DepthPassArray.size()) {
+        while (!founded && i < (s32)DepthPassArray.size()) {
             if (DepthPassArray[i] == node) {
                 depthPasses = true;
                 founded = true;
@@ -396,7 +396,7 @@ public:
         
         bool founded = false;
         irr::s32 i = 0;
-        while (!founded && i < ShadowNodeArray.size()) {
+        while (!founded && i < (s32)ShadowNodeArray.size()) {
             if (ShadowNodeArray[i].node == node) {
                 founded = true;
                 excludedFromLightingCalculation = false;
@@ -416,7 +416,7 @@ public:
         irr::s32 i = 0;
         
         bool founded = false;
-        while (!founded && i < ShadowNodeArray.size()) {
+        while (!founded && i < (s32)ShadowNodeArray.size()) {
             if (ShadowNodeArray[i].node == node) {
                 shadowMode = ShadowNodeArray[i].shadowMode;
                 founded = true;

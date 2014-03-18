@@ -50,11 +50,29 @@ struct SData : public ISData {
 	}
 
 	SData(ISceneNode *_node, IMesh *_mesh, stringc _path, ESCENE_NODE_TYPE _type) {
+		/// Standard
 		node = _node;
 		mesh = _mesh;
 		path = _path;
 		type = _type;
+
+		/// Colnes
 		clonedNodes.clear();
+
+		/// Phsics
+		enablePhysics = false;
+		bodyType = ISData::EIPT_NONE;
+		pBodyPtr = 0;
+
+		/// Primitives
+		bool isTangentRecalculated = false;
+		bool isNormalRecalculated = false;
+		bool isAngleWeighted = false;
+		bool isSmoothed = false;
+
+		/// Planar texture mapping
+		bool isPlanarTextureMapped = false;
+		f32 isPlanarTextureMappedValue = 0.f;
 	}
 
 	//MAIN METHODS
@@ -120,13 +138,60 @@ struct SData : public ISData {
 	u32 getClonedNodeCount() { return clonedNodes.size(); }
 	ISceneNodeList *getClonedNodeList() { return &clonedNodes; }
 
+	//PHYSICS
+	bool isPhysicEnabled() { return enablePhysics; }
+	void setEnablePhysics(bool enable) { enablePhysics = enable; }
+
+	E_ISDATA_PHYSIC_TYPE getBodyType() { return bodyType; }
+	void setBodyType(E_ISDATA_PHYSIC_TYPE type) { bodyType = type; }
+
+	void *getBodyPtr() { return pBodyPtr; }
+	void setPBodyPtr(void *bodyPtr) { pBodyPtr = bodyPtr; }
+
+	//PRIMITIVES
+	bool wasTangentRecalculated() { return isTangentRecalculated; }
+	void setTangentRecalculated(bool recalculated) { isTangentRecalculated = recalculated; }
+
+	bool wasNormalRecalculated() { return isNormalRecalculated; }
+	void setNormalRecalculated(bool recalculated) { isNormalRecalculated = recalculated; }
+
+	bool wasAngleWeighted() { return isAngleWeighted; }
+	void setAngleWeightedRecalculated(bool recalculated) { isAngleWeighted = recalculated; }
+
+	bool wasSmoothed() { return isSmoothed; }
+	void setSmoothedRecalculated(bool recalculated) { isSmoothed = recalculated; }
+
+	/// Planar texture mapping
+	bool wasPlanarTextureMapped() { return isPlanarTextureMapped; }
+	void setPlanarTextureMapped(bool recalculated) { isPlanarTextureMapped = recalculated; }
+
+	f32 wasPlanarTextureMappedValue() { return isPlanarTextureMappedValue; }
+	void setPlanarTextureMappedValue(f32 value) { isPlanarTextureMappedValue = value; }
+
 private:
+	/// Standard
 	ISceneNode *node;
 	IMesh *mesh;
 	stringc path;
 	ESCENE_NODE_TYPE type;
 
+	/// Clones
 	ISceneNodeList clonedNodes;
+
+	/// Physics
+	bool enablePhysics;
+	E_ISDATA_PHYSIC_TYPE bodyType;
+	void *pBodyPtr;
+
+	/// Primitives
+	bool isTangentRecalculated;
+	bool isNormalRecalculated;
+	bool isAngleWeighted;
+	bool isSmoothed;
+
+	/// Planar texture mapping
+	bool isPlanarTextureMapped;
+	f32 isPlanarTextureMappedValue;
 };
 
 //---------------------------------------------------------------------------------------------
@@ -251,7 +316,7 @@ public:
 		SFilter("", "New Filter", "");
 	}
 
-	SFilter(stringc _pixelShader, stringc _name, stringc _callback) {
+	SFilter(stringc _pixelShader, stringc _name, stringw _callback) {
 		pixelShader = _pixelShader;
 		name = _name;
 		callback = _callback;
@@ -741,7 +806,8 @@ public:
 	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
     
     void removeSceneNode(ISceneNode *node, ISSWERender *_effect);
-    ISData *copySDataOfSceneNode(irr::scene::ISceneNode *node);
+    ISData *copySDataOfSceneNode(ISceneNode *node);
+	ISData *getISDataOfSceneNode(ISceneNode *node);
 	//-----------------------------------
 
 	//-----------------------------------

@@ -1,0 +1,104 @@
+#include <irrlicht.h>
+#include <bulletworld.h>
+#include <rigidbody.h>
+#include <boxshape.h>
+#include <sphereshape.h>
+#include "exampleframework.h"
+
+
+CExampleFramework::CExampleFramework()
+{
+}
+
+void CExampleFramework::runFramework() {};
+
+bool CExampleFramework::OnEvent(const irr::SEvent& event) {};
+
+void CExampleFramework::addCube(const irr::core::vector3df &pos, const irr::core::vector3df &scale, irr::f32 mass)
+{
+    irr::scene::ISceneNode *Node = device->getSceneManager()->addCubeSceneNode(1.0f);
+	Node->setScale(scale);
+	Node->setPosition(pos);
+	Node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+	Node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
+	Node->setMaterialTexture(0, device->getVideoDriver()->getTexture("crate.jpg"));
+
+    Node->setMaterialFlag(irr::video::EMF_WIREFRAME, drawWireFrame);
+
+	ICollisionShape *shape = new IBoxShape(Node, mass, false);
+
+	//shape->setMargin(0.01);
+
+	IRigidBody *body;
+	body = world->addRigidBody(shape);
+}
+
+void CExampleFramework::shootCube(const irr::core::vector3df &scale, irr::f32 mass)
+{
+	irr::core::vector3df pos(camera->getPosition().X,camera->getPosition().Y,camera->getPosition().Z);
+
+	irr::scene::ISceneNode *Node = device->getSceneManager()->addCubeSceneNode(1.0f);
+	Node->setScale(scale);
+	Node->setPosition(pos);
+	Node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+	Node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
+	Node->setMaterialTexture(0, device->getVideoDriver()->getTexture("rockwall.jpg"));
+
+    Node->setMaterialFlag(irr::video::EMF_WIREFRAME, drawWireFrame);
+
+	ICollisionShape *shape = new IBoxShape(Node, mass, true);
+
+	//shape->setMargin(0.01);
+
+	IRigidBody *body = world->addRigidBody(shape);
+
+	irr::core::vector3df rot = camera->getRotation();
+    irr::core::matrix4 mat;
+    mat.setRotationDegrees(rot);
+    irr::core::vector3df forwardDir(irr::core::vector3df(mat[8],mat[9],mat[10]) * 120);
+
+    body->setLinearVelocity(forwardDir);
+
+    body->setDamping(0.2,0.2);
+    body->setFriction(0.4f);
+}
+
+void CExampleFramework::shootSphere(const irr::core::vector3df &scale, irr::f32 mass)
+{
+	irr::core::vector3df pos(camera->getPosition().X,camera->getPosition().Y,camera->getPosition().Z);
+
+	irr::scene::ISceneNode *Node = device->getSceneManager()->addSphereSceneNode();
+	Node->setScale(scale);
+	Node->setPosition(pos);
+	Node->setMaterialFlag(irr::video::EMF_LIGHTING, true);
+	Node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
+	Node->setMaterialTexture(0, device->getVideoDriver()->getTexture("rockwall.jpg"));
+
+	if(drawWireFrame)
+        Node->setMaterialFlag(irr::video::EMF_WIREFRAME, drawWireFrame);
+
+	ICollisionShape *shape = new ISphereShape(Node, mass, true);
+
+	//shape->setMargin(0.01);
+
+	IRigidBody *body = world->addRigidBody(shape);
+	body->setDamping(0.2,0.2);
+
+    // Since we use a "bumpy" triangle mesh for the terrain, we need to set the CCD radius and
+    // motion threshold to ensure that we don't have any tunneling problems.
+    // This doesn't work very well for box shapes.
+	// ALSO: If you use setLocalScaling() on the collision shape, be sure to call this again
+	// after scaling to make sure that it matches the actual object.
+	body->applyCalculatedCcdValues();
+
+	irr::core::vector3df rot = camera->getRotation();
+    irr::core::matrix4 mat;
+    mat.setRotationDegrees(rot);
+    irr::core::vector3df forwardDir(irr::core::vector3df(mat[8],mat[9],mat[10]) * 120);
+
+    body->setLinearVelocity(forwardDir);
+}
+
+CExampleFramework::~CExampleFramework()
+{
+}

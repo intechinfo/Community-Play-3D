@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CUIWindowEditNode.h"
 
+#include <irrbullet.h>
+
 CUIWindowEditNode::CUIWindowEditNode(CDevices *_devices) {
     devices = _devices;
     
@@ -56,6 +58,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         devices->getEventReceiver()->RemoveEventReceiver(this);
         delete this;
     } else {
+
         nodeToEditPrefix.append(prefix);
         nodeToEdit->setDebugDataVisible(EDS_BBOX_ALL);
         
@@ -80,6 +83,7 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         flagsTab = tabCtrl->addTab(L"Flags & Materials");
         generalFlagsTab = tabCtrl->addTab(L"Global Flags");
         advancedTab = tabCtrl->addTab(L"Height Map");
+		physicsTab = tabCtrl->addTab(L"Physics");
         animatedTab = tabCtrl->addTab(L"Animated");
         
         tabCtrl->setActiveTab(generalTab);
@@ -376,6 +380,30 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
         gTextureWrap = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(9, 136, 149, 156), generalFlagsTab, -1, L"Texture Wrap");
         gZBuffer = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(149, 136, 259, 156), generalFlagsTab, -1, L"ZBuffer");
         gZWriteEnable = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(259, 136, 399, 156), generalFlagsTab, -1, L"ZWrite Enable");
+
+		//SETTING PHYSICS
+		SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
+
+		penablePhysics = devices->getGUIEnvironment()->addCheckBox(sdatat->isPhysicEnabled(), rect<s32>(9, 23, 193, 43), physicsTab, -1, L"Enable Physics");
+		devices->getGUIEnvironment()->addStaticText(L"Type :", rect<s32>(9, 53, 63, 73), true, true, physicsTab, -1, true);
+		pBodyType = devices->getGUIEnvironment()->addComboBox(rect<s32>(63, 53, 233, 73), physicsTab, -1);
+		pBodyType->addItem(L"None");
+		pBodyType->addItem(L"Rigid Body");
+		pBodyType->addItem(L"Liquid Body");
+		pBodyType->addItem(L"Soft Body");
+		pBodyType->setSelected(sdatat->getBodyType());
+		lastPhysicBodyType = sdatat->getBodyType();
+
+		devices->getGUIEnvironment()->addStaticText(L"Mass :", rect<s32>(9, 93, 63, 113), true, true, physicsTab, -1, true);
+		pMasseb = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(63, 93, 233, 113), true, physicsTab, -1);
+		if (sdatat->getBodyType() == ISData::EIPT_LIQUID_BODY) {
+			pMasseb->setEnabled(false);
+		} else if (sdatat->getBodyType() == ISData::EIPT_NONE) {
+			pMasseb->setEnabled(false);
+		} else {
+			pMasseb->setText(stringw(((ICollisionShape*)sdatat->getBodyPtr())->getMass()).c_str());
+		}
+		pEditBody = devices->getGUIEnvironment()->addButton(rect<s32>(9, 123, 113, 143), physicsTab, -1, L"Edit...", L"Edit the shape...");
         
 		//SETTING UP ANIMATED
 		drawAnimations = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(19, 16, 159, 36), animatedTab, -1, L"Draw Animations");
@@ -1137,6 +1165,27 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                         break;
                 }
             }
+			if (event.GUIEvent.Caller == pMasseb) {
+				SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
+				f32 newMass = devices->getCore()->getF32(pMasseb->getText());
+				if (sdatat->getBodyType() == ISData::EIPT_RIGID_BODY) {
+					devices->getBulletWorld()->removeCollisionObject((IRigidBody*)sdatat->getBodyPtr(), false);
+					ICollisionShape *newShape = 0;
+
+					if (nodeToEdit->getType() == ESNT_ANIMATED_MESH) {
+						newShape = new IBvhTriangleMeshShape(nodeToEdit, sdatat->getMesh() ,newMass);
+					} else if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
+						newShape = new IBvhTriangleMeshShape(nodeToEdit, sdatat->getMesh(), newMass);
+					} else if (nodeToEdit->getType() == ESNT_CUBE) {
+						newShape = new IBoxShape(nodeToEdit, newMass, false);
+					} else if (nodeToEdit->getType() == ESNT_SPHERE) {
+						newShape = new ISphereShape(nodeToEdit, newMass, false);
+					}
+
+					if (newShape)
+						devices->getBulletWorld()->addRigidBody(newShape);
+				}
+			}
         }
         
         //CHECKBOXES
@@ -1284,6 +1333,21 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
             if (event.GUIEvent.Caller == gZWriteEnable) {
                 nodeToEdit->setMaterialFlag(EMF_ZWRITE_ENABLE, gZWriteEnable->isChecked());
             }
+
+			//PHYSICS
+			if (event.GUIEvent.Caller == penablePhysics) {
+				SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
+				sdatat->setEnablePhysics(penablePhysics->isChecked());
+				if (!penablePhysics->isChecked()) {
+					if (sdatat->getBodyType() == ISData::EIPT_LIQUID_BODY)
+						devices->getBulletWorld()->removeLiquidBody((ILiquidBody*)sdatat->getBodyPtr());
+					else
+						devices->getBulletWorld()->removeCollisionObject((ICollisionObject*)sdatat->getBodyPtr(), false);
+					sdatat->setBodyType(ISData::EIPT_NONE);
+					sdatat->setPBodyPtr(0);
+					pBodyType->setSelected(0);
+				}
+			}
         }
         
         if (event.GUIEvent.EventType == EGET_SPINBOX_CHANGED) {
@@ -1399,6 +1463,64 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 												   devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getEnd());
 					animatedNode->setAnimationSpeed(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getAnimSpeed());
 					}
+				}
+			}
+			//PHYSICS
+			if (event.GUIEvent.Caller == pBodyType) {
+				pMasseb->setEnabled(true);
+				SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
+				if (sdatat->getBodyType() != ISData::EIPT_NONE) {
+					//REMOVE HERE
+					if (sdatat->getType() == ISData::EIPT_RIGID_BODY) {
+						devices->getBulletWorld()->removeCollisionObject((IRigidBody*)sdatat->getBodyPtr(), false);
+					} else if (sdatat->getType() == ISData::EIPT_SOFT_BODY) {
+						devices->getBulletWorld()->removeCollisionObject((ISoftBody*)sdatat->getBodyPtr(), false);
+					} else if (sdatat->getType() == ISData::EIPT_LIQUID_BODY) {
+						devices->getBulletWorld()->removeLiquidBody((ILiquidBody*)sdatat->getBodyPtr());
+					}
+				}
+				if (pBodyType->getSelected() == ISData::EIPT_RIGID_BODY) {
+					ICollisionShape *shape = 0;
+
+					if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
+						shape = new IBvhTriangleMeshShape(nodeToEdit, ((IMeshSceneNode*)nodeToEdit)->getMesh(), 0.f);
+					} else if (nodeToEdit->getType() == ESNT_CUBE) {
+						shape = new IBoxShape(nodeToEdit, 0.f, false);
+					} else if (nodeToEdit->getType() == ESNT_SPHERE) {
+						shape = new ISphereShape(nodeToEdit, 0.f, false);
+					} else if (nodeToEdit->getType() == ESNT_TERRAIN) {
+						//NEEDS FIXES
+						IMesh *mesh = ((ITerrainSceneNode*)nodeToEdit)->getMesh();
+						CDynamicMeshBuffer *mb = new CDynamicMeshBuffer(EVT_2TCOORDS, EIT_32BIT);
+						((ITerrainSceneNode*)nodeToEdit)->getMeshBufferForLOD(*mb);
+						shape = new IBvhTriangleMeshShape((ITerrainSceneNode*)nodeToEdit, ((ITerrainSceneNode*)nodeToEdit)->getMesh(), 0.f);
+					}
+
+					if (shape != 0) {
+						IRigidBody *rbody = devices->getBulletWorld()->addRigidBody(shape);
+						sdatat->setBodyType(ISData::EIPT_RIGID_BODY);
+						sdatat->setPBodyPtr(rbody);
+					}
+				}
+				if (pBodyType->getSelected() == ISData::EIPT_LIQUID_BODY) {
+					aabbox3d<f32> box = nodeToEdit->getBoundingBox();
+					ILiquidBody *lbody = devices->getBulletWorld()->addLiquidBody(vector3df(-5000,0,5000), 
+																				  aabbox3df(0, -10000, 0, 10000, 0, 10000),
+																				  500.0f, 200.0f);
+					sdatat->setBodyType(ISData::EIPT_LIQUID_BODY);
+					sdatat->setPBodyPtr(lbody);
+					pMasseb->setEnabled(false);
+				}
+				if (pBodyType->getSelected() == ISData::EIPT_SOFT_BODY) {
+					if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE || nodeToEdit->getType() == ESNT_CUBE) {
+						ISoftBody *sbody = devices->getBulletWorld()->addSoftBody((IMeshSceneNode*)nodeToEdit);
+						sdatat->setBodyType(ISData::EIPT_SOFT_BODY);
+						sdatat->setPBodyPtr(sbody);
+					}
+				}
+				if (pBodyType->getSelected() == ISData::EIPT_NONE) {
+					sdatat->setBodyType(ISData::EIPT_NONE);
+					sdatat->setPBodyPtr(0);
 				}
 			}
         }

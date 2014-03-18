@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="bulletworld.cpp" open="1" top="1" tabpos="7">
+		<Cursor position="9020" topLine="347" />
+	</File>
+	<File name="bulletworld.h" open="1" top="0" tabpos="6">
+		<Cursor position="859" topLine="22" />
+	</File>
+	<File name="collisionobject.cpp" open="1" top="0" tabpos="11">
+		<Cursor position="7396" topLine="304" />
+	</File>
+	<File name="collisionobject.h" open="1" top="0" tabpos="10">
+		<Cursor position="233" topLine="0" />
+	</File>
+	<File name="collisionobjectaffector.cpp" open="1" top="0" tabpos="23">
+		<Cursor position="407" topLine="0" />
+	</File>
+	<File name="collisionobjectaffector.h" open="1" top="0" tabpos="22">
+		<Cursor position="254" topLine="0" />
+	</File>
+	<File name="collisionobjectaffectordelete.cpp" open="1" top="0" tabpos="25">
+		<Cursor position="357" topLine="8" />
+	</File>
+	<File name="collisionobjectaffectordelete.h" open="1" top="0" tabpos="24">
+		<Cursor position="687" topLine="0" />
+	</File>
+	<File name="collisionshape.cpp" open="1" top="0" tabpos="17">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="collisionshape.h" open="1" top="0" tabpos="5">
+		<Cursor position="2377" topLine="70" />
+	</File>
+	<File name="common.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="662" topLine="24" />
+	</File>
+	<File name="convexhullshape.cpp" open="1" top="0" tabpos="19">
+		<Cursor position="206" topLine="27" />
+	</File>
+	<File name="gimpactmeshshape.h" open="1" top="0" tabpos="4">
+		<Cursor position="159" topLine="0" />
+	</File>
+	<File name="irrbullet.h" open="1" top="0" tabpos="12">
+		<Cursor position="1740" topLine="27" />
+	</File>
+	<File name="irrbullet_compile_config.h" open="1" top="0" tabpos="13">
+		<Cursor position="42" topLine="0" />
+	</File>
+	<File name="motionstate.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="1543" topLine="46" />
+	</File>
+	<File name="motionstate.h" open="1" top="0" tabpos="16">
+		<Cursor position="611" topLine="4" />
+	</File>
+	<File name="raycastvehicle.cpp" open="1" top="0" tabpos="15">
+		<Cursor position="1058" topLine="13" />
+	</File>
+	<File name="raycastvehicle.h" open="1" top="0" tabpos="14">
+		<Cursor position="168" topLine="123" />
+	</File>
+	<File name="rigidbody.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="689" topLine="10" />
+	</File>
+	<File name="rigidbody.h" open="1" top="0" tabpos="8">
+		<Cursor position="6842" topLine="126" />
+	</File>
+	<File name="trianglemeshshape.cpp" open="1" top="0" tabpos="18">
+		<Cursor position="297" topLine="0" />
+	</File>
+	<File name="trianglemeshshape.h" open="1" top="0" tabpos="3">
+		<Cursor position="59" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

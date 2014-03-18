@@ -9,11 +9,13 @@
 #ifndef __C_UI_IMPORTER_H_INCLUDED__
 #define __C_UI_IMPORTER_H_INCLUDED__
 
+#include <ISSWEImporter.h>
+
 #include "../Device/CDevices.h"
 
 #include "../UserInterfaces/CUIWindowEditNode.h"
 
-class CImporter {
+class CImporter : public ISSWEImporter {
 
 public:
 
@@ -63,7 +65,8 @@ private:
 	void readEffects();
 	void readMaterialShaderCallbacks();
 	void readScripts();
-	void readFactory(ISceneNode *_node, IMesh *_mesh);
+	SData readFactory(ISceneNode *_node, IMesh *_mesh);
+	void copySDataFactoryOf(SData *data, SData toCopy);
 	void readMaterials(ISceneNode *_node);
 	void readTransformations(ISceneNode *_node);
 	void readViewModes(ISceneNode *_node);

@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="1572.362061" Y="38.888260" Z="-247.732605" />
-			 <rotation X="344.437744" Y="286.963867" Z="0.000000" />
+			 <position X="512.069031" Y="78.440544" Z="-48.103695" />
+			 <rotation X="12.158178" Y="36.071434" Z="0.000000" />
 
 		 </camera>
 
@@ -32,6 +32,164 @@
 
 		 <effect>
 
+			 <postProcessingEffect>
+				 <ppeName name="/blurhp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(1.0 / SCREENX, 0),
+		float2(-1.0 / SCREENX, 0),
+		float2(2.0 / SCREENX, 0),
+		float2(-2.0 / SCREENX, 0)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.0), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/blurvp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(0, 1.0 / SCREENY),
+		float2(0, -1.0 / SCREENY),
+		float2(0, 2.0 / SCREENY),
+		float2(0, -2.0 / SCREENY)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.01), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/sepia_toon_shader.hlsl" />
+				 <ppeShader shader="//------------------------------ TEXTURE PROPERTIES ----------------------------
+// This is the texture that SpriteBatch will try to set before drawing
+texture ScreenTexture;
+ 
+// Our sampler for the texture, which is just going to be pretty simple
+sampler TextureSampler = sampler_state
+{
+    Texture = <ScreenTexture>;
+};
+ 
+//------------------------ PIXEL SHADER ----------------------------------------
+// This pixel shader will simply look up the color of the texture at the
+// requested point, and turns it into a sepia tone
+float4 pixelMain(float2 TextureCoordinate : TEXCOORD0) : COLOR0
+{
+    float4 color = tex2D(TextureSampler, TextureCoordinate);
+ 
+    float4 outputColor = color;
+    outputColor.r = (color.r * 0.393) + (color.g * 0.769) + (color.b * 0.189);
+    outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);    
+    outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
+ 
+    return outputColor;
+}
+ 
+//-------------------------- TECHNIQUES ----------------------------------------
+// This technique is pretty simple - only one pass, and only a pixel shader
+technique Sepia
+{
+    pass Pass1
+    {
+        PixelShader = compile ps_2_0 pixelMain();
+    }
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/bloomp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+sampler2D ScreenMapSampler : register(s1);
+
+float4 pixelMain(float2 TexCoords : TEXCOORD0) : COLOR0
+{		
+	float4 screenCol = tex2D(ScreenMapSampler, TexCoords);
+	float4 bloomCol = tex2D(ColorMapSampler, TexCoords);
+	
+	return(screenCol * 0.9 + bloomCol * 0.5);
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/vignette.hlsl" />
+				 <ppeShader shader="uniform sampler2D SceneBuffer : register(s0);
+
+uniform float EdgeDarkness;
+
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+{
+    float2 tc= texCoord;
+    float4 finalCol = tex2D(SceneBuffer, texCoord);
+    tc -= 0.5;
+    float vignette = 1.0-(dot(tc, tc)*EdgeDarkness);
+	return finalCol*vignette;
+}
+
+" />
+				 <ppeCallback callback="filter:setPixelShaderConstantFloat(&quotEdgeDarkness&quot, 2)
+" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/desaturate.hlsl" />
+				 <ppeShader shader="// nvidia shader library
+// http://developer.download.nvidia.com/shaderlibrary/webpages/shader_library.html
+
+uniform sampler2D SceneBuffer : register(s0);
+uniform sampler2D UserMapSampler : register(s3);
+
+uniform float Desaturation;
+
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+{   
+	// digital ITU Recommendations
+	const float3 ITU_R_601 = float3(0.2990, 0.5870, 0.1140);
+	const float3 ITU_R_709 = float3(0.2126, 0.7152, 0.0722);
+
+    float4 texColor = tex2D(SceneBuffer, texCoord);
+	
+    float3 gray = dot(texColor.rgb, ITU_R_601);
+    float3 result = lerp(texColor, gray.xxx, Desaturation);
+    return float4(result, 1.0) + tex2D(UserMapSampler, texCoord);
+}
+
+" />
+				 <ppeCallback callback="driver:setTexture(&quotshaders/Textures/LF/lensdirt.png&quot)
+
+filter:setPixelShaderConstantFloat(&quotDesaturation&quot, 0.4)
+" />
+			 </postProcessingEffect>
+
 
 		 </effect>
 
@@ -44,1344 +202,175 @@
 				 <name cname="normal_mapping_package.spkg" />
 				 <vertex shader=
 "float4x4 matWorldInverse; 
-
-
-
-
-
-
-
 float4x4 ModelViewMatrix;
-
-
-
-
-
-
-
 float4x4 ModelViewProjectionMatrix;
-
-
-
-
-
-
-
 float3 fvLightPosition1; 
-
-
-
-
-
-
-
 float3 fvLightPosition2; 
-
-
-
-
-
-
-
 float3 fvLightPosition3; 
-
-
-
-
-
-
-
 float3 fvLightPosition4; 
-
-
-
-
-
-
-
 float fLightStrength1; 
-
-
-
-
-
-
-
 float fLightStrength2; 
-
-
-
-
-
-
-
 float fLightStrength3; 
-
-
-
-
-
-
-
 float fLightStrength4; 
-
-
-
-
-
-
-
 struct VS_OUTPUT
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float4 Position            : POSITION0;
-
-
-
-
-
-
-
    float2 Texcoord            : TEXCOORD0;
-
-
-
-
-
-
-
    float3 ViewDirection      : TEXCOORD1; 
-
-
-
-
-
-
-
    float3 LightDirection1      : TEXCOORD2; 
-
-
-
-
-
-
-
    float3 LightDirection2      : TEXCOORD3; 
-
-
-
-
-
-
-
    float3 LightDirection3      : TEXCOORD4; 
-
-
-
-
-
-
-
    float3 LightDirection4      : TEXCOORD5; 
-
-
-
-
-
-
-
    float4 LightDistMultiplier  : TEXCOORD6;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 float getLengthSQR (float3 vec) 
-
-
-
-
-
-
-
 { 
-
-
-
-
-
-
-
    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-
-
-
-
-
-
-
 }  
-
-
-
-
-
-
-
 struct VS_INPUT
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float3 Position         : POSITION0;
-
-
-
-
-
-
-
    float3 Normal           : NORMAL;
-
-
-
-
-
-
-
    float2 Texcoord         : TEXCOORD0;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-
-
-
-
-
-
-
 {    
-
-
-
-
-
-
-
    VS_OUTPUT OUT = (VS_OUTPUT)0;
-
-
-
-
-
-
-
    OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-
-
-
-
-
-
-
    OUT.Texcoord = IN.Texcoord;
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float4x4 LightTransform= ModelViewMatrix; 
-
-
-
-
-
-
-
    LightTransform= mul(matWorldInverse, LightTransform);
-
-
-
-
-
-
-
    float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-
-
-
-
-
-
-
    float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-
-
-
-
-
-
-
    float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-
-
-
-
-
-
-
    float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-
-
-
-
-
-
-
    float3 fvBinormal   = cross(fvTangent,IN.Normal);
-
-
-
-
-
-
-
    float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-
-
-
-
-
-
-
    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-
-
-
-
-
-
-
    fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    return OUT;
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 " />
 				 <pixel shader=
 "float4 fvAmbient;
-
-
-
-
-
-
-
 float4 fvLight1Color; 
-
-
-
-
-
-
-
 float4 fvLight2Color; 
-
-
-
-
-
-
-
 float4 fvLight3Color; 
-
-
-
-
-
-
-
 float4 fvLight4Color; 
-
-
-
-
-
-
-
 float fSpecularPower; 
-
-
-
-
-
-
-
 float fSpecularStrength; 
-
-
-
-
-
-
-
 float fBumpStrength; 
-
-
-
-
-
-
-
 sampler2D baseMap      : register(s0); 
-
-
-
-
-
-
-
 sampler2D bumpMap      : register(s1); 
-
-
-
-
-
-
-
 struct PS_INPUT
-
-
-
-
-
-
-
 {   
-
-
-
-
-
-
-
    float2 Texcoord            : TEXCOORD0;
-
-
-
-
-
-
-
    float3 ViewDirection      : TEXCOORD1; 
-
-
-
-
-
-
-
    float3 LightDirection1      : TEXCOORD2; 
-
-
-
-
-
-
-
    float3 LightDirection2      : TEXCOORD3;
-
-
-
-
-
-
-
    float3 LightDirection3      : TEXCOORD4; 
-
-
-
-
-
-
-
    float3 LightDirection4      : TEXCOORD5; 
-
-
-
-
-
-
-
    float4 LightDistMultiplier  : TEXCOORD6;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 float4 pixelMain( in PS_INPUT IN ) : COLOR
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float4 color = float4(0,0,0,0);
-
-
-
-
-
-
-
    float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-
-
-
-
-
-
-
    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    fvNormal.xy*=2.0; 
-
-
-
-
-
-
-
    fvNormal.xy-=1.0;
-
-
-
-
-
-
-
    fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-
-
-
-
-
-
-
    fvNormal=normalize(fvNormal);
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-
-
-
-
-
-
-
    float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-
-
-
-
-
-
-
    float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-
-
-
-
-
-
-
    float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-
-
-
-
-
-
-
    float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-
-
-
-
-
-
-
    float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-
-
-
-
-
-
-
    float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-
-
-
-
-
-
-
    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-
-
-
-
-
-
-
    float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-
-
-
-
-
-
-
    float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-
-
-
-
-
-
-
    color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-
-
-
-
-
-
-
    if(color.r>1.0){color.gb+=color.r-1.0;} 
-
-
-
-
-
-
-
    if(color.g>1.0){color.rb+=color.g-1.0;} 
-
-
-
-
-
-
-
    if(color.b>1.0){color.rg+=color.b-1.0;} 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    return color;
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 " />
 				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
-
-
-
-
-
-
-
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
-
-
-
-
-
-
-
 vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 vfloat fLightStrength1 80
-
-
-
-
-
-
-
 vfloat fLightStrength2 80
-
-
-
-
-
-
-
 vfloat fLightStrength3 80
-
-
-
-
-
-
-
 vfloat fLightStrength4 80
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 vvector3df fvLightPosition1 150 240 -34
-
-
-
-
-
-
-
 vvector3df fvLightPosition2 150 240 -34
-
-
-
-
-
-
-
 vvector3df fvLightPosition3 150 240 -34
-
-
-
-
-
-
-
 vvector3df fvLightPosition4 150 240 -34
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 pSColor fvAmbient 1 0.7 0.7 0.7
-
-
-
-
-
-
-
 pSColor fvLight1Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
 pSColor fvLight2Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
 pSColor fvLight3Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
 pSColor fvLight4Color 1 0.02 0.02 0.02
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 pfloat fSpecularPower 20
-
-
-
-
-
-
-
 pfloat fSpecularStrength 0.9
-
-
-
-
-
-
-
 pfloat fBumpStrength 5
-
-
-
-
-
-
-
 " />
 			 </materialType>
 
@@ -1407,6 +396,16 @@ pfloat fBumpStrength 5
 
 			 <factory> 
 
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
 
 			 </factory> 
 
@@ -1416,7 +415,7 @@ pfloat fBumpStrength 5
 			 	 <material id="0">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1445,13 +444,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1480,13 +479,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="2">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1515,13 +514,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="3">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1550,13 +549,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="4">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1585,13 +584,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="5">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1620,13 +619,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="6">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1655,13 +654,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="7">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1690,13 +689,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="8">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1725,13 +724,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="9">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1760,13 +759,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="10">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1795,13 +794,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="11">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_armatura_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1830,13 +829,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="12">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_armatura_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1865,13 +864,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="13">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1900,13 +899,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="14">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1935,13 +934,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="15">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1970,13 +969,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="16">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2005,13 +1004,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="17">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_jaggies_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2040,13 +1039,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="18">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_jaggies_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2075,13 +1074,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="19">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_jaggies_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2110,13 +1109,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="20">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_jaggies_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2145,13 +1144,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="21">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_armatura_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2180,13 +1179,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="22">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_armatura_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2215,13 +1214,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="23">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2250,13 +1249,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="24">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_black_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2285,13 +1284,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="25">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_black_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2320,13 +1319,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="26">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rail_bolt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2355,13 +1354,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="27">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rail_bolt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2390,13 +1389,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="28">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2425,13 +1424,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="29">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2460,13 +1459,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="30">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_tile_2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2495,13 +1494,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="31">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2530,13 +1529,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="32">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_stucaturka_raz_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2565,13 +1564,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="33">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_bricks_bricks_blokc_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2600,13 +1599,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="34">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_bricks_bricks_blokc_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2635,13 +1634,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="35">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_bricks_bricks_blokc_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2670,13 +1669,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="36">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2705,13 +1704,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="37">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2740,13 +1739,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="38">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2775,13 +1774,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="39">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2810,13 +1809,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="40">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2845,13 +1844,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="41">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2880,13 +1879,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="42">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2915,13 +1914,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="43">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_black_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2950,13 +1949,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="44">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_black_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2985,13 +1984,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="45">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3020,13 +2019,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="46">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3055,13 +2054,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="47">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3090,13 +2089,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="48">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3125,13 +2124,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="49">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3160,13 +2159,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="50">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3195,13 +2194,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="51">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3230,13 +2229,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="52">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3265,13 +2264,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="53">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3300,13 +2299,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="54">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3335,13 +2334,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="55">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3370,13 +2369,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="56">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3405,13 +2404,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="57">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3440,13 +2439,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="58">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3475,13 +2474,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="59">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_dr_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3510,13 +2509,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="60">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_list_blesk_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3545,13 +2544,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="61">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_list_blesk_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3580,13 +2579,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="62">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3615,13 +2614,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="63">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3650,13 +2649,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="64">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3685,13 +2684,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="65">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3720,13 +2719,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="66">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3755,13 +2754,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="67">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3790,13 +2789,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="68">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3825,13 +2824,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="69">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3860,13 +2859,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="70">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3895,13 +2894,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="71">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3930,13 +2929,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="72">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3965,13 +2964,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="73">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4000,13 +2999,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="74">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4035,13 +3034,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="75">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4070,13 +3069,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="76">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4105,13 +3104,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="77">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4140,13 +3139,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="78">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4175,13 +3174,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="79">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_bricks_bricks_blokc_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4210,13 +3209,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="80">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4245,13 +3244,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="81">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_stucaturka_raz_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4280,13 +3279,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="82">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4315,13 +3314,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="83">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4350,13 +3349,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="84">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_list_blesk_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4385,13 +3384,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="85">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4420,13 +3419,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="86">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4455,13 +3454,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="87">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4490,13 +3489,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="88">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4525,13 +3524,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="89">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4560,13 +3559,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="90">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_black_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4595,13 +3594,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="91">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4630,13 +3629,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="92">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4665,13 +3664,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="93">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4700,13 +3699,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="94">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4735,13 +3734,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="95">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4770,13 +3769,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="96">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4805,13 +3804,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="97">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_list_blesk_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4840,13 +3839,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="98">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4875,13 +3874,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="99">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_dr_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4910,13 +3909,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="100">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4945,13 +3944,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="101">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_list_blesk_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4980,13 +3979,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="102">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5015,13 +4014,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="103">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_dr_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5050,13 +4049,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="104">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_d6_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5085,13 +4084,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="105">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5120,13 +4119,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="106">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5155,13 +4154,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="107">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5190,13 +4189,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="108">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5225,13 +4224,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="109">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rai_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5260,13 +4259,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="110">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5295,13 +4294,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="111">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_bricks_bricks_blokc_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5330,13 +4329,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="112">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5365,13 +4364,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="113">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5400,13 +4399,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="114">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_list_blesk_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5435,13 +4434,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="115">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5470,13 +4469,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="116">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_dr_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5505,13 +4504,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="117">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wood_wood_pol_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5540,13 +4539,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="118">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_d8_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5575,13 +4574,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="119">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wood_wood_doski_3_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5610,13 +4609,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="120">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5645,13 +4644,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="121">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5680,13 +4679,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="122">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5715,13 +4714,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="123">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5750,13 +4749,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="124">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_stena_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5785,13 +4784,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="125">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5820,13 +4819,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="126">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_stucaturka_raz_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5855,13 +4854,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="127">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5890,13 +4889,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="128">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5925,13 +4924,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="129">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_dr_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5960,13 +4959,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="130">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wood_wood_boards_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5995,13 +4994,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="131">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wood_wood_doski_3_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6030,13 +5029,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="132">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_uni_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6065,13 +5064,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="133">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_08_mokriy_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6100,13 +5099,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="134">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6135,13 +5134,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="135">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6170,13 +5169,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="136">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6205,13 +5204,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="137">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6240,13 +5239,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="138">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_for_sleeper_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6275,13 +5274,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="139">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_for_sleeper_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6310,13 +5309,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="140">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6345,13 +5344,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="141">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6380,13 +5379,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="142">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6415,13 +5414,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="143">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6450,13 +5449,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="144">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6485,13 +5484,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="145">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6520,13 +5519,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="146">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6555,13 +5554,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="147">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6590,13 +5589,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="148">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6625,13 +5624,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="149">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6660,13 +5659,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="150">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6695,13 +5694,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="151">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6730,13 +5729,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="152">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6765,13 +5764,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="153">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6800,13 +5799,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="154">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plitka_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6835,13 +5834,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="155">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6870,13 +5869,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="156">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_podval_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6905,13 +5904,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="157">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_uni_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6940,13 +5939,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="158">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plitka_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -6975,13 +5974,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="159">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_potol_podval_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7010,13 +6009,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="160">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_podval_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7045,13 +6044,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="161">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_uni_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7080,13 +6079,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="162">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_uni_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7115,13 +6114,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="163">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plitka_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7150,13 +6149,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="164">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_potol_podval_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7185,13 +6184,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="165">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_podval_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7220,13 +6219,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="166">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_stena_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7255,13 +6254,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="167">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plitka_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7290,13 +6289,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="168">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7325,13 +6324,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="169">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_podval_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7360,13 +6359,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="170">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7395,13 +6394,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="171">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7430,13 +6429,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="172">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7465,13 +6464,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="173">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7500,13 +6499,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="174">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7535,13 +6534,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="175">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7570,13 +6569,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="176">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7605,13 +6604,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="177">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_dirt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7640,13 +6639,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="178">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7675,13 +6674,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="179">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7710,13 +6709,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="180">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7745,13 +6744,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="181">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7780,13 +6779,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="182">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7815,13 +6814,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="183">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_zemla_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7850,13 +6849,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="184">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7885,13 +6884,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="185">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7920,13 +6919,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="186">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7955,13 +6954,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="187">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -7990,13 +6989,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="188">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8025,13 +7024,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="189">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8060,13 +7059,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="190">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8095,13 +7094,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="191">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8130,13 +7129,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="192">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8165,13 +7164,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="193">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8200,13 +7199,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="194">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8235,13 +7234,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="195">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_bitum_m_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8270,13 +7269,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="196">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_black_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8305,13 +7304,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="197">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_for_sleeper_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8340,13 +7339,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="198">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_for_sleeper_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8375,13 +7374,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="199">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_blok_09_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8410,13 +7409,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="200">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_blok_09_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8445,13 +7444,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="201">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubkaub_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8480,13 +7479,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="202">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubkaub_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8515,13 +7514,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="203">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8550,13 +7549,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="204">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8585,13 +7584,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="205">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8620,13 +7619,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="206">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8655,13 +7654,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="207">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8690,13 +7689,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="208">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8725,13 +7724,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="209">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8760,13 +7759,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="210">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8795,13 +7794,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="211">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8830,13 +7829,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="212">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8865,13 +7864,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="213">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8900,13 +7899,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="214">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_rizhskaya_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8935,13 +7934,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="215">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_tile_2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -8970,13 +7969,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="216">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_tile_2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9005,13 +8004,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="217">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_tile_2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9040,13 +8039,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="218">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_tile_2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9075,13 +8074,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="219">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_tile_2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9110,13 +8109,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="220">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9145,13 +8144,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="221">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9180,13 +8179,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="222">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9215,13 +8214,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="223">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9250,13 +8249,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="224">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9285,13 +8284,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="225">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9320,13 +8319,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="226">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9355,13 +8354,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="227">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9390,13 +8389,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="228">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9425,13 +8424,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="229">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9460,13 +8459,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="230">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_plit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9495,13 +8494,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="231">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_stucaturka_raz_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9530,13 +8529,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="232">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_bricks_bricks_blokc_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9565,13 +8564,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="233">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9600,13 +8599,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="234">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9635,13 +8634,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="235">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9670,13 +8669,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="236">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9705,13 +8704,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="237">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9740,13 +8739,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="238">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9775,13 +8774,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="239">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9810,13 +8809,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="240">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_tile_tile_pol_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9845,13 +8844,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="241">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_door_m_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9880,13 +8879,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="242">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wood_wood_doski_3_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9915,13 +8914,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="243">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wood_wood_doski_3_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9950,13 +8949,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="244">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -9985,13 +8984,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="245">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10020,13 +9019,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="246">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_vagon_metro_022_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10055,13 +9054,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="247">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_dr_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10090,13 +9089,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="248">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_dr_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10125,13 +9124,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="249">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_door_door_d_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10160,13 +9159,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="250">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10195,13 +9194,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="251">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10230,13 +9229,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="252">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10265,13 +9264,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="253">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wall_wall_truba_beton_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10300,13 +9299,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="254">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10335,13 +9334,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="255">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10370,13 +9369,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="256">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10405,13 +9404,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="257">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10440,13 +9439,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="258">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10475,13 +9474,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="259">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_fontan_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10510,13 +9509,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="260">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10545,13 +9544,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="261">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10580,13 +9579,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="262">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10615,13 +9614,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="263">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10650,13 +9649,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="264">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10685,13 +9684,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="265">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10720,13 +9719,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="266">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10755,13 +9754,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="267">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10790,13 +9789,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="268">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10825,13 +9824,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="269">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10860,13 +9859,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="270">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stucco_stucco_stucaturka1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10895,13 +9894,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="271">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10930,13 +9929,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="272">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -10965,13 +9964,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="273">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11000,13 +9999,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="274">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11035,13 +10034,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="275">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_concrete_concrete_opalubka_uniq_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11070,13 +10069,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="276">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_sleeper_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11105,13 +10104,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="277">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_floor_floor_sleeper_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11140,13 +10139,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="278">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11175,13 +10174,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="279">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_library_l_alpha_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11210,13 +10209,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="280">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_jaggies_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11245,13 +10244,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="281">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_library_l_alpha_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11280,13 +10279,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="282">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_jaggies_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11315,13 +10314,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="283">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_stone_stone_library_l_marble_jaggies_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11350,13 +10349,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="284">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11385,13 +10384,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="285">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11420,13 +10419,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="286">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_3_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11455,13 +10454,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="287">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11490,13 +10489,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="288">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_library_l_alpha_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11525,13 +10524,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="289">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11560,13 +10559,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="290">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_armatura_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11595,13 +10594,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="291">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_veh_veh_rail_bolt_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11630,13 +10629,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="292">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11665,13 +10664,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="293">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_uni_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11700,13 +10699,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="294">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_tile_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11735,13 +10734,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="295">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_uni_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11770,13 +10769,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="296">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wm_wm_kabel_tonnel_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11805,13 +10804,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="297">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_library_l_alpha_01_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11840,13 +10839,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="298">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_6_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11875,13 +10874,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="299">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wm_wm_potek_02_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11910,13 +10909,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="300">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_wm_wm_potek_03_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11945,13 +10944,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="301">
 					 <textures>
 						 <texture id="0" path="data/architecture/riga/riga/riga/F__Metro_2033_content_textures_metal_metal_1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="height_maps/rockn.png" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -11980,7 +10979,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
@@ -11995,198 +10994,38 @@ pfloat fBumpStrength 5
 
 		 <object>
 
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/scifi/chief/chief_speak.x" />
+			 <path file="cube" />
 
-			 <name c8name="#object:myName" />
+			 <name c8name="#object:new_cube" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="1" />
+				 <normals value="1" />
+				 <angleWeighted value="0" />
+				 <smooth value="1" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
+
+			 </factory> 
 
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/chief/tex/m4_cm.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/chief/tex/m4_nm.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="119" g="119" b="119" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="126" g="119" b="119" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/chief/tex/m4_cm.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/chief/tex/m4_nm.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="119" g="119" b="119" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="119" g="119" b="119" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="2">
-					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/chief/tex/helmetbase_cm.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/chief/tex/helmetbase_nm.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="119" g="119" b="119" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="119" g="119" b="119" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="3">
-					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/chief/tex/us_chiefhead_cm.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/chief/tex/us_dusty_cm.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="119" g="119" b="119" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="119" g="119" b="119" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="4">
-					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/chief/tex/us_dusty_cm2.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/chief/tex/us_dusty_nm2.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="0" g="0" b="0" a="255" />
-					 <ambiantColor r="0" g="0" b="0" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="5">
-					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/chief/tex/us_dusty_cm1.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/chief/tex/us_dusty_nm1.jpg" />
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
 
 					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="0" g="0" b="0" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
 
 					 <lighting value="0" />
 
@@ -12197,7 +11036,7 @@ pfloat fBumpStrength 5
 					 <thickness value="1.000000" />
 
 					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
+					 <backfaceCulling value="1" />
 					 <colorMask value="15" />
 					 <colorMaterial value="1" />
 					 <fogEnable value="0" />
@@ -12207,19 +11046,17 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
-			 <position X="1508.404419" Y="8.073795" Z="-236.304138" />
+			 <position X="556.123657" Y="62.058887" Z="-15.486481" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="0.015000" Y="0.015000" Z="0.015000" />
+			 <scale X="0.200000" Y="0.200000" Z="0.200000" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 			 <actions>
-				 <action start="0" end="79839" name="ALL" speed="3300.000000" /> 
-
 			 </actions>
 
 		 </object>
@@ -12228,8 +11065,8 @@ pfloat fBumpStrength 5
 
 			 <name c8name="#light:1" />
 
-			 <position X="1547.954346" Y="54.000000" Z="-221.121994" />
-			 <target X="0.000000" Y="0.000000" Z="0.311920" />
+			 <position X="506.986298" Y="104.718803" Z="-69.752464" />
+			 <target X="551.072327" Y="51.826721" Z="20.604994" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />

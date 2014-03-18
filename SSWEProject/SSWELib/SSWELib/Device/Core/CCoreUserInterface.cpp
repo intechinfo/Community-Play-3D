@@ -11,10 +11,11 @@
 
 #include "../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 
-CCoreUserInterface::CCoreUserInterface() {
+CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath) {
     
     //-----------------------------------
     //DEVICE
+	onlyForPlaying = playOnly;
 
     #ifdef _IRR_OSX_PLATFORM_
     params.DriverType=irr::video::EDT_OPENGL;
@@ -30,7 +31,11 @@ CCoreUserInterface::CCoreUserInterface() {
     #ifdef _IRR_OSX_PLATFORM_
         params.Fullscreen = false;
     #else
-        params.Fullscreen = false;
+		if (!playOnly)
+			params.Fullscreen = false;
+		else
+			params.WindowSize = dimension2d<u32>(1280, 800);
+			params.Fullscreen = false;
     #endif
 	params.Stencilbuffer=false;
 	params.Vsync=true;
@@ -46,7 +51,7 @@ CCoreUserInterface::CCoreUserInterface() {
 		tempDevice->drop();
 	}
 
-	devices = new CDevices(this);
+	devices = new CDevices(this, playOnly);
 	devices->createDevice(params);
     
     driver = devices->getVideoDriver();
@@ -66,9 +71,13 @@ CCoreUserInterface::CCoreUserInterface() {
     //-----------------------------------
     //USER INTERFACE OBJECTS
 
-    contextMenuInstance = new CUIContextMenu(devices);
-	rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices, contextMenuInstance);
-	windowsManagerInstance = new CUIWindowsManager(devices);
+	pluginsManager = new CPluginsManager(devices);
+	if (!playOnly) {
+		contextMenuInstance = new CUIContextMenu(devices, pluginsManager);
+
+		rightSceneTreeViewInstance = new CUIRightSceneTreeView(devices, contextMenuInstance);
+		windowsManagerInstance = new CUIWindowsManager(devices);
+	}
 
     //-----------------------------------
     
@@ -100,67 +109,85 @@ CCoreUserInterface::CCoreUserInterface() {
     //-----------------------------------
     //LOG CONSOLE
 
-    logWindow =  gui->addWindow(rect<s32>(0, 0, 320, 520), false, L"Log Window", 0, -1);
-    logWindow->getMaximizeButton()->setVisible(true);
-    logWindow->getCloseButton()->remove();
-    logListBox = gui->addListBox(rect<s32>(0, 20, 320, 470), logWindow, -1, true);
-    logListBox->setAutoScrollEnabled(true);
+	if (!playOnly) {
+		logWindow =  gui->addWindow(rect<s32>(0, 0, 320, 520), false, L"Log Window", 0, -1);
+		logWindow->getMaximizeButton()->setVisible(true);
+		logWindow->getCloseButton()->remove();
+		logListBox = gui->addListBox(rect<s32>(0, 20, 320, 470), logWindow, -1, true);
+		logListBox->setAutoScrollEnabled(true);
 
-    logLevel = gui->addComboBox(rect<s32>(10, 480, 200, 510), logWindow, -1);
-    logLevel->addItem(L"ELL_INFORMATION");
-    logLevel->addItem(L"ELL_WARNING");
-    logLevel->addItem(L"ELL_ERROR");
-    logLevel->addItem(L"ELL_NONE");
-	logLevel->setSelected(3);
+		logLevel = gui->addComboBox(rect<s32>(10, 480, 200, 510), logWindow, -1);
+		logLevel->addItem(L"ELL_INFORMATION");
+		logLevel->addItem(L"ELL_WARNING");
+		logLevel->addItem(L"ELL_ERROR");
+		logLevel->addItem(L"ELL_NONE");
+		logLevel->setSelected(3);
 
-    clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
+		clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
 
-    logVisible = true;
-    logWindow->setVisible(logVisible);
+		logWindow->setVisible(logVisible);
+	}
 
     //-----------------------------------
 
     devices->getEventReceiver()->AddEventReceiver(this);
-    devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
-	devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
-	devices->getEventReceiver()->AddEventReceiver(windowsManagerInstance);
-
-	//stringw test = "test de texte \n";
-	//CUICodeEditor *c = new CUICodeEditor(devices, &test, true);
-	//c->setAutoSave(true);
+	if (!playOnly) {
+		devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
+		devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
+		devices->getEventReceiver()->AddEventReceiver(windowsManagerInstance);
+	}
 }
 
 CCoreUserInterface::~CCoreUserInterface() {
 
 }
 
+ISSWEImporter *CCoreUserInterface::createImporter() {
+	return (ISSWEImporter*)(new CImporter(devices));
+}
+
+IMonitor *CCoreUserInterface::addMonitor(irr::core::stringc path) {
+	u32 existingNb = devices->getCoreData()->getMonitors()->size();
+	pluginsManager->loadMonitorPlugin(path.make_upper().c_str());
+	if (existingNb < devices->getCoreData()->getMonitors()->size())
+		return devices->getCoreData()->getMonitors()->operator[](existingNb).getMonitor();
+	else
+		return 0;
+}
+
 void CCoreUserInterface::update() {
 
     devices->updateDevice();
 
-    contextMenuInstance->update();
-	windowsManagerInstance->update();
-	devices->getProcessesLogger()->update();
+	if (!onlyForPlaying) {
+		contextMenuInstance->update();
+		windowsManagerInstance->update();
+		devices->getProcessesLogger()->update();
+	}
 
     programmersImage->setRelativePosition(position2di(0, driver->getCurrentRenderTargetSize().Height-97-20));
 
-    if (logWindow) {
-        if (logWindow->getRelativePosition().getHeight() == 520) {
-            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-320, driver->getScreenSize().Height-540));
-        } else {
-            logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-1000, driver->getScreenSize().Height-620));
-        }
-    }
-
-	if (devices->getRenderingSceneManager()->getActiveCamera()->getAnimators().size() > 0) {
-		/*core::list<ISceneNodeAnimator *>::ConstIterator manimator = smgr->getActiveCamera()->getAnimators().begin();
-		if ((*manimator)->getType() == ESNAT_CAMERA_MAYA) {
-			if (gui->getFocus() == 0 && devices->isCtrlPushed())
-                ((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(true);
-			else
-				((ISceneNodeAnimatorCameraMaya *)*manimator)->setEventsAllowed(false);
-		}*/
+	if (!onlyForPlaying) {
+		if (logWindow) {
+			if (logWindow->getRelativePosition().getHeight() == 520) {
+				logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-320, driver->getScreenSize().Height-540));
+			} else {
+				logWindow->setRelativePosition(position2di(driver->getScreenSize().Width-1000, driver->getScreenSize().Height-620));
+			}
+		}
 	}
+
+	stringw camPosText = "X = ";
+	camPosText += devices->getSceneManager()->getActiveCamera()->getPosition().X;
+	camPosText += " Y = ";
+	camPosText += devices->getSceneManager()->getActiveCamera()->getPosition().Y;
+	camPosText += " Z = ";
+	camPosText += devices->getSceneManager()->getActiveCamera()->getPosition().Z;
+
+	gui->getSkin()->getFont()->draw(camPosText, rect<s32>(driver->getScreenSize().Width - 350,
+														  78,
+														  driver->getScreenSize().Width,
+														  90), SColor(255, 255, 255, 255), false, false);
 }
 
 bool CCoreUserInterface::OnEvent(const SEvent &event) {
@@ -217,6 +244,9 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
 				devices->getDevice()->closeDevice();
 			}
 			#endif
+			if (event.KeyInput.Key == KEY_ESCAPE && devices->isOnlyForPlaying()) {
+				devices->getDevice()->closeDevice();
+			}
 
 			if (event.KeyInput.Key == KEY_KEY_F && devices->isCtrlPushed() && devices->isShiftPushed()) {
 				if (!devices->isEditBoxEntered()) {

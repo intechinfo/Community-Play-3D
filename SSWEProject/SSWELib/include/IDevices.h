@@ -51,6 +51,8 @@ public:
 
 	virtual void setRenderFullPostTraitements(bool _render) = 0;
 	virtual bool isRenderingFullPostTraitements() = 0;
+
+	virtual void updateDevice() = 0;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -74,13 +76,9 @@ public:
 	virtual irr::core::vector3df getCursorPosition() = 0;
 	virtual irr::scene::ISceneNode *getCursor() = 0;
 
-	//virtual void updateDevice() = 0;
-	//virtual void updateEntities() = 0;
-
-	//virtual void reupdate(EffectHandler *_effect = 0) = 0;
+	virtual void applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber) = 0;
 
 	virtual irr::core::stringw getProjectName() = 0;
-	//virtual void setProjectName(stringw _projectName) = 0;
 	//-----------------------------------
 
 	//-----------------------------------

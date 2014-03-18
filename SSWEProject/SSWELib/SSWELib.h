@@ -1,9 +1,11 @@
 // SSWELib.h : fichier d'en-tête principal pour la DLL SSWELib
 //
+#ifndef __C_SSWE_LIB_H_INCLUDED__
+#define __C_SSWE_LIB_H_INCLUDED__
+
+#include <ISSWECoreUserInterface.h>
 
 #pragma once
-
-#include "SSWELib/Device/Core/CCoreUserInterface.h"
 
 #define SSWE_LIB_EXPORTS
 #ifdef SSWE_LIB_EXPORTS
@@ -19,9 +21,11 @@
 #endif
 
 #ifndef _IRR_OSX_PLATFORM_
-extern "C" SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice();
-extern "C" SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
+extern "C" SSWE_LIB_API ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
+extern "C" SSWE_LIB_API void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface);
 #else
 CCoreUserInterface* createSSWEDevice();
 void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
+#endif
+
 #endif

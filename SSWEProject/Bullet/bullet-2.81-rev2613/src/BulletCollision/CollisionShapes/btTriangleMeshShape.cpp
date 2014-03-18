@@ -185,7 +185,6 @@ void	btTriangleMeshShape::calculateLocalInertia(btScalar mass,btVector3& inertia
 	inertia.setValue(btScalar(0.),btScalar(0.),btScalar(0.));
 }
 
-
 btVector3 btTriangleMeshShape::localGetSupportingVertex(const btVector3& vec) const
 {
 	btVector3 supportVertex;

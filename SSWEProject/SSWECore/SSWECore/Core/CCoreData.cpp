@@ -318,6 +318,46 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
     node->remove();
 }
 
+ISData *CCoreData::getISDataOfSceneNode(ISceneNode *node) {
+	//SEARCH TERRAINS
+    s32 indice = getArrayOfTerrainNodes().binary_search(node);
+    if (indice != -1) {
+        return &terrainsData[terrainsData.size()-1];
+    }
+    
+    //SEARCH OBJECTS
+    indice = getArrayOfObjectNodes().binary_search(node);
+    if (indice != -1) {
+        return &objectsData[objectsData.size()-1];
+    }
+    
+    //SEARCH TREES
+    indice = getArrayOfTreeNodes().binary_search(node);
+    if (indice != -1) {
+        return &treesData[treesData.size()-1];
+    }
+    
+    //SEARCH LIGHTS
+    indice = getArrayOfLightNodes().binary_search(node);
+    if (indice != -1) {
+        return &lightsData[lightsData.size()-1];
+    }
+    
+    //SEARCH VOLUME LIGHTS
+    indice = getArrayOfVolumeLightNodes().binary_search(node);
+    if (indice != -1) {
+        return &volumeLightsData[volumeLightsData.size()-1];
+    }
+    
+    //SEARCH WATERS
+    indice = getArrayOfWaterSurfaceNodes().binary_search(node);
+    if (indice != -1) {
+        return &waterSurfaces[waterSurfaces.size()-1];
+    }
+    
+    return 0;
+}
+
 ISData *CCoreData::copySDataOfSceneNode(irr::scene::ISceneNode *node) {
     //SEARCH TERRAINS
     s32 indice = getArrayOfTerrainNodes().binary_search(node);

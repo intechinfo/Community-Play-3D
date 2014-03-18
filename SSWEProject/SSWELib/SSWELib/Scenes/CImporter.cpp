@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "CImporter.h"
 
+#include "../Renders/XEffect/Interfaces/CFilterCallback.h"
+
 CImporter::CImporter(CDevices *_devices) {
     devices = _devices;
 
@@ -26,7 +28,7 @@ void CImporter::readWithNextElement(std::string node, std::string nextNode) {
     if (element != node && element != nextNode) {
         while (xmlReader && element != node && element != nextNode && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            //printf("current element : %s\n", element.c_str());
+            printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -37,7 +39,7 @@ void CImporter::read(std::string node) {
     if (element != node) {
         while (xmlReader && element != node && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            //printf("current element : %s\n", element.c_str());
+            printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -96,7 +98,7 @@ void CImporter::buildTerrain() {
 		node = smgr->addMeshSceneNode(mesh, 0, -1);
 	}
 
-	readFactory(node, mesh);
+	SData data = readFactory(node, mesh);
 
 	if (node) {
 		read("name");
@@ -114,6 +116,9 @@ void CImporter::buildTerrain() {
 		tdata.setPath(path);
 		tdata.setMinPolysPerNode(minPolysPerNode);
 		tdata.setType(node->getType());
+
+		copySDataFactoryOf(&tdata, data);
+
 		devices->getCoreData()->getTerrainsData()->push_back(tdata);
 	}
 }
@@ -176,6 +181,8 @@ void CImporter::buildObject() {
 		stringc name = xmlReader->getAttributeValue("c8name");
 		node->setName(name.c_str());
 
+		SData data = readFactory(node, mesh);
+
 		readMaterials(node);
 		readTransformations(node);
 		readViewModes(node);
@@ -205,6 +212,8 @@ void CImporter::buildObject() {
 		}
 
         SObjectsData odata(mesh, node, path);
+		copySDataFactoryOf(&odata, data);
+
 		odata.setActions(&actions);
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}
@@ -434,6 +443,45 @@ void CImporter::readConfig() {
 void CImporter::readEffects() {
 	read("effect");
 	readWithNextElement("postProcessingEffect", "effect");
+
+	CCoreFilterCallback *cCoreCallback = new CCoreFilterCallback(devices);
+
+	while (element == "postProcessingEffect") {
+		/// Read
+		read("ppeName");
+		stringc name = xmlReader->getAttributeValue("name");
+		read("ppeShader");
+		stringc shader = stringc(xmlReader->getAttributeValue("shader")).replace("&quot", "\"").replace("\n", "");
+		read("ppeCallback");
+		stringc callback = stringc(xmlReader->getAttributeValue("callback")).replace("&quot", "\"").replace("\n", "");
+
+		/// Create
+		SFilter f;
+		f.createLuaState();
+		f.setPixelShader(shader.replace("\r", "\n"));
+		f.setMaterial(devices->getXEffect()->addPostProcessingEffectFromString(f.getPixelShader().c_str()));
+
+		f.setCallback(callback.replace("\r", "\n"));
+
+		/// Complete
+		name.remove(devices->getDevice()->getFileSystem()->getFileDir(name));
+		f.setName(name);
+
+		devices->getCoreData()->getEffectFilters()->push_back(f);
+		u32 count = devices->getCoreData()->getEffectFilters()->size();
+		cCoreCallback->createLuaState(devices->getCoreData()->getEffectFilters()->operator[](count-1).getLuaState());
+		CFilterCallback *cb = new CFilterCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(),
+												  &devices->getCoreData()->getEffectFilters()->operator[](count-1));
+		if (f.getMaterial() != -1) {
+			devices->getXEffect()->setPostProcessingRenderCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(), cb);
+		}
+		devices->getCoreData()->getEffectFilters()->operator[](count-1).setPostProcessingCallback(cb);
+
+		read("postProcessingEffect");
+		readWithNextElement("postProcessingEffect", "effect");
+	}
+
+	delete cCoreCallback;
 	/*while (element == "postProcessingEffect") {
 		stringw path = L"";
 		stringw myPath = L"";
@@ -479,7 +527,12 @@ void CImporter::readEffects() {
 }
 
 void CImporter::readMaterialShaderCallbacks() {
+	if (element == "rootScene") {
+		delete xmlReader;
+		xmlReader = createIrrXMLReader(pathOfFile.c_str());
+	}
 	read("materialTypes");
+
 	readWithNextElement("materialType", "materialTypes");
 	while (element == "materialType") {
 		read("pixelShaderType");
@@ -495,11 +548,11 @@ void CImporter::readMaterialShaderCallbacks() {
 
 		stringc vertex = "", pixel = "", constants = "";
 		read("vertex");
-		vertex = xmlReader->getAttributeValue("shader");
+		vertex = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "");
 		read("pixel");
-		pixel = xmlReader->getAttributeValue("shader");
+		pixel = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "");
 		read("constants");
-		constants = xmlReader->getAttributeValue("value");
+		constants = stringc(xmlReader->getAttributeValue("value")).replace("\n", "");
 
 		CShaderCallback *callback = new CShaderCallback();
 		callback->setName(name.c_str());
@@ -538,24 +591,62 @@ void CImporter::readScripts() {
 	}
 }
 
-void CImporter::readFactory(ISceneNode *_node, IMesh *_mesh) {
-	read("factory");
-	readWithNextElement("primitive", "factory");
-	while (element == "primitive") {
-		if (stringc(xmlReader->getAttributeValue("type")) == "planar") {
-			SPlanarTextureMappingData sptmd;
-			if (stringc(xmlReader->getAttributeValue("options")) == "general") {
-				read("resolutionS");
-				f32 resolutionS = xmlReader->getAttributeValueAsFloat("value");
-				sptmd.setResolutionS(resolutionS);
-				devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(_mesh, resolutionS);
-			} else {
+SData CImporter::readFactory(ISceneNode *_node, IMesh *_mesh) {
+	SData data;
+	bool isTangents, isNormal, isAngleWeighted, isSmooth;
 
-			}
-			devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptmd);
-		}
-		readWithNextElement("primitive", "factory");
+	/// Read
+	read("factory");
+
+	read("meshFactory");
+	read("tangents");
+	isTangents = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
+	read("normals");
+	isNormal = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
+	read("angleWeighted");
+	isAngleWeighted = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
+	read("smooth");
+	isSmooth = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
+
+	/// Act
+	if (isTangents && (isNormal || isAngleWeighted || isSmooth)) {
+		devices->getSceneManager()->getMeshManipulator()->recalculateTangents(_mesh, isNormal, isSmooth, isAngleWeighted);
 	}
+
+	/// Read
+	read("planarMapping");
+	read("planarMapped");
+	bool isPlanarMapped = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
+	read("planarMappedValue");
+	f32 isPlanarMappedValue = devices->getCore()->getF32(xmlReader->getAttributeValue("value"));
+
+	/// Acts
+	if (isPlanarMapped)
+		devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(_mesh, isPlanarMappedValue);
+
+	if (_mesh)
+		_mesh->setDirty();
+
+	/// Configure
+	data.setTangentRecalculated(isTangents);
+	data.setNormalRecalculated(isNormal);
+	data.setSmoothedRecalculated(isSmooth);
+	data.setAngleWeightedRecalculated(isAngleWeighted);
+
+	data.setPlanarTextureMapped(isPlanarMapped);
+	data.setPlanarTextureMappedValue(isPlanarMappedValue);
+
+	return data;
+}
+
+void CImporter::copySDataFactoryOf(SData *data, SData toCopy) {
+	data->setTangentRecalculated(toCopy.wasTangentRecalculated());
+	data->setNormalRecalculated(toCopy.wasNormalRecalculated());
+	data->setSmoothedRecalculated(toCopy.wasSmoothed());
+	data->setAngleWeightedRecalculated(toCopy.wasAngleWeighted());
+
+	data->setPlanarTextureMapped(toCopy.wasPlanarTextureMapped());
+	data->setPlanarTextureMappedValue(toCopy.wasPlanarTextureMappedValue());
 }
 
 void CImporter::readMaterials(ISceneNode *_node) {
@@ -623,7 +714,7 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		read("materianType");
 		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
 		_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
-		if (matS32 < 0 && -matS32 >= devices->getCoreData()->getShaderCallbacks()->size()) {
+		if (matS32 < 0 && -matS32 <= devices->getCoreData()->getShaderCallbacks()->size()) {
 			_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](-matS32-1)->getMaterial();
 		}
 
@@ -716,8 +807,11 @@ void CImporter::import_t() {
 }
 
 void CImporter::newImportScene(stringc file_path) {
-	CProcess *process = new CProcess(devices->getGUIEnvironment(), "Importing Scene");
-	devices->getProcessesLogger()->addProcess(process);
+	CProcess *process;
+	if (!devices->isOnlyForPlaying()) {
+		process = new CProcess(devices->getGUIEnvironment(), "Importing Scene");
+		devices->getProcessesLogger()->addProcess(process);
+	}
 	u32 currentElementNumber = 0;
 
 	std::mutex mutex;
@@ -734,7 +828,8 @@ void CImporter::newImportScene(stringc file_path) {
 		if (xmlReader->getNodeType() == EXN_ELEMENT)
 			element = xmlReader->getNodeName();
 
-		process->setName(stringc("Importing ") + stringc(element.c_str()));
+		if (!devices->isOnlyForPlaying())
+			process->setName(stringc("Importing ") + stringc(element.c_str()));
 
 		if (element == "terrain")
 			buildTerrain();
@@ -752,7 +847,7 @@ void CImporter::newImportScene(stringc file_path) {
 
 		currentElementNumber++;
 
-		if (numberOfObjects > 0)
+		if (numberOfObjects > 0 && !devices->isOnlyForPlaying())
 			process->getProgressBar()->setPercentage((currentElementNumber*100)/numberOfObjects);
 
 	}
@@ -760,7 +855,8 @@ void CImporter::newImportScene(stringc file_path) {
     read("rootScene");
     delete xmlReader;
 
-	process->setHasFinished(true);
+	if (!devices->isOnlyForPlaying())
+		process->setHasFinished(true);
 
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }

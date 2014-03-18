@@ -1,0 +1,82 @@
+#include "collisionshape.h"
+
+using namespace irr;
+using namespace core;
+using namespace scene;
+
+ICollisionShape::ICollisionShape()
+{
+}
+
+
+///////////////////
+// The 'setters' //
+///////////////////
+void ICollisionShape::setLocalScaling(const vector3df &scaling, const EScalingPair esp)
+{
+    // TODO: Fix scaling for IGImpactMeshShapes. The bounding box does not update.
+    // A call to updateBound() will make it work for what is inside its bounding
+    // box, but it does not actually change to fit the real scale.
+    /*f64 compensator = 1.0;
+
+    ECollisionShapeType type = getShapeType();
+
+    if(type == ECST_SPHERE)
+        compensator = 5.0;
+
+    else
+    if(type == ECST_BOX)
+        compensator = 0.5;*/
+
+    vector3df comp = compensateForNodeType(scaling, node->getType());
+
+    if(esp == ESP_BOTH || esp == ESP_COLLISIONSHAPE)
+    {
+        shape->setLocalScaling(btVector3(comp.X,comp.Y,comp.Z));
+        if(getShapeType() == ECST_GIMPACT)
+        {
+            btGImpactMeshShape *gshape = static_cast<btGImpactMeshShape *>(shape);
+            //gshape->setLocalScaling(irrlichtToBulletVector(comp));
+            gshape->updateBound();
+
+            shape = gshape;
+        }
+    }
+
+    if(esp == ESP_BOTH || esp == ESP_VISUAL)
+        node->setScale(scaling);
+
+
+    calculateLocalInertia(vector3df(0.0f,0.0f,0.0f));
+}
+
+
+void ICollisionShape::calculateLocalInertia(const vector3df &in)
+{
+    // Keeping this order is important. Strange things happen otherwise.
+    btVector3 inertia(in.X,in.Y,in.Z);
+    shape->calculateLocalInertia(getMass(), inertia);
+
+    localInertia = vector3df(inertia.getX(),inertia.getY(),inertia.getZ());
+}
+
+
+void ICollisionShape::createShape()
+{
+}
+
+
+///////////////////
+// The 'getters' //
+///////////////////
+vector3df ICollisionShape::getLocalScaling() const
+{
+    const btVector3 &scale = shape->getLocalScaling();
+    return vector3df(scale.getX(),scale.getY(),scale.getZ());
+}
+
+
+ICollisionShape::~ICollisionShape()
+{
+    delete shape;
+}

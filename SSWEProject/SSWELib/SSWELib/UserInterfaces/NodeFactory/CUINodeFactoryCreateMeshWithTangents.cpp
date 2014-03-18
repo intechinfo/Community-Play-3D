@@ -79,12 +79,17 @@ void CUINodeFactoryCreateMeshWithTangents::create() {
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}*/
     
-    ISData *data = devices->getCoreData()->copySDataOfSceneNode(nodeToEdit);
+    SData *data = (SData*)devices->getCoreData()->copySDataOfSceneNode(nodeToEdit);
     data->setNode(newNode);
     data->setMesh(tangentsMesh);
 
+	data->setTangentRecalculated(recalculateTangents->isChecked());
+	data->setNormalRecalculated(recalculateNormals->isChecked());
+	data->setAngleWeightedRecalculated(angleWeighted->isChecked());
+	data->setSmoothedRecalculated(smooth->isChecked());
+
 	devices->getXEffect()->addShadowToNode(newNode, devices->getXEffectFilterType(), 
-											devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType()));
+										   devices->getXEffect()->getNodeShadowMode(nodeToEdit, devices->getXEffectFilterType()));
 	devices->getCollisionManager()->setCollisionToAnOctTreeNode(newNode);
 
 	windowPrecessing->remove();

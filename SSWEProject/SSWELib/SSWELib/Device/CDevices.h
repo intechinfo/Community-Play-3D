@@ -40,6 +40,7 @@
 #endif
 
 class CCoreUserInterface;
+class irrBulletWorld;
 
 enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE = 0x15000,
@@ -50,7 +51,7 @@ class CDevices : public IDevices, public IEventReceiver {
 
 public:
 
-	CDevices(CCoreUserInterface *_coreUserInterface);
+	CDevices(CCoreUserInterface *_coreUserInterface, bool playOnly = false);
 	~CDevices();
 
 	bool OnEvent(const SEvent &event);
@@ -117,6 +118,8 @@ public:
 	CUIProcessesLogger *getProcessesLogger() { return processesLogger; }
 
 	CScripting *getScripting() { return scripting; }
+
+	irrBulletWorld *getBulletWorld() { return bulletWorld; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -141,6 +144,9 @@ public:
 
 	stringw getProjectName() { return projectName; }
 	void setProjectName(stringw _projectName) { projectName = _projectName; }
+
+	bool isOnlyForPlaying() { return isOnlyForPlay; }
+	void applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -206,6 +212,8 @@ private:
 	bool editBoxEntered;
 
 	stringw projectName, contextName;
+
+	bool isOnlyForPlay;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -250,6 +258,8 @@ private:
 	stringc workingDirectory;
 
 	CScripting *scripting;
+
+	irrBulletWorld *bulletWorld;
 	//-----------------------------------
 
 	//-----------------------------------

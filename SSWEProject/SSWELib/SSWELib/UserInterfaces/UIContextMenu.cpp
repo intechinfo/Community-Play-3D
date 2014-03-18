@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "UIContextMenu.h"
 
-CUIContextMenu::CUIContextMenu(CDevices *_devices) {
+CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     devices = _devices;
 
     mainWindowInstance = new CUIMainWindow(devices);
@@ -18,9 +18,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
     openSceneInstance = new CUIWindowOpenScene(devices);
     exportSceneInstance = new CUIWindowExportScene(devices);
 
-	nodeFactory = new CNodeFactory(devices);
+	pluginsManager = manager;
 
-	pluginsManager = new CPluginsManager(devices);
+	nodeFactory = new CNodeFactory(devices);
 
 	//SETS GENERIC MONITOR AS DEFAULT
 	#ifndef _IRR_OSX_PLATFORM_
@@ -238,6 +238,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 	image = devices->getVideoDriver()->getTexture("GUI/tangents.png");
 	bar->addButton(CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS, 0, L"Create mesh with tangents", image, 0, false, true);
 
+	bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+	image = devices->getVideoDriver()->getTexture("GUI/play_game.png");
+	bar->addButton(CXT_MENU_EVENTS_PLAY_GAME, 0, L"", image, 0, false, true);
+
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 	IVideoDriver *driver = devices->getVideoDriver();
 	contextNameText = gui->addStaticText(L"", rect<s32>(bar->getRelativePosition().getWidth()-400, 5,
@@ -306,9 +310,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"LTest2.world";
+			stringw scene_to_import = L"LTest.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			//impoterInstance->importScene(scene_to_import.c_str());
+			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -316,6 +320,14 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices) {
 			scene_to_import.remove(L".world");
 			exportSceneInstance->setPathFile(scene_to_import.c_str());
 			delete impoterInstance;
+
+			stringw projectName = scene_to_import;
+			projectName.remove(devices->getDevice()->getFileSystem()->getFileDir(projectName.c_str()));
+			projectName.remove("/");
+			stringc fileExtension;
+			core::getFileNameExtension(fileExtension, projectName.c_str());
+			projectName.remove(fileExtension);
+			devices->setProjectName(projectName.c_str());
 
 			printf("Importing scene number %u \n", i);
 		}
@@ -403,6 +415,20 @@ void CUIContextMenu::update() {
 
 	comboModecb->setRelativePosition(rect<s32>(infosBar->getRelativePosition().getWidth()-200, infosBar->getRelativePosition().UpperLeftCorner.Y+5,
 											   infosBar->getRelativePosition().getWidth(), infosBar->getRelativePosition().UpperLeftCorner.Y+25));
+}
+
+void CUIContextMenu::playExampleGame() {
+	CExporter *exporter = new CExporter(devices);
+	exporter->exportScene(stringc(devices->getProjectName() + "_test.world").c_str());
+
+	#ifndef SSWE_RELEASE
+	stringc path = devices->getWorkingDirectory() + "ExampleGame_d.exe -o ";
+	#else
+	stringc path = devices->getWorkingDirectory() + "ExampleGame.exe -o ";
+	#endif
+	path += devices->getProjectName();
+	path += "_test.world";
+	system(path.c_str());
 }
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
@@ -1073,6 +1099,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						CUINodeFactoryCreateMeshWithTangents *cuinfcwt = new CUINodeFactoryCreateMeshWithTangents(devices);
 						cuinfcwt->open(mainWindowInstance->getSelectedNode().getNode(), mainWindowInstance->getSelectedNode().getMesh());
 					}
+				}
+					break;
+
+				case CXT_MENU_EVENTS_PLAY_GAME: {
+					std::thread t(&CUIContextMenu::playExampleGame, *this);
+					t.detach();
 				}
 					break;
                     

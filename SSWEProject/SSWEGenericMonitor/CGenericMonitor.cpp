@@ -25,8 +25,6 @@ CGenericMonitor::~CGenericMonitor() {
 
 void CGenericMonitor::init() {
 	monitorName = "Generic Monitor";
-    
-    irr::core::stringc USBPort = "/dev/tty.usbmodem1411";
 }
 
 void CGenericMonitor::setActiveCamera(irr::scene::ICameraSceneNode *camera) {

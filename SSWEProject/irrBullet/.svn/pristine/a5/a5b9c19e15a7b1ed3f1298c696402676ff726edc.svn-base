@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><title></title>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<link rel="stylesheet" type="text/css" href="search.css"/>
+<script type="text/javascript" src="search.js"></script>
+</head>
+<body class="SRPage">
+<div id="SRIndex">
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRResult" id="SR_getaabb">
+ <div class="SREntry">
+  <a id="Item0" onkeydown="return searchResults.Nav(event,0)" onkeypress="return searchResults.Nav(event,0)" onkeyup="return searchResults.Nav(event,0)" class="SRSymbol" href="../class_i_rigid_body.html#ac0ef351d0e8bfb9e97e5b0ef64507dfb" target="_parent">getAabb</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getactivationstate">
+ <div class="SREntry">
+  <a id="Item1" onkeydown="return searchResults.Nav(event,1)" onkeypress="return searchResults.Nav(event,1)" onkeyup="return searchResults.Nav(event,1)" class="SRSymbol" href="../class_i_collision_object.html#af7dad55b6edba37ad43ad8d5e626e516" target="_parent">getActivationState</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getangulardamping">
+ <div class="SREntry">
+  <a id="Item2" onkeydown="return searchResults.Nav(event,2)" onkeypress="return searchResults.Nav(event,2)" onkeyup="return searchResults.Nav(event,2)" class="SRSymbol" href="../class_i_rigid_body.html#a070e939ab1c0d37f1b9b6cad696da20b" target="_parent">getAngularDamping</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getangularfactor">
+ <div class="SREntry">
+  <a id="Item3" onkeydown="return searchResults.Nav(event,3)" onkeypress="return searchResults.Nav(event,3)" onkeyup="return searchResults.Nav(event,3)" class="SRSymbol" href="../class_i_rigid_body.html#a782aa19b6666ddf7ec81b4bd4f3ee51c" target="_parent">getAngularFactor</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getangularsleepingthreshold">
+ <div class="SREntry">
+  <a id="Item4" onkeydown="return searchResults.Nav(event,4)" onkeypress="return searchResults.Nav(event,4)" onkeyup="return searchResults.Nav(event,4)" class="SRSymbol" href="../class_i_rigid_body.html#af1b5aef6c29e91e924f8f3f1cc4155b0" target="_parent">getAngularSleepingThreshold</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getangularvelocity">
+ <div class="SREntry">
+  <a id="Item5" onkeydown="return searchResults.Nav(event,5)" onkeypress="return searchResults.Nav(event,5)" onkeyup="return searchResults.Nav(event,5)" class="SRSymbol" href="../class_i_rigid_body.html#af958fb855ac87d479638a6a64ee78c47" target="_parent">getAngularVelocity</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getanisotropicfriction">
+ <div class="SREntry">
+  <a id="Item6" onkeydown="return searchResults.Nav(event,6)" onkeypress="return searchResults.Nav(event,6)" onkeyup="return searchResults.Nav(event,6)" class="SRSymbol" href="../class_i_collision_object.html#addbf38e99cb87722907044b557b83a43" target="_parent">getAnisotropicFriction</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getchassisworldtransform">
+ <div class="SREntry">
+  <a id="Item7" onkeydown="return searchResults.Nav(event,7)" onkeypress="return searchResults.Nav(event,7)" onkeyup="return searchResults.Nav(event,7)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a7d91120c2ada2f61214bec871ee8ba2d" target="_parent">getChassisWorldTransform</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getcollisionflags">
+ <div class="SREntry">
+  <a id="Item8" onkeydown="return searchResults.Nav(event,8)" onkeypress="return searchResults.Nav(event,8)" onkeyup="return searchResults.Nav(event,8)" class="SRSymbol" href="../class_i_collision_object.html#abbdb1df28e7ece9e433655c4d2acab83" target="_parent">getCollisionFlags</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getcollisionobject">
+ <div class="SREntry">
+  <a id="Item9" onkeydown="return searchResults.Nav(event,9)" onkeypress="return searchResults.Nav(event,9)" onkeyup="return searchResults.Nav(event,9)" class="SRSymbol" href="../classirr_bullet_world.html#a8f7405f9041201dd082683b2e92b2c7c" target="_parent">getCollisionObject</a>
+  <span class="SRScope">irrBulletWorld</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getcollisionshape">
+ <div class="SREntry">
+  <a id="Item10" onkeydown="return searchResults.Nav(event,10)" onkeypress="return searchResults.Nav(event,10)" onkeyup="return searchResults.Nav(event,10)" class="SRSymbol" href="../class_i_collision_object.html#a74f4260f9ebeb61b3857ffb2c444bbf8" target="_parent">getCollisionShape</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getcompanionid">
+ <div class="SREntry">
+  <a id="Item11" onkeydown="return searchResults.Nav(event,11)" onkeypress="return searchResults.Nav(event,11)" onkeyup="return searchResults.Nav(event,11)" class="SRSymbol" href="../class_i_collision_object.html#afbd7cbf5b88a8358155cd80df65c487e" target="_parent">getCompanionId</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getcontactprocessingthreshold">
+ <div class="SREntry">
+  <a id="Item12" onkeydown="return searchResults.Nav(event,12)" onkeypress="return searchResults.Nav(event,12)" onkeyup="return searchResults.Nav(event,12)" class="SRSymbol" href="../class_i_collision_object.html#a3f1b8e74ec4dfbe0b7ab5201771788e5" target="_parent">getContactProcessingThreshold</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getconvexhull">
+ <div class="SREntry">
+  <a id="Item13" onkeydown="return searchResults.Nav(event,13)" onkeypress="return searchResults.Nav(event,13)" onkeyup="return searchResults.Nav(event,13)" class="SRSymbol" href="../class_i_convex_hull_shape.html#a7232b80565a4729181d4080ec5906560" target="_parent">getConvexHull</a>
+  <span class="SRScope">IConvexHullShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getcurrentspeedkmhour">
+ <div class="SREntry">
+  <a id="Item14" onkeydown="return searchResults.Nav(event,14)" onkeypress="return searchResults.Nav(event,14)" onkeyup="return searchResults.Nav(event,14)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a4d533064fa0a09ccb92952c9a558b015" target="_parent">getCurrentSpeedKmHour</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getdebugmode">
+ <div class="SREntry">
+  <a id="Item15" onkeydown="return searchResults.Nav(event,15)" onkeypress="return searchResults.Nav(event,15)" onkeyup="return searchResults.Nav(event,15)" class="SRSymbol" href="../class_i_physics_debug_draw.html#a30a1b914d36f43174f075af6b700b9c3" target="_parent">getDebugMode</a>
+  <span class="SRScope">IPhysicsDebugDraw</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getforwardaxis">
+ <div class="SREntry">
+  <a id="Item16" onkeydown="return searchResults.Nav(event,16)" onkeypress="return searchResults.Nav(event,16)" onkeyup="return searchResults.Nav(event,16)" class="SRSymbol" href="../class_i_raycast_vehicle.html#aeb65ecba26d15204096330d8c7adf541" target="_parent">getForwardAxis</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getforwardvector">
+ <div class="SREntry">
+  <a id="Item17" onkeydown="return searchResults.Nav(event,17)" onkeypress="return searchResults.Nav(event,17)" onkeyup="return searchResults.Nav(event,17)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a277b9045483fab18a5f23cdff20d4680" target="_parent">getForwardVector</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getfriction">
+ <div class="SREntry">
+  <a id="Item18" onkeydown="return searchResults.Nav(event,18)" onkeypress="return searchResults.Nav(event,18)" onkeyup="return searchResults.Nav(event,18)" class="SRSymbol" href="../class_i_collision_object.html#a98052ecc5a1ce1d03cf648872ef338b3" target="_parent">getFriction</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getgravity">
+ <div class="SREntry">
+  <a id="Item19" onkeydown="return searchResults.Nav(event,19)" onkeypress="return searchResults.Nav(event,19)" onkeyup="return searchResults.Nav(event,19)" class="SRSymbol" href="../class_i_rigid_body.html#af0a372539088d04bb6cdc951afc0cced" target="_parent">getGravity</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_gethitfraction">
+ <div class="SREntry">
+  <a id="Item20" onkeydown="return searchResults.Nav(event,20)" onkeypress="return searchResults.Nav(event,20)" onkeyup="return searchResults.Nav(event,20)" class="SRSymbol" href="../class_i_collision_object.html#aa46ef9d8861fc0f8c2af2d9868e7e63a" target="_parent">getHitFraction</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getinterpolationangularvelocity">
+ <div class="SREntry">
+  <a id="Item21" onkeydown="return searchResults.Nav(event,21)" onkeypress="return searchResults.Nav(event,21)" onkeyup="return searchResults.Nav(event,21)" class="SRSymbol" href="../class_i_collision_object.html#a411282bdf1a8aa1ea761c2188d15346c" target="_parent">getInterpolationAngularVelocity</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getinterpolationlinearvelocity">
+ <div class="SREntry">
+  <a id="Item22" onkeydown="return searchResults.Nav(event,22)" onkeypress="return searchResults.Nav(event,22)" onkeyup="return searchResults.Nav(event,22)" class="SRSymbol" href="../class_i_collision_object.html#adc43de7d7aae2d85697549514c35fb4b" target="_parent">getInterpolationLinearVelocity</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getinvinertiadiaglocal">
+ <div class="SREntry">
+  <a id="Item23" onkeydown="return searchResults.Nav(event,23)" onkeypress="return searchResults.Nav(event,23)" onkeyup="return searchResults.Nav(event,23)" class="SRSymbol" href="../class_i_rigid_body.html#afaf4dab9c58a148c2c52687af974b2f5" target="_parent">getInvInertiaDiagLocal</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getinvmass">
+ <div class="SREntry">
+  <a id="Item24" onkeydown="return searchResults.Nav(event,24)" onkeypress="return searchResults.Nav(event,24)" onkeyup="return searchResults.Nav(event,24)" class="SRSymbol" href="../class_i_rigid_body.html#aa766fdcad6492fc30bc582ed766a0865" target="_parent">getInvMass</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getislandtag">
+ <div class="SREntry">
+  <a id="Item25" onkeydown="return searchResults.Nav(event,25)" onkeypress="return searchResults.Nav(event,25)" onkeyup="return searchResults.Nav(event,25)" class="SRSymbol" href="../class_i_collision_object.html#a999814b7b60fa27bcc0d56e282d1bad4" target="_parent">getIslandTag</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getlineardamping">
+ <div class="SREntry">
+  <a id="Item26" onkeydown="return searchResults.Nav(event,26)" onkeypress="return searchResults.Nav(event,26)" onkeyup="return searchResults.Nav(event,26)" class="SRSymbol" href="../class_i_rigid_body.html#a17c9877bcea31a4723ca02831665b25a" target="_parent">getLinearDamping</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getlinearfactor">
+ <div class="SREntry">
+  <a id="Item27" onkeydown="return searchResults.Nav(event,27)" onkeypress="return searchResults.Nav(event,27)" onkeyup="return searchResults.Nav(event,27)" class="SRSymbol" href="../class_i_rigid_body.html#ae421a838ccccb1bdc6c3550d8a128e11" target="_parent">getLinearFactor</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getlinearsleepingthreshold">
+ <div class="SREntry">
+  <a id="Item28" onkeydown="return searchResults.Nav(event,28)" onkeypress="return searchResults.Nav(event,28)" onkeyup="return searchResults.Nav(event,28)" class="SRSymbol" href="../class_i_rigid_body.html#ac4aff60cd393c1358ed2f54d6f62337f" target="_parent">getLinearSleepingThreshold</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getlinearvelocity">
+ <div class="SREntry">
+  <a id="Item29" onkeydown="return searchResults.Nav(event,29)" onkeypress="return searchResults.Nav(event,29)" onkeyup="return searchResults.Nav(event,29)" class="SRSymbol" href="../class_i_rigid_body.html#ab83e293d5ba5a4b4b8119899117b26d7" target="_parent">getLinearVelocity</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getlocalinertia">
+ <div class="SREntry">
+  <a id="Item30" onkeydown="return searchResults.Nav(event,30)" onkeypress="return searchResults.Nav(event,30)" onkeyup="return searchResults.Nav(event,30)" class="SRSymbol" href="../class_i_collision_shape.html#af6790c0e72724b15a4cbdbfa8825425d" target="_parent">getLocalInertia</a>
+  <span class="SRScope">ICollisionShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getlocalscaling">
+ <div class="SREntry">
+  <a id="Item31" onkeydown="return searchResults.Nav(event,31)" onkeypress="return searchResults.Nav(event,31)" onkeyup="return searchResults.Nav(event,31)" class="SRSymbol" href="../class_i_collision_shape.html#a5340252326a636a74a365e8a779cc4f4" target="_parent">getLocalScaling</a>
+  <span class="SRScope">ICollisionShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getmargin">
+ <div class="SREntry">
+  <a id="Item32" onkeydown="return searchResults.Nav(event,32)" onkeypress="return searchResults.Nav(event,32)" onkeyup="return searchResults.Nav(event,32)" class="SRSymbol" href="../class_i_collision_shape.html#a5406bb3c90a114e883f6dd812529e6d6" target="_parent">getMargin</a>
+  <span class="SRScope">ICollisionShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getmass">
+ <div class="SREntry">
+  <a id="Item33" onkeydown="return searchResults.Nav(event,33)" onkeypress="return searchResults.Nav(event,33)" onkeyup="return searchResults.Nav(event,33)" class="SRSymbol" href="../class_i_collision_shape.html#a63422fe65671403113fe721ceb66e16e" target="_parent">getMass</a>
+  <span class="SRScope">ICollisionShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getname">
+ <div class="SREntry">
+  <a id="Item34" onkeydown="return searchResults.Nav(event,34)" onkeypress="return searchResults.Nav(event,34)" onkeyup="return searchResults.Nav(event,34)" class="SRSymbol" href="../class_i_collision_shape.html#a9d1397fb3dc2f953f9e587114db49a1f" target="_parent">getName</a>
+  <span class="SRScope">ICollisionShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getnode">
+ <div class="SREntry">
+  <a id="Item35" onkeydown="return searchResults.Nav(event,35)" onkeypress="return searchResults.Nav(event,35)" onkeyup="return searchResults.Nav(event,35)" class="SRSymbol" href="../class_i_collision_shape.html#a5cf4d8a5eb714623c3a9d2da65ba63bf" target="_parent">getNode</a>
+  <span class="SRScope">ICollisionShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getnumcollisionobjects">
+ <div class="SREntry">
+  <a id="Item36" onkeydown="return searchResults.Nav(event,36)" onkeypress="return searchResults.Nav(event,36)" onkeyup="return searchResults.Nav(event,36)" class="SRSymbol" href="../classirr_bullet_world.html#a9198fd04eacefee99820a43d3855f7b3" target="_parent">getNumCollisionObjects</a>
+  <span class="SRScope">irrBulletWorld</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getnumconstraintrefs">
+ <div class="SREntry">
+  <a id="Item37" onkeydown="return searchResults.Nav(event,37)" onkeypress="return searchResults.Nav(event,37)" onkeyup="return searchResults.Nav(event,37)" class="SRSymbol" href="../class_i_rigid_body.html#ae2219b20beadb2babbb190a711a6c522" target="_parent">getNumConstraintRefs</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getnumproperties">
+ <div class="SREntry">
+  <a id="Item38" onkeydown="return searchResults.Nav(event,38)" onkeypress="return searchResults.Nav(event,38)" onkeyup="return searchResults.Nav(event,38)" class="SRSymbol" href="../class_i_property_holder.html#a036f37270052271c60f55c4be9d9a84c" target="_parent">getNumProperties</a>
+  <span class="SRScope">IPropertyHolder</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getnumwheels">
+ <div class="SREntry">
+  <a id="Item39" onkeydown="return searchResults.Nav(event,39)" onkeypress="return searchResults.Nav(event,39)" onkeyup="return searchResults.Nav(event,39)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a967fa457eb1a52ce20a758a196e19140" target="_parent">getNumWheels</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getobjecttype">
+ <div class="SREntry">
+  <a id="Item40" onkeydown="return searchResults.Nav(event,40)" onkeypress="return searchResults.Nav(event,40)" onkeyup="return searchResults.Nav(event,40)" class="SRSymbol" href="../class_i_collision_object.html#ac45f369b63799221bfb5a7e824e4410c" target="_parent">getObjectType</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getpointer">
+ <div class="SREntry">
+  <a id="Item41" onkeydown="return searchResults.Nav(event,41)" onkeypress="return searchResults.Nav(event,41)" onkeyup="return searchResults.Nav(event,41)" class="SRSymbol" href="javascript:searchResults.Toggle('SR_getpointer')">getPointer</a>
+  <div class="SRChildren">
+    <a id="Item41_c0" onkeydown="return searchResults.NavChild(event,41,0)" onkeypress="return searchResults.NavChild(event,41,0)" onkeyup="return searchResults.NavChild(event,41,0)" class="SRScope" href="../classirr_bullet_world.html#a2b1cec67d233df2fd97f0f0676bc9d81" target="_parent">irrBulletWorld::getPointer()</a>
+    <a id="Item41_c1" onkeydown="return searchResults.NavChild(event,41,1)" onkeypress="return searchResults.NavChild(event,41,1)" onkeyup="return searchResults.NavChild(event,41,1)" class="SRScope" href="../class_i_collision_object.html#a9d0c09d1297e047f3dc48cb7cc89ad82" target="_parent">ICollisionObject::getPointer()</a>
+    <a id="Item41_c2" onkeydown="return searchResults.NavChild(event,41,2)" onkeypress="return searchResults.NavChild(event,41,2)" onkeyup="return searchResults.NavChild(event,41,2)" class="SRScope" href="../class_i_collision_shape.html#a15e5503410ad430a0e2952b40a92c2e9" target="_parent">ICollisionShape::getPointer()</a>
+    <a id="Item41_c3" onkeydown="return searchResults.NavChild(event,41,3)" onkeypress="return searchResults.NavChild(event,41,3)" onkeyup="return searchResults.NavChild(event,41,3)" class="SRScope" href="../class_i_raycast_vehicle.html#a20cafb1699dc358adac04d2898bb1bb1" target="_parent">IRaycastVehicle::getPointer()</a>
+    <a id="Item41_c4" onkeydown="return searchResults.NavChild(event,41,4)" onkeypress="return searchResults.NavChild(event,41,4)" onkeyup="return searchResults.NavChild(event,41,4)" class="SRScope" href="../class_i_rigid_body.html#a715facacf50933fc95b30267628afc9a" target="_parent">IRigidBody::getPointer()</a>
+  </div>
+ </div>
+</div>
+<div class="SRResult" id="SR_getproperty">
+ <div class="SREntry">
+  <a id="Item42" onkeydown="return searchResults.Nav(event,42)" onkeypress="return searchResults.Nav(event,42)" onkeyup="return searchResults.Nav(event,42)" class="SRSymbol" href="javascript:searchResults.Toggle('SR_getproperty')">getProperty</a>
+  <div class="SRChildren">
+    <a id="Item42_c0" onkeydown="return searchResults.NavChild(event,42,0)" onkeypress="return searchResults.NavChild(event,42,0)" onkeyup="return searchResults.NavChild(event,42,0)" class="SRScope" href="../class_i_property_holder.html#a11c762618fa4b72f77da2b9e2db67989" target="_parent">IPropertyHolder::getProperty(irr::u32 index) const </a>
+    <a id="Item42_c1" onkeydown="return searchResults.NavChild(event,42,1)" onkeypress="return searchResults.NavChild(event,42,1)" onkeyup="return searchResults.NavChild(event,42,1)" class="SRScope" href="../class_i_property_holder.html#a769a7850f1249fb948403f55a50ea469" target="_parent">IPropertyHolder::getProperty(irr::core::stringw name) const </a>
+  </div>
+ </div>
+</div>
+<div class="SRResult" id="SR_getpropertyholder">
+ <div class="SREntry">
+  <a id="Item43" onkeydown="return searchResults.Nav(event,43)" onkeypress="return searchResults.Nav(event,43)" onkeyup="return searchResults.Nav(event,43)" class="SRSymbol" href="../struct_s_wheel_info.html#a74d449e61a39a4e08f737a4e8d8bf4e3" target="_parent">getPropertyHolder</a>
+  <span class="SRScope">SWheelInfo</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getpropertyname">
+ <div class="SREntry">
+  <a id="Item44" onkeydown="return searchResults.Nav(event,44)" onkeypress="return searchResults.Nav(event,44)" onkeyup="return searchResults.Nav(event,44)" class="SRSymbol" href="../structirr_bullet_property.html#a9ed34969f42bf759d5ee3d36ad8f626f" target="_parent">getPropertyName</a>
+  <span class="SRScope">irrBulletProperty</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getrestitution">
+ <div class="SREntry">
+  <a id="Item45" onkeydown="return searchResults.Nav(event,45)" onkeypress="return searchResults.Nav(event,45)" onkeyup="return searchResults.Nav(event,45)" class="SRSymbol" href="../class_i_collision_object.html#aa8adb77a72e8c94a1f40e907e47c59d4" target="_parent">getRestitution</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getrightaxis">
+ <div class="SREntry">
+  <a id="Item46" onkeydown="return searchResults.Nav(event,46)" onkeypress="return searchResults.Nav(event,46)" onkeyup="return searchResults.Nav(event,46)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a9e7b820b6dfca94f65c68ce2e4e9655d" target="_parent">getRightAxis</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getrigidbody">
+ <div class="SREntry">
+  <a id="Item47" onkeydown="return searchResults.Nav(event,47)" onkeypress="return searchResults.Nav(event,47)" onkeyup="return searchResults.Nav(event,47)" class="SRSymbol" href="../class_i_raycast_vehicle.html#abcb1334adbce04d69d9e9358e2dd7130" target="_parent">getRigidBody</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getshapetype">
+ <div class="SREntry">
+  <a id="Item48" onkeydown="return searchResults.Nav(event,48)" onkeypress="return searchResults.Nav(event,48)" onkeyup="return searchResults.Nav(event,48)" class="SRSymbol" href="../class_i_collision_shape.html#acd78c40f06e27f51a4b35e0daaee25dc" target="_parent">getShapeType</a>
+  <span class="SRScope">ICollisionShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getsteeringvalue">
+ <div class="SREntry">
+  <a id="Item49" onkeydown="return searchResults.Nav(event,49)" onkeypress="return searchResults.Nav(event,49)" onkeyup="return searchResults.Nav(event,49)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a61cbb0a1e7604dbf21d3ced22df1dc73" target="_parent">getSteeringValue</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_gettotalforce">
+ <div class="SREntry">
+  <a id="Item50" onkeydown="return searchResults.Nav(event,50)" onkeypress="return searchResults.Nav(event,50)" onkeyup="return searchResults.Nav(event,50)" class="SRSymbol" href="../class_i_rigid_body.html#a7a6f0272f0ed396d91fa758eb3bf3f6c" target="_parent">getTotalForce</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_gettotaltorque">
+ <div class="SREntry">
+  <a id="Item51" onkeydown="return searchResults.Nav(event,51)" onkeypress="return searchResults.Nav(event,51)" onkeyup="return searchResults.Nav(event,51)" class="SRSymbol" href="../class_i_rigid_body.html#a5a10f309cd17b869aa6f57275b8d9f5d" target="_parent">getTotalTorque</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_gettrianglemesh">
+ <div class="SREntry">
+  <a id="Item52" onkeydown="return searchResults.Nav(event,52)" onkeypress="return searchResults.Nav(event,52)" onkeyup="return searchResults.Nav(event,52)" class="SRSymbol" href="../class_i_triangle_mesh_shape.html#a7201f1459febb8df52ac1a2bedccf376" target="_parent">getTriangleMesh</a>
+  <span class="SRScope">ITriangleMeshShape</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getuniqueid">
+ <div class="SREntry">
+  <a id="Item53" onkeydown="return searchResults.Nav(event,53)" onkeypress="return searchResults.Nav(event,53)" onkeyup="return searchResults.Nav(event,53)" class="SRSymbol" href="../class_i_collision_object.html#ab85f18b67c6fd90bd48ac8d7c1428a32" target="_parent">getUniqueID</a>
+  <span class="SRScope">ICollisionObject</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getupaxis">
+ <div class="SREntry">
+  <a id="Item54" onkeydown="return searchResults.Nav(event,54)" onkeypress="return searchResults.Nav(event,54)" onkeyup="return searchResults.Nav(event,54)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a8794915bab5f75afc32cc0d04e2effb5" target="_parent">getUpAxis</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getvalue">
+ <div class="SREntry">
+  <a id="Item55" onkeydown="return searchResults.Nav(event,55)" onkeypress="return searchResults.Nav(event,55)" onkeyup="return searchResults.Nav(event,55)" class="SRSymbol" href="../structirr_bullet_property.html#af462ccf42f4eda5e79f9081de3c2f718" target="_parent">getValue</a>
+  <span class="SRScope">irrBulletProperty</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getvelocityinlocalpoint">
+ <div class="SREntry">
+  <a id="Item56" onkeydown="return searchResults.Nav(event,56)" onkeypress="return searchResults.Nav(event,56)" onkeyup="return searchResults.Nav(event,56)" class="SRSymbol" href="../class_i_rigid_body.html#af00445868973aff938a2291325ac0c50" target="_parent">getVelocityInLocalPoint</a>
+  <span class="SRScope">IRigidBody</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getwheelinfo">
+ <div class="SREntry">
+  <a id="Item57" onkeydown="return searchResults.Nav(event,57)" onkeypress="return searchResults.Nav(event,57)" onkeyup="return searchResults.Nav(event,57)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a8b0208092aec41c9eebd6f04adaf9177" target="_parent">getWheelInfo</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getwheeltransformws">
+ <div class="SREntry">
+  <a id="Item58" onkeydown="return searchResults.Nav(event,58)" onkeypress="return searchResults.Nav(event,58)" onkeyup="return searchResults.Nav(event,58)" class="SRSymbol" href="../class_i_raycast_vehicle.html#a5355b5a944351140e2fae4838693fb65" target="_parent">getWheelTransformWS</a>
+  <span class="SRScope">IRaycastVehicle</span>
+ </div>
+</div>
+<div class="SRResult" id="SR_getworldtransform">
+ <div class="SREntry">
+  <a id="Item59" onkeydown="return searchResults.Nav(event,59)" onkeypress="return searchResults.Nav(event,59)" onkeyup="return searchResults.Nav(event,59)" class="SRSymbol" href="javascript:searchResults.Toggle('SR_getworldtransform')">getWorldTransform</a>
+  <div class="SRChildren">
+    <a id="Item59_c0" onkeydown="return searchResults.NavChild(event,59,0)" onkeypress="return searchResults.NavChild(event,59,0)" onkeyup="return searchResults.NavChild(event,59,0)" class="SRScope" href="../class_i_motion_state.html#a173d64beba9e121d1f03717eb9980e25" target="_parent">IMotionState::getWorldTransform()</a>
+    <a id="Item59_c1" onkeydown="return searchResults.NavChild(event,59,1)" onkeypress="return searchResults.NavChild(event,59,1)" onkeyup="return searchResults.NavChild(event,59,1)" class="SRScope" href="../class_i_rigid_body.html#ad226bf80f0d241771ba20a2e0806ca29" target="_parent">IRigidBody::getWorldTransform()</a>
+  </div>
+ </div>
+</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+<script type="text/javascript"><!--
+document.getElementById("Loading").style.display="none";
+document.getElementById("NoMatches").style.display="none";
+var searchResults = new SearchResults("searchResults");
+searchResults.Search();
+--></script>
+</div>
+</body>
+</html>

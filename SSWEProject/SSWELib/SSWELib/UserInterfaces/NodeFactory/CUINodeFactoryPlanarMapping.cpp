@@ -74,6 +74,8 @@ bool CUINodeFactoryPlanarMapping::OnEvent(const SEvent &event) {
 				bool general = generalPTM->isChecked();
 				if (generalPTM->isChecked()) {
 					meshMap->makePlanarTextureMapping(meshToEdit, hr);
+					((SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit))->setPlanarTextureMapped(true);
+					((SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit))->setPlanarTextureMappedValue(hr);
 				} else {
 					for (u32 i=0; i < meshToEdit->getMeshBufferCount(); i++) {
 						meshMap->makePlanarTextureMapping(meshToEdit->getMeshBuffer(i), hr, vr, a, offset);
@@ -98,6 +100,8 @@ bool CUINodeFactoryPlanarMapping::OnEvent(const SEvent &event) {
 						devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptm);
 					}
 				}
+
+				meshToEdit->setDirty();
 			}
 		}
 	}

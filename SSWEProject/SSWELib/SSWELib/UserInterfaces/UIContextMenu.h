@@ -29,6 +29,8 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_MAKE_PLANAR_MAPPING,
 	CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS,
 
+	CXT_MENU_EVENTS_PLAY_GAME,
+
 	CXT_MENU_EVENTS_CREATE_CUBE,
 	CXT_MENU_EVENTS_CREATE_SPHERE,
 	CXT_MENU_EVENTS_CREATE_PLANE,
@@ -157,7 +159,7 @@ class CUIContextMenu : public IEventReceiver {
 
 public:
 
-	CUIContextMenu(CDevices *_devices);
+	CUIContextMenu(CDevices *_devices, CPluginsManager *manager);
 	~CUIContextMenu();
 
 	void update();
@@ -168,6 +170,11 @@ public:
 	bool OnEvent(const SEvent &event);
 
 private:
+
+	//-----------------------------------
+	//METHODS
+	void playExampleGame();
+	//-----------------------------------
 
 	//-----------------------------------
 	//DEVICE

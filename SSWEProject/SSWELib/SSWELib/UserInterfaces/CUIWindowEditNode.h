@@ -123,7 +123,7 @@ private:
     IGUIWindow *editWindow;
     IGUITabControl *tabCtrl;
     
-    IGUITab *generalTab, *advancedTab, *flagsTab, *generalFlagsTab, *animatedTab;
+    IGUITab *generalTab, *advancedTab, *flagsTab, *generalFlagsTab, *physicsTab, *animatedTab;
     
     IGUIButton *applyButton, *closeButton;
     
@@ -167,6 +167,13 @@ private:
     IGUICheckBox *gBFCulling, *gFFCulling;
     IGUICheckBox *gColorMask, *gColorMaterial;
     IGUICheckBox *gTextureWrap, *gZBuffer, *gZWriteEnable;
+
+	//PHYSICS
+	IGUICheckBox *penablePhysics;
+	IGUIComboBox *pBodyType;
+	IGUIEditBox *pMasseb;
+	IGUIButton *pEditBody;
+	ISData::E_ISDATA_PHYSIC_TYPE lastPhysicBodyType;
 
 	//ANIMATED
 	IGUICheckBox *drawAnimations;

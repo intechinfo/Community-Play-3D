@@ -10,6 +10,8 @@
 #include "stdafx.h"
 #include "CNodeFactory.h"
 
+#include <irrbullet.h>
+
 CNodeFactory::CNodeFactory(CDevices *_devices) {
 	devices = _devices;
 }
@@ -46,7 +48,7 @@ void CNodeFactory::createPlaneMeshSceneNode() {
 	IAnimatedMesh *planeMesh = devices->getSceneManager()->addHillPlaneMesh("#object:new_hille_plane_mesh", 
 																			dimension2df(25, 25), dimension2du(25, 25),
 																			0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
-	ISceneNode *planeNode = devices->getSceneManager()->addAnimatedMeshSceneNode(planeMesh, 0, -1, vector3df(0));
+	IAnimatedMeshSceneNode *planeNode = devices->getSceneManager()->addAnimatedMeshSceneNode(planeMesh, 0, -1, vector3df(0));
 	planeNode->setName("#object:new_hille_plane_mesh");
 	planeNode->setMaterialFlag(EMF_LIGHTING, false);
 	devices->getXEffect()->addShadowToNode(planeNode, devices->getXEffectFilterType(), ESM_RECEIVE);

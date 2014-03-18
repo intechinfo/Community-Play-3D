@@ -1,0 +1,87 @@
+irrBullet 0.1.4 Release:
+	Fixed: IGImpactMeshShape->updateBound() is not virtual anymore (leftovers)
+	Added: IRigidBody->getOrientation() now returns a vector3df representing its                            rotation.
+	Added: irrlichtToBulletVector() in common functions to make tedious tasks easier.
+	Added: IConvexHullShape is now supported
+	Added: Class ITriangleMeshShape
+	Changed: All tri-mesh shapes now inherit from ITriangleMeshShape
+	Changed: Added 3 new activation states
+	Changed: ICollisionObject::getActivationState() now handles new states
+	Changed: Bullet implementation files removed from Source/Bullet
+	Fixed: IBoxShape now fits properly to the bounding box of most nodes, and to the                                  scale of sphere and cube scene nodes.
+	Added: compensateForNodeType() in common for node scale compensation
+	Added: overrideMargin parameter to IBoxShape to override default margin
+	Changed: setMargin() now does not make sure the margin is atleast 0.01
+	Fixed: IBoxShape now has proper scaling calculation independent of node scale
+	Fixed: ISphereShape now has proper scaling calculation independent of node scale
+	Improved: setWorldTransform in IMotionState is now optimized. Removed some                                       overhead. (Thanks randomMesh!)
+	Improved: ITriangleMeshShape now calculates shape with node scale. Optimized                              performance as well.
+	Fixed: registerGImpactAlgorithm() now sets isGImpactEnabled to true if it is false
+	API CHANGE: irrBulletWorld constructor now has new parameter "useDebugDraw"
+	Added: setDebugMode() to irrBulletWorld to set the draw modes of the debugger
+	Added: debugDrawProperties() in irrBulletWorld can now use an override color
+	Changed: default parameters added where applicable in various classes
+	API CHANGE: irrBulletWorld constructor now has new parameter "useGImpact"
+	Added: Checks before freeing memory in interfaces
+ 	Changed: Bullet headers moved from source/ to include/bheaders/ folder
+	Added: IRaycastVehicle interface for raycast vehicles
+	Added: addRaycastVehicle to irrBulletWorld
+	Added: setCenterOfMassPosition() to IRigidBody
+	Fixed: IRigidBody constructor using construction info struct now uses IMotionState                             instead of btDefaultMotionState
+	Added: btTransformToIrrlichtMatrix in common functions to replace                                                 quaternionToEuler (thanks to aanderse for improving existing code!)
+	Changed: IRigidBody::getOrientation() now uses getMatrixFromBulletTransform()                               instead of quaternionToEuler()
+	Added: btTransformFromIrrlichtMatrix in common functions to get a Bullet transform                           out of an Irrlicht matrix4 (thanks to aanderse for improving existing code!)
+	Added: pauseSimulation and simulationPaused to irrBulletWorld
+	Improved: constructor of IRigidBody now sets the rigid body's rotation to the initial 			rotation of the node at the time of creation.	
+	Removed: getCenterOfMassPosition and getOrientation from IRigidBody
+	Added: setWorldTransform and getWorldTransform to IRigidBody
+	Added: btWheelInfoToSWheelInfo and btWheelInfoFromSWheelInfo to common                         	 functions to convert to and from btWheelInfo
+	Improved: IRaycastVehicle's wheel info handling functions are now optimized
+	Improved: Greatly cleaned up the source code
+	Changed: irrBulletWorld's debug property text now displays Milliseconds Per Frame                                rather than Frames Per Second
+	Added: New scale for irrBullet compensator to avoid undesired behavior when using                           ICameraSceneNode with an irrBullet rigid body
+	Changed: Moved ECollisionObjectType and ECollisionFlag from common functions to                           ICollisionObject.h
+	Fixed: Percentage calculation of active rigid bodies in                                                irrBulletWorld::debugDrawProperties() is now fixed and improved.
+	Added: boolean parameter to irrBulletWorld::debugDrawWorld() to set whether or not the debugger will automatically change the driver material so that it can draw the debugging data. Defaults to false. Leave as false if you do this manually.
+	Changed: ICollisionObject now does not store a scene node pointer, and instead uses shape->getNode()
+	Changed: Renamed IRaycastVehicle::getCurrectSpeedKmh() from imcorrect name to getCurrentSpeedKmh
+	Changed: Renamed IRaycastVehicle::getForwardAxes() to getForwardAxis()
+	-- Finished Doxygen comments --
+	Changed: Renamed irrBulletWorld::getIsGImpactEnabled to isGImpactEnabled
+	Changed: Renamed ICollisionObject::autoCalculateCcdValues() to applyCalculatedCcdValues()
+	Added: Parameters to all force/torque functions in IRigidBody that tells the body whether to apply the force in local space or world space. The functions default to world.
+	Fixed: Crash when irrBulletWorld::setDebugMode() is called when debugging is not enabled.
+	Added: raycast tank example
+	Added: hello world example
+	Added: irrBulletWorld::getCollisionObject(index)
+	Changed: renamed irrBulletWorld::getNumRigidBodies() to getNumCollisionObjects()
+	Changed: underlaying Bullet btDiscreteDynamicsWorld to btSoftRigidDynamicsWorld
+	Changed: Core object list from type IRigidBody* to ICollisionObject* for ease of management
+
+
+
+irrBullet 0.1.1 Release (01.21.2010):
+	Added: IBulletWorld function to get number of Active or Sleeping objects.
+	Fixed: getName() function in ICollisionShape
+	Fixed: ISphereShape scale 
+	Added: Function to IBulletWorld to draw debug properties to the GUI environment
+	Improved: Cleaned up source files and removed some unnecessary things
+	Added: IGImpactMeshShape for GImpact rigid body triangle meshes
+	Fixed: Now classes derived from ICollisionShape actually update their inertia
+	Improved: Improved coding in the header files
+	Added: All rigid bodies now use IMotionState instead of btDefaultMotionState
+	Added: IBvhTriangleMeshShape is now supported
+	Changed: ICollisionShape::setLocalScaling() now scales the scene node it controls
+	Added: autoCalculateCcdValues() to IRigidBody to automatically set Continuous 
+		Collision Detection values to avoid tunneling of fast moving objects.
+	Added: setCcdValues() to IRigidBody to manually set Continous Collision Detection 
+		values to avoid tunneling of fast moving objects.
+	Removed: updateRigidBody() from IRigidBody
+	Added: New class ICollisionObject, which all other objects inherit from
+	Changed: EPhysicsBodyState in common.h renamed to EActivationState and moved to collisionobject.h
+	Changed: EAS_ALL removed. debugDrawProperties() directly affected.\
+	Improved: ICollisionObject now has all needed original btCollisionObject functions.
+	Improved: IRigidBody now has all needed original btRigidBody functions.
+	Improved: Collision masks for IRigidBody are now finished and ready to be used.
+	Changed: setCollisionFlags() now takes ECollisionFlag as a parameter instead of u32.
+

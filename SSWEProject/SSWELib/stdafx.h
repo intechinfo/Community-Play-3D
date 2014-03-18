@@ -24,6 +24,8 @@
 #include <vector>
 #include <cstdlib>
 
+#include <irrbullet.h>
+
 #ifndef _IRR_OSX_PLATFORM_
     extern CRITICAL_SECTION CriticalSection;
 #endif

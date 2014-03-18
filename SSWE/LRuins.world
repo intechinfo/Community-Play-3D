@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="127.211197" Y="85.850449" Z="96.210396" />
-			 <rotation X="16.717318" Y="112.857147" Z="0.000000" />
+			 <position X="11.254487" Y="207.268570" Z="111.710243" />
+			 <rotation X="22.796267" Y="181.607285" Z="0.000000" />
 
 		 </camera>
 
@@ -47,7 +47,15 @@
 
 
 
+
+
+
+
 float4x4 ModelViewMatrix;
+
+
+
+
 
 
 
@@ -55,7 +63,15 @@ float4x4 ModelViewProjectionMatrix;
 
 
 
+
+
+
+
 float3 fvLightPosition1; 
+
+
+
+
 
 
 
@@ -63,7 +79,15 @@ float3 fvLightPosition2;
 
 
 
+
+
+
+
 float3 fvLightPosition3; 
+
+
+
+
 
 
 
@@ -71,7 +95,15 @@ float3 fvLightPosition4;
 
 
 
+
+
+
+
 float fLightStrength1; 
+
+
+
+
 
 
 
@@ -79,7 +111,15 @@ float fLightStrength2;
 
 
 
+
+
+
+
 float fLightStrength3; 
+
+
+
+
 
 
 
@@ -87,11 +127,23 @@ float fLightStrength4;
 
 
 
+
+
+
+
 struct VS_OUTPUT
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -99,7 +151,15 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
    float2 Texcoord            : TEXCOORD0;
+
+
+
+
 
 
 
@@ -107,7 +167,15 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
    float3 LightDirection1      : TEXCOORD2; 
+
+
+
+
 
 
 
@@ -115,7 +183,15 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
    float3 LightDirection3      : TEXCOORD4; 
+
+
+
+
 
 
 
@@ -123,11 +199,23 @@ struct VS_OUTPUT
 
 
 
+
+
+
+
    float4 LightDistMultiplier  : TEXCOORD6;
 
 
 
+
+
+
+
 };
+
+
+
+
 
 
 
@@ -135,7 +223,15 @@ float getLengthSQR (float3 vec)
 
 
 
+
+
+
+
 { 
+
+
+
+
 
 
 
@@ -143,7 +239,15 @@ float getLengthSQR (float3 vec)
 
 
 
+
+
+
+
 }  
+
+
+
+
 
 
 
@@ -151,7 +255,15 @@ struct VS_INPUT
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -159,7 +271,15 @@ struct VS_INPUT
 
 
 
+
+
+
+
    float3 Normal           : NORMAL;
+
+
+
+
 
 
 
@@ -167,7 +287,15 @@ struct VS_INPUT
 
 
 
+
+
+
+
 };
+
+
+
+
 
 
 
@@ -175,7 +303,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
 {    
+
+
+
+
 
 
 
@@ -183,7 +319,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+
+
+
+
 
 
 
@@ -191,7 +335,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -199,7 +351,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    LightTransform= mul(matWorldInverse, LightTransform);
+
+
+
+
 
 
 
@@ -207,7 +367,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+
+
+
+
 
 
 
@@ -215,7 +383,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+
+
+
+
 
 
 
@@ -223,7 +399,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+
+
+
+
 
 
 
@@ -231,7 +415,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+
+
+
+
 
 
 
@@ -239,11 +431,23 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -251,7 +455,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+
+
+
+
 
 
 
@@ -259,11 +471,23 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -271,7 +495,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    float3 fvBinormal   = cross(fvTangent,IN.Normal);
+
+
+
+
 
 
 
@@ -279,7 +511,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+
+
+
+
 
 
 
@@ -287,7 +527,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -295,7 +543,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+
+
+
+
 
 
 
@@ -303,7 +559,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+
+
+
+
 
 
 
@@ -311,7 +575,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+
+
+
+
 
 
 
@@ -319,7 +591,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+
+
+
+
 
 
 
@@ -327,7 +607,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+
+
+
+
 
 
 
@@ -335,7 +623,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+
+
+
+
 
 
 
@@ -343,7 +639,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+
+
+
+
 
 
 
@@ -351,7 +655,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -359,7 +671,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
@@ -369,7 +689,15 @@ VS_OUTPUT vertexMain( in VS_INPUT IN )
 
 
 
+
+
+
+
 float4 fvLight1Color; 
+
+
+
+
 
 
 
@@ -377,7 +705,15 @@ float4 fvLight2Color;
 
 
 
+
+
+
+
 float4 fvLight3Color; 
+
+
+
+
 
 
 
@@ -385,7 +721,15 @@ float4 fvLight4Color;
 
 
 
+
+
+
+
 float fSpecularPower; 
+
+
+
+
 
 
 
@@ -393,7 +737,15 @@ float fSpecularStrength;
 
 
 
+
+
+
+
 float fBumpStrength; 
+
+
+
+
 
 
 
@@ -401,7 +753,15 @@ sampler2D baseMap      : register(s0);
 
 
 
+
+
+
+
 sampler2D bumpMap      : register(s1); 
+
+
+
+
 
 
 
@@ -409,7 +769,15 @@ struct PS_INPUT
 
 
 
+
+
+
+
 {   
+
+
+
+
 
 
 
@@ -417,7 +785,15 @@ struct PS_INPUT
 
 
 
+
+
+
+
    float3 ViewDirection      : TEXCOORD1; 
+
+
+
+
 
 
 
@@ -425,7 +801,15 @@ struct PS_INPUT
 
 
 
+
+
+
+
    float3 LightDirection2      : TEXCOORD3;
+
+
+
+
 
 
 
@@ -433,7 +817,15 @@ struct PS_INPUT
 
 
 
+
+
+
+
    float3 LightDirection4      : TEXCOORD5; 
+
+
+
+
 
 
 
@@ -441,7 +833,15 @@ struct PS_INPUT
 
 
 
+
+
+
+
 };
+
+
+
+
 
 
 
@@ -449,7 +849,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -457,7 +865,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+
+
+
+
 
 
 
@@ -465,7 +881,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+
+
+
+
 
 
 
@@ -473,11 +897,23 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -485,7 +921,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    fvNormal.xy-=1.0;
+
+
+
+
 
 
 
@@ -493,11 +937,23 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    fvNormal=normalize(fvNormal);
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -505,7 +961,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+
+
+
+
 
 
 
@@ -513,7 +977,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+
+
+
+
 
 
 
@@ -521,7 +993,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+
+
+
+
 
 
 
@@ -529,7 +1009,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+
+
+
+
 
 
 
@@ -537,7 +1025,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+
+
+
+
 
 
 
@@ -545,7 +1041,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+
+
+
+
 
 
 
@@ -553,7 +1057,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+
+
+
+
 
 
 
@@ -561,7 +1073,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+
+
+
+
 
 
 
@@ -569,7 +1089,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+
+
+
+
 
 
 
@@ -577,7 +1105,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+
+
+
+
 
 
 
@@ -585,7 +1121,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+
+
+
+
 
 
 
@@ -593,7 +1137,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+
+
+
+
 
 
 
@@ -601,7 +1153,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    if(color.g>1.0){color.rb+=color.g-1.0;} 
+
+
+
+
 
 
 
@@ -609,7 +1169,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
    
+
+
+
+
 
 
 
@@ -617,7 +1185,15 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
@@ -627,7 +1203,17 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 
 
 
+
+
+
+
+
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+
+
+
+
+
 
 
 
@@ -642,7 +1228,22 @@ vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
 
 
+
+
+
+
+
+
+
+
+
+
 vfloat fLightStrength1 80
+
+
+
+
+
 
 
 
@@ -652,7 +1253,17 @@ vfloat fLightStrength2 80
 
 
 
+
+
+
+
+
 vfloat fLightStrength3 80
+
+
+
+
+
 
 
 
@@ -667,7 +1278,22 @@ vfloat fLightStrength4 80
 
 
 
+
+
+
+
+
+
+
+
+
+
 vvector3df fvLightPosition1 150 240 -34
+
+
+
+
+
 
 
 
@@ -677,7 +1303,17 @@ vvector3df fvLightPosition2 150 240 -34
 
 
 
+
+
+
+
+
 vvector3df fvLightPosition3 150 240 -34
+
+
+
+
+
 
 
 
@@ -692,7 +1328,22 @@ vvector3df fvLightPosition4 150 240 -34
 
 
 
+
+
+
+
+
+
+
+
+
+
 pSColor fvAmbient 1 0.7 0.7 0.7
+
+
+
+
+
 
 
 
@@ -702,12 +1353,27 @@ pSColor fvLight1Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
 pSColor fvLight2Color 1 0.02 0.02 0.02
 
 
 
 
+
+
+
+
+
 pSColor fvLight3Color 1 0.02 0.02 0.02
+
+
+
+
+
 
 
 
@@ -722,7 +1388,22 @@ pSColor fvLight4Color 1 0.02 0.02 0.02
 
 
 
+
+
+
+
+
+
+
+
+
+
 pfloat fSpecularPower 20
+
+
+
+
+
 
 
 
@@ -732,7 +1413,17 @@ pfloat fSpecularStrength 0.9
 
 
 
+
+
+
+
+
 pfloat fBumpStrength 5
+
+
+
+
+
 
 
 
@@ -758,7 +1449,7 @@ pfloat fBumpStrength 5
 
 			 <path file="data/nouveau dossier/4/ruins.3ds" />
 
-			 <type esnt="octtree" mppn="4096" />
+			 <type esnt="mesh" />
 
 			 <factory> 
 

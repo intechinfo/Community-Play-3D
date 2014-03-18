@@ -426,6 +426,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.cpp">
       <Filter>SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CFilterCallback.cpp">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -769,6 +772,15 @@
     </ClInclude>
     <ClInclude Include="include\IGUICodeEditor.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISSWEImporter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISSWECoreUserInterface.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CFilterCallback.h">
+      <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

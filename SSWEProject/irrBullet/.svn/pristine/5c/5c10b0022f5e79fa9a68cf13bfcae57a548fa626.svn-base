@@ -1,0 +1,47 @@
+#ifndef __EXAMPLE__FRAMEWORK_H_INCLUDED__
+#define __EXAMPLE__FRAMEWORK_H_INCLUDED__
+#include <irrTypes.h>
+#include <vector3d.h>
+#include <IEventReceiver.h>
+
+
+namespace irr
+{
+    class IrrlichtDevice;
+
+    namespace scene
+    {
+        class ICameraSceneNode;
+    }
+}
+class irrBulletWorld;
+
+class CExampleFramework : public irr::IEventReceiver
+{
+    public:
+        CExampleFramework();
+
+        ~CExampleFramework();
+
+        virtual bool OnEvent(const irr::SEvent& event);
+
+        virtual void runFramework();
+
+
+        void addCube(const irr::core::vector3df &pos, const irr::core::vector3df &scale, irr::f32 mass);
+        void shootCube(const irr::core::vector3df &scale, irr::f32 mass);
+        void shootSphere(const irr::core::vector3df &scale, irr::f32 mass);
+
+
+        bool debugDraw;
+        bool drawProperties;
+        bool drawWireFrame;
+
+    protected:
+        irr::IrrlichtDevice *device;
+        irrBulletWorld *world;
+
+        irr::scene::ICameraSceneNode *camera;
+};
+
+#endif // __EXAMPLE__FRAMEWORK_H_INCLUDED__

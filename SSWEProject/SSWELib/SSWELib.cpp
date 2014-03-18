@@ -6,25 +6,28 @@
 
 #include <stdio.h>
 
+#include "SSWELib/Device/Core/CCoreUserInterface.h"
+
 #ifdef _IRR_OSX_PLATFORM_
 #include <pthread.h>
-
 static pthread_mutex_t cs_mutex =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #endif
 
 #ifndef _IRR_OSX_PLATFORM_
-SSWE_LIB_API CCoreUserInterface* SSWELIBCALLCONV createSSWEDevice() {
+SSWE_LIB_API ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
 #else
 CCoreUserInterface* createSSWEDevice() {
 #endif
-	return new CCoreUserInterface();
+	return (ISSWECoreUserInterface*)(new CCoreUserInterface(playOnly, argPath));
 }
 
 #ifndef _IRR_OSX_PLATFORM_
-SSWE_LIB_API void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
+SSWE_LIB_API void SSWELIBCALLCONV updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 #else
 void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 #endif
+
+	CCoreUserInterface *coreUserInterface = (CCoreUserInterface*)_coreUserInterface;
 
 	IrrlichtDevice *device = coreUserInterface->getDevices()->getDevice();
     IVideoDriver *driver = coreUserInterface->getVideoDriver();
@@ -86,9 +89,10 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
     
 	driver->beginScene(true, true, SColor(0x0));
 	driver->endScene();
-	coreUserInterface->getDevices()->getDevice()->maximizeWindow();
+	if (!coreUserInterface->getDevices()->isOnlyForPlaying())
+		coreUserInterface->getDevices()->getDevice()->maximizeWindow();
 
-	coreUserInterface->getDevices()->getRenderingSceneManager()->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
+	//coreUserInterface->getDevices()->getRenderingSceneManager()->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
 
     #ifndef _IRR_OSX_PLATFORM_
 	if (!InitializeCriticalSectionAndSpinCount(&CriticalSection,  0x00000400))

@@ -1,0 +1,21 @@
+NOTE: irrBulletText.exe always starts out paused, and, depending on which
+irrBullet release you're using, may not work or may be very buggy.
+It is only meant as a testbed for irrBullet features, not as an example.
+
+All demos have these controls:
+
+Right Mouse Button - Shoot sphere
+Left Mouse Button - Shoot cube
+ARROW KEYS - Move camera
+P - Pause simulation
+R - Reset simulation world
+
+
+And unique controls:
+
+Raycast Vehicle Demo:
+W - Increase engine force
+S - Decrease engine force
+A - Apply brakes on left track / Turn left
+D - Apply brakes on right track / Turn right
+SPACEBAR - Fire main gun

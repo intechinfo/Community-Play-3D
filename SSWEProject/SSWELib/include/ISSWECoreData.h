@@ -15,6 +15,13 @@ public:
 
 	ISData() { }
 
+	enum E_ISDATA_PHYSIC_TYPE {
+		EIPT_NONE = 0,
+		EIPT_RIGID_BODY,
+		EIPT_LIQUID_BODY,
+		EIPT_SOFT_BODY
+	};
+
 	//MAIN METHODS
 	virtual irr::scene::ISceneNode *getNode() = 0;
 	virtual irr::scene::IMesh *getMesh() = 0;
@@ -28,12 +35,22 @@ public:
 
 	//CLONED NODES METHODS
 	virtual irr::scene::ISceneNode *cloneNode(irr::core::vector3df position, ISSWECore *core=0) = 0;
+
 	virtual void addClonedNode(irr::scene::ISceneNode *cnode) = 0;
     virtual void removeClonedNodes() = 0;
 	virtual void removeClonedNode(irr::scene::ISceneNode *cnode) = 0;
+
 	virtual irr::scene::ISceneNode *getClonedNode(irr::scene::ISceneNode *cnode) = 0;
 	virtual irr::scene::ISceneNode *getClonedNode(irr::u32 index) = 0;
+
 	virtual irr::u32 getClonedNodeCount() = 0;
+
+	//PHYSICS
+	virtual bool isPhysicEnabled() = 0;
+	virtual void setEnablePhysics(bool enable) = 0;
+
+	virtual E_ISDATA_PHYSIC_TYPE getBodyType() = 0;
+	virtual void setBodyType(E_ISDATA_PHYSIC_TYPE type) = 0;
 
 };
 

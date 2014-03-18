@@ -1,0 +1,23 @@
+#ifndef __G_IMPACT_MESH_SHAPE_H_INCLUDED__
+#define __G_IMPACT_MESH_SHAPE_H_INCLUDED__
+
+#include "common.h"
+#include "Bullet/BulletCollision/Gimpact/btGImpactCollisionAlgorithm.h"
+#include "trianglemeshshape.h"
+
+
+class IGImpactMeshShape : public ITriangleMeshShape
+{
+    public:
+        IGImpactMeshShape(irr::scene::ISceneNode *n, irr::scene::IMesh* collMesh, irr::f32 m);
+        virtual ~IGImpactMeshShape();
+
+        void updateBound();
+
+
+    protected:
+        btGImpactMeshShape* gimpactShape;
+        virtual void createShape(irr::scene::IMesh *collMesh);
+};
+
+#endif // __G_IMPACT_MESH_SHAPE_H_INCLUDED__

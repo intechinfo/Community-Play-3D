@@ -15,7 +15,14 @@
 #include "../GUIExtension/CodeEditor/CGUICodeEditor.h"
 #include "../GUIExtension/FileLoader/CUIFileLoader.h"
 
-CDevices::CDevices(CCoreUserInterface *_coreUserInterface) {
+#include <irrbullet.h>
+
+u32 TimeStamp;
+u32 DeltaTime = 0;
+
+CDevices::CDevices(CCoreUserInterface *_coreUserInterface, bool playOnly) {
+	isOnlyForPlay = playOnly;
+
     //DEVICE
 	Device = 0;
 	wolrdCore = new CCore();
@@ -164,6 +171,14 @@ void CDevices::updateEntities() {
             worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginalRenderTarget(0);
 		}
 	}
+
+	//PHYSICS
+	DeltaTime = Device->getTimer()->getTime() - TimeStamp;
+	TimeStamp = Device->getTimer()->getTime();
+
+	bulletWorld->stepSimulation(DeltaTime*0.001f);
+	bulletWorld->updateCollisionObjects();
+	bulletWorld->updateLiquidBodies();
 }
 
 void CDevices::updateDevice() {
@@ -328,11 +343,13 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#endif
 
 	//DRAW SPLASH SCREEN
-	ITexture *splashScreen = driver->getTexture("GUI/scs/sc1.png");
-	driver->beginScene(true, true, SColor(0x0));
-	driver->draw2DImage(splashScreen, rect<s32>(0, 0, 800, 600), rect<s32>(0, 0, 800, 600));
-	driver->endScene();
-	driver->removeTexture(splashScreen);
+	if (!isOnlyForPlay) {
+		ITexture *splashScreen = driver->getTexture("GUI/scs/sc1.png");
+		driver->beginScene(true, true, SColor(0x0));
+		driver->draw2DImage(splashScreen, rect<s32>(0, 0, 800, 600), rect<s32>(0, 0, 800, 600));
+		driver->endScene();
+		driver->removeTexture(splashScreen);
+	}
     
     //-----------------------------------
     //CAMERAS
@@ -433,13 +450,19 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	receiver.AddEventReceiver(camera_rig);
 
 	//ADVANCED GUI ASSETS
-	processesLogger = new CUIProcessesLogger(gui);
+	if (!isOnlyForPlay)
+		processesLogger = new CUIProcessesLogger(gui);
 
 	//SCRIPTING
 	//RUN SCRIPTING
 	scripting = new CScripting(this);
 	scripting->initializeSceneScripting();
 	scripting->initializeFileSystemScripting();
+
+	//PHYSICS
+	bulletWorld = createIrrBulletWorld(Device, true, false);
+    bulletWorld->setGravity(vector3df(0,-50,0));
+	u32 TimeStamp = Device->getTimer()->getTime();
 }
 
 void CDevices::rebuildXEffect() {
@@ -500,6 +523,7 @@ IGUIWindow *CDevices::addWarningDialog(stringw title, stringw text, s32 flag) {
 	return window;
 }
 
+//PLUGINS
 IGUICodeEditor *CDevices::createGUICodeEditor() {
 	return new CUICodeEditor(this, 0, true);
 }
@@ -510,6 +534,18 @@ ISData *CDevices::getSelectedData() {
 	data = worldCoreData->copySDataOfSceneNode(node);
 
 	return data;
+}
+
+void CDevices::applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber) {
+	if (node->getType() == ESNT_ANIMATED_MESH) {
+		SObjectsData *sdatat = (SObjectsData*)worldCoreData->getISDataOfSceneNode(node);
+		if (animationNumber >= sdatat->getActions()->size())
+			return;
+
+		((IAnimatedMeshSceneNode*)node)->setFrameLoop(sdatat->getActions()->operator[](animationNumber)->getStart(),
+													  sdatat->getActions()->operator[](animationNumber)->getEnd());
+		((IAnimatedMeshSceneNode*)node)->setAnimationSpeed(sdatat->getActions()->operator[](animationNumber)->getAnimSpeed());
+	}
 }
 
 bool CDevices::OnEvent(const SEvent &event) {

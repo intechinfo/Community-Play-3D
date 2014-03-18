@@ -136,22 +136,18 @@ void CExporter::exportConfig() {
     
 	//EFFECTS
 	fprintf(export_file, "\t\t <effect>\n\n");
-	/*for (int i=0; i < devices->getCoreData()->getEffectRenders()->size(); i++) {
-		stringc path = "";
-		path = devices->getCoreData()->getEffectRendersPaths()->operator[](i).c_str();
-		path.remove(devices->getWorkingDirectory().c_str());
-		//fprintf(export_file, "\t\t\t <postProcessingEffect path=\"%s\" />\n", path.c_str());
+	for (u32 i=0; i < devices->getCoreData()->getEffectFilters()->size(); i++) {
 		fprintf(export_file, "\t\t\t <postProcessingEffect>\n");
-		fprintf(export_file, "\t\t\t\t <file_path path=\"%s\" />\n", path.c_str());
-		fprintf(export_file, "\t\t\t\t <values>\n");
-		for (u32 ei=0; ei < devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->size(); ei++) {
-			fprintf(export_file, "\t\t\t\t\t <value name=\"%s\" val=\"%s\" />\n",
-					devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValuesNames()->operator[](ei).c_str(),
-					stringc(devices->getCoreData()->getEffectRenderCallbacks()->operator[](i)->getPixelValues()->operator[](ei)).c_str());
-		}
-		fprintf(export_file, "\t\t\t\t </values>\n");
+
+		stringc shader = stringc(devices->getCoreData()->getEffectFilters()->operator[](i).getPixelShader().c_str()).replace("\r", "\n").replace("\"", "&quot");
+		stringc callback = stringc(devices->getCoreData()->getEffectFilters()->operator[](i).getCallback().c_str()).replace("\r", "\n").replace("\"", "&quot");
+
+		fprintf(export_file, "\t\t\t\t <ppeName name=\"%s\" />\n", stringc(devices->getCoreData()->getEffectFilters()->operator[](i).getName().c_str()).replace("\r", "\n").c_str());
+		fprintf(export_file, "\t\t\t\t <ppeShader shader=\"%s\" />\n", shader.c_str());
+		fprintf(export_file, "\t\t\t\t <ppeCallback callback=\"%s\" />\n", callback.c_str());
+		
 		fprintf(export_file, "\t\t\t </postProcessingEffect>\n\n");
-	}*/
+	}
 	fprintf(export_file, "\n\t\t </effect>\n\n");
     
 	//MATERIAL TYPES
@@ -233,6 +229,8 @@ void CExporter::exportObjects() {
         
 		fprintf(export_file, "\t\t\t <path file=\"%s\" />\n\n", devices->getCoreData()->getObjectsData()->operator[](i).getPath().c_str());
         fprintf(export_file, "\t\t\t <name c8name=\"%s\" />\n\n", node->getName());
+
+		exportFactory("\t\t\t", node);
         
 		exportMaterials("\t\t\t", node);
         exportTransformations("\t\t\t", node);
@@ -442,23 +440,21 @@ void CExporter::exportCamerasConfig() {
 //---------------------------------------------------------------------------------------------
 void CExporter::exportFactory(stringc tabs, ISceneNode *node) {
 	fprintf(export_file, "\t\t\t <factory> \n\n");
-	s32 planaredIndice = devices->getCoreData()->isMeshPlanared(node);
-	if (planaredIndice != -1) {
-		SPlanarTextureMappingData sptm = devices->getCoreData()->getPlanarTextureMappingValues()->operator[](planaredIndice);
-		if (sptm.isGeneralPlanarTextureMapping()) {
-			fprintf(export_file, "\t\t\t\t <primitive type=\"planar\" options=\"general\" /> \n");
-			fprintf(export_file, "\t\t\t\t\t <resolutionS value=\"%f\" /> \n", sptm.getResolutionS());
-			fprintf(export_file, "\t\t\t\t </primitive> \n");
-		} else {
-			fprintf(export_file, "\t\t\t\t <primitive type=\"planar\" /> \n");
-			fprintf(export_file, "\t\t\t\t\t <resolutionS value=\"%f\" /> \n", sptm.getResolutionS());
-			fprintf(export_file, "\t\t\t\t\t <resolutionT value=\"%f\" /> \n", sptm.getResolutionT());
-			fprintf(export_file, "\t\t\t\t\t <axis value=\"%u\" /> \n", sptm.getAxis());
-			fprintf(export_file, "\t\t\t\t\t <offset X=\"%f\" Y=\"%f\" Z=\"%f\" /> \n", sptm.getOffset().X, sptm.getOffset().Y, sptm.getOffset().Z);
-			fprintf(export_file, "\t\t\t\t\t <general value=\"%u\" />\n", sptm.isGeneralPlanarTextureMapping());
-			fprintf(export_file, "\t\t\t\t </primitive> \n");
-		}
-	}
+
+	SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(node);
+
+	fprintf(export_file, "\t\t\t\t <meshFactory>\n");
+	fprintf(export_file, "\t\t\t\t <tangents value=\"%d\" />\n", sdatat->wasTangentRecalculated());
+	fprintf(export_file, "\t\t\t\t <normals value=\"%d\" />\n", sdatat->wasNormalRecalculated());
+	fprintf(export_file, "\t\t\t\t <angleWeighted value=\"%d\" />\n", sdatat->wasAngleWeighted());
+	fprintf(export_file, "\t\t\t\t <smooth value=\"%d\" />\n", sdatat->wasSmoothed());
+	fprintf(export_file, "\t\t\t\t </meshFactory>\n");
+
+	fprintf(export_file, "\t\t\t\t <planarMapping>\n");
+	fprintf(export_file, "\t\t\t\t <planarMapped value=\"%d\" />\n", sdatat->wasPlanarTextureMapped());
+	fprintf(export_file, "\t\t\t\t <planarMappedValue value=\"%f\" />\n", sdatat->wasPlanarTextureMappedValue());
+	fprintf(export_file, "\t\t\t\t </planarMapping>\n");
+
 	fprintf(export_file, "\n\t\t\t </factory> \n\n");
 }
 

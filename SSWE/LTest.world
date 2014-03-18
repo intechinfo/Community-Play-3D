@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="4" />
+		 <numberOfObjects value="6" />
 
 		 <grid>
 
@@ -16,14 +16,14 @@
 
 		 <camera>
 
-			 <position X="239.484604" Y="135.231216" Z="217.043457" />
-			 <rotation X="19.756840" Y="228.035767" Z="0.000000" />
+			 <position X="217.557785" Y="28.578045" Z="18.356354" />
+			 <rotation X="7.598785" Y="313.750000" Z="0.000000" />
 
 		 </camera>
 
 		 <fpsCameraSettings>
 
-			 <ellipsoidRadius X="30.000000" Y="35.000000" Z="30.000000" />
+			 <ellipsoidRadius X="30.000000" Y="25.000000" Z="30.000000" />
 			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
 			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <slidingValue value="0.000500" />
@@ -31,6 +31,162 @@
 		 </fpsCameraSettings>
 
 		 <effect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/blurhp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(1.0 / SCREENX, 0),
+		float2(-1.0 / SCREENX, 0),
+		float2(2.0 / SCREENX, 0),
+		float2(-2.0 / SCREENX, 0)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.0), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/blurvp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(0, 1.0 / SCREENY),
+		float2(0, -1.0 / SCREENY),
+		float2(0, 2.0 / SCREENY),
+		float2(0, -2.0 / SCREENY)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.01), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/sepia_toon_shader.hlsl" />
+				 <ppeShader shader="//------------------------------ TEXTURE PROPERTIES ----------------------------
+// This is the texture that SpriteBatch will try to set before drawing
+texture ScreenTexture;
+ 
+// Our sampler for the texture, which is just going to be pretty simple
+sampler TextureSampler = sampler_state
+{
+    Texture = <ScreenTexture>;
+};
+ 
+//------------------------ PIXEL SHADER ----------------------------------------
+// This pixel shader will simply look up the color of the texture at the
+// requested point, and turns it into a sepia tone
+float4 pixelMain(float2 TextureCoordinate : TEXCOORD0) : COLOR0
+{
+    float4 color = tex2D(TextureSampler, TextureCoordinate);
+ 
+    float4 outputColor = color;
+    outputColor.r = (color.r * 0.393) + (color.g * 0.769) + (color.b * 0.189);
+    outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);    
+    outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
+ 
+    return outputColor;
+}
+ 
+//-------------------------- TECHNIQUES ----------------------------------------
+// This technique is pretty simple - only one pass, and only a pixel shader
+technique Sepia
+{
+    pass Pass1
+    {
+        PixelShader = compile ps_2_0 pixelMain();
+    }
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/bloomp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+sampler2D ScreenMapSampler : register(s1);
+
+float4 pixelMain(float2 TexCoords : TEXCOORD0) : COLOR0
+{		
+	float4 screenCol = tex2D(ScreenMapSampler, TexCoords);
+	float4 bloomCol = tex2D(ColorMapSampler, TexCoords);
+	
+	return(screenCol * 0.9 + bloomCol * 0.5);
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/vignette.hlsl" />
+				 <ppeShader shader="uniform sampler2D SceneBuffer : register(s0);
+
+uniform float EdgeDarkness;
+
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+{
+    float2 tc= texCoord;
+    float4 finalCol = tex2D(SceneBuffer, texCoord);
+    tc -= 0.5;
+    float vignette = 1.0-(dot(tc, tc)*EdgeDarkness);
+	return finalCol*vignette;
+}
+
+" />
+				 <ppeCallback callback="filter:setPixelShaderConstantFloat(&quotEdgeDarkness&quot, 2)" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/desaturate.hlsl" />
+				 <ppeShader shader="
+
+uniform sampler2D SceneBuffer : register(s0);
+uniform sampler2D UserMapSampler : register(s3);
+
+uniform float Desaturation;
+
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+{   
+	// digital ITU Recommendations
+	const float3 ITU_R_601 = float3(0.2990, 0.5870, 0.1140);
+	const float3 ITU_R_709 = float3(0.2126, 0.7152, 0.0722);
+
+    float4 texColor = tex2D(SceneBuffer, texCoord);
+	
+    float3 gray = dot(texColor.rgb, ITU_R_601);
+    float3 result = lerp(texColor, gray.xxx, Desaturation);
+    return float4(result, 1.0) + tex2D(UserMapSampler, texCoord);
+}
+
+" />
+				 <ppeCallback callback="driver:setTexture(&quotshaders/Textures/LF/lensdirt.png&quot)
+
+filter:setPixelShaderConstantFloat(&quotDesaturation&quot, 0.4)
+" />
+			 </postProcessingEffect>
 
 
 		 </effect>
@@ -44,1312 +200,171 @@
 				 <name cname="Normal Mapping Material" />
 				 <vertex shader=
 "float4x4 matWorldInverse; 
-
-
-
-
-
-
-
 float4x4 ModelViewMatrix;
-
-
-
-
-
-
-
 float4x4 ModelViewProjectionMatrix;
-
-
-
-
-
-
-
 float3 fvLightPosition1; 
-
-
-
-
-
-
-
 float3 fvLightPosition2; 
-
-
-
-
-
-
-
 float3 fvLightPosition3; 
-
-
-
-
-
-
-
 float3 fvLightPosition4; 
-
-
-
-
-
-
-
 float fLightStrength1; 
-
-
-
-
-
-
-
 float fLightStrength2; 
-
-
-
-
-
-
-
 float fLightStrength3; 
-
-
-
-
-
-
-
 float fLightStrength4; 
-
-
-
-
-
-
-
 struct VS_OUTPUT
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float4 Position            : POSITION0;
-
-
-
-
-
-
-
    float2 Texcoord            : TEXCOORD0;
-
-
-
-
-
-
-
    float3 ViewDirection      : TEXCOORD1; 
-
-
-
-
-
-
-
    float3 LightDirection1      : TEXCOORD2; 
-
-
-
-
-
-
-
    float3 LightDirection2      : TEXCOORD3; 
-
-
-
-
-
-
-
    float3 LightDirection3      : TEXCOORD4; 
-
-
-
-
-
-
-
    float3 LightDirection4      : TEXCOORD5; 
-
-
-
-
-
-
-
    float4 LightDistMultiplier  : TEXCOORD6;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 float getLengthSQR (float3 vec) 
-
-
-
-
-
-
-
 { 
-
-
-
-
-
-
-
    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-
-
-
-
-
-
-
 }  
-
-
-
-
-
-
-
 struct VS_INPUT
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float3 Position         : POSITION0;
-
-
-
-
-
-
-
    float3 Normal           : NORMAL;
-
-
-
-
-
-
-
    float2 Texcoord         : TEXCOORD0;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-
-
-
-
-
-
-
 {    
-
-
-
-
-
-
-
    VS_OUTPUT OUT = (VS_OUTPUT)0;
-
-
-
-
-
-
-
    OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-
-
-
-
-
-
-
    OUT.Texcoord = IN.Texcoord;
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float4x4 LightTransform= ModelViewMatrix; 
-
-
-
-
-
-
-
    LightTransform= mul(matWorldInverse, LightTransform);
-
-
-
-
-
-
-
    float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-
-
-
-
-
-
-
    float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-
-
-
-
-
-
-
    float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-
-
-
-
-
-
-
    float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-
-
-
-
-
-
-
    float3 fvBinormal   = cross(fvTangent,IN.Normal);
-
-
-
-
-
-
-
    float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-
-
-
-
-
-
-
    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-
-
-
-
-
-
-
    fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    return OUT;
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 " />
 				 <pixel shader=
 "float4 fvAmbient;
-
-
-
-
-
-
-
 float4 fvLight1Color; 
-
-
-
-
-
-
-
 float4 fvLight2Color; 
-
-
-
-
-
-
-
 float4 fvLight3Color; 
-
-
-
-
-
-
-
 float4 fvLight4Color; 
-
-
-
-
-
-
-
 float fSpecularPower; 
-
-
-
-
-
-
-
 float fSpecularStrength; 
-
-
-
-
-
-
-
 float fBumpStrength; 
-
-
-
-
-
-
-
 sampler2D baseMap      : register(s0); 
-
-
-
-
-
-
-
 sampler2D bumpMap      : register(s1); 
-
-
-
-
-
-
-
 struct PS_INPUT
-
-
-
-
-
-
-
 {   
-
-
-
-
-
-
-
    float2 Texcoord            : TEXCOORD0;
-
-
-
-
-
-
-
    float3 ViewDirection      : TEXCOORD1; 
-
-
-
-
-
-
-
    float3 LightDirection1      : TEXCOORD2; 
-
-
-
-
-
-
-
    float3 LightDirection2      : TEXCOORD3;
-
-
-
-
-
-
-
    float3 LightDirection3      : TEXCOORD4; 
-
-
-
-
-
-
-
    float3 LightDirection4      : TEXCOORD5; 
-
-
-
-
-
-
-
    float4 LightDistMultiplier  : TEXCOORD6;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 float4 pixelMain( in PS_INPUT IN ) : COLOR
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float4 color = float4(0,0,0,0);
-
-
-
-
-
-
-
    float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-
-
-
-
-
-
-
    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    fvNormal.xy*=2.0; 
-
-
-
-
-
-
-
    fvNormal.xy-=1.0;
-
-
-
-
-
-
-
    fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-
-
-
-
-
-
-
    fvNormal=normalize(fvNormal);
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-
-
-
-
-
-
-
    float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-
-
-
-
-
-
-
    float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-
-
-
-
-
-
-
    float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-
-
-
-
-
-
-
    float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-
-
-
-
-
-
-
    float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-
-
-
-
-
-
-
    float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-
-
-
-
-
-
-
    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-
-
-
-
-
-
-
    float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-
-
-
-
-
-
-
    float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-
-
-
-
-
-
-
    color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-
-
-
-
-
-
-
    if(color.r>1.0){color.gb+=color.r-1.0;} 
-
-
-
-
-
-
-
    if(color.g>1.0){color.rb+=color.g-1.0;} 
-
-
-
-
-
-
-
    if(color.b>1.0){color.rg+=color.b-1.0;} 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    return color;
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 " />
 				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
-
-
-
-
-
-
-
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
-
-
-
-
-
-
-
 vmatrix4 matWorldInverse world[0] 0 0 makeInverse
-
-
-
-
-
-
-
 vfloat fLightStrength1 80
-
-
-
-
-
-
-
 vfloat fLightStrength2 80
-
-
-
-
-
-
-
 vfloat fLightStrength3 80
-
-
-
-
-
-
-
 vfloat fLightStrength4 80
-
-
-
-
-
-
-
 vvector3df fvLightPosition1 150 240 -34
-
-
-
-
-
-
-
 vvector3df fvLightPosition2 150 240 -34
-
-
-
-
-
-
-
 vvector3df fvLightPosition3 150 240 -34
-
-
-
-
-
-
-
 vvector3df fvLightPosition4 150 240 -34
-
-
-
-
-
-
-
 pSColor fvAmbient 1 0.7 0.7 0.7
-
-
-
-
-
-
-
 pSColor fvLight1Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
 pSColor fvLight2Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
 pSColor fvLight3Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
 pSColor fvLight4Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
 pfloat fSpecularPower 20
-
-
-
-
-
-
-
 pfloat fSpecularStrength 0.9
-
-
-
-
-
-
-
 pfloat fBumpStrength 5
-
-
-
-
-
-
-
 " />
 			 </materialType>
 
@@ -1408,7 +423,7 @@ void vertexMain(
     oEyeDirTan = normalize(mul(eyeDirO,TBNMatrix)); // eye vector in tangent space
 }
 #define MAX_RAYDEPTH 5 //Number of iterations.
-#define PLANE_NUM 16.0 //Number of grass slice grid planes per unit in tangent space.
+#define PLANE_NUM 32.0 //Number of grass slice grid planes per unit in tangent space.
 #define PLANE_NUM_INV (1.0/PLANE_NUM)
 #define PLANE_NUM_INV_DIV2 (PLANE_NUM_INV/2)
 #define GRASS_SLICE_NUM 16 // Number of grass slices in texture grassblades.
@@ -1435,7 +450,6 @@ void  pixelMain(
     
     out float4 color    : COLOR
     ,out float depth        : DEPTH
-
 )
 {    
     
@@ -1598,7 +612,7 @@ void vertexMain(
     oEyeDirTan = normalize(mul(eyeDirO,TBNMatrix)); // eye vector in tangent space
 }
 #define MAX_RAYDEPTH 5 //Number of iterations.
-#define PLANE_NUM 16.0 //Number of grass slice grid planes per unit in tangent space.
+#define PLANE_NUM 32.0 //Number of grass slice grid planes per unit in tangent space.
 #define PLANE_NUM_INV (1.0/PLANE_NUM)
 #define PLANE_NUM_INV_DIV2 (PLANE_NUM_INV/2)
 #define GRASS_SLICE_NUM 16 // Number of grass slices in texture grassblades.
@@ -1625,7 +639,6 @@ void  pixelMain(
     
     out float4 color    : COLOR
     ,out float depth        : DEPTH
-
 )
 {    
     
@@ -1739,25 +752,10 @@ void  pixelMain(
 }
 " />
 				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0
-
-
-
 vmatrix4 mWorld world[0] 0 0 0
-
-
-
 vvector3df eyePositionO camPos4
-
-
-
 vvector3df LightPos 0 100 0
-
-
-
 vfloat time + ctime 1000
-
-
-
 " />
 			 </materialType>
 
@@ -1768,416 +766,59 @@ vfloat time + ctime 1000
 				 <name cname="Selection Material" />
 				 <vertex shader=
 "float4x4 worldViewProj;
-
-
-
-
-
-
-
 struct VertexShaderOutput {
-
-
-
-
-
-
-
     float4 Position : POSITION0;
-
-
-
-
-
-
-
     float2 TexCoords : TEXCOORD0;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 struct VertexShaderInput {
-
-
-
-
-
-
-
     float4 Position : POSITION0;
-
-
-
-
-
-
-
     float2 TexCoords : TEXCOORD0;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 VertexShaderOutput vertexMain(VertexShaderInput input) {
-
-
-
-
-
-
-
     VertexShaderOutput output = (VertexShaderOutput)0;
-
-
-
-
-
-
-
     
-
-
-
-
-
-
-
     float4 Position = mul(input.Position, worldViewProj);
-
-
-
-
-
-
-
     
-
-
-
-
-
-
-
     output.Position = Position;
-
-
-
-
-
-
-
     output.TexCoords = input.TexCoords;
-
-
-
-
-
-
-
     
-
-
-
-
-
-
-
     return output;
-
-
-
-
-
-
-
 }" />
 				 <pixel shader=
 "sampler2D diffuse : register(s0);
-
-
-
-
-
-
-
 struct VertexShaderOutput {
-
-
-
-
-
-
-
     float4 Position : POSITION0;
-
-
-
-
-
-
-
     float2 TexCoords : TEXCOORD0;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 struct SAverage {
-
-
-
-
-
-
-
     float4 color;
-
-
-
-
-
-
-
     float average;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 SAverage getAverageAt(float2 TexCoords) {
-
-
-
-
-
-
-
     SAverage av = (SAverage)0;
-
-
-
-
-
-
-
     av.color = tex2D(diffuse, TexCoords);
-
-
-
-
-
-
-
     av.average = (av.color.r + av.color.g + av.color.b) / 3.0;
-
-
-
-
-
-
-
     
-
-
-
-
-
-
-
     return av;
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 float4 pixelMain(VertexShaderOutput input) : COLOR0 {
-
-
-
-
-
-
-
     SAverage av = getAverageAt(input.TexCoords);
-
-
-
-
-
-
-
     float4 color;
-
-
-
-
-
-
-
     
-
-
-
-
-
-
-
     if (av.average < 0.2) {
-
-
-
-
-
-
-
         color = av.color;
-
-
-
-
-
-
-
     } else {
-
-
-
-
-
-
-
         float r = 136;
-
-
-
-
-
-
-
         float g = 84;
-
-
-
-
-
-
-
         float b = 245;
-
-
-
-
-
-
-
         float a = 255;
-
-
-
-
-
-
-
         color = (float4(r, g, b, a) / 255) + (av.color * -av.average);
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
     
-
-
-
-
-
-
-
     return color;
-
-
-
-
-
-
-
 }" />
 				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0
-
-
-
-
-
-
-
 vfloat time + ctime 1000
-
-
-
-
-
-
-
 " />
 			 </materialType>
 
@@ -2188,107 +829,25 @@ vfloat time + ctime 1000
 				 <name cname="Almost White Material" />
 				 <vertex shader=
 "float4x4 worldViewProj;
-
-
-
-
-
-
-
 struct VertexShaderOutput {
-
-
-
     float4 Position : POSITION0;
-
-
-
 };
-
-
-
-
-
-
-
 struct VertexShaderInput {
-
-
-
     float4 Position : POSITION0;
-
-
-
 };
-
-
-
-
-
-
-
 VertexShaderOutput vertexMain(VertexShaderInput input) {
-
-
-
-
-
-
-
     VertexShaderOutput output = (VertexShaderOutput)0;
-
-
-
-
-
-
-
     float4 Position = mul(input.Position, worldViewProj);
-
-
-
     output.Position = Position;
-
-
-
-
-
-
-
     return output;
-
-
-
 }
-
-
-
 " />
 				 <pixel shader=
 "struct VertexShaderOutput {
-
-
-
     float4 Position : POSITION0;
-
-
-
 };
-
-
-
-
-
-
-
 float4 pixelMain(VertexShaderOutput input) : COLOR0 {
-
-
-
     return float4(245.0, 235.0, 235.0, 210.0) / 255.0;
-
-
-
 }" />
 				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0" />
 			 </materialType>
@@ -2300,95 +859,25 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 				 <name cname="Almost Grey Material" />
 				 <vertex shader=
 "float4x4 worldViewProj;
-
-
-
-
-
-
-
 struct VertexShaderOutput {
-
-
-
     float4 Position : POSITION0;
-
-
-
 };
-
-
-
-
-
-
-
 struct VertexShaderInput {
-
-
-
     float4 Position : POSITION0;
-
-
-
 };
-
-
-
-
-
-
-
 VertexShaderOutput vertexMain(VertexShaderInput input) {
-
-
-
-
-
-
-
     VertexShaderOutput output = (VertexShaderOutput)0;
-
-
-
-
-
-
-
     float4 Position = mul(input.Position, worldViewProj);
-
-
-
     output.Position = Position;
-
-
-
-
-
-
-
     return output;
-
-
-
 }
-
-
-
 " />
 				 <pixel shader=
 "struct VertexShaderOutput {
-
     float4 Position : POSITION0;
-
 };
-
-
-
 float4 pixelMain(VertexShaderOutput input) : COLOR0 {
-
     return float4(175.0, 175.0, 175.0, 255.0) / 255.0;
-
 }" />
 				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0" />
 			 </materialType>
@@ -2412,6 +901,21 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 			 <path file="cube" />
 
 			 <name c8name="#object:cube_main" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
+
+			 </factory> 
 
 			 <materials>
 			 	 <material id="0">
@@ -2463,63 +967,24 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 
 		 <object>
 
-			 <path file="hillPlaneMesh" />
-
-			 <name c8name="#object:plane" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="height_maps/grass/s_grassblades.tga" />
-						 <texture id="1" path="height_maps/grass/s_grass_ground.tga" />
-						 <texture id="2" path="height_maps/grass/windnoise.tga" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="255" g="255" b="235" a="210" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-2" />
-
-			 	 </material>
-			 </materials>
-			 <position X="0.000000" Y="0.000000" Z="0.000000" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.515007" Y="1.515007" Z="1.515007" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="0" />
-			 <actions>
-			 </actions>
-
-		 </object>
-
-		 <object>
-
 			 <path file="cube" />
 
 			 <name c8name="#object:cube_support" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
+
+			 </factory> 
 
 			 <materials>
 			 	 <material id="0">
@@ -2569,6 +1034,215 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 
 		 </object>
 
+		 <object>
+
+			 <path file="cube" />
+
+			 <name c8name="#object:new_cube" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-12.378998" Y="183.464111" Z="64.657799" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <object>
+
+			 <path file="hillPlaneMesh" />
+
+			 <name c8name="#object:grass_plane" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="height_maps/grass/s_grassblades.tga" />
+						 <texture id="1" path="height_maps/grass/s_grass_ground.tga" />
+						 <texture id="2" path="height_maps/grass/windnoise.tga" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-2" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.600000" Y="1.600000" Z="1.600000" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="0" />
+			 <actions>
+			 </actions>
+
+		 </object>
+
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/mp5.x" />
+
+			 <name c8name="#object:mp5_animated" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/mp5/tex/hands_1stp_military_diff.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="119" g="119" b="119" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="119" g="119" b="119" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="156.631729" Y="45.194435" Z="-213.199036" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+				 <action start="0" end="9599" name="" speed="3000.000000" /> 
+
+			 </actions>
+
+		 </object>
+
 		 <light>
 
 			 <name c8name="#light:1" />
@@ -2582,9 +1256,9 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 
 			 <radius value="100.000000" />
 			 <farValue value="1150.000000" />
-			 <autoRecalculate value="0" />
+			 <autoRecalculate value="1" />
 
-			 <shadows resol="4096" />
+			 <shadows resol="1024" />
 
 			 <lensFlare>
 				 <mesh> 
