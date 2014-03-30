@@ -48,47 +48,6 @@
 float4x4 ModelViewMatrix;
 
 float4x4 ModelViewProjectionMatrix;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 float3 fvLightPosition1; 
 
 float3 fvLightPosition2; 
@@ -96,47 +55,6 @@ float3 fvLightPosition2;
 float3 fvLightPosition3; 
 
 float3 fvLightPosition4; 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 float fLightStrength1; 
 
 float fLightStrength2; 
@@ -144,47 +62,6 @@ float fLightStrength2;
 float fLightStrength3; 
 
 float fLightStrength4; 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct VS_OUTPUT
 
 {
@@ -206,47 +83,6 @@ struct VS_OUTPUT
    float4 LightDistMultiplier  : TEXCOORD6;
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 float getLengthSQR (float3 vec) 
 
 { 
@@ -254,47 +90,6 @@ float getLengthSQR (float3 vec)
    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
 
 }  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct VS_INPUT
 
 {
@@ -306,47 +101,6 @@ struct VS_INPUT
    float2 Texcoord         : TEXCOORD0;
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 VS_OUTPUT vertexMain( in VS_INPUT IN ) 
 
 {    
@@ -767,13 +521,20 @@ pSColor AmbientIntensity 0.5
 
 			 <factory> 
 
-				 <primitive type="planar" options="general" /> 
-					 <resolutionS value="0.020000" /> 
-				 </primitive> 
+				 <meshFactory>
+				 <tangents value="1" />
+				 <normals value="1" />
+				 <angleWeighted value="0" />
+				 <smooth value="1" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
 
 			 </factory> 
 
-			 <name c8name="#map:subway_with_tangents_with_tangents_with_tangents_with_tangents" />
+			 <name c8name="#map:subway" />
 
 			 <materials>
 			 	 <material id="0">

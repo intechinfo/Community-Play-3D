@@ -94,6 +94,38 @@ namespace SSWETests
 
 			//BECAUSE getArrayOfObjectNodes ETC. FOLLOW THE SAME METHOD, WE WILL NOT TEST THEM
 		}
+		TEST_METHOD(getISDataOfSceneNode) {
+			/// Create
+			ISceneNode *cube1 = device->getSceneManager()->addCubeSceneNode(50.f);
+			ILightSceneNode *l1 = device->getSceneManager()->addLightSceneNode();
+			ISceneNode *emptyTerrain = device->getSceneManager()->addEmptySceneNode();
+
+			/// Configure
+			STerrainsData tdata(0, emptyTerrain, "", 0, ESNT_EMPTY);
+			coreData->getTerrainsData()->push_back(tdata);
+
+			SObjectsData odata1(0, cube1, "cube1");
+			coreData->getObjectsData()->push_back(odata1);
+
+			SLightsData l1data(l1);
+			coreData->getLightsData()->push_back(l1data);
+
+			/// Act
+			ISData *cube1Data = coreData->getISDataOfSceneNode(odata1.getNode());
+			ISData *terrainData = coreData->getISDataOfSceneNode(tdata.getNode());
+			ISData *lightData = coreData->getISDataOfSceneNode(l1data.getNode());
+
+			/// Test
+			if (cube1Data->getNode() != cube1) {
+				Assert::Fail(L"Cube1 != data1");
+			}
+			if (terrainData->getNode() != tdata.getNode()) {
+				Assert::Fail(L"terrainData != emptyTerrain");
+			}
+			if (lightData->getNode() != l1data.getNode()) {
+				Assert::Fail(L"lightData != l1data");
+			}
+		}
 //---------------------------------------------------------------------------------------------
 //---------------------------------------TEAR DOWN CLASS---------------------------------------
 //---------------------------------------------------------------------------------------------

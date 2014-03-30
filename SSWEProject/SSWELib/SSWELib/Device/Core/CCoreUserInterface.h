@@ -43,7 +43,7 @@ public:
 
 	void update();
 
-	void setLogEventWindowVisible(bool visible) { logVisible = visible; }
+	void setLogEventWindowVisible(bool visible);
 	bool isLogEventWindowVisible() { return logVisible; }
 
 	CUIMainWindow *getMainWindow() { return contextMenuInstance->getMainWindow(); }
@@ -61,7 +61,6 @@ private:
 	ISceneManager *smgr;
 
 	IGUIEnvironment *gui;
-	IGUIImage *programmersImage;
 
 	IGUIWindow *logWindow;
 	IGUIListBox *logListBox;
@@ -70,8 +69,6 @@ private:
 	bool logVisible;
 
 	dimension2d<u32> windowSize;
-
-	bool onlyForPlaying;
 	//-----------------------------------
 
 	//-----------------------------------

@@ -80,6 +80,7 @@ private:
 	IGUIImage *shadowMapPreview, *shadowMapPreview2;
 	IGUICheckBox *autoRecalculate;
 	IGUICheckBox *isTorchMode;
+	IGUIComboBox *shadowLightTypecb;
     //-----------------------------------
     
     //-----------------------------------

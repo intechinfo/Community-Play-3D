@@ -57,6 +57,7 @@ void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
 	coreUserInterface->getDevices()->setSkyBox(skyboxNode);
 	coreUserInterface->getDevices()->getDOF()->add(skyboxNode);
     skyboxNode->setVisible(true);
+	coreUserInterface->getDevices()->getXEffect()->setSkyNode(skyboxNode);
 
 	//ADD CLOUDS SYSTEM
 	CCloudSceneNode *cloudLayer1 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), coreUserInterface->getDevices()->getRenderingSceneManager());

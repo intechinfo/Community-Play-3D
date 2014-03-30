@@ -7330,3 +7330,249 @@ SSWE/data/Trees/Sapin/Pine4m/textures/pine-leaf.mat
 SSWE/data/Trees/Sapin/Pine4m/textures/pine-trunk-diff.dds
 SSWE/data/Trees/Sapin/Pine4m/textures/pine-trunk-norm.dds
 SSWE/data/Trees/Sapin/Pine4m/textures/pine-trunk.mat
+SSWE/data/Characters/.DS_Store
+SSWE/data/Characters/caballo/test.anc
+SSWE/data/Characters/Murphy/._.DS_Store
+SSWE/data/Characters/Murphy/.DS_Store
+SSWE/data/Characters/Murphy/fbx/._combat stand.fbx
+SSWE/data/Characters/Murphy/fbx/._combat walk.fbx
+SSWE/data/Characters/Murphy/fbx/._hit front hard.fbx
+SSWE/data/Characters/Murphy/fbx/._idle.fbx
+SSWE/data/Characters/Murphy/fbx/._run.fbx
+SSWE/data/Characters/Murphy/fbx/._turn 180.fbx
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/char_murphybody02_d_an.jpg
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/char_murphybody02_n_an.jpg
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/charles01_head01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/combat stand.fbm/Thumbs.db
+SSWE/data/Characters/Murphy/fbx/combat stand.fbx
+SSWE/data/Characters/Murphy/fbx/combat walk.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/fbx/combat walk.fbm/char_murphybody02_d_an.jpg
+SSWE/data/Characters/Murphy/fbx/combat walk.fbm/char_murphybody02_n_an.jpg
+SSWE/data/Characters/Murphy/fbx/combat walk.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/combat walk.fbm/charles01_head01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/combat walk.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/combat walk.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/combat walk.fbx
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbm/char_murphybody02_d_an.jpg
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbm/char_murphybody02_n_an.jpg
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbm/charles01_head01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/hit front hard.fbx
+SSWE/data/Characters/Murphy/fbx/idle.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/fbx/idle.fbm/charles01_body01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/idle.fbm/charles01_body01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/idle.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/idle.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/idle.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/idle.fbx
+SSWE/data/Characters/Murphy/fbx/run.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/fbx/run.fbm/char_murphybody02_d_an.jpg
+SSWE/data/Characters/Murphy/fbx/run.fbm/char_murphybody02_n_an.jpg
+SSWE/data/Characters/Murphy/fbx/run.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/run.fbm/charles01_head01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/run.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/run.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/run.fbx
+SSWE/data/Characters/Murphy/fbx/turn 180.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/fbx/turn 180.fbm/char_murphybody02_d_an.jpg
+SSWE/data/Characters/Murphy/fbx/turn 180.fbm/char_murphybody02_n_an.jpg
+SSWE/data/Characters/Murphy/fbx/turn 180.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/turn 180.fbm/charles01_head01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/turn 180.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/turn 180.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/turn 180.fbx
+SSWE/data/Characters/Murphy/fbx/walk.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/fbx/walk.fbm/char_murphybody02_d_an.jpg
+SSWE/data/Characters/Murphy/fbx/walk.fbm/char_murphybody02_n_an.jpg
+SSWE/data/Characters/Murphy/fbx/walk.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/walk.fbm/charles01_head01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/walk.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/fbx/walk.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/fbx/walk.fbm/Thumbs.db
+SSWE/data/Characters/Murphy/fbx/walk.fbx
+SSWE/data/Characters/Murphy/hit.X
+SSWE/data/Characters/Murphy/idle.X
+SSWE/data/Characters/Murphy/run.X
+SSWE/data/Characters/Murphy/scared.X
+SSWE/data/Characters/Murphy/test.anc
+SSWE/data/Characters/Murphy/turn180.X
+SSWE/data/Characters/Murphy/walk.fbm/._hair01_au_d.jpg
+SSWE/data/Characters/Murphy/walk.fbm/brown_eye01_an_d.jpg
+SSWE/data/Characters/Murphy/walk.fbm/char_murphybody02_d_an.jpg
+SSWE/data/Characters/Murphy/walk.fbm/char_murphybody02_n_an.jpg
+SSWE/data/Characters/Murphy/walk.fbm/charles01_head01_au_d.jpg
+SSWE/data/Characters/Murphy/walk.fbm/charles01_head01_au_n.jpg
+SSWE/data/Characters/Murphy/walk.fbm/hair01_au_d.jpg
+SSWE/data/Characters/Murphy/walk.fbm/hair01_au_n.jpg
+SSWE/data/Characters/Murphy/walk.fbm/Thumbs.db
+SSWE/data/Characters/Murphy/walk.x
+SSWE/data/Characters/Murphy/walk_stand.X
+SSWE/data/silent_hill/._.DS_Store
+SSWE/data/silent_hill/._glow
+SSWE/data/silent_hill/._glow.zip
+SSWE/data/silent_hill/._PostProcessor
+SSWE/data/silent_hill/._PostProcessor.zip
+SSWE/data/silent_hill/._postProductionExample.rar
+SSWE/data/silent_hill/.DS_Store
+SSWE/data/silent_hill/dossier sans titre/._.DS_Store
+SSWE/data/silent_hill/dossier sans titre/._HDR_WIP
+SSWE/data/silent_hill/dossier sans titre/._HDR_WIP.zip
+SSWE/data/silent_hill/dossier sans titre/.DS_Store
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP.zip
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/._.DS_Store
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/._data
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/._files.txt
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/._readme.txt
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/.DS_Store
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/._.DS_Store
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/._meshes
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/._shaders
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/._textures
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/.DS_Store
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_base.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_blur_x.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_blur_y.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_downsample.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_final.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_ldr_supress.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_light_base.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._fra_luminance.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._vec_light_base.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/._vec_passthrough.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_base.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_blur_x.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_blur_y.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_downsample.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_final.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_ldr_supress.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_light_base.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/fra_luminance.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/vec_light_base.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/shaders/vec_passthrough.cg
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/textures/._wall.bmp
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/data/textures/wall.bmp
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/files.txt
+SSWE/data/silent_hill/dossier sans titre/HDR_WIP/readme.txt
+SSWE/data/silent_hill/glow.zip
+SSWE/data/silent_hill/glow/._.DS_Store
+SSWE/data/silent_hill/glow/._data
+SSWE/data/silent_hill/glow/._glow.cbp
+SSWE/data/silent_hill/glow/._src
+SSWE/data/silent_hill/glow/.DS_Store
+SSWE/data/silent_hill/glow/data/._.DS_Store
+SSWE/data/silent_hill/glow/data/._01.bmp
+SSWE/data/silent_hill/glow/data/._fx
+SSWE/data/silent_hill/glow/data/._grid.png
+SSWE/data/silent_hill/glow/data/._grid2.png
+SSWE/data/silent_hill/glow/data/._sign.png
+SSWE/data/silent_hill/glow/data/._sky.png
+SSWE/data/silent_hill/glow/data/._skydome.png
+SSWE/data/silent_hill/glow/data/.DS_Store
+SSWE/data/silent_hill/glow/data/01.bmp
+SSWE/data/silent_hill/glow/data/fx/._horgblur.frag
+SSWE/data/silent_hill/glow/data/fx/._horgblur.vert
+SSWE/data/silent_hill/glow/data/fx/._vertgblur.frag
+SSWE/data/silent_hill/glow/data/fx/._vertgblur.vert
+SSWE/data/silent_hill/glow/data/fx/horgblur.frag
+SSWE/data/silent_hill/glow/data/fx/horgblur.vert
+SSWE/data/silent_hill/glow/data/fx/vertgblur.frag
+SSWE/data/silent_hill/glow/data/fx/vertgblur.vert
+SSWE/data/silent_hill/glow/data/grid.png
+SSWE/data/silent_hill/glow/data/grid2.png
+SSWE/data/silent_hill/glow/data/sign.png
+SSWE/data/silent_hill/glow/data/sky.png
+SSWE/data/silent_hill/glow/data/skydome.png
+SSWE/data/silent_hill/glow/data/Thumbs.db
+SSWE/data/silent_hill/glow/glow.cbp
+SSWE/data/silent_hill/glow/src/._.DS_Store
+SSWE/data/silent_hill/glow/src/._ext
+SSWE/data/silent_hill/glow/src/._main.cpp
+SSWE/data/silent_hill/glow/src/._shaderCallBack.h
+SSWE/data/silent_hill/glow/src/.DS_Store
+SSWE/data/silent_hill/glow/src/ext/._CScreenQuad.h
+SSWE/data/silent_hill/glow/src/ext/CScreenQuad.h
+SSWE/data/silent_hill/glow/src/main.cpp
+SSWE/data/silent_hill/glow/src/shaderCallBack.h
+SSWE/data/silent_hill/hdr/._.DS_Store
+SSWE/data/silent_hill/hdr/.DS_Store
+SSWE/data/silent_hill/hdr/irrlicht2_bk.jpg
+SSWE/data/silent_hill/hdr/irrlicht2_dn.jpg
+SSWE/data/silent_hill/hdr/irrlicht2_ft.jpg
+SSWE/data/silent_hill/hdr/irrlicht2_lf.jpg
+SSWE/data/silent_hill/hdr/irrlicht2_rt.jpg
+SSWE/data/silent_hill/hdr/irrlicht2_up.jpg
+SSWE/data/silent_hill/hdr/main.cpp
+SSWE/data/silent_hill/hdr/postPro.irr
+SSWE/data/silent_hill/hdr/terrain-heightmap.bmp
+SSWE/data/silent_hill/hdr/wall.bmp
+SSWE/data/silent_hill/hdr/wall.jpg
+SSWE/data/silent_hill/hdr/water.jpg
+SSWE/data/silent_hill/PostProcessor.zip
+SSWE/data/silent_hill/PostProcessor/._.DS_Store
+SSWE/data/silent_hill/PostProcessor/._CEffectPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/._CEffectPostProc.h
+SSWE/data/silent_hill/PostProcessor/._CLensFlarePostProc.cpp
+SSWE/data/silent_hill/PostProcessor/._CLensFlarePostProc.h
+SSWE/data/silent_hill/PostProcessor/._CRendererPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/._CRendererPostProc.h
+SSWE/data/silent_hill/PostProcessor/._CShaderCallbacks.h
+SSWE/data/silent_hill/PostProcessor/._CSplitPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/._CSplitPostProc.h
+SSWE/data/silent_hill/PostProcessor/._CTransitionPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/._CTransitionPostProc.h
+SSWE/data/silent_hill/PostProcessor/._CWaterPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/._CWaterPostProc.h
+SSWE/data/silent_hill/PostProcessor/._IPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/._IPostProc.h
+SSWE/data/silent_hill/PostProcessor/._Main-Info.plist
+SSWE/data/silent_hill/PostProcessor/._main.cpp
+SSWE/data/silent_hill/PostProcessor/._media
+SSWE/data/silent_hill/PostProcessor/._PostProc.xcodeproj
+SSWE/data/silent_hill/PostProcessor/._shaders.h
+SSWE/data/silent_hill/PostProcessor/.DS_Store
+SSWE/data/silent_hill/PostProcessor/CEffectPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/CEffectPostProc.h
+SSWE/data/silent_hill/PostProcessor/CLensFlarePostProc.cpp
+SSWE/data/silent_hill/PostProcessor/CLensFlarePostProc.h
+SSWE/data/silent_hill/PostProcessor/CRendererPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/CRendererPostProc.h
+SSWE/data/silent_hill/PostProcessor/CShaderCallbacks.h
+SSWE/data/silent_hill/PostProcessor/CSplitPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/CSplitPostProc.h
+SSWE/data/silent_hill/PostProcessor/CTransitionPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/CTransitionPostProc.h
+SSWE/data/silent_hill/PostProcessor/CWaterPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/CWaterPostProc.h
+SSWE/data/silent_hill/PostProcessor/IPostProc.cpp
+SSWE/data/silent_hill/PostProcessor/IPostProc.h
+SSWE/data/silent_hill/PostProcessor/Main-Info.plist
+SSWE/data/silent_hill/PostProcessor/main.cpp
+SSWE/data/silent_hill/PostProcessor/media/._fireball.bmp
+SSWE/data/silent_hill/PostProcessor/media/._flare.png
+SSWE/data/silent_hill/PostProcessor/media/._lightsydney.bmp
+SSWE/data/silent_hill/PostProcessor/media/._sun.png
+SSWE/data/silent_hill/PostProcessor/media/._sydney.bmp
+SSWE/data/silent_hill/PostProcessor/media/._sydney.md2
+SSWE/data/silent_hill/PostProcessor/media/._terrain-heightmap.bmp
+SSWE/data/silent_hill/PostProcessor/media/fireball.bmp
+SSWE/data/silent_hill/PostProcessor/media/flare.png
+SSWE/data/silent_hill/PostProcessor/media/lightsydney.bmp
+SSWE/data/silent_hill/PostProcessor/media/sun.png
+SSWE/data/silent_hill/PostProcessor/media/sydney.bmp
+SSWE/data/silent_hill/PostProcessor/media/sydney.md2
+SSWE/data/silent_hill/PostProcessor/media/terrain-heightmap.bmp
+SSWE/data/silent_hill/PostProcessor/PostProc.xcodeproj/._Dave.mode1v3
+SSWE/data/silent_hill/PostProcessor/PostProc.xcodeproj/._Dave.pbxuser
+SSWE/data/silent_hill/PostProcessor/PostProc.xcodeproj/._project.pbxproj
+SSWE/data/silent_hill/PostProcessor/PostProc.xcodeproj/Dave.mode1v3
+SSWE/data/silent_hill/PostProcessor/PostProc.xcodeproj/Dave.pbxuser
+SSWE/data/silent_hill/PostProcessor/PostProc.xcodeproj/project.pbxproj
+SSWE/data/silent_hill/PostProcessor/shaders.h
+SSWE/data/silent_hill/postProductionExample.rar

@@ -10,6 +10,7 @@
 #define __C_UI_LIGHT_MAPS_CREATOR_H_INCLUDED__
 
 #include "../../Device/CDevices.h"
+#include "../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 
 class CRadiosityGenerator;
 

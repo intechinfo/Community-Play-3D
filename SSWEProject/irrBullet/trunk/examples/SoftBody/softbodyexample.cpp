@@ -1,5 +1,7 @@
 // This example is part of irrBullet by Josiah Hartzell (fighterstw@hotmail.com or josiah.hartzell@gmail.com)
 
+#include "stdafx.h"
+
 #include "softbodyexample.h"
 #include <irrlicht.h>
 #include <irrBullet.h>
@@ -90,7 +92,7 @@ void CSoftbodyExample::runExample()
     cin >> softVersusSoft;
 
     device =
-        createDevice( video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
+        createDevice( video::EDT_OPENGL, dimension2d<u32>(1280, 800), 32,
             false, false, false, this);
 
 
@@ -109,7 +111,7 @@ void CSoftbodyExample::runExample()
 	camera->setPosition(vector3df(50,15,4));
 	camera->setTarget(vector3df(0,0,0));
 
-
+	
     ////////////////////////////
     // Create irrBullet World //
     ////////////////////////////

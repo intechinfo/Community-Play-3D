@@ -14,7 +14,7 @@ namespace irr {
             
             virtual ~CGUIViewport();
             
-            virtual bool OnEvent(SEvent event);
+            virtual bool OnEvent(const SEvent &event);
             
             virtual void draw();
             

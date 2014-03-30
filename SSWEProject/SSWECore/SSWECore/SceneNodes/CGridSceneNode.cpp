@@ -19,7 +19,7 @@ namespace irr
             Buffer.Material.Lighting = false;
             Buffer.Material.Thickness = 1;
             Buffer.Material.FogEnable = false;
-            Buffer.Material.ZWriteEnable = false;
+            Buffer.Material.ZWriteEnable = true;
 			Buffer.Material.ZBuffer = video::ECFN_NEVER;
             
             AutomaticCullingState = EAC_FRUSTUM_BOX;

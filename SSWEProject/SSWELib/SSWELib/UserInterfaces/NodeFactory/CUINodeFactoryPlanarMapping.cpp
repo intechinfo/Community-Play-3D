@@ -82,25 +82,6 @@ bool CUINodeFactoryPlanarMapping::OnEvent(const SEvent &event) {
 					}
 				}
 
-				s32 i = devices->getCoreData()->isMeshPlanared(nodeToEdit);
-				if (i != -1) {
-					if (general) {
-						SPlanarTextureMappingData sptm(nodeToEdit, hr);
-						devices->getCoreData()->getPlanarTextureMappingValues()->operator[](i) = sptm;
-					} else {
-						SPlanarTextureMappingData sptm(nodeToEdit, hr, vr, a, offset);
-						devices->getCoreData()->getPlanarTextureMappingValues()->operator[](i) = sptm;
-					}
-				} else {
-					if (general) {
-						SPlanarTextureMappingData sptm(nodeToEdit, hr);
-						devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptm);
-					} else {
-						SPlanarTextureMappingData sptm(nodeToEdit, hr, vr, a, offset);
-						devices->getCoreData()->getPlanarTextureMappingValues()->push_back(sptm);
-					}
-				}
-
 				meshToEdit->setDirty();
 			}
 		}

@@ -15,8 +15,8 @@ public:
 	SSAORenderCallback(irr::s32 materialTypeIn);
 	~SSAORenderCallback();
 
-	void OnPreRender(EffectHandler* effect);
-	void OnPostRender(EffectHandler* effect);
+	void OnPreRender(ISSWERender* effect);
+	void OnPostRender(ISSWERender* effect);
 
 	void setTexture(irr::video::ITexture *tex) { this->tex = tex; }
 	irr::video::ITexture *getTexture() { return this->tex; }
@@ -36,8 +36,8 @@ public:
 	LightScatteringCallback(irr::s32 materialTypeIn, EffectHandler *effect);
 	~LightScatteringCallback();
 
-	void OnPreRender(EffectHandler* effect);
-	void OnPostRender(EffectHandler* effect);
+	void OnPreRender(ISSWERender* effect);
+	void OnPostRender(ISSWERender* effect);
 
 	void setTexture(irr::video::ITexture *tex) { this->tex = tex; }
 	irr::video::ITexture *getTexture() { return this->tex; }

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include <irrlicht.h>
 #include <bulletworld.h>
 #include <rigidbody.h>

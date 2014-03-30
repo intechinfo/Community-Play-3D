@@ -51,6 +51,9 @@
     <ClCompile Include="Renders\DepthOfField\shadermaterial.cpp">
       <Filter>Renders\DepthOfField</Filter>
     </ClCompile>
+    <ClCompile Include="Renders\XEffect\CPSSMUtils.cpp">
+      <Filter>Renders\XEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWERenders.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Renders\DepthOfField\shadermaterial.h">
       <Filter>Renders\DepthOfField</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\XEffect\CPSSMUtils.h">
+      <Filter>Renders\XEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

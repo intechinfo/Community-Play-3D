@@ -194,6 +194,8 @@ public:
 
     const irr::video::SMaterial& getDebugMaterial() const { return debugMat; };
 
+	irr::core::vector3df getGravity() { return gravityV; }
+
 
 private:
     btSoftRigidDynamicsWorld* world;
@@ -221,6 +223,8 @@ private:
 
     irr::u32 LiquidBodyCount;
     irr::u32 CollisionObjectCount;
+
+	irr::core::vector3df gravityV;
 };
 
 #endif // __BULLET_WORLD_H_INCLUDED__

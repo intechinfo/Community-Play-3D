@@ -384,26 +384,33 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
 		//SETTING PHYSICS
 		SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
 
-		penablePhysics = devices->getGUIEnvironment()->addCheckBox(sdatat->isPhysicEnabled(), rect<s32>(9, 23, 193, 43), physicsTab, -1, L"Enable Physics");
-		devices->getGUIEnvironment()->addStaticText(L"Type :", rect<s32>(9, 53, 63, 73), true, true, physicsTab, -1, true);
-		pBodyType = devices->getGUIEnvironment()->addComboBox(rect<s32>(63, 53, 233, 73), physicsTab, -1);
-		pBodyType->addItem(L"None");
-		pBodyType->addItem(L"Rigid Body");
-		pBodyType->addItem(L"Liquid Body");
-		pBodyType->addItem(L"Soft Body");
-		pBodyType->setSelected(sdatat->getBodyType());
-		lastPhysicBodyType = sdatat->getBodyType();
+		if (sdatat) {
+			penablePhysics = devices->getGUIEnvironment()->addCheckBox(sdatat->isPhysicEnabled(), rect<s32>(9, 23, 193, 43), physicsTab, -1, L"Enable Physics");
+			devices->getGUIEnvironment()->addStaticText(L"Type :", rect<s32>(9, 53, 63, 73), true, true, physicsTab, -1, true);
+			pBodyType = devices->getGUIEnvironment()->addComboBox(rect<s32>(63, 53, 233, 73), physicsTab, -1);
+			pBodyType->addItem(L"None");
+			pBodyType->addItem(L"Rigid Body");
+			pBodyType->addItem(L"Liquid Body");
+			pBodyType->addItem(L"Soft Body");
+			pBodyType->setSelected(sdatat->getBodyType());
+			lastPhysicBodyType = sdatat->getBodyType();
 
-		devices->getGUIEnvironment()->addStaticText(L"Mass :", rect<s32>(9, 93, 63, 113), true, true, physicsTab, -1, true);
-		pMasseb = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(63, 93, 233, 113), true, physicsTab, -1);
-		if (sdatat->getBodyType() == ISData::EIPT_LIQUID_BODY) {
-			pMasseb->setEnabled(false);
-		} else if (sdatat->getBodyType() == ISData::EIPT_NONE) {
-			pMasseb->setEnabled(false);
+			devices->getGUIEnvironment()->addStaticText(L"Mass :", rect<s32>(9, 93, 63, 113), true, true, physicsTab, -1, true);
+			pMasseb = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(63, 93, 233, 113), true, physicsTab, -1);
+			if (sdatat->getBodyType() == ISData::EIPT_LIQUID_BODY) {
+				pMasseb->setEnabled(false);
+			} else if (sdatat->getBodyType() == ISData::EIPT_NONE) {
+				pMasseb->setEnabled(false);
+			} else {
+				pMasseb->setText(stringw(((ICollisionShape*)sdatat->getBodyPtr())->getMass()).c_str());
+			}
+			pEditBody = devices->getGUIEnvironment()->addButton(rect<s32>(9, 123, 113, 143), physicsTab, -1, L"Edit...", L"Edit the shape...");
 		} else {
-			pMasseb->setText(stringw(((ICollisionShape*)sdatat->getBodyPtr())->getMass()).c_str());
+			for (IGUIElement *element : physicsTab->getChildren())
+				element->setEnabled(false);
+
+			physicsTab->setTextColor(SColor(255, 50, 0, 0));
 		}
-		pEditBody = devices->getGUIEnvironment()->addButton(rect<s32>(9, 123, 113, 143), physicsTab, -1, L"Edit...", L"Edit the shape...");
         
 		//SETTING UP ANIMATED
 		drawAnimations = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(19, 16, 159, 36), animatedTab, -1, L"Draw Animations");
@@ -1172,9 +1179,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					devices->getBulletWorld()->removeCollisionObject((IRigidBody*)sdatat->getBodyPtr(), false);
 					ICollisionShape *newShape = 0;
 
-					if (nodeToEdit->getType() == ESNT_ANIMATED_MESH) {
-						newShape = new IBvhTriangleMeshShape(nodeToEdit, sdatat->getMesh() ,newMass);
-					} else if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
+					if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
 						newShape = new IBvhTriangleMeshShape(nodeToEdit, sdatat->getMesh(), newMass);
 					} else if (nodeToEdit->getType() == ESNT_CUBE) {
 						newShape = new IBoxShape(nodeToEdit, newMass, false);
@@ -1182,8 +1187,17 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 						newShape = new ISphereShape(nodeToEdit, newMass, false);
 					}
 
-					if (newShape)
-						devices->getBulletWorld()->addRigidBody(newShape);
+					if (newShape) {
+						newShape->setNewMass(newMass);
+						IRigidBody *rbody = devices->getBulletWorld()->addRigidBody(newShape);
+						rbody->forceActivationState(EAS_DISABLE_DEACTIVATION);
+						rbody->setActivationState(EAS_DISABLE_DEACTIVATION);
+						sdatat->setPBodyPtr(rbody);
+					}
+				}
+				if (sdatat->getBodyType() == ISData::EIPT_SOFT_BODY) {
+					devices->getBulletWorld()->removeCollisionObject((ISoftBody*)sdatat->getBodyPtr(), false);
+
 				}
 			}
         }
@@ -1484,7 +1498,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 
 					if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
 						shape = new IBvhTriangleMeshShape(nodeToEdit, ((IMeshSceneNode*)nodeToEdit)->getMesh(), 0.f);
-					} else if (nodeToEdit->getType() == ESNT_CUBE) {
+					} else if (nodeToEdit->getType() == ESNT_CUBE || nodeToEdit->getType() == ESNT_ANIMATED_MESH) {
 						shape = new IBoxShape(nodeToEdit, 0.f, false);
 					} else if (nodeToEdit->getType() == ESNT_SPHERE) {
 						shape = new ISphereShape(nodeToEdit, 0.f, false);
@@ -1498,6 +1512,9 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 
 					if (shape != 0) {
 						IRigidBody *rbody = devices->getBulletWorld()->addRigidBody(shape);
+						rbody->forceActivationState(EAS_DISABLE_DEACTIVATION);
+						rbody->setActivationState(EAS_DISABLE_DEACTIVATION);
+
 						sdatat->setBodyType(ISData::EIPT_RIGID_BODY);
 						sdatat->setPBodyPtr(rbody);
 					}
@@ -1553,6 +1570,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 								action->setEnd(xmlReader->getAttributeValueAsInt("end"));
 								action->setName(xmlReader->getAttributeValue("name"));
 								action->setAnimSpeed(xmlReader->getAttributeValueAsFloat("speed"));
+								action->setAnimationPath(xmlReader->getAttributeValue("animPath"));
 								actions.push_back(action);
 								chooseSavedAnimation->addItem(stringw(action->getName().c_str()).c_str());
 							}

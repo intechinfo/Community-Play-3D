@@ -1,131 +1,118 @@
-#ifndef OCULUSRIFT_H
-#define OCULUSRIFT_H
+//
+//  CExporter.h
+//  MacOSX
+//
+//  Created by Julien Moreau-Mathis on 09/10/12.
+//
+//
 
-#include <OVR.h>
-using namespace OVR;
+#ifndef __C_OCULUS_RIFT_MONITOR_H_INCLUDED__
+#define __C_OCULUS_RIFT_MONITOR_H_INCLUDED__
 
 #include <irrlicht.h>
-using namespace irr;
-using namespace video;
-using namespace gui;
-using namespace core;
-using namespace scene;
 
 #include <IMonitor.h>
-
 #include <DLLExport.h>
-#include <cmath>
 
-class OculusRift : public IMonitor
+struct HMDDescriptor 
 {
+  int hResolution;
+  int vResolution;
+  float hScreenSize;
+  float vScreenSize;
+  float interpupillaryDistance;
+  float lensSeparationDistance;
+  float eyeToScreenDistance;
+  float distortionK[4];
+};
+
+class COculusRoftMonitor : public IMonitor {
 public:
-	OculusRift();
-	~OculusRift();
 
+	COculusRoftMonitor();
+	~COculusRoftMonitor();
+
+	HMDDescriptor getHMD(); 
+	void setHMD(HMDDescriptor HMD);
+
+	irr::f32 getWorldScale(); 
+	void setWorldScale(irr::f32 worldScale);
+
+	//-----------------------------------
+	//IMONITOR
 	void init();
-	void destroy();
+	void destroy() { }
 
-	HMDInfo getInfo();
-	double degToRad(double deg);
+	void setActiveCamera(irr::scene::ICameraSceneNode *camera);
+	irr::scene::ICameraSceneNode* getActiveCamera() { return monitorCamera; }
 
-	bool isOculusConnected();
+	void setSceneManager(irr::scene::ISceneManager *sceneManager);
+	irr::scene::ISceneManager* getSceneManager() { return smgr; }
 
-	void setName(stringc name);
-	stringc getName();
-
-	bool isEnabled();
-	void setEnable(bool enable);
-	bool isXEffectRendered();
-	void setXEffectRendered(bool enable);
-	bool isRenderingXEffectFullTraitement();
-	void setRenderingXEffectFullTraitement(bool enable);
-
-	void setActiveCamera(ICameraSceneNode *camera);
-	ICameraSceneNode* getActiveCamera();
-	void setSceneManager(ISceneManager *sceneMngr);
-	ISceneManager* getSceneManager();
-	void setToolsSceneManager(ISceneManager *sceneMngr);
-	void setGUIEnvironment(IGUIEnvironment *guiEnv);
-	IGUIEnvironment* getGUIEnvironment();
-	void setXEffect(EffectHandler *xEffect);
-	EffectHandler* getXEffect();
+	void setGUIEnvironment(irr::gui::IGUIEnvironment *guiEnv) { gui = guiEnv; }
+	irr::gui::IGUIEnvironment* getGUIEnvironment() { return gui; }
 
 	void drawScene();
-	void renderXEffectFullPostTraitement(ITexture *texture);
 	void drawGUI();
+	//-----------------------------------
 
 private:
-	Ptr<DeviceManager> m_deviceManager;
-	stringc m_deviceName;
-	Ptr<HMDDevice> m_HMD;
-	Ptr<SensorDevice> m_sensorDevice;
-	SensorFusion m_fusionResult;
-	HMDInfo m_info;
-	bool m_infoLoaded;
-	bool m_deviceEnabled;
-	bool m_rendersXEffect;
-	bool m_rendersXEffectFullTraitement;
 
-	IrrlichtDevice *m_device;
-	ISceneManager *m_sceneMngr;
-	ISceneManager *m_toolsSceneMng;
-	IGUIEnvironment *m_guiEnv;
-	EffectHandler *m_xEffect;
+	//-----------------------------------
+	//RENDERS
+	irr::video::IVideoDriver *driver;
+	irr::scene::ISceneManager *smgr;
+	irr::gui::IGUIEnvironment *gui;
+	//-----------------------------------
 
-	float m_eyeSpace;
-	ICameraSceneNode *m_camera;
-	ICameraSceneNode *m_headCamera;
-	ICameraSceneNode *m_leftCamera;
-	ICameraSceneNode *m_rightCamera;
-	rect<s32> m_leftViewport;
-	rect<s32> m_rightViewport;
+	//-----------------------------------
+	//SCENE NODES
+	irr::scene::ICameraSceneNode *monitorCamera;
+	//-----------------------------------
 
-	IVideoDriver* m_videoDriver;
-	ITexture* m_renderTexture;
+	irr::video::ITexture* _renderTexture;
 
-	f32 m_worldScale;
-	matrix4 m_projectionLeft;
-	matrix4 m_projectionRight;
-	f32 m_lensShift;
+	HMDDescriptor _HMD;
+	irr::f32 _worldScale;
+	irr::core::matrix4 _projectionLeft;
+	irr::core::matrix4 _projectionRight;
+	irr::f32 _eyeSeparation;
+	irr::f32 _lensShift;
 
-	SMaterial m_renderMaterial;
-	S3DVertex m_planeVertices[4];
-	u16 m_planeIndices[6];
-	ITimer *m_timer;
+	irr::core::rect<irr::s32> _viewportLeft;
+	irr::core::rect<irr::s32> _viewportRight;
 
-	class OculusDistorsionCallback: public irr::video::IShaderConstantSetCallBack 
+	irr::scene::ICameraSceneNode* _pCamera;
+
+	irr::video::SMaterial _renderMaterial;
+	irr::video::S3DVertex _planeVertices[4];
+	irr::u16 _planeIndices[6];
+	irr::ITimer* _timer;
+
+	class OculusDistorsionCallback: public IPostProcessingRenderCallback
 	{ 
 	public:
-		f32 scale[2];
-		f32 scaleIn[2];
-		f32 lensCenter[2];
-		f32 screenCenter[2];
-		f32 hmdWarpParam[4];
-		virtual void OnSetConstants(IMaterialRendererServices* services, s32 userData) 
-		{ 
-			irr::video::IVideoDriver* driver = services->getVideoDriver();
-			services->setPixelShaderConstant("Scale", scale, 2);
-			services->setPixelShaderConstant("ScaleIn", scaleIn ,2);
-			services->setPixelShaderConstant("LensCenter", lensCenter ,2);
-			//services->setPixelShaderConstant("ScreenCenter", screenCenter, 2);
-			services->setPixelShaderConstant("HmdWarpParam", hmdWarpParam ,4);
-		}
-	};
+		irr::f32 scale[2];
+		irr::f32 scaleIn[2];
+		irr::f32 lensCenter[2];
+		irr::f32 hmdWarpParam[4];
+		irr::s32 materialType;
 
-	OculusDistorsionCallback m_distortionCallback;
+		OculusDistorsionCallback() { OculusDistorsionCallback(0); }
+		OculusDistorsionCallback(irr::s32 _materialType) : materialType(_materialType) { }
 
-	//DRAW GUI METHODS
-	struct SGUIElement {
-		SGUIElement(rect<s32> _relativePosition, IGUIElement *_element) {
-			relativePosition = _relativePosition;
-			element = _element;
+		void OnPreRender(ISSWERender *effect) 
+		{
+			effect->setPostProcessingEffectConstant(materialType, "scale", scale, 2);
+			effect->setPostProcessingEffectConstant(materialType, "scaleIn", scaleIn, 2);
+			effect->setPostProcessingEffectConstant(materialType, "lensCenter", lensCenter, 2);
+			effect->setPostProcessingEffectConstant(materialType, "hmdWarpParam", hmdWarpParam, 4);
 		}
 
-		rect<s32> relativePosition;
-		IGUIElement *element;
+		void OnPostRender(ISSWERender *effect) { }
 	};
-	array<SGUIElement> existedGUIElements;
-	void fillExistedGUIElements(IGUIElement *element);
+	OculusDistorsionCallback _distortionCB;
+
 };
 
 #endif

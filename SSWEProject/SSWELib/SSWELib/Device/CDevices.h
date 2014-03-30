@@ -146,7 +146,10 @@ public:
 	void setProjectName(stringw _projectName) { projectName = _projectName; }
 
 	bool isOnlyForPlaying() { return isOnlyForPlay; }
+
 	void applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber);
+	void applyAnimationFromNameToModel(irr::scene::ISceneNode *node, irr::core::stringc name);
+	irr::s32 getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node);
 	//-----------------------------------
 
 	//-----------------------------------

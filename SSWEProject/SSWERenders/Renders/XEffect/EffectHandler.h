@@ -24,7 +24,7 @@
 /// a camera, this would be similar to setting the camera's field of view. The last
 /// parameter is whether the light is directional or not, if it is, an orthogonal
 /// projection matrix will be created instead of a perspective one.
-struct SShadowLight
+struct SShadowLight : public ICP3DShadowLight
 {
 	SShadowLight(	irr::u32 shadowMapResolution,
 					const irr::core::vector3df& position, 
@@ -134,6 +134,15 @@ struct SShadowLight
 	bool isTorchMode() { return isCamera; }
 	void setTorchMode(bool use) { isCamera = use; }
 
+	void setDirection(bool set) {
+		if (set) {
+			setLightType(ESLT_DIRECTIONAL);
+		} else {
+			/// Default Spot
+			setLightType(ESLT_SPOT);
+		}
+	}
+
 	/// Change the shadow light mode
 	void setLightType(E_SHADOW_LIGHT_TYPE type) {
 		pointShadowLights.clear();
@@ -180,18 +189,13 @@ private:
 // a specific post-processing effect. You will be passed an instance of the EffectHandler.
 // The function names themselves should be self-explanatory ;)
 class EffectHandler;
-class SSWE_RENDERS_API IPostProcessingRenderCallback
-{
-public:
-	virtual void OnPreRender(EffectHandler* effect) = 0;
-	virtual void OnPostRender(EffectHandler* effect) = 0;
-};
 
 // Shader callback prototypes.
 class DepthShaderCB;
 class ShadowShaderCB;
 class ScreenQuadCB;
 class LightShaftsCB;
+class CPSSMUtils;
 
 /// Main effect handling class, use this to apply shadows and effects.
 class SSWE_RENDERS_API EffectHandler : public ISSWERender
@@ -539,14 +543,21 @@ public:
 		}
 	}
 
-	void removeAllPostProcessingEffects() {
+	void removeAllPostProcessingEffects(bool removeCallbacks = true) {
 		for (irr::u32 i=0; i < PostProcessingRoutines.size(); i++) {
-			if (PostProcessingRoutines[i].renderCallback) {
+			if (removeCallbacks && PostProcessingRoutines[i].renderCallback) {
 				delete PostProcessingRoutines[i].renderCallback;
 			}
 			delete PostProcessingRoutines[i].callback;
 		}
 		PostProcessingRoutines.clear();
+	}
+	irr::u32 getPostProcessingEffectSize() {
+		return PostProcessingRoutines.size();
+	}
+
+	void *getPostProcessingEffectCallbackPtr(irr::u32 indice) {
+		return (void*)PostProcessingRoutines[indice].renderCallback;
 	}
     
     bool postProcessingEffectExists(irr::s32 MaterialType)
@@ -686,6 +697,8 @@ public:
 	void setFPSCamera(irr::scene::ICameraSceneNode *camera) { FPSCamera = camera; }
 	#endif
 
+	void setSkyNode(irr::scene::ISceneNode *node) { skyNode = node; }
+
 private:
 
 	struct SShadowNode
@@ -754,7 +767,7 @@ private:
 	irr::video::ITexture* DepthRTT;
 
 	bool useLightScattering;
-	irr::video::ITexture *LightScatteringRTT, *blackTextureLS;
+	irr::video::ITexture *LightScatteringRTT;
 
 	bool useReflectionPass;
 	irr::video::ITexture *ReflectionRTT;
@@ -785,6 +798,21 @@ private:
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;
 	irr::core::vector3df lastCameraRotation;
+
+	irr::scene::ISceneNode *skyNode;
+
+	//HDR PIPELINE
+	CScreenQuadHDRPipeline *hdrScreenQuad;
+	video::ITexture* mainTarget;
+	video::ITexture* hdrRTT0;
+	video::ITexture* motionBlurRTT0;
+	video::ITexture* temp;
+
+	//PSSM SHADOWS
+	irr::s32 PSSMDepth, PSSMMat;
+	CPSSMUtils* PSSMUtils;
+	video::ITexture *PSSMRT0, *PSSMRT1, *PSSMRT2, *PSSMRT3;
+	core::array<video::ITexture *> RT;
 };
 
 #endif

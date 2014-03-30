@@ -1,5 +1,7 @@
 // This example is part of irrBullet by Josiah Hartzell (fighterstw@hotmail.com or josiah.hartzell@gmail.com)
 
+#include "stdafx.h"
+
 #include "collisionexample.h"
 #include <irrlicht.h>
 #include <irrbullet.h>
@@ -84,11 +86,12 @@ void CCollisionExample::runExample()
 	u32 columns = 10;
 
     device =
-        createDevice( video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
+        createDevice( video::EDT_OPENGL, dimension2d<u32>(1280, 800), 32,
             false, false, false, this);
 
 
     device->setWindowCaption(L"irrBullet Collision Example - Josiah Hartzell");
+	device->getCursorControl()->setVisible(false);
 
     device->getFileSystem()->addFolderFileArchive("../../media/");
 

@@ -254,6 +254,11 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		isTorchMode = devices->getGUIEnvironment()->addCheckBox(devices->getXEffect()->getShadowLight(index).isTorchMode(),
 																rect<s32>(200, 330, 380, 350), shadowLightTab, -1, L"Torch Mode");
 
+		shadowLightTypecb = devices->getGUIEnvironment()->addComboBox(rect<s32>(300, 330, 480, 350), shadowLightTab, -1);
+		shadowLightTypecb->addItem(L"SPOT");
+		shadowLightTypecb->addItem(L"POINT");
+		shadowLightTypecb->addItem(L"DIRECTIONAL");
+
 		//WINDOW BUTTONS
 		applyButton = devices->getGUIEnvironment()->addButton(rect<s32>(5, 430, 80, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_APPLY_BUTTON,
 															  L"Apply", L"Apply the settings");
@@ -432,6 +437,11 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                                                   EMBF_OK);
                     }
                 }
+				if (event.GUIEvent.Caller == shadowLightTypecb) {
+					devices->getXEffect()->getShadowLight(index).setLightType((E_SHADOW_LIGHT_TYPE)shadowLightTypecb->getSelected());
+					if (shadowLightTypecb->getSelected() == 1)
+						devices->getXEffect()->getShadowLight(index).setLightType(ESLT_SPOT);
+				}
             }
 
             if (event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED) {

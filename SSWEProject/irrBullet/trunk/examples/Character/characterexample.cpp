@@ -1,5 +1,7 @@
 // This example is part of irrBullet by Josiah Hartzell (fighterstw@hotmail.com or josiah.hartzell@gmail.com)
 
+#include "stdafx.h"
+
 #include <irrlicht.h>
 #include <irrBullet.h>
 #include "characterexample.h"
@@ -221,7 +223,7 @@ void CCharacterExample::runExample()
 
         m.transformVect(direction);
 
-        character->setWalkDirection(direction*0.3f);
+        //character->setWalkDirection(direction*0.3f);
 
         camera->setTarget(sydney->getPosition());
 

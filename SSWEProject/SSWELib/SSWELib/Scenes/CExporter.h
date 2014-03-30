@@ -46,6 +46,7 @@ private:
 	void exportMaterials(stringc tabs, ISceneNode *node);
 	void exportTransformations(stringc tabs, ISceneNode *node);
 	void exportFactory(stringc tabs, ISceneNode *node);
+	void exportPhysics(stringc tabs, ISceneNode *node);
 	
 	//GET PARAMETERS
 	E_SHADOW_MODE getShadowMode(ISceneNode *node);

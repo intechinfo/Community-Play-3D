@@ -15,6 +15,8 @@ CAction::CAction() {
     name = L"";
 
     animSpeed = 0;
+
+	animationsPath = L"";
 }
 
 CAction::~CAction() {
@@ -34,6 +36,9 @@ irr::core::stringc CAction::getXMLValues() {
 	toReturn += "\" ";
 	toReturn += "speed=\"";
 	toReturn += animSpeed;
+	toReturn += "\" ";
+	toReturn += "animPath=\"";
+	toReturn += animationsPath;
 	toReturn += "\" /> \n";
 
 	return toReturn;
@@ -44,4 +49,5 @@ void CAction::setXMLValues(irr::io::IrrXMLReader *xmlReader) {
 	end = xmlReader->getAttributeValueAsInt("end");
 	name = xmlReader->getAttributeValue("name");
 	animSpeed = xmlReader->getAttributeValueAsFloat("speed");
+	animationsPath = xmlReader->getAttributeValue("animPath");
 }

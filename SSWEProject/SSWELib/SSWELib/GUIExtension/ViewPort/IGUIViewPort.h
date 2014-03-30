@@ -4,7 +4,7 @@
 #include <IGUIElement.h>
 #include <SColor.h>
 
-#include "../../../SSWERenders/Renders/XEffect/CScreenQuad.h"
+class CScreenQuad;
 
 namespace irr {
     namespace scene {
@@ -18,7 +18,7 @@ namespace irr {
         public:
             
             IGUIViewport(IGUIEnvironment* environment, IGUIElement* parent, s32 id, core::rect<s32> rectangle)
-            : IGUIElement(EGUIET_MESH_VIEWER, environment, parent, id, rectangle)
+				: IGUIElement(EGUIET_MESH_VIEWER, environment, parent, id, rectangle)
             {
             }
             

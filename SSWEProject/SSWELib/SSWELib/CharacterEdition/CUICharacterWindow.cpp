@@ -54,6 +54,8 @@ void CUICharacterWindow::open() {
     
 	submenu = menu->getSubMenu(1);
 	submenu->addItem(L"Enter Bones Edition...", CXT_EDIT_WINDOW_CHARACTER_EVENTS_ENTER_BONES_EDITION);
+	submenu->addSeparator();
+	submenu->addItem(L"Add Frames from other model...", CXT_EDIT_WINDOW_CHARACTER_EVENTS_ADD_FRAMES);
 
     submenu = menu->getSubMenu(2);
 	submenu->addItem(L"How to ?", -1);
@@ -86,7 +88,7 @@ void CUICharacterWindow::open() {
         smgr->setAmbientLight(SColorf(0.3f, 0.3f, 0.3f));
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
 
-		camera = smgr->addCameraSceneNode();
+		camera = smgr->addCameraSceneNodeMaya();
 		grid = new CGridSceneNode(smgr->getRootSceneNode(), smgr);
 		smgr->setActiveCamera(camera);
         camera->setFarValue(42000.0f);
@@ -282,6 +284,11 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 					//cameraMaya->setUpVector(camera->getPosition());
 					//cameraMaya->setTarget(node->getPosition());
 					devices->setRenderScene(true);
+					break;
+				case CXT_EDIT_WINDOW_CHARACTER_EVENTS_ADD_FRAMES: {
+					devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo("data/Characters/Murphy/");
+					openMeshSkinned = devices->createFileOpenDialog(L"Select mesh", CGUIFileSelector::EFST_OPEN_DIALOG, 0, true);
+				}
 					break;
                     
                 default:
@@ -493,6 +500,65 @@ bool CUICharacterWindow::OnEvent(const SEvent &event) {
 			//SAVE
 			if (dialog == saveDialog) {
 				exportAnimatedModel();
+			}
+
+			if (dialog == openMeshSkinned) {
+
+				if (node->getMesh()->getMeshType() == EAMT_SKINNED) {
+					ISkinnedMesh *smesh = (ISkinnedMesh*)node->getMesh();
+
+					IAnimatedMesh *newMesh = devices->getSceneManager()->getMesh(dialog->getFileName());
+					if (newMesh->getMeshType() == EAMT_SKINNED) {
+
+						if (smesh->getJointCount() != ((ISkinnedMesh*)newMesh)->getJointCount()+1) {
+							devices->addErrorDialog(L"Error", L"Joints number is not equal", EMBF_OK);
+							return false;
+						}
+					}
+
+					ISkinnedMesh *snewMesh = (ISkinnedMesh*)newMesh;
+
+					smesh->useAnimationFrom(snewMesh);
+					return false;
+
+					u32 count = snewMesh->getAllJoints().size();
+
+					for (u32 i=1; i < count; i++) {
+						for (u32 j=0; j < snewMesh->getAllJoints()[i]->PositionKeys.size(); j++) {
+							ISkinnedMesh::SPositionKey *key = smesh->addPositionKey(smesh->getAllJoints()[i]);
+							key->frame = snewMesh->getAllJoints()[i]->PositionKeys[j].frame + smesh->getFrameCount();
+							key->position = snewMesh->getAllJoints()[i]->PositionKeys[j].position;
+						}
+						for (u32 j=0; j < snewMesh->getAllJoints()[i]->RotationKeys.size(); j++) {
+							ISkinnedMesh::SRotationKey *key = smesh->addRotationKey(smesh->getAllJoints()[i]);
+							key->frame = snewMesh->getAllJoints()[i]->RotationKeys[j].frame + smesh->getFrameCount();
+							key->rotation = snewMesh->getAllJoints()[i]->RotationKeys[j].rotation;
+						}
+						for (u32 j=0; j < snewMesh->getAllJoints()[i]->ScaleKeys.size(); j++) {
+							ISkinnedMesh::SScaleKey *key = smesh->addScaleKey(smesh->getAllJoints()[i]);
+							key->frame = snewMesh->getAllJoints()[i]->ScaleKeys[j].frame + smesh->getFrameCount();
+							key->scale = snewMesh->getAllJoints()[i]->ScaleKeys[j].scale;
+						}
+						/*for (u32 j=0; j < snewMesh->getAllJoints()[i]->Weights.size(); j++) {
+							ISkinnedMesh::SWeight *key = smesh->addWeight(smesh->getAllJoints()[i]);
+							key->buffer_id = snewMesh->getAllJoints()[i]->Weights[j].buffer_id;
+							key->strength = snewMesh->getAllJoints()[i]->Weights[j].strength;
+							key->vertex_id = snewMesh->getAllJoints()[i]->Weights[j].vertex_id;
+						}*/
+					}
+					
+					//smesh->convertMeshToTangents();
+					//smesh->skinMesh();
+					smesh->finalize();
+
+					//devices->getSceneManager()->getMeshCache()->removeMesh(newMesh);
+
+					//smesh->setDirty();
+					//smesh->skinMesh();
+					//smesh->finalize();
+					//devices->addInformationDialog(L"", stringw(smesh->getFrameCount()).c_str(), EMBF_OK);
+
+				}
 			}
         }
         

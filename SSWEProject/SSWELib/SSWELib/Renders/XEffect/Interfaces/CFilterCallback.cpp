@@ -19,18 +19,23 @@ EffectHandler *geffect;
 irr::s32 gmaterialType;
 irr::core::stringc gWorkingPath;
 
-CFilterCallback::CFilterCallback(irr::s32 materialTypeIn, SFilter *_fs) : materialType(materialTypeIn) {
-	fs = _fs;
+CFilterCallback::CFilterCallback(irr::s32 materialTypeIn, lua_State *L, irr::core::stringw callback) : materialType(materialTypeIn) {
+	this->L = L;
+	this->callback = callback;
 }
 
-void CFilterCallback::OnPreRender(EffectHandler* effect) {
-	geffect = effect;
+void CFilterCallback::OnPreRender(ISSWERender* effect) {
+	geffect = (EffectHandler*)effect;
 	gmaterialType = materialType;
-	luaL_dostring(fs->getLuaState(), stringc(fs->getCallback()).c_str());
+	luaL_dostring(this->L, stringc(this->callback).c_str());
 }
     
-void CFilterCallback::OnPostRender(EffectHandler* effect) {
-	effect->clearPostProcessEffectConstants(materialType);
+void CFilterCallback::OnPostRender(ISSWERender* effect) {
+	((EffectHandler*)effect)->clearPostProcessEffectConstants(materialType);
+}
+
+void CFilterCallback::updateCallback(stringw newCallback) {
+	callback = newCallback;
 }
 
 struct userData {

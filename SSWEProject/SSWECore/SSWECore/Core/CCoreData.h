@@ -65,14 +65,14 @@ struct SData : public ISData {
 		pBodyPtr = 0;
 
 		/// Primitives
-		bool isTangentRecalculated = false;
-		bool isNormalRecalculated = false;
-		bool isAngleWeighted = false;
-		bool isSmoothed = false;
+		isTangentRecalculated = false;
+		isNormalRecalculated = false;
+		isAngleWeighted = false;
+		isSmoothed = false;
 
 		/// Planar texture mapping
-		bool isPlanarTextureMapped = false;
-		f32 isPlanarTextureMappedValue = 0.f;
+		isPlanarTextureMapped = false;
+		isPlanarTextureMappedValue = 0.f;
 	}
 
 	//MAIN METHODS
@@ -456,9 +456,11 @@ struct SObjectsData : SData {
 	}
 
 	array<CAction *> *getActions() { return &actions; }
+	array<IAnimatedMesh *> *getAnimationMeshes() { return &animationMeshes; }
 
 private:
 	array<CAction *> actions;
+	array<IAnimatedMesh *> animationMeshes;
 };
 
 //---------------------------------------------------------------------------------------------

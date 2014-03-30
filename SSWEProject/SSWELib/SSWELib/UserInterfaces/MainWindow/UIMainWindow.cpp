@@ -29,7 +29,7 @@ CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     tabCtrl = devices->getGUIEnvironment()->addTabControl(rect<int>(5, 20, 415, 495), 
                                                           mainWindow, true, true, 0);
     terrainsTab = tabCtrl->addTab(L"Terrains");
-    treesTab = tabCtrl->addTab(L"Trees");
+    treesTab = tabCtrl->addTab(L"Vegetation");
     objectsTab = tabCtrl->addTab(L"Objects");
     lightsTab = tabCtrl->addTab(L"Lights");
     dynamicLightsTab = tabCtrl->addTab(L"Volume Lights");
@@ -362,6 +362,12 @@ void CUIMainWindow::cloneNode() {
                 devices->getXEffect()->addShadowToNode(clonednode, devices->getXEffectFilterType(), ESM_RECEIVE);
             }
 			devices->getDOF()->add(clonednode);
+			
+			if (devices->getXEffect()->isDepthPassed(getSelectedNode().getNode()))
+				devices->getXEffect()->addNodeToDepthPass(clonednode);
+
+			if (devices->getXEffect()->isLightScatteringPassed(getSelectedNode().getNode()))
+				devices->getXEffect()->addNodeToLightScatteringPass(clonednode);
 		}
 	}
  //   ISceneNode *node = 0;
@@ -846,6 +852,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (treesListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
+					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
 					devices->getDOF()->remove(getSelectedNode().getNode());
 
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());

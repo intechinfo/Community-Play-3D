@@ -2,11 +2,166 @@
 #define H_XEFFECTS_CB
 
 #include "EffectHandler.h"
+#include "CPSSMUtils.h"
 
 using namespace irr;
 using namespace scene;
 using namespace video;
 using namespace core;
+
+class CPSSMCallBack : public video::IShaderConstantSetCallBack
+{
+public:
+    CPSSMCallBack(CPSSMUtils* vPSSMUtils) : PSSMUtils(vPSSMUtils)
+    {
+        vBias[0] = 0.001;
+        vBias[1] = 0.0008;
+        vBias[2] = 0.00049;
+        vBias[3] = 0.00015;
+    }
+
+    ~CPSSMCallBack(){};
+
+	const video::SMaterial *UsedMaterial;
+	virtual void OnSetMaterial(const SMaterial& material) {
+		UsedMaterial = &material;
+	}
+
+    virtual void OnSetConstants(video::IMaterialRendererServices *services, s32 userData)
+    {
+        matrix4 Matrix;
+
+		s32 spCount = PSSMUtils->getSplitsCount();
+		services->setVertexShaderConstant("NumSplits", &spCount, 1);
+		services->setPixelShaderConstant("NumSplits", &spCount, 1);
+
+		Matrix = services->getVideoDriver()->getTransform(ETS_PROJECTION);
+        Matrix *= services->getVideoDriver()->getTransform(ETS_VIEW);
+        Matrix *= services->getVideoDriver()->getTransform(ETS_WORLD);
+		services->setVertexShaderConstant("WVP", Matrix.pointer(), 16);
+
+        float TextureOffset = 0.5f;
+
+        matrix4 mTextureMatrixConst;
+        mTextureMatrixConst[0] = 0.5f;
+        mTextureMatrixConst[1] = 0.0f;
+        mTextureMatrixConst[2] = 0.0f;
+        mTextureMatrixConst[3] = 0.0f;
+
+        mTextureMatrixConst[4] = 0.0f;
+        mTextureMatrixConst[5] = -0.5f;
+
+		if(services->getVideoDriver()->getDriverType() == EDT_OPENGL)
+        mTextureMatrixConst[5] *= -1.0f;
+
+        mTextureMatrixConst[6] = 0.0f;
+        mTextureMatrixConst[7] = 0.0f;
+
+        mTextureMatrixConst[8] = 0.0f;
+        mTextureMatrixConst[9] = 0.0f;
+        mTextureMatrixConst[10] = 1.0f;
+        mTextureMatrixConst[11] = 0.0f;
+
+        mTextureMatrixConst[12] = TextureOffset;
+        mTextureMatrixConst[13] = TextureOffset;
+        mTextureMatrixConst[14] = 0.0f;
+        mTextureMatrixConst[15] = 1.0f;
+
+        //TextureMatrix = cgGetNamedParameter(Vertex, "TextureMatrix");
+        for(int i = 0; i < PSSMUtils->getSplitsCount(); i++)
+        {
+            TextureOffset = 0.5f;
+
+            if(services->getVideoDriver()->getDriverType() == EDT_OPENGL)
+            TextureOffset -= (0.5f / (float)UsedMaterial->TextureLayer[i].Texture->getSize().Width);
+            else
+            TextureOffset += (0.5f / (float)UsedMaterial->TextureLayer[i].Texture->getSize().Width);
+
+            mTextureMatrixConst[12] = TextureOffset;
+            mTextureMatrixConst[13] = TextureOffset;
+
+            //CurrentParam = cgGetArrayParameter(TextureMatrix, i);
+
+            Matrix = mTextureMatrixConst;
+            Matrix *= PSSMUtils->getProjectionMatrix(i);
+            Matrix *= PSSMUtils->getViewMatrix(i);
+			Matrix *= services->getVideoDriver()->getTransform(ETS_WORLD);
+
+			TextureMatrix[i] = Matrix;
+            //Services->setMatrix( CurrentParam,ICGT_MATRIX_IDENTITY,Matrix );
+			services->setVertexShaderConstant(core::stringc("TextureMatrix" + i).c_str(), TextureMatrix[i].pointer(), 16);
+        }
+
+        //SplitDistance = cgGetNamedParameter(Fragment, "SplitDistance");
+        for(int i = 0; i < PSSMUtils->getSplitsCount(); i++)
+        {
+			SplitDistance[i] = PSSMUtils->getSplitDistance(i+1);
+        }
+		services->setPixelShaderConstant("SplitDistance", SplitDistance, 4);
+
+		services->setPixelShaderConstant("Bias", vBias, 4);
+
+        //TextureSize = cgGetNamedParameter(Fragment, "TextureSize");
+        for(int i = 0; i < PSSMUtils->getSplitsCount(); i++)
+        {
+            float vTextureSize = (float)UsedMaterial->TextureLayer[i].Texture->getSize().Width;
+            vTextureSize *= (i+1);
+			TextureSize[i] = vTextureSize;
+
+            //CurrentParam = cgGetArrayParameter(TextureSize, i);
+            //Services->setParameter1f(CurrentParam, vTextureSize);
+        }
+		services->setPixelShaderConstant("TextureSize", TextureSize, 4);
+
+        //DepthMap = cgGetNamedParameter(Fragment, "DepthMap");
+        for(int i = 0; i < PSSMUtils->getSplitsCount(); i++)
+        {
+            //CurrentParam = cgGetArrayParameter(DepthMap, i);
+            //Services->EnableTexture( CurrentParam,Material.TextureLayer[i].Texture);
+			DepthMap[4] = i;
+        }
+		services->setPixelShaderConstant("DepthMap", DepthMap, 4);
+	}
+
+private:
+    CPSSMUtils* PSSMUtils;
+    irr::f32 vBias[4];
+	core::matrix4 TextureMatrix[4];
+	irr::f32 SplitDistance[4];
+	irr::f32 Bias[4];
+	irr::f32 TextureSize[4];
+	irr::s32 DepthMap[4];
+};
+
+class CPSSMDepthCallBack: public video::IShaderConstantSetCallBack
+{
+public:
+    CPSSMDepthCallBack(CPSSMUtils* vPSSMUtils) : PSSMUtils(vPSSMUtils)
+    {
+    }
+
+    ~CPSSMDepthCallBack(){};
+
+    virtual void OnSetConstants(video::IMaterialRendererServices *services, s32 userData)
+    {
+        matrix4 Matrix;
+
+		Matrix = PSSMUtils->getProjectionMatrix(PSSMUtils->getCurrentPass());
+		//Matrix = services->getVideoDriver()->getTransform(ETS_PROJECTION);
+		Matrix *= PSSMUtils->getViewMatrix(PSSMUtils->getCurrentPass());
+		//Matrix *= services->getVideoDriver()->getTransform(ETS_VIEW);
+		Matrix *= services->getVideoDriver()->getTransform(ETS_WORLD);
+		services->setVertexShaderConstant("WVP", Matrix.pointer(), 16);
+
+		f32 Near = 0.1f;
+		services->setPixelShaderConstant("Near", &Near, 1);
+		f32 Far = 2000.f;
+		services->setPixelShaderConstant("Far", &Far, 1);
+    }
+
+private:
+    CPSSMUtils* PSSMUtils;
+};
 
 class SelectionPassCB : public video::IShaderConstantSetCallBack {
 public:
@@ -210,5 +365,7 @@ public:
 
 	irr::core::map<irr::core::stringc, SUniformDescriptor> uniformDescriptors;
 };
+
+
 
 #endif

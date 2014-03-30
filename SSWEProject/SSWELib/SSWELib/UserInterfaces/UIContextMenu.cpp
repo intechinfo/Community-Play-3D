@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "UIContextMenu.h"
 
+#include "../CharacterEdition/CUICharacterManager.h"
+
 CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     devices = _devices;
 
@@ -26,6 +28,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	#ifndef _IRR_OSX_PLATFORM_
 		#ifndef SSWE_RELEASE
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
+			//pluginsManager->loadMonitorPlugin("SSWEOCULUSRIFTPLUGIN_D");
 			pluginsManager->loadSSWEPlugin("SSWEULTIMATETOOL_D");
 		#else
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
@@ -135,11 +138,13 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//SHADERS
     submenu = menu->getSubMenu(i++);
+	submenu->addItem(L"Objects", -1, false, false, false, false);
 	submenu->addItem(L"Manage Clouds... (TO DO)", -1);
 	submenu->addItem(L"Manage Suns... (TO DO)", -1);
     submenu->addItem(L"Manage Vegetation... (TO DO)", -1);
     submenu->addItem(L"Manage Particle Systems... (WIP)", CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS);
     submenu->addSeparator();
+	submenu->addItem(L"Scene", -1, false, false, false, false);
     submenu->addItem(L"Add Terrain...", CXT_MENU_EVENTS_SCENE_ADD_TERRAIN);
     submenu->addItem(L"Add Object...", CXT_MENU_EVENTS_SCENE_ADD_OBJECT);
     submenu->addItem(L"Add Light...", CXT_MENU_EVENTS_SCENE_ADD_LIGHT);
@@ -309,8 +314,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			//devices->getCoreData()->clear();
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
-
-			stringw scene_to_import = L"LTest.world";
+			
+			stringw scene_to_import = L"LTestDemoGame.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
@@ -359,7 +364,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUICharacterWindow *editChar = new CUICharacterWindow(devices);
 	//editChar->open();
-	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](3).getNode(), 3);
+	//editChar->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](1).getNode(), 1);
+	 
+	//CUICharacterManager *cmanager = new CUICharacterManager(devices, ((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](1).getNode())->getMesh());
+	//cmanager->open();
+	//cmanager->setModel((IAnimatedMeshSceneNode *)devices->getCoreData()->getObjectsData()->operator[](1).getNode());
 
 	movementType = CCoreObjectPlacement::Undefined;
 	devices->getObjectPlacement()->setArrowType(movementType);
@@ -695,7 +704,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //-----------------------------------
                 //CONTEXT MENU ANIMATED OBJECTS EVENT
                 case CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION: {
-					if (mainWindowInstance->getSelectedNode().getNode()->getType() == ESNT_ANIMATED_MESH) {
+					if (mainWindowInstance->getSelectedNode().getNode() && mainWindowInstance->getSelectedNode().getNode()->getType() == ESNT_ANIMATED_MESH) {
 						if (mainWindowInstance->getSelectedNode().getNode()) {
 							CUICharacterWindow *characterWindowInstance = new CUICharacterWindow(devices);
                             characterWindowInstance->open();
@@ -704,6 +713,15 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     }
                 }
                     break;
+				case CXT_MENU_EVENTS_SIMPLE_EDITION: {
+					SSelectedNode ssn = mainWindowInstance->getSelectedNode();
+					if (ssn.getMesh() && ssn.getNode()->getType() == ESNT_ANIMATED_MESH) {
+						CUICharacterManager *cmanager = new CUICharacterManager(devices, (IAnimatedMesh*)mainWindowInstance->getSelectedNode().getMesh());
+						cmanager->open();
+						cmanager->setModel((IAnimatedMeshSceneNode*)ssn.getNode());
+					}
+				}
+					break;
                 //-----------------------------------
                     
                 //-----------------------------------

@@ -29,6 +29,10 @@
 			 <slidingValue value="0.000500" />
 
 		 </fpsCameraSettings>
+		 
+		 <depthPassEnabled enabled="0" />
+		 <lightScaterringPassEnabled enabled="0" />
+		 <reflectionPassEnabled enabled="0" />
 
 		 <effect>
 

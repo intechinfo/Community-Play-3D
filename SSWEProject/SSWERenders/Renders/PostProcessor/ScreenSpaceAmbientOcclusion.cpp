@@ -14,11 +14,11 @@ SSAORenderCallback::~SSAORenderCallback() {
 
 }
 
-void SSAORenderCallback::OnPostRender(EffectHandler* effect) {
+void SSAORenderCallback::OnPostRender(ISSWERender* effect) {
 
 }
 
-void SSAORenderCallback::OnPreRender(EffectHandler* effect) {
+void SSAORenderCallback::OnPreRender(ISSWERender* effect) {
 	irr::video::IVideoDriver* driver = effect->getIrrlichtDevice()->getVideoDriver();
 	viewProj = driver->getTransform(irr::video::ETS_PROJECTION) * driver->getTransform(irr::video::ETS_VIEW);
 	effect->setPostProcessingEffectConstant(materialType, "mViewProj", viewProj.pointer(), 16);
@@ -45,14 +45,14 @@ LightScatteringCallback::~LightScatteringCallback() {
 
 }
 
-void LightScatteringCallback::OnPostRender(EffectHandler* effect) {
+void LightScatteringCallback::OnPostRender(ISSWERender* effect) {
 
 }
 
-void LightScatteringCallback::OnPreRender(EffectHandler* effect) {
+void LightScatteringCallback::OnPreRender(ISSWERender* effect) {
 
 	irr::video::IVideoDriver *driver = effect->getIrrlichtDevice()->getVideoDriver();
-	irr::core::array<irr::scene::ISceneNode *> ar = effect->getDepthPassNodes();
+	irr::core::array<irr::scene::ISceneNode *> ar = ((EffectHandler*)effect)->getDepthPassNodes();
 	driver->setRenderTarget(tex, true, true, irr::video::SColor(255, 0, 0, 0));
 
 	for (u32 i=0; i < ar.size(); i++) {
@@ -79,8 +79,8 @@ void LightScatteringCallback::OnPreRender(EffectHandler* effect) {
 
 	effect->setPostProcessingUserTexture(tex);
 
-	if (effect->getShadowLightCount() > 0) {
-		irr::core::vector3df screenPosition = effect->getShadowLight(0).getPosition();
+	if (((EffectHandler*)effect)->getShadowLightCount() > 0) {
+		irr::core::vector3df screenPosition = ((EffectHandler*)effect)->getShadowLight(0).getPosition();
 
 		core::vector2di scrPos = effect->getIrrlichtDevice()->getSceneManager()->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(screenPosition);
 		core::vector2df screen((float)scrPos.X/(float)effect->getIrrlichtDevice()->getVideoDriver()->getScreenSize().Width,

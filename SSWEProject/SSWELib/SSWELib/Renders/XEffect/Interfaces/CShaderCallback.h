@@ -16,7 +16,7 @@
 class CDevices;
 class CUICodeEditor;
 
-class CShaderCallback : public irr::video::IShaderConstantSetCallBack, public IShaderCallback {
+class CShaderCallback : public IShaderCallback {
 
 public:
 

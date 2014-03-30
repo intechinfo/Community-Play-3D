@@ -1,0 +1,568 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <numberOfObjects value="3" />
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="1024" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="-41.339451" Y="119.228241" Z="327.115631" />
+			 <rotation X="45.592587" Y="101.249893" Z="0.000000" />
+
+		 </camera>
+
+		 <fpsCameraSettings>
+
+			 <ellipsoidRadius X="5.000000" Y="5.000000" Z="5.000000" />
+			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <slidingValue value="0.000500" />
+
+		 </fpsCameraSettings>
+
+		 <depthPassEnabled enabled="1" />
+		 <lightScaterringPassEnabled enabled="0" />
+		 <reflectionPassEnabled enabled="1" />
+
+		 <effect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/blurhp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(1.0 / SCREENX, 0),
+		float2(-1.0 / SCREENX, 0),
+		float2(2.0 / SCREENX, 0),
+		float2(-2.0 / SCREENX, 0)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.0), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/blurvp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(0, 1.0 / SCREENY),
+		float2(0, -1.0 / SCREENY),
+		float2(0, 2.0 / SCREENY),
+		float2(0, -2.0 / SCREENY)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.01), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/sepia_toon_shader.hlsl" />
+				 <ppeShader shader="//------------------------------ TEXTURE PROPERTIES ----------------------------
+// This is the texture that SpriteBatch will try to set before drawing
+texture ScreenTexture;
+ 
+// Our sampler for the texture, which is just going to be pretty simple
+sampler TextureSampler = sampler_state
+{
+    Texture = <ScreenTexture>;
+};
+ 
+//------------------------ PIXEL SHADER ----------------------------------------
+// This pixel shader will simply look up the color of the texture at the
+// requested point, and turns it into a sepia tone
+float4 pixelMain(float2 TextureCoordinate : TEXCOORD0) : COLOR0
+{
+    float4 color = tex2D(TextureSampler, TextureCoordinate);
+ 
+    float4 outputColor = color;
+    outputColor.r = (color.r * 0.393) + (color.g * 0.769) + (color.b * 0.189);
+    outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);    
+    outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
+ 
+    return outputColor;
+}
+ 
+//-------------------------- TECHNIQUES ----------------------------------------
+// This technique is pretty simple - only one pass, and only a pixel shader
+technique Sepia
+{
+    pass Pass1
+    {
+        PixelShader = compile ps_2_0 pixelMain();
+    }
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/bloomp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+sampler2D ScreenMapSampler : register(s1);
+
+float4 pixelMain(float2 TexCoords : TEXCOORD0) : COLOR0
+{		
+	float4 screenCol = tex2D(ScreenMapSampler, TexCoords);
+	float4 bloomCol = tex2D(ColorMapSampler, TexCoords);
+	
+	return(screenCol * 0.9 + bloomCol * 0.5);
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/screenwater.hlsl" />
+				 <ppeShader shader="sampler2D ScreenMapSampler : register(s0);
+sampler2D ReflectionMapSampler : register(s1);
+sampler2D DepthMapSampler : register(s2);
+sampler2D UserMapSampler : register(s3);
+
+float time;
+
+float getDepthAt(float2 coords)
+{
+	float4 texDepth = tex2D(DepthMapSampler, coords);
+	return texDepth.r;
+}
+
+#define TEST_EPISILON 0.5
+
+#define WATER_COLOR float4(1.0, 1.0, 1.3, 1.0);
+#define SPECULAR_COLOR float4(0.6, 0.6, 0.6, 0.6)
+#define SPECULAR_EXPONENT 32.0
+
+float4 pixelMain
+(
+	float2 TexCoords : TEXCOORD0,
+	float3 LStart : TEXCOORD1,
+	float3 LEnd : TEXCOORD2
+) : COLOR0
+{
+	float3 lVec = LEnd - LStart;
+	float3 lDir = normalize(lVec);
+	float lLength = length(lVec);
+	float currentDepth = getDepthAt(TexCoords) * lLength;
+	float3 currentWPos = LStart + currentDepth * lDir;
+	
+	float4 screenColor = tex2D(ScreenMapSampler, TexCoords.xy);
+	
+	float3 planeNormal = float3(0.0, LStart.y < 0.0 ? -1.0 : 1.0, 0.0);
+	float planeDP = dot(planeNormal, lDir);
+
+	if(LStart.y < 0.0)
+		screenColor *= WATER_COLOR;
+	
+	float4 finalColour = screenColor;
+
+	if(planeDP < 0.0)
+	{
+		float planeDepth = -dot(planeNormal, LStart) / planeDP;
+
+		if(planeDepth < currentDepth && planeDepth < lLength)
+		{
+			float3 planePos = LStart + lDir * planeDepth;
+		
+			float heightDiff = sin(planePos.x / 20.0) + sin(planePos.z / 20.0);
+			planePos.y += heightDiff;
+   planePos.x -= time;
+   planePos.y += time;
+
+			float4 normalMap = tex2D(UserMapSampler, planePos.xz / 50.0);
+			float3 lightNormal = normalMap.xyz - float3(0.5, 0.5, 0.5);
+			lightNormal = normalize(lightNormal);
+			float2 refCoords = clamp(TexCoords.xy + lightNormal.xy / 20.0, float2(0.01, 0.01), float2(0.99, 0.99));
+			float refDepth = getDepthAt(refCoords) * lLength;
+			
+			finalColour = WATER_COLOR;
+
+			if(refDepth - TEST_EPISILON > planeDepth)
+				finalColour *= tex2D(ScreenMapSampler, refCoords);
+			else
+				finalColour *= screenColor;
+
+			float3 sunDirection = float3(1.0, 1.0, 1.0);
+			float diffuse = dot(lightNormal, sunDirection);
+			float3 Reflect = normalize(2.0 * diffuse * lightNormal - sunDirection);
+			float4 specular = pow(saturate(dot(Reflect, lDir)), SPECULAR_EXPONENT) * SPECULAR_COLOR;
+			finalColour += specular;
+
+   float4 reflectColor = tex2D(ReflectionMapSampler, float2(refCoords.x, -refCoords.y));
+   finalColour *= reflectColor * 3;
+
+			float4 foamColour = float4(0.8, 0.8, 0.8, 0.8) * diffuse;			
+			float foamFac = clamp(((currentDepth - planeDepth - 3.0) / 5.0), 0.0, 1.0);
+			finalColour = lerp(finalColour + foamColour, finalColour, foamFac);
+
+			float shoreFac = clamp((currentDepth - planeDepth) / 20.0, 0.0, 1.0);
+
+			finalColour = lerp(screenColor, finalColour, shoreFac);
+			
+			float fadeFac = clamp(1.0 - (planeDepth - lLength / 10.0) / lLength, 0.0, 1.0);
+			finalColour = lerp(screenColor, finalColour, fadeFac);
+		}
+	}
+	
+	return finalColour;
+}
+" />
+				 <ppeCallback callback="driver:setTexture(&quotshaders/Textures/Water/waves2.jpg&quot)
+
+filter:setRttTextureAtIndex(1, &quotReflectionPassRTT&quot)
+filter:setPixelShaderConstantFloat(&quottime&quot, utils:getCurrentTime() / 700)
+" />
+			 </postProcessingEffect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+			 <materialType>
+				 <pixelShaderType type="7" /> 
+				 <vertexShaderType type="3" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="triplanar_nm_package.spkg" />
+				 <vertex shader=
+"float4x4 matWorldViewProjection;
+float4x4 matWorld;
+float tileSize;
+float3 viewPos;
+
+struct VS_INPUT 
+{
+   float4 Position : POSITION0;
+   float2 Texcoord : TEXCOORD0;
+   float3 Normal :   NORMAL0; 
+};
+
+struct VS_OUTPUT 
+{
+   float4 Position :        POSITION0;
+   float  Fog        :       FOG0;
+   float2 TexcoordX :       TEXCOORD0;
+   float2 TexcoordY :       TEXCOORD1;
+   float2 TexcoordZ :       TEXCOORD2;
+   float3 viewDirection   : TEXCOORD3;   
+   float3x3 tangentSpace :  TEXCOORD4;
+};
+
+VS_OUTPUT vertexMain( VS_INPUT Input )
+{
+   VS_OUTPUT Output;
+
+   Output.Position         = mul( Input.Position, matWorldViewProjection );
+   float3 realPos          = mul( Input.Position,matWorld).xyz;//So we obtain the world position
+   
+   Output.viewDirection = realPos-viewPos;
+   
+   Output.TexcoordX         = realPos.zy/tileSize;//here are our texture coordinates...
+   Output.TexcoordY         = realPos.xz/tileSize;
+   Output.TexcoordZ         = realPos.xy/tileSize;
+   
+   float3 worldNormal = normalize(Input.Normal);
+   float3 n = worldNormal;
+   n*=n;
+   
+   //binormal and tangent become normal dependant
+   
+   float3 xtan,ytan,ztan;
+   float3 xbin,ybin,zbin;
+   
+   xtan = float3(0,0,1);//tangent space for the X aligned plane
+   xbin = float3(0,1,0);
+   
+   ytan = float3(1,0,0);//tangent space for the Y aligned plane
+   ybin = float3(0,0,1);
+   
+   ztan = float3(1,0,0);//tangent space for the Z aligned plane
+   zbin = float3(0,1,0);
+   
+   float3 worldBinormal = normalize(xbin*n.x+ybin*n.y+zbin*n.z);//Average Binormal
+   float3 worldTangent = normalize(xtan*n.x+ytan*n.y+ztan*n.z);//Average Tangent
+   
+   //This is done so the object can be later rotated
+   
+   worldNormal = mul(matWorld,worldNormal);
+   worldBinormal = mul(matWorld,worldBinormal);
+   worldTangent = mul(matWorld,worldTangent);
+   
+   Output.tangentSpace[0]   = worldTangent;
+   Output.tangentSpace[1]   = worldBinormal; 
+   Output.tangentSpace[2]   = worldNormal;
+
+   Output.Fog = Output.Position.z/Output.Position.w;
+      
+   return( Output );
+   
+}
+
+
+" />
+				 <pixel shader=
+"float4 ambient;
+float4 specular;
+float4 diffuse;
+float specularPower;
+float3 lightDirection;
+
+sampler2D baseX : register(s0);
+sampler2D baseY : register(s1);
+
+sampler2D normalX : register(s2);
+sampler2D normalY : register(s3);
+
+
+struct PS_INPUT 
+{
+   float4 Position :        POSITION0;
+   float2 TexcoordX :       TEXCOORD0;
+   float2 TexcoordY :       TEXCOORD1;
+   float2 TexcoordZ :       TEXCOORD2;
+   float3 viewDirection   : TEXCOORD3;   
+   float3x3 tangentSpace :  TEXCOORD4;
+};
+
+float4 pixelMain( PS_INPUT Input ) : COLOR0
+{      
+   float3 fvLightDirection = normalize( lightDirection );
+   float3 fvNormal         = normalize( Input.tangentSpace[2]);
+   float3 fvViewDirection  = normalize( Input.viewDirection );
+    
+   float3 n                = fvNormal;
+   n*=n;
+   
+   float4 fvBaseColor      = tex2D( baseX, Input.TexcoordX )*n.x+
+                             tex2D( baseY, Input.TexcoordY )*n.y+
+                             tex2D( baseX, Input.TexcoordZ )*n.z;
+
+   float4 fvBaseNormal     = tex2D( normalX, Input.TexcoordX )*n.x+
+                             tex2D( normalY, Input.TexcoordY )*n.y+
+                             tex2D( normalX, Input.TexcoordZ )*n.z;
+                             
+   float3 normal           = normalize(mul(2.0*fvBaseNormal.xyz-1.0,Input.tangentSpace));    
+    
+   float  fNDotL           = max(0.0,dot( normal, fvLightDirection )); 
+   float3 fvReflection     = reflect(fvLightDirection,normal);
+   float  fRDotV           = max(0.0, dot( fvReflection, fvViewDirection ) );
+                             
+   float4 fvTotalAmbient   = ambient * fvBaseColor; 
+   float4 fvTotalDiffuse   = diffuse * fNDotL * fvBaseColor; 
+   float4 fvTotalSpecular  = specular * pow( fRDotV, specularPower )*fvBaseColor;
+   
+   return( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );
+      
+}
+" />
+				 <constants value="vmatrix4 matWorldViewProjection proj[0] view[0] world[0] 0
+vmatrix4 matWorld world[0] 0 0 0
+vfloat tileSize 10
+vvector3df viewPos camPos4
+
+pSColor ambient 1 0.5 0.5 0.5
+pSColor specular 1 0.5 0.5 0.5
+pSColor diffuse 1 0.5 0.5 0.5
+pfloat specularPower 10
+pvector3df lightDirection 0 100 0
+" />
+			 </materialType>
+
+
+		 </materialTypes>
+
+		 <scripts>
+
+
+		 </scripts>
+
+	</config>
+
+
+
+	<scene>
+
+		 <terrain>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/height_maps/julie_is_gay_1.png" />
+
+			 <type esnt="heightMap" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="1" />
+				 <normals value="1" />
+				 <angleWeighted value="1" />
+				 <smooth value="1" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <name c8name="#map:island" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="height_maps/rock.png" />
+						 <texture id="1" path="height_maps/grass.png" />
+						 <texture id="2" path="height_maps/grassn.png" />
+						 <texture id="3" path="height_maps/rockn.png" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-471.889038" Y="-24.499420" Z="-456.260254" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="2.000000" Y="0.400000" Z="2.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+
+		 </terrain>
+
+		 <tree>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/trees/palm_tree_v2/palm_tree.obj" />
+
+			 <name c8name="#tree:tree_sapin" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/trees/palm_tree_v2/diffus.tga" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="1" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="0" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="14" />
+
+			 	 </material>
+			 </materials>
+			 <position X="4.027954" Y="0.000000" Z="341.869751" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="0.175278" Y="0.175278" Z="0.175278" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="1" />
+		 </tree>
+
+		 <light>
+
+			 <name c8name="#light:new_light" />
+
+			 <position X="6.103027" Y="481.958527" Z="-44.961224" />
+			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="2000.000000" />
+			 <farValue value="1000.000000" />
+			 <autoRecalculate value="1" />
+
+			 <shadows resol="1024" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
+
+
+	</scene>
+
+</rootScene>

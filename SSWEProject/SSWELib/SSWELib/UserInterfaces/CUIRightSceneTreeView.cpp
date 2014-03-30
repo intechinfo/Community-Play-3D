@@ -48,7 +48,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 
 	//SET UP TREE VIEW NODES
 	terrainsNode = rootNode->addChildBack(L"TERRAINS", L"", 2, -1);
-	treesNode = rootNode->addChildBack(L"TREES", L"", 2, -1);
+	treesNode = rootNode->addChildBack(L"VEGETATION", L"", 2, -1);
 	objectsNode = rootNode->addChildBack(L"OBJECTS", L"", 2, -1);
 	lightsNode = rootNode->addChildBack(L"LIGHTS", L"", 2, -1);
 	volumeLightsNode = rootNode->addChildBack(L"VOLUME LIGHTS", L"", 2, -1);

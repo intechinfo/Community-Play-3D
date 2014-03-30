@@ -70,6 +70,7 @@ private:
 	void readMaterials(ISceneNode *_node);
 	void readTransformations(ISceneNode *_node);
 	void readViewModes(ISceneNode *_node);
+	void readPhysics(SData *data);
 
 	//BUILDING PARAMETERS
 	SColor buildSColor();

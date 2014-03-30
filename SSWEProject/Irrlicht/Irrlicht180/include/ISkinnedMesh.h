@@ -82,6 +82,7 @@ namespace scene
 		//! A vertex weight
 		struct SWeight
 		{
+
 			//! Index of the mesh buffer
 			u16 buffer_id; //I doubt 32bits is needed
 

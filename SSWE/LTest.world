@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="6" />
+		 <numberOfObjects value="11" />
 
 		 <grid>
 
@@ -16,19 +16,23 @@
 
 		 <camera>
 
-			 <position X="217.557785" Y="28.578045" Z="18.356354" />
-			 <rotation X="7.598785" Y="313.750000" Z="0.000000" />
+			 <position X="47.931736" Y="87.763428" Z="-210.355194" />
+			 <rotation X="4.559264" Y="317.321503" Z="0.000000" />
 
 		 </camera>
 
 		 <fpsCameraSettings>
 
-			 <ellipsoidRadius X="30.000000" Y="25.000000" Z="30.000000" />
+			 <ellipsoidRadius X="5.000000" Y="25.000000" Z="5.000000" />
 			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
 			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <slidingValue value="0.000500" />
 
 		 </fpsCameraSettings>
+
+		 <depthPassEnabled enabled="0" />
+		 <lightScaterringPassEnabled enabled="1" />
+		 <reflectionPassEnabled enabled="0" />
 
 		 <effect>
 
@@ -185,6 +189,70 @@ float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
 				 <ppeCallback callback="driver:setTexture(&quotshaders/Textures/LF/lensdirt.png&quot)
 
 filter:setPixelShaderConstantFloat(&quotDesaturation&quot, 0.4)
+" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/godrays.hlsl" />
+				 <ppeShader shader="
+sampler2D ColorMapSampler : register(s0);
+sampler2D UserMapSampler : register(s3);
+
+float2 lightPositionOnScreen;
+		
+//float decay=0.96815;
+//float exposure=0.2;
+//float density=0.26;
+//float weight=0.58767;
+
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+{
+	float decay=0.97815;
+	float exposure=0.92;
+	float density=0.966;
+	float weight=0.58767;
+
+	int NUM_SAMPLES = 100;
+	
+	float2 tc = texCoord;
+ 	float2 deltaTexCoord = (tc - lightPositionOnScreen.xy);  
+ 	deltaTexCoord *= 1.0f / NUM_SAMPLES * density;  
+ 	
+ 	float illuminationDecay = 1.0;
+
+	float4 color =tex2D(UserMapSampler, tc)*0.4;
+	
+ 	for(int i=0; i < NUM_SAMPLES ; i++)
+  	{
+		tc -= deltaTexCoord;
+		float4 sample = tex2D(UserMapSampler, tc)*0.4;
+		sample *= illuminationDecay * weight;  
+		color += sample;
+		illuminationDecay *= decay;  
+ 	}
+
+ 	//gl_FragColor *= exposure;
+ 	//gl_FragColor += texture2D(ColorMapSampler, textCoo.xy);
+ 	float4 realColor = tex2D(ColorMapSampler, texCoord.xy);
+ 	//gl_FragColor = ((vec4((vec3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
+	//gl_FragColor = color;
+	//return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
+	//return realColor + float3(color.r, color.g, color.b) * exposure));
+	//return color + realColor;
+	//return float4( float3(color.r, color.g, color.b) * exposure, 1) + realColor;
+	//return float4( color * exposure, 1);
+	//return realColor + float4(color.r, color.g, color.b, 1);
+
+	return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
+}
+
+" />
+				 <ppeCallback callback="driver:setRttTexture(&quotLightScatteringRTT&quot)
+
+position = utils:getScreenCoordinatesFrom3DPosition(driver:getLightPosition(0))
+position.y = 1-position.y
+
+filter:setPixelShaderConstantVector2D(&quotlightPositionOnScreen&quot, position)
 " />
 			 </postProcessingEffect>
 
@@ -890,6 +958,10 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 
 		 </scripts>
 
+		 <physics>
+			 <gravity X="0.000000" Y="-1350.000000" Z="0.000000" />
+		 </physics>
+
 	</config>
 
 
@@ -911,8 +983,8 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 				 <smooth value="0" />
 				 </meshFactory>
 				 <planarMapping>
-				 <planarMapped value="1" />
-				 <planarMappedValue value="0.020000" />
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
 				 </planarMapping>
 
 			 </factory> 
@@ -958,10 +1030,19 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="2.815832" Y="2.815832" Z="2.815832" />
 
+			<depthPassed value="1" />
+			<lightScatteringPassed value="1" />
+
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 			 <actions>
 			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="0.000000" />
+			 	 </body>
+			 </physics>
 
 		 </object>
 
@@ -1027,10 +1108,18 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="2.825005" Y="0.120260" Z="2.825005" />
 
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 			 <actions>
 			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
 
 		 </object>
 
@@ -1092,14 +1181,23 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 
 			 	 </material>
 			 </materials>
-			 <position X="-12.378998" Y="183.464111" Z="64.657799" />
+			 <position X="-12.378998" Y="238.767395" Z="88.061852" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="1" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 			 <actions>
 			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="10.000000" />
+			 	 </body>
+			 </physics>
 
 		 </object>
 
@@ -1165,10 +1263,18 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="1.600000" Y="1.600000" Z="1.600000" />
 
+			<depthPassed value="0" />
+			<lightScatteringPassed value="0" />
+
 			 <visible bool="1" />
 			 <shadowMode mode="0" />
 			 <actions>
 			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
 
 		 </object>
 
@@ -1187,8 +1293,8 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 				 <smooth value="0" />
 				 </meshFactory>
 				 <planarMapping>
-				 <planarMapped value="1" />
-				 <planarMappedValue value="0.020000" />
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
 				 </planarMapping>
 
 			 </factory> 
@@ -1230,16 +1336,414 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 
 			 	 </material>
 			 </materials>
-			 <position X="156.631729" Y="45.194435" Z="-213.199036" />
+			 <position X="-70.707626" Y="133.194427" Z="-169.140274" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="0" />
+			<lightScatteringPassed value="1" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 			 <actions>
-				 <action start="0" end="9599" name="" speed="3000.000000" /> 
+				 <action start="0" end="9599" name="STAND" speed="3000.000000" /> 
 
 			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="cube" />
+
+			 <name c8name="#object:cube_support_physics" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.020000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="-0.500000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="20.900000" Y="0.010000" Z="20.900000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="0" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="0.000000" />
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="sphere" />
+
+			 <name c8name="#object:new_sphere" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-12.190818" Y="301.584137" Z="96.375282" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="1.000000" />
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="cube" />
+
+			 <name c8name="#object:new_cube" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="78.542603" Y="236.198151" Z="-83.268219" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="1" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="10.000000" />
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="cube" />
+
+			 <name c8name="#object:new_cube" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-67.852646" Y="204.125702" Z="71.138138" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="1" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="10.000000" />
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="cube" />
+
+			 <name c8name="#object:new_cube" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="2.657852" Y="339.185760" Z="66.500137" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="1" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="10.000000" />
+			 	 </body>
+			 </physics>
 
 		 </object>
 
@@ -1254,7 +1758,7 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
 			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 
-			 <radius value="100.000000" />
+			 <radius value="2000.000000" />
 			 <farValue value="1150.000000" />
 			 <autoRecalculate value="1" />
 

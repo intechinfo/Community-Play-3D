@@ -320,40 +320,52 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
 
 ISData *CCoreData::getISDataOfSceneNode(ISceneNode *node) {
 	//SEARCH TERRAINS
-    s32 indice = getArrayOfTerrainNodes().binary_search(node);
-    if (indice != -1) {
-        return &terrainsData[terrainsData.size()-1];
-    }
+	for (u32 i=0; i < terrainsData.size(); i++) {
+		if (terrainsData[i].getNode() == node) {
+			return &terrainsData[i];
+			break;
+		}
+	}
     
     //SEARCH OBJECTS
-    indice = getArrayOfObjectNodes().binary_search(node);
-    if (indice != -1) {
-        return &objectsData[objectsData.size()-1];
-    }
+	for (u32 i=0; i < objectsData.size(); i++) {
+		if (objectsData[i].getNode() == node) {
+			return &objectsData[i];
+			break;
+		}
+	}
     
     //SEARCH TREES
-    indice = getArrayOfTreeNodes().binary_search(node);
-    if (indice != -1) {
-        return &treesData[treesData.size()-1];
-    }
+	for (u32 i=0; i < treesData.size(); i++) {
+		if (treesData[i].getNode() == node) {
+			return &treesData[i];
+			break;
+		}
+	}
     
     //SEARCH LIGHTS
-    indice = getArrayOfLightNodes().binary_search(node);
-    if (indice != -1) {
-        return &lightsData[lightsData.size()-1];
-    }
+	for (u32 i=0; i < lightsData.size(); i++) {
+		if (lightsData[i].getNode() == node) {
+			return &lightsData[i];
+			break;
+		}
+	}
     
     //SEARCH VOLUME LIGHTS
-    indice = getArrayOfVolumeLightNodes().binary_search(node);
-    if (indice != -1) {
-        return &volumeLightsData[volumeLightsData.size()-1];
-    }
+	for (u32 i=0; i < volumeLightsData.size(); i++) {
+		if (volumeLightsData[i].getNode() == node) {
+			return &volumeLightsData[i];
+			break;
+		}
+	}
     
     //SEARCH WATERS
-    indice = getArrayOfWaterSurfaceNodes().binary_search(node);
-    if (indice != -1) {
-        return &waterSurfaces[waterSurfaces.size()-1];
-    }
+	for (u32 i=0; i < waterSurfaces.size(); i++) {
+		if (waterSurfaces[i].getNode() == node) {
+			return &waterSurfaces[i];
+			break;
+		}
+	}
     
     return 0;
 }

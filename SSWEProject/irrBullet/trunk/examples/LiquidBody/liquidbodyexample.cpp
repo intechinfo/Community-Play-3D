@@ -1,4 +1,5 @@
 // This example is part of irrBullet by Josiah Hartzell (fighterstw@hotmail.com or josiah.hartzell@gmail.com)
+#include "stdafx.h"
 
 #include "liquidbodyexample.h"
 #include <irrlicht.h>
@@ -86,7 +87,7 @@ void CLiquidbodyExample::runExample()
     int rows=2, columns=2;
 
     device =
-        createDevice( video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
+        createDevice( video::EDT_OPENGL, dimension2d<u32>(1280, 800), 16,
             false, false, false, this);
 
     printf("Please enter the number of rows and columns of floating objects to create: \n");

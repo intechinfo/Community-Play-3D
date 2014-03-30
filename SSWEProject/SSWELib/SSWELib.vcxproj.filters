@@ -156,9 +156,6 @@
     <ClCompile Include="SSWELib\CharacterEdition\CAction.cpp">
       <Filter>SSWELib\CharacterEdition</Filter>
     </ClCompile>
-    <ClCompile Include="SSWELib\CharacterEdition\CUICharacterWindow.cpp">
-      <Filter>SSWELib\CharacterEdition</Filter>
-    </ClCompile>
     <ClCompile Include="SSWELib\CharacterEdition\CUIEditBones.cpp">
       <Filter>SSWELib\CharacterEdition</Filter>
     </ClCompile>
@@ -429,6 +426,15 @@
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CFilterCallback.cpp">
       <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\Animators\CCameraFPS360Controller.cpp">
+      <Filter>SSWELib\SceneNodes\Animators</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\CharacterEdition\CUICharacterManager.cpp">
+      <Filter>SSWELib\CharacterEdition</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\CharacterEdition\CUICharacterWindow.cpp">
+      <Filter>SSWELib\CharacterEdition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -444,9 +450,6 @@
       <Filter>Misc\Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="SSWELib\CharacterEdition\CAction.h">
-      <Filter>SSWELib\CharacterEdition</Filter>
-    </ClInclude>
-    <ClInclude Include="SSWELib\CharacterEdition\CUICharacterWindow.h">
       <Filter>SSWELib\CharacterEdition</Filter>
     </ClInclude>
     <ClInclude Include="SSWELib\CharacterEdition\CUIEditBones.h">
@@ -781,6 +784,15 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CFilterCallback.h">
       <Filter>SSWELib\Renders\XEffect\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\Animators\CCameraFPS360Controller.h">
+      <Filter>SSWELib\SceneNodes\Animators</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\CharacterEdition\CUICharacterManager.h">
+      <Filter>SSWELib\CharacterEdition</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\CharacterEdition\CUICharacterWindow.h">
+      <Filter>SSWELib\CharacterEdition</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

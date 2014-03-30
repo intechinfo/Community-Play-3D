@@ -10,6 +10,7 @@
 #include "CImporter.h"
 
 #include "../Renders/XEffect/Interfaces/CFilterCallback.h"
+#include "irrbullet.h"
 
 CImporter::CImporter(CDevices *_devices) {
     devices = _devices;
@@ -118,6 +119,7 @@ void CImporter::buildTerrain() {
 		tdata.setType(node->getType());
 
 		copySDataFactoryOf(&tdata, data);
+		readPhysics(&tdata);
 
 		devices->getCoreData()->getTerrainsData()->push_back(tdata);
 	}
@@ -163,7 +165,7 @@ void CImporter::buildObject() {
 	} else if (path == "hillPlaneMesh") {
 		mesh = smgr->addHillPlaneMesh("#new_hille_plane_mesh", 
 									  dimension2df(25, 25), dimension2du(25, 25),
-									  0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
+									  0, 0, dimension2df(0.f, 0.f), dimension2df(1.f, 1.f));
 		node = smgr->addAnimatedMeshSceneNode(mesh);
 	} else if (path == "billboard") {
 		node = (IAnimatedMeshSceneNode *)smgr->addBillboardSceneNode();
@@ -186,6 +188,10 @@ void CImporter::buildObject() {
 		readMaterials(node);
 		readTransformations(node);
 		readViewModes(node);
+
+		if (node->getType() == ESNT_BILLBOARD) {
+			((IBillboardSceneNode*)node)->setSize(dimension2df(node->getScale().X, node->getScale().Y));
+		}
 
 		array<CAction *> actions;
 		read("actions");
@@ -214,7 +220,15 @@ void CImporter::buildObject() {
         SObjectsData odata(mesh, node, path);
 		copySDataFactoryOf(&odata, data);
 
+		readPhysics(&odata);
+
+		odata.getAnimationMeshes()->clear();
 		odata.setActions(&actions);
+		for (u32 i=0; i < actions.size(); i++) {
+			IAnimatedMesh *smesh = devices->getSceneManager()->getMesh(actions[i]->getAnimationPath());
+			odata.getAnimationMeshes()->push_back(smesh);
+		}
+
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}
 }
@@ -268,12 +282,15 @@ void CImporter::buildLight() {
 		lfMeshNode->setScale(vector3d<f32>(0, 0, 0));
 		lfMeshNode->setParent(node);
 		lfMeshNode->setName(stringc(stringc(node->getName()) + stringc("_flare_mesh")).c_str());
+
 		lfBillBoard = devices->getSceneManager()->addBillboardSceneNode(lfMeshNode);
 		lfBillBoard->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 		lfBillBoard->setMaterialFlag(EMF_LIGHTING, false);
 		lfBillBoard->setSize(dimension2d<f32>(0, 0));
 		lfBillBoard->setParent(lfMeshNode);
 		lfBillBoard->setName(stringc(stringc(node->getName()) + stringc("_flare_bill")).c_str());
+		devices->getXEffect()->addNodeToLightScatteringPass(lfBillBoard);
+
 		lfNode = new CLensFlareSceneNode(lfMeshNode, devices->getSceneManager());
 		lfNode->setParent(lfMeshNode);
 		lfNode->setName(stringc(stringc(node->getName()) + stringc("_flare_node")).c_str());
@@ -393,18 +410,20 @@ void CImporter::readConfig() {
 	numberOfObjects = xmlReader->getAttributeValueAsInt("value");
 
 	//IF GRID
-	read("grid");
-	read("accentLineOffset");
-	u32 ALO = devices->getCore()->getU32(xmlReader->getAttributeValue("ALO"));
-	devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(ALO);
+	if (!devices->isOnlyForPlaying()) {
+		read("grid");
+		read("accentLineOffset");
+		u32 ALO = devices->getCore()->getU32(xmlReader->getAttributeValue("ALO"));
+		devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(ALO);
                 
-	read("size");
-	u32 size = devices->getCore()->getU32(xmlReader->getAttributeValue("S"));
-	devices->getObjectPlacement()->getGridSceneNode()->SetSize(size);
+		read("size");
+		u32 size = devices->getCore()->getU32(xmlReader->getAttributeValue("S"));
+		devices->getObjectPlacement()->getGridSceneNode()->SetSize(size);
                 
-	read("spacing");
-	u32 spacing = devices->getCore()->getU32(xmlReader->getAttributeValue("SP"));
-	devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(spacing);
+		read("spacing");
+		u32 spacing = devices->getCore()->getU32(xmlReader->getAttributeValue("SP"));
+		devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(spacing);
+	}
                 
 	//IF CAMERA
 	read("camera");
@@ -437,10 +456,24 @@ void CImporter::readConfig() {
 	readMaterialShaderCallbacks();
 	//SCRIPTS
 	readScripts();
+
+	//PHYSICS
+	read("physics");
+	read("gravity");
+	devices->getBulletWorld()->setGravity(buildVector3df());
+	read("physics");
+
 	read("config");
 }
 
 void CImporter::readEffects() {
+	read("depthPassEnabled");
+	devices->getXEffect()->enableDepthPass(devices->getCore()->getU32(xmlReader->getAttributeValue("enabled")));
+	read("lightScaterringPassEnabled");
+	devices->getXEffect()->enableLightScatteringPass(devices->getCore()->getU32(xmlReader->getAttributeValue("enabled")));
+	read("reflectionPassEnabled");
+	devices->getXEffect()->setReflectionPassEnabled(devices->getCore()->getU32(xmlReader->getAttributeValue("enabled")));
+
 	read("effect");
 	readWithNextElement("postProcessingEffect", "effect");
 
@@ -470,8 +503,7 @@ void CImporter::readEffects() {
 		devices->getCoreData()->getEffectFilters()->push_back(f);
 		u32 count = devices->getCoreData()->getEffectFilters()->size();
 		cCoreCallback->createLuaState(devices->getCoreData()->getEffectFilters()->operator[](count-1).getLuaState());
-		CFilterCallback *cb = new CFilterCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(),
-												  &devices->getCoreData()->getEffectFilters()->operator[](count-1));
+		CFilterCallback *cb = new CFilterCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(), f.getLuaState(), f.getCallback());
 		if (f.getMaterial() != -1) {
 			devices->getXEffect()->setPostProcessingRenderCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(), cb);
 		}
@@ -742,6 +774,15 @@ void CImporter::readTransformations(ISceneNode *_node) {
 	} else {
 		_node->setScale(scale);
 	}
+
+	//RENDERS
+	read("depthPassed");
+	if (devices->getCore()->getU32(xmlReader->getAttributeValue("value")) == 1)
+		devices->getXEffect()->addNodeToDepthPass(_node);
+
+	read("lightScatteringPassed");
+	if (devices->getCore()->getU32(xmlReader->getAttributeValue("value")) == 1)
+		devices->getXEffect()->addNodeToLightScatteringPass(_node);
 }
 
 void CImporter::readViewModes(ISceneNode *_node) {
@@ -757,6 +798,55 @@ void CImporter::readViewModes(ISceneNode *_node) {
 	devices->getDOF()->add(_node);
 }
 
+void CImporter::readPhysics(SData *data) {
+	ISceneNode *_node = data->getNode();
+	IMesh *_mesh = data->getMesh();
+
+	read("physics");
+	read("body");
+	u32 ptype = devices->getCore()->getU32(xmlReader->getAttributeValue("type"));
+
+	if (ptype == ISData::EIPT_RIGID_BODY) {
+		read("mass");
+		f32 mass = devices->getCore()->getF32(xmlReader->getAttributeValue("value"));
+
+		ICollisionShape *shape = 0;
+
+		if (_node->getType() == ESNT_MESH || _node->getType() == ESNT_OCTREE) {
+			shape = new IBvhTriangleMeshShape(_node, _mesh, mass);
+		} else if (_node->getType() == ESNT_CUBE) {
+			shape = new IBoxShape(_node, mass, false);
+		} else if (_node->getType() == ESNT_SPHERE) {
+			shape = new ISphereShape(_node, mass, false);
+		} else if (_node->getType() == ESNT_TERRAIN) {
+			//NEEDS FIXES
+			/*IMesh *mesh = ((ITerrainSceneNode*)_node)->getMesh();
+			CDynamicMeshBuffer *mb = new CDynamicMeshBuffer(EVT_2TCOORDS, EIT_32BIT);
+			((ITerrainSceneNode*)_node)->getMeshBufferForLOD(*mb);
+			shape = new IBvhTriangleMeshShape((ITerrainSceneNode*)_node, ((ITerrainSceneNode*)_node)->getMesh(), mass);*/
+		}
+
+		if (shape != 0) {
+			IRigidBody *rbody = devices->getBulletWorld()->addRigidBody(shape);
+
+			if (!devices->isOnlyForPlaying()) {
+				rbody->setActivationState(EAS_DISABLE_DEACTIVATION);
+				rbody->forceActivationState(EAS_DISABLE_DEACTIVATION);
+			}
+
+			data->setEnablePhysics(true);
+			data->setBodyType(ISData::EIPT_RIGID_BODY);
+			data->setPBodyPtr(rbody);
+		}
+	}
+	if (ptype == ISData::EIPT_SOFT_BODY) {
+
+	}
+
+	read("body");
+
+	read("physics");
+}
 //---------------------------------------------------------------------------------------------
 //-----------------------------------BUILDING PARAMETERS---------------------------------------
 //---------------------------------------------------------------------------------------------

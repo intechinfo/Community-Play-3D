@@ -434,6 +434,7 @@ void irrBulletWorld::synchronizeSingleMotionState(IRigidBody *body)
 void irrBulletWorld::setGravity(const vector3df &gravity)
 {
     getPointer()->setGravity(btVector3(gravity.X, gravity.Y, gravity.Z));
+	gravityV = gravity;
 }
 
 

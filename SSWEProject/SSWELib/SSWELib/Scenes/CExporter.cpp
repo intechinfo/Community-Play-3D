@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CExporter.h"
 
+#include "irrbullet.h"
+
 CExporter::CExporter(CDevices *_devices) {
     devices = _devices;
 }
@@ -133,6 +135,11 @@ void CExporter::exportConfig() {
 			devices->getCollisionManager()->getFPSCameraSettings()->getEllipsoidTranslation().Z);
 	fprintf(export_file, "\t\t\t <slidingValue value=\"%f\" />\n\n", devices->getCollisionManager()->getFPSCameraSettings()->getSlidingValue());
 	fprintf(export_file, "\t\t </fpsCameraSettings>\n\n");
+
+	//RENDERING
+	fprintf(export_file, "\t\t <depthPassEnabled enabled=\"%d\" />\n", devices->getXEffect()->isDepthPassEnabled());
+	fprintf(export_file, "\t\t <lightScaterringPassEnabled enabled=\"%d\" />\n", devices->getXEffect()->isLightScatteringPassEnabled());
+	fprintf(export_file, "\t\t <reflectionPassEnabled enabled=\"%d\" />\n\n", devices->getXEffect()->isReflectionPassEnabled());
     
 	//EFFECTS
 	fprintf(export_file, "\t\t <effect>\n\n");
@@ -180,6 +187,13 @@ void CExporter::exportConfig() {
 		fprintf(export_file, "\t\t\t </script>\n\n");
 	}
 	fprintf(export_file, "\n\t\t </scripts>\n\n");
+
+	fprintf(export_file, "\t\t <physics>\n");
+	fprintf(export_file, "\t\t\t <gravity X=\"%f\" Y=\"%f\" Z=\"%f\" />\n",
+		devices->getBulletWorld()->getGravity().X,
+		devices->getBulletWorld()->getGravity().Y,
+		devices->getBulletWorld()->getGravity().Z);
+	fprintf(export_file, "\t\t </physics>\n\n");
     
 	//END CONFIG
 	fprintf(export_file, "\t</config>\n\n\n\n");
@@ -213,6 +227,8 @@ void CExporter::exportTerrains() {
 		fprintf(export_file, "\t\t\t <visible bool=\"%d\" />\n", node->isVisible());
 		fprintf(export_file, "\t\t\t <shadowMode mode=\"%d\" />\n", getShadowMode(node));
 
+		exportPhysics("\t\t\t", node);
+
         
         //END TERRAIN
         fprintf(export_file, "\n\t\t </terrain>\n\n");
@@ -244,6 +260,8 @@ void CExporter::exportObjects() {
 			fprintf(export_file, stringc(stringc("\t\t\t\t ") + stringc(action->getXMLValues()) + "\n").c_str());
 		}
 		fprintf(export_file, "\t\t\t </actions>\n\n");
+
+		exportPhysics("\t\t\t", node);
 
         fprintf(export_file, "\t\t </object>\n\n");
         
@@ -547,6 +565,30 @@ void CExporter::exportTransformations(stringc tabs, ISceneNode *node) {
             node->getRotation().Z);
 	fprintf(export_file, stringc(tabs + " <scale X=\"%f\" Y=\"%f\" Z=\"%f\" />\n\n").c_str(), node->getScale().X, node->getScale().Y,
             node->getScale().Z);
+
+	//RENDERS
+	fprintf(export_file, stringc(tabs + "<depthPassed value=\"%d\" />\n").c_str(), devices->getXEffect()->isDepthPassed(node));
+	fprintf(export_file, stringc(tabs + "<lightScatteringPassed value=\"%d\" />\n\n").c_str(), devices->getXEffect()->isLightScatteringPassed(node));
+}
+
+void CExporter::exportPhysics(stringc tabs, ISceneNode *node) {
+	fprintf(export_file, stringc(tabs + " <physics>\n").c_str());
+
+	SData *data = (SData*)devices->getCoreData()->getISDataOfSceneNode(node);
+	if (data) {
+		fprintf(export_file, stringc(tabs + " \t <body type=\"%d\">\n").c_str(), data->getBodyType());
+
+		if (data->getBodyType() == ISData::EIPT_RIGID_BODY) {
+			fprintf(export_file, stringc(tabs + " \t\t <mass value=\"%f\" />\n").c_str(), ((IRigidBody*)data->getBodyPtr())->getCollisionShape()->getMass());
+		}
+		if (data->getBodyType() == ISData::EIPT_SOFT_BODY) {
+
+		}
+
+		fprintf(export_file, stringc(tabs + " \t </body>\n").c_str());
+	}
+
+	fprintf(export_file, stringc(tabs + " </physics>\n\n").c_str());
 }
 //---------------------------------------------------------------------------------------------
 //-----------------------------------GET PARAMETERS--------------------------------------------

@@ -16,6 +16,7 @@ enum CXT_EDIT_WINDOW_CHARACTER_EVENTS {
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_CLOSE,
 
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_ENTER_BONES_EDITION,
+	CXT_EDIT_WINDOW_CHARACTER_EVENTS_ADD_FRAMES,
 
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_ADD,
 	CXT_EDIT_WINDOW_CHARACTER_EVENTS_DELETE,
@@ -97,6 +98,7 @@ private:
 	IGUIStaticText *bgJointNodes;
 	IGUIListBox *jointNodesListBox;
 
+	IGUIFileOpenDialog *openMeshSkinned;
 	//-----------------------------------
 
 	//-----------------------------------

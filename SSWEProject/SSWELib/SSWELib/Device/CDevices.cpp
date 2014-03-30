@@ -17,6 +17,10 @@
 
 #include <irrbullet.h>
 
+#if defined(_WIN32)
+#include "../SceneNodes/Animators/CCameraFPS360Controller.h"
+#endif
+
 u32 TimeStamp;
 u32 DeltaTime = 0;
 
@@ -107,7 +111,9 @@ void CDevices::updateEntities() {
 		cursorBillBoard->setPosition(intersection);
         cursorBillBoard->setSize(dimension2d<f32>((ray.getLength()*1.0f)/300.f, (ray.getLength()*1.0f)/300.f));
 	}
-    objPlacement->refresh(cursorBillBoard);
+
+	if (!isOnlyForPlay)
+		objPlacement->refresh(cursorBillBoard);
 
     //UPDATE EFFECT LIGHTS
     for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
@@ -129,11 +135,6 @@ void CDevices::updateEntities() {
 			effect->getShadowLight(i).setNearValue(smgr->getActiveCamera()->getNearValue());
 		}
         
-        /*effect->getShadowLight(i).setLightColor(SColorf
-												 (((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.r,
-                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.g,
-                                                 ((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor.b,
-                                                 255));*/
         effect->getShadowLight(i).setLightColor(((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor);
     }
     
@@ -160,25 +161,22 @@ void CDevices::updateEntities() {
 	for (s32 i=0; i < worldCoreData->getWaterSurfaces()->size(); i++) {
 		if (renderXEffect) {
 			if (effect->isUsingMotionBlur()) {
-				//worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
                 worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginalRenderTarget(effect->getPostProcessMotionBlur()->getMaterial(0).TextureLayer[0].Texture);
 			} else {
-				//worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(effect->getScreenQuad().rt[1]);
                 worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginalRenderTarget(effect->getScreenQuad().rt[1]);
 			}
 		} else {
-			//worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginRTT(0);
             worldCoreData->getWaterSurfaces()->operator[](i).getWaterSurface()->setOriginalRenderTarget(0);
 		}
 	}
 
 	//PHYSICS
-	DeltaTime = Device->getTimer()->getTime() - TimeStamp;
-	TimeStamp = Device->getTimer()->getTime();
+	if (this->isOnlyForPlaying()) {
+		DeltaTime = Device->getTimer()->getTime() - TimeStamp;
+		TimeStamp = Device->getTimer()->getTime();
 
-	bulletWorld->stepSimulation(DeltaTime*0.001f);
-	bulletWorld->updateCollisionObjects();
-	bulletWorld->updateLiquidBodies();
+		bulletWorld->stepSimulation(DeltaTime*0.001f);
+	}
 }
 
 void CDevices::updateDevice() {
@@ -266,6 +264,24 @@ void CDevices::updateDevice() {
 
 	effectSmgr->drawAll();
 
+	gui->getSkin()->getFont()->draw(L"Not for commercial use and not for free use.", 
+									rect<s32>(50, driver->getScreenSize().Height - 50,
+											  400,
+											  driver->getScreenSize().Height-30), SColor(255, 255, 255, 255),
+									true, true);
+
+	stringw camPosText = "X = ";
+	camPosText += smgr->getActiveCamera()->getPosition().X;
+	camPosText += " Y = ";
+	camPosText += smgr->getActiveCamera()->getPosition().Y;
+	camPosText += " Z = ";
+	camPosText += smgr->getActiveCamera()->getPosition().Z;
+
+	gui->getSkin()->getFont()->draw(camPosText, rect<s32>(driver->getScreenSize().Width - 320,
+														  78,
+														  driver->getScreenSize().Width,
+														  90), SColor(255, 255, 255, 255), false, false);
+
     gui->drawAll();
 
 	receiver.update();
@@ -310,6 +326,24 @@ void CDevices::drawScene() {
     }
 
     effectSmgr->drawAll();
+
+	gui->getSkin()->getFont()->draw(L"Not for commercial use and not for free use.", 
+									rect<s32>(50, driver->getScreenSize().Height - 50,
+											  400,
+											  driver->getScreenSize().Height-30), SColor(255, 255, 255, 255),
+									true, true);
+
+	stringw camPosText = "X = ";
+	camPosText += smgr->getActiveCamera()->getPosition().X;
+	camPosText += " Y = ";
+	camPosText += smgr->getActiveCamera()->getPosition().Y;
+	camPosText += " Z = ";
+	camPosText += smgr->getActiveCamera()->getPosition().Z;
+
+	gui->getSkin()->getFont()->draw(camPosText, rect<s32>(driver->getScreenSize().Width - 320,
+														  78,
+														  driver->getScreenSize().Width,
+														  90), SColor(255, 255, 255, 255), false, false);
 }
 
 void CDevices::drawGUI() {
@@ -319,8 +353,9 @@ void CDevices::drawGUI() {
 }
 
 void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
-    //DEVICE
+	//XBOX 360
 
+    //DEVICE
 	Device = createDeviceEx(parameters);
     Device->setWindowCaption(L"Eternal 3D");
 	Device->setResizable(true);
@@ -381,6 +416,21 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_fps->setFarValue(42000.0f);
 	camera_fps->setName("editor:FPScamera");
 	camera_fps->setID(-1);
+	#if defined(_WIN32)
+	//list<ISceneNodeAnimator*>::ConstIterator it = camera_fps->getAnimators().begin();
+	//camera_fps->removeAnimator(*it);
+
+	CCameraAnimatorFPS360Controller *controller = new CCameraAnimatorFPS360Controller(Device->getCursorControl());
+	controller->setRotateSpeed(3.f);
+	controller->setMoveSpeed(0.09f);
+
+	if (controller->IsConnected()) {
+		camera_fps->addAnimator(controller);
+		controller->drop();
+	} else {
+		delete controller;
+	}
+	#endif
 
 	camera_maya = smgr->addCameraSceneNodeMaya();
 	camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
@@ -403,6 +453,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	cursorBillBoard->setMaterialFlag(EMF_ZBUFFER, false);
 	cursorBillBoard->setSize(dimension2d<f32>(1.0f, 1.0f));
 	cursorBillBoard->setID(-1);
+	cursorBillBoard->setVisible(!isOnlyForPlay);
 
     //-----------------------------------
 
@@ -411,17 +462,17 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	core::list<ISceneNodeAnimator *>::ConstIterator fpsAnimators = camera_fps->getAnimators().begin();
 	collisionManager->getFPSCameraSettings()->setSceneNodeAnimatorCameraFPS(((ISceneNodeAnimatorCameraFPS *)*fpsAnimators));
 	animatorFPS = ((ISceneNodeAnimatorCameraFPS *)*fpsAnimators);
-
-	objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);
+	
+	if (!isOnlyForPlay)
+		objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);
 
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
-    if (driver->getDriverType() == EDT_DIRECT3D9)
+    if (!isOnlyForPlay)
         effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
-		//effect = new EffectHandler(Device, dimension2du(800, 600), true, true, true);
-    else
-        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
-	//effect = new EffectHandler(Device, dimension2du(1280, 800), false, true, true);
+	else
+		effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
+
     effect->setActiveSceneManager(smgr);
 	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
@@ -438,7 +489,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	renderCore = new CRenderCore(this);
 
-	effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
+	if (!isOnlyForPlay)
+		effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
 
 	//ADD EVENTS
 	Device->setEventReceiver(&receiver);
@@ -446,7 +498,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	receiver.setGUI(gui);
 	
 	receiver.AddEventReceiver(this);
-    receiver.AddEventReceiver(objPlacement);
+	if (!isOnlyForPlay)
+		receiver.AddEventReceiver(objPlacement);
 	receiver.AddEventReceiver(camera_rig);
 
 	//ADVANCED GUI ASSETS
@@ -542,10 +595,51 @@ void CDevices::applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 anim
 		if (animationNumber >= sdatat->getActions()->size())
 			return;
 
+		IAnimatedMeshSceneNode *node = (IAnimatedMeshSceneNode*)sdatat->getNode();
+		if (sdatat->getActions()->operator[](animationNumber)->getAnimationPath() == "Current"
+			|| sdatat->getActions()->operator[](animationNumber)->getAnimationPath() == "")
+		{
+			((ISkinnedMesh*)node->getMesh())->useAnimationFrom((ISkinnedMesh*)sdatat->getMesh());
+		} else {
+			IAnimatedMesh *smesh = smgr->getMesh(sdatat->getActions()->operator[](animationNumber)->getAnimationPath());
+			((ISkinnedMesh*)node->getMesh())->useAnimationFrom((ISkinnedMesh*)smesh);
+		}
+
 		((IAnimatedMeshSceneNode*)node)->setFrameLoop(sdatat->getActions()->operator[](animationNumber)->getStart(),
 													  sdatat->getActions()->operator[](animationNumber)->getEnd());
 		((IAnimatedMeshSceneNode*)node)->setAnimationSpeed(sdatat->getActions()->operator[](animationNumber)->getAnimSpeed());
 	}
+}
+
+void CDevices::applyAnimationFromNameToModel(irr::scene::ISceneNode *node, irr::core::stringc name) {
+	SObjectsData *sdatat = (SObjectsData*)worldCoreData->getISDataOfSceneNode(node);
+	if (sdatat) {
+		for (u32 i=0; i < sdatat->getActions()->size(); i++) {
+			if (name.make_upper() == sdatat->getActions()->operator[](i)->getName().make_upper()) {
+				this->applyAnimationToModel(node, i);
+				break;
+			}
+		}
+	}
+}
+
+irr::s32 CDevices::getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node) {
+	IAnimatedMesh *mesh = ((IAnimatedMeshSceneNode*)node)->getMesh();
+	SObjectsData *sdatat = (SObjectsData*)worldCoreData->getISDataOfSceneNode(node);
+	if (sdatat) {
+		for (u32 i=0; i < sdatat->getActions()->size(); i++) {
+			if (((IAnimatedMeshSceneNode*)node)->getFrameNr() >= sdatat->getActions()->operator[](i)->getStart()
+				&& ((IAnimatedMeshSceneNode*)node)->getFrameNr() <= sdatat->getActions()->operator[](i)->getEnd())
+			{
+				for (u32 j=0; j < sdatat->getAnimationMeshes()->size(); j++) {
+					if (mesh == sdatat->getAnimationMeshes()->operator[](j)) {
+						return i;
+					}
+				}
+			}
+		}
+	}
+	return -1;
 }
 
 bool CDevices::OnEvent(const SEvent &event) {
@@ -625,7 +719,8 @@ bool CDevices::OnEvent(const SEvent &event) {
     if (event.EventType == EET_MOUSE_INPUT_EVENT) {
         if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
             setEditBoxEntered(false);
-            getObjectPlacement()->setAllowMoving(true);
+			if (!isOnlyForPlay)
+				getObjectPlacement()->setAllowMoving(true);
         }
     }
     

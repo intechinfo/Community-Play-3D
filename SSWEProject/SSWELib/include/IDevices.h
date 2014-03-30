@@ -77,6 +77,8 @@ public:
 	virtual irr::scene::ISceneNode *getCursor() = 0;
 
 	virtual void applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber) = 0;
+	virtual void applyAnimationFromNameToModel(irr::scene::ISceneNode *node, irr::core::stringc name) = 0;
+	virtual irr::s32 getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node) = 0;
 
 	virtual irr::core::stringw getProjectName() = 0;
 	//-----------------------------------

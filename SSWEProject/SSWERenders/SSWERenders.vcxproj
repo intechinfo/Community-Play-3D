@@ -199,6 +199,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="Renders\DepthOfField\shadergroup.cpp" />
     <ClCompile Include="Renders\DepthOfField\shadermaterial.cpp" />
     <ClCompile Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp" />
+    <ClCompile Include="Renders\XEffect\CPSSMUtils.cpp" />
     <ClCompile Include="Renders\XEffect\CShaderPre.cpp" />
     <ClCompile Include="Renders\XEffect\EffectHandler.cpp" />
     <ClCompile Include="SSWERenders.cpp" />
@@ -213,6 +214,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="Renders\DepthOfField\shadermaterial.h" />
     <ClInclude Include="Renders\PostProcessor\PostProcessMotionBlurhlsl.h" />
     <ClInclude Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h" />
+    <ClInclude Include="Renders\XEffect\CPSSMUtils.h" />
     <ClInclude Include="Renders\XEffect\CScreenQuad.h" />
     <ClInclude Include="Renders\XEffect\CShaderPre.h" />
     <ClInclude Include="Renders\XEffect\EffectCB.h" />

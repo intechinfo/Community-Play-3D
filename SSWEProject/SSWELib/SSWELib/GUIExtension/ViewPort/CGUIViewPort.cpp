@@ -7,6 +7,8 @@
 #include <IVideoDriver.h>
 #include <IGUISkin.h>
 
+#include "../../SSWERenders/Renders/XEffect/CScreenQuad.h"
+
 namespace irr {
     namespace gui {
         
@@ -30,7 +32,7 @@ namespace irr {
             }
         }
         
-        bool CGUIViewport::OnEvent(SEvent event) {
+        bool CGUIViewport::OnEvent(const SEvent &event) {
             bool absorbed = false;
             
             if (SceneManager)

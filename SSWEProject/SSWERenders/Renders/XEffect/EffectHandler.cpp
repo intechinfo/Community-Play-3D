@@ -28,20 +28,31 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
 
 	//LIGHT SCATTERING PASS
-	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
-	IImage *imLightScatteringRTT = driver->createImage(irr::video::ECF_R5G6B5, dimension2du(4, 4));
-	for (u32 i=0; i < 4; i++) {
-		for (u32 j=0; j < 4; j++) {
-			imLightScatteringRTT->setPixel(i, j, SColor(255, 0, 0, 0));
-		}
-	}
-	blackTextureLS = driver->addTexture("LightScatteringBlackTexture", imLightScatteringRTT);
-	imLightScatteringRTT->drop();
+	LightScatteringRTT = driver->addRenderTargetTexture(dimension2du(32, 32), "LightScatteringRTT");
 	useLightScattering = false;
+
+	//HDR PIPELINE
+	const u32 hdr_rtt0_size = 32;//((ScreenRTTSize.Width * ScreenRTTSize.Height) * 32) / (800 * 600);
+	mainTarget = driver->addRenderTargetTexture(ScreenRTTSize,"HDRMainTarget");
+	hdrRTT0 = driver->addRenderTargetTexture(core::dimension2du(64, 64),"rtt0");
+	hdrScreenQuad = new CScreenQuadHDRPipeline(smgr->getRootSceneNode(),smgr,10, ScreenRTTSize);
+	motionBlurRTT0 = driver->addRenderTargetTexture(ScreenRTTSize,"motionBlurRTT0");
+	temp = driver->addRenderTargetTexture(ScreenRTTSize, "temp");
+
+	//PSSM
+	u32 TextureSize = 512;
+	PSSMRT0 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F); // First texture is 2x higher
+    PSSMRT1 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F);
+    PSSMRT2 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F);
+    PSSMRT0 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F);
+	RT.push_back(PSSMRT0);
+    RT.push_back(PSSMRT1);
+    RT.push_back(PSSMRT2);
+    RT.push_back(PSSMRT3);
 
 	//REFLECTION PASS
 	useReflectionPass = false;
-	ReflectionRTT = driver->addRenderTargetTexture(ScreenRTTSize, "ReflectionPassRTT");
+	ReflectionRTT = driver->addRenderTargetTexture(dimension2du(512, 512), "ReflectionPassRTT");
 	cameraForPasses = smgr->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0, 0, 0), -1, false);
 
 	//OTHERS
@@ -96,6 +107,18 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 														   sPP.ppShader(SELECTION_PASS_P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
 														   new SelectionPassCB(this), video::EMT_SOLID);
 		#endif
+
+		PSSMUtils = new CPSSMUtils(cameraForPasses, 3, 0.5);
+		device->getLogger()->setLogLevel(ELL_INFORMATION);
+		PSSMDepth = gpu->addHighLevelShaderMaterial(
+			sPP.ppShader(PSSM_DEPTH_V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
+			sPP.ppShader(PSSM_DEPTH_P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
+			new CPSSMDepthCallBack(PSSMUtils), video::EMT_SOLID);
+
+		PSSMMat = gpu->addHighLevelShaderMaterial(
+			sPP.ppShader(PSSM_V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_3_0,
+			sPP.ppShader(PSSM_P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_3_0,
+			new CPSSMCallBack(PSSMUtils), video::EMT_SOLID);
         
 		if(useRoundSpotLights)
 			sPP.addShaderDefine("ROUND_SPOTLIGHTS");
@@ -182,6 +205,8 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	dof->range = 4.6f;
 	
 	useDOF = false;
+
+	
 }
 
 EffectHandler::~EffectHandler()
@@ -308,7 +333,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 		ICameraSceneNode* activeCam = smgr->getActiveCamera();
 		activeCam->OnAnimate(device->getTimer()->getTime());
-		activeCam->OnRegisterSceneNode();
+		//activeCam->OnRegisterSceneNode();
 		activeCam->render();
 
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
@@ -468,6 +493,10 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			for(u32 m = 0;m < CurrentMaterialCount;++m)
 				ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
 		}
+		/*skyNode->setMaterialType((E_MATERIAL_TYPE)WhiteWash);
+		skyNode->OnAnimate(device->getTimer()->getTime());
+		skyNode->render();
+		skyNode->setMaterialType(EMT_SOLID);*/
 	}
 	else
 	{
@@ -494,7 +523,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		f32 distanceLength = smgr->getActiveCamera()->getRotation().getDistanceFrom(lastCameraRotation);
 		f32 seconds = (device->getTimer()->getTime() - motionBlur->getCallback()->m_time) / 1000.f;
 		motionBlur->getCallback()->m_Strength = ((distanceLength/seconds) * 0.4f) / (25.f / seconds);
-		dof->range = ((distanceLength/seconds) * 9.9) / (50.f / seconds);
+		dof->range = ((distanceLength/seconds) * 9.9) / (1000.f / seconds);
 
 		if (motionBlur->getCallback()->m_Strength > 0.4f) {
 			motionBlur->getCallback()->m_Strength = 0.4f;
@@ -531,6 +560,12 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	if (useLightScattering) {
 		driver->setRenderTarget(LightScatteringRTT, true, true, SColor(255, 0, 0, 0));
 
+		core::array<bool> BufferLightsStates;
+		BufferLightsStates.set_used(driver->getDynamicLightCount());
+
+		for (u32 g=0; g < driver->getDynamicLightCount(); g++)
+			driver->turnLightOn(g, false);
+
 		for(u32 i = 0;i < LightScatteringPass.size();++i)
 		{
 			core::array<irr::video::SMaterial> BufferMaterialList(LightScatteringPass[i]->getMaterialCount());
@@ -541,10 +576,18 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
             
 			ESCENE_NODE_TYPE type = LightScatteringPass[i]->getType();
 
-			if (type == ESNT_MESH || type == ESNT_ANIMATED_MESH || type == ESNT_OCTREE || type == ESNT_TERRAIN
-				|| type == ESNT_CUBE || type == ESNT_SPHERE) {
-				LightScatteringPass[i]->setMaterialType(irr::video::EMT_SOLID);
-				LightScatteringPass[i]->setMaterialTexture(0, blackTextureLS);
+			if (type != ESNT_BILLBOARD) {
+				for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g) {
+					if (LightScatteringPass[i]->getMaterial(g).MaterialType > EMT_ONETEXTURE_BLEND) {
+						LightScatteringPass[i]->setMaterialType(irr::video::EMT_SOLID);
+						break;
+					}
+				}
+
+				LightScatteringPass[i]->setMaterialFlag(EMF_LIGHTING, true);
+				for (u32 g=0; g < LightScatteringPass[i]->getMaterialCount(); g++) {
+					LightScatteringPass[i]->getMaterial(g).EmissiveColor = SColor(255, 0, 0, 0);
+				}
 			}
             
             LightScatteringPass[i]->OnAnimate(device->getTimer()->getTime());
@@ -553,6 +596,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g)
 				LightScatteringPass[i]->getMaterial(g) = BufferMaterialList[g];
 		}
+
+		for (u32 g=0; g < driver->getDynamicLightCount(); g++)
+				driver->turnLightOn(g, BufferLightsStates[g]);
         
         driver->setRenderTarget(0, false, false);
 	}
@@ -648,7 +694,62 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			ScreenQuad.getMaterial().setTexture(2, DepthRTT);
 		}
 	}
-    
+
+	//HDR PIPELINE
+	video::SColor colors[] =
+	{
+		video::SColor(255,96,96,96),
+		video::SColor(255,96,96,96),
+		video::SColor(255,96,96,96),
+		video::SColor(255,96,96,96)
+	};
+	hdrScreenQuad->getMaterial(0).setTexture(0,mainTarget);
+	hdrScreenQuad->getMaterial(0).setTexture(1,hdrRTT0);
+	driver->setRenderTarget(mainTarget,true,true,video::SColor(255,128,160,160));
+	ScreenQuad.render(driver);
+	driver->setRenderTarget(hdrRTT0,true,true,video::SColor(0,0,0,0));
+	driver->draw2DImage(mainTarget, core::rect<s32>(0 ,0 , 64, 64),
+						core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height), 0, colors);
+	driver->setRenderTarget(video::ERT_FRAME_BUFFER,true,true);
+	hdrScreenQuad->render();
+
+	/// Motion Blur
+	/*video::SColor colors1[] =
+	{
+		video::SColor(255,224,224,224),
+		video::SColor(255,224,224,224),
+		video::SColor(255,224,224,224),
+		video::SColor(255,224,224,224)
+	};
+
+	video::SColor colors2[] =
+	{
+		video::SColor(255,32,32,32),
+		video::SColor(255,32,32,32),
+		video::SColor(255,32,32,32),
+		video::SColor(255,32,32,32)
+	};
+
+	hdrScreenQuad->getMaterial(0).setTexture(0, mainTarget);
+	hdrScreenQuad->getMaterial(0).setTexture(1, motionBlurRTT0);
+	driver->setRenderTarget(motionBlurRTT0, true, true);
+	driver->draw2DImage(temp, core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height),
+						core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height), 0, colors1);//Scale the colors of the previous render
+	driver->setRenderTarget(mainTarget, true, true, video::SColor(255, 128, 160, 160));
+	//hdrScreenQuad->render();
+	ScreenQuad.render(driver);
+	driver->setRenderTarget(temp, true, true);
+	driver->draw2DImage(mainTarget, core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height),
+						core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height), 0, colors2);//Scale the colors of the main Scene
+	driver->setRenderTarget(mainTarget, true, true);
+	driver->draw2DImage(temp, core::rect<s32>(0,0,ScreenRTTSize.Width, ScreenRTTSize.Height),
+						core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height));
+	//Return TEMP to the mainTarget
+	driver->setRenderTarget(temp, true, true);
+	hdrScreenQuad->render();//Draw the screenquad into temp
+	driver->setRenderTarget(video::ERT_FRAME_BUFFER, true, true);
+	driver->draw2DImage(temp, core::position2di(0, 0));*/
+
 }
 
 irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id)

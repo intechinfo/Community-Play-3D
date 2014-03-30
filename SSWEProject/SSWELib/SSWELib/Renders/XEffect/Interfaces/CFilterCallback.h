@@ -21,17 +21,22 @@ class CFilterCallback : public IPostProcessingRenderCallback {
 
 public:
 
-	CFilterCallback(irr::s32 materialTypeIn, SFilter *_fs);
+	CFilterCallback(irr::s32 materialTypeIn, lua_State *L, irr::core::stringw callback);
 
-	void OnPreRender(EffectHandler* effect);
+	void OnPreRender(ISSWERender* effect);
     
-	void OnPostRender(EffectHandler* effect);
+	void OnPostRender(ISSWERender* effect);
 
 	s32 materialType;
 
+	irr::core::stringw *getCallbackPtr() { return &callback; }
+	irr::core::stringw getCallback() { return callback; }
+	void updateCallback(stringw newCallback);
+
 private:
 
-	SFilter *fs;
+	lua_State *L;
+	irr::core::stringw callback;
 
 };
 

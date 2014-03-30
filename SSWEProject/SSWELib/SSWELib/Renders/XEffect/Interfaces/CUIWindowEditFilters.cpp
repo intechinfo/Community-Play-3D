@@ -105,7 +105,7 @@ void CUIWindowEditFilters::reloadFilters() {
 	logText += L"Compiling Filters\n\n";
 	logEditBox->setText(L"");
 
-	devices->getXEffect()->removeAllPostProcessingEffects();
+	devices->getXEffect()->removeAllPostProcessingEffects(false);
 
 	array<SFilter> *arrayf = devices->getCoreData()->getEffectFilters();
 	array<stringc> newCodes;
@@ -134,10 +134,9 @@ void CUIWindowEditFilters::reloadFilters() {
 			errors += arrayf->operator[](i).getName();
 			errors += "\n";
 		} else {
-			//devices->getXEffect()->setPostProcessingRenderCallback(materialTypes[i], arrayf->operator[](i).getPostProcessingCallback());
-			CFilterCallback *cb = new CFilterCallback(materialTypes[i], &arrayf->operator[](i));
-			devices->getXEffect()->setPostProcessingRenderCallback(materialTypes[i], cb);
-			arrayf->operator[](i).setPostProcessingCallback(cb);
+			devices->getXEffect()->setPostProcessingRenderCallback(materialTypes[i], arrayf->operator[](i).getPostProcessingCallback());
+			arrayf->operator[](i).setCallback(((CFilterCallback*)arrayf->operator[](i).getPostProcessingCallback())->getCallback());
+			((CFilterCallback*)arrayf->operator[](i).getPostProcessingCallback())->materialType = materialTypes[i];
 		}
 		arrayf->operator[](i).setMaterial(materialTypes[i]);
 	}
@@ -212,14 +211,13 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 				devices->getCoreData()->getEffectFilters()->push_back(f);
 				u32 count = devices->getCoreData()->getEffectFilters()->size();
 				fcallback->createLuaState(devices->getCoreData()->getEffectFilters()->operator[](count-1).getLuaState());
-				CFilterCallback *cb = new CFilterCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(),
-														  &devices->getCoreData()->getEffectFilters()->operator[](count-1));
-				if (f.getMaterial() != -1) {
+				CFilterCallback *cb = new CFilterCallback(f.getMaterial(), f.getLuaState(), f.getCallback());
+				if (devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial() != -1) {
 					devices->getXEffect()->setPostProcessingRenderCallback(devices->getCoreData()->getEffectFilters()->operator[](count-1).getMaterial(), cb);
 				}
 				devices->getCoreData()->getEffectFilters()->operator[](count-1).setPostProcessingCallback(cb);
 
-				filters->addItem(stringw(f.getName()).c_str());
+				filters->addItem(name.c_str());
 				filters->setSelected(filters->getItemCount()-1);
 			}
 		}
@@ -246,7 +244,7 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 				SFilter f;
 				f.createLuaState();
 				fcallback->createLuaState(f.getLuaState());
-				CFilterCallback *cb = new CFilterCallback(f.getMaterial(), &f);
+				CFilterCallback *cb = new CFilterCallback(f.getMaterial(), f.getLuaState(), f.getCallback());
 				f.setPostProcessingCallback(cb);
 				devices->getCoreData()->getEffectFilters()->push_back(f);
 				filters->addItem(stringw(f.getName()).c_str());
@@ -271,7 +269,10 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == editCallback) {
 				s32 selected = filters->getSelected();
 				if (selected != -1) {
-					CUICodeEditor *codeEditor = new CUICodeEditor(devices, devices->getCoreData()->getEffectFilters()->operator[](selected).getCallbackPtr(), true);
+					//CUICodeEditor *codeEditor = new CUICodeEditor(devices, devices->getCoreData()->getEffectFilters()->operator[](selected).getCallbackPtr(), true);
+					u32 indice = devices->getXEffect()->getPostProcessingEffectSize() - filters->getItemCount() + filters->getSelected();
+					CFilterCallback *callbackF = (CFilterCallback*)devices->getXEffect()->getPostProcessingEffectCallbackPtr(indice);
+					CUICodeEditor *codeEditor = new CUICodeEditor(devices, callbackF->getCallbackPtr(), true);
 					codeEditor->setAutoSave(true);
 				}
 			}

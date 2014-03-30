@@ -179,7 +179,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>SSWE_EDITOR;WIN32;_WINDOWS;NDEBUG;_USRDLL;SSWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -200,8 +200,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalDependencies>SSWECore_f.lib;SSWERenders_f.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;winmm.lib;Irrlicht_f.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)OculusSDK\LibOVR\Lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWECore_f.lib;SSWERenders_f.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;winmm.lib;Irrlicht_f.lib;BulletCollision_vs2010.lib;BulletDynamics_vs2010.lib;BulletSoftBody_vs2010.lib;ConvexDecomposition_vs2010.lib;LinearMath_vs2010.lib;irrBullet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Release;$(SolutionDir)Bullet\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
@@ -225,6 +225,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp" />
     <ClCompile Include="SSWELib\CharacterEdition\CAction.cpp" />
+    <ClCompile Include="SSWELib\CharacterEdition\CUICharacterManager.cpp" />
     <ClCompile Include="SSWELib\CharacterEdition\CUICharacterWindow.cpp" />
     <ClCompile Include="SSWELib\CharacterEdition\CUIEditBones.cpp" />
     <ClCompile Include="SSWELib\CharacterEdition\ManualAnimation\CAnimation.cpp" />
@@ -252,6 +253,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.cpp" />
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.cpp" />
     <ClCompile Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.cpp" />
+    <ClCompile Include="SSWELib\SceneNodes\Animators\CCameraFPS360Controller.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\Animators\CRotationAnimator.cpp" />
     <ClCompile Include="SSWELib\SceneNodes\Camera\CRiggedCamera.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -344,6 +346,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWELib.h" />
     <ClInclude Include="SSWELib\CharacterEdition\CAction.h" />
+    <ClInclude Include="SSWELib\CharacterEdition\CUICharacterManager.h" />
     <ClInclude Include="SSWELib\CharacterEdition\CUICharacterWindow.h" />
     <ClInclude Include="SSWELib\CharacterEdition\CUIEditBones.h" />
     <ClInclude Include="SSWELib\CharacterEdition\ManualAnimation\CAnimation.h" />
@@ -372,6 +375,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditFilters.h" />
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterials.h" />
     <ClInclude Include="SSWELib\Renders\XEffect\Interfaces\CUIWindowEditMaterialsCallback.h" />
+    <ClInclude Include="SSWELib\SceneNodes\Animators\CCameraFPS360Controller.h" />
     <ClInclude Include="SSWELib\SceneNodes\Animators\CRotationAnimator.h" />
     <ClInclude Include="SSWELib\SceneNodes\Animators\ISceneNodeAnimatorFinishing.h" />
     <ClInclude Include="SSWELib\SceneNodes\Camera\CRiggedCamera.h">
