@@ -14,13 +14,17 @@ namespace irr
 		m_spacing(spacing), m_size(size), 
 		m_gridcolor(gridcolor), m_accentgridcolor(accentgridcolor),
         m_accentlineoffset(accentlineoffset), m_AxisLineState(axislinestate),
-		m_XLineColor(video::SColor(255,255,0,0)), m_ZLineColor(video::SColor(255,0,0,255)) {
+		m_XLineColor(video::SColor(255,255,0,0)), m_ZLineColor(video::SColor(255,0,0,255))
+        {
             Buffer.Material.Wireframe = false;
             Buffer.Material.Lighting = false;
             Buffer.Material.Thickness = 1;
             Buffer.Material.FogEnable = false;
             Buffer.Material.ZWriteEnable = true;
-			Buffer.Material.ZBuffer = video::ECFN_NEVER;
+            if (smgr->getVideoDriver()->getDriverType() == video::EDT_OPENGL)
+                Buffer.Material.ZBuffer = video::ECFN_ALWAYS;
+            else
+                Buffer.Material.ZBuffer = video::ECFN_NEVER;
             
             AutomaticCullingState = EAC_FRUSTUM_BOX;
             

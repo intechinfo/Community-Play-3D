@@ -108,9 +108,16 @@ void COpenSCADDocument::buildObject() {
 	FILE *export_file = fopen(stringc(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/temp/temp_openscad" + cur + ".scad").c_str(), "w");
 	fprintf(export_file, "%s\n", stringc(openscadCode).c_str());
 	fclose(export_file);
+    #ifndef _IRR_OSX_PLATFORM_
 	std::system(stringc(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/openscad.exe -o "
 		+ workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/" + "temp/test" + cur + ".stl "
 		+ workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/" + "temp/temp_openscad" + cur + ".scad").c_str());
+    #else
+    stringc ppath = "\"";
+    system(stringc(ppath + workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/OpenSCAD.app/Contents/MacOS/OpenSCAD\" -o "
+                        + "\"" + workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/" + "temp/test" + cur + ".stl\" "
+                        + "\"" + workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/" + "temp/temp_openscad" + cur + ".scad\"").c_str());
+    #endif
 
 	/// Add the object
 	/// Lock the main thread to add the object to the scene

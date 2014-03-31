@@ -260,14 +260,8 @@
 		0E2E3D381103E3F4002DE8D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0930CE550EC39F4500D63866 /* IOKit.framework */; };
 		0E2E3D701103E6C6002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D681103E6C6002DE8D7 /* main.cpp */; };
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
-		2E1C22E41893036B003033A3 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
-		2E1C22E51893036E003033A3 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
 		2E1C22F418930905003033A3 /* libSSWELib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60F91829835E00FB1027 /* libSSWELib.a */; };
-		2E1C22FE18930B68003033A3 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E1C22FF18930B68003033A3 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E1C230018930B68003033A3 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
 		2E202BE4187B55D000F44BB0 /* CUIWindowEditFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */; };
-		2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
 		2E2CA48F182D6DD7000BA9DA /* CCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C601D182981B700FB1027 /* CCollisionManager.h */; };
 		2E2CA491182D6DD7000BA9DA /* CCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6020182981B700FB1027 /* CCore.h */; };
@@ -335,13 +329,6 @@
 		2E6C605E182981C800FB1027 /* SSWECore.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6032182981B700FB1027 /* SSWECore.h */; };
 		2E6C605F182981C800FB1027 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6033182981B700FB1027 /* stdafx.cpp */; };
 		2E6C6060182981C800FB1027 /* stdafx.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6034182981B700FB1027 /* stdafx.h */; };
-		2E6C627D182983CD00FB1027 /* DLLExport.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C60FC182983A200FB1027 /* DLLExport.h */; };
-		2E6C627E182983CD00FB1027 /* IDevices.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C60FD182983A200FB1027 /* IDevices.h */; };
-		2E6C627F182983CD00FB1027 /* IGraphicTool.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C60FE182983A200FB1027 /* IGraphicTool.h */; };
-		2E6C6280182983CD00FB1027 /* IMonitor.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C60FF182983A200FB1027 /* IMonitor.h */; };
-		2E6C6281182983CD00FB1027 /* IMonitorRegisterer.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6100182983A200FB1027 /* IMonitorRegisterer.h */; };
-		2E6C6282182983CD00FB1027 /* ISSWELibPlugin.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6101182983A200FB1027 /* ISSWELibPlugin.h */; };
-		2E6C6283182983CD00FB1027 /* ITool.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6102182983A200FB1027 /* ITool.h */; };
 		2E6C6284182983CD00FB1027 /* CAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6105182983A200FB1027 /* CAction.cpp */; };
 		2E6C6285182983CD00FB1027 /* CAction.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6106182983A200FB1027 /* CAction.h */; };
 		2E6C6286182983CD00FB1027 /* CUICharacterWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C6107182983A200FB1027 /* CUICharacterWindow.cpp */; };
@@ -503,30 +490,108 @@
 		2E6C6328182983CD00FB1027 /* SSWELib.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C61CC182983A500FB1027 /* SSWELib.h */; };
 		2E6C6329182983CD00FB1027 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C61CD182983A500FB1027 /* stdafx.cpp */; };
 		2E6C632A182983CD00FB1027 /* stdafx.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C61CE182983A500FB1027 /* stdafx.h */; };
-		2E6C632B1829847400FB1027 /* libSSWECore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60191829818300FB1027 /* libSSWECore.a */; };
-		2E6C632C1829847400FB1027 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
-		2E6C632D1829847B00FB1027 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
-		2E6C632F1829859B00FB1027 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
-		2E6C6330182985A000FB1027 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
-		2E6C6331182985A400FB1027 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E6C6341182985E100FB1027 /* SSWE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C633E182985E100FB1027 /* SSWE.cpp */; };
 		2E6C6342182985E100FB1027 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C633F182985E100FB1027 /* stdafx.cpp */; };
-		2E6C634D182986E000FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
-		2E6C6357182987EB00FB1027 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E6C6358182987EB00FB1027 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E6C6359182987EB00FB1027 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
-		2E6C635B1829889D00FB1027 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
 		2E6E673C182D909A00A79A68 /* CSSWELibTestPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E6738182D909A00A79A68 /* CSSWELibTestPlugin.cpp */; };
 		2E6E673D182D909A00A79A68 /* CSSWELibTestPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E6739182D909A00A79A68 /* CSSWELibTestPlugin.h */; };
-		2E6E6741182D91A300A79A68 /* libSSWELib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60F91829835E00FB1027 /* libSSWELib.a */; };
-		2E6E6742182D91A300A79A68 /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
-		2E6E6743182D925600A79A68 /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
-		2E6E6744182D925600A79A68 /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
-		2E6E6745182D925600A79A68 /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
+		2E6E763918E99F9500A1D14D /* boxshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E744218E99F9300A1D14D /* boxshape.cpp */; };
+		2E6E763A18E99F9500A1D14D /* boxshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E744318E99F9300A1D14D /* boxshape.h */; };
+		2E6E763B18E99F9500A1D14D /* bulletworld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E744418E99F9300A1D14D /* bulletworld.cpp */; };
+		2E6E763C18E99F9500A1D14D /* bulletworld.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E744518E99F9300A1D14D /* bulletworld.h */; };
+		2E6E763D18E99F9500A1D14D /* bvhtrianglemeshshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E744618E99F9300A1D14D /* bvhtrianglemeshshape.cpp */; };
+		2E6E763E18E99F9500A1D14D /* bvhtrianglemeshshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E744718E99F9300A1D14D /* bvhtrianglemeshshape.h */; };
+		2E6E763F18E99F9500A1D14D /* collisioncallbackinformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E744818E99F9300A1D14D /* collisioncallbackinformation.cpp */; };
+		2E6E764018E99F9500A1D14D /* collisioncallbackinformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E744918E99F9300A1D14D /* collisioncallbackinformation.h */; };
+		2E6E764118E99F9500A1D14D /* collisionobject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E744A18E99F9300A1D14D /* collisionobject.cpp */; };
+		2E6E764218E99F9500A1D14D /* collisionobject.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E744B18E99F9300A1D14D /* collisionobject.h */; };
+		2E6E764318E99F9500A1D14D /* collisionobjectaffector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E744C18E99F9300A1D14D /* collisionobjectaffector.cpp */; };
+		2E6E764418E99F9500A1D14D /* collisionobjectaffector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E744D18E99F9400A1D14D /* collisionobjectaffector.h */; };
+		2E6E764518E99F9500A1D14D /* collisionobjectaffectorattract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E744E18E99F9400A1D14D /* collisionobjectaffectorattract.cpp */; };
+		2E6E764618E99F9500A1D14D /* collisionobjectaffectorattract.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E744F18E99F9400A1D14D /* collisionobjectaffectorattract.h */; };
+		2E6E764718E99F9500A1D14D /* collisionobjectaffectordelete.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E745018E99F9400A1D14D /* collisionobjectaffectordelete.cpp */; };
+		2E6E764818E99F9500A1D14D /* collisionobjectaffectordelete.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E745118E99F9400A1D14D /* collisionobjectaffectordelete.h */; };
+		2E6E764918E99F9500A1D14D /* collisionshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E745218E99F9400A1D14D /* collisionshape.cpp */; };
+		2E6E764A18E99F9500A1D14D /* collisionshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E745318E99F9400A1D14D /* collisionshape.h */; };
+		2E6E764B18E99F9500A1D14D /* convexhullshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E745418E99F9400A1D14D /* convexhullshape.cpp */; };
+		2E6E764C18E99F9500A1D14D /* convexhullshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E745518E99F9400A1D14D /* convexhullshape.h */; };
+		2E6E765218E99F9500A1D14D /* gimpactmeshshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E745F18E99F9400A1D14D /* gimpactmeshshape.cpp */; };
+		2E6E765318E99F9500A1D14D /* gimpactmeshshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E746018E99F9400A1D14D /* gimpactmeshshape.h */; };
+		2E6E765418E99F9500A1D14D /* irrbullet_compile_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E746118E99F9400A1D14D /* irrbullet_compile_config.h */; };
+		2E6E765518E99F9500A1D14D /* irrbullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E746318E99F9400A1D14D /* irrbullet.cpp */; };
+		2E6E765618E99F9500A1D14D /* irrbullet.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E746518E99F9400A1D14D /* irrbullet.h */; };
+		2E6E765718E99F9500A1D14D /* irrbulletcommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E746818E99F9400A1D14D /* irrbulletcommon.cpp */; };
+		2E6E765818E99F9500A1D14D /* irrbulletcommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E746918E99F9400A1D14D /* irrbulletcommon.h */; };
+		2E6E765918E99F9500A1D14D /* kinematiccharactercontroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E746A18E99F9400A1D14D /* kinematiccharactercontroller.cpp */; };
+		2E6E765A18E99F9500A1D14D /* kinematiccharactercontroller.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E746B18E99F9400A1D14D /* kinematiccharactercontroller.h */; };
+		2E6E765B18E99F9500A1D14D /* liquidbody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E746C18E99F9400A1D14D /* liquidbody.cpp */; };
+		2E6E765C18E99F9500A1D14D /* liquidbody.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E746D18E99F9500A1D14D /* liquidbody.h */; };
+		2E6E765D18E99F9500A1D14D /* motionstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E746E18E99F9500A1D14D /* motionstate.cpp */; };
+		2E6E765E18E99F9500A1D14D /* motionstate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E746F18E99F9500A1D14D /* motionstate.h */; };
+		2E6E765F18E99F9500A1D14D /* physicsdebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E747018E99F9500A1D14D /* physicsdebug.cpp */; };
+		2E6E766018E99F9500A1D14D /* physicsdebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E747118E99F9500A1D14D /* physicsdebug.h */; };
+		2E6E766118E99F9500A1D14D /* raycastvehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E747218E99F9500A1D14D /* raycastvehicle.cpp */; };
+		2E6E766218E99F9500A1D14D /* raycastvehicle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E747318E99F9500A1D14D /* raycastvehicle.h */; };
+		2E6E766318E99F9500A1D14D /* rigidbody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E747418E99F9500A1D14D /* rigidbody.cpp */; };
+		2E6E766418E99F9500A1D14D /* rigidbody.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E747518E99F9500A1D14D /* rigidbody.h */; };
+		2E6E766518E99F9500A1D14D /* softbody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E747618E99F9500A1D14D /* softbody.cpp */; };
+		2E6E766618E99F9500A1D14D /* softbody.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E747718E99F9500A1D14D /* softbody.h */; };
+		2E6E766718E99F9500A1D14D /* sphereshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E747818E99F9500A1D14D /* sphereshape.cpp */; };
+		2E6E766818E99F9500A1D14D /* sphereshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E747918E99F9500A1D14D /* sphereshape.h */; };
+		2E6E766918E99F9500A1D14D /* trianglemeshshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E747A18E99F9500A1D14D /* trianglemeshshape.cpp */; };
+		2E6E766A18E99F9500A1D14D /* trianglemeshshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E747B18E99F9500A1D14D /* trianglemeshshape.h */; };
+		2E6E766B18E9A07D00A1D14D /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
+		2E6E76A118E9A3B100A1D14D /* DLLExport.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769118E9A3B100A1D14D /* DLLExport.h */; };
+		2E6E76A218E9A3B100A1D14D /* ICollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769218E9A3B100A1D14D /* ICollisionManager.h */; };
+		2E6E76A318E9A3B100A1D14D /* IDevices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769318E9A3B100A1D14D /* IDevices.h */; };
+		2E6E76A418E9A3B100A1D14D /* IGraphicTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769418E9A3B100A1D14D /* IGraphicTool.h */; };
+		2E6E76A518E9A3B100A1D14D /* IGUICodeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769518E9A3B100A1D14D /* IGUICodeEditor.h */; };
+		2E6E76A618E9A3B100A1D14D /* IMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769618E9A3B100A1D14D /* IMonitor.h */; };
+		2E6E76A718E9A3B100A1D14D /* IMonitorRegisterer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769718E9A3B100A1D14D /* IMonitorRegisterer.h */; };
+		2E6E76A818E9A3B100A1D14D /* ISSWECore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769818E9A3B100A1D14D /* ISSWECore.h */; };
+		2E6E76A918E9A3B100A1D14D /* ISSWECoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769918E9A3B100A1D14D /* ISSWECoreData.h */; };
+		2E6E76AA18E9A3B100A1D14D /* ISSWECoreUserInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769A18E9A3B100A1D14D /* ISSWECoreUserInterface.h */; };
+		2E6E76AB18E9A3B100A1D14D /* ISSWEEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769B18E9A3B100A1D14D /* ISSWEEvents.h */; };
+		2E6E76AC18E9A3B100A1D14D /* ISSWEImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769C18E9A3B100A1D14D /* ISSWEImporter.h */; };
+		2E6E76AD18E9A3B100A1D14D /* ISSWELibPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769D18E9A3B100A1D14D /* ISSWELibPlugin.h */; };
+		2E6E76AE18E9A3B100A1D14D /* ISSWERender.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769E18E9A3B100A1D14D /* ISSWERender.h */; };
+		2E6E76AF18E9A3B100A1D14D /* ISSWEShaderCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769F18E9A3B100A1D14D /* ISSWEShaderCallback.h */; };
+		2E6E76B018E9A3B100A1D14D /* ITool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76A018E9A3B100A1D14D /* ITool.h */; };
+		2E6E76B518E9A5C000A1D14D /* CUIEditParticleInterpolators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76B118E9A5C000A1D14D /* CUIEditParticleInterpolators.cpp */; };
+		2E6E76B618E9A5C000A1D14D /* CUIEditParticleInterpolators.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76B218E9A5C000A1D14D /* CUIEditParticleInterpolators.h */; };
+		2E6E76B718E9A5C000A1D14D /* CUIParticlesEditZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76B318E9A5C000A1D14D /* CUIParticlesEditZone.cpp */; };
+		2E6E76B818E9A5C000A1D14D /* CUIParticlesEditZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76B418E9A5C000A1D14D /* CUIParticlesEditZone.h */; };
+		2E6E76BB18E9A5E900A1D14D /* CPSSMUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76B918E9A5E900A1D14D /* CPSSMUtils.cpp */; };
+		2E6E76BC18E9A5E900A1D14D /* CPSSMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76BA18E9A5E900A1D14D /* CPSSMUtils.h */; };
+		2E6E76BF18E9A60700A1D14D /* CFilterCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76BD18E9A60700A1D14D /* CFilterCallback.cpp */; };
+		2E6E76C018E9A60700A1D14D /* CFilterCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76BE18E9A60700A1D14D /* CFilterCallback.h */; };
+		2E6E76CF18E9A6CB00A1D14D /* CUICharacterManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76CD18E9A6CB00A1D14D /* CUICharacterManager.cpp */; };
+		2E6E76D018E9A6CB00A1D14D /* CUICharacterManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76CE18E9A6CB00A1D14D /* CUICharacterManager.h */; };
+		2E6E76DA18E9A6D900A1D14D /* CRadiosityGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D218E9A6D900A1D14D /* CRadiosityGenerator.h */; };
+		2E6E76DB18E9A6D900A1D14D /* CUILightMapsCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76D318E9A6D900A1D14D /* CUILightMapsCreator.cpp */; };
+		2E6E76DC18E9A6D900A1D14D /* CUILightMapsCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D418E9A6D900A1D14D /* CUILightMapsCreator.h */; };
+		2E6E76DD18E9A6D900A1D14D /* CUVTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76D518E9A6D900A1D14D /* CUVTree.cpp */; };
+		2E6E76DE18E9A6D900A1D14D /* CUVTree.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D618E9A6D900A1D14D /* CUVTree.h */; };
+		2E6E76DF18E9A6D900A1D14D /* mtrand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76D718E9A6D900A1D14D /* mtrand.cpp */; };
+		2E6E76E018E9A6D900A1D14D /* mtrand.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D818E9A6D900A1D14D /* mtrand.h */; };
+		2E6E76E118E9A6D900A1D14D /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D918E9A6D900A1D14D /* types.h */; };
+		2E6E76E218E9A82700A1D14D /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
+		2E6E76E318E9A82700A1D14D /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
+		2E6E76E418E9A82700A1D14D /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
+		2E6E76E618E9A82700A1D14D /* BulletSoftBody.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E76E518E9A82700A1D14D /* BulletSoftBody.framework */; };
+		2E6E76E718E9B19B00A1D14D /* libIrrBullet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E723618E99F5F00A1D14D /* libIrrBullet.a */; };
+		2E6E76E818E9B19B00A1D14D /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
+		2E6E76E918E9B19B00A1D14D /* libSPARK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E92B6751849289E00D955F8 /* libSPARK.a */; };
+		2E6E76EA18E9B19B00A1D14D /* libSSWECore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60191829818300FB1027 /* libSSWECore.a */; };
+		2E6E76EB18E9B1AB00A1D14D /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634C182986E000FB1027 /* liblua.a */; };
+		2E6E76EC18E9B1CF00A1D14D /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C5F51182980CD00FB1027 /* libSSWERenders.a */; };
+		2E6E76EE18E9B5F700A1D14D /* libSSWERenders.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E76ED18E9B5F700A1D14D /* libSSWERenders.a */; };
+		2E6E770918E9B7C000A1D14D /* CSSWEUltimateTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E770018E9B7C000A1D14D /* CSSWEUltimateTool.cpp */; };
+		2E6E770A18E9B7C000A1D14D /* CSSWEUltimateTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E770118E9B7C000A1D14D /* CSSWEUltimateTool.h */; };
+		2E6E770B18E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E770518E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.cpp */; };
+		2E6E770C18E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E770618E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.h */; };
+		2E6E770D18E9B7C000A1D14D /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E770718E9B7C000A1D14D /* Stdafx.cpp */; };
+		2E6E770E18E9B7C000A1D14D /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E770818E9B7C000A1D14D /* Stdafx.h */; };
 		2E7D9077186C6DE0002593C4 /* CGenericMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E671C182D8F7100A79A68 /* CGenericMonitor.cpp */; };
-		2E83A6FB182E8C7C006BE319 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
-		2E83A6FC182E8C80006BE319 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
-		2E83A6FD182E8C8E006BE319 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
 		2E92B64C1849289E00D955F8 /* shadergroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F55182980F900FB1027 /* shadergroup.h */; };
 		2E92B64D1849289E00D955F8 /* shadermaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F57182980F900FB1027 /* shadermaterial.h */; };
 		2E92B64E1849289E00D955F8 /* PostProcessMotionBlurhlsl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F59182980F900FB1027 /* PostProcessMotionBlurhlsl.h */; };
@@ -558,7 +623,6 @@
 		2E92B6691849289E00D955F8 /* SSWERenders.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
 		2E92B66A1849289E00D955F8 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F67182980FA00FB1027 /* stdafx.cpp */; };
 		2E92B66B1849289E00D955F8 /* stdafx.h in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
-		2E92B6711849289E00D955F8 /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
 		2E92B6B9184928ED00D955F8 /* SPK_BufferHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B677184928EC00D955F8 /* SPK_BufferHandler.cpp */; };
 		2E92B6BA184928ED00D955F8 /* SPK_DEF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B678184928EC00D955F8 /* SPK_DEF.cpp */; };
 		2E92B6BB184928ED00D955F8 /* SPK_Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B679184928EC00D955F8 /* SPK_Emitter.cpp */; };
@@ -672,16 +736,11 @@
 		2E92B78718492B9600D955F8 /* SPK_GL.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74118492B9600D955F8 /* SPK_GL.h */; };
 		2E92B78818492B9600D955F8 /* SPK_IRR.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74218492B9600D955F8 /* SPK_IRR.h */; };
 		2E92B78918492B9600D955F8 /* SPK_SFML.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E92B74318492B9600D955F8 /* SPK_SFML.h */; };
-		2E92B78A18492C4B00D955F8 /* libSPARK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E92B6751849289E00D955F8 /* libSPARK.a */; };
 		2E92B78E18492D8600D955F8 /* CUIParticlesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E92B78C18492D8600D955F8 /* CUIParticlesEditor.cpp */; };
-		2E932B24182E80E0005FB341 /* libSSWECore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60191829818300FB1027 /* libSSWECore.a */; };
 		2E932B25182E82F0005FB341 /* CCgMaterialRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5484EA168A959800119951 /* CCgMaterialRenderer.cpp */; };
 		2E932B26182E8311005FB341 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5687431719AE69007C0D05 /* CImageLoaderDDS.cpp */; };
 		2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */; };
 		2EBDA183188881680020D61A /* CUIEditParticleFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */; };
-		2EDC9AEC185BE88A003F7BF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6E66FD182D889F00A79A68 /* Cocoa.framework */; };
-		2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8912C19A7600BF73D3 /* IOKit.framework */; };
-		2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
 		2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */; };
 		2EE402B918494DD70058DD93 /* CGUINode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B718494DD70058DD93 /* CGUINode.cpp */; };
 		2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */; };
@@ -1584,20 +1643,6 @@
 			remoteGlobalIDString = 0946CCA30EC99BBE00D945A5;
 			remoteInfo = 19.MouseAndJoystick;
 		};
-		2E1C22E618930476003033A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = libIrrlicht.a;
-		};
-		2E1C22E818930479003033A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2E6C5DAF182980CD00FB1027;
-			remoteInfo = SSWERenders;
-		};
 		2E1C22EA1893050E003033A3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -1681,6 +1726,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = libIrrlicht.a;
+		};
+		2E6E766F18E9A35800A1D14D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6E723518E99F5F00A1D14D;
+			remoteInfo = IrrBullet;
 		};
 		2E92B64A1849289E00D955F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2056,11 +2108,8 @@
 		0E2E3E271103F773002DE8D7 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
 		0E2E3E291103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0E2E3E321103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		2E147AAC182FC6870030435D /* ICollisionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ICollisionManager.h; sourceTree = "<group>"; };
-		2E147AAD182FC8530030435D /* ISSWECore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECore.h; sourceTree = "<group>"; };
 		2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditFilters.cpp; sourceTree = "<group>"; };
 		2E202BE3187B55D000F44BB0 /* CUIWindowEditFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIWindowEditFilters.h; sourceTree = "<group>"; };
-		2E2B176B186E1FEC000E6DAF /* ISSWERender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWERender.h; sourceTree = "<group>"; };
 		2E6B3D57182E7964006E12C6 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F51182980CD00FB1027 /* libSSWERenders.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSWERenders.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F54182980F900FB1027 /* shadergroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shadergroup.cpp; sourceTree = "<group>"; };
@@ -2106,13 +2155,6 @@
 		2E6C6033182981B700FB1027 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stdafx.cpp; path = ../../../../SSWECore/stdafx.cpp; sourceTree = "<group>"; };
 		2E6C6034182981B700FB1027 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ../../../../SSWECore/stdafx.h; sourceTree = "<group>"; };
 		2E6C60F91829835E00FB1027 /* libSSWELib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSWELib.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E6C60FC182983A200FB1027 /* DLLExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLLExport.h; sourceTree = "<group>"; };
-		2E6C60FD182983A200FB1027 /* IDevices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDevices.h; sourceTree = "<group>"; };
-		2E6C60FE182983A200FB1027 /* IGraphicTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGraphicTool.h; sourceTree = "<group>"; };
-		2E6C60FF182983A200FB1027 /* IMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMonitor.h; sourceTree = "<group>"; };
-		2E6C6100182983A200FB1027 /* IMonitorRegisterer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMonitorRegisterer.h; sourceTree = "<group>"; };
-		2E6C6101182983A200FB1027 /* ISSWELibPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWELibPlugin.h; sourceTree = "<group>"; };
-		2E6C6102182983A200FB1027 /* ITool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITool.h; sourceTree = "<group>"; };
 		2E6C6105182983A200FB1027 /* CAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAction.cpp; sourceTree = "<group>"; };
 		2E6C6106182983A200FB1027 /* CAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAction.h; sourceTree = "<group>"; };
 		2E6C6107182983A200FB1027 /* CUICharacterWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUICharacterWindow.cpp; sourceTree = "<group>"; };
@@ -2288,9 +2330,99 @@
 		2E6E6738182D909A00A79A68 /* CSSWELibTestPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSSWELibTestPlugin.cpp; path = ../../../../SSWETestPlugin/CSSWELibTestPlugin.cpp; sourceTree = "<group>"; };
 		2E6E6739182D909A00A79A68 /* CSSWELibTestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSWELibTestPlugin.h; path = ../../../../SSWETestPlugin/CSSWELibTestPlugin.h; sourceTree = "<group>"; };
 		2E6E6746182DA53800A79A68 /* SSWE_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSWE_Prefix.pch; sourceTree = "<group>"; };
+		2E6E723618E99F5F00A1D14D /* libIrrBullet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIrrBullet.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E6E744218E99F9300A1D14D /* boxshape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boxshape.cpp; path = ../../../../irrBullet/trunk/source/boxshape.cpp; sourceTree = "<group>"; };
+		2E6E744318E99F9300A1D14D /* boxshape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boxshape.h; path = ../../../../irrBullet/trunk/source/boxshape.h; sourceTree = "<group>"; };
+		2E6E744418E99F9300A1D14D /* bulletworld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bulletworld.cpp; path = ../../../../irrBullet/trunk/source/bulletworld.cpp; sourceTree = "<group>"; };
+		2E6E744518E99F9300A1D14D /* bulletworld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bulletworld.h; path = ../../../../irrBullet/trunk/source/bulletworld.h; sourceTree = "<group>"; };
+		2E6E744618E99F9300A1D14D /* bvhtrianglemeshshape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bvhtrianglemeshshape.cpp; path = ../../../../irrBullet/trunk/source/bvhtrianglemeshshape.cpp; sourceTree = "<group>"; };
+		2E6E744718E99F9300A1D14D /* bvhtrianglemeshshape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bvhtrianglemeshshape.h; path = ../../../../irrBullet/trunk/source/bvhtrianglemeshshape.h; sourceTree = "<group>"; };
+		2E6E744818E99F9300A1D14D /* collisioncallbackinformation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = collisioncallbackinformation.cpp; path = ../../../../irrBullet/trunk/source/collisioncallbackinformation.cpp; sourceTree = "<group>"; };
+		2E6E744918E99F9300A1D14D /* collisioncallbackinformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = collisioncallbackinformation.h; path = ../../../../irrBullet/trunk/source/collisioncallbackinformation.h; sourceTree = "<group>"; };
+		2E6E744A18E99F9300A1D14D /* collisionobject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = collisionobject.cpp; path = ../../../../irrBullet/trunk/source/collisionobject.cpp; sourceTree = "<group>"; };
+		2E6E744B18E99F9300A1D14D /* collisionobject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = collisionobject.h; path = ../../../../irrBullet/trunk/source/collisionobject.h; sourceTree = "<group>"; };
+		2E6E744C18E99F9300A1D14D /* collisionobjectaffector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = collisionobjectaffector.cpp; path = ../../../../irrBullet/trunk/source/collisionobjectaffector.cpp; sourceTree = "<group>"; };
+		2E6E744D18E99F9400A1D14D /* collisionobjectaffector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = collisionobjectaffector.h; path = ../../../../irrBullet/trunk/source/collisionobjectaffector.h; sourceTree = "<group>"; };
+		2E6E744E18E99F9400A1D14D /* collisionobjectaffectorattract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = collisionobjectaffectorattract.cpp; path = ../../../../irrBullet/trunk/source/collisionobjectaffectorattract.cpp; sourceTree = "<group>"; };
+		2E6E744F18E99F9400A1D14D /* collisionobjectaffectorattract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = collisionobjectaffectorattract.h; path = ../../../../irrBullet/trunk/source/collisionobjectaffectorattract.h; sourceTree = "<group>"; };
+		2E6E745018E99F9400A1D14D /* collisionobjectaffectordelete.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = collisionobjectaffectordelete.cpp; path = ../../../../irrBullet/trunk/source/collisionobjectaffectordelete.cpp; sourceTree = "<group>"; };
+		2E6E745118E99F9400A1D14D /* collisionobjectaffectordelete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = collisionobjectaffectordelete.h; path = ../../../../irrBullet/trunk/source/collisionobjectaffectordelete.h; sourceTree = "<group>"; };
+		2E6E745218E99F9400A1D14D /* collisionshape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = collisionshape.cpp; path = ../../../../irrBullet/trunk/source/collisionshape.cpp; sourceTree = "<group>"; };
+		2E6E745318E99F9400A1D14D /* collisionshape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = collisionshape.h; path = ../../../../irrBullet/trunk/source/collisionshape.h; sourceTree = "<group>"; };
+		2E6E745418E99F9400A1D14D /* convexhullshape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = convexhullshape.cpp; path = ../../../../irrBullet/trunk/source/convexhullshape.cpp; sourceTree = "<group>"; };
+		2E6E745518E99F9400A1D14D /* convexhullshape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = convexhullshape.h; path = ../../../../irrBullet/trunk/source/convexhullshape.h; sourceTree = "<group>"; };
+		2E6E745F18E99F9400A1D14D /* gimpactmeshshape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gimpactmeshshape.cpp; path = ../../../../irrBullet/trunk/source/gimpactmeshshape.cpp; sourceTree = "<group>"; };
+		2E6E746018E99F9400A1D14D /* gimpactmeshshape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gimpactmeshshape.h; path = ../../../../irrBullet/trunk/source/gimpactmeshshape.h; sourceTree = "<group>"; };
+		2E6E746118E99F9400A1D14D /* irrbullet_compile_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = irrbullet_compile_config.h; path = ../../../../irrBullet/trunk/source/irrbullet_compile_config.h; sourceTree = "<group>"; };
+		2E6E746318E99F9400A1D14D /* irrbullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = irrbullet.cpp; path = ../../../../irrBullet/trunk/source/irrbullet.cpp; sourceTree = "<group>"; };
+		2E6E746518E99F9400A1D14D /* irrbullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = irrbullet.h; path = ../../../../irrBullet/trunk/source/irrbullet.h; sourceTree = "<group>"; };
+		2E6E746818E99F9400A1D14D /* irrbulletcommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = irrbulletcommon.cpp; path = ../../../../irrBullet/trunk/source/irrbulletcommon.cpp; sourceTree = "<group>"; };
+		2E6E746918E99F9400A1D14D /* irrbulletcommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = irrbulletcommon.h; path = ../../../../irrBullet/trunk/source/irrbulletcommon.h; sourceTree = "<group>"; };
+		2E6E746A18E99F9400A1D14D /* kinematiccharactercontroller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = kinematiccharactercontroller.cpp; path = ../../../../irrBullet/trunk/source/kinematiccharactercontroller.cpp; sourceTree = "<group>"; };
+		2E6E746B18E99F9400A1D14D /* kinematiccharactercontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = kinematiccharactercontroller.h; path = ../../../../irrBullet/trunk/source/kinematiccharactercontroller.h; sourceTree = "<group>"; };
+		2E6E746C18E99F9400A1D14D /* liquidbody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = liquidbody.cpp; path = ../../../../irrBullet/trunk/source/liquidbody.cpp; sourceTree = "<group>"; };
+		2E6E746D18E99F9500A1D14D /* liquidbody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = liquidbody.h; path = ../../../../irrBullet/trunk/source/liquidbody.h; sourceTree = "<group>"; };
+		2E6E746E18E99F9500A1D14D /* motionstate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = motionstate.cpp; path = ../../../../irrBullet/trunk/source/motionstate.cpp; sourceTree = "<group>"; };
+		2E6E746F18E99F9500A1D14D /* motionstate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = motionstate.h; path = ../../../../irrBullet/trunk/source/motionstate.h; sourceTree = "<group>"; };
+		2E6E747018E99F9500A1D14D /* physicsdebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = physicsdebug.cpp; path = ../../../../irrBullet/trunk/source/physicsdebug.cpp; sourceTree = "<group>"; };
+		2E6E747118E99F9500A1D14D /* physicsdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = physicsdebug.h; path = ../../../../irrBullet/trunk/source/physicsdebug.h; sourceTree = "<group>"; };
+		2E6E747218E99F9500A1D14D /* raycastvehicle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = raycastvehicle.cpp; path = ../../../../irrBullet/trunk/source/raycastvehicle.cpp; sourceTree = "<group>"; };
+		2E6E747318E99F9500A1D14D /* raycastvehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = raycastvehicle.h; path = ../../../../irrBullet/trunk/source/raycastvehicle.h; sourceTree = "<group>"; };
+		2E6E747418E99F9500A1D14D /* rigidbody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = rigidbody.cpp; path = ../../../../irrBullet/trunk/source/rigidbody.cpp; sourceTree = "<group>"; };
+		2E6E747518E99F9500A1D14D /* rigidbody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rigidbody.h; path = ../../../../irrBullet/trunk/source/rigidbody.h; sourceTree = "<group>"; };
+		2E6E747618E99F9500A1D14D /* softbody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = softbody.cpp; path = ../../../../irrBullet/trunk/source/softbody.cpp; sourceTree = "<group>"; };
+		2E6E747718E99F9500A1D14D /* softbody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = softbody.h; path = ../../../../irrBullet/trunk/source/softbody.h; sourceTree = "<group>"; };
+		2E6E747818E99F9500A1D14D /* sphereshape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sphereshape.cpp; path = ../../../../irrBullet/trunk/source/sphereshape.cpp; sourceTree = "<group>"; };
+		2E6E747918E99F9500A1D14D /* sphereshape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sphereshape.h; path = ../../../../irrBullet/trunk/source/sphereshape.h; sourceTree = "<group>"; };
+		2E6E747A18E99F9500A1D14D /* trianglemeshshape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = trianglemeshshape.cpp; path = ../../../../irrBullet/trunk/source/trianglemeshshape.cpp; sourceTree = "<group>"; };
+		2E6E747B18E99F9500A1D14D /* trianglemeshshape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = trianglemeshshape.h; path = ../../../../irrBullet/trunk/source/trianglemeshshape.h; sourceTree = "<group>"; };
+		2E6E769118E9A3B100A1D14D /* DLLExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLLExport.h; sourceTree = "<group>"; };
+		2E6E769218E9A3B100A1D14D /* ICollisionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICollisionManager.h; sourceTree = "<group>"; };
+		2E6E769318E9A3B100A1D14D /* IDevices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDevices.h; sourceTree = "<group>"; };
+		2E6E769418E9A3B100A1D14D /* IGraphicTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGraphicTool.h; sourceTree = "<group>"; };
+		2E6E769518E9A3B100A1D14D /* IGUICodeEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGUICodeEditor.h; sourceTree = "<group>"; };
+		2E6E769618E9A3B100A1D14D /* IMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMonitor.h; sourceTree = "<group>"; };
+		2E6E769718E9A3B100A1D14D /* IMonitorRegisterer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMonitorRegisterer.h; sourceTree = "<group>"; };
+		2E6E769818E9A3B100A1D14D /* ISSWECore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWECore.h; sourceTree = "<group>"; };
+		2E6E769918E9A3B100A1D14D /* ISSWECoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWECoreData.h; sourceTree = "<group>"; };
+		2E6E769A18E9A3B100A1D14D /* ISSWECoreUserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWECoreUserInterface.h; sourceTree = "<group>"; };
+		2E6E769B18E9A3B100A1D14D /* ISSWEEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWEEvents.h; sourceTree = "<group>"; };
+		2E6E769C18E9A3B100A1D14D /* ISSWEImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWEImporter.h; sourceTree = "<group>"; };
+		2E6E769D18E9A3B100A1D14D /* ISSWELibPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWELibPlugin.h; sourceTree = "<group>"; };
+		2E6E769E18E9A3B100A1D14D /* ISSWERender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWERender.h; sourceTree = "<group>"; };
+		2E6E769F18E9A3B100A1D14D /* ISSWEShaderCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWEShaderCallback.h; sourceTree = "<group>"; };
+		2E6E76A018E9A3B100A1D14D /* ITool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITool.h; sourceTree = "<group>"; };
+		2E6E76B118E9A5C000A1D14D /* CUIEditParticleInterpolators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIEditParticleInterpolators.cpp; path = ParticlesEditor/CUIEditParticleInterpolators.cpp; sourceTree = "<group>"; };
+		2E6E76B218E9A5C000A1D14D /* CUIEditParticleInterpolators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIEditParticleInterpolators.h; path = ParticlesEditor/CUIEditParticleInterpolators.h; sourceTree = "<group>"; };
+		2E6E76B318E9A5C000A1D14D /* CUIParticlesEditZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticlesEditZone.cpp; path = ParticlesEditor/CUIParticlesEditZone.cpp; sourceTree = "<group>"; };
+		2E6E76B418E9A5C000A1D14D /* CUIParticlesEditZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticlesEditZone.h; path = ParticlesEditor/CUIParticlesEditZone.h; sourceTree = "<group>"; };
+		2E6E76B918E9A5E900A1D14D /* CPSSMUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPSSMUtils.cpp; sourceTree = "<group>"; };
+		2E6E76BA18E9A5E900A1D14D /* CPSSMUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSSMUtils.h; sourceTree = "<group>"; };
+		2E6E76BD18E9A60700A1D14D /* CFilterCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CFilterCallback.cpp; sourceTree = "<group>"; };
+		2E6E76BE18E9A60700A1D14D /* CFilterCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFilterCallback.h; sourceTree = "<group>"; };
+		2E6E76CD18E9A6CB00A1D14D /* CUICharacterManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUICharacterManager.cpp; sourceTree = "<group>"; };
+		2E6E76CE18E9A6CB00A1D14D /* CUICharacterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUICharacterManager.h; sourceTree = "<group>"; };
+		2E6E76D218E9A6D900A1D14D /* CRadiosityGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRadiosityGenerator.h; sourceTree = "<group>"; };
+		2E6E76D318E9A6D900A1D14D /* CUILightMapsCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUILightMapsCreator.cpp; sourceTree = "<group>"; };
+		2E6E76D418E9A6D900A1D14D /* CUILightMapsCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUILightMapsCreator.h; sourceTree = "<group>"; };
+		2E6E76D518E9A6D900A1D14D /* CUVTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUVTree.cpp; sourceTree = "<group>"; };
+		2E6E76D618E9A6D900A1D14D /* CUVTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUVTree.h; sourceTree = "<group>"; };
+		2E6E76D718E9A6D900A1D14D /* mtrand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mtrand.cpp; sourceTree = "<group>"; };
+		2E6E76D818E9A6D900A1D14D /* mtrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mtrand.h; sourceTree = "<group>"; };
+		2E6E76D918E9A6D900A1D14D /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		2E6E76E518E9A82700A1D14D /* BulletSoftBody.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BulletSoftBody.framework; path = ../../../../Bullet/libs/BulletSoftBody.framework; sourceTree = "<group>"; };
+		2E6E76ED18E9B5F700A1D14D /* libSSWERenders.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSWERenders.a; path = build/Release/libSSWERenders.a; sourceTree = "<group>"; };
+		2E6E76F018E9B65800A1D14D /* libSSWECore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSWECore.a; path = build/Release/libSSWECore.a; sourceTree = "<group>"; };
+		2E6E76F118E9B65900A1D14D /* libSSWELib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSWELib.a; path = build/Release/libSSWELib.a; sourceTree = "<group>"; };
+		2E6E76FE18E9B77100A1D14D /* libSSWEUltimateTool.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEUltimateTool.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E6E770018E9B7C000A1D14D /* CSSWEUltimateTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSSWEUltimateTool.cpp; path = ../../../../SSWEUltimateTool/CSSWEUltimateTool.cpp; sourceTree = "<group>"; };
+		2E6E770118E9B7C000A1D14D /* CSSWEUltimateTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSWEUltimateTool.h; path = ../../../../SSWEUltimateTool/CSSWEUltimateTool.h; sourceTree = "<group>"; };
+		2E6E770518E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSWEUTOpenSCADDocument.cpp; sourceTree = "<group>"; };
+		2E6E770618E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSWEUTOpenSCADDocument.h; sourceTree = "<group>"; };
+		2E6E770718E9B7C000A1D14D /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../../../../SSWEUltimateTool/Stdafx.cpp; sourceTree = "<group>"; };
+		2E6E770818E9B7C000A1D14D /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../../../../SSWEUltimateTool/Stdafx.h; sourceTree = "<group>"; };
 		2E74EDFB1821A465008D126E /* CloudSceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CloudSceneNode.cpp; sourceTree = "<group>"; };
 		2E74EDFC1821A465008D126E /* CloudSceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudSceneNode.h; sourceTree = "<group>"; };
-		2E8F3B1D184AB0160073A3A3 /* ISSWEEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISSWEEvents.h; sourceTree = "<group>"; };
 		2E92B6751849289E00D955F8 /* libSPARK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSPARK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E92B677184928EC00D955F8 /* SPK_BufferHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_BufferHandler.cpp; sourceTree = "<group>"; };
 		2E92B678184928EC00D955F8 /* SPK_DEF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SPK_DEF.cpp; sourceTree = "<group>"; };
@@ -2414,7 +2546,6 @@
 		2EAA30F91854CF5400AE73CC /* RealisticWater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealisticWater.h; sourceTree = "<group>"; };
 		2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIEditParticleFlags.cpp; path = ParticlesEditor/CUIEditParticleFlags.cpp; sourceTree = "<group>"; };
 		2EBDA182188881680020D61A /* CUIEditParticleFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIEditParticleFlags.h; path = ParticlesEditor/CUIEditParticleFlags.h; sourceTree = "<group>"; };
-		2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSWECoreData.h; sourceTree = "<group>"; };
 		2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINodesEditor.cpp; sourceTree = "<group>"; };
 		2EE402B4184947990058DD93 /* CGUINodesEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGUINodesEditor.h; sourceTree = "<group>"; };
 		2EE402B718494DD70058DD93 /* CGUINode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINode.cpp; sourceTree = "<group>"; };
@@ -3093,12 +3224,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E1C22E51893036E003033A3 /* libSSWERenders.a in Frameworks */,
-				2E1C22E41893036B003033A3 /* libIrrlicht.a in Frameworks */,
-				2E2B176A186E1F9F000E6DAF /* OpenGL.framework in Frameworks */,
-				2EDC9AEE185BE89F003F7BF8 /* Carbon.framework in Frameworks */,
-				2EDC9AED185BE890003F7BF8 /* IOKit.framework in Frameworks */,
-				2EDC9AEC185BE88A003F7BF8 /* Cocoa.framework in Frameworks */,
+				2E6E76EE18E9B5F700A1D14D /* libSSWERenders.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3106,7 +3232,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E6C6331182985A400FB1027 /* libIrrlicht.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3114,9 +3239,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E6C635B1829889D00FB1027 /* liblua.a in Frameworks */,
-				2E6C6330182985A000FB1027 /* libIrrlicht.a in Frameworks */,
-				2E6C632D1829847B00FB1027 /* libSSWERenders.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3124,14 +3246,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E92B78A18492C4B00D955F8 /* libSPARK.a in Frameworks */,
-				2E6C6357182987EB00FB1027 /* BulletCollision.framework in Frameworks */,
-				2E6C6358182987EB00FB1027 /* BulletDynamics.framework in Frameworks */,
-				2E6C6359182987EB00FB1027 /* LinearMath.framework in Frameworks */,
-				2E6C634D182986E000FB1027 /* liblua.a in Frameworks */,
-				2E6C632F1829859B00FB1027 /* libIrrlicht.a in Frameworks */,
-				2E6C632B1829847400FB1027 /* libSSWECore.a in Frameworks */,
-				2E6C632C1829847400FB1027 /* libSSWERenders.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3139,15 +3253,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E83A6FD182E8C8E006BE319 /* IOKit.framework in Frameworks */,
-				2E83A6FC182E8C80006BE319 /* OpenGL.framework in Frameworks */,
-				2E83A6FB182E8C7C006BE319 /* Cocoa.framework in Frameworks */,
-				2E6E6743182D925600A79A68 /* BulletCollision.framework in Frameworks */,
-				2E6E6744182D925600A79A68 /* BulletDynamics.framework in Frameworks */,
-				2E6E6745182D925600A79A68 /* LinearMath.framework in Frameworks */,
-				2E6E6741182D91A300A79A68 /* libSSWELib.a in Frameworks */,
-				2E932B24182E80E0005FB341 /* libSSWECore.a in Frameworks */,
-				2E6E6742182D91A300A79A68 /* libSSWERenders.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E6E723318E99F5F00A1D14D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E6E766B18E9A07D00A1D14D /* libIrrlicht.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E6E76F818E9B77100A1D14D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3155,7 +3275,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E92B6711849289E00D955F8 /* libIrrlicht.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3269,9 +3388,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E1C22FE18930B68003033A3 /* BulletCollision.framework in Frameworks */,
-				2E1C22FF18930B68003033A3 /* BulletDynamics.framework in Frameworks */,
-				2E1C230018930B68003033A3 /* LinearMath.framework in Frameworks */,
+				2E6E76EC18E9B1CF00A1D14D /* libSSWERenders.a in Frameworks */,
+				2E6E76EB18E9B1AB00A1D14D /* liblua.a in Frameworks */,
+				2E6E76E718E9B19B00A1D14D /* libIrrBullet.a in Frameworks */,
+				2E6E76E818E9B19B00A1D14D /* libIrrlicht.a in Frameworks */,
+				2E6E76E918E9B19B00A1D14D /* libSPARK.a in Frameworks */,
+				2E6E76EA18E9B19B00A1D14D /* libSSWECore.a in Frameworks */,
+				2E6E76E618E9A82700A1D14D /* BulletSoftBody.framework in Frameworks */,
+				2E6E76E218E9A82700A1D14D /* BulletCollision.framework in Frameworks */,
+				2E6E76E318E9A82700A1D14D /* BulletDynamics.framework in Frameworks */,
+				2E6E76E418E9A82700A1D14D /* LinearMath.framework in Frameworks */,
 				2E1C22F418930905003033A3 /* libSSWELib.a in Frameworks */,
 				4C53E27D0A4850D60014E966 /* Cocoa.framework in Frameworks */,
 				4C53E27E0A4850D60014E966 /* OpenGL.framework in Frameworks */,
@@ -3343,6 +3469,8 @@
 			children = (
 				2E6C5D971829801C00FB1027 /* SSWEProject */,
 				2E6C5D961829801100FB1027 /* Irrlicht */,
+				2E6E723618E99F5F00A1D14D /* libIrrBullet.a */,
+				2E6E76FE18E9B77100A1D14D /* libSSWEUltimateTool.dylib */,
 			);
 			name = MacOSX;
 			sourceTree = "<group>";
@@ -4185,6 +4313,7 @@
 		2E6C5D971829801C00FB1027 /* SSWEProject */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E723118E99F2F00A1D14D /* IrrBullet */,
 				2E92B6F218492AF300D955F8 /* SSWE_Prefix.pch */,
 				2E6E672F182D8FCB00A79A68 /* SSWEWebExportPlugin */,
 				2E6E65D4182D878000A79A68 /* SSWEGenericMonitor */,
@@ -4193,6 +4322,7 @@
 				2E6C601A1829819800FB1027 /* SSWECore */,
 				2E6C5D981829802600FB1027 /* SSWERenders */,
 				2E92B6471849287B00D955F8 /* SPARK */,
+				2E6E76FF18E9B79E00A1D14D /* SSWEUltimateTool */,
 				2E6C6360182998FA00FB1027 /* Libs */,
 			);
 			name = SSWEProject;
@@ -4246,6 +4376,8 @@
 		2E6C5F5C182980FA00FB1027 /* XEffect */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E76B918E9A5E900A1D14D /* CPSSMUtils.cpp */,
+				2E6E76BA18E9A5E900A1D14D /* CPSSMUtils.h */,
 				2E6C5F5D182980FA00FB1027 /* CScreenQuad.h */,
 				2E6C5F5E182980FA00FB1027 /* CShaderPre.cpp */,
 				2E6C5F5F182980FA00FB1027 /* CShaderPre.h */,
@@ -4338,18 +4470,22 @@
 		2E6C60FB182983A200FB1027 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				2E8F3B1D184AB0160073A3A3 /* ISSWEEvents.h */,
-				2ED8420B182FCF3E00702DE3 /* ISSWECoreData.h */,
-				2E147AAD182FC8530030435D /* ISSWECore.h */,
-				2E147AAC182FC6870030435D /* ICollisionManager.h */,
-				2E6C60FC182983A200FB1027 /* DLLExport.h */,
-				2E6C60FD182983A200FB1027 /* IDevices.h */,
-				2E6C60FE182983A200FB1027 /* IGraphicTool.h */,
-				2E6C60FF182983A200FB1027 /* IMonitor.h */,
-				2E6C6100182983A200FB1027 /* IMonitorRegisterer.h */,
-				2E6C6101182983A200FB1027 /* ISSWELibPlugin.h */,
-				2E6C6102182983A200FB1027 /* ITool.h */,
-				2E2B176B186E1FEC000E6DAF /* ISSWERender.h */,
+				2E6E769118E9A3B100A1D14D /* DLLExport.h */,
+				2E6E769218E9A3B100A1D14D /* ICollisionManager.h */,
+				2E6E769318E9A3B100A1D14D /* IDevices.h */,
+				2E6E769418E9A3B100A1D14D /* IGraphicTool.h */,
+				2E6E769518E9A3B100A1D14D /* IGUICodeEditor.h */,
+				2E6E769618E9A3B100A1D14D /* IMonitor.h */,
+				2E6E769718E9A3B100A1D14D /* IMonitorRegisterer.h */,
+				2E6E769818E9A3B100A1D14D /* ISSWECore.h */,
+				2E6E769918E9A3B100A1D14D /* ISSWECoreData.h */,
+				2E6E769A18E9A3B100A1D14D /* ISSWECoreUserInterface.h */,
+				2E6E769B18E9A3B100A1D14D /* ISSWEEvents.h */,
+				2E6E769C18E9A3B100A1D14D /* ISSWEImporter.h */,
+				2E6E769D18E9A3B100A1D14D /* ISSWELibPlugin.h */,
+				2E6E769E18E9A3B100A1D14D /* ISSWERender.h */,
+				2E6E769F18E9A3B100A1D14D /* ISSWEShaderCallback.h */,
+				2E6E76A018E9A3B100A1D14D /* ITool.h */,
 			);
 			name = include;
 			path = ../../../../SSWELib/include;
@@ -4373,6 +4509,8 @@
 		2E6C6104182983A200FB1027 /* CharacterEdition */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E76CD18E9A6CB00A1D14D /* CUICharacterManager.cpp */,
+				2E6E76CE18E9A6CB00A1D14D /* CUICharacterManager.h */,
 				2E6C6105182983A200FB1027 /* CAction.cpp */,
 				2E6C6106182983A200FB1027 /* CAction.h */,
 				2E6C6107182983A200FB1027 /* CUICharacterWindow.cpp */,
@@ -4533,6 +4671,8 @@
 		2E6C613C182983A300FB1027 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E76BD18E9A60700A1D14D /* CFilterCallback.cpp */,
+				2E6E76BE18E9A60700A1D14D /* CFilterCallback.h */,
 				2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */,
 				2E202BE3187B55D000F44BB0 /* CUIWindowEditFilters.h */,
 				2E6C6141182983A300FB1027 /* CShaderCallback.cpp */,
@@ -4636,6 +4776,7 @@
 		2E6C6169182983A400FB1027 /* UserInterfaces */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E76D118E9A6D900A1D14D /* Radiosity */,
 				2E92B78B18492CA900D955F8 /* ParticlesEditor */,
 				2E6C616A182983A400FB1027 /* AnimatorsEditor */,
 				2E6C616F182983A400FB1027 /* CodeEditor */,
@@ -4828,6 +4969,10 @@
 		2E6C6360182998FA00FB1027 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E76F018E9B65800A1D14D /* libSSWECore.a */,
+				2E6E76F118E9B65900A1D14D /* libSSWELib.a */,
+				2E6E76ED18E9B5F700A1D14D /* libSSWERenders.a */,
+				2E6E76E518E9A82700A1D14D /* BulletSoftBody.framework */,
 				2E6E6746182DA53800A79A68 /* SSWE_Prefix.pch */,
 				2E6E66FD182D889F00A79A68 /* Cocoa.framework */,
 				2E6C634E1829874900FB1027 /* BulletCollision.framework */,
@@ -4858,6 +5003,111 @@
 				2E6E6734182D905500A79A68 /* libSSWEWebExportPlugin.dylib */,
 			);
 			name = SSWEWebExportPlugin;
+			sourceTree = "<group>";
+		};
+		2E6E723118E99F2F00A1D14D /* IrrBullet */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E744218E99F9300A1D14D /* boxshape.cpp */,
+				2E6E744318E99F9300A1D14D /* boxshape.h */,
+				2E6E744418E99F9300A1D14D /* bulletworld.cpp */,
+				2E6E744518E99F9300A1D14D /* bulletworld.h */,
+				2E6E744618E99F9300A1D14D /* bvhtrianglemeshshape.cpp */,
+				2E6E744718E99F9300A1D14D /* bvhtrianglemeshshape.h */,
+				2E6E744818E99F9300A1D14D /* collisioncallbackinformation.cpp */,
+				2E6E744918E99F9300A1D14D /* collisioncallbackinformation.h */,
+				2E6E744A18E99F9300A1D14D /* collisionobject.cpp */,
+				2E6E744B18E99F9300A1D14D /* collisionobject.h */,
+				2E6E744C18E99F9300A1D14D /* collisionobjectaffector.cpp */,
+				2E6E744D18E99F9400A1D14D /* collisionobjectaffector.h */,
+				2E6E744E18E99F9400A1D14D /* collisionobjectaffectorattract.cpp */,
+				2E6E744F18E99F9400A1D14D /* collisionobjectaffectorattract.h */,
+				2E6E745018E99F9400A1D14D /* collisionobjectaffectordelete.cpp */,
+				2E6E745118E99F9400A1D14D /* collisionobjectaffectordelete.h */,
+				2E6E745218E99F9400A1D14D /* collisionshape.cpp */,
+				2E6E745318E99F9400A1D14D /* collisionshape.h */,
+				2E6E745418E99F9400A1D14D /* convexhullshape.cpp */,
+				2E6E745518E99F9400A1D14D /* convexhullshape.h */,
+				2E6E745F18E99F9400A1D14D /* gimpactmeshshape.cpp */,
+				2E6E746018E99F9400A1D14D /* gimpactmeshshape.h */,
+				2E6E746118E99F9400A1D14D /* irrbullet_compile_config.h */,
+				2E6E746318E99F9400A1D14D /* irrbullet.cpp */,
+				2E6E746518E99F9400A1D14D /* irrbullet.h */,
+				2E6E746818E99F9400A1D14D /* irrbulletcommon.cpp */,
+				2E6E746918E99F9400A1D14D /* irrbulletcommon.h */,
+				2E6E746A18E99F9400A1D14D /* kinematiccharactercontroller.cpp */,
+				2E6E746B18E99F9400A1D14D /* kinematiccharactercontroller.h */,
+				2E6E746C18E99F9400A1D14D /* liquidbody.cpp */,
+				2E6E746D18E99F9500A1D14D /* liquidbody.h */,
+				2E6E746E18E99F9500A1D14D /* motionstate.cpp */,
+				2E6E746F18E99F9500A1D14D /* motionstate.h */,
+				2E6E747018E99F9500A1D14D /* physicsdebug.cpp */,
+				2E6E747118E99F9500A1D14D /* physicsdebug.h */,
+				2E6E747218E99F9500A1D14D /* raycastvehicle.cpp */,
+				2E6E747318E99F9500A1D14D /* raycastvehicle.h */,
+				2E6E747418E99F9500A1D14D /* rigidbody.cpp */,
+				2E6E747518E99F9500A1D14D /* rigidbody.h */,
+				2E6E747618E99F9500A1D14D /* softbody.cpp */,
+				2E6E747718E99F9500A1D14D /* softbody.h */,
+				2E6E747818E99F9500A1D14D /* sphereshape.cpp */,
+				2E6E747918E99F9500A1D14D /* sphereshape.h */,
+				2E6E747A18E99F9500A1D14D /* trianglemeshshape.cpp */,
+				2E6E747B18E99F9500A1D14D /* trianglemeshshape.h */,
+			);
+			name = IrrBullet;
+			sourceTree = "<group>";
+		};
+		2E6E76D118E9A6D900A1D14D /* Radiosity */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E76D218E9A6D900A1D14D /* CRadiosityGenerator.h */,
+				2E6E76D318E9A6D900A1D14D /* CUILightMapsCreator.cpp */,
+				2E6E76D418E9A6D900A1D14D /* CUILightMapsCreator.h */,
+				2E6E76D518E9A6D900A1D14D /* CUVTree.cpp */,
+				2E6E76D618E9A6D900A1D14D /* CUVTree.h */,
+				2E6E76D718E9A6D900A1D14D /* mtrand.cpp */,
+				2E6E76D818E9A6D900A1D14D /* mtrand.h */,
+				2E6E76D918E9A6D900A1D14D /* types.h */,
+			);
+			path = Radiosity;
+			sourceTree = "<group>";
+		};
+		2E6E76FF18E9B79E00A1D14D /* SSWEUltimateTool */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E770018E9B7C000A1D14D /* CSSWEUltimateTool.cpp */,
+				2E6E770118E9B7C000A1D14D /* CSSWEUltimateTool.h */,
+				2E6E770218E9B7C000A1D14D /* SSWEUltimateTool */,
+				2E6E770718E9B7C000A1D14D /* Stdafx.cpp */,
+				2E6E770818E9B7C000A1D14D /* Stdafx.h */,
+			);
+			name = SSWEUltimateTool;
+			sourceTree = "<group>";
+		};
+		2E6E770218E9B7C000A1D14D /* SSWEUltimateTool */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E770318E9B7C000A1D14D /* UserInterfaces */,
+			);
+			name = SSWEUltimateTool;
+			path = ../../../../SSWEUltimateTool/SSWEUltimateTool;
+			sourceTree = "<group>";
+		};
+		2E6E770318E9B7C000A1D14D /* UserInterfaces */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E770418E9B7C000A1D14D /* OpenSCAD */,
+			);
+			path = UserInterfaces;
+			sourceTree = "<group>";
+		};
+		2E6E770418E9B7C000A1D14D /* OpenSCAD */ = {
+			isa = PBXGroup;
+			children = (
+				2E6E770518E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.cpp */,
+				2E6E770618E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.h */,
+			);
+			path = OpenSCAD;
 			sourceTree = "<group>";
 		};
 		2E92B6471849287B00D955F8 /* SPARK */ = {
@@ -5140,6 +5390,10 @@
 		2E92B78B18492CA900D955F8 /* ParticlesEditor */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E76B118E9A5C000A1D14D /* CUIEditParticleInterpolators.cpp */,
+				2E6E76B218E9A5C000A1D14D /* CUIEditParticleInterpolators.h */,
+				2E6E76B318E9A5C000A1D14D /* CUIParticlesEditZone.cpp */,
+				2E6E76B418E9A5C000A1D14D /* CUIParticlesEditZone.h */,
 				2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */,
 				2EBDA182188881680020D61A /* CUIEditParticleFlags.h */,
 				2E92B78C18492D8600D955F8 /* CUIParticlesEditor.cpp */,
@@ -5689,6 +5943,7 @@
 				2E2CA4AB182D6DF8000BA9DA /* CScreenQuad.h in Headers */,
 				2E2CA4AD182D6DF8000BA9DA /* CShaderPre.h in Headers */,
 				2E2CA4AE182D6DF8000BA9DA /* EffectCB.h in Headers */,
+				2E6E76BC18E9A5E900A1D14D /* CPSSMUtils.h in Headers */,
 				2E2CA4B0182D6DF8000BA9DA /* EffectHandler.h in Headers */,
 				2E2CA4B1182D6DF8000BA9DA /* EffectShaders.h in Headers */,
 				2E2CA4B2182D6DF8000BA9DA /* XEffects.h in Headers */,
@@ -5719,6 +5974,31 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6E76AE18E9A3B100A1D14D /* ISSWERender.h in Headers */,
+				2E6E76DA18E9A6D900A1D14D /* CRadiosityGenerator.h in Headers */,
+				2E6E76A318E9A3B100A1D14D /* IDevices.h in Headers */,
+				2E6E76AD18E9A3B100A1D14D /* ISSWELibPlugin.h in Headers */,
+				2E6E76E018E9A6D900A1D14D /* mtrand.h in Headers */,
+				2E6E76C018E9A60700A1D14D /* CFilterCallback.h in Headers */,
+				2E6E76DC18E9A6D900A1D14D /* CUILightMapsCreator.h in Headers */,
+				2E6E76A518E9A3B100A1D14D /* IGUICodeEditor.h in Headers */,
+				2E6E76E118E9A6D900A1D14D /* types.h in Headers */,
+				2E6E76B818E9A5C000A1D14D /* CUIParticlesEditZone.h in Headers */,
+				2E6E76DE18E9A6D900A1D14D /* CUVTree.h in Headers */,
+				2E6E76B018E9A3B100A1D14D /* ITool.h in Headers */,
+				2E6E76AA18E9A3B100A1D14D /* ISSWECoreUserInterface.h in Headers */,
+				2E6E76AF18E9A3B100A1D14D /* ISSWEShaderCallback.h in Headers */,
+				2E6E76A418E9A3B100A1D14D /* IGraphicTool.h in Headers */,
+				2E6E76B618E9A5C000A1D14D /* CUIEditParticleInterpolators.h in Headers */,
+				2E6E76A618E9A3B100A1D14D /* IMonitor.h in Headers */,
+				2E6E76D018E9A6CB00A1D14D /* CUICharacterManager.h in Headers */,
+				2E6E76A118E9A3B100A1D14D /* DLLExport.h in Headers */,
+				2E6E76A918E9A3B100A1D14D /* ISSWECoreData.h in Headers */,
+				2E6E76A818E9A3B100A1D14D /* ISSWECore.h in Headers */,
+				2E6E76AB18E9A3B100A1D14D /* ISSWEEvents.h in Headers */,
+				2E6E76A718E9A3B100A1D14D /* IMonitorRegisterer.h in Headers */,
+				2E6E76AC18E9A3B100A1D14D /* ISSWEImporter.h in Headers */,
+				2E6E76A218E9A3B100A1D14D /* ICollisionManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5727,6 +6007,46 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6E673D182D909A00A79A68 /* CSSWELibTestPlugin.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E6E723418E99F5F00A1D14D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E6E766818E99F9500A1D14D /* sphereshape.h in Headers */,
+				2E6E765418E99F9500A1D14D /* irrbullet_compile_config.h in Headers */,
+				2E6E765A18E99F9500A1D14D /* kinematiccharactercontroller.h in Headers */,
+				2E6E764618E99F9500A1D14D /* collisionobjectaffectorattract.h in Headers */,
+				2E6E764218E99F9500A1D14D /* collisionobject.h in Headers */,
+				2E6E764A18E99F9500A1D14D /* collisionshape.h in Headers */,
+				2E6E764418E99F9500A1D14D /* collisionobjectaffector.h in Headers */,
+				2E6E765C18E99F9500A1D14D /* liquidbody.h in Headers */,
+				2E6E766218E99F9500A1D14D /* raycastvehicle.h in Headers */,
+				2E6E763E18E99F9500A1D14D /* bvhtrianglemeshshape.h in Headers */,
+				2E6E764818E99F9500A1D14D /* collisionobjectaffectordelete.h in Headers */,
+				2E6E766618E99F9500A1D14D /* softbody.h in Headers */,
+				2E6E766018E99F9500A1D14D /* physicsdebug.h in Headers */,
+				2E6E765618E99F9500A1D14D /* irrbullet.h in Headers */,
+				2E6E763A18E99F9500A1D14D /* boxshape.h in Headers */,
+				2E6E766A18E99F9500A1D14D /* trianglemeshshape.h in Headers */,
+				2E6E766418E99F9500A1D14D /* rigidbody.h in Headers */,
+				2E6E765818E99F9500A1D14D /* irrbulletcommon.h in Headers */,
+				2E6E764018E99F9500A1D14D /* collisioncallbackinformation.h in Headers */,
+				2E6E765E18E99F9500A1D14D /* motionstate.h in Headers */,
+				2E6E763C18E99F9500A1D14D /* bulletworld.h in Headers */,
+				2E6E764C18E99F9500A1D14D /* convexhullshape.h in Headers */,
+				2E6E765318E99F9500A1D14D /* gimpactmeshshape.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E6E76FA18E9B77100A1D14D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E6E770A18E9B7C000A1D14D /* CSSWEUltimateTool.h in Headers */,
+				2E6E770E18E9B7C000A1D14D /* Stdafx.h in Headers */,
+				2E6E770C18E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6226,8 +6546,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				2E1C22E918930479003033A3 /* PBXTargetDependency */,
-				2E1C22E718930476003033A3 /* PBXTargetDependency */,
 			);
 			name = SSWEGenericMonitor;
 			productName = SSWEWebExportPlugin;
@@ -6282,6 +6600,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E6E767018E9A35800A1D14D /* PBXTargetDependency */,
 				2E1C22FD18930A10003033A3 /* PBXTargetDependency */,
 				2E1C22FB18930A0D003033A3 /* PBXTargetDependency */,
 				2E1C22F918930A04003033A3 /* PBXTargetDependency */,
@@ -6307,6 +6626,40 @@
 			name = SSWEWebExportPlugin;
 			productName = SSWEWebExportPlugin;
 			productReference = 2E6E6734182D905500A79A68 /* libSSWEWebExportPlugin.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		2E6E723518E99F5F00A1D14D /* IrrBullet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E6E723718E99F5F00A1D14D /* Build configuration list for PBXNativeTarget "IrrBullet" */;
+			buildPhases = (
+				2E6E723218E99F5F00A1D14D /* Sources */,
+				2E6E723318E99F5F00A1D14D /* Frameworks */,
+				2E6E723418E99F5F00A1D14D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IrrBullet;
+			productName = IrrBullet;
+			productReference = 2E6E723618E99F5F00A1D14D /* libIrrBullet.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2E6E76F418E9B77100A1D14D /* SSWEUltimateTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E6E76FB18E9B77100A1D14D /* Build configuration list for PBXNativeTarget "SSWEUltimateTool" */;
+			buildPhases = (
+				2E6E76F518E9B77100A1D14D /* Sources */,
+				2E6E76F818E9B77100A1D14D /* Frameworks */,
+				2E6E76FA18E9B77100A1D14D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SSWEUltimateTool;
+			productName = SSWEWebExportPlugin;
+			productReference = 2E6E76FE18E9B77100A1D14D /* libSSWEUltimateTool.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		2E92B6481849289E00D955F8 /* SPARK */ = {
@@ -6645,14 +6998,16 @@
 				09022C520EA0E97F00CD54EE /* GUIEditor */,
 				B81CFFC6097FE9980057C06F /* All */,
 				959726FC12C18FFB00BF73D3 /* IrrFramework */,
-				2E92B6481849289E00D955F8 /* SPARK */,
 				D2AAC07D0554694100DB518D /* libIrrlicht.a */,
+				2E6E723518E99F5F00A1D14D /* IrrBullet */,
+				2E92B6481849289E00D955F8 /* SPARK */,
 				2E6C5DAF182980CD00FB1027 /* SSWERenders */,
 				2E6C5F8F1829818300FB1027 /* SSWECore */,
 				2E6C60611829835E00FB1027 /* SSWELib */,
 				B81CFF4A097FE3050057C06F /* SSWE */,
 				2E6E6733182D905500A79A68 /* SSWEWebExportPlugin */,
 				2E6B3D46182E7964006E12C6 /* SSWEGenericMonitor */,
+				2E6E76F418E9B77100A1D14D /* SSWEUltimateTool */,
 			);
 		};
 /* End PBXProject section */
@@ -6910,6 +7265,7 @@
 				2E6C5F7F1829812E00FB1027 /* shadermaterial.h in Sources */,
 				2E6C5F801829812E00FB1027 /* PostProcessMotionBlurhlsl.h in Sources */,
 				2E6C5F811829812E00FB1027 /* ScreenSpaceAmbientOcclusion.cpp in Sources */,
+				2E6E76BB18E9A5E900A1D14D /* CPSSMUtils.cpp in Sources */,
 				2E6C5F821829812E00FB1027 /* ScreenSpaceAmbientOcclusion.h in Sources */,
 				2E6C5F831829812E00FB1027 /* CScreenQuad.h in Sources */,
 				2E6C5F841829812E00FB1027 /* CShaderPre.cpp in Sources */,
@@ -6960,13 +7316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */,
-				2E6C627D182983CD00FB1027 /* DLLExport.h in Sources */,
-				2E6C627E182983CD00FB1027 /* IDevices.h in Sources */,
-				2E6C627F182983CD00FB1027 /* IGraphicTool.h in Sources */,
-				2E6C6280182983CD00FB1027 /* IMonitor.h in Sources */,
-				2E6C6281182983CD00FB1027 /* IMonitorRegisterer.h in Sources */,
-				2E6C6282182983CD00FB1027 /* ISSWELibPlugin.h in Sources */,
-				2E6C6283182983CD00FB1027 /* ITool.h in Sources */,
+				2E6E76DF18E9A6D900A1D14D /* mtrand.cpp in Sources */,
 				2E6C6284182983CD00FB1027 /* CAction.cpp in Sources */,
 				2E6C6285182983CD00FB1027 /* CAction.h in Sources */,
 				2E6C6286182983CD00FB1027 /* CUICharacterWindow.cpp in Sources */,
@@ -6980,6 +7330,7 @@
 				2E6C628E182983CD00FB1027 /* CManualAction.cpp in Sources */,
 				2E6C628F182983CD00FB1027 /* CManualAction.h in Sources */,
 				2E6C6290182983CD00FB1027 /* CDevices.cpp in Sources */,
+				2E6E76DB18E9A6D900A1D14D /* CUILightMapsCreator.cpp in Sources */,
 				2E6C6291182983CD00FB1027 /* CDevices.h in Sources */,
 				2E6C6292182983CD00FB1027 /* CCoreUserInterface.cpp in Sources */,
 				2E6C6293182983CD00FB1027 /* CCoreUserInterface.h in Sources */,
@@ -7000,6 +7351,7 @@
 				2E6C62A2182983CD00FB1027 /* CGUIFileSelector.cpp in Sources */,
 				2E6C62A3182983CD00FB1027 /* CGUIFileSelector.h in Sources */,
 				2E6C62A4182983CD00FB1027 /* GraphKat.cpp in Sources */,
+				2E6E76BF18E9A60700A1D14D /* CFilterCallback.cpp in Sources */,
 				2E6C62A5182983CD00FB1027 /* GraphKat.h in Sources */,
 				2EE53DE4188232F900848E0E /* CUIFileLoader.cpp in Sources */,
 				2E6C62A6182983CD00FB1027 /* ProgressBar.cpp in Sources */,
@@ -7056,14 +7408,17 @@
 				2E6C62DA182983CD00FB1027 /* CUIRenderingInfos.h in Sources */,
 				2E6C62DB182983CD00FB1027 /* CUIRightSceneTreeView.cpp in Sources */,
 				2E6C62DC182983CD00FB1027 /* CUIRightSceneTreeView.h in Sources */,
+				2E6E76CF18E9A6CB00A1D14D /* CUICharacterManager.cpp in Sources */,
 				2E6C62DD182983CD00FB1027 /* CUISceneView.cpp in Sources */,
 				2E6C62DE182983CD00FB1027 /* CUISceneView.h in Sources */,
+				2E6E76B518E9A5C000A1D14D /* CUIEditParticleInterpolators.cpp in Sources */,
 				2E6C62DF182983CD00FB1027 /* CUIWindowEditGrid.cpp in Sources */,
 				2E6C62E0182983CD00FB1027 /* CUIWindowEditGrid.h in Sources */,
 				2E6C62E1182983CD00FB1027 /* CUIWindowEditLight.cpp in Sources */,
 				2E6C62E2182983CD00FB1027 /* CUIWindowEditLight.h in Sources */,
 				2E6C62E3182983CD00FB1027 /* CUIWindowEditNode.cpp in Sources */,
 				2E6C62E4182983CD00FB1027 /* CUIWindowEditNode.h in Sources */,
+				2E6E76B718E9A5C000A1D14D /* CUIParticlesEditZone.cpp in Sources */,
 				2E6C62E5182983CD00FB1027 /* CUIWindowEditVolumeLight.cpp in Sources */,
 				2E6C62E6182983CD00FB1027 /* CUIWindowEditVolumeLight.h in Sources */,
 				2E6C62E7182983CD00FB1027 /* CUIWindowEditWater.cpp in Sources */,
@@ -7131,6 +7486,7 @@
 				2E6C6324182983CD00FB1027 /* UIContextMenu.h in Sources */,
 				2E6C6325182983CD00FB1027 /* UIWindowRender.cpp in Sources */,
 				2E6C6326182983CD00FB1027 /* UIWindowRender.h in Sources */,
+				2E6E76DD18E9A6D900A1D14D /* CUVTree.cpp in Sources */,
 				2E6C6327182983CD00FB1027 /* SSWELib.cpp in Sources */,
 				2E6C6328182983CD00FB1027 /* SSWELib.h in Sources */,
 				2E6C6329182983CD00FB1027 /* stdafx.cpp in Sources */,
@@ -7143,6 +7499,45 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6E673C182D909A00A79A68 /* CSSWELibTestPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E6E723218E99F5F00A1D14D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E6E766518E99F9500A1D14D /* softbody.cpp in Sources */,
+				2E6E765D18E99F9500A1D14D /* motionstate.cpp in Sources */,
+				2E6E763F18E99F9500A1D14D /* collisioncallbackinformation.cpp in Sources */,
+				2E6E764318E99F9500A1D14D /* collisionobjectaffector.cpp in Sources */,
+				2E6E766718E99F9500A1D14D /* sphereshape.cpp in Sources */,
+				2E6E765718E99F9500A1D14D /* irrbulletcommon.cpp in Sources */,
+				2E6E764518E99F9500A1D14D /* collisionobjectaffectorattract.cpp in Sources */,
+				2E6E764118E99F9500A1D14D /* collisionobject.cpp in Sources */,
+				2E6E764B18E99F9500A1D14D /* convexhullshape.cpp in Sources */,
+				2E6E763918E99F9500A1D14D /* boxshape.cpp in Sources */,
+				2E6E764918E99F9500A1D14D /* collisionshape.cpp in Sources */,
+				2E6E766318E99F9500A1D14D /* rigidbody.cpp in Sources */,
+				2E6E766918E99F9500A1D14D /* trianglemeshshape.cpp in Sources */,
+				2E6E765B18E99F9500A1D14D /* liquidbody.cpp in Sources */,
+				2E6E764718E99F9500A1D14D /* collisionobjectaffectordelete.cpp in Sources */,
+				2E6E766118E99F9500A1D14D /* raycastvehicle.cpp in Sources */,
+				2E6E763D18E99F9500A1D14D /* bvhtrianglemeshshape.cpp in Sources */,
+				2E6E765F18E99F9500A1D14D /* physicsdebug.cpp in Sources */,
+				2E6E765918E99F9500A1D14D /* kinematiccharactercontroller.cpp in Sources */,
+				2E6E765518E99F9500A1D14D /* irrbullet.cpp in Sources */,
+				2E6E763B18E99F9500A1D14D /* bulletworld.cpp in Sources */,
+				2E6E765218E99F9500A1D14D /* gimpactmeshshape.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2E6E76F518E9B77100A1D14D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E6E770D18E9B7C000A1D14D /* Stdafx.cpp in Sources */,
+				2E6E770B18E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.cpp in Sources */,
+				2E6E770918E9B7C000A1D14D /* CSSWEUltimateTool.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8027,16 +8422,6 @@
 			target = 0946CCA30EC99BBE00D945A5 /* 19.MouseAndJoystick */;
 			targetProxy = 0E2E3D931103EB41002DE8D7 /* PBXContainerItemProxy */;
 		};
-		2E1C22E718930476003033A3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
-			targetProxy = 2E1C22E618930476003033A3 /* PBXContainerItemProxy */;
-		};
-		2E1C22E918930479003033A3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2E6C5DAF182980CD00FB1027 /* SSWERenders */;
-			targetProxy = 2E1C22E818930479003033A3 /* PBXContainerItemProxy */;
-		};
 		2E1C22EB1893050E003033A3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2E6B3D46182E7964006E12C6 /* SSWEGenericMonitor */;
@@ -8096,6 +8481,11 @@
 			isa = PBXTargetDependency;
 			target = D2AAC07D0554694100DB518D /* libIrrlicht.a */;
 			targetProxy = 2E6C6338182985B900FB1027 /* PBXContainerItemProxy */;
+		};
+		2E6E767018E9A35800A1D14D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6E723518E99F5F00A1D14D /* IrrBullet */;
+			targetProxy = 2E6E766F18E9A35800A1D14D /* PBXContainerItemProxy */;
 		};
 		2E92B6491849289E00D955F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -8731,6 +9121,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				GCC_PREPROCESSOR_DEFINITIONS = SSWE_EDITOR;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = ../../../include;
@@ -8750,6 +9141,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = SSWE_EDITOR;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
@@ -8814,7 +9206,9 @@
 				LD_NO_PIE = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx",
+					"/Users/julienmoreau-mathis/Desktop/Nala",
+					Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx,
+					"$(PROJECT_DIR)/build/Release",
 				);
 				LINKER_DISPLAYS_MANGLED_NAMES = NO;
 				LINK_WITH_STANDARD_LIBRARIES = YES;
@@ -8893,7 +9287,9 @@
 				LD_NO_PIE = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx",
+					"/Users/julienmoreau-mathis/Desktop/Nala",
+					Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx,
+					"$(PROJECT_DIR)/build/Release",
 				);
 				LINKER_DISPLAYS_MANGLED_NAMES = NO;
 				LINK_WITH_STANDARD_LIBRARIES = YES;
@@ -8935,6 +9331,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Renders_prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = SSWE_EDITOR;
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../Bullet/libs/,
@@ -8949,6 +9346,7 @@
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = SSWERenders;
 				SDKROOT = macosx10.9;
 				SHARED_PRECOMPS_DIR = "";
@@ -8972,6 +9370,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Renders_prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = SSWE_EDITOR;
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../Bullet/libs/,
@@ -8986,6 +9385,7 @@
 					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SSWERenders;
 				SDKROOT = macosx10.9;
@@ -9080,15 +9480,13 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = SSWE_EDITOR;
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../Bullet/libs/,
@@ -9099,12 +9497,11 @@
 					../../../../SSWECore/,
 					../../../../SSWELib/,
 					../../../../SPARK/SPARK155/include,
+					../../../../irrBullet/trunk/source/bheaders,
+					../../../../irrBullet/trunk/source/bheaders/Bullet,
 				);
 				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = SSWELib;
 				SDKROOT = macosx10.9;
@@ -9121,15 +9518,15 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = SSWE_RELEASE;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SSWE_EDITOR,
+					SSWE_RELEASE,
+				);
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../Bullet/libs/,
@@ -9140,12 +9537,11 @@
 					../../../../SSWECore/,
 					../../../../SSWELib/,
 					../../../../SPARK/SPARK155/include,
+					../../../../irrBullet/trunk/source/bheaders,
+					../../../../irrBullet/trunk/source/bheaders/Bullet,
 				);
 				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SSWELib;
@@ -9198,9 +9594,10 @@
 					../../../../SSWERenders,
 					../../../../SSWECore,
 					../../../../SSWELib/include,
-					../../../../Bullet/libs,
-					../../../../Bullet/libs/src,
-					../../../../Lua52/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Release",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
@@ -9248,15 +9645,265 @@
 					../../../../SSWERenders,
 					../../../../SSWECore,
 					../../../../SSWELib/include,
-					../../../../Bullet/libs,
-					../../../../Bullet/libs/src,
-					../../../../Lua52/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Release",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.9;
+			};
+			name = Release;
+		};
+		2E6E723818E99F5F00A1D14D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../../../include/**",
+					../../../../irrBullet/trunk/source/bheaders,
+					../../../../irrBullet/trunk/source/bheaders/Bullet,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2E6E723918E99F5F00A1D14D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../../../include/**",
+					../../../../irrBullet/trunk/source/bheaders,
+					../../../../irrBullet/trunk/source/bheaders/Bullet,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2E6E76FC18E9B77100A1D14D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = NO;
+				HEADER_SEARCH_PATHS = (
+					../../../include,
+					../../../../SSWERenders,
+					../../../../SSWELib/include,
+					"../../../../OpenFrameworks/libs/openFrameworks/**/**",
+				);
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INSTALL_PATH = /usr/local/bin;
+				LD_NO_PIE = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala",
+					Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx,
+					"$(PROJECT_DIR)/build/Release",
+				);
+				LINKER_DISPLAYS_MANGLED_NAMES = NO;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-read_only_relocs",
+					suppress,
+				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				PRODUCT_NAME = SSWEUltimateTool;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
+				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
+				STRIP_STYLE = debugging;
+				VALIDATE_PRODUCT = NO;
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = "";
+			};
+			name = Debug;
+		};
+		2E6E76FD18E9B77100A1D14D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_NS_ASSERTIONS = NO;
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = NO;
+				HEADER_SEARCH_PATHS = (
+					../../../include,
+					../../../../SSWERenders,
+					../../../../SSWELib/include,
+					"../../../../OpenFrameworks/libs/openFrameworks/**/**",
+				);
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INSTALL_PATH = /usr/local/bin;
+				LD_NO_PIE = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala",
+					Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx,
+					"$(PROJECT_DIR)/build/Release",
+				);
+				LINKER_DISPLAYS_MANGLED_NAMES = NO;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-DMACOSX";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-read_only_relocs",
+					suppress,
+				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				PRODUCT_NAME = SSWEUltimateTool;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
+				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
+				STRIP_STYLE = debugging;
+				VALIDATE_PRODUCT = NO;
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = "";
 			};
 			name = Release;
 		};
@@ -9909,15 +10556,14 @@
 				DSTROOT = ../../../../../SSWE/;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
-					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
+					../../../../Bullet/libs,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
+				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../SSWELib/,
@@ -9932,7 +10578,7 @@
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
+					../../../../Lua52/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
@@ -9962,13 +10608,12 @@
 				DSTROOT = ../../../../../SSWE/;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Bullet/libs",
-					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
+					../../../../Bullet/libs,
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
+				GCC_PREFIX_HEADER = SSWE_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					../../../include,
 					../../../../SSWELib/,
@@ -9983,7 +10628,7 @@
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/julienmoreau-mathis/Desktop/Soganatsu\\ Studios/Projects/SSWE/SSWEProject/Lua52",
+					../../../../Lua52/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_LINK_ESSENTIAL_SYMBOLS = YES;
@@ -10384,6 +11029,24 @@
 			buildConfigurations = (
 				2E6E6736182D905500A79A68 /* Debug */,
 				2E6E6737182D905500A79A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2E6E723718E99F5F00A1D14D /* Build configuration list for PBXNativeTarget "IrrBullet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E6E723818E99F5F00A1D14D /* Debug */,
+				2E6E723918E99F5F00A1D14D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2E6E76FB18E9B77100A1D14D /* Build configuration list for PBXNativeTarget "SSWEUltimateTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E6E76FC18E9B77100A1D14D /* Debug */,
+				2E6E76FD18E9B77100A1D14D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

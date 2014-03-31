@@ -253,7 +253,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "321"
             endingLineNumber = "321"
-            landmarkName = "CDevices::createDevice(SIrrlichtCreationParameters parameters)"
+            landmarkName = "CDevices::drawScene()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -270,22 +270,6 @@
             startingLineNumber = "25"
             endingLineNumber = "25"
             landmarkName = "CEffectRenderCallback::OnPreRender(EffectHandler* effect)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../../SSWETestPlugin/CSSWELibTestPlugin.cpp"
-            timestampString = "405703844.493333"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "CSSWELibTestPlugin::close()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -416,15 +400,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp"
-            timestampString = "412292502.862471"
+            timestampString = "417969129.225585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "CPluginsManager::loadMonitorPlugin(stringc path)"
             landmarkType = "5">
          </BreakpointContent>

@@ -6,9 +6,11 @@
 
 #include <ITool.h>
 
+#ifndef _IRR_OSX_PLATFORM_
 #include "src/Bullet-C-Api.h"
 #include "src/btBulletDynamicsCommon.h"
 #include "src/btBulletCollisionCommon.h"
+#endif
 
 class IUpdate {
 public:
@@ -73,7 +75,9 @@ public:
     virtual irr::video::ITexture *copyTexture(irr::core::stringc nameOfTexture, irr::video::ITexture *texture, irr::video::IVideoDriver *driver) = 0;
     
 	//BULLET METHODS
+    #ifndef _IRR_OSX_PLATFORM_
 	virtual btVector3 getBtVector3(irr::core::vector3df vector) = 0;
+    #endif
     
 };
 

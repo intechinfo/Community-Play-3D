@@ -24,8 +24,8 @@
 extern "C" SSWE_LIB_API ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
 extern "C" SSWE_LIB_API void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface);
 #else
-CCoreUserInterface* createSSWEDevice();
-void updateSSWEDevice(CCoreUserInterface *coreUserInterface);
+ISSWECoreUserInterface* createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
+void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface);
 #endif
 
 #endif
