@@ -28,13 +28,13 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
 
 	//LIGHT SCATTERING PASS
-	LightScatteringRTT = driver->addRenderTargetTexture(dimension2du(32, 32), "LightScatteringRTT");
+	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
 	useLightScattering = false;
 
 	//HDR PIPELINE
 	const u32 hdr_rtt0_size = 32;//((ScreenRTTSize.Width * ScreenRTTSize.Height) * 32) / (800 * 600);
 	mainTarget = driver->addRenderTargetTexture(ScreenRTTSize,"HDRMainTarget");
-	hdrRTT0 = driver->addRenderTargetTexture(core::dimension2du(64, 64),"rtt0");
+	hdrRTT0 = driver->addRenderTargetTexture(ScreenRTTSize,"rtt0");
 	hdrScreenQuad = new CScreenQuadHDRPipeline(smgr->getRootSceneNode(),smgr,10, ScreenRTTSize);
 	motionBlurRTT0 = driver->addRenderTargetTexture(ScreenRTTSize,"motionBlurRTT0");
 	temp = driver->addRenderTargetTexture(ScreenRTTSize, "temp");
@@ -696,7 +696,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	}
 
 	//HDR PIPELINE
-	video::SColor colors[] =
+	/*video::SColor colors[] =
 	{
 		video::SColor(255,96,96,96),
 		video::SColor(255,96,96,96),
@@ -711,7 +711,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	driver->draw2DImage(mainTarget, core::rect<s32>(0 ,0 , 64, 64),
 						core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height), 0, colors);
 	driver->setRenderTarget(video::ERT_FRAME_BUFFER,true,true);
-	hdrScreenQuad->render();
+	hdrScreenQuad->render();*/
 
 	/// Motion Blur
 	/*video::SColor colors1[] =

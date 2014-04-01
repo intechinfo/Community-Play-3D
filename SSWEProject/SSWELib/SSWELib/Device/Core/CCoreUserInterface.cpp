@@ -37,7 +37,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 			params.Fullscreen = false;
 		}
     #endif
-	params.HandleSRGB = true;
+	//params.HandleSRGB = true;
 	params.WithAlphaChannel = true;
 	params.Stencilbuffer=false;
 	params.Vsync=false;
