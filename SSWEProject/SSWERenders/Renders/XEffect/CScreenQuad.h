@@ -53,8 +53,8 @@ class CScreenQuadHDRPipeline : public irr::scene::ISceneNode{
 												//But if we are to use the builtin materials, this is necesary
 
 public:
-	 	CScreenQuadHDRPipeline::CScreenQuadHDRPipeline(irr::scene::ISceneNode* parent, irr::scene::ISceneManager* mgr, irr::s32 id,
-													   irr::core::dimension2d<irr::u32> screenSize)
+	 	CScreenQuadHDRPipeline(irr::scene::ISceneNode* parent, irr::scene::ISceneManager* mgr, irr::s32 id,
+                               irr::core::dimension2d<irr::u32> screenSize)
 	 	: irr::scene::ISceneNode(parent,mgr,id)
 	 	{
 	 		irr::f32 shiftX,shiftY;
@@ -107,18 +107,18 @@ We can alter these later, but for the time being, initializing then here will do
 																//node to be culled because we render it in screen space.
 		}
 
-	 	CScreenQuadHDRPipeline::~CScreenQuadHDRPipeline() { }
+	 	~CScreenQuadHDRPipeline() { }
 
-		const irr::core::aabbox3df& CScreenQuadHDRPipeline::getBoundingBox() const {
+		const irr::core::aabbox3df& getBoundingBox() const {
 			return aabb;
 		}
 
-	 	void CScreenQuadHDRPipeline::OnRegisterSceneNode() {
+	 	void OnRegisterSceneNode() {
 			//This method is empty because it is best for us to render this scene node manually.
 			//So, it is never really rendered on its own, if we don't tell it to do so.
 		}
 
-	 	void CScreenQuadHDRPipeline::render() {
+	 	void render() {
 			irr::video::IVideoDriver* drv = getSceneManager()->getVideoDriver();
 			irr::core::matrix4 proj;
 			irr::u16 indices[] = {0,1,2,3,1,2};
@@ -133,11 +133,11 @@ We can alter these later, but for the time being, initializing then here will do
 
 		}
 
-	 	irr::u32 CScreenQuadHDRPipeline::getMaterialCount() {
+	 	irr::u32 getMaterialCount() {
 			return 1;	//There is only one material
 		}
 
-		irr::video::SMaterial& CScreenQuadHDRPipeline::getMaterial(irr::u32 i) {
+		irr::video::SMaterial& getMaterial(irr::u32 i) {
 			return material;//We always return the same material, so there is no need for more.
 		}
 };

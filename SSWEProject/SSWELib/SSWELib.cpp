@@ -16,7 +16,7 @@ static pthread_mutex_t cs_mutex =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #ifndef _IRR_OSX_PLATFORM_
 SSWE_LIB_API ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
 #else
-CCoreUserInterface* createSSWEDevice() {
+ISSWECoreUserInterface* createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
 #endif
 	return (ISSWECoreUserInterface*)(new CCoreUserInterface(playOnly, argPath));
 }
@@ -24,7 +24,7 @@ CCoreUserInterface* createSSWEDevice() {
 #ifndef _IRR_OSX_PLATFORM_
 SSWE_LIB_API void SSWELIBCALLCONV updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 #else
-void updateSSWEDevice(CCoreUserInterface *coreUserInterface) {
+void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 #endif
 
 	CCoreUserInterface *coreUserInterface = (CCoreUserInterface*)_coreUserInterface;

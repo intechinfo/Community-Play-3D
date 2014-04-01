@@ -159,7 +159,11 @@ u32 CSSWEUltimateTool::getNewElementPosition() {
 
 void CSSWEUltimateTool::runOpenSCAD() {
 	std::string path = "\"";
+    #ifndef _IRR_OSX_PLATFORM_
 	path += stringc(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/openscad.exe\"").c_str();
+    #else
+    path += stringc(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/OpenSCAD.app/Contents/MacOS/OpenSCAD\"").c_str();
+    #endif
 	system(path.c_str());
 }
 
@@ -170,9 +174,16 @@ void CSSWEUltimateTool::buildOpenSCADFromFile() {
 	uniqName.remove(".");
 	devices->getDevice()->getLogger()->log(uniqName.c_str());
 
+    #ifndef _IRR_OSX_PLATFORM_
 	std::system(stringc(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/openscad.exe -o "
 		+ workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/" + "temp/test" + uniqName + ".stl "
 		+ openScadFileDialog->getFileName()).c_str());
+    #else
+    stringc ppath = "\"";
+    system(stringc(ppath + workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/OpenSCAD.app/Contents/MacOS/OpenSCAD\" -o "
+                    + "\"" + workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/" + "temp/test" + uniqName + ".stl\" "
+                    + openScadFileDialog->getFileName()).c_str());
+    #endif
 
 	/// Add the object
 	/// Lock the main thread to add the object to the scene

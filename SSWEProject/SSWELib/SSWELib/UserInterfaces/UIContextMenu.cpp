@@ -35,9 +35,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			pluginsManager->loadSSWEPlugin("SSWEULTIMATETOOL");
 		#endif
 	#else
-		#ifdef SSWE_RELEASE
-			pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
-		#endif
+        pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
+        pluginsManager->loadSSWEPlugin("LIBSSWEULTIMATETOOL");
 	#endif
 
     //-----------------------------------
@@ -223,7 +222,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	image = devices->getVideoDriver()->getTexture("GUI/save.png");
 	bar->addButton(CXT_MENU_EVENTS_EXPORT_SCENE, 0, L"Export this scene", image, 0, false, true);
 
-    bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+    bar->addButton(-1, 0, L"", image, 0, false, true)->setVisible(false);
 
     image = devices->getVideoDriver()->getTexture("GUI/edit_ao.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_AO, 0, L"Edit Animated Object", image, 0, false, true);
@@ -234,7 +233,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	image = devices->getVideoDriver()->getTexture("GUI/effects.png");
     bar->addButton(CXT_MENU_EVENTS_EDIT_EFFECTS, 0, L"Edit Effects", image, 0, false, true);
 
-	bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+	bar->addButton(-1, 0, L"", image, 0, false, true)->setVisible(false);
 
 	image = devices->getVideoDriver()->getTexture("GUI/scripts.png");
 	bar->addButton(CXT_MENU_EVENTS_OPEN_SCRIPT_EDITOR, 0, L"open script editor", image, 0, false, true);
@@ -243,7 +242,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	image = devices->getVideoDriver()->getTexture("GUI/tangents.png");
 	bar->addButton(CXT_MENU_EVENTS_CREATE_MESH_WITH_TANGENTS, 0, L"Create mesh with tangents", image, 0, false, true);
 
-	bar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+	bar->addButton(-1, 0, L"", image, 0, false, true)->setVisible(false);
 	image = devices->getVideoDriver()->getTexture("GUI/play_game.png");
 	bar->addButton(CXT_MENU_EVENTS_PLAY_GAME, 0, L"", image, 0, false, true);
 
@@ -270,7 +269,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     image = devices->getVideoDriver()->getTexture("GUI/help.png");
 	infosBar->addButton(CXT_MENU_EVENTS_HELP, 0, L"Open Help", image, 0, false, true);
 
-    infosBar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+    infosBar->addButton(-1, 0, L"", image, 0, false, true)->setVisible(false);
 
     //PLACE POSITION, ROTATION, SCALE HERE
     image = devices->getVideoDriver()->getTexture("GUI/position.png");
@@ -280,8 +279,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     image = devices->getVideoDriver()->getTexture("GUI/scale.png");
 	(ibscale = infosBar->addButton(-1, 0, L"Change Object Scale", image, 0, false, true))->setIsPushButton();
 
-	infosBar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
-	infosBar->addButton(-1, 0, L"", image, false, true)->setVisible(false);
+	infosBar->addButton(-1, 0, L"", image, 0, false, true)->setVisible(false);
+	infosBar->addButton(-1, 0, L"", image, 0, false, true)->setVisible(false);
 
 	//CUBE SHPERE PLANE BILLBOARD
 	image = devices->getVideoDriver()->getTexture("GUI/cube.png");
