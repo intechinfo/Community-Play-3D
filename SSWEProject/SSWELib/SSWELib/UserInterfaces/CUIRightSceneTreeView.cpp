@@ -191,7 +191,7 @@ void CUIRightSceneTreeView::addChildrenBackSDataRecursively(IGUITreeViewNode *tr
 }
 
 s32 CUIRightSceneTreeView::getImageListIndexForNodeType(ESCENE_NODE_TYPE type) {
-	s32 index;
+	s32 index = 10;
 	switch (type) {
 		case ESNT_Q3SHADER_SCENE_NODE: index = 0; break;
 		case ESNT_CAMERA: index = 1; break;

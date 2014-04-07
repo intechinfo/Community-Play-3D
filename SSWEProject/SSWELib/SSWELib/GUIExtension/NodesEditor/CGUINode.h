@@ -36,6 +36,9 @@ public:
     
     void addChild(CGUINode *node);
     void createChild();
+
+	void removeChild(CGUINode *node, bool firstElement=false);
+	void removeAll();
     
     //-----------------------------------
 	//DATAS
@@ -55,6 +58,7 @@ public:
 	//GUI ELEMENTS
     void createInterface(IGUIElement *parentElement);
     irr::gui::IGUIElement *getInterface() { return window; }
+	void destroyInterface();
     
     void setName(irr::core::stringc _name) { name = _name; }
     irr::core::stringc getName() { return name; }

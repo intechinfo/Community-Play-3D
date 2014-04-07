@@ -203,25 +203,45 @@ public:
 	core::matrix4 worldViewProj;
 };
 
-class SSWE_RENDERS_API GodRaysCB : public IPostProcessingRenderCallback {
-    
+class CHDRCallback : public IPostProcessingRenderCallback {
+
 public:
-	GodRaysCB(irr::s32 materialTypeIn) : materialType(materialTypeIn) {}
-    
-	void OnPreRender(EffectHandler* effect) {
-        core::vector2di scrPos = effect->getIrrlichtDevice()->getSceneManager()->getSceneCollisionManager()->getScreenCoordinatesFrom3DPosition(screenPosition);
-        core::vector2df screen((float)scrPos.X/(float)effect->getIrrlichtDevice()->getVideoDriver()->getScreenSize().Width,
-                               (float)scrPos.Y/(float)effect->getIrrlichtDevice()->getVideoDriver()->getScreenSize().Height);
-        screen.Y = 1-screen.Y;
-        effect->setPostProcessingEffectConstant(materialType, "lightPositionOnScreen", reinterpret_cast<f32*>(&screen), 2);
-    }
-    
-	void OnPostRender(EffectHandler* effect) {}
-    
-    //virtual void OnSetConstants(irr::video::IMaterialRendererServices* services, irr::s32 userData) {}
-    
-    core::vector3df screenPosition;
-    irr::s32 materialType;
+	CHDRCallback(EffectHandler *effectIn, irr::s32 materialTypeIn) : effecti(effectIn), Material(materialTypeIn) {};
+
+	virtual void OnPostRender(ISSWERender* effect) {}
+
+	virtual void OnPreRender(ISSWERender* effect) {
+		//CAMERA
+		vector3df g_vCameraPositionWS = effecti->getActiveSceneManager()->getActiveCamera()->getPosition();
+		effecti->setPostProcessingEffectConstant(Material, "g_vCameraPositionWS", reinterpret_cast<f32*>(&g_vCameraPositionWS.X), 3);
+
+		//SUN
+		vector3df g_vSunlightDirectionWS(-0.7f, -1.0f, -1.0f);
+		effecti->setPostProcessingEffectConstant(Material, "g_vSunlightDirectionWS", reinterpret_cast<f32*>(&g_vSunlightDirectionWS.X), 3);
+		vector3df g_vSunlightColor(1.0f, 0.7f, 0.4f);
+		effecti->setPostProcessingEffectConstant(Material, "g_vSunlightColor", reinterpret_cast<f32*>(&g_vSunlightColor.X), 3);
+		f32 g_fSunlightBrightness = 3.f;
+		effecti->setPostProcessingEffectConstant(Material, "g_fSunlightBrightness", reinterpret_cast<f32*>(&g_fSunlightBrightness), 1);
+		
+		//COLORS
+		vector3df g_vDiffuseAlbedo(1.0);
+		effecti->setPostProcessingEffectConstant(Material, "g_vDiffuseAlbedo", reinterpret_cast<f32*>(&g_vDiffuseAlbedo.X), 3);
+		vector3df g_vSpecularAlbedo(0.4f);
+		effecti->setPostProcessingEffectConstant(Material, "g_vSpecularAlbedo", reinterpret_cast<f32*>(&g_vSpecularAlbedo.X), 3);
+		f32 g_fSpecularPower = 32.f;
+		effecti->setPostProcessingEffectConstant(Material, "g_fSpecularPower", reinterpret_cast<f32*>(&g_fSpecularPower), 1);
+		f32 g_fReflectivity = 0.7f;
+		effecti->setPostProcessingEffectConstant(Material, "g_fReflectivity", reinterpret_cast<f32*>(&g_fReflectivity), 1);
+		f32 g_fReflectionBrightness;
+		effecti->setPostProcessingEffectConstant(Material, "g_fReflectionBrightness", reinterpret_cast<f32*>(&g_fReflectionBrightness), 1);
+
+		bool bEncodeLogLuv = false;
+	}
+
+private:
+
+	EffectHandler* effecti;
+	irr::s32 Material;
 };
 
 class SSWE_RENDERS_API ShadowShaderCB : public video::IShaderConstantSetCallBack {

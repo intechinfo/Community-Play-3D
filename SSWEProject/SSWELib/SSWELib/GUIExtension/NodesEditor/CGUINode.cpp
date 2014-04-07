@@ -201,6 +201,43 @@ void CGUINode::createInterface(IGUIElement *parentElement) {
     window->setRelativePosition(position2di(10, 10));
 }
 
+void CGUINode::destroyInterface() {
+	window->remove();
+	window = 0;
+}
+
+void CGUINode::removeChild(CGUINode *node, bool firstElement) {
+	if (!firstElement)
+		node->getInterface()->remove();
+	core::list<CGUINode*>::Iterator it = children.begin();
+	for (; it != children.end(); ++it) {
+		if (*it == node) {
+			(*it)->removeAll();
+			children.erase(it);
+			break;
+		}
+	}
+	delete node;
+}
+
+void CGUINode::removeAll() {
+	core::list<CGUINode*>::Iterator it = children.begin();
+	for (; it != children.end(); ++it) {
+		(*it)->removeAll();
+		(*it)->destroyInterface();
+
+		SEvent ev;
+		ev.EventType = EET_GUI_EVENT;
+		ev.GUIEvent.EventType = (EGUI_EVENT_TYPE)ESE_GRAPH_NODE_REMOVED;
+		ev.GUIEvent.Caller = editor;
+		ev.GUIEvent.Element = (IGUIElement*)*it;
+		editor->getDevice()->getEventReceiver()->OnEvent(ev);
+
+		delete *it;
+	}
+	children.clear();
+}
+
 bool CGUINode::OnEvent(const SEvent& event) {
     
     if (event.EventType == EET_GUI_EVENT) {
@@ -225,11 +262,27 @@ bool CGUINode::OnEvent(const SEvent& event) {
                     gui->setFocus(element);
                     
                     editor->getDevice()->getEventReceiver()->OnEvent(ev);
+					
                     break;
                 }
                 selement = selement->getParent();
             }
         }
+
+		if (window && event.GUIEvent.Caller != 0 && event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			if (event.GUIEvent.Caller == window) {
+				SEvent ev;
+				ev.EventType = EET_GUI_EVENT;
+				ev.GUIEvent.EventType = (EGUI_EVENT_TYPE)ESE_GRAPH_NODE_REMOVED;
+				ev.GUIEvent.Caller = ev.GUIEvent.Caller = editor;
+				ev.GUIEvent.Element = (IGUIElement*)this;
+
+				editor->getDevice()->getEventReceiver()->OnEvent(ev);
+
+				if (parentNode)
+					parentNode->removeChild(this, true);
+			}
+		}
     }
     
     return false;

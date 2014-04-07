@@ -4,7 +4,8 @@
 #include <irrlicht.h>
 
 enum E_SSWE_EVENTS {
-    ESE_GRAPH_NODE_CHANGED = irr::gui::EGET_COUNT
+    ESE_GRAPH_NODE_CHANGED = irr::gui::EGET_COUNT,
+	ESE_GRAPH_NODE_REMOVED
 };
 
 #endif

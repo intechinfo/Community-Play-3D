@@ -24,6 +24,15 @@ public:
 
 	bool OnEvent(const SEvent &event);
 
+	enum E_PS_DATA_TYPE {
+        EPSDT_SYSTEM = 0,
+        EPSDT_GROUP,
+        EPSDT_EMITTER,
+        EPSDT_RENDERER,
+        EPSDT_MODEL,
+		EPSDT_MODIFIER
+    };
+
 private:
 
 	//-----------------------------------
@@ -62,14 +71,6 @@ private:
 	//-----------------------------------
 	//DATAS
     SParticleSystem *ps;
-    
-    enum E_PS_DATA_TYPE {
-        EPSDT_SYSTEM = 0,
-        EPSDT_GROUP,
-        EPSDT_EMITTER,
-        EPSDT_RENDERER,
-        EPSDT_MODEL
-    };
     
     CGUINode *selectedNode;
     

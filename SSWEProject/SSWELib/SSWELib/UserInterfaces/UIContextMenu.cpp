@@ -316,7 +316,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			
 			stringw scene_to_import = L"LTestDemoGame.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			impoterInstance->importScene(scene_to_import.c_str());
+			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();

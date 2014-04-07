@@ -371,11 +371,9 @@ bool CUIParticlesEditZone::OnEvent(const SEvent &event) {
 				}
 
 				if (name == "SPHERE:radius") {
-					SPK::Vector3D v = ((SPK::Sphere*)emitter->getZone())->getRadius();
-					SPK::Sphere *plane = (SPK::Sphere*)emitter->getZone();
+					SPK::Sphere *sphere = (SPK::Sphere*)emitter->getZone();
 					f32 value = devices->getCore()->getF32(editbox->getText());
-
-
+					sphere->setRadius(value);
 				}
 			}
 		}

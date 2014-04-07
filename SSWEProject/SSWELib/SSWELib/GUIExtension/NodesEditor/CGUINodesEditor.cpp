@@ -36,6 +36,11 @@ void CGUINodesEditor::addNode(CGUINode *node) {
     
 }
 
+void CGUINodesEditor::removeNode(CGUINode *node) {
+	if (node->getParent())
+		node->getParent()->removeChild(node);
+}
+
 void CGUINodesEditor::getArrayOfNodes(CGUINode *node, core::array<CGUINode *> &outNodes) {
     const core::list<CGUINode *> list = node->getChildren();
     core::list<CGUINode *>::ConstIterator it = list.begin();
@@ -249,11 +254,17 @@ bool CGUINodesEditor::OnEvent(const SEvent& event)
                     previousHeight = ScrollBarV->getPos();
                 }
             }
+
+			if (event.GUIEvent.Caller->getType() == EGUIET_WINDOW) {
+				return false;
+			}
             
-            core::array<CGUINode *> nodes;
-            this->getArrayOfNodes(rootNode, nodes);
-            for (u32 i=0; i < nodes.size(); i++)
-                nodes[i]->OnEvent(event);
+			if (event.GUIEvent.Caller != this) {
+				core::array<CGUINode *> nodes;
+				this->getArrayOfNodes(rootNode, nodes);
+				for (u32 i=0; i < nodes.size(); i++)
+					nodes[i]->OnEvent(event);
+			}
         }
             break;
             

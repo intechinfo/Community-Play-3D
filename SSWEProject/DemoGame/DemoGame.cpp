@@ -15,12 +15,12 @@ int main(int argc, char *argv[])
 	coreInterface->getIDevices()->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 
 	IDevices *devices = coreInterface->getIDevices();
-	devices->setXEffectDrawable(false);
+	//devices->setXEffectDrawable(false);
 	devices->getXEffect()->setAmbientColor(video::SColor(255, 32, 32, 32));
 
 	/// Set up scene and rendering
 	ISSWEImporter *importer = coreInterface->createImporter();
-	importer->importScene("LTestDemoGame.world");
+	importer->importScene("lmetro1012.world");
 	delete importer;
 
 	coreInterface->addMonitor("SSWEGenericMonitor");

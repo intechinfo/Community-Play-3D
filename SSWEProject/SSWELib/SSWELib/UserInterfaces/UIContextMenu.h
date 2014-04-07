@@ -155,6 +155,8 @@ enum GUI_CXT_MENU_EVENTS {
 
 #include "ParticlesEditor/CUIParticlesEditor.h"
 
+#include "NodeFactory/CUIWindowEditClouds.h"
+
 class CUIContextMenu : public IEventReceiver {
 
 public:

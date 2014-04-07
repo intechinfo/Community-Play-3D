@@ -57,7 +57,10 @@ public:
     
     void addNode(CGUINode *node);
     void getArrayOfNodes(CGUINode *node, irr::core::array<CGUINode *> &outNodes);
+
     CGUINode *getSelectedNode();
+
+	void removeNode(CGUINode *node);
     //-----------------------------------
     
     //-----------------------------------

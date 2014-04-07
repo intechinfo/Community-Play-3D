@@ -12,6 +12,7 @@
 #include "CUIEditParticleFlags.h"
 #include "CUIEditParticleInterpolators.h"
 #include "CUIParticlesEditZone.h"
+#include "CUIAddEmitter.h"
 
 CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
@@ -77,7 +78,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     //----------FILL FROM PS-----------------
     
     for (u32 i=0; i < ps->getSystems()->size(); i++) {
-        SPK::System *system = ps->getSystems()->operator[](i);
+		SPK::IRR::IRRSystem *system = (SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i);
         
         CGUINode *node = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
         node->setName(ps->getSystems()->operator[](i)->getName().c_str());
@@ -87,6 +88,8 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
         nodesEditor->addNode(node);
         node->addTextField(L"Name :", stringw(node->getName()).c_str());
         node->addCheckBox(L"AA-BB Computing", system->isAABBComputingEnabled());
+		node->addCheckBox(L"Enable Auto-Update", system->isAutoUpdateEnabled());
+		node->addCheckBox(L"Update Only if Visible", system->isUpdateOnlyWhenVisible());
         node->addButton(L"Add Group", L"Adds a group to this system");
         
         for (u32 j=0; j < system->getGroups().size(); j++) {
@@ -103,6 +106,10 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             node2->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
             node2->addButton(L"Add Renderer");
             node2->addButton(L"Add Emitter");
+			node2->addTextField(L"Friction", stringw(group->getFriction()).c_str());
+			node2->addCheckBox(L"Enable Sorting", group->isSortingEnabled());
+			node2->addCheckBox(L"Enable Distance Computation", group->isDistanceComputationEnabled());
+			node2->addButton(L"Add Modifier...", L"Open dialog to add modifier (vortex, obstacle, etc)");
             
             CGUINode *nodeModel = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
             nodeModel->setName(group->getModel()->getName().c_str());
@@ -115,6 +122,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             nodeModel->addButton(L"Edit Values...");
 			nodeModel->addButton(L"Edit Interpolators...");
             
+			SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)group->getRenderer();
             CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
             nodeRenderer->setName(group->getRenderer()->getName().c_str());
             nodeRenderer->setParent(node2);
@@ -139,8 +147,12 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
                                                                              ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Height)
                                                );
             nodeRenderer->addButton(L"Configure Texture...");
-            nodeRenderer->addButton(L"Manage Rendering Hints...");
-            
+			nodeRenderer->addCheckBox(L"Enable Alpha Test", renderer->isRenderingHintEnabled(SPK::ALPHA_TEST));
+			nodeRenderer->addCheckBox(L"Enable Depth Test", renderer->isRenderingHintEnabled(SPK::DEPTH_TEST));
+			nodeRenderer->addCheckBox(L"Enable Depth Write", renderer->isRenderingHintEnabled(SPK::DEPTH_WRITE));
+			nodeRenderer->addCheckBox(L"Set Active", renderer->isActive());
+			nodeRenderer->addTextField(L"Alpha test threshold", stringw(renderer->getAlphaTestThreshold()).c_str());
+
             for (u32 k=0; k < group->getEmitters().size(); k++) {
                 SPK::Emitter *emitter = group->getEmitters()[k];
                 
@@ -154,6 +166,11 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
                 node3->addTextField(L"Flow", stringw(emitter->getFlow()));
                 node3->add2ParametersFields(L"Force ", L"Min", L"Max", emitter->getForceMin(), emitter->getForceMax());
                 node3->addButton(L"Configure Zone...");
+				node3->addCheckBox(L"Active", emitter->isActive());
+				node3->addTextField(L"Tank",stringw(emitter->getTank()).c_str());
+				node3->addTextField(L"Change Tank", stringw(emitter->getTank()).c_str());
+				node3->addTextField(L"Flow", stringw(emitter->getFlow()).c_str());
+				node3->addTextField(L"Change Flow", stringw(emitter->getFlow()).c_str());
             }
         }
     }
@@ -298,10 +315,22 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                     nodesEditor->addNode(node);
                     node->addTextField(L"Name :", stringw(node->getName()).c_str());
                     node->addCheckBox(L"AA-BB Computing", system->isAABBComputingEnabled());
+					node->addCheckBox(L"Enable Auto-Update", ((IRRSystem*)system)->isAutoUpdateEnabled());
+					node->addCheckBox(L"Update Only if Visible", ((IRRSystem*)system)->isUpdateOnlyWhenVisible());
                     node->addButton(L"Add Group", L"Adds a group to this system");
                 }
             }
         }
+
+		if (event.GUIEvent.EventType == (EGUI_EVENT_TYPE)ESE_GRAPH_NODE_REMOVED) {
+			if (event.GUIEvent.Caller == nodesEditor) {
+				CGUINode *node = (CGUINode*)event.GUIEvent.Element;
+				E_PS_DATA_TYPE psdt = (E_PS_DATA_TYPE)node->getDataType();
+				if (psdt == EPSDT_MODEL) {
+					//exit(0);
+				}
+			}
+		}
         
         if (event.GUIEvent.EventType == (EGUI_EVENT_TYPE)ESE_GRAPH_NODE_CHANGED) {
             if (event.GUIEvent.Caller == nodesEditor) {
@@ -310,21 +339,33 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                     E_PS_DATA_TYPE psdt = (E_PS_DATA_TYPE)node->getDataType();
                     stringc name = event.GUIEvent.Element->getName();
                     //SYSTEM
+					//---------------------------------------------------------------------------------------------
+					//---------------------------------------SYSTEM------------------------------------------------
+					//---------------------------------------------------------------------------------------------
                     if (psdt == EPSDT_SYSTEM) {
-                        SPK::System *system = (SPK::System*)node->getData();
+                        SPK::IRR::IRRSystem *system = (SPK::IRR::IRRSystem*)node->getData();
                         if (name == "Name :") {
-                            system->setName(stringc(event.GUIEvent.Element->getText()).c_str());
+                            ((SPK::System*)system)->setName(stringc(event.GUIEvent.Element->getText()).c_str());
                             node->getInterface()->setText(event.GUIEvent.Element->getText());
                         }
                         if (name == "AA-BB Computing") {
                             system->enableAABBComputing(((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
                         }
+						if (name == "Update Only if Visible") {
+							system->setAutoUpdateEnabled(system->isAutoUpdateEnabled(), ((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
+						if (name == "Enable Auto-Update") {
+							system->setAutoUpdateEnabled(((IGUICheckBox*)event.GUIEvent.Element)->isChecked(), system->isUpdateOnlyWhenVisible());
+						}
                         if (name == "Add Group") {
                             selectedNode = node;
                             openAddModel();
                         }
                     }
                     //GROUP
+					//---------------------------------------------------------------------------------------------
+					//----------------------------------------GROUP------------------------------------------------
+					//---------------------------------------------------------------------------------------------
                     if (psdt == EPSDT_GROUP) {
                         SPK::Group *group = (SPK::Group*)node->getData();
                         if (name == "Name :") {
@@ -347,9 +388,21 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             SPK::Vector3D v = group->getGravity();
                             group->setGravity(SPK::Vector3D(v.x, v.y, zvalue));
                         }
+						//VALUES
+						if (name == "Friction") {
+							f32 fvalue = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							group->setFriction(fvalue);
+						}
+						//FLAGS
                         if (name == "AA-BB Computing") {
                             group->enableAABBComputing(((IGUICheckBox *)event.GUIEvent.Element)->isChecked());
                         }
+						if (name == "Enable Sorting") {
+							group->enableSorting(((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
+						if (name == "Enable Distance Computation") {
+							group->enableDistanceComputation(((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
                         if (name == "Add Renderer") {
                             if (group->getRenderer() == 0) {
                                 using namespace SPK;
@@ -388,7 +441,11 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                                                                                                   ((SPK::IRR::IRRQuadRenderer *)renderer)->getAtlasDimensions().Height)
                                                                    );
                                 nodeRenderer->addButton(L"Configure Texture...");
-                                nodeRenderer->addButton(L"Manage Rendering Hints...");
+								nodeRenderer->addCheckBox(L"Enable Alpha Test", renderer->isRenderingHintEnabled(SPK::ALPHA_TEST));
+								nodeRenderer->addCheckBox(L"Enable Depth Test", renderer->isRenderingHintEnabled(SPK::DEPTH_TEST));
+								nodeRenderer->addCheckBox(L"Enable Depth Write", renderer->isRenderingHintEnabled(SPK::DEPTH_WRITE));
+								nodeRenderer->addCheckBox(L"Set Active", renderer->isActive());
+								nodeRenderer->addTextField(L"Alpha test threshold", stringw(renderer->getAlphaTestThreshold()).c_str());
                                 
                                 group->setRenderer(renderer);
                                 
@@ -397,28 +454,32 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             }
                         }
                         if (name == "Add Emitter") {
-                            using namespace SPK;
-                            StraightEmitter* emitter = StraightEmitter::create(Vector3D(0.0f,1.0f,0.0f));
-                            emitter->setZone(Sphere::create(Vector3D(0.0f,-1.0f,0.0f),0.5f));
-                            emitter->setFlow(40);
-                            emitter->setForce(1.0f,2.5f);
-                            emitter->setName("New Emitter");
-                            
-                            CGUINode *node3 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-                            node3->setName(emitter->getName().c_str());
-                            node3->setParent(node);
-                            node3->setData(emitter);
-                            node3->setDataType(EPSDT_EMITTER);
-                            nodesEditor->addNode(node3);
-                            node3->addTextField(L"Name :", stringw(node3->getName()).c_str());
-                            node3->addTextField(L"Flow", stringw(emitter->getFlow()));
-                            node3->add2ParametersFields(L"Force ", L"Min", L"Max", emitter->getForceMin(), emitter->getForceMax());
-                            node3->addButton(L"Configure Zone...");
-                            
-                            group->addEmitter(emitter);
+							CUIAddEmitter *addEmitter = new CUIAddEmitter(devices, window, group, nodesEditor, node);
                         }
+
+						if (name == "Add Modifier...") {
+							using namespace SPK;
+							Vortex* vortex = Vortex::create();
+							vortex->setName("VortexExample");
+							vortex->setRotationSpeed(0.4f,false);
+							vortex->setAttractionSpeed(0.04f,true);
+							vortex->setEyeRadius(0.05f);
+							vortex->enableParticleKilling(true);
+							group->addModifier(vortex);
+
+							CGUINode *nnode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+							nnode->setParent(node);
+							nnode->setName(vortex->getName().c_str());
+							nnode->setData(vortex);
+							nnode->setDataType(EPSDT_MODIFIER);
+							nodesEditor->addNode(nnode);
+							nnode->addTextField(L"Name :", stringw(nnode->getName()).c_str());
+						}
                     }
                     //MODEL
+					//---------------------------------------------------------------------------------------------
+					//---------------------------------------MODEL-------------------------------------------------
+					//---------------------------------------------------------------------------------------------
                     if (psdt == EPSDT_MODEL) {
                         SPK::Model *model = (SPK::Model*)node->getData();
                         if (name == "Name :") {
@@ -434,22 +495,18 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
                             model->setLifeTime(model->getLifeTimeMin(), value);
                         }
-                        /*
-                        FLAGS EDITOR
-                        nodeModel->addButton(L"Edit Enabled Flags...");
-                        nodeModel->addButton(L"Edit Mutable Flags...");
-                        nodeModel->addButton(L"Edit Random Flags...");
-                        nodeModel->addButton(L"Edit Interpolated Flags...");
-                        */
+                        //FLAGS EDITOR
                         if (name == "Edit Values...") {
                             CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, window, paramNames);
                         }
                         if (name == "Edit Interpolators...") {
-                            //CUIParticleEditorFlags *flagsEditor = new CUIParticleEditorFlags(devices, model, EPFT_MUTABLE, window, paramNames);
 							CUIParticleEditorInterpolators *interpolatorsEditor = new CUIParticleEditorInterpolators(devices, model, window);
                         }
                     }
                     //RENDERER
+					//---------------------------------------------------------------------------------------------
+					//---------------------------------------RENDERER----------------------------------------------
+					//---------------------------------------------------------------------------------------------
                     if (psdt == EPSDT_RENDERER) {
                         SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)node->getData();
                         if (name == "Name :") {
@@ -488,8 +545,30 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                             selectedNode = node;
                             openRendererTexture = devices->createFileOpenDialog(L"Choose Texture...", CGUIFileSelector::EFST_OPEN_DIALOG, true);
                         }
+						//RENDERING HINT
+						if (name == "Enable Alpha Test") {
+							renderer->enableRenderingHint(SPK::ALPHA_TEST, ((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
+						if (name == "Enable Depth Test") {
+							renderer->enableRenderingHint(SPK::DEPTH_TEST, ((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
+						if (name == "Enable Depth Write") {
+							renderer->enableRenderingHint(SPK::DEPTH_WRITE, ((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
+						//SET ACTIVE
+						if (name == "Set Active") {
+							renderer->setActive(((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
+						//ALPHA TEST THRESHOLD
+						if (name == "Alpha test threshold") {
+							f32 valueatt = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							renderer->setAlphaTestThreshold(valueatt);
+						}
                     }
                     //EMITTER
+					//---------------------------------------------------------------------------------------------
+					//---------------------------------------EMITTER-----------------------------------------------
+					//---------------------------------------------------------------------------------------------
                     if (psdt == EPSDT_EMITTER) {
                         SPK::Emitter *emitter = (SPK::Emitter*)node->getData();
                         if (name == "Name :") {
@@ -514,7 +593,33 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         if (name == "Configure Zone...") {
 							CUIParticlesEditZone *editZone = new CUIParticlesEditZone(devices, emitter, window);
                         }
+						//ACTIVE
+						if (name == "Active") {
+							emitter->setActive(((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
+						}
+						//TANK
+						if (name == "Tank") {
+							f32 value = devices->getCore()->getS32(event.GUIEvent.Element->getText());
+							emitter->setTank(value);
+						}
+						if (name == "Change Tank") {
+							f32 value = devices->getCore()->getS32(event.GUIEvent.Element->getText());
+							emitter->changeTank(value);
+						}
+						//FLOW
+						if (name == "Flow") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							emitter->setFlow(value);
+						}
+						if (name == "Change Flow") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							emitter->changeFlow(value);
+						}
                     }
+					//---------------------------------------------------------------------------------------------
+					//---------------------------------------MODIFIER----------------------------------------------
+					//---------------------------------------------------------------------------------------------
+
                 }
             }
         }
@@ -644,4 +749,8 @@ void CUIParticleEditor::createGroup(CGUINode *node, SPK::Model *model, SPK::Grou
     groupNode->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
     groupNode->addButton(L"Add Renderer");
     groupNode->addButton(L"Add Emitter");
+	groupNode->addTextField(L"Friction", stringw(group->getFriction()).c_str());
+	groupNode->addCheckBox(L"Enable Sorting", group->isSortingEnabled());
+	groupNode->addCheckBox(L"Enable Distance Computation", group->isDistanceComputationEnabled());
+	groupNode->addButton(L"Add Modifier...", L"Open dialog to add modifier (vortex, obstacle, etc)");
 }

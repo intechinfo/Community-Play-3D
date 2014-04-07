@@ -596,6 +596,10 @@ private:
 
 struct SParticleSystem : SData {
 public:
+	SParticleSystem() : SData(0, 0, L"", ESNT_PARTICLE_SYSTEM) {
+		SParticleSystem("new system");
+	}
+
     SParticleSystem(stringc _name) : SData(0, 0, L"", ESNT_PARTICLE_SYSTEM) {
         name = _name;
         script = 0;
@@ -677,6 +681,29 @@ public:
 
 private:
 
+};
+
+//---------------------------------------------------------------------------------------------
+//-----------------------------------------CLOUDS----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SCloudData : SData {
+public:
+	SCloudData() : SData(0, 0, L"", ESNT_UNKNOWN)
+	{
+
+	}
+
+	SCloudData(CCloudSceneNode *_node) : SData(_node, 0, _node->getName(), ESNT_UNKNOWN)
+	{
+		node = _node;
+	}
+
+	CCloudSceneNode *getCloudSceneNode() { return node; }
+
+private:
+	CCloudSceneNode *node;
+	
 };
 
 //---------------------------------------------------------------------------------------------
@@ -889,6 +916,8 @@ public:
 	}
 
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
+
+	array<SCloudData> *getCloudsData() { return &cloudsData; }
 	//-----------------------------------
     
     //-----------------------------------
@@ -938,6 +967,8 @@ private:
 	array<SVolumeLightsData> volumeLightsData;
 
 	array<SWaterSurfacesData> waterSurfaces;
+
+	array<SCloudData> cloudsData;
 
 	array<SPlanarTextureMappingData> planarTextureMappingValues;
 	//-----------------------------------

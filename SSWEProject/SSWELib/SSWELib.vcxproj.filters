@@ -435,6 +435,12 @@
     <ClCompile Include="SSWELib\CharacterEdition\CUICharacterWindow.cpp">
       <Filter>SSWELib\CharacterEdition</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddEmitter.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowEditClouds.cpp">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -707,9 +713,6 @@
     <ClInclude Include="include\ISSWELibPlugin.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.h">
-      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
-    </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditor.h">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClInclude>
@@ -793,6 +796,15 @@
     </ClInclude>
     <ClInclude Include="SSWELib\CharacterEdition\CUICharacterWindow.h">
       <Filter>SSWELib\CharacterEdition</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddEmitter.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowEditClouds.h">
+      <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -31,14 +31,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
 	useLightScattering = false;
 
-	//HDR PIPELINE
-	const u32 hdr_rtt0_size = 32;//((ScreenRTTSize.Width * ScreenRTTSize.Height) * 32) / (800 * 600);
-	mainTarget = driver->addRenderTargetTexture(ScreenRTTSize,"HDRMainTarget");
-	hdrRTT0 = driver->addRenderTargetTexture(ScreenRTTSize,"rtt0");
-	hdrScreenQuad = new CScreenQuadHDRPipeline(smgr->getRootSceneNode(),smgr,10, ScreenRTTSize);
-	motionBlurRTT0 = driver->addRenderTargetTexture(ScreenRTTSize,"motionBlurRTT0");
-	temp = driver->addRenderTargetTexture(ScreenRTTSize, "temp");
-
 	//PSSM
 	u32 TextureSize = 512;
 	PSSMRT0 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F); // First texture is 2x higher
@@ -206,7 +198,9 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	
 	useDOF = false;
 
-	
+	//HDR PIPELINE
+	//HDRModel = this->addPostProcessingEffectFromFile("shaders/HDR/Model.fx", 0, false);
+	//this->setPostProcessingRenderCallback(HDRModel, new CHDRCallback(this, HDRModel));
 }
 
 EffectHandler::~EffectHandler()
@@ -667,11 +661,15 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
         
         driver->setRenderTarget(0, false, false);
 	}
+
+	bool Alter = false;
+	//HDR PIPELINE
+
+
 	
     //RENDER OTHER POST PROCESSES
 	if(PostProcessingRoutinesSize)
 	{
-        bool Alter = false;
 		ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
 		ScreenQuad.getMaterial().setTexture(2, DepthRTT);
         
@@ -694,62 +692,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			ScreenQuad.getMaterial().setTexture(2, DepthRTT);
 		}
 	}
-
-	//HDR PIPELINE
-	/*video::SColor colors[] =
-	{
-		video::SColor(255,96,96,96),
-		video::SColor(255,96,96,96),
-		video::SColor(255,96,96,96),
-		video::SColor(255,96,96,96)
-	};
-	hdrScreenQuad->getMaterial(0).setTexture(0,mainTarget);
-	hdrScreenQuad->getMaterial(0).setTexture(1,hdrRTT0);
-	driver->setRenderTarget(mainTarget,true,true,video::SColor(255,128,160,160));
-	ScreenQuad.render(driver);
-	driver->setRenderTarget(hdrRTT0,true,true,video::SColor(0,0,0,0));
-	driver->draw2DImage(mainTarget, core::rect<s32>(0 ,0 , 64, 64),
-						core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height), 0, colors);
-	driver->setRenderTarget(video::ERT_FRAME_BUFFER,true,true);
-	hdrScreenQuad->render();*/
-
-	/// Motion Blur
-	/*video::SColor colors1[] =
-	{
-		video::SColor(255,224,224,224),
-		video::SColor(255,224,224,224),
-		video::SColor(255,224,224,224),
-		video::SColor(255,224,224,224)
-	};
-
-	video::SColor colors2[] =
-	{
-		video::SColor(255,32,32,32),
-		video::SColor(255,32,32,32),
-		video::SColor(255,32,32,32),
-		video::SColor(255,32,32,32)
-	};
-
-	hdrScreenQuad->getMaterial(0).setTexture(0, mainTarget);
-	hdrScreenQuad->getMaterial(0).setTexture(1, motionBlurRTT0);
-	driver->setRenderTarget(motionBlurRTT0, true, true);
-	driver->draw2DImage(temp, core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height),
-						core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height), 0, colors1);//Scale the colors of the previous render
-	driver->setRenderTarget(mainTarget, true, true, video::SColor(255, 128, 160, 160));
-	//hdrScreenQuad->render();
-	ScreenQuad.render(driver);
-	driver->setRenderTarget(temp, true, true);
-	driver->draw2DImage(mainTarget, core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height),
-						core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height), 0, colors2);//Scale the colors of the main Scene
-	driver->setRenderTarget(mainTarget, true, true);
-	driver->draw2DImage(temp, core::rect<s32>(0,0,ScreenRTTSize.Width, ScreenRTTSize.Height),
-						core::rect<s32>(0, 0, ScreenRTTSize.Width, ScreenRTTSize.Height));
-	//Return TEMP to the mainTarget
-	driver->setRenderTarget(temp, true, true);
-	hdrScreenQuad->render();//Draw the screenquad into temp
-	driver->setRenderTarget(video::ERT_FRAME_BUFFER, true, true);
-	driver->draw2DImage(temp, core::position2di(0, 0));*/
-
+	
 }
 
 irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id)

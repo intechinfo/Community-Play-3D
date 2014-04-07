@@ -19,7 +19,7 @@ CUIParticleEditorFlags::CUIParticleEditorFlags(CDevices *_devices, SPK::Model *_
 	stringw windowName = L"Particle System Editor Parameters : ";
 	windowName += model->getName().c_str();
 
-	window = gui->addWindow(rect<s32>(660, 270, 1360, 330), false, windowName.c_str(), parent, -1);
+	window = gui->addWindow(rect<s32>(660, 270, 1360, 330), true, windowName.c_str(), parent, -1);
     window->getMinimizeButton()->setVisible(true);
     window->getMaximizeButton()->setVisible(true);
     devices->getCore()->centerWindow(window, (dimension2du)parent->getRelativePosition().getSize());
@@ -28,7 +28,7 @@ CUIParticleEditorFlags::CUIParticleEditorFlags(CDevices *_devices, SPK::Model *_
     
     SPK::Model *model = _model;
     u32 currenty = 25;
-    for (int i=0; i < (int)SPK::PARAM_ROTATION_SPEED; i++) {
+    for (int i=0; i < (int)SPK::PARAM_CUSTOM_0; i++) {
         bool add = false;
 
         add = model->isEnabled(static_cast<SPK::ModelParam>(i));
@@ -139,6 +139,10 @@ bool CUIParticleEditorFlags::OnEvent(const SEvent &event) {
 			SPK::ModelParam param = static_cast<SPK::ModelParam>(id);
 			f32 value = devices->getCore()->getF32(edit->getText());
 			stringc name = edit->getName();
+
+			if (name == "Param") {
+				model->setParam(param, value);
+			}
 
 			if (name == "Death0") {
 				model->setParam(param, value);

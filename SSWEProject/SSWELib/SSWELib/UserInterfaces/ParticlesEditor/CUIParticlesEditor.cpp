@@ -150,8 +150,8 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     ps.getSystems()->push_back(particleSystem);
     
     devices->getCoreData()->getParticleSystems()->push_back(ps);
-    ps.getBaseNode()->setName(L"ParticleTest");
-    devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
+    //ps.getBaseNode()->setName(L"ParticleTest");
+    //devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
     
     /*SParticleSystem ps("New Particle System");
     ps.createBaseNode(devices->getSceneManager());

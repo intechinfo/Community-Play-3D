@@ -802,11 +802,7 @@ private:
 	irr::scene::ISceneNode *skyNode;
 
 	//HDR PIPELINE
-	CScreenQuadHDRPipeline *hdrScreenQuad;
-	video::ITexture* mainTarget;
-	video::ITexture* hdrRTT0;
-	video::ITexture* motionBlurRTT0;
-	video::ITexture* temp;
+	irr::s32 HDRModel;
 
 	//PSSM SHADOWS
 	irr::s32 PSSMDepth, PSSMMat;

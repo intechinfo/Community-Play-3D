@@ -198,6 +198,14 @@ void CUIMainWindow::refresh() {
         waterSurfacesListBox->addItem(name.c_str());
     }
     waterSurfacesListBox->setSelected(selected);
+
+	selected = particlesSystemsListBox->getSelected();
+	particlesSystemsListBox->clear();
+	for (u32 i=0; i < devices->getCoreData()->getParticleSystems()->size(); i++) {
+		stringw name = devices->getCoreData()->getParticleSystems()->operator[](i).getName();
+		particlesSystemsListBox->addItem(name.c_str());
+	}
+	particlesSystemsListBox->setSelected(selected);
 }
 
 IGUIListBox *CUIMainWindow::getActiveListBox() {
@@ -215,7 +223,9 @@ IGUIListBox *CUIMainWindow::getActiveListBox() {
 		listBox = volumeLightsListBox;
     } else if (tabCtrl->getActiveTab() == waterSurfacesTab->getNumber()) {
         listBox = waterSurfacesListBox;
-    }
+	} else if (tabCtrl->getActiveTab() == particlesTab->getNumber()) {
+		listBox = particlesSystemsListBox;
+	}
     
     return listBox;
 }
@@ -266,6 +276,13 @@ SSelectedNode CUIMainWindow::getSelectedNode() {
 			node = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getNode();
 			path = devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected()).getPath();
 			data = &devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfacesListBox->getSelected());
+        }
+	} else if (tabCtrl->getActiveTab() == particlesTab->getNumber()) {
+		if (particlesSystemsListBox->getSelected() != -1) {
+			mesh = devices->getCoreData()->getParticleSystems()->operator[](particlesSystemsListBox->getSelected()).getMesh();
+			node = devices->getCoreData()->getParticleSystems()->operator[](particlesSystemsListBox->getSelected()).getNode();
+			path = devices->getCoreData()->getParticleSystems()->operator[](particlesSystemsListBox->getSelected()).getPath();
+			data = &devices->getCoreData()->getParticleSystems()->operator[](particlesSystemsListBox->getSelected());
         }
     }
     
@@ -324,6 +341,15 @@ void CUIMainWindow::selectSelectedNode(ISceneNode *node) {
 		if (devices->getCoreData()->getWaterSurfaces()->operator[](i).getNode() == node) {
 			tabCtrl->setActiveTab(waterSurfacesTab);
 			waterSurfacesListBox->setSelected(i);
+			founded = true;
+		}
+		i++;
+	}
+	i=0;
+	while (!founded && i < devices->getCoreData()->getParticleSystems()->size()) {
+		if (devices->getCoreData()->getParticleSystems()->operator[](i).getNode() == node) {
+			tabCtrl->setActiveTab(particlesTab);
+			particlesSystemsListBox->setSelected(i);
 			founded = true;
 		}
 		i++;
