@@ -138,7 +138,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//SHADERS
     submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Objects", -1, false, false, false, false);
-	submenu->addItem(L"Manage Clouds... (TO DO)", -1);
+	submenu->addItem(L"Manage Clouds... (TO DO)", CXT_MENU_EVENTS_EDIT_CLOUDS);
 	submenu->addItem(L"Manage Suns... (TO DO)", -1);
     submenu->addItem(L"Manage Vegetation... (TO DO)", -1);
     submenu->addItem(L"Manage Particle Systems... (WIP)", CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS);
@@ -381,7 +381,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
     
-    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+    CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 
 	//LIGHT SCATTERING
 	/*devices->getRenderCallbacks()->buildLightScattering();
@@ -725,6 +725,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 //-----------------------------------
                 //CONTEXT MENU SCENE EVENT
+
+				case CXT_MENU_EVENTS_EDIT_CLOUDS: {
+					CUIWindowEditClouds *editClouds = new CUIWindowEditClouds(devices);
+				}
+					break;
                     
                 case CXT_MENU_EVENTS_SCENE_MANAGE_PARTICLE_SYSTEMS: {
                     CUIParticlesEditor *pse = new CUIParticlesEditor(devices);

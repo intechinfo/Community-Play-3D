@@ -206,33 +206,25 @@ void CGUINode::destroyInterface() {
 	window = 0;
 }
 
-void CGUINode::removeChild(CGUINode *node, bool firstElement) {
-	if (!firstElement)
-		node->getInterface()->remove();
+void CGUINode::removeChild(CGUINode *node) {
+
 	core::list<CGUINode*>::Iterator it = children.begin();
 	for (; it != children.end(); ++it) {
 		if (*it == node) {
 			(*it)->removeAll();
 			children.erase(it);
+			delete node;
 			break;
 		}
 	}
-	delete node;
 }
 
 void CGUINode::removeAll() {
-	core::list<CGUINode*>::Iterator it = children.begin();
+	core::list<CGUINode*>::ConstIterator it = children.begin();
 	for (; it != children.end(); ++it) {
+		if ((*it)->getInterface())
+			(*it)->destroyInterface();
 		(*it)->removeAll();
-		(*it)->destroyInterface();
-
-		SEvent ev;
-		ev.EventType = EET_GUI_EVENT;
-		ev.GUIEvent.EventType = (EGUI_EVENT_TYPE)ESE_GRAPH_NODE_REMOVED;
-		ev.GUIEvent.Caller = editor;
-		ev.GUIEvent.Element = (IGUIElement*)*it;
-		editor->getDevice()->getEventReceiver()->OnEvent(ev);
-
 		delete *it;
 	}
 	children.clear();
@@ -245,7 +237,9 @@ bool CGUINode::OnEvent(const SEvent& event) {
         bool test = (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED ||
                      event.GUIEvent.EventType == EGET_BUTTON_CLICKED ||
                      event.GUIEvent.EventType == EGET_CHECKBOX_CHANGED ||
-                     event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED
+                     event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED ||
+					 event.GUIEvent.EventType == EGET_LISTBOX_CHANGED ||
+					 event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN
                      );
         
         if (window && event.GUIEvent.Caller != 0 && test)
@@ -269,7 +263,7 @@ bool CGUINode::OnEvent(const SEvent& event) {
             }
         }
 
-		if (window && event.GUIEvent.Caller != 0 && event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
 			if (event.GUIEvent.Caller == window) {
 				SEvent ev;
 				ev.EventType = EET_GUI_EVENT;
@@ -277,10 +271,13 @@ bool CGUINode::OnEvent(const SEvent& event) {
 				ev.GUIEvent.Caller = ev.GUIEvent.Caller = editor;
 				ev.GUIEvent.Element = (IGUIElement*)this;
 
+				window = 0;
+
 				editor->getDevice()->getEventReceiver()->OnEvent(ev);
 
 				if (parentNode)
-					parentNode->removeChild(this, true);
+					parentNode->removeChild(this);
+				return true;
 			}
 		}
     }

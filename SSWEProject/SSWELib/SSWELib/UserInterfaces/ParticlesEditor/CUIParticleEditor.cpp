@@ -117,41 +117,44 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             nodeModel->setData(group->getModel());
             nodeModel->setDataType(EPSDT_MODEL);
             nodesEditor->addNode(nodeModel);
+			((IGUIWindow*)nodeModel->getInterface())->getCloseButton()->setVisible(false);
             nodeModel->addTextField(L"Name :", stringw(nodeModel->getName()).c_str());
             nodeModel->add2ParametersFields(L"Life Time ", L"Min", L"Max", group->getModel()->getLifeTimeMin(), group->getModel()->getLifeTimeMax());
             nodeModel->addButton(L"Edit Values...");
 			nodeModel->addButton(L"Edit Interpolators...");
             
-			SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)group->getRenderer();
-            CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-            nodeRenderer->setName(group->getRenderer()->getName().c_str());
-            nodeRenderer->setParent(node2);
-            nodeRenderer->setData(group->getRenderer());
-            nodeRenderer->setDataType(EPSDT_RENDERER);
-            nodesEditor->addNode(nodeRenderer);
-            nodeRenderer->addTextField(L"Name :", stringw(nodeRenderer->getName()).c_str());
-            nodeRenderer->addDimension2DFields(L"Scale", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleX(),
-                                                                   ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleY())
-                                               );
-            IGUIComboBox *texModecb = nodeRenderer->addComboBox(L"Texturing Mode");
-            texModecb->addItem(L"Texturing None");
-            texModecb->addItem(L"Texturing 2D");
-            texModecb->addItem(L"Texturing 3D");
-            texModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
-            IGUIComboBox *blendModecb = nodeRenderer->addComboBox(L"Blending Mode");
-            blendModecb->addItem(L"Blending None");
-            blendModecb->addItem(L"Blending Add");
-            blendModecb->addItem(L"Blending Alpha");
-            blendModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
-            nodeRenderer->addDimension2DFields(L"Atlas Dimension ", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Width,
-                                                                             ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Height)
-                                               );
-            nodeRenderer->addButton(L"Configure Texture...");
-			nodeRenderer->addCheckBox(L"Enable Alpha Test", renderer->isRenderingHintEnabled(SPK::ALPHA_TEST));
-			nodeRenderer->addCheckBox(L"Enable Depth Test", renderer->isRenderingHintEnabled(SPK::DEPTH_TEST));
-			nodeRenderer->addCheckBox(L"Enable Depth Write", renderer->isRenderingHintEnabled(SPK::DEPTH_WRITE));
-			nodeRenderer->addCheckBox(L"Set Active", renderer->isActive());
-			nodeRenderer->addTextField(L"Alpha test threshold", stringw(renderer->getAlphaTestThreshold()).c_str());
+			if (group->getRenderer()) {
+				SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)group->getRenderer();
+				CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+				nodeRenderer->setName(group->getRenderer()->getName().c_str());
+				nodeRenderer->setParent(node2);
+				nodeRenderer->setData(group->getRenderer());
+				nodeRenderer->setDataType(EPSDT_RENDERER);
+				nodesEditor->addNode(nodeRenderer);
+				nodeRenderer->addTextField(L"Name :", stringw(nodeRenderer->getName()).c_str());
+				nodeRenderer->addDimension2DFields(L"Scale", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleX(),
+																	   ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleY())
+												   );
+				IGUIComboBox *texModecb = nodeRenderer->addComboBox(L"Texturing Mode");
+				texModecb->addItem(L"Texturing None");
+				texModecb->addItem(L"Texturing 2D");
+				texModecb->addItem(L"Texturing 3D");
+				texModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
+				IGUIComboBox *blendModecb = nodeRenderer->addComboBox(L"Blending Mode");
+				blendModecb->addItem(L"Blending None");
+				blendModecb->addItem(L"Blending Add");
+				blendModecb->addItem(L"Blending Alpha");
+				blendModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
+				nodeRenderer->addDimension2DFields(L"Atlas Dimension ", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Width,
+																				 ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Height)
+												   );
+				nodeRenderer->addButton(L"Configure Texture...");
+				nodeRenderer->addCheckBox(L"Enable Alpha Test", renderer->isRenderingHintEnabled(SPK::ALPHA_TEST));
+				nodeRenderer->addCheckBox(L"Enable Depth Test", renderer->isRenderingHintEnabled(SPK::DEPTH_TEST));
+				nodeRenderer->addCheckBox(L"Enable Depth Write", renderer->isRenderingHintEnabled(SPK::DEPTH_WRITE));
+				nodeRenderer->addCheckBox(L"Set Active", renderer->isActive());
+				nodeRenderer->addTextField(L"Alpha test threshold", stringw(renderer->getAlphaTestThreshold()).c_str());
+			}
 
             for (u32 k=0; k < group->getEmitters().size(); k++) {
                 SPK::Emitter *emitter = group->getEmitters()[k];
@@ -326,8 +329,44 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == nodesEditor) {
 				CGUINode *node = (CGUINode*)event.GUIEvent.Element;
 				E_PS_DATA_TYPE psdt = (E_PS_DATA_TYPE)node->getDataType();
-				if (psdt == EPSDT_MODEL) {
-					//exit(0);
+				if (psdt == EPSDT_GROUP) {
+					SPK::IRR::IRRSystem *system = (SPK::IRR::IRRSystem*)node->getParent()->getData();
+					system->removeGroup((SPK::Group*)node->getData());
+					return true;
+				} else
+				if (psdt == EPSDT_RENDERER) {
+					SPK::IRR::IRRRenderer *renderer = (SPK::IRR::IRRRenderer*)node->getData();
+					((SPK::Group*)node->getParent()->getData())->setRenderer(0);
+				} else
+				if (psdt == EPSDT_EMITTER) {
+					SPK::Emitter *emitter = (SPK::Emitter*)node->getData();
+					((SPK::Group*)node->getParent()->getData())->removeEmitter(emitter);
+					delete emitter;
+				} else
+				if (psdt == EPSDT_MODIFIER) {
+					SPK::Modifier *modifier = (SPK::Modifier*)node->getData();
+					((SPK::Group*)node->getParent()->getData())->removeModifier(modifier);
+					delete modifier;
+				} else
+				if (psdt == EPSDT_SYSTEM) {
+					SPK::IRR::IRRSystem *system = (SPK::IRR::IRRSystem*)node->getData();
+					for (u32 i=0; i < ps->getSystems()->size(); i++) {
+						if (ps->getSystems()->operator[](i) == system) {
+							ps->getSystems()->erase(i);
+							break;
+						}
+					}
+					for (u32 i=0; i < system->getGroups().size(); i++) {
+						for (u32 j=0; j < system->getGroups()[i]->getEmitters().size(); j++) {
+							system->getGroups()[i]->removeEmitter(system->getGroups()[i]->getEmitters()[j]);
+						}
+						for (u32 j=0; j < system->getGroups()[i]->getModifiers().size(); j++) {
+							system->getGroups()[i]->removeModifier(system->getGroups()[i]->getModifiers()[j]);
+						}
+						system->removeGroup(system->getGroups()[i]);
+					}
+					system->removeAll();
+					system->remove();
 				}
 			}
 		}
@@ -743,6 +782,7 @@ void CUIParticleEditor::createGroup(CGUINode *node, SPK::Model *model, SPK::Grou
     modelNode->add2ParametersFields(L"Life Time ", L"Min", L"Max", model->getLifeTimeMin(), model->getLifeTimeMax());
     modelNode->addButton(L"Edit Values...");
     modelNode->addButton(L"Edit Interpolators...");
+	((IGUIWindow*)modelNode->getInterface())->getCloseButton()->setVisible(false);
     
     groupNode->addTextField(L"Name :", stringw(groupNode->getName()).c_str());
     groupNode->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));

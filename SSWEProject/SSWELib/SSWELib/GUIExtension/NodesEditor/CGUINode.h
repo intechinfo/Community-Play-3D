@@ -37,7 +37,7 @@ public:
     void addChild(CGUINode *node);
     void createChild();
 
-	void removeChild(CGUINode *node, bool firstElement=false);
+	void removeChild(CGUINode *node);
 	void removeAll();
     
     //-----------------------------------

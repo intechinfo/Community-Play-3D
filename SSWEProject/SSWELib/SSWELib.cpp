@@ -83,8 +83,6 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 	coreUserInterface->getDevices()->getCoreData()->getCloudsData()->push_back(SCloudData(cloudLayer1));
 	coreUserInterface->getDevices()->getCoreData()->getCloudsData()->push_back(SCloudData(cloudLayer2));
 	coreUserInterface->getDevices()->getCoreData()->getCloudsData()->push_back(SCloudData(cloudLayer3));
-
-	CUIWindowEditClouds *editClouds = new CUIWindowEditClouds(coreUserInterface->getDevices());
     
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer1, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer2, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);

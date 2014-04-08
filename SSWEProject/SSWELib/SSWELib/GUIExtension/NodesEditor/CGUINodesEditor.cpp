@@ -254,21 +254,19 @@ bool CGUINodesEditor::OnEvent(const SEvent& event)
                     previousHeight = ScrollBarV->getPos();
                 }
             }
-
-			if (event.GUIEvent.Caller->getType() == EGUIET_WINDOW) {
-				return false;
-			}
             
-			if (event.GUIEvent.Caller != this) {
-				core::array<CGUINode *> nodes;
-				this->getArrayOfNodes(rootNode, nodes);
-				for (u32 i=0; i < nodes.size(); i++)
-					nodes[i]->OnEvent(event);
-			}
         }
             break;
             
         default:break;
+	}
+
+	core::array<CGUINode *> nodes;
+	this->getArrayOfNodes(rootNode, nodes);
+
+	for (u32 i=0; i < nodes.size(); i++) {
+		if (nodes[i]->OnEvent(event) == true)
+			break;
 	}
 
 	return Parent ? Parent->OnEvent(event) : false;
