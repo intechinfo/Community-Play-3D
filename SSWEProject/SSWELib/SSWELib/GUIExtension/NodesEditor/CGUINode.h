@@ -44,13 +44,16 @@ public:
 	//DATAS
     void *getData() { return data; }
     void setData(void *_data) { data = _data; }
-    
+
     s32 getDataType() { return dataType; }
     void setDataType(s32 _dataType) { dataType = _dataType; }
-    
+
+	s32 getDataType2() { return dataType2; }
+	void setDataType2(s32 _dataType2) { dataType2 = _dataType2; }
+
     CGUINode *getParent() { return parentNode; }
     void setParent(CGUINode *_parent) { parentNode = _parent; }
-    
+
     irr::core::list<CGUINode *> &getChildren() { return children; }
     //-----------------------------------
     
@@ -91,6 +94,7 @@ private:
     //-----------------------------------
 	//DATAS
     s32 dataType;
+	s32 dataType2;
     void *data;
     
     CGUINode *parentNode;

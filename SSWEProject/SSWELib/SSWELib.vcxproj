@@ -306,6 +306,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddEmitter.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleFlags.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.cpp" />
@@ -432,6 +433,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.h" />
     <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddEmitter.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleFlags.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.h" />

@@ -441,6 +441,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowEditClouds.cpp">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -805,6 +808,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUIWindowEditClouds.h">
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -140,7 +140,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	smokeGroup->setGravity(Vector3D(0.0f,0.4f,0.0f));
 	smokeGroup->enableAABBComputing(true);
     smokeGroup->setName("Smoke Group");
-	
+
 	// System
 	System *particleSystem = IRRSystem::create(ps.getBaseNode(), devices->getSceneManager());
 	particleSystem->addGroup(smokeGroup);
@@ -148,6 +148,8 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 	particleSystem->enableAABBComputing(true);
     particleSystem->setName("Particle System");
     ps.getSystems()->push_back(particleSystem);
+
+	devices->getXEffect()->addShadowToNode((IRRSystem*)particleSystem, devices->getXEffectFilterType(), ESM_EXCLUDE);
     
     devices->getCoreData()->getParticleSystems()->push_back(ps);
     //ps.getBaseNode()->setName(L"ParticleTest");
@@ -217,6 +219,11 @@ bool CUIParticlesEditor::OnEvent(const SEvent &event) {
                 if (selected != -1) {
                     devices->getCoreData()->getParticleSystems()->operator[](selected).clear();
                     devices->getCoreData()->getParticleSystems()->operator[](selected).destroyScript();
+					for (u32 j=0; j < devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->size(); j++) {
+						devices->getXEffect()->removeShadowFromNode((IRRSystem*)devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->operator[](j));
+						devices->getXEffect()->removeNodeFromDepthPass((IRRSystem*)devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->operator[](j));
+						devices->getXEffect()->removeNodeFromLightScatteringPass((IRRSystem*)devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->operator[](j));
+					}
                     devices->getCoreData()->getParticleSystems()->erase(selected);
                     particleSystems->removeItem(selected);
                     

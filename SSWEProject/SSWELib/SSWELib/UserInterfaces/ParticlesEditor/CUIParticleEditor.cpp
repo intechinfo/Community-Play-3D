@@ -13,6 +13,7 @@
 #include "CUIEditParticleInterpolators.h"
 #include "CUIParticlesEditZone.h"
 #include "CUIAddEmitter.h"
+#include "CUIAddModifier.h"
 
 CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
@@ -52,6 +53,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     submenu->addItem(L"Clear Selected System");
     submenu->addItem(L"Clear Elements Of Selected Node");
     submenu->addItem(L"Clear All");
+	submenu->addItem(L"Reset Systems");
     
     submenu = menu->getSubMenu(i++);
     submenu->addItem(L"How To...");
@@ -308,6 +310,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                     System *system = IRRSystem::create(ps->getBaseNode(), devices->getSceneManager());
                     system->enableAABBComputing(true);
                     system->setName("Particle System");
+					devices->getXEffect()->addShadowToNode((IRRSystem*)system, devices->getXEffectFilterType(), ESM_EXCLUDE);
                     ps->getSystems()->push_back(system);
                     
                     CGUINode *node = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
@@ -322,6 +325,10 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 					node->addCheckBox(L"Update Only if Visible", ((IRRSystem*)system)->isUpdateOnlyWhenVisible());
                     node->addButton(L"Add Group", L"Adds a group to this system");
                 }
+				if (menu->getSubMenu(2)->getSelectedItem() == 9) {
+					for (u32 i=0; i < ps->getSystems()->size(); i++)
+						ps->getSystems()->operator[](i)->empty();
+				}
             }
         }
 
@@ -353,6 +360,9 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 					for (u32 i=0; i < ps->getSystems()->size(); i++) {
 						if (ps->getSystems()->operator[](i) == system) {
 							ps->getSystems()->erase(i);
+							devices->getXEffect()->removeShadowFromNode(system);
+							devices->getXEffect()->removeNodeFromDepthPass(system);
+							devices->getXEffect()->removeNodeFromLightScatteringPass(system);
 							break;
 						}
 					}
@@ -513,6 +523,8 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 							nnode->setDataType(EPSDT_MODIFIER);
 							nodesEditor->addNode(nnode);
 							nnode->addTextField(L"Name :", stringw(nnode->getName()).c_str());
+
+							CUIAddModifier *addModifier = new CUIAddModifier(devices, window, group, nodesEditor, node);
 						}
                     }
                     //MODEL

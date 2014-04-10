@@ -31,16 +31,8 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
 	useLightScattering = false;
 
-	//PSSM
-	u32 TextureSize = 512;
-	PSSMRT0 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F); // First texture is 2x higher
-    PSSMRT1 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F);
-    PSSMRT2 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F);
-    PSSMRT0 = driver->addRenderTargetTexture(dimension2d<u32>(TextureSize, TextureSize),"",ECF_R16F);
-	RT.push_back(PSSMRT0);
-    RT.push_back(PSSMRT1);
-    RT.push_back(PSSMRT2);
-    RT.push_back(PSSMRT3);
+	//BACK RENDER
+	backRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "BackRenderRTT");
 
 	//REFLECTION PASS
 	useReflectionPass = false;
@@ -99,18 +91,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 														   sPP.ppShader(SELECTION_PASS_P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
 														   new SelectionPassCB(this), video::EMT_SOLID);
 		#endif
-
-		PSSMUtils = new CPSSMUtils(cameraForPasses, 3, 0.5);
-		device->getLogger()->setLogLevel(ELL_INFORMATION);
-		PSSMDepth = gpu->addHighLevelShaderMaterial(
-			sPP.ppShader(PSSM_DEPTH_V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
-			sPP.ppShader(PSSM_DEPTH_P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
-			new CPSSMDepthCallBack(PSSMUtils), video::EMT_SOLID);
-
-		PSSMMat = gpu->addHighLevelShaderMaterial(
-			sPP.ppShader(PSSM_V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_3_0,
-			sPP.ppShader(PSSM_P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_3_0,
-			new CPSSMCallBack(PSSMUtils), video::EMT_SOLID);
         
 		if(useRoundSpotLights)
 			sPP.addShaderDefine("ROUND_SPOTLIGHTS");
@@ -601,7 +581,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		const f32 CLIP_PLANE_OFFSET_Y = 5.0f;
 		irr::scene::ICameraSceneNode *currentCamera = smgr->getActiveCamera();
 
-		driver->setRenderTarget(ReflectionRTT, true, true, SColor(255, 0, 0, 0));
+		driver->setRenderTarget(ReflectionRTT, true, true, ClearColour);
 
 		cameraForPasses->setFarValue(currentCamera->getFarValue());
 		cameraForPasses->setFOV(currentCamera->getFOV());
@@ -633,6 +613,31 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 		driver->setRenderTarget(0, false, false);
 	}
+
+	// Perform reflection pass to look back of the current render (will be used for reflection)
+	/*if (true) {
+		irr::scene::ICameraSceneNode *currentCamera = smgr->getActiveCamera();
+
+		driver->setRenderTarget(backRenderRTT, true, true, ClearColour);
+
+		smgr->setActiveCamera(cameraForPasses);
+		cameraForPasses->setPosition(currentCamera->getPosition());
+		
+		line3d<f32> ray;
+		ray.start = currentCamera->getPosition();
+		ray.end = ray.start + (currentCamera->getTarget() - ray.start).normalize() * 1000.0f;
+		vector3df toTarget = ray.getVector().invert();
+		cameraForPasses->setTarget(toTarget);
+
+		smgr->drawAll();
+
+		smgr->setActiveCamera(currentCamera);
+		currentCamera->OnAnimate(device->getTimer()->getTime());
+		currentCamera->OnRegisterSceneNode();
+		currentCamera->render();
+
+		driver->setRenderTarget(0, false, false);
+	}*/
 
 	// Perform depth pass after rendering, to ensure animations stay up to date.
 	if(DepthPass)

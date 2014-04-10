@@ -804,11 +804,8 @@ private:
 	//HDR PIPELINE
 	irr::s32 HDRModel;
 
-	//PSSM SHADOWS
-	irr::s32 PSSMDepth, PSSMMat;
-	CPSSMUtils* PSSMUtils;
-	video::ITexture *PSSMRT0, *PSSMRT1, *PSSMRT2, *PSSMRT3;
-	core::array<video::ITexture *> RT;
+	//REFLECTION MAPPING
+	irr::video::ITexture *backRenderRTT;
 };
 
 #endif
