@@ -31,6 +31,13 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
 	useLightScattering = false;
 
+	//HDR PIPELINE
+	const u32 hdr_rtt0_size = 32;//((ScreenRTTSize.Width * ScreenRTTSize.Height) * 32) / (800 * 600);
+	mainTarget = driver->addRenderTargetTexture(ScreenRTTSize,"HDRMainTarget");
+	hdrRTT0 = driver->addRenderTargetTexture(dimension2du(hdr_rtt0_size, hdr_rtt0_size),"rtt0");
+	hdrScreenQuad = new CScreenQuadHDRPipeline(smgr->getRootSceneNode(),smgr,10, ScreenRTTSize);
+	useHDR = true;
+
 	//BACK RENDER
 	backRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "BackRenderRTT");
 
@@ -696,6 +703,26 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
 			ScreenQuad.getMaterial().setTexture(2, DepthRTT);
 		}
+	}
+
+	//HDR PIPELINE
+	if (useHDR) {
+		video::SColor colors[] =
+		{
+			video::SColor(255,96,96,96),
+			video::SColor(255,96,96,96),
+			video::SColor(255,96,96,96),
+			video::SColor(255,96,96,96)
+		};
+		hdrScreenQuad->getMaterial(0).setTexture(0,mainTarget);
+		hdrScreenQuad->getMaterial(0).setTexture(1,hdrRTT0);
+		driver->setRenderTarget(mainTarget,true,true,video::SColor(255,128,160,160));
+		ScreenQuad.render(driver);
+		driver->setRenderTarget(hdrRTT0,true,true,video::SColor(0,0,0,0));
+		driver->draw2DImage(mainTarget, core::rect<s32>(0 ,0 , 32, 32),
+							core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height), 0, colors);
+		driver->setRenderTarget(video::ERT_FRAME_BUFFER,true,true);
+		hdrScreenQuad->render();
 	}
 	
 }

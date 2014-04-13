@@ -803,6 +803,11 @@ private:
 
 	//HDR PIPELINE
 	irr::s32 HDRModel;
+	CScreenQuadHDRPipeline *hdrScreenQuad;
+	video::ITexture* mainTarget;
+	video::ITexture* hdrRTT0;
+	bool useHDR;
+
 
 	//REFLECTION MAPPING
 	irr::video::ITexture *backRenderRTT;

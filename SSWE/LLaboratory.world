@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-50.416695" Y="119.388687" Z="190.478317" />
-			 <rotation X="31.063795" Y="185.535461" Z="0.000000" />
+			 <position X="-123.751472" Y="123.780334" Z="156.602798" />
+			 <rotation X="37.993977" Y="98.571373" Z="0.000000" />
 
 		 </camera>
 
@@ -32,7 +32,7 @@
 
 		 <depthPassEnabled enabled="1" />
 		 <lightScaterringPassEnabled enabled="0" />
-		 <reflectionPassEnabled enabled="0" />
+		 <reflectionPassEnabled enabled="1" />
 
 		 <effect>
 
@@ -359,7 +359,7 @@ pfloat fBumpStrength 5
 			 	 <material id="0">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -394,7 +394,7 @@ pfloat fBumpStrength 5
 			 	 <material id="1">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -429,7 +429,7 @@ pfloat fBumpStrength 5
 			 	 <material id="2">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -464,7 +464,7 @@ pfloat fBumpStrength 5
 			 	 <material id="3">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-AFami_NUKIout.png" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-AFami_NUKIout.png_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -499,7 +499,7 @@ pfloat fBumpStrength 5
 			 	 <material id="4">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-alfa_NUKIout.png" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-alfa_NUKIout.png_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -534,7 +534,7 @@ pfloat fBumpStrength 5
 			 	 <material id="5">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -569,7 +569,7 @@ pfloat fBumpStrength 5
 			 	 <material id="6">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -604,7 +604,7 @@ pfloat fBumpStrength 5
 			 	 <material id="7">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -639,7 +639,7 @@ pfloat fBumpStrength 5
 			 	 <material id="8">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -674,7 +674,7 @@ pfloat fBumpStrength 5
 			 	 <material id="9">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-125_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-125_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -709,7 +709,7 @@ pfloat fBumpStrength 5
 			 	 <material id="10">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -744,7 +744,7 @@ pfloat fBumpStrength 5
 			 	 <material id="11">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -779,7 +779,7 @@ pfloat fBumpStrength 5
 			 	 <material id="12">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -814,7 +814,7 @@ pfloat fBumpStrength 5
 			 	 <material id="13">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -849,7 +849,7 @@ pfloat fBumpStrength 5
 			 	 <material id="14">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -884,7 +884,7 @@ pfloat fBumpStrength 5
 			 	 <material id="15">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -919,7 +919,7 @@ pfloat fBumpStrength 5
 			 	 <material id="16">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -954,7 +954,7 @@ pfloat fBumpStrength 5
 			 	 <material id="17">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -989,7 +989,7 @@ pfloat fBumpStrength 5
 			 	 <material id="18">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1024,7 +1024,7 @@ pfloat fBumpStrength 5
 			 	 <material id="19">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1059,7 +1059,7 @@ pfloat fBumpStrength 5
 			 	 <material id="20">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1094,7 +1094,7 @@ pfloat fBumpStrength 5
 			 	 <material id="21">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1129,7 +1129,7 @@ pfloat fBumpStrength 5
 			 	 <material id="22">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1164,7 +1164,7 @@ pfloat fBumpStrength 5
 			 	 <material id="23">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1199,7 +1199,7 @@ pfloat fBumpStrength 5
 			 	 <material id="24">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1234,7 +1234,7 @@ pfloat fBumpStrength 5
 			 	 <material id="25">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1269,7 +1269,7 @@ pfloat fBumpStrength 5
 			 	 <material id="26">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1304,7 +1304,7 @@ pfloat fBumpStrength 5
 			 	 <material id="27">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1339,7 +1339,7 @@ pfloat fBumpStrength 5
 			 	 <material id="28">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1374,7 +1374,7 @@ pfloat fBumpStrength 5
 			 	 <material id="29">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-hito_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1409,7 +1409,7 @@ pfloat fBumpStrength 5
 			 	 <material id="30">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-115_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-115_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1444,7 +1444,7 @@ pfloat fBumpStrength 5
 			 	 <material id="31">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-115_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-115_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1479,7 +1479,7 @@ pfloat fBumpStrength 5
 			 	 <material id="32">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-127_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-127_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1514,7 +1514,7 @@ pfloat fBumpStrength 5
 			 	 <material id="33">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-126_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-126_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1549,7 +1549,7 @@ pfloat fBumpStrength 5
 			 	 <material id="34">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-122_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-122_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1584,7 +1584,7 @@ pfloat fBumpStrength 5
 			 	 <material id="35">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-114_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-114_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1619,7 +1619,7 @@ pfloat fBumpStrength 5
 			 	 <material id="36">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-125_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-125_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1654,7 +1654,7 @@ pfloat fBumpStrength 5
 			 	 <material id="37">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-124_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-124_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1689,7 +1689,7 @@ pfloat fBumpStrength 5
 			 	 <material id="38">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1724,7 +1724,7 @@ pfloat fBumpStrength 5
 			 	 <material id="39">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1759,7 +1759,7 @@ pfloat fBumpStrength 5
 			 	 <material id="40">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1794,7 +1794,7 @@ pfloat fBumpStrength 5
 			 	 <material id="41">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1829,7 +1829,7 @@ pfloat fBumpStrength 5
 			 	 <material id="42">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-115_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-115_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1864,7 +1864,7 @@ pfloat fBumpStrength 5
 			 	 <material id="43">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-114_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-114_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1899,7 +1899,7 @@ pfloat fBumpStrength 5
 			 	 <material id="44">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-113_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-113_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1934,7 +1934,7 @@ pfloat fBumpStrength 5
 			 	 <material id="45">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-119_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-119_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1969,7 +1969,7 @@ pfloat fBumpStrength 5
 			 	 <material id="46">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/est216-t-121_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/est216-t-121_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2004,7 +2004,7 @@ pfloat fBumpStrength 5
 			 	 <material id="47">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-120_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-120_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2039,7 +2039,7 @@ pfloat fBumpStrength 5
 			 	 <material id="48">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2074,7 +2074,7 @@ pfloat fBumpStrength 5
 			 	 <material id="49">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-122_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-122_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2109,7 +2109,7 @@ pfloat fBumpStrength 5
 			 	 <material id="50">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-044_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-044_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2144,7 +2144,7 @@ pfloat fBumpStrength 5
 			 	 <material id="51">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2179,7 +2179,7 @@ pfloat fBumpStrength 5
 			 	 <material id="52">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2214,7 +2214,7 @@ pfloat fBumpStrength 5
 			 	 <material id="53">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2249,7 +2249,7 @@ pfloat fBumpStrength 5
 			 	 <material id="54">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2284,7 +2284,7 @@ pfloat fBumpStrength 5
 			 	 <material id="55">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-116_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-116_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2319,7 +2319,7 @@ pfloat fBumpStrength 5
 			 	 <material id="56">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2354,7 +2354,7 @@ pfloat fBumpStrength 5
 			 	 <material id="57">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-082_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-082_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2389,7 +2389,7 @@ pfloat fBumpStrength 5
 			 	 <material id="58">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-094_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-094_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2424,7 +2424,7 @@ pfloat fBumpStrength 5
 			 	 <material id="59">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2459,7 +2459,7 @@ pfloat fBumpStrength 5
 			 	 <material id="60">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2494,7 +2494,7 @@ pfloat fBumpStrength 5
 			 	 <material id="61">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2529,7 +2529,7 @@ pfloat fBumpStrength 5
 			 	 <material id="62">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2564,7 +2564,7 @@ pfloat fBumpStrength 5
 			 	 <material id="63">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2599,7 +2599,7 @@ pfloat fBumpStrength 5
 			 	 <material id="64">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2634,7 +2634,7 @@ pfloat fBumpStrength 5
 			 	 <material id="65">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-117_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2669,7 +2669,7 @@ pfloat fBumpStrength 5
 			 	 <material id="66">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-082_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-082_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2704,7 +2704,7 @@ pfloat fBumpStrength 5
 			 	 <material id="67">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-092_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-092_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2739,7 +2739,7 @@ pfloat fBumpStrength 5
 			 	 <material id="68">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-116_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-116_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2774,7 +2774,7 @@ pfloat fBumpStrength 5
 			 	 <material id="69">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2809,7 +2809,7 @@ pfloat fBumpStrength 5
 			 	 <material id="70">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2844,7 +2844,7 @@ pfloat fBumpStrength 5
 			 	 <material id="71">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2879,7 +2879,7 @@ pfloat fBumpStrength 5
 			 	 <material id="72">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2914,7 +2914,7 @@ pfloat fBumpStrength 5
 			 	 <material id="73">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2949,7 +2949,7 @@ pfloat fBumpStrength 5
 			 	 <material id="74">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2984,7 +2984,7 @@ pfloat fBumpStrength 5
 			 	 <material id="75">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3019,7 +3019,7 @@ pfloat fBumpStrength 5
 			 	 <material id="76">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3054,7 +3054,7 @@ pfloat fBumpStrength 5
 			 	 <material id="77">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-000_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-000_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3089,7 +3089,7 @@ pfloat fBumpStrength 5
 			 	 <material id="78">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-092_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-092_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3124,7 +3124,7 @@ pfloat fBumpStrength 5
 			 	 <material id="79">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3159,7 +3159,7 @@ pfloat fBumpStrength 5
 			 	 <material id="80">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3194,7 +3194,7 @@ pfloat fBumpStrength 5
 			 	 <material id="81">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3229,7 +3229,7 @@ pfloat fBumpStrength 5
 			 	 <material id="82">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-yuka_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-yuka_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3264,7 +3264,7 @@ pfloat fBumpStrength 5
 			 	 <material id="83">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3299,7 +3299,7 @@ pfloat fBumpStrength 5
 			 	 <material id="84">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-044_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-044_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3334,7 +3334,7 @@ pfloat fBumpStrength 5
 			 	 <material id="85">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3369,7 +3369,7 @@ pfloat fBumpStrength 5
 			 	 <material id="86">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3404,7 +3404,7 @@ pfloat fBumpStrength 5
 			 	 <material id="87">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-tenjyou_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-tenjyou_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3439,7 +3439,7 @@ pfloat fBumpStrength 5
 			 	 <material id="88">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3474,7 +3474,7 @@ pfloat fBumpStrength 5
 			 	 <material id="89">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3509,7 +3509,7 @@ pfloat fBumpStrength 5
 			 	 <material id="90">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3544,7 +3544,7 @@ pfloat fBumpStrength 5
 			 	 <material id="91">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3579,7 +3579,7 @@ pfloat fBumpStrength 5
 			 	 <material id="92">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3614,7 +3614,7 @@ pfloat fBumpStrength 5
 			 	 <material id="93">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3649,7 +3649,7 @@ pfloat fBumpStrength 5
 			 	 <material id="94">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3684,7 +3684,7 @@ pfloat fBumpStrength 5
 			 	 <material id="95">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3719,7 +3719,7 @@ pfloat fBumpStrength 5
 			 	 <material id="96">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3754,7 +3754,7 @@ pfloat fBumpStrength 5
 			 	 <material id="97">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3789,7 +3789,7 @@ pfloat fBumpStrength 5
 			 	 <material id="98">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-yuka_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-yuka_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3824,7 +3824,7 @@ pfloat fBumpStrength 5
 			 	 <material id="99">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-082_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-082_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3859,7 +3859,7 @@ pfloat fBumpStrength 5
 			 	 <material id="100">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3894,7 +3894,7 @@ pfloat fBumpStrength 5
 			 	 <material id="101">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-083_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3929,7 +3929,7 @@ pfloat fBumpStrength 5
 			 	 <material id="102">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3964,7 +3964,7 @@ pfloat fBumpStrength 5
 			 	 <material id="103">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3999,7 +3999,7 @@ pfloat fBumpStrength 5
 			 	 <material id="104">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4034,7 +4034,7 @@ pfloat fBumpStrength 5
 			 	 <material id="105">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4069,7 +4069,7 @@ pfloat fBumpStrength 5
 			 	 <material id="106">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4104,7 +4104,7 @@ pfloat fBumpStrength 5
 			 	 <material id="107">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-120_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-120_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4139,7 +4139,7 @@ pfloat fBumpStrength 5
 			 	 <material id="108">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-116_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-116_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4174,7 +4174,7 @@ pfloat fBumpStrength 5
 			 	 <material id="109">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-005_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4209,7 +4209,7 @@ pfloat fBumpStrength 5
 			 	 <material id="110">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-032_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4244,7 +4244,7 @@ pfloat fBumpStrength 5
 			 	 <material id="111">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4279,7 +4279,7 @@ pfloat fBumpStrength 5
 			 	 <material id="112">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4314,7 +4314,7 @@ pfloat fBumpStrength 5
 			 	 <material id="113">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-111_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4349,7 +4349,7 @@ pfloat fBumpStrength 5
 			 	 <material id="114">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-095_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-095_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4384,7 +4384,7 @@ pfloat fBumpStrength 5
 			 	 <material id="115">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-093_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-093_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4419,7 +4419,7 @@ pfloat fBumpStrength 5
 			 	 <material id="116">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-094_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-094_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4454,7 +4454,7 @@ pfloat fBumpStrength 5
 			 	 <material id="117">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4489,7 +4489,7 @@ pfloat fBumpStrength 5
 			 	 <material id="118">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4524,7 +4524,7 @@ pfloat fBumpStrength 5
 			 	 <material id="119">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-000_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-000_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4559,7 +4559,7 @@ pfloat fBumpStrength 5
 			 	 <material id="120">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-tenjyou_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-tenjyou_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4594,7 +4594,7 @@ pfloat fBumpStrength 5
 			 	 <material id="121">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4629,7 +4629,7 @@ pfloat fBumpStrength 5
 			 	 <material id="122">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-yuka_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-yuka_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4664,7 +4664,7 @@ pfloat fBumpStrength 5
 			 	 <material id="123">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4699,7 +4699,7 @@ pfloat fBumpStrength 5
 			 	 <material id="124">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4734,7 +4734,7 @@ pfloat fBumpStrength 5
 			 	 <material id="125">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4769,7 +4769,7 @@ pfloat fBumpStrength 5
 			 	 <material id="126">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-110_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4804,7 +4804,7 @@ pfloat fBumpStrength 5
 			 	 <material id="127">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-126_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-126_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4839,7 +4839,7 @@ pfloat fBumpStrength 5
 			 	 <material id="128">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4874,7 +4874,7 @@ pfloat fBumpStrength 5
 			 	 <material id="129">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4909,7 +4909,7 @@ pfloat fBumpStrength 5
 			 	 <material id="130">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-kaidan_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4944,7 +4944,7 @@ pfloat fBumpStrength 5
 			 	 <material id="131">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-paipu_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -4979,7 +4979,7 @@ pfloat fBumpStrength 5
 			 	 <material id="132">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-komono_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5014,7 +5014,7 @@ pfloat fBumpStrength 5
 			 	 <material id="133">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-123_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5049,7 +5049,7 @@ pfloat fBumpStrength 5
 			 	 <material id="134">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-093_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-093_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5084,7 +5084,7 @@ pfloat fBumpStrength 5
 			 	 <material id="135">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-095_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-095_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5119,7 +5119,7 @@ pfloat fBumpStrength 5
 			 	 <material id="136">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-090_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5154,7 +5154,7 @@ pfloat fBumpStrength 5
 			 	 <material id="137">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-094_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-094_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5189,7 +5189,7 @@ pfloat fBumpStrength 5
 			 	 <material id="138">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-wall03_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5224,7 +5224,7 @@ pfloat fBumpStrength 5
 			 	 <material id="139">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-em005body_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5259,7 +5259,7 @@ pfloat fBumpStrength 5
 			 	 <material id="140">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-alfa_NUKIout_mm.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-alfa_NUKIout_mm.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5294,7 +5294,7 @@ pfloat fBumpStrength 5
 			 	 <material id="141">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-112_BMout.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5329,7 +5329,7 @@ pfloat fBumpStrength 5
 			 	 <material id="142">
 					 <textures>
 						 <texture id="0" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-AFami_NUKIout_mm.jpg" />
-						 <texture id="1" path="data/nouveau dossier/dmc4 stage laboratory/Maps/st216-t-AFami_NUKIout_mm.jpg_copy" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -5367,7 +5367,7 @@ pfloat fBumpStrength 5
 			 <scale X="5.445834" Y="5.445834" Z="5.445834" />
 
 			<depthPassed value="1" />
-			<lightScatteringPassed value="0" />
+			<lightScatteringPassed value="1" />
 
 			 <visible bool="1" />
 			 <shadowMode mode="2" />

@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="3" />
+		 <numberOfObjects value="4" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-64.422371" Y="48.453087" Z="98.137566" />
-			 <rotation X="18.237055" Y="164.642471" Z="0.000000" />
+			 <position X="211.457733" Y="38.138718" Z="166.213486" />
+			 <rotation X="337.750732" Y="221.250305" Z="0.000000" />
 
 		 </camera>
 
@@ -300,7 +300,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
    if(color.g>1.0){color.rb+=color.g-1.0;} 
    if(color.b>1.0){color.rg+=color.b-1.0;} 
    
-   return color * tex2D(baseMapSampler, IN.Texcoord) * 2.0;
+   return color + tex2D(baseMapSampler, IN.Texcoord);
 }
 " />
 				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
@@ -352,6 +352,88 @@ pfloat fBumpStrength 5
 " />
 			 </materialType>
 
+			 <materialType>
+				 <pixelShaderType type="7" /> 
+				 <vertexShaderType type="3" /> 
+				 <baseMaterial type="14" /> 
+				 <name cname="New Material Type" />
+				 <vertex shader=
+"//-----------------------------------------------------------------------------
+// Global variables
+//-----------------------------------------------------------------------------
+float4x4 mWorldViewProj;  // World * View * Projection transformation
+float4x4 mInvWorld;       // Inverted world matrix
+float4x4 World;       // world matrix
+float4 LightPos;     
+float Timer;
+float4x4 ViewI;
+
+
+struct VS_OUTPUT 
+{
+   float4 Position: POSITION0;
+   float2 UV    : TEXCOORD0;
+   float4 Color: COLOR0;
+   float4 specCol    : COLOR1;
+};
+
+
+VS_OUTPUT vertexMain( 
+       float3 Position    : POSITION0,
+    float4 UV        : TEXCOORD0,
+    float4 Tangent    : TANGENT0,
+    float4 Binormal    : BINORMAL0,
+    float4 Normal    : NORMAL0
+)
+{
+    VS_OUTPUT  OUT;
+    float3 Nn = normalize(mul(Normal, mInvWorld).xyz);
+    float timeNow = Timer / 4;
+    float4 Po = float4(Position.xyz,1);
+    float iny = Po.y * 0.5 + timeNow;
+    float wiggleX = sin(iny) * 0.5;
+    float wiggleY = cos(iny) * 0.5; // deriv
+    Nn.y = Nn.y + wiggleY;
+    Nn = normalize(Nn);
+    Po.x = Po.x + wiggleX;
+    OUT.Position = mul(Po, mWorldViewProj);
+    float3 Pw = mul(Po, World).xyz;
+    float3 Ln = normalize(LightPos - Pw);
+    float ldn = dot(Ln,Nn);
+    float diffComp = max(0,ldn);
+    float3 diffContrib = float3(0.9f, 0.68f, 0.543f) * ( diffComp * float3(1.0f, 1.0f, 1.0f) + float3(0.2f, 0.2f, 0.2f));
+    OUT.Color = float4(diffContrib,1);
+    OUT.UV = UV;
+    float3 Vn = normalize(ViewI[3].xyz - Pw);
+    float3 Hn = normalize(Vn + Ln);
+    float hdn = pow(max(0,dot(Hn,Nn)),5.0);
+    OUT.specCol = float4(hdn * float3(1.0f, 1.0f, 1.0f),1);
+    return(OUT);
+}
+" />
+				 <pixel shader=
+"
+sampler2D tex0 : register(s0) ;
+
+float4 pixelMain(
+    float2 UV    : TEXCOORD0,
+    float4 Color: COLOR0,
+    float4 specCol    : COLOR1
+    ) : COLOR0
+{
+     float4 final = Color * tex2D(tex0, UV) + specCol;
+    return(final);
+ 
+}
+" />
+				 <constants value="vmatrix4 mWorldViewProj proj[0] view[0] world[0] 0
+vmatrix4 mInvWorld world[1] 0 0 0
+vmatrix4 World world[0] 0 0 0
+vvector3df LightPos 0 1000 0
+vfloat Timer + ctime 100
+vmatrix4 Viewl view[0] 0 0 0" />
+			 </materialType>
+
 
 		 </materialTypes>
 
@@ -396,9 +478,9 @@ pfloat fBumpStrength 5
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -431,9 +513,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="1">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -466,9 +548,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="2">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -501,9 +583,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="3">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -536,9 +618,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="4">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -571,9 +653,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="5">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -606,9 +688,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="6">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -641,9 +723,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="7">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -676,9 +758,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="8">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -711,9 +793,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="9">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -746,9 +828,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="10">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -781,9 +863,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="11">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -816,9 +898,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="12">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -851,9 +933,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="13">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -886,9 +968,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="14">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -921,9 +1003,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="15">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -956,9 +1038,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="16">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -991,9 +1073,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="17">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1026,9 +1108,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="18">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1061,9 +1143,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="19">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1096,9 +1178,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="20">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1131,9 +1213,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="21">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1166,9 +1248,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="22">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1201,9 +1283,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="23">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1236,9 +1318,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="24">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1271,9 +1353,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="25">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1306,9 +1388,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="26">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1341,9 +1423,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="27">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1376,9 +1458,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="28">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1411,9 +1493,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="29">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1446,9 +1528,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="30">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1481,9 +1563,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="31">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1516,9 +1598,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="32">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1551,9 +1633,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="33">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1586,9 +1668,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="34">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1621,9 +1703,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="35">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1656,9 +1738,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="36">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1691,9 +1773,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="37">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1726,9 +1808,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="38">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1761,9 +1843,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="39">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1796,9 +1878,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="40">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1831,9 +1913,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="41">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1866,9 +1948,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="42">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1901,9 +1983,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="43">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1936,9 +2018,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="44">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -1971,9 +2053,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="45">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2006,9 +2088,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="46">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2041,9 +2123,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="47">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2076,9 +2158,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="48">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2111,9 +2193,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="49">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2146,9 +2228,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="50">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2181,9 +2263,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="51">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2216,9 +2298,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="52">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2251,9 +2333,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="53">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2286,9 +2368,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="54">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2321,9 +2403,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="55">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2356,9 +2438,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="56">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2391,9 +2473,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="57">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2426,9 +2508,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="58">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2461,9 +2543,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="59">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2496,9 +2578,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="60">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2531,9 +2613,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="61">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2566,9 +2648,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="62">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2601,9 +2683,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="63">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2636,9 +2718,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="64">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2671,9 +2753,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="65">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2706,9 +2788,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="66">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2741,9 +2823,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="67">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2776,9 +2858,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="68">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2811,9 +2893,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="69">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2846,9 +2928,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="70">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2881,9 +2963,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="71">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2916,9 +2998,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="72">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2951,9 +3033,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="73">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -2986,9 +3068,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="74">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3021,9 +3103,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="75">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3056,9 +3138,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="76">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3091,9 +3173,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="77">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3126,9 +3208,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="78">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3161,9 +3243,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="79">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3196,9 +3278,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="80">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3231,9 +3313,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="81">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3266,9 +3348,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="82">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3301,9 +3383,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="83">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3336,9 +3418,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="84">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3371,9 +3453,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="85">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3406,9 +3488,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="86">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3441,9 +3523,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="87">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3476,9 +3558,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="88">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3511,9 +3593,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="89">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3546,9 +3628,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="90">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3581,9 +3663,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="91">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3616,9 +3698,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="92">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3651,9 +3733,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="93">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3686,9 +3768,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="94">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3721,9 +3803,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="95">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3756,9 +3838,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="96">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3791,9 +3873,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="97">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3826,9 +3908,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="98">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3861,9 +3943,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="99">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3896,9 +3978,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="100">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3931,9 +4013,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="101">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -3966,9 +4048,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="102">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4001,9 +4083,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="103">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4036,9 +4118,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="104">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4071,9 +4153,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="105">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4106,9 +4188,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="106">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4141,9 +4223,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="107">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4176,9 +4258,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="108">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4211,9 +4293,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="109">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4246,9 +4328,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="110">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4281,9 +4363,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="111">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4316,9 +4398,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="112">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4351,9 +4433,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="113">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4386,9 +4468,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="114">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4421,9 +4503,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="115">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4456,9 +4538,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="116">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4491,9 +4573,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="117">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4526,9 +4608,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="118">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4561,9 +4643,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="119">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4596,9 +4678,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="120">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4631,9 +4713,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="121">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4666,9 +4748,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="122">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4701,9 +4783,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="123">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4736,9 +4818,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="124">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4771,9 +4853,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="125">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4806,9 +4888,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="126">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4841,9 +4923,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="127">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4876,9 +4958,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="128">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4911,9 +4993,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="129">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4946,9 +5028,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="130">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -4981,9 +5063,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="131">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -5016,9 +5098,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="132">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -5051,9 +5133,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="133">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -5086,9 +5168,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="134">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -5121,9 +5203,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="135">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -5156,9 +5238,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="136">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -5191,9 +5273,9 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="137">
 					 <textures>
-						 <texture id="0" path="height_maps/grass.png" />
-						 <texture id="1" path="height_maps/grassn.png" />
-						 <texture id="2" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
 						 <texture id="3" path="BackRenderRTT" />
 					 <textures>
 
@@ -5304,7 +5386,7 @@ pfloat fBumpStrength 5
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="5.700000" Y="5.700000" Z="5.700000" />
 
-			<depthPassed value="0" />
+			<depthPassed value="1" />
 			<lightScatteringPassed value="0" />
 
 			 <visible bool="1" />
@@ -5318,6 +5400,95 @@ pfloat fBumpStrength 5
 			 </physics>
 
 		 </object>
+
+		 <tree>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/trees/k4_treepack1/tree 1a - 1b/tree1a_lod0.obj" />
+
+			 <name c8name="#tree:myName" />
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/trees/k4_treepack1/tree 1a - 1b/bark1.tga" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="0" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/trees/k4_treepack1/tree 1a - 1b/leafs1.tga" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="51" g="51" b="51" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="0" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-2" />
+
+			 	 </material>
+			 </materials>
+			 <position X="48.532673" Y="0.000000" Z="27.483490" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="10.351667" Y="10.351667" Z="10.351667" />
+
+			<depthPassed value="0" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+		 </tree>
 
 		 <light>
 
