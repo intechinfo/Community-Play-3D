@@ -12,6 +12,9 @@
 #include "../../../SPARK/SPARK155/include/SPK.h"
 #include "../../../SPARK/SPARK155/include/SPK_IRR.h"
 
+namespace cp3d {
+namespace ps {
+
 enum E_PS_DATA_TYPE {
     EPSDT_SYSTEM = 0,
     EPSDT_GROUP,
@@ -55,5 +58,8 @@ enum E_PS_PARAM_TYPE {
 	EPSPT_RAND=0,
 	EPSPT_BIRTH_DEATH
 };
+
+}
+}
 
 #endif

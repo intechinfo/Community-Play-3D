@@ -11,6 +11,9 @@
 
 #include "CUIParticleEditor.h"
 
+using namespace cp3d;
+using namespace ps;
+
 CUIAddModifier::CUIAddModifier(CDevices *_devices, IGUIElement *parent, SPK::Group *_group, CGUINodesEditor *_editor, CGUINode *_parentNode) {
     devices = _devices;
 	group = _group;
@@ -55,6 +58,13 @@ CUIAddModifier::CUIAddModifier(CDevices *_devices, IGUIElement *parent, SPK::Gro
 
 CUIAddModifier::~CUIAddModifier() {
 
+}
+
+void CUIAddModifier::close() {
+	window->remove();
+	group->removeModifier(currentModifier);
+	delete currentModifier;
+	devices->getEventReceiver()->RemoveEventReceiver(this);
 }
 
 bool CUIAddModifier::OnEvent(const SEvent &event) {
@@ -261,7 +271,10 @@ void CUIAddModifier::fillForceFactorCB(IGUIComboBox *cb) {
 	cb->addItem(L"Interpolator Velocity");
 }
 
-void CUIAddModifier::createNode() {
+void CUIAddModifier::createNode(SPK::Modifier *modifier) {
+	if (modifier)
+		currentModifier = modifier;
+
 	array<stringw> paramNames;
 	paramNames.push_back("Flag None");
     paramNames.push_back("Flag Red");

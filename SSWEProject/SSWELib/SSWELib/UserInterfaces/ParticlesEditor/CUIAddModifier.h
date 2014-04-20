@@ -22,6 +22,9 @@ public:
     ~CUIAddModifier();
     
     bool OnEvent(const SEvent &event);
+
+	void createNode(SPK::Modifier *modifier=0);
+	void close();
     
 private:
     
@@ -34,8 +37,6 @@ private:
 	void modifyVector1(SPK::Vector3D v);
 	void modifyVector2(SPK::Vector3D v);
 	void modifyTwoParameters(float f1, float f2);
-
-	void createNode();
 
 	void fillTriggerCB(IGUIComboBox *cb);
 	void fillForceFactorCB(IGUIComboBox *cb);
@@ -66,7 +67,7 @@ private:
 	IGUIButton *accept, *cancel;
 	//-----------------------------------
 
-	E_PS_GROUP_MODIFIER_TYPE modifierType;
+	cp3d::ps::E_PS_GROUP_MODIFIER_TYPE modifierType;
 
 };
 

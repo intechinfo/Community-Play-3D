@@ -15,6 +15,9 @@
 #include "CUIAddEmitter.h"
 #include "CUIAddModifier.h"
 
+using namespace cp3d;
+using namespace ps;
+
 CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
     devices = _devices;
@@ -88,7 +91,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
 		SPK::IRR::IRRSystem *system = (SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i);
         
         CGUINode *node = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-        node->setName(ps->getSystems()->operator[](i)->getName().c_str());
+        node->setName("System");
         node->setParent(0);
         node->setData(system);
         node->setDataType(EPSDT_SYSTEM);
@@ -103,7 +106,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             SPK::Group *group = system->getGroups()[j];
             
             CGUINode *node2 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-            node2->setName(group->getName().c_str());
+            node2->setName("Group");
             node2->setParent(node);
             node2->setData(group);
             node2->setDataType(EPSDT_GROUP);
@@ -119,7 +122,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
 			node2->addButton(L"Add Modifier...", L"Open dialog to add modifier (vortex, obstacle, etc)");
             
             CGUINode *nodeModel = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-            nodeModel->setName(group->getModel()->getName().c_str());
+            nodeModel->setName("Model");
             nodeModel->setParent(node2);
             nodeModel->setData(group->getModel());
             nodeModel->setDataType(EPSDT_MODEL);
@@ -133,7 +136,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
 			if (group->getRenderer()) {
 				SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)group->getRenderer();
 				CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-				nodeRenderer->setName(group->getRenderer()->getName().c_str());
+				nodeRenderer->setName("Renderer");
 				nodeRenderer->setParent(node2);
 				nodeRenderer->setData(group->getRenderer());
 				nodeRenderer->setDataType(EPSDT_RENDERER);
@@ -167,7 +170,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
                 SPK::Emitter *emitter = group->getEmitters()[k];
                 
                 CGUINode *node3 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-                node3->setName(emitter->getName().c_str());
+                node3->setName("Emitter");
                 node3->setParent(node2);
                 node3->setData(emitter);
                 node3->setDataType(EPSDT_EMITTER);
@@ -182,6 +185,17 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
 				node3->addTextField(L"Flow", stringw(emitter->getFlow()).c_str());
 				node3->addTextField(L"Change Flow", stringw(emitter->getFlow()).c_str());
             }
+
+			for (u32 k=0; k < group->getModifiers().size(); k++) {
+				SPK::Modifier *modifier = group->getModifiers()[k];
+
+				CUIAddModifier *addModifier = new CUIAddModifier(devices, window, group, nodesEditor, node2);
+				addModifier->createNode(modifier);
+				addModifier->close();
+				delete addModifier;
+
+			}
+
         }
     }
     

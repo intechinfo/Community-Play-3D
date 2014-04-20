@@ -12,6 +12,9 @@
 using namespace SPK;
 using namespace SPK::IRR;
 
+using namespace cp3d;
+using namespace ps;
+
 CUIParticlesEditZone::CUIParticlesEditZone(CDevices *_devices, SPK::Emitter *_emitter, IGUIElement *parent) {
     devices = _devices;
 
@@ -81,7 +84,6 @@ bool CUIParticlesEditZone::OnEvent(const SEvent &event) {
 
 			if (event.GUIEvent.Caller == accept) {
 				emitter->setZone(currentZone);
-				delete existedZone;
 				window->remove();
 				devices->getEventReceiver()->RemoveEventReceiver(this);
 				delete this;

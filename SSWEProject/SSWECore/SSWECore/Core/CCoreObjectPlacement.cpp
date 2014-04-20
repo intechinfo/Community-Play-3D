@@ -5,6 +5,9 @@
 //  Created by Julien Moreau-Mathis on 05/10/12.
 //
 //
+
+///250
+
 #include "stdafx.h"
 #include "CCoreObjectPlacement.h"
 
@@ -91,12 +94,29 @@ CCoreObjectPlacement::~CCoreObjectPlacement() {
 }
 
 void CCoreObjectPlacement::refresh(ISceneNode *cursorPosition) {
+	core::line3df ray;
+	ray.start = smgr->getActiveCamera()->getPosition();
+	ray.end = arrowXLineNode->getPosition();
+	rayLength = ray.getLength();
+
     if (isMoving && nodeToPlace) {
 		arrowYLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		arrowXLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		arrowZLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		arrowYXZLineNode->setPosition(nodeToPlace->getAbsolutePosition());
 		yGridSceneNode->setPosition(vector3df(0, nodeToPlace->getAbsolutePosition().Y, 0));
+
+		core::vector3df scale(10.f, 40.f, 10.f);
+		scale.X = (scale.X * ray.getLength())/ 250.f;
+		scale.Y = (scale.Y * ray.getLength())/ 250.f;
+		scale.Z = (scale.Z * ray.getLength())/ 250.f;
+
+		if (arrowType == Position) {
+			arrowYLineNode->setScale(scale);
+			arrowXLineNode->setScale(scale);
+			arrowZLineNode->setScale(scale);
+		}
+
     } else {
 		setArrowVisible(false);
 		isMoving = false;
@@ -429,6 +449,7 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 							case Rotation:
 								if((scaleArrow.Y + (mousePositionInPlane.Y - mousePosition.Y)) > 40 && (scaleArrow.Y + (mousePositionInPlane.Y - mousePosition.Y)) <= 100) {
 									arrowYLineNode->setScale(vector3df(10, scaleArrow.Y + (mousePositionInPlane.Y - mousePosition.Y), 10));
+
 									nodeToPlace->setRotation(vector3df(nodeToPlace->getRotation().X, (arrowYLineNode->getScale().Y - 40) * 6, nodeToPlace->getRotation().Z));
 								}
 								else if((scaleArrow.Y + (mousePositionInPlane.Y - mousePosition.Y)) >= 35 && (scaleArrow.Y + (mousePositionInPlane.Y - mousePosition.Y)) <= 40) {
@@ -478,6 +499,10 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 								if((scaleArrow.Y + (mousePositionInPlane.Z - mousePosition.Z)) >= 40 && (scaleArrow.Y + (mousePositionInPlane.Z - mousePosition.Z)) <= 100) {
 									arrowZLineNode->setScale(vector3df(10, scaleArrow.Y + (mousePositionInPlane.Z - mousePosition.Z), 10));
 									nodeToPlace->setRotation(vector3df(nodeToPlace->getRotation().X, nodeToPlace->getRotation().Y, (arrowZLineNode->getScale().Y - 40) * 6));
+
+									core::vector3df scale(10, scaleArrow.Y + (mousePositionInPlane.Z - mousePosition.Z), 10);
+									scale = (scale * rayLength) / 250.f;
+									arrowZLineNode->setScale(scale);
 								}
 								else if((scaleArrow.Y + (mousePositionInPlane.Z - mousePosition.Z)) >= 35 && (scaleArrow.Y + (mousePositionInPlane.Z - mousePosition.Z)) <= 40) {
 									arrowZLineNode->setScale(vector3df(10, 40, 10));

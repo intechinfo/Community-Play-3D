@@ -56,6 +56,8 @@ private:
     CCollisionManager *colMgr;
 
 	ArrowType arrowType;
+
+	f32 rayLength;
     
     /*vector3df cameraPosition;
 	vector3df cameraRotation;*/

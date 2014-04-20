@@ -11,6 +11,9 @@
 
 #include "CUIParticleEditor.h"
 
+using namespace cp3d;
+using namespace ps;
+
 CUIAddEmitter::CUIAddEmitter(CDevices *_devices, IGUIElement *parent, SPK::Group *_group, CGUINodesEditor *_editor, CGUINode *_parentNode) {
     devices = _devices;
 	group = _group;
