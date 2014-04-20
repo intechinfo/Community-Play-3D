@@ -45,7 +45,6 @@ private:
     //-----------------------------------
 	//GUI ELEMENTS
 	IGUIWindow *window;
-	CGUIViewport *viewPort;
 	IGUIComboBox *emitterTypecb;
 	IGUIStaticText *editionZonet;
 

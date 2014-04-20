@@ -14,7 +14,12 @@ using namespace SPK::IRR;
 
 CUIParticlesEditZone::CUIParticlesEditZone(CDevices *_devices, SPK::Emitter *_emitter, IGUIElement *parent) {
     devices = _devices;
+
 	emitter = _emitter;
+	existedZone = emitter->getZone();
+
+	currentZone = SPK::AABox::create();
+	emitter->setZone(currentZone);
 
 	zoneTypeNames.push_back("AABOX");
 	zoneTypeNames.push_back("CYLINDER");
@@ -27,29 +32,25 @@ CUIParticlesEditZone::CUIParticlesEditZone(CDevices *_devices, SPK::Emitter *_em
 	//GUI
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
     
-	window = gui->addWindow(rect<s32>(550, 210, 830, 410), true, L"Edit Zone", parent, -1);
-	window->getCloseButton()->setVisible(false);
-	devices->getCore()->centerWindow(window, dimension2du(parent->getRelativePosition().getSize()));
+	window = gui->addWindow(rect<s32>(520, 160, 960, 540), true, L"Edit Zone", parent, -1);
+	devices->getCore()->centerWindow(window, dimension2du(parent->getRelativePosition().getWidth(),
+														  parent->getRelativePosition().getHeight()));
 
 	gui->addStaticText(L"Zone : ", rect<s32>(10, 30, 60, 50), true, true, window, -1, true);
-	zonecb = gui->addComboBox(rect<s32>(60, 30, 270, 50), window, -1);
+	zonecb = gui->addComboBox(rect<s32>(60, 30, 430, 50), window, -1);
 	for (u32 i=0; i < zoneTypeNames.size(); i++) {
 		zonecb->addItem(zoneTypeNames[i].c_str());
 	}
-	zonecb->setSelected(this->getZoneType());
 
-	gui->addStaticText(L"Position : ", rect<s32>(10, 70, 270, 90), true, true, window, -1, true);
-	gui->addStaticText(L"X : ", rect<s32>(20, 90, 50, 110), true, true, window, -1, true);
-	positionx = gui->addEditBox(stringw(emitter->getZone()->getPosition().x).c_str(), rect<s32>(50, 90, 270, 110), true, window, -1);
-	gui->addStaticText(L"Y : ", rect<s32>(20, 110, 50, 130), true, true, window, -1, true);
-	positiony = gui->addEditBox(stringw(emitter->getZone()->getPosition().y).c_str(), rect<s32>(50, 110, 270, 130), true, window, -1);
-	gui->addStaticText(L"Z : ", rect<s32>(20, 130, 50, 150), true, true, window, -1, true);
-	positionz = gui->addEditBox(stringw(emitter->getZone()->getPosition().z).c_str(), rect<s32>(50, 130, 270, 150), true, window, -1);
+	editZone = 0;
+	SEvent event;
+	event.EventType = EET_GUI_EVENT;
+	event.GUIEvent.EventType = EGET_COMBO_BOX_CHANGED;
+	event.GUIEvent.Caller = zonecb;
+	OnEvent(event);
 
-	accept = gui->addButton(rect<s32>(20, 160, 120, 190), window, -1, L"Accept", L"Accept Zone");
-	close = gui->addButton(rect<s32>(160, 160, 260, 190), window, -1, L"Cancel", L"Close this window");
-
-	createExternalGUIElements();
+	accept = gui->addButton(rect<s32>(330, 340, 430, 370), window, -1, L"Accept", L"Accept Zone");
+	close = gui->addButton(rect<s32>(220, 340, 320, 370), window, -1, L"Cancel", L"Close this window");
 
 	//FINISH
 	devices->getEventReceiver()->AddEventReceiver(this, window);
@@ -59,369 +60,234 @@ CUIParticlesEditZone::~CUIParticlesEditZone() {
 
 }
 
-CUIParticlesEditZone::E_ZONE_TYPE CUIParticlesEditZone::getZoneType() {
-	E_ZONE_TYPE type = EZT_UNKNOWN;
-	stringc prefix = getZonePrefix();
-	if (prefix == "AABOX") {
-		type = EZT_AABOX;
-	} else if (prefix == "CYLINDER") {
-		type = EZT_CYLINDER;
-	} else if (prefix == "LINE") {
-		type = EZT_LINE;
-	} else if (prefix == "PLANE") {
-		type = EZT_PLANE;
-	} else if (prefix == "POINT") {
-		type = EZT_POINT;
-	} else if (prefix == "RING") {
-		type = EZT_RING;
-	} else if (prefix == "SPHERE") {
-		type = EZT_SPHERE;
-	} else {
-		type = EZT_UNKNOWN;
-	}
-
-	zoneType = type;
-	return type;
-}
-
-CUIParticlesEditZone::SVector3DParams CUIParticlesEditZone::create3DParams(stringw name, s32 relativePositionElementY) {
-	IGUIEnvironment *gui = devices->getGUIEnvironment();
-
-	IGUIStaticText *dimensionText = gui->addStaticText(name.c_str(), rect<s32>(10, 70, 270, 90), true, true, window, -1, true);
-	IGUIStaticText *xdimensionText = gui->addStaticText(L"X : ", rect<s32>(20, 90, 50, 110), true, true, window, -1, true);
-	IGUIEditBox *dimensionx = gui->addEditBox(stringw(emitter->getZone()->getPosition().x).c_str(), rect<s32>(50, 90, 270, 110), true, window, -1);
-	IGUIStaticText *ydimensionText = gui->addStaticText(L"Y : ", rect<s32>(20, 110, 50, 130), true, true, window, -1, true);
-	IGUIEditBox *dimensiony = gui->addEditBox(stringw(emitter->getZone()->getPosition().y).c_str(), rect<s32>(50, 110, 270, 130), true, window, -1);
-	IGUIStaticText *zdimensionText = gui->addStaticText(L"Z : ", rect<s32>(20, 130, 50, 150), true, true, window, -1, true);
-	IGUIEditBox *dimensionz = gui->addEditBox(stringw(emitter->getZone()->getPosition().z).c_str(), rect<s32>(50, 130, 270, 150), true, window, -1);
-
-	dimensionText->setRelativePosition(position2di(10, relativePositionElementY+=20));
-	xdimensionText->setRelativePosition(position2di(20, relativePositionElementY+20));
-	dimensionx->setRelativePosition(position2di(50, relativePositionElementY+=20));
-	ydimensionText->setRelativePosition(position2di(20, relativePositionElementY+20));
-	dimensiony->setRelativePosition(position2di(50, relativePositionElementY+=20));
-	zdimensionText->setRelativePosition(position2di(20, relativePositionElementY+20));
-	dimensionz->setRelativePosition(position2di(50, relativePositionElementY+=20));
-
-	otherElements.push_back(xdimensionText);
-	otherElements.push_back(ydimensionText);
-	otherElements.push_back(zdimensionText);
-	elements.push_back(dimensionText);
-	elements.push_back(dimensionx);
-	elements.push_back(dimensiony);
-	elements.push_back(dimensionz);
-
-	SVector3DParams params;
-	params.x = dimensionx;
-	params.y = dimensiony;
-	params.z = dimensionz;
-
-	return params;
-}
-
-CUIParticlesEditZone::S2Params CUIParticlesEditZone::create2Params(stringw name1, stringw name2, s32 relativePositionElementY) {
-	IGUIEnvironment *gui = devices->getGUIEnvironment();
-
-	IGUIStaticText *radiusText = gui->addStaticText(name1.c_str(), rect<s32>(10, 210, 70, 230), true, true, window, -1, true);
-	IGUIEditBox *editRadius = gui->addEditBox(stringw(((SPK::Cylinder*)emitter->getZone())->getRadius()).c_str(), rect<s32>(70, 210, 270, 230), true, window, -1);
-	IGUIStaticText *lengthText = gui->addStaticText(name2.c_str(), rect<s32>(10, 210, 70, 230), true, true, window, -1, true);
-	IGUIEditBox *editLength = gui->addEditBox(stringw(((SPK::Cylinder*)emitter->getZone())->getLength()).c_str(), rect<s32>(70, 210, 270, 230), true, window, -1);
-
-	radiusText->setRelativePosition(position2di(10, relativePositionElementY+20));
-	editRadius->setRelativePosition(position2di(70, relativePositionElementY+=20));
-	lengthText->setRelativePosition(position2di(10, relativePositionElementY+20));
-	editLength->setRelativePosition(position2di(70, relativePositionElementY+=20));
-
-	otherElements.push_back(radiusText);
-	otherElements.push_back(lengthText);
-
-	elements.push_back(editRadius);
-	elements.push_back(editLength);
-
-	S2Params params;
-	params.param1 = editRadius;
-	params.param2 = editLength;
-
-	return params;
-}
-
-IGUIElement *CUIParticlesEditZone::create1Param(stringw name, s32 relativePositionElementY) {
-	IGUIEnvironment *gui = devices->getGUIEnvironment();
-
-	IGUIStaticText *lengthText = gui->addStaticText(name.c_str(), rect<s32>(10, 210, 70, 230), true, true, window, -1, true);
-	IGUIEditBox *editLength = gui->addEditBox(stringw(((SPK::Sphere*)emitter->getZone())->getRadius()).c_str(), rect<s32>(70, 210, 270, 230), true, window, -1);
-
-	lengthText->setRelativePosition(position2di(10, relativePositionElementY));
-	editLength->setRelativePosition(position2di(70, relativePositionElementY));
-
-	elements.push_back(editLength);
-	otherElements.push_back(lengthText);
-
-	return editLength;
-}
-
-void CUIParticlesEditZone::createExternalGUIElements() {
-	for (u32 i=0; i < elements.size(); i++) {
-		elements[i]->remove();
-	}
-	for (u32 i=0; i < otherElements.size(); i++) {
-		otherElements[i]->remove();
-	}
-	elements.clear();
-	otherElements.clear();
-
-	E_ZONE_TYPE type = getZoneType();
-	s32 relativePositionElementY = positionz->getRelativePosition().LowerRightCorner.Y+20;
-	IGUIEnvironment *gui = devices->getGUIEnvironment();
-
-	//AABOX
-	if (type == EZT_AABOX) {
-		SVector3DParams params = this->create3DParams("Dimension :", relativePositionElementY);
-		relativePositionElementY+=20*4;
-
-		params.x->setName("AABOX:dimx");
-		params.y->setName("AABOX:dimy");
-		params.z->setName("AABOX:dimz");
-	} else if (type == EZT_CYLINDER) { //CYLINDER
-		SVector3DParams params = this->create3DParams("Direction :", relativePositionElementY);
-		relativePositionElementY+=20*4;
-		S2Params params2 = this->create2Params("Radius", "Length", relativePositionElementY);
-
-		params.x->setName("CYLINDER:dirx");
-		params.y->setName("CYLINDER:diry");
-		params.z->setName("CYLINDER:dirz");
-		params2.param1->setName("CYLINDER:radius");
-		params2.param2->setName("CYLINDER:length");
-	} else if (type == EZT_LINE) { //LINE
-		SVector3DParams params = this->create3DParams("Point 1:", relativePositionElementY);
-		relativePositionElementY+=20*4;
-		SVector3DParams params2 = this->create3DParams("Point 2:", relativePositionElementY);
-
-		params.x->setName("LINE:p0x");
-		params.y->setName("LINE:p0y");
-		params.z->setName("LINE:p0z");
-		params2.x->setName("LINE:p1x");
-		params2.y->setName("LINE:p1y");
-		params2.z->setName("LINE:p1z");
-	} else if (type == EZT_PLANE) { //PLANE
-		SVector3DParams params = this->create3DParams("Normal :", relativePositionElementY);
-
-		params.x->setName("PLANE:normalx");
-		params.y->setName("PLANE:normaly");
-		params.z->setName("PLANE:normalz");
-	} else if (type == EZT_RING) { //RING
-		SVector3DParams params = this->create3DParams("Normal :", relativePositionElementY);
-		relativePositionElementY+=20*4;
-		S2Params params2 = this->create2Params("Min Radius :", "Max radius :", relativePositionElementY);
-
-		params.x->setName("RING:normalx");
-		params.y->setName("RING:normaly");
-		params.z->setName("RING:normalz");
-		params2.param1->setName("RING:minRadius");
-		params2.param2->setName("RING:maxRadius");
-	} else if (type == EZT_SPHERE) { //SPHERE
-		this->create1Param("Radius :", relativePositionElementY)->setName("SPHERE:radius");
-	}
-
-	window->setRelativePosition(rect<s32>(window->getRelativePosition().UpperLeftCorner.X,
-										  window->getRelativePosition().UpperLeftCorner.Y,
-										  window->getRelativePosition().LowerRightCorner.X,
-										  window->getRelativePosition().UpperLeftCorner.Y + (410-210) + 40 + (20*elements.size())
-										  )
-							   );
-
-	accept->setRelativePosition(rect<s32>(20, 160, 120, 190));
-	close->setRelativePosition(rect<s32>(160, 160, 260, 190));
-	accept->setRelativePosition(position2di(accept->getRelativePosition().UpperLeftCorner.X, accept->getRelativePosition().UpperLeftCorner.Y + 40 + (20*elements.size())));
-	close->setRelativePosition(position2di(close->getRelativePosition().UpperLeftCorner.X, close->getRelativePosition().UpperLeftCorner.Y + + 40 + (20*elements.size())));
-
-}
-
-stringc CUIParticlesEditZone::getZonePrefix() {
-	if (emitter->getZone() == 0) {
-		return "";
-	}
-	stringc prefix = "";
-	stringc name = emitter->getZone()->getName().c_str();
-
-	for (u32 i=0; i < name.size(); i++) {
-		if (name[i] == ':') {
-			break;
-		} else {
-			prefix += emitter->getZone()->getName().at(i);
-		}
-	}
-	return prefix;
-}
-
 bool CUIParticlesEditZone::OnEvent(const SEvent &event) {
-    
 	if (event.EventType == EET_GUI_EVENT) {
-		if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
-			if (event.GUIEvent.Caller->getParent() == window) {
-				stringc name = event.GUIEvent.Caller->getName();
-				IGUIEditBox *editbox = (IGUIEditBox*)event.GUIEvent.Caller;
 
-				if (name == "AABOX::dimx" || name == "AABOX:dimy" || name == "AABOX:dimz") {
-					SPK::Vector3D v = ((SPK::AABox*)emitter->getZone())->getDimension();
-					SPK::AABox *aabox = (SPK::AABox*)emitter->getZone();
-					f32 value = devices->getCore()->getF32(editbox->getText());
-					if (name == "AABOX:dimx") {
-						f32 x = devices->getCore()->getF32(editbox->getText());
-						aabox->setDimension(SPK::Vector3D(value, v.y, v.z));
-					}
-					if (name == "AABOX:dimy") {
-						f32 y = devices->getCore()->getF32(editbox->getText());
-						aabox->setDimension(SPK::Vector3D(v.x, value, v.z));
-					}
-					if (name == "AABOX:dimz") {
-						f32 z = devices->getCore()->getF32(editbox->getText());
-						aabox->setDimension(SPK::Vector3D(v.x, v.y, value));
-					}
-				}
-
-				if (name == "CYLINDER::dirx" || name == "CYLINDER:diry" || name == "CYLINDER:dirz"
-					|| name == "CYLINDER:radius" || name == "CYLINDER:length") {
-					SPK::Vector3D v = ((SPK::AABox*)emitter->getZone())->getDimension();
-					SPK::Cylinder *cyl = (SPK::Cylinder*)emitter->getZone();
-					f32 value = devices->getCore()->getF32(editbox->getText());
-					if (name == "CYLINDER:dirx") {
-						cyl->setDirection(SPK::Vector3D(value, v.y, v.z));
-					}
-					if (name == "CYLINDER:diry") {
-						cyl->setDirection(SPK::Vector3D(v.x, value, v.z));
-					}
-					if (name == "CYLINDER:dirz") {
-						cyl->setDirection(SPK::Vector3D(v.x, v.y, value));
-					}
-					if (name == "CYLINDER:radius") {
-						cyl->setRadius(value);
-					}
-					if (name == "CYLINDER:length") {
-						cyl->setLength(value);
-					}
-				}
-
-				if (name == "LINE::p0x" || name == "LINE:p0y" || name == "LINE:p0z"
-					|| name == "LINE::p1x" || name == "LINE:p1y" || name == "LINE:p1z") {
-
-					SPK::Vector3D v1 = ((SPK::Line*)emitter->getZone())->getBound(0);
-					SPK::Vector3D v2 = ((SPK::Line*)emitter->getZone())->getBound(1);
-					SPK::Line *line = (SPK::Line*)emitter->getZone();
-					f32 value = devices->getCore()->getF32(editbox->getText());
-
-					if (name == "LINE:p0x") {
-						line->setBounds(SPK::Vector3D(value, v1.y, v1.z), SPK::Vector3D(v2.x, v2.y, v2.z));
-					}
-					if (name == "LINE:p0y") {
-						line->setBounds(SPK::Vector3D(v1.x, value, v1.z), SPK::Vector3D(v2.x, v2.y, v2.z));
-					}
-					if (name == "LINE:p0z") {
-						line->setBounds(SPK::Vector3D(v1.x, v1.y, value), SPK::Vector3D(v2.x, v2.y, v2.z));
-					}
-					if (name == "LINE:p1x") {
-						line->setBounds(SPK::Vector3D(v1.x, v1.y, v1.z), SPK::Vector3D(value, v2.y, v2.z));
-					}
-					if (name == "LINE:p1y") {
-						line->setBounds(SPK::Vector3D(v1.x, v1.y, v1.z), SPK::Vector3D(v2.x, value, v2.z));
-					}
-					if (name == "LINE:p1z") {
-						line->setBounds(SPK::Vector3D(v1.x, v1.y, v1.z), SPK::Vector3D(v2.x, v2.y, value));
-					}
-				}
-
-				if (name == "PLANE::normalx" || name == "PLANE:normaly" || name == "PLANE:normalz") {
-					SPK::Vector3D v = ((SPK::Plane*)emitter->getZone())->getNormal();
-					SPK::Plane *plane = (SPK::Plane*)emitter->getZone();
-					f32 value = devices->getCore()->getF32(editbox->getText());
-
-					if (name == "PLANE:normalx") {
-						plane->setNormal(SPK::Vector3D(value, v.y, v.z));
-					}
-					if (name == "PLANE:normaly") {
-						plane->setNormal(SPK::Vector3D(v.x, value, v.z));
-					}
-					if (name == "PLANE:normalz") {
-						plane->setNormal(SPK::Vector3D(v.x, v.y, value));
-					}
-				}
-
-				if (name == "RING::normalx" || name == "RING:normaly" || name == "RING:normalz"
-					|| name == "RING::minRadius" || name == "RING:maxRadius") {
-
-					SPK::Vector3D v = ((SPK::Ring*)emitter->getZone())->getNormal();
-					SPK::Ring *ring = (SPK::Ring*)emitter->getZone();
-					f32 value = devices->getCore()->getF32(editbox->getText());
-
-					if (name == "RING:normalx") {
-						ring->setNormal(SPK::Vector3D(value, v.y, v.z));
-					}
-					if (name == "RING:normaly") {
-						ring->setNormal(SPK::Vector3D(v.x, value, v.z));
-					}
-					if (name == "RING:normalz") {
-						ring->setNormal(SPK::Vector3D(v.x, v.y, value));
-					}
-					if (name == "RING:minRadius") {
-						ring->setRadius(value, ring->getMaxRadius());
-					}
-					if (name == "RING:maxRadius") {
-						ring->setRadius(ring->getMinRadius(), value);
-					}
-				}
-
-				if (name == "SPHERE:radius") {
-					SPK::Sphere *sphere = (SPK::Sphere*)emitter->getZone();
-					f32 value = devices->getCore()->getF32(editbox->getText());
-					sphere->setRadius(value);
-				}
-			}
-		}
-
-		if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
-			if (event.GUIEvent.Caller == zonecb) {
-				zoneType = (E_ZONE_TYPE)zonecb->getSelected();
-				SPK::Zone *zone = 0;
-				if (zoneType == EZT_AABOX) {
-					zone = SPK::AABox::create(SPK::Vector3D(0, 0, 0), SPK::Vector3D(0, 0, 0));
-					zone->setName("AABOX:box");
-				} else if (zoneType == EZT_CYLINDER) {
-					zone = SPK::Cylinder::create();
-					zone->setName("CYLINDER:cylinder");
-				} else if (zoneType == EZT_LINE) {
-					zone = SPK::Line::create();
-					zone->setName("LINE:line");
-				} else if (zoneType == EZT_PLANE) {
-					zone = SPK::Plane::create();
-					zone->setName("PLANE:plane");
-				} else if (zoneType == EZT_POINT) {
-					zone = SPK::Point::create();
-					zone->setName("POINT:point");
-				} else if (zoneType == EZT_RING) {
-					zone = SPK::Ring::create();
-					zone->setName("RING:ring");
-				} else if (zoneType == EZT_SPHERE) {
-					zone = SPK::Sphere::create();
-					zone->setName("SPHERE:sphere");
-				}
-
-				if (zone != 0) {
-					emitter->setZone(zone);
-				} else {
-					zoneType = EZT_UNKNOWN;
-				}
-				createExternalGUIElements();
-			}
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+			emitter->setZone(existedZone);
+			delete currentZone;
+			devices->getEventReceiver()->RemoveEventReceiver(this);
+			delete this;
 		}
 
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == close) {
 				window->remove();
+				emitter->setZone(existedZone);
+				delete currentZone;
+				devices->getEventReceiver()->RemoveEventReceiver(this);
+				delete this;
+			}
+
+			if (event.GUIEvent.Caller == accept) {
+				emitter->setZone(currentZone);
+				delete existedZone;
+				window->remove();
 				devices->getEventReceiver()->RemoveEventReceiver(this);
 				delete this;
 			}
 		}
+
+		if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
+			IGUIElement *caller = event.GUIEvent.Caller;
+			if (caller == v1_1 || caller == v1_2 || caller == v1_3) {
+				SPK::Vector3D v(devices->getCore()->getF32(v1_1->getText()),
+								devices->getCore()->getF32(v1_2->getText()),
+								devices->getCore()->getF32(v1_3->getText()));
+				modifyVector1(v);
+			}
+
+			if (caller == v2_1 || caller == v2_2 || caller == v2_3) {
+				SPK::Vector3D v(devices->getCore()->getF32(v2_1->getText()),
+								devices->getCore()->getF32(v2_2->getText()),
+								devices->getCore()->getF32(v2_3->getText()));
+				modifyVector2(v);
+			}
+
+			if (caller == eb1 || caller == eb2) {
+				modifyTwoParameters(devices->getCore()->getF32(eb1->getText()),
+									devices->getCore()->getF32(eb2->getText()));
+			}
+
+			if (caller == eb3) {
+				((SPK::Sphere*)currentZone)->setRadius(devices->getCore()->getF32(eb3->getText()));
+			}
+		}
+
+		if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
+			if (event.GUIEvent.Caller == zonecb) {
+				if (editZone)
+					editZone->remove();
+				editZone = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(10, 60, 430, 330), true, true, window, -1, true);
+
+				emitter->setZone(0);
+				delete currentZone;
+				currentZone = 0;
+
+				switch (zonecb->getSelected()) {
+				case EZT_AABOX:
+					currentZone = SPK::AABox::create();
+					addVector3D1("Position");
+					addVector3D2("Dimension");
+					break;
+				case EZT_CYLINDER:
+					currentZone = SPK::Cylinder::create();
+					addVector3D1("Position");
+					addVector3D2("Dimension");
+					addTwoParameters("Radius", "Length", true, true);
+					break;
+				case EZT_LINE:
+					currentZone = SPK::Line::create();
+					addVector3D1("Point 1");
+					addVector3D2("Point 2");
+					break;
+				case EZT_PLANE:
+					currentZone = SPK::Plane::create();
+					addVector3D1("Position");
+					addVector3D2("Normal");
+					break;
+				case EZT_POINT:
+					currentZone = SPK::Point::create();
+					addVector3D1("Position");
+					break;
+				case EZT_RING:
+					currentZone = SPK::Ring::create();
+					addVector3D1("Position");
+					addVector3D2("Normal");
+					addTwoParameters("Min Radius", "Max Radius", true, true);
+					break;
+				case EZT_SPHERE: {
+					currentZone = SPK::Sphere::create();
+					addVector3D1("Position");
+					s32 yPosition = 90;
+					devices->getGUIEnvironment()->addStaticText(L"Radius", rect<s32>(10, yPosition, 180, yPosition+20), true, true, editZone, -1, true);
+					eb3 = devices->getGUIEnvironment()->addEditBox(L"0.0", rect<s32>(180, yPosition, 410, yPosition+20), true, editZone, -1);
+				}
+					break;
+				default:break;
+				}
+
+				if (currentZone)
+					emitter->setZone(currentZone);
+			}
+		}
+	}
+	return false;
+}
+
+void CUIParticlesEditZone::addVector3D1(stringw name) {
+	IGUIEnvironment *gui = devices->getGUIEnvironment();
+	gui->addStaticText(name.c_str(), rect<s32>(10, 10, 410, 30), true, true, editZone, -1, true);
+
+	gui->addStaticText(L"X :", rect<s32>(20, 30, 50, 50), true, true, editZone, -1, true);
+	v1_1 = gui->addEditBox(L"0.0", rect<s32>(50, 30, 410, 50), true, editZone, -1);
+	gui->addStaticText(L"Y :", rect<s32>(20, 50, 50, 70), true, true, editZone, -1, true);
+	v1_2 = gui->addEditBox(L"0.0", rect<s32>(50, 50, 410, 70), true, editZone, -1);
+	gui->addStaticText(L"Z :", rect<s32>(20, 70, 50, 90), true, true, editZone, -1, true);
+	v1_3 = gui->addEditBox(L"0.0", rect<s32>(50, 70, 410, 90), true, editZone, -1);
+}
+
+void CUIParticlesEditZone::addVector3D2(stringw name) {
+	IGUIEnvironment *gui = devices->getGUIEnvironment();
+	gui->addStaticText(name.c_str(), rect<s32>(10, 90, 410, 110), true, true, editZone, -1, true);
+
+	gui->addStaticText(L"X :", rect<s32>(20, 110, 50, 130), true, true, editZone, -1, true);
+	v2_1 = gui->addEditBox(L"0.0", rect<s32>(50, 110, 410, 130), true, editZone, -1);
+	gui->addStaticText(L"Y :", rect<s32>(20, 130, 50, 150), true, true, editZone, -1, true);
+	v2_2 = gui->addEditBox(L"0.0", rect<s32>(50, 130, 410, 150), true, editZone, -1);
+	gui->addStaticText(L"Z :", rect<s32>(20, 150, 50, 170), true, true, editZone, -1, true);
+	v2_3 = gui->addEditBox(L"0.0", rect<s32>(50, 150, 410, 170), true, editZone, -1);
+}
+
+void CUIParticlesEditZone::addTwoParameters(stringw name1, stringw name2, bool addedVector1, bool addedVector2) {
+	IGUIEnvironment *gui = devices->getGUIEnvironment();
+	irr::s32 yPosition = 10;
+
+	if (addedVector1)
+		yPosition = 90;
+	if (addedVector2)
+		yPosition = 170;
+
+	gui->addStaticText(name1.c_str(), rect<s32>(10, yPosition, 180, yPosition+20), true, true, editZone, -1, true);
+	eb1 = gui->addEditBox(L"0.0", rect<s32>(180, yPosition, 410, yPosition+20), true, editZone, -1);
+	gui->addStaticText(name2.c_str(), rect<s32>(10, yPosition+20, 180, yPosition+40), true, true, editZone, -1, true);
+	eb2 = gui->addEditBox(L"0.0", rect<s32>(180, yPosition+20, 410, yPosition+40), true, editZone, -1);
+}
+
+void CUIParticlesEditZone::modifyVector1(SPK::Vector3D v) {
+	SPK::AABox *aabox = dynamic_cast<SPK::AABox*>(currentZone);
+	if (aabox) {
+		aabox->setPosition(v);
 	}
 
-	return false;
+	SPK::Cylinder *cylinder = dynamic_cast<SPK::Cylinder*>(currentZone);
+	if (cylinder) {
+		cylinder->setPosition(v);
+	}
+
+	SPK::Line *line = dynamic_cast<SPK::Line*>(currentZone);
+	if (line) {
+		line->setBounds(v, line->getBound(1));
+	}
+
+	SPK::Plane *plane = dynamic_cast<SPK::Plane*>(currentZone);
+	if (plane) {
+		plane->setPosition(v);
+	}
+
+	SPK::Point *point = dynamic_cast<SPK::Point*>(currentZone);
+	if (point) {
+		point->setPosition(v);
+	}
+
+	SPK::Ring *ring = dynamic_cast<SPK::Ring*>(currentZone);
+	if (ring) {
+		ring->setPosition(v);
+	}
+
+	SPK::Sphere *sphere = dynamic_cast<SPK::Sphere*>(currentZone);
+	if (sphere) {
+		sphere->setPosition(v);
+	}
+
+}
+
+void CUIParticlesEditZone::modifyVector2(SPK::Vector3D v) {
+	SPK::AABox *aabox = dynamic_cast<SPK::AABox*>(currentZone);
+	if (aabox) {
+		aabox->setDimension(v);
+	}
+
+	SPK::Cylinder *cylinder = dynamic_cast<SPK::Cylinder*>(currentZone);
+	if (cylinder) {
+		cylinder->setDirection(v);
+	}
+
+	SPK::Line *line = dynamic_cast<SPK::Line*>(currentZone);
+	if (line) {
+		line->setBounds(line->getBound(0), v);
+	}
+
+	SPK::Plane *plane = dynamic_cast<SPK::Plane*>(currentZone);
+	if (plane) {
+		plane->setNormal(v);
+	}
+
+	SPK::Ring *ring = dynamic_cast<SPK::Ring*>(currentZone);
+	if (ring) {
+		ring->setNormal(v);
+	}
+}
+
+void CUIParticlesEditZone::modifyTwoParameters(float f1, float f2) {
+	SPK::Cylinder *cylinder = dynamic_cast<SPK::Cylinder*>(currentZone);
+	if (cylinder) {
+		cylinder->setRadius(f1);
+		cylinder->setLength(f2);
+	}
+
+	SPK::Ring *ring = dynamic_cast<SPK::Ring*>(currentZone);
+	if (ring) {
+		ring->setRadius(f1, f2);
+	}
 }

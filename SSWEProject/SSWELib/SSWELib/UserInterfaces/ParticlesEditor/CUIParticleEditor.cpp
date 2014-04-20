@@ -76,6 +76,11 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     event.GUIEvent.EventType = EGET_BUTTON_CLICKED;
     event.GUIEvent.Caller = window->getMaximizeButton();
     OnEvent(event);
+
+	event.EventType = EET_MOUSE_INPUT_EVENT;
+	event.MouseInput.Event = EMIE_LMOUSE_DOUBLE_CLICK;
+	gui->setFocus(viewPort);
+	OnEvent(event);
     
     //----------FILL FROM PS-----------------
     
@@ -124,7 +129,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
             nodeModel->add2ParametersFields(L"Life Time ", L"Min", L"Max", group->getModel()->getLifeTimeMin(), group->getModel()->getLifeTimeMax());
             nodeModel->addButton(L"Edit Values...");
 			nodeModel->addButton(L"Edit Interpolators...");
-            
+
 			if (group->getRenderer()) {
 				SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)group->getRenderer();
 				CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
@@ -195,13 +200,34 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     paramNames.push_back("Flag Texture Index");
     paramNames.push_back("Flag Rotation Speed");
 
+	windowViewPort = 0;
+
+	CUIParticleExporter *exporter = new CUIParticleExporter(devices, ps);
+	exporter->exportSystem(stringc(devices->getWorkingDirectory() + "ParticlesTests/testparticle.psc").c_str());
+
 }
 
 CUIParticleEditor::~CUIParticleEditor() {
-    
+
 }
 
 bool CUIParticleEditor::OnEvent(const SEvent &event) {
+
+	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		if (event.MouseInput.Event == EMIE_LMOUSE_DOUBLE_CLICK && devices->getGUIEnvironment()->getFocus() == viewPort
+			&& viewPort->getParent() == window)
+		{
+			windowViewPort = devices->getGUIEnvironment()->addWindow(rect<s32>(0, 0, 500, 500), false, L"View Port", window, -1);
+			devices->getCore()->centerWindow(windowViewPort, dimension2du(window->getRelativePosition().getWidth(), window->getRelativePosition().getHeight()));
+			viewPort->remove();
+			viewPort = new CGUIViewport(devices->getGUIEnvironment(), windowViewPort, 1, rect<s32>(10, 20, 490, 490));
+			if (viewPort) {
+				viewPort->setSceneManager(devices->getSceneManager());
+				viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
+			}
+			nodesEditor->setRelativePosition(rect<s32>(10, 70, window->getRelativePosition().getWidth()-10, window->getRelativePosition().getHeight()-10));
+		}
+	}
 
     if (event.EventType == EET_GUI_EVENT) {
         //WINDOW
@@ -210,8 +236,21 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                 devices->getEventReceiver()->RemoveEventReceiver(this);
                 delete this;
             }
+
+			if (windowViewPort && event.GUIEvent.Caller == windowViewPort) {
+				viewPort->remove();
+				viewPort = new CGUIViewport(devices->getGUIEnvironment(), window, 1, rect<s32>(10, 430, 310, 550)); 
+				if (viewPort) {
+					viewPort->setSceneManager(devices->getSceneManager());
+					viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
+				}
+				nodesEditor->setRelativePosition(rect<s32>(10, 70, window->getRelativePosition().getWidth()-10, window->getRelativePosition().getHeight()-200));
+				viewPort->setRelativePosition(rect<s32>(10, nodesEditor->getRelativePosition().LowerRightCorner.Y+5,
+                                                        viewPort->getRelativePosition().LowerRightCorner.X, window->getRelativePosition().getHeight()-5));
+				windowViewPort = 0;
+			}
         }
-        
+
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
             if (event.GUIEvent.Caller == window->getMaximizeButton()) {
                 devices->getCore()->maximizeWindow(window, rect<s32>(600, 200, 1550, 760));
@@ -228,7 +267,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                 addGroup();
             }
         }
-        
+
         if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
             if (event.GUIEvent.Caller == openRendererTexture) {
                 if (selectedNode == 0) {
@@ -249,6 +288,17 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                 }
                 selectedNode = 0;
             }
+
+			if (event.GUIEvent.Caller == exportSystemDialog) {
+				stringw filename = exportSystemDialog->getFileName();
+				if (filename == "")
+					filename = "unamed";
+
+				filename += ".psc";
+
+				CUIParticleExporter *exporter = new CUIParticleExporter(devices, ps);
+				exporter->exportSystem(filename);
+			}
         }
         if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
             if (event.GUIEvent.Caller == openRendererTexture) {
@@ -296,6 +346,10 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
             if (event.GUIEvent.Caller == menu->getSubMenu(1)) {
+				if (menu->getSubMenu(1)->getSelectedItem() == 2) {
+					exportSystemDialog = devices->createFileOpenDialog("Export system to...", CGUIFileSelector::EFST_SAVE_DIALOG, devices->getGUIEnvironment()->getRootGUIElement(), false);
+					return true;
+				}
                 if (menu->getSubMenu(1)->getSelectedItem() == 6) {
                     devices->getEventReceiver()->RemoveEventReceiver(this);
                     window->remove();
@@ -507,23 +561,6 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         }
 
 						if (name == "Add Modifier...") {
-							using namespace SPK;
-							Vortex* vortex = Vortex::create();
-							vortex->setName("VortexExample");
-							vortex->setRotationSpeed(0.4f,false);
-							vortex->setAttractionSpeed(0.04f,true);
-							vortex->setEyeRadius(0.05f);
-							vortex->enableParticleKilling(true);
-							group->addModifier(vortex);
-
-							CGUINode *nnode = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-							nnode->setParent(node);
-							nnode->setName(vortex->getName().c_str());
-							nnode->setData(vortex);
-							nnode->setDataType(EPSDT_MODIFIER);
-							nodesEditor->addNode(nnode);
-							nnode->addTextField(L"Name :", stringw(nnode->getName()).c_str());
-
 							CUIAddModifier *addModifier = new CUIAddModifier(devices, window, group, nodesEditor, node);
 						}
                     }
@@ -625,43 +662,43 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         if (name == "Name :") {
                             emitter->setName(stringc(event.GUIEvent.Element->getText()).c_str());
                             node->getInterface()->setName(event.GUIEvent.Element->getText());
-                        }
+                        } else
                         if (name == "Flow") {
 							if (stringc(event.GUIEvent.Element->getText()) != "") {
 								emitter->setFlow(devices->getCore()->getF32(event.GUIEvent.Element->getText()));
 							}
-                        }
+                        } else
                         //FORCE
                         if (name == "Force Min") {
                             f32 force = devices->getCore()->getF32(event.GUIEvent.Element->getText());
                             emitter->setForce(force, emitter->getForceMax());
-                        }
+                        } else
                         if (name == "Force Max") {
                             f32 force = devices->getCore()->getF32(event.GUIEvent.Element->getText());
                             emitter->setForce(emitter->getForceMin(), force);
-                        }
+                        } else
                         //ZONES
                         if (name == "Configure Zone...") {
 							CUIParticlesEditZone *editZone = new CUIParticlesEditZone(devices, emitter, window);
-                        }
+                        } else
 						//ACTIVE
 						if (name == "Active") {
 							emitter->setActive(((IGUICheckBox*)event.GUIEvent.Element)->isChecked());
-						}
+						} else
 						//TANK
 						if (name == "Tank") {
 							f32 value = devices->getCore()->getS32(event.GUIEvent.Element->getText());
 							emitter->setTank(value);
-						}
+						} else
 						if (name == "Change Tank") {
 							f32 value = devices->getCore()->getS32(event.GUIEvent.Element->getText());
 							emitter->changeTank(value);
-						}
+						} else
 						//FLOW
 						if (name == "Flow") {
 							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
 							emitter->setFlow(value);
-						}
+						} else
 						if (name == "Change Flow") {
 							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
 							emitter->changeFlow(value);
@@ -670,7 +707,105 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 					//---------------------------------------------------------------------------------------------
 					//---------------------------------------MODIFIER----------------------------------------------
 					//---------------------------------------------------------------------------------------------
+					if (psdt == EPSDT_MODIFIER) {
+						SPK::Modifier *modifier = (SPK::Modifier*)node->getData();
+						if (name == "Name :") {
+							modifier->setName(stringc(event.GUIEvent.Element->getText()).c_str());
+						} else
+						/// TRIGGERS
+						if (name == "Trigger") {
+							SPK::Destroyer *destroyerModifier = dynamic_cast<SPK::Destroyer*>(modifier);
+							if (destroyerModifier)
+								destroyerModifier->setTrigger((SPK::ModifierTrigger)((IGUIComboBox*)event.GUIEvent.Element)->getSelected());
 
+							SPK::LinearForce *linearForceModifier = dynamic_cast<SPK::LinearForce*>(modifier);
+							if (linearForceModifier)
+								linearForceModifier->setTrigger((SPK::ModifierTrigger)((IGUIComboBox*)event.GUIEvent.Element)->getSelected());
+
+							SPK::Obstacle *obstacleModifier = dynamic_cast<SPK::Obstacle*>(modifier);
+							if (obstacleModifier)
+								obstacleModifier->setTrigger((SPK::ModifierTrigger)((IGUIComboBox*)event.GUIEvent.Element)->getSelected());
+
+							SPK::PointMass *pointMassModifier = dynamic_cast<SPK::PointMass*>(modifier);
+							if (pointMassModifier)
+								pointMassModifier->setTrigger((SPK::ModifierTrigger)((IGUIComboBox*)event.GUIEvent.Element)->getSelected());
+						}
+						/// Collision Modifier
+						if (name == "Scale") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::Collision*)modifier)->setScale(value);
+						} else
+						if (name == "Elasticity") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::Collision*)modifier)->setElasticity(value);
+						} else
+						/// Linear Force
+						if (name == "ForceX" || name == "ForceY" || name == "ForceZ") {
+                            f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							SPK::Vector3D v = ((SPK::LinearForce*)modifier)->getForce();
+							if (name == "ForceX")
+								((SPK::LinearForce*)modifier)->setForce(SPK::Vector3D(value, v.y, v.z));
+							else if (name == "ForceY")
+								((SPK::LinearForce*)modifier)->setForce(SPK::Vector3D(v.x, value, v.z));
+							else
+								((SPK::LinearForce*)modifier)->setForce(SPK::Vector3D(v.x, v.y, value));
+                        } else
+						if (name == "Force Factor") {
+							((SPK::LinearForce*)modifier)->setFactor((SPK::ForceFactor)((IGUIComboBox*)event.GUIEvent.Element)->getSelected(),
+																	 ((SPK::LinearForce*)modifier)->getFactorParam());
+						} else
+						if (name == "Param") {
+							((SPK::LinearForce*)modifier)->setFactor(((SPK::LinearForce*)modifier)->getFactorType(),
+																	 (SPK::ModelParam)((IGUIComboBox*)event.GUIEvent.Element)->getSelected());
+						} else
+						/// Obstacle
+						if (name == "Bouncing Ratio") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::Obstacle*)modifier)->setBouncingRatio(value);
+						} else
+						if (name == "Friction") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::Obstacle*)modifier)->setFriction(value);
+						} else
+						/// Point Mass
+						if (name == "Mass") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::PointMass*)modifier)->setMass(value);
+						} else
+						if (name == "Min Distance") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::PointMass*)modifier)->setMinDistance(value);
+						} else
+						/// Vortex
+						if (name == "PositionX" || name == "PositionY" || name == "PositionZ") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							SPK::Vector3D v = ((SPK::Vortex*)modifier)->getPosition();
+							if (name == "PositionX")
+								((SPK::Vortex*)modifier)->setPosition(SPK::Vector3D(value, v.y, v.z));
+							else if (name == "PositionY")
+								((SPK::Vortex*)modifier)->setPosition(SPK::Vector3D(v.x, value, v.z));
+							else
+								((SPK::Vortex*)modifier)->setPosition(SPK::Vector3D(v.x, v.y, value));
+						} else
+						if (name == "DirectionX" || name == "DirectionY" || name == "DirectionZ") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							SPK::Vector3D v = ((SPK::Vortex*)modifier)->getDirection();
+							if (name == "DirectionX")
+								((SPK::Vortex*)modifier)->setDirection(SPK::Vector3D(value, v.y, v.z));
+							else if (name == "DirectionY")
+								((SPK::Vortex*)modifier)->setDirection(SPK::Vector3D(v.x, value, v.z));
+							else
+								((SPK::Vortex*)modifier)->setDirection(SPK::Vector3D(v.x, v.y, value));
+						} else
+						if (name == "Rotation Speed") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::Vortex*)modifier)->setRotationSpeed(value, ((SPK::Vortex*)modifier)->isRotationSpeedAngular());
+						} else
+						if (name == "Attraction Speed") {
+							f32 value = devices->getCore()->getF32(event.GUIEvent.Element->getText());
+							((SPK::Vortex*)modifier)->setAttractionSpeed(value, ((SPK::Vortex*)modifier)->isAttractionSpeedLinear());
+						}
+					}
                 }
             }
         }

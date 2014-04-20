@@ -12,8 +12,12 @@
 
 #include "../../Device/CDevices.h"
 
+#include "CUIParticleExport.h"
+
 #include "../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../GUIExtension/NodesEditor/CGUINodesEditor.h"
+
+#include "../../Device/Core/ParticleSystems/CParticleSystemsTypes.h"
 
 class CUIParticleEditor : public IEventReceiver {
 
@@ -23,15 +27,6 @@ public:
 	~CUIParticleEditor();
 
 	bool OnEvent(const SEvent &event);
-
-	enum E_PS_DATA_TYPE {
-        EPSDT_SYSTEM = 0,
-        EPSDT_GROUP,
-        EPSDT_EMITTER,
-        EPSDT_RENDERER,
-        EPSDT_MODEL,
-		EPSDT_MODIFIER
-    };
 
 private:
 
@@ -43,7 +38,7 @@ private:
 	//-----------------------------------
 	//GUI ELEMENTS
     //GENERAL
-    IGUIWindow *window;
+    IGUIWindow *window, *windowViewPort;
     
     IGUIContextMenu *menu;
     
@@ -66,6 +61,9 @@ private:
     
     //EDIT RENDERER
     IGUIFileOpenDialog *openRendererTexture;
+
+	//EXPORTER
+	IGUIFileOpenDialog *exportSystemDialog;
 	//-----------------------------------
 
 	//-----------------------------------

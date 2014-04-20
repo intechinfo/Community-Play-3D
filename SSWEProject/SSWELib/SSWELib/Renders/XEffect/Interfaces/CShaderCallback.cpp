@@ -297,8 +297,13 @@ void CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver) {
     }
 }
 
+void CShaderCallback::OnSetMaterial(const SMaterial& material) {
+	smaterial = &material;
+}
+
 void CShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData) {
 
+	//services->setBasicRenderStates(*smaterial, *smaterial, false);
 	buildConstants(services->getVideoDriver());
     
     for (int i=0; i < integers.size(); i++) {

@@ -13,8 +13,6 @@
 
 #include "../CharacterEdition/CAction.h"
 
-#include <ISSWECore.h>
-
 enum CXT_EDIT_WINDOW_EVENTS {
     CXT_EDIT_WINDOW_EVENTS_GENERAL_POSITION = 0x50000,
     
@@ -110,6 +108,11 @@ public:
     bool OnEvent(const SEvent &event);
     
 private:
+
+	//-----------------------------------
+    //FLIP COLLABORATIVE
+	
+	//-----------------------------------
     
     CDevices *devices;
     

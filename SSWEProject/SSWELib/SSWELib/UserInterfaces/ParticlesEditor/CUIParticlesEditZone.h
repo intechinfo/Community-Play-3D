@@ -12,6 +12,8 @@
 
 #include "../../Device/CDevices.h"
 
+#include "../../Device/Core/ParticleSystems/CParticleSystemsTypes.h"
+
 class CUIParticlesEditZone : public IEventReceiver {
 
 public:
@@ -28,52 +30,32 @@ private:
 	CDevices *devices;
 
 	SPK::Emitter *emitter;
+	SPK::Zone *existedZone, *currentZone;
 
-	enum E_ZONE_TYPE {
-		EZT_AABOX = 0,
-		EZT_CYLINDER,
-		EZT_LINE,
-		EZT_PLANE,
-		EZT_POINT,
-		EZT_RING,
-		EZT_SPHERE,
-		EZT_UNKNOWN
-	} zoneType;
 	array<stringw> zoneTypeNames;
-
-	struct SVector3DParams {
-		IGUIEditBox *x;
-		IGUIEditBox *y;
-		IGUIEditBox *z;
-	};
-	struct S2Params {
-		IGUIEditBox *param1;
-		IGUIEditBox *param2;
-	};
 	//-----------------------------------
 
 	//-----------------------------------
 	//GUI ELEMENTS
     IGUIWindow *window;
-
 	IGUIComboBox *zonecb;
-	IGUIEditBox *positionx, *positiony, *positionz;
 	IGUIButton *accept, *close;
+	IGUIStaticText *editZone;
 
-	array<IGUIElement *> elements;
-	array<IGUIElement *> otherElements;
+	IGUIEditBox *v1_1, *v1_2, *v1_3;
+	IGUIEditBox *v2_1, *v2_2, *v2_3;
+	IGUIEditBox *eb1, *eb2, *eb3;
 	//-----------------------------------
 
 	//-----------------------------------
 	//METHODS
-    stringc getZonePrefix();
+	void addVector3D1(stringw name);
+	void addVector3D2(stringw name);
+	void addTwoParameters(stringw name1, stringw name2, bool addedVector1, bool addedVector2);
 
-	E_ZONE_TYPE getZoneType();
-	void createExternalGUIElements();
-
-	SVector3DParams create3DParams(stringw name, s32 relativePositionElementY);
-	S2Params create2Params(stringw name1, stringw name2, s32 relativePositionElementY);
-	IGUIElement *create1Param(stringw name, s32 relativePositionElementY);
+	void modifyVector1(SPK::Vector3D v);
+	void modifyVector2(SPK::Vector3D v);
+	void modifyTwoParameters(float f1, float f2);
 	//-----------------------------------
 
 };

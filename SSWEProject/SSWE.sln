@@ -36,6 +36,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSWETests", "SSWETests\SSWE
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSWERenders", "SSWERenders\SSWERenders.vcxproj", "{B80D495C-F203-43A4-9CE2-A01481BA445D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A0975C0-4456-11E2-A25F-0800200C9A66} = {1A0975C0-4456-11E2-A25F-0800200C9A66}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSWEGenericMonitor", "SSWEGenericMonitor\SSWEGenericMonitor.vcxproj", "{9418DF39-80F5-4126-8EBA-D7C339FE4A75}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -79,6 +82,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DemoGame", "DemoGame\DemoGa
 		{B80D495C-F203-43A4-9CE2-A01481BA445D} = {B80D495C-F203-43A4-9CE2-A01481BA445D}
 		{76592BD3-C205-4941-8036-12BBDBD94454} = {76592BD3-C205-4941-8036-12BBDBD94454}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OhmSDK", "OhmSDK\samples\ohm\flip\babystep0\babystep.vcxproj", "{1A0975C0-4456-11E2-A25F-0800200C9A66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -231,6 +236,18 @@ Global
 		{5E023EDF-02C8-4875-A695-64DB8A090409}.Release|Win32.ActiveCfg = Release|Win32
 		{5E023EDF-02C8-4875-A695-64DB8A090409}.Release|Win32.Build.0 = Release|Win32
 		{5E023EDF-02C8-4875-A695-64DB8A090409}.Release|x64.ActiveCfg = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Debug|Win32.Build.0 = Debug|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Debug|x64.ActiveCfg = Debug|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release - FPU|Win32.ActiveCfg = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release - FPU|Win32.Build.0 = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release - FPU|x64.ActiveCfg = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release_FPU|Win32.ActiveCfg = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release_FPU|Win32.Build.0 = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release_FPU|x64.ActiveCfg = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release|Win32.ActiveCfg = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release|Win32.Build.0 = Release|Win32
+		{1A0975C0-4456-11E2-A25F-0800200C9A66}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
