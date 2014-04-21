@@ -153,7 +153,7 @@ bool CUIParticleEditorInterpolators::OnEvent(const SEvent &event) {
 	//EDIT ENTRY
 	if ((event.EventType == EET_GUI_EVENT && event.GUIEvent.EventType == EGET_BUTTON_CLICKED && event.GUIEvent.Caller == editEntry
 		|| event.EventType == EET_MOUSE_INPUT_EVENT && event.MouseInput.Event == EMIE_LMOUSE_DOUBLE_CLICK)
-		&& devices->getGUIEnvironment()->getFocus() == entriesTable) {
+		&& devices->getGUIEnvironment()->getFocus() == entriesTable && entriesTable->getSelected() != -1) {
 
 			SPK::Interpolator *inter = interpolators[paramsList->getSelected()];
 			std::set<SPK::InterpolatorEntry>::const_iterator it = inter->getGraph().begin();

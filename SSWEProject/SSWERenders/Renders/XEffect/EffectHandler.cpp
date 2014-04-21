@@ -348,7 +348,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 					for(u32 m = 0;m < CurrentMaterialCount;++m) {
 						BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
 						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)
-							(BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF ? DepthT : Depth);
+							(BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF || driver->getMaterialRenderer(BufferMaterialList[m])->isTransparent()
+														? DepthT : Depth);
 					}
 
 					ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());

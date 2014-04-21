@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CPluginsManager.h"
 
-
 CPluginsManager::CPluginsManager(CDevices *_devices) {
 	devices = _devices;
 

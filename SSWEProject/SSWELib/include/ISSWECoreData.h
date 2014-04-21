@@ -54,17 +54,6 @@ public:
 
 };
 
-/*struct SFilter;
-struct STerrainsData;
-struct SObjectsData;
-struct SLightsData;
-struct STreesData;
-struct SVolumeLightsData;
-struct SWaterSurfacesData;
-struct SPlanarTextureMappingData;
-struct SScriptFile;
-struct SMonitor;*/
-
 class ISSWELibPlugin;
 
 class ISSWECoreData {

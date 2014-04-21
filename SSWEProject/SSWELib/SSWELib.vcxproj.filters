@@ -145,6 +145,18 @@
     <Filter Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker">
       <UniqueIdentifier>{5c325b18-4cdb-447b-b6ac-d1d2b88edb17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{7f59bd56-97fb-4c55-8d85-c56d8049baac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bundles">
+      <UniqueIdentifier>{c3dcf11a-aa93-4f33-b792-3dbddeef4ad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{84b53652-7f4b-49c5-a18f-9ab1698d39cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\Device\Core\ParticleSystems">
+      <UniqueIdentifier>{9e29753f-ff33-4063-9778-9f9d731ebdfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -442,6 +454,15 @@
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.cpp">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\CSceneNodeModel.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Cfvector3d.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleExport.cpp">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -810,6 +831,18 @@
       <Filter>SSWELib\UserInterfaces\NodeFactory</Filter>
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.h">
+      <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\CSceneNodeModel.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\Cfvector3d.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsTypes.h">
+      <Filter>SSWELib\Device\Core\ParticleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleExport.h">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClInclude>
   </ItemGroup>

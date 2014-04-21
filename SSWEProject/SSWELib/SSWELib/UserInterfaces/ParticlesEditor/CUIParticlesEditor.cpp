@@ -217,13 +217,13 @@ bool CUIParticlesEditor::OnEvent(const SEvent &event) {
             if (event.GUIEvent.Caller == remove) {
                 u32 selected = particleSystems->getSelected();
                 if (selected != -1) {
-                    devices->getCoreData()->getParticleSystems()->operator[](selected).clear();
                     devices->getCoreData()->getParticleSystems()->operator[](selected).destroyScript();
 					for (u32 j=0; j < devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->size(); j++) {
 						devices->getXEffect()->removeShadowFromNode((IRRSystem*)devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->operator[](j));
 						devices->getXEffect()->removeNodeFromDepthPass((IRRSystem*)devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->operator[](j));
 						devices->getXEffect()->removeNodeFromLightScatteringPass((IRRSystem*)devices->getCoreData()->getParticleSystems()->operator[](selected).getSystems()->operator[](j));
 					}
+					devices->getCoreData()->getParticleSystems()->operator[](selected).clear();
                     devices->getCoreData()->getParticleSystems()->erase(selected);
                     particleSystems->removeItem(selected);
                     

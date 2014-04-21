@@ -615,8 +615,9 @@ public:
         script = new SScriptFile("", "new script");
     }
     void destroyScript() {
-        if (script != 0)
+        if (script != 0) {
             delete script;
+		}
         script = 0;
     }
     SScriptFile *getScript() { return script; }

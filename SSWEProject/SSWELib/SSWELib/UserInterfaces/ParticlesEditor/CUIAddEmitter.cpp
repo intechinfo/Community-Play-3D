@@ -11,6 +11,9 @@
 
 #include "CUIParticleEditor.h"
 
+using namespace cp3d;
+using namespace ps;
+
 CUIAddEmitter::CUIAddEmitter(CDevices *_devices, IGUIElement *parent, SPK::Group *_group, CGUINodesEditor *_editor, CGUINode *_parentNode) {
     devices = _devices;
 	group = _group;
@@ -28,33 +31,25 @@ CUIAddEmitter::CUIAddEmitter(CDevices *_devices, IGUIElement *parent, SPK::Group
 
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 	//WINDOW
-	window = gui->addWindow(rect<s32>(230, 130, 960, 550), true, L"Add Emitter", parent, -1);
-	gui->addStaticText(L"Emitter :", rect<s32>(400, 30, 720, 50), true, true, window, -1, true);
+	window = gui->addWindow(rect<s32>(590, 180, 930, 560), true, L"Add Emitter", parent, -1);
+	devices->getCore()->centerWindow(window, dimension2du(parent->getRelativePosition().getWidth(), parent->getRelativePosition().getHeight()));
+	gui->addStaticText(L"Emitter :", rect<s32>(10, 30, 330, 50), true, true, window, -1, true);
 
 	//EMITTER TYPE
-	gui->addStaticText(L"Type :", rect<s32>(400, 60, 450, 80), true, true, window, -1, true);
-	emitterTypecb = gui->addComboBox(rect<s32>(450, 60, 720, 80), window, -1);
+	gui->addStaticText(L"Type :", rect<s32>(10, 60, 60, 80), true, true, window, -1, true);
+	emitterTypecb = gui->addComboBox(rect<s32>(60, 60, 330, 80), window, -1);
 	emitterTypecb->addItem(L"Straight Emitter");
 	emitterTypecb->addItem(L"Static Emitter");
 	emitterTypecb->addItem(L"Spheric Emitter");
 	emitterTypecb->addItem(L"Random Emitter");
 	emitterTypecb->addItem(L"Normal Emitter");
 
-	//VIEWPORT
-	viewPort = new CGUIViewport(gui, window, 1, rect<s32>(10, 30, 390, 400)); 
-	if (viewPort) {
-		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuadPtr());
-		viewPort->setSceneManager(devices->getSceneManager());
-		viewPort->setRenderScreenQuad(true);
-		viewPort->setOverrideColor(SColor(255, 0, 0, 0));
-	}
-
 	//EDITION ZONE
-	editionZonet = gui->addStaticText(L"", rect<s32>(400, 90, 720, 330), true, true, window, -1, true);
+	editionZonet = gui->addStaticText(L"", rect<s32>(10, 90, 330, 330), true, true, window, -1, true);
 
 	//BUTTONS
-	close = gui->addButton(rect<s32>(620, 380, 720, 410), window, -1, L"Close", L"Cancel and close");
-	accept = gui->addButton(rect<s32>(510, 380, 610, 410), window, -1, L"Accept", L"Accept and close");
+	close = gui->addButton(rect<s32>(230, 340, 330, 370), window, -1, L"Cancel", L"Cancel and close");
+	accept = gui->addButton(rect<s32>(120, 340, 220, 370), window, -1, L"Accept", L"Accept and close");
 
 	//EMITTER
 	currentEmitter = SPK::StraightEmitter::create();
@@ -96,7 +91,7 @@ bool CUIAddEmitter::OnEvent(const SEvent &event) {
                 node->setName(currentEmitter->getName().c_str());
                 node->setParent(parentNode);
                 node->setData(currentEmitter);
-				node->setDataType(CUIParticleEditor::EPSDT_EMITTER);
+				node->setDataType(EPSDT_EMITTER);
 				editor->addNode(node);
                 node->addTextField(L"Name :", stringw(node->getName()).c_str());
                 node->addTextField(L"Flow", stringw(currentEmitter->getFlow()));
@@ -119,24 +114,35 @@ bool CUIAddEmitter::OnEvent(const SEvent &event) {
 				clearEditionZone();
 				currentEmitterType = (E_CURRENT_EMITTER_TYPE)emitterTypecb->getSelected();
 				group->removeEmitter(currentEmitter);
+				currentEmitter = 0;
+
 				delete currentEmitter;
 				if (currentEmitterType == ECET_STRAIGHT) {
 					currentEmitter = SPK::StraightEmitter::create();
+					currentEmitter->setName("Emitter : Straight Emitter");
 					createDirectionGUI();
 				} else if (currentEmitterType == ECET_STATIC) {
 					currentEmitter = SPK::StaticEmitter::create();
+					currentEmitter->setName("Emitter : Static Emitter");
 				} else if (currentEmitterType == ECET_SPHERIC) {
 					currentEmitter = SPK::SphericEmitter::create();
+					currentEmitter->setName("Emitter : Spheric Emitter");
 					createDirectionGUI();
 					createAngleGUI();
 				} else if (currentEmitterType == ECET_RANDOM) {
 					currentEmitter = SPK::RandomEmitter::create();
+					currentEmitter->setName("Emitter : Random Emitter");
 				} else if (currentEmitterType == ECET_NORMAL) {
 					currentEmitter = SPK::NormalEmitter::create();
+					currentEmitter->setName("Emitter : Normal Emitter");
 					invertedcb = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(10, 10, 310, 30), editionZonet, -1, L"Invert");
 				}
-				currentEmitter->setName("New Emitter");
-				group->addEmitter(currentEmitter);
+
+				if (currentEmitter) {
+					currentEmitter->setFlow(100);
+					currentEmitter->setName("New Emitter");
+					group->addEmitter(currentEmitter);
+				}
 			}
 		}
 
@@ -189,7 +195,7 @@ void CUIAddEmitter::createAngleGUI() {
 
 void CUIAddEmitter::clearEditionZone() {
 	editionZonet->remove();
-	editionZonet = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(400, 90, 720, 330), true, true, window, -1, true);
+	editionZonet = devices->getGUIEnvironment()->addStaticText(L"", rect<s32>(10, 90, 330, 330), true, true, window, -1, true);
 
 	dirx = 0;
 	diry = 0;

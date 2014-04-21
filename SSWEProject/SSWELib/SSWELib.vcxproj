@@ -80,7 +80,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SSWE_EDITOR;WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source\;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source\;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet;$(SolutionDir)OhmSDK\lib\</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -93,8 +93,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SSWECore_d.lib;SSWERenders_d.lib;lua52.lib;SPARK Engine CORE DLL_d.lib;SPARK Engine IRR DLL_d.lib;winmm.lib;Irrlicht_d.lib;BulletCollision_vs2010_debug.lib;BulletDynamics_vs2010_debug.lib;BulletSoftBody_vs2010_debug.lib;ConvexDecomposition_vs2010_debug.lib;LinearMath_vs2010_debug.lib;irrBullet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Debug;%(AdditionalLibraryDirectories);$(SolutionDir)OhmSDK\libs\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWECore_d.lib;SSWERenders_d.lib;lua52.lib;SPARK Engine CORE DLL_d.lib;SPARK Engine IRR DLL_d.lib;winmm.lib;Irrlicht_d.lib;BulletCollision_vs2010_debug.lib;BulletDynamics_vs2010_debug.lib;BulletSoftBody_vs2010_debug.lib;ConvexDecomposition_vs2010_debug.lib;LinearMath_vs2010_debug.lib;irrBullet.lib;%(AdditionalDependencies);OhmSDK_d.lib</AdditionalDependencies>
       <RegisterOutput>false</RegisterOutput>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -135,7 +135,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>SSWE_EDITOR;WIN32;_WINDOWS;NDEBUG;_USRDLL;SSWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source\;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source\;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet;$(SolutionDir)OhmSDK\lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -154,8 +154,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;winmm.lib;Irrlicht.lib;BulletCollision_vs2010.lib;BulletDynamics_vs2010.lib;BulletSoftBody_vs2010.lib;ConvexDecomposition_vs2010.lib;LinearMath_vs2010.lib;irrBullet.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Release\;$(SolutionDir)Bullet\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWECore.lib;SSWERenders.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;winmm.lib;Irrlicht.lib;BulletCollision_vs2010.lib;BulletDynamics_vs2010.lib;BulletSoftBody_vs2010.lib;ConvexDecomposition_vs2010.lib;LinearMath_vs2010.lib;irrBullet.lib;%(AdditionalDependencies);OhmSDK.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Release\;$(SolutionDir)Bullet\libs;%(AdditionalLibraryDirectories);$(SolutionDir)OhmSDK\libs\</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
@@ -179,7 +179,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>SSWE_EDITOR;WIN32;_WINDOWS;NDEBUG;_USRDLL;SSWE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet;$(SolutionDir)OhmSDK\lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -200,8 +200,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalDependencies>SSWECore_f.lib;SSWERenders_f.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;winmm.lib;Irrlicht_f.lib;BulletCollision_vs2010.lib;BulletDynamics_vs2010.lib;BulletSoftBody_vs2010.lib;ConvexDecomposition_vs2010.lib;LinearMath_vs2010.lib;irrBullet.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Release;$(SolutionDir)Bullet\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SSWECore_f.lib;SSWERenders_f.lib;lua52.lib;SPARK Engine CORE DLL.lib;SPARK Engine IRR DLL.lib;winmm.lib;Irrlicht_f.lib;BulletCollision_vs2010.lib;BulletDynamics_vs2010.lib;BulletSoftBody_vs2010.lib;ConvexDecomposition_vs2010.lib;LinearMath_vs2010.lib;irrBullet.lib;%(AdditionalDependencies);OhmSDK.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Release;$(SolutionDir)Bullet\libs;%(AdditionalLibraryDirectories);$(SolutionDir)OhmSDK\libs\</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
@@ -223,6 +223,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Models\CSceneNodeModel.cpp" />
     <ClCompile Include="SSWELib.cpp" />
     <ClCompile Include="SSWELib\CharacterEdition\CAction.cpp" />
     <ClCompile Include="SSWELib\CharacterEdition\CUICharacterManager.cpp" />
@@ -310,6 +311,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleFlags.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleExport.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditor.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditZone.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.cpp" />
@@ -328,6 +330,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release - FPU|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Types\Cfvector3d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\DLLExport.h" />
@@ -346,6 +349,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="include\ISSWERender.h" />
     <ClInclude Include="include\ISSWEShaderCallback.h" />
     <ClInclude Include="include\ITool.h" />
+    <ClInclude Include="Models\CSceneNodeModel.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWELib.h" />
     <ClInclude Include="SSWELib\CharacterEdition\CAction.h" />
@@ -358,6 +362,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\Device\CDevices.h" />
     <ClInclude Include="SSWELib\Device\Core\CCoreUserInterface.h" />
     <ClInclude Include="SSWELib\Device\Core\CRenderCore.h" />
+    <ClInclude Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsTypes.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CFileSystemScripting.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CLuaBinds.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CSceneScripting.h" />
@@ -437,6 +442,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleFlags.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIEditParticleInterpolators.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleEditor.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleExport.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditor.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticlesEditZone.h" />
     <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CUIPluginsManager.h" />
@@ -454,6 +460,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\UIWindowRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Types\Cfvector3d.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\SSWELib.rc2" />

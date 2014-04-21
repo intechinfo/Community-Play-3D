@@ -13,6 +13,8 @@
 #include "../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../GUIExtension/NodesEditor/CGUINodesEditor.h"
 
+#include "../../Device/Core/ParticleSystems/CParticleSystemsTypes.h"
+
 class CUIAddModifier : public IEventReceiver {
 public:
     
@@ -20,6 +22,9 @@ public:
     ~CUIAddModifier();
     
     bool OnEvent(const SEvent &event);
+
+	void createNode(SPK::Modifier *modifier=0);
+	void close();
     
 private:
     
@@ -27,7 +32,14 @@ private:
 	//METHODS
 	void addVector3D1(stringw name);
 	void addVector3D2(stringw name);
-	void addTwoParameters(bool addedVector1, bool addedVector2);
+	void addTwoParameters(stringw name1, stringw name2, bool addedVector1, bool addedVector2);
+
+	void modifyVector1(SPK::Vector3D v);
+	void modifyVector2(SPK::Vector3D v);
+	void modifyTwoParameters(float f1, float f2);
+
+	void fillTriggerCB(IGUIComboBox *cb);
+	void fillForceFactorCB(IGUIComboBox *cb);
     //-----------------------------------
     
     //-----------------------------------
@@ -50,19 +62,12 @@ private:
 
 	IGUIEditBox *v1_1, *v1_2, *v1_3;
 	IGUIEditBox *v2_1, *v2_2, *v2_3;
-	IGUIEditBox *eb1, *eb2, *eb3;
+	IGUIEditBox *eb1, *eb2;
+
+	IGUIButton *accept, *cancel;
 	//-----------------------------------
 
-	enum E_GROUP_MODIFIER_TYPE {
-		EGMT_COLLISION = 0,
-		EGMT_DESTROYER,
-		EGMT_LINEAR_FORCE,
-		EGMT_MODIFIER_GROUP,
-		EGMT_OBSTACLE,
-		EGMT_POINT_MASS,
-		EGMT_ROTATOR,
-		EGMT_VORTEX
-	} modifierType;
+	cp3d::ps::E_PS_GROUP_MODIFIER_TYPE modifierType;
 
 };
 

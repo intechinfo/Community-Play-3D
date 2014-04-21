@@ -381,7 +381,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
     
-    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+    CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 
 	//LIGHT SCATTERING
 	/*devices->getRenderCallbacks()->buildLightScattering();

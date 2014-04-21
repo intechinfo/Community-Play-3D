@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkeletonLocal", "SkeletonLocal.vcxproj", "{0D40D7DF-852A-4445-9BEA-85819B932329}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkeletonClient", "SkeletonClient.vcxproj", "{62E2C58D-86BA-48C7-AEFD-7EAFFFFF3AB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D40D7DF-852A-4445-9BEA-85819B932329}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0D40D7DF-852A-4445-9BEA-85819B932329}.Debug|Win32.Build.0 = Debug|Win32
+		{0D40D7DF-852A-4445-9BEA-85819B932329}.Release|Win32.ActiveCfg = Release|Win32
+		{0D40D7DF-852A-4445-9BEA-85819B932329}.Release|Win32.Build.0 = Release|Win32
+		{62E2C58D-86BA-48C7-AEFD-7EAFFFFF3AB8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{62E2C58D-86BA-48C7-AEFD-7EAFFFFF3AB8}.Debug|Win32.Build.0 = Debug|Win32
+		{62E2C58D-86BA-48C7-AEFD-7EAFFFFF3AB8}.Release|Win32.ActiveCfg = Release|Win32
+		{62E2C58D-86BA-48C7-AEFD-7EAFFFFF3AB8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
