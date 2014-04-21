@@ -554,7 +554,10 @@ const char* BLACK_PASS_P[ESE_COUNT] = {
 };
 
 const char* SELECTION_PASS_V[ESE_COUNT] = {
-""
+"void main() {\n"
+"   gl_Position = ftransform();\n"
+"}\n"
+"\n"
 ,
 "float4x4 worldViewProj;\n"
 "\n"
@@ -581,7 +584,19 @@ const char* SELECTION_PASS_V[ESE_COUNT] = {
 };
 
 const char* SELECTION_PASS_P[ESE_COUNT] = {
-""
+"uniform sampler2D diffuse;\n"
+"\n"
+"float getAverage(vec4 color) {\n"
+"    return (color.r + color.g + color.b) / 3.0;\n"
+"}\n"
+"void main() {\n"
+"    vec4 color = texture2D(diffuse, gl_TexCoord[0].xy);\n"
+"    float average = getAverage(color);\n"
+"    if (average >= 0.2) {\n"
+"        color = (vec4(136, 84, 245, 255) / 255.0) + (color * -average);\n"
+"    }\n"
+"    gl_FragColor = color;\n"
+"}\n"
 ,
 "sampler2D diffuse : register(s0);\n"
 "\n"

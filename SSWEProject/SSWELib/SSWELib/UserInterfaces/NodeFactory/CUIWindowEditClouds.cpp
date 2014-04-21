@@ -191,14 +191,14 @@ bool CUIWindowEditClouds::OnEvent(const SEvent &event) {
 				f32 ib = devices->getCore()->getF32(innerColorBlue->getText());
 				f32 ia = devices->getCore()->getF32(innerColorAlpha->getText());
 
-				f32 or = devices->getCore()->getF32(outerColorRed->getText());
+				f32 o_r = devices->getCore()->getF32(outerColorRed->getText());
 				f32 og = devices->getCore()->getF32(outerColorGreen->getText());
 				f32 ob = devices->getCore()->getF32(outerColorBlue->getText());
 				f32 oa = devices->getCore()->getF32(outerColorAlpha->getText());
 
 				devices->getCoreData()->getCloudsData()->operator[](clouds->getSelected()).getCloudSceneNode()->setCloudColor(SColor(ca, cr, cg, cb),
 																															  SColor(ia, ir, ig, ib),
-																															  SColor(oa, or, og, ob));
+																															  SColor(oa, o_r, og, ob));
 			}
 		}
 

@@ -17,11 +17,11 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
     //DEVICE
 
     #ifdef _IRR_OSX_PLATFORM_
-    params.DriverType=irr::video::EDT_OPENGL;
+        params.DriverType=irr::video::EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
         //params.WindowSize = dimension2d<u32>(1920, 1070);
         //params.WindowSize = dimension2d<u32>(1280, 690);
-        params.WindowSize = dimension2du(1680, 946);
+        params.WindowSize = dimension2du(1630, 1000);
     #else
 		params.DriverType=EDT_DIRECT3D9;
         params.WindowSize = dimension2d<u32>(800, 600);
