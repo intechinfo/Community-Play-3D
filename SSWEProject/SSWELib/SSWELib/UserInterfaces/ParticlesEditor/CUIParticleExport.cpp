@@ -58,8 +58,11 @@ void CUIParticleExporter::exportGroup(SPK::Group *group, FILE *export_file) {
 	fprintf(export_file, "\t\t\t <enableSorting value=\"%d\" />\n", group->isSortingEnabled());
 	fprintf(export_file, "\t\t\t <enableDistanceComputing value=\"%d\" />\n", group->isDistanceComputationEnabled());
 
-	exportRenderer((SPK::IRR::IRRQuadRenderer*)group->getRenderer(), export_file);
-	exportModel(group->getModel(), export_file);
+	if (group->getRenderer())
+		exportRenderer((SPK::IRR::IRRQuadRenderer*)group->getRenderer(), export_file);
+
+	if (group->getModel())
+		exportModel(group->getModel(), export_file);
 
 	for (u32 i=0; i < group->getEmitters().size(); i++)
 		exportEmitter(group->getEmitters()[i], export_file);
@@ -100,45 +103,67 @@ void CUIParticleExporter::exportModel(SPK::Model *model, FILE *export_file) {
 	fprintf(export_file, "\n");
 	fprintf(export_file, "\t\t\t <model>\n");
 
-	fprintf(export_file, "\t\t\t\t <name value=\"%s\" />\n", model->getName().c_str());
-	fprintf(export_file, "\t\t\t\t <lifeTime min=\"%f\" max=\"%f\" />\n", model->getLifeTimeMin(), model->getLifeTimeMax());
 	fprintf(export_file, "\t\t\t\t <enabledParams> \n");
 	{
 		for (int i=0; i < (int)SPK::PARAM_CUSTOM_0; i++) {
 			if (model->isEnabled(static_cast<SPK::ModelParam>(i))) {
 				u32 nbValues = model->getNbValues(static_cast<SPK::ModelParam>(i));
+				int flagInt;
+				{
+					switch (i) {
+					case SPK::PARAM_RED:			flagInt = SPK::FLAG_RED;			break;
+					case SPK::PARAM_GREEN:			flagInt = SPK::FLAG_GREEN;			break;
+					case SPK::PARAM_BLUE:			flagInt = SPK::FLAG_BLUE;			break;
+					case SPK::PARAM_ALPHA:			flagInt = SPK::FLAG_ALPHA;			break;
+					case SPK::PARAM_SIZE:			flagInt = SPK::FLAG_SIZE;			break;
+					case SPK::PARAM_MASS:			flagInt = SPK::FLAG_MASS;			break;
+					case SPK::PARAM_ANGLE:			flagInt = SPK::FLAG_ANGLE;			break;
+					case SPK::PARAM_TEXTURE_INDEX:  flagInt = SPK::FLAG_TEXTURE_INDEX;	break;
+					case SPK::PARAM_ROTATION_SPEED: flagInt = SPK::FLAG_ROTATION_SPEED; break;
+
+					default: flagInt = SPK::FLAG_NONE; break;
+					}
+				}
+
 				if (nbValues == 0) {
-					fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"%d\" />\n", static_cast<SPK::ModelParam>(i));
+					fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"%d\" />\n", flagInt);
 					continue;
 				}
 
 				if (nbValues == 1)
-					fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"%d\" death=\"%f\" />\n", static_cast<SPK::ModelParam>(i), model->getParamValue(static_cast<SPK::ModelParam>(i), 0));
+					fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"%d\" death=\"%f\" />\n", flagInt, model->getParamValue(static_cast<SPK::ModelParam>(i), 0));
 
 				if (nbValues == 2) {
 					if (model->isRandom(static_cast<SPK::ModelParam>(i)))
 						fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"%d\" rand0=\"%f\" rand1=\"%f\" />\n",
-						static_cast<SPK::ModelParam>(i),
+						flagInt,
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 0),
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 1));
 					else /// Mutable
 						fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"%d\" birth=\"%f\" death=\"%f\" />\n",
-						static_cast<SPK::ModelParam>(i),
+						flagInt,
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 0),
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 1));
 				}
 				if (nbValues == 4) {
 					fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"%d\" minBirth=\"%f\" maxBirth=\"%f\" minDeath=\"%f\" maxDeath=\"%f\" />\n",
-						static_cast<SPK::ModelParam>(i),
+						flagInt,
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 0),
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 1),
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 2),
 						model->getParamValue(static_cast<SPK::ModelParam>(i), 3));
 				}
+
+			} else {
+				fprintf(export_file, "\t\t\t\t\t <enabledparam value=\"-1\" />\n");
 			}
 		}
 	}
 	fprintf(export_file, "\t\t\t\t </enabledParams> \n");
+
+	fprintf(export_file, "\t\t\t\t <name value=\"%s\" />\n", model->getName().c_str());
+	fprintf(export_file, "\t\t\t\t <lifeTime min=\"%f\" max=\"%f\" />\n", model->getLifeTimeMin(), model->getLifeTimeMax());
+
 	fprintf(export_file, "\t\t\t\t <interpolators> \n");
 	{
 		if (model->getNbInterpolated() > 0) {
@@ -164,7 +189,25 @@ void CUIParticleExporter::exportModel(SPK::Model *model, FILE *export_file) {
 
 void CUIParticleExporter::exportEmitter(SPK::Emitter *emitter, FILE *export_file) {
 	fprintf(export_file, "\n");
-	fprintf(export_file, "\t\t\t <emitter>\n");
+
+	//-------------------------------------------------
+	/// Write the value of the E_PS_EMITTER_TYPE for easier way to load from this XML
+	SPK::StraightEmitter *straightEmitter = dynamic_cast<SPK::StraightEmitter*>(emitter);
+	SPK::StaticEmitter *staticEmitter = dynamic_cast<SPK::StaticEmitter*>(emitter);
+	SPK::SphericEmitter *sphericEmitter = dynamic_cast<SPK::SphericEmitter*>(emitter);
+	SPK::RandomEmitter *randomEmitter = dynamic_cast<SPK::RandomEmitter*>(emitter);
+	SPK::NormalEmitter *normalEmitter = dynamic_cast<SPK::NormalEmitter*>(emitter);
+
+	cp3d::ps::E_PS_EMITTER_TYPE emType;
+	if (straightEmitter) emType = cp3d::ps::ECET_STRAIGHT;
+	else if (staticEmitter) emType = cp3d::ps::ECET_STATIC;
+	else if (sphericEmitter) emType = cp3d::ps::ECET_SPHERIC;
+	else if (randomEmitter) emType = cp3d::ps::ECET_RANDOM;
+	else if (normalEmitter) emType = cp3d::ps::ECET_NORMAL;
+	else emType = cp3d::ps::ECET_UNKNOWN;
+
+	fprintf(export_file, "\t\t\t <emitter value=\"%d\" >\n", emType);
+	//-------------------------------------------------
 
 	fprintf(export_file, "\t\t\t\t <name value=\"%s\" />\n", emitter->getName().c_str());
 	fprintf(export_file, "\t\t\t\t <flow value=\"%f\" />\n", emitter->getFlow());

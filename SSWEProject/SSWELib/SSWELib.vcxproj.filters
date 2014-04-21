@@ -465,6 +465,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleExport.cpp">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.cpp">
+      <Filter>SSWELib\Device\Core\ParticleSystems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -844,6 +847,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIParticleExport.h">
       <Filter>SSWELib\UserInterfaces\ParticlesEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.h">
+      <Filter>SSWELib\Device\Core\ParticleSystems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

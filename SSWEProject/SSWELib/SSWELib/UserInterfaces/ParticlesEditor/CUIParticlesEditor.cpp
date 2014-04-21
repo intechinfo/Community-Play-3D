@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "CUIParticlesEditor.h"
 
+#include "../../Device/Core/ParticleSystems/CParticleSystemsImporter.h"
+
 using namespace SPK;
 using namespace SPK::IRR;
 
@@ -17,7 +19,7 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
     devices = _devices;
     
     //----------TEST-----------------
-    SParticleSystem ps("test");
+    /*SParticleSystem ps("test");
     ps.createBaseNode(devices->getSceneManager());
     
     System::setClampStep(true,0.1f);
@@ -151,13 +153,16 @@ CUIParticlesEditor::CUIParticlesEditor(CDevices *_devices) {
 
 	devices->getXEffect()->addShadowToNode((IRRSystem*)particleSystem, devices->getXEffectFilterType(), ESM_EXCLUDE);
     
-    devices->getCoreData()->getParticleSystems()->push_back(ps);
+    devices->getCoreData()->getParticleSystems()->push_back(ps);*/
     //ps.getBaseNode()->setName(L"ParticleTest");
     //devices->getCoreData()->getObjectsData()->push_back(SObjectsData(0, ps.getBaseNode(), L""));
     
     /*SParticleSystem ps("New Particle System");
     ps.createBaseNode(devices->getSceneManager());
     devices->getCoreData()->getParticleSystems()->push_back(ps);*/
+
+	//CParticleSystemsImporter importer(devices);
+	//importer.createParticleSystemFromFile(stringc(devices->getWorkingDirectory() + "ParticlesTests/testparticle.psc").c_str());
     //----------TEST-----------------
     
     IGUIEnvironment *gui = devices->getGUIEnvironment();

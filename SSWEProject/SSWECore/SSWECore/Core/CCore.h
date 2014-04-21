@@ -136,8 +136,10 @@ public:
 
 	//BULLET METHODS
 	btVector3 getBtVector3(vector3df vector) { return btVector3(vector.X, vector.Y, vector.Z); }
-    vector3df getVector3dfFromSpark(SPK::Vector3D vector) { return vector3df(vector.x, vector.y, vector.z); }
 	void QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler);
+
+	//SPARK METHODS
+    vector3df getVector3dfFromSpark(SPK::Vector3D vector) { return vector3df(vector.x, vector.y, vector.z); }
     
 private:
 	//--------------------------

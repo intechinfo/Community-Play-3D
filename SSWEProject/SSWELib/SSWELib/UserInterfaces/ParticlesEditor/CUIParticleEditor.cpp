@@ -216,8 +216,8 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
 
 	windowViewPort = 0;
 
-	CUIParticleExporter *exporter = new CUIParticleExporter(devices, ps);
-	exporter->exportSystem(stringc(devices->getWorkingDirectory() + "ParticlesTests/testparticle.psc").c_str());
+	//CUIParticleExporter *exporter = new CUIParticleExporter(devices, ps);
+	//exporter->exportSystem(stringc(devices->getWorkingDirectory() + "ParticlesTests/testparticle.psc").c_str());
 
 }
 

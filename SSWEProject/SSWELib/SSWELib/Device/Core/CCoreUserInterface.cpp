@@ -11,6 +11,8 @@
 
 #include "../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 
+#include "ParticleSystems/CParticleSystemsImporter.h"
+
 CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath) {
     
     //-----------------------------------

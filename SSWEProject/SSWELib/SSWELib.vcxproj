@@ -235,6 +235,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\Device\CDevices.cpp" />
     <ClCompile Include="SSWELib\Device\Core\CCoreUserInterface.cpp" />
     <ClCompile Include="SSWELib\Device\Core\CRenderCore.cpp" />
+    <ClCompile Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CFileSystemScripting.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CLuaBinds.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CSceneScripting.cpp" />
@@ -362,6 +363,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\Device\CDevices.h" />
     <ClInclude Include="SSWELib\Device\Core\CCoreUserInterface.h" />
     <ClInclude Include="SSWELib\Device\Core\CRenderCore.h" />
+    <ClInclude Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.h" />
     <ClInclude Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsTypes.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CFileSystemScripting.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CLuaBinds.h" />
