@@ -598,6 +598,7 @@ struct SParticleSystem : SData {
 public:
 	SParticleSystem() : SData(0, 0, L"", ESNT_PARTICLE_SYSTEM) {
 		SParticleSystem("new system");
+		systems.clear();
 	}
 
     SParticleSystem(stringc _name) : SData(0, 0, L"", ESNT_PARTICLE_SYSTEM) {

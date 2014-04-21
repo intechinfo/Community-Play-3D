@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="3" />
+		 <numberOfObjects value="2" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-64.709328" Y="90.925873" Z="175.061691" />
-			 <rotation X="63.160736" Y="17.678482" Z="0.000000" />
+			 <position X="-56.973804" Y="-55.006294" Z="-255.624435" />
+			 <rotation X="355.440613" Y="13.035645" Z="0.000000" />
 
 		 </camera>
 
@@ -122,6 +122,22 @@ float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
 		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.01), float2(1.0, 1.0)));
 
 	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/brightpass.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	float4 finalVal = tex2D(ColorMapSampler, Texcoords.xy);
+	finalVal *= 2.0;
+	finalVal = pow(finalVal, 8.0);
+
 	return finalVal;
 }
 " />
@@ -248,6 +264,7 @@ float fBumpStrength;
 sampler2D baseMap      : register(s0); 
 sampler2D bumpMap      : register(s1); 
 sampler2D baseMapSampler : register(s2);
+sampler2D grassMap : register(s3);
 struct PS_INPUT
 {   
    float2 Texcoord            : TEXCOORD0;
@@ -285,7 +302,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ) * tex2D(baseMapSampler, IN.Texcoord);
    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
    float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
    float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
@@ -300,7 +317,7 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
    if(color.g>1.0){color.rb+=color.g-1.0;} 
    if(color.b>1.0){color.rg+=color.b-1.0;} 
    
-   return color + tex2D(baseMapSampler, IN.Texcoord);
+   return color + tex2D(grassMap, IN.Texcoord) * 0.4;
 }
 " />
 				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
@@ -482,7 +499,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -509,7 +526,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="1">
@@ -517,7 +534,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -544,7 +561,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -552,7 +569,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -579,7 +596,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="3">
@@ -587,7 +604,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -614,7 +631,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="4">
@@ -622,7 +639,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -649,7 +666,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="5">
@@ -657,7 +674,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -684,7 +701,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -692,7 +709,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -719,7 +736,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="7">
@@ -727,7 +744,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -754,7 +771,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="8">
@@ -762,7 +779,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -789,7 +806,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="9">
@@ -797,7 +814,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -824,7 +841,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="10">
@@ -832,7 +849,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -859,7 +876,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="11">
@@ -867,7 +884,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -894,7 +911,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="12">
@@ -902,7 +919,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -929,7 +946,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="13">
@@ -937,7 +954,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -964,7 +981,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="14">
@@ -972,7 +989,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -999,7 +1016,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="15">
@@ -1007,7 +1024,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1034,7 +1051,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="16">
@@ -1042,7 +1059,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1069,7 +1086,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="17">
@@ -1077,7 +1094,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1104,7 +1121,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="18">
@@ -1112,7 +1129,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1139,7 +1156,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="19">
@@ -1147,7 +1164,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1174,7 +1191,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="20">
@@ -1182,7 +1199,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1209,7 +1226,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="21">
@@ -1217,7 +1234,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1244,7 +1261,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="22">
@@ -1252,7 +1269,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1279,7 +1296,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="23">
@@ -1287,7 +1304,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1314,7 +1331,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="24">
@@ -1322,7 +1339,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1349,7 +1366,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="25">
@@ -1357,7 +1374,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1384,7 +1401,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="26">
@@ -1392,7 +1409,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1419,7 +1436,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="27">
@@ -1427,7 +1444,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1454,7 +1471,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="28">
@@ -1462,7 +1479,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1489,7 +1506,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="29">
@@ -1497,7 +1514,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1524,7 +1541,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="30">
@@ -1532,7 +1549,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1559,7 +1576,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="31">
@@ -1567,7 +1584,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1594,7 +1611,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="32">
@@ -1602,7 +1619,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1629,7 +1646,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="33">
@@ -1637,7 +1654,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1664,7 +1681,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="34">
@@ -1672,7 +1689,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1699,7 +1716,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="35">
@@ -1707,7 +1724,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1734,7 +1751,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="36">
@@ -1742,7 +1759,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1769,7 +1786,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="37">
@@ -1777,7 +1794,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1804,7 +1821,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="38">
@@ -1812,7 +1829,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1839,7 +1856,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="39">
@@ -1847,7 +1864,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1874,7 +1891,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="40">
@@ -1882,7 +1899,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1909,7 +1926,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="41">
@@ -1917,7 +1934,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1944,7 +1961,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="42">
@@ -1952,7 +1969,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -1979,7 +1996,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="43">
@@ -1987,7 +2004,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2014,7 +2031,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="44">
@@ -2022,7 +2039,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2049,7 +2066,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="45">
@@ -2057,7 +2074,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2084,7 +2101,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="46">
@@ -2092,7 +2109,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2119,7 +2136,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="47">
@@ -2127,7 +2144,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2154,7 +2171,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="48">
@@ -2162,7 +2179,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2189,7 +2206,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="49">
@@ -2197,7 +2214,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2224,7 +2241,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="50">
@@ -2232,7 +2249,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2259,7 +2276,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="51">
@@ -2267,7 +2284,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2294,7 +2311,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="52">
@@ -2302,7 +2319,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2329,7 +2346,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="53">
@@ -2337,7 +2354,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2364,7 +2381,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="54">
@@ -2372,7 +2389,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2399,7 +2416,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="55">
@@ -2407,7 +2424,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2434,7 +2451,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="56">
@@ -2442,7 +2459,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2469,7 +2486,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="57">
@@ -2477,7 +2494,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2504,7 +2521,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="58">
@@ -2512,7 +2529,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2539,7 +2556,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="59">
@@ -2547,7 +2564,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2574,7 +2591,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="60">
@@ -2582,7 +2599,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2609,7 +2626,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="61">
@@ -2617,7 +2634,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2644,7 +2661,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="62">
@@ -2652,7 +2669,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2679,7 +2696,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="63">
@@ -2687,7 +2704,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2714,7 +2731,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="64">
@@ -2722,7 +2739,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2749,7 +2766,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="65">
@@ -2757,7 +2774,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2784,7 +2801,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="66">
@@ -2792,7 +2809,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2819,7 +2836,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="67">
@@ -2827,7 +2844,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2854,7 +2871,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="68">
@@ -2862,7 +2879,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2889,7 +2906,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="69">
@@ -2897,7 +2914,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2924,7 +2941,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="70">
@@ -2932,7 +2949,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2959,7 +2976,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="71">
@@ -2967,7 +2984,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -2994,7 +3011,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="72">
@@ -3002,7 +3019,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3029,7 +3046,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="73">
@@ -3037,7 +3054,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3064,7 +3081,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="74">
@@ -3072,7 +3089,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3099,7 +3116,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="75">
@@ -3107,7 +3124,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3134,7 +3151,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="76">
@@ -3142,7 +3159,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3169,7 +3186,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="77">
@@ -3177,7 +3194,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3204,7 +3221,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="78">
@@ -3212,7 +3229,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3239,7 +3256,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="79">
@@ -3247,7 +3264,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3274,7 +3291,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="80">
@@ -3282,7 +3299,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3309,7 +3326,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="81">
@@ -3317,7 +3334,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3344,7 +3361,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="82">
@@ -3352,7 +3369,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3379,7 +3396,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="83">
@@ -3387,7 +3404,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3414,7 +3431,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="84">
@@ -3422,7 +3439,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3449,7 +3466,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="85">
@@ -3457,7 +3474,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3484,7 +3501,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="86">
@@ -3492,7 +3509,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3519,7 +3536,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="87">
@@ -3527,7 +3544,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3554,7 +3571,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="88">
@@ -3562,7 +3579,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3589,7 +3606,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="89">
@@ -3597,7 +3614,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3624,7 +3641,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="90">
@@ -3632,7 +3649,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3659,7 +3676,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="91">
@@ -3667,7 +3684,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3694,7 +3711,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="92">
@@ -3702,7 +3719,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3729,7 +3746,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="93">
@@ -3737,7 +3754,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3764,7 +3781,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="94">
@@ -3772,7 +3789,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3799,7 +3816,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="95">
@@ -3807,7 +3824,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3834,7 +3851,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="96">
@@ -3842,7 +3859,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3869,7 +3886,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="97">
@@ -3877,7 +3894,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3904,7 +3921,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="98">
@@ -3912,7 +3929,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3939,7 +3956,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="99">
@@ -3947,7 +3964,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -3974,7 +3991,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="100">
@@ -3982,7 +3999,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4009,7 +4026,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="101">
@@ -4017,7 +4034,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4044,7 +4061,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="102">
@@ -4052,7 +4069,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4079,7 +4096,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="103">
@@ -4087,7 +4104,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4114,7 +4131,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="104">
@@ -4122,7 +4139,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4149,7 +4166,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="105">
@@ -4157,7 +4174,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4184,7 +4201,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="106">
@@ -4192,7 +4209,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4219,7 +4236,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="107">
@@ -4227,7 +4244,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4254,7 +4271,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="108">
@@ -4262,7 +4279,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4289,7 +4306,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="109">
@@ -4297,7 +4314,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4324,7 +4341,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="110">
@@ -4332,7 +4349,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4359,7 +4376,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="111">
@@ -4367,7 +4384,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4394,7 +4411,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="112">
@@ -4402,7 +4419,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4429,7 +4446,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="113">
@@ -4437,7 +4454,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4464,7 +4481,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="114">
@@ -4472,7 +4489,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4499,7 +4516,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="115">
@@ -4507,7 +4524,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4534,7 +4551,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="116">
@@ -4542,7 +4559,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4569,7 +4586,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="117">
@@ -4577,7 +4594,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4604,7 +4621,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="118">
@@ -4612,7 +4629,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4639,7 +4656,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="119">
@@ -4647,7 +4664,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4674,7 +4691,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="120">
@@ -4682,7 +4699,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4709,7 +4726,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="121">
@@ -4717,7 +4734,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4744,7 +4761,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="122">
@@ -4752,7 +4769,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4779,7 +4796,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="123">
@@ -4787,7 +4804,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4814,7 +4831,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="124">
@@ -4822,7 +4839,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4849,7 +4866,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="125">
@@ -4857,7 +4874,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4884,7 +4901,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="126">
@@ -4892,7 +4909,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4919,7 +4936,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="127">
@@ -4927,7 +4944,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4954,7 +4971,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="128">
@@ -4962,7 +4979,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -4989,7 +5006,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="129">
@@ -4997,7 +5014,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5024,7 +5041,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="130">
@@ -5032,7 +5049,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5059,7 +5076,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="131">
@@ -5067,7 +5084,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5094,7 +5111,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="132">
@@ -5102,7 +5119,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5129,7 +5146,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="133">
@@ -5137,7 +5154,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5164,7 +5181,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="134">
@@ -5172,7 +5189,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5199,7 +5216,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="135">
@@ -5207,7 +5224,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5234,7 +5251,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="136">
@@ -5242,7 +5259,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5269,7 +5286,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="137">
@@ -5277,7 +5294,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
 						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
-						 <texture id="3" path="BackRenderRTT" />
+						 <texture id="3" path="height_maps/grass.png" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -5304,7 +5321,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 </materials>
@@ -5324,95 +5341,6 @@ vmatrix4 Viewl view[0] 0 0 0" />
 
 
 		 </terrain>
-
-		 <tree>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/trees/k4_treepack1/tree 1a - 1b/tree1a_lod0.obj" />
-
-			 <name c8name="#tree:myName" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="data/trees/k4_treepack1/tree 1a - 1b/bark1.tga" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="0" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="data/trees/k4_treepack1/tree 1a - 1b/leafs1.tga" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="51" g="51" b="51" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="0" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-2" />
-
-			 	 </material>
-			 </materials>
-			 <position X="48.532673" Y="0.000000" Z="27.483490" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="10.351667" Y="10.351667" Z="10.351667" />
-
-			<depthPassed value="0" />
-			<lightScatteringPassed value="0" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="2" />
-		 </tree>
 
 		 <light>
 
