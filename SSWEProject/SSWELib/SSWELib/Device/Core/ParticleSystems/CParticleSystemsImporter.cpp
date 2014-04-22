@@ -24,15 +24,16 @@ CParticleSystemsImporter::~CParticleSystemsImporter() {
 
 }
 
-SParticleSystem *CParticleSystemsImporter::createParticleSystemFromFile(stringc filename) {
+SParticleSystem CParticleSystemsImporter::createParticleSystemFromFile(stringc filename, bool addToParticleSystemsArray) {
 	SPK::IRR::IRRSystem::setClampStep(true,0.1f);
 	SPK::IRR::IRRSystem::useAdaptiveStep(0.001f,0.01f);
 
+	SParticleSystem ps("New Particle System Imported");
+
 	xmlReader = createIrrXMLReader(filename.c_str());
 	if (!xmlReader) /// The file does not exists
-		return 0;
+		return ps;
 
-	SParticleSystem ps("New Particle System Imported");
 	ps.createBaseNode(devices->getSceneManager());
 
 	read("rootPS");
@@ -64,10 +65,14 @@ SParticleSystem *CParticleSystemsImporter::createParticleSystemFromFile(stringc 
 	/// Convention, read the root even if cursor is after
 	read("rootPS");
 
-	devices->getCoreData()->getParticleSystems()->push_back(ps);
+	if (addToParticleSystemsArray)
+		devices->getCoreData()->getParticleSystems()->push_back(ps);
 
 	/// Return last particle system added
-	return &devices->getCoreData()->getParticleSystems()->operator[](devices->getCoreData()->getParticleSystems()->size()-1);
+	if (addToParticleSystemsArray)
+		return devices->getCoreData()->getParticleSystems()->operator[](devices->getCoreData()->getParticleSystems()->size()-1);
+	else
+		return ps;
 }
 
 //---------------------------------------------------------------------------------------------
@@ -110,7 +115,6 @@ SPK::Group *CParticleSystemsImporter::buildGroup() {
 		if (element == "group")
 			break;
 	}
-
 
 	return group;
 }
@@ -352,35 +356,48 @@ SPK::IRR::IRRQuadRenderer *CParticleSystemsImporter::buildRenderer() {
 	SPK::IRR::IRRQuadRenderer *renderer = SPK::IRR::IRRQuadRenderer::create(devices->getDevice());
 
 	read("name");
-	renderer->setName(stringc(xmlReader->getAttributeValue("value")).c_str());
+	stringc name = stringc(xmlReader->getAttributeValue("value")).c_str();
+
+	core::dimension2df scale;
 	{
 		read("scale");
-		core::dimension2df scale = buildDimension2d<f32>();
-		renderer->setScale(scale.Width, scale.Height);
+		scale = buildDimension2d<f32>();
 	}
 
 	read("texturingMode");
-	renderer->setTexturingMode((SPK::TexturingMode)devices->getCore()->getU32(xmlReader->getAttributeValue("value")));
+	SPK::TexturingMode tmode = (SPK::TexturingMode)devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
 	read("blendingMode");
-	renderer->setBlending((SPK::BlendingMode)devices->getCore()->getU32(xmlReader->getAttributeValue("value")));
+	SPK::BlendingMode bmode = (SPK::BlendingMode)devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
 
+	core::dimension2df atlasDimension;
 	{
 		read("atlasDimension");
-		core::dimension2df atlasDimension = buildDimension2d<f32>();
-		renderer->setAtlasDimensions(atlasDimension.Width, atlasDimension.Height);
+		atlasDimension = buildDimension2d<f32>();
 	}
 	read("texture");
-	renderer->setTexture(devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("value")));
+	ITexture *texture = devices->getVideoDriver()->getTexture(xmlReader->getAttributeValue("value"));
 	read("enableAlphaTest");
-	renderer->enableRenderingHint(SPK::ALPHA_TEST, devices->getCore()->getU32(xmlReader->getAttributeValue("value")));
+	bool alphaTestRenderingHint = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
 	read("enableDepthTest");
-	renderer->enableRenderingHint(SPK::DEPTH_TEST, devices->getCore()->getU32(xmlReader->getAttributeValue("value")));
+	bool depthTestRenderingHint = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
 	read("enableDepthWrite");
-	renderer->enableRenderingHint(SPK::DEPTH_WRITE, devices->getCore()->getU32(xmlReader->getAttributeValue("value")));
+	bool depthWriteRenderingHint = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
 	read("setActive");
-	renderer->setActive(devices->getCore()->getU32(xmlReader->getAttributeValue("value")));
+	bool isActive = devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
 	read("alphaTest");
-	renderer->setAlphaTestThreshold(devices->getCore()->getF32(xmlReader->getAttributeValue("value")));
+	f32 alphaTestThreshold = devices->getCore()->getF32(xmlReader->getAttributeValue("value"));
+
+	renderer->setScale(scale.Width, scale.Height);
+	renderer->setTexture(texture);
+	renderer->setTexturingMode(tmode);
+	renderer->setBlending(bmode);
+	renderer->enableRenderingHint(SPK::ALPHA_TEST, alphaTestRenderingHint);
+	renderer->enableRenderingHint(SPK::DEPTH_TEST, depthTestRenderingHint);
+	renderer->enableRenderingHint(SPK::DEPTH_WRITE, depthWriteRenderingHint);
+	renderer->setActive(isActive);
+	renderer->setAlphaTestThreshold(alphaTestThreshold);
+	renderer->setAtlasDimensions(atlasDimension.Width, atlasDimension.Height);
+	renderer->setName(name.c_str());
 
 	return renderer;
 }

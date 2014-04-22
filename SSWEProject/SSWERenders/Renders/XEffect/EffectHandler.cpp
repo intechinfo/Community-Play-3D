@@ -36,7 +36,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	mainTarget = driver->addRenderTargetTexture(ScreenRTTSize,"HDRMainTarget");
 	hdrRTT0 = driver->addRenderTargetTexture(dimension2du(hdr_rtt0_size, hdr_rtt0_size),"rtt0");
 	hdrScreenQuad = new CScreenQuadHDRPipeline(smgr->getRootSceneNode(),smgr,10, ScreenRTTSize);
-	useHDR = true;
+	useHDR = false;
 
 	//BACK RENDER
 	backRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "BackRenderRTT");

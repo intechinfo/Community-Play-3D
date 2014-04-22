@@ -64,6 +64,9 @@ private:
 
 	//EXPORTER
 	IGUIFileOpenDialog *exportSystemDialog;
+	IGUIFileOpenDialog *importSavedConfig;
+
+	IGUIWindow *dialogAddOrModify;
 	//-----------------------------------
 
 	//-----------------------------------
