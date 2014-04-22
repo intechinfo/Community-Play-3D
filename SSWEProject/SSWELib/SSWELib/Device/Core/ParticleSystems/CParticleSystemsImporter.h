@@ -19,7 +19,7 @@ public:
 	CParticleSystemsImporter(CDevices *devices);
 	~CParticleSystemsImporter();
 
-	SParticleSystem *createParticleSystemFromFile(stringc filename);
+	SParticleSystem createParticleSystemFromFile(stringc filename, bool addToParticleSystemsArray=false);
 
 
 private:

@@ -15,6 +15,8 @@
 #include "CUIAddEmitter.h"
 #include "CUIAddModifier.h"
 
+#include "../../Device/Core/ParticleSystems/CParticleSystemsImporter.h"
+
 using namespace cp3d;
 using namespace ps;
 
@@ -305,15 +307,66 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 
 			if (event.GUIEvent.Caller == exportSystemDialog) {
 				stringw filename = exportSystemDialog->getFileName();
-				if (filename == "")
-					filename = "unamed";
+				stringw filename2 = devices->getDevice()->getFileSystem()->getFileBasename(filename).c_str();
+				if (filename2 == "")
+					filename += "unamed";
 
-				filename += ".psc";
+				io::path ext, filenamepath = filename.c_str();
+				core::getFileNameExtension(ext, filenamepath);
+				if (ext != ".psc")
+					filename += ".psc";
 
-				CUIParticleExporter *exporter = new CUIParticleExporter(devices, ps);
-				exporter->exportSystem(filename);
+				CUIParticleExporter exporter(devices, ps);
+				exporter.exportSystem(filename);
+				//devices->addInformationDialog("File : ", filename, EMBF_OK, true, window);
+			}
+
+			if (event.GUIEvent.Caller == importSavedConfig) {
+				if (ps->getSystems()->size() != 0) {
+					dialogAddOrModify = devices->addInformationDialog("Add or modify ?", "Do you want to add to the existed systems ?\n"
+																						  "If no, all systems will be erased",
+																	  EMBF_YES | EMBF_NO, true, window);
+				} else {
+					nodesEditor->getRootNode()->removeAll();
+					CParticleSystemsImporter importer(devices);
+					SParticleSystem psnew = importer.createParticleSystemFromFile(importSavedConfig->getFileName());
+					for (u32 i=0; i < psnew.getSystems()->size(); i++) {
+						ps->getSystems()->push_back(psnew.getSystems()->operator[](i));
+						ps->getBaseNode()->addChild((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](ps->getSystems()->size()-1));
+					}
+					psnew.destroyBaseNode();
+				}
 			}
         }
+
+		if (event.GUIEvent.EventType == EGET_MESSAGEBOX_NO) {
+			if (event.GUIEvent.Caller == dialogAddOrModify) {
+				ps->clear();
+				ps->createBaseNode(devices->getSceneManager());
+				nodesEditor->getRootNode()->removeAll();
+				CParticleSystemsImporter importer(devices);
+				SParticleSystem psnew = importer.createParticleSystemFromFile(importSavedConfig->getFileName());
+				for (u32 i=0; i < psnew.getSystems()->size(); i++) {
+					ps->getSystems()->push_back(psnew.getSystems()->operator[](i));
+					ps->getBaseNode()->addChild((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](ps->getSystems()->size()-1));
+				}
+				psnew.destroyBaseNode();
+			}
+		}
+
+		if (event.GUIEvent.EventType == EGET_MESSAGEBOX_YES) {
+			if (event.GUIEvent.Caller == dialogAddOrModify) {
+				nodesEditor->getRootNode()->removeAll();
+				CParticleSystemsImporter importer(devices);
+				SParticleSystem psnew = importer.createParticleSystemFromFile(importSavedConfig->getFileName());
+				for (u32 i=0; i < psnew.getSystems()->size(); i++) {
+					ps->getSystems()->push_back(psnew.getSystems()->operator[](i));
+					ps->getBaseNode()->addChild((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](ps->getSystems()->size()-1));
+				}
+				psnew.destroyBaseNode();
+			}
+		}
+
         if (event.GUIEvent.EventType == EGET_FILE_CHOOSE_DIALOG_CANCELLED) {
             if (event.GUIEvent.Caller == openRendererTexture) {
 				if (selectedNode != 0) {
@@ -360,8 +413,13 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
         
         if (event.GUIEvent.EventType == EGET_MENU_ITEM_SELECTED) {
             if (event.GUIEvent.Caller == menu->getSubMenu(1)) {
+				if (menu->getSubMenu(1)->getSelectedItem() == 0) {
+					importSavedConfig = devices->createFileOpenDialog("Select config...", CGUIFileSelector::EFST_OPEN_DIALOG, devices->getGUIEnvironment()->getRootGUIElement(), false);
+				}
+
 				if (menu->getSubMenu(1)->getSelectedItem() == 2) {
 					exportSystemDialog = devices->createFileOpenDialog("Export system to...", CGUIFileSelector::EFST_SAVE_DIALOG, devices->getGUIEnvironment()->getRootGUIElement(), false);
+					((CGUIFileSelector*)exportSystemDialog)->setDirectoryChoosable(false);
 					return true;
 				}
                 if (menu->getSubMenu(1)->getSelectedItem() == 6) {

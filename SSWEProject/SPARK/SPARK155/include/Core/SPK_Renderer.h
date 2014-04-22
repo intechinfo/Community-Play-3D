@@ -40,7 +40,7 @@ namespace SPK
 	*/
 	enum BlendingMode
 	{
-		BLENDING_NONE,			/**< No blending is applied. The particles will appeared as opaque */
+		BLENDING_NONE = 0,			/**< No blending is applied. The particles will appeared as opaque */
 		BLENDING_ADD,			/**< The additive blending is useful to render particles that supposed to emit light (fire, magic spells...) */
 		BLENDING_ALPHA,			/**< The alpha blending is useful to render transparent particles */
 	};

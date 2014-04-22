@@ -64,6 +64,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)SPARK_debug.dll</OutputFile>
@@ -92,6 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)SPARK.dll</OutputFile>

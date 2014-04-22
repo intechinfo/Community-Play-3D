@@ -35,7 +35,7 @@ namespace SPK
 	*/
 	enum TexturingMode
 	{
-		TEXTURE_NONE,		/**< Constant telling no texturing is used */
+		TEXTURE_NONE = 0,		/**< Constant telling no texturing is used */
 		TEXTURE_2D,			/**< Constant telling a 2D texture is used */
 		TEXTURE_3D,			/**< Constant telling a 3D texture is used */
 	};
