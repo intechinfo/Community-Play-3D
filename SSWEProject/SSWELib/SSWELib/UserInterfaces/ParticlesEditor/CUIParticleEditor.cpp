@@ -333,6 +333,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 					for (u32 i=0; i < psnew.getSystems()->size(); i++) {
 						ps->getSystems()->push_back(psnew.getSystems()->operator[](i));
 						ps->getBaseNode()->addChild((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](ps->getSystems()->size()-1));
+                        devices->getXEffect()->addShadowToNode((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i), devices->getXEffectFilterType(), ESM_EXCLUDE);
 					}
 					psnew.destroyBaseNode();
 				}
@@ -349,6 +350,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 				for (u32 i=0; i < psnew.getSystems()->size(); i++) {
 					ps->getSystems()->push_back(psnew.getSystems()->operator[](i));
 					ps->getBaseNode()->addChild((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](ps->getSystems()->size()-1));
+                    devices->getXEffect()->addShadowToNode((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i), devices->getXEffectFilterType(), ESM_EXCLUDE);
 				}
 				psnew.destroyBaseNode();
 			}
@@ -362,6 +364,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 				for (u32 i=0; i < psnew.getSystems()->size(); i++) {
 					ps->getSystems()->push_back(psnew.getSystems()->operator[](i));
 					ps->getBaseNode()->addChild((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](ps->getSystems()->size()-1));
+                    devices->getXEffect()->addShadowToNode((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i), devices->getXEffectFilterType(), ESM_EXCLUDE);
 				}
 				psnew.destroyBaseNode();
 			}

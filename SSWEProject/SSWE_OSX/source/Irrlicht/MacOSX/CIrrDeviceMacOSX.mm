@@ -1167,6 +1167,7 @@ void CIrrDeviceMacOSX::setWindowCaption(const wchar_t* text)
 
 bool CIrrDeviceMacOSX::isWindowActive() const
 {
+    return [Window isOnActiveSpace] && [Window isKeyWindow];
 	return (IsActive);
 }
 
@@ -1513,6 +1514,8 @@ void CIrrDeviceMacOSX::minimizeWindow()
 void CIrrDeviceMacOSX::maximizeWindow()
 {
 	// todo: implement
+    //[Window.contentView setAutoresizesSubviews:YES];
+    //setResize(Window.contentMaxSize.width, Window.contentMaxSize.height);
 }
 
 

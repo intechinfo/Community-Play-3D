@@ -214,6 +214,20 @@ bool CUIParticleEditorInterpolators::OnEvent(const SEvent &event) {
 				devices->getEventReceiver()->RemoveEventReceiver(this);
 				delete this;
 			}
+            
+            if (event.GUIEvent.Caller == editEntry && entriesTable->getSelected() != -1) {
+                
+                SPK::Interpolator *inter = interpolators[paramsList->getSelected()];
+                std::set<SPK::InterpolatorEntry>::const_iterator it = inter->getGraph().begin();
+                u32 i=0;
+                while (i < entriesTable->getSelected()) {
+                    ++it;
+                    i++;
+                }
+                openAddEditWindow(it->x, it->y0, it->y1);
+                
+                entryEditType = EEDT_EDIT;
+            }
 
 			//REMOVE ENTRY
 			if (event.GUIEvent.Caller == removeEntry) {

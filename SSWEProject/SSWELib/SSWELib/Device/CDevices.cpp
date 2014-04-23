@@ -474,7 +474,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
 
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_16PCF;
+	filterType = EFT_NONE;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);

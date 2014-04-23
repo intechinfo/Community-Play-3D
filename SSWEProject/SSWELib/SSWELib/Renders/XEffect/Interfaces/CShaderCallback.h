@@ -86,7 +86,7 @@ public:
 
 	//INHERITANCE METHODS
 	virtual void OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData);
-	virtual void CShaderCallback::OnSetMaterial(const SMaterial& material);
+	virtual void OnSetMaterial(const SMaterial& material);
 
 private:
 
