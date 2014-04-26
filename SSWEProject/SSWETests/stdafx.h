@@ -13,7 +13,10 @@
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme
 
 #include <SSWECore.h>
+#include <SSWELib.h>
 
 #include "../SSWECore/SSWECore/Core/CCore.h"
 #include "../SSWECore/SSWECore/Core/CCoreData.h"
 
+#include "../Lua52/include/lua.hpp"
+#include "../SSWELib/Device/Core/Scripting/math/CVector3d.h"

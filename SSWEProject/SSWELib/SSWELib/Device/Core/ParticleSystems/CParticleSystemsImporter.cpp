@@ -15,8 +15,6 @@
 
 CParticleSystemsImporter::CParticleSystemsImporter(CDevices *_devices) {
 	devices = _devices;
-
-
 }
 
 
@@ -120,7 +118,53 @@ SPK::Group *CParticleSystemsImporter::buildGroup() {
 }
 
 SPK::Modifier *CParticleSystemsImporter::buildModifier() {
-	SPK::Modifier *modifier = SPK::Collision::create();
+	SPK::Modifier *modifier;
+	read("type");
+	cp3d::ps::E_PS_GROUP_MODIFIER_TYPE mtype = (cp3d::ps::E_PS_GROUP_MODIFIER_TYPE)devices->getCore()->getU32(xmlReader->getAttributeValue("value"));
+
+	if (mtype == cp3d::ps::EGMT_COLLISION) {
+		modifier = SPK::Collision::create();
+		read("scale");
+		((SPK::Collision*)modifier)->setScale(devices->getCore()->getF32(xmlReader->getAttributeValue("value")));
+		read("elasticity");
+		((SPK::Collision*)modifier)->setElasticity(devices->getCore()->getF32(xmlReader->getAttributeValue("value")));
+	} else
+	if (mtype == cp3d::ps::EGMT_DESTROYER) {
+		modifier = SPK::Destroyer::create();
+	} else
+	if (mtype == cp3d::ps::EGMT_LINEAR_FORCE) {
+		modifier = SPK::LinearForce::create();
+		read("force");
+		((SPK::LinearForce*)modifier)->setForce(getSPKVector3dFromIrr(buildVector3d<f32>()));
+	} else
+	if (mtype == cp3d::ps::EGMT_OBSTACLE) {
+		modifier = SPK::Obstacle::create();
+		read("boundingRatio");
+		((SPK::Obstacle*)modifier)->setBouncingRatio(devices->getCore()->getF32(xmlReader->getAttributeValue("value")));
+		read("friction");
+		((SPK::Obstacle*)modifier)->setFriction(devices->getCore()->getF32(xmlReader->getAttributeValue("value")));
+	} else
+	if (mtype == cp3d::ps::EGMT_POINT_MASS) {
+		modifier = SPK::PointMass::create();
+		read("mass");
+		((SPK::PointMass*)modifier)->setMass(devices->getCore()->getF32(xmlReader->getAttributeValue("value")));
+		read("minDistance");
+		((SPK::PointMass*)modifier)->setMinDistance(devices->getCore()->getF32(xmlReader->getAttributeValue("value")));
+	} else
+	if (mtype == cp3d::ps::EGMT_ROTATOR) {
+		modifier = SPK::Rotator::create();
+	} else
+	if (mtype == cp3d::ps::EGMT_VORTEX) {
+		modifier = SPK::Vortex::create();
+		read("position");
+		((SPK::Vortex*)modifier)->setPosition(getSPKVector3dFromIrr(buildVector3d<f32>()));
+		read("direction");
+		((SPK::Vortex*)modifier)->setDirection(getSPKVector3dFromIrr(buildVector3d<f32>()));
+		read("rotationSpeed");
+		((SPK::Vortex*)modifier)->setRotationSpeed(devices->getCore()->getF32(xmlReader->getAttributeValue("value")), true);
+		read("attractionSpeed");
+		((SPK::Vortex*)modifier)->setAttractionSpeed(devices->getCore()->getF32(xmlReader->getAttributeValue("value")), true);
+	}
 
 	return modifier;
 }

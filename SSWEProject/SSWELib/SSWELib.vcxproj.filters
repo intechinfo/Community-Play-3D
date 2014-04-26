@@ -157,6 +157,9 @@
     <Filter Include="SSWELib\Device\Core\ParticleSystems">
       <UniqueIdentifier>{9e29753f-ff33-4063-9778-9f9d731ebdfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\Device\Core\Scripting\math">
+      <UniqueIdentifier>{c460cb60-fa84-4ad3-8c62-03d28a12fa25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -467,6 +470,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.cpp">
       <Filter>SSWELib\Device\Core\ParticleSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\Device\Core\Scripting\math\CVector3d.cpp">
+      <Filter>SSWELib\Device\Core\Scripting\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -850,6 +856,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.h">
       <Filter>SSWELib\Device\Core\ParticleSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Core\Scripting\math\CVector3d.h">
+      <Filter>SSWELib\Device\Core\Scripting\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

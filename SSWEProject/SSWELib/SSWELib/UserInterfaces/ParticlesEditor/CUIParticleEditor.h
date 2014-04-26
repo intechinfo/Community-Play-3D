@@ -82,6 +82,8 @@ private:
 	//METHODS
     void openAddModel();
     void addGroup();
+
+	void fillNodesEditor();
     
     void createGroup(CGUINode *node, SPK::Model *model, SPK::Group *group, SPK::System *system);
     //-----------------------------------

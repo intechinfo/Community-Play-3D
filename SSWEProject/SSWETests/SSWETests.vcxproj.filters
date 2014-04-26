@@ -19,6 +19,9 @@
     <Filter Include="Fichiers sources\SSWElib">
       <UniqueIdentifier>{bca2688c-c354-4c91-ac1d-e5a375fcba83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\SSWEScripts">
+      <UniqueIdentifier>{7060c1a4-2875-46fb-b335-d5b7c98f220a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -40,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="CImporterTests.cpp">
       <Filter>Fichiers sources\SSWElib</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWEScripts\CScriptingTests.cpp">
+      <Filter>Fichiers sources\SSWEScripts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

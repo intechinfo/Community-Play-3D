@@ -85,10 +85,10 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Irrlicht_d.lib;SSWECore_d.lib;SSWELib_d.lib;SSWERenders_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;$(SolutionDir)Lua52\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Irrlicht_d.lib;SSWECore_d.lib;SSWELib_d.lib;SSWERenders_d.lib;%(AdditionalDependencies);lua52.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
@@ -112,8 +112,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Irrlicht.lib;SSWECore.lib;SSWELib.lib;SSWERenders.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;$(SolutionDir)Lua52\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Irrlicht.lib;SSWECore.lib;SSWELib.lib;SSWERenders.lib;%(AdditionalDependencies);lua52.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
@@ -140,8 +140,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Irrlicht_f.lib;SSWECore_f.lib;SSWELib_f.lib;SSWERenders_f.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output\;$(VCInstallDir)UnitTest\lib;$(SolutionDir)SSWECore\Output\;$(SolutionDir)SSWELib\Output\;$(SolutionDir)SSWERenders\Output\;$(SolutionDir)Lua52\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Irrlicht_f.lib;SSWECore_f.lib;SSWELib_f.lib;SSWERenders_f.lib;%(AdditionalDependencies);lua52.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\SSWE\$(TargetName)$(TargetExt)" /y</Command>
@@ -155,6 +155,7 @@
     <ClCompile Include="CImporterTests.cpp" />
     <ClCompile Include="SSWECore\CCoreDataTests.cpp" />
     <ClCompile Include="SSWECore\CCoreTests.cpp" />
+    <ClCompile Include="SSWEScripts\CScriptingTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

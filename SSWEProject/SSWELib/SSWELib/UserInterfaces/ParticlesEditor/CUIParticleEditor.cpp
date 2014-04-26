@@ -89,117 +89,7 @@ CUIParticleEditor::CUIParticleEditor(CDevices *_devices, SParticleSystem *_ps) {
     
     //----------FILL FROM PS-----------------
     
-    for (u32 i=0; i < ps->getSystems()->size(); i++) {
-		SPK::IRR::IRRSystem *system = (SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i);
-        
-        CGUINode *node = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-        node->setName("System");
-        node->setParent(0);
-        node->setData(system);
-        node->setDataType(EPSDT_SYSTEM);
-        nodesEditor->addNode(node);
-        node->addTextField(L"Name :", stringw(node->getName()).c_str());
-        node->addCheckBox(L"AA-BB Computing", system->isAABBComputingEnabled());
-		node->addCheckBox(L"Enable Auto-Update", system->isAutoUpdateEnabled());
-		node->addCheckBox(L"Update Only if Visible", system->isUpdateOnlyWhenVisible());
-        node->addButton(L"Add Group", L"Adds a group to this system");
-        
-        for (u32 j=0; j < system->getGroups().size(); j++) {
-            SPK::Group *group = system->getGroups()[j];
-            
-            CGUINode *node2 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-            node2->setName("Group");
-            node2->setParent(node);
-            node2->setData(group);
-            node2->setDataType(EPSDT_GROUP);
-            nodesEditor->addNode(node2);
-            node2->addTextField(L"Name :", stringw(node2->getName()).c_str());
-            node2->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));
-            node2->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
-            node2->addButton(L"Add Renderer");
-            node2->addButton(L"Add Emitter");
-			node2->addTextField(L"Friction", stringw(group->getFriction()).c_str());
-			node2->addCheckBox(L"Enable Sorting", group->isSortingEnabled());
-			node2->addCheckBox(L"Enable Distance Computation", group->isDistanceComputationEnabled());
-			node2->addButton(L"Add Modifier...", L"Open dialog to add modifier (vortex, obstacle, etc)");
-            
-            CGUINode *nodeModel = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-            nodeModel->setName("Model");
-            nodeModel->setParent(node2);
-            nodeModel->setData(group->getModel());
-            nodeModel->setDataType(EPSDT_MODEL);
-            nodesEditor->addNode(nodeModel);
-			((IGUIWindow*)nodeModel->getInterface())->getCloseButton()->setVisible(false);
-            nodeModel->addTextField(L"Name :", stringw(nodeModel->getName()).c_str());
-            nodeModel->add2ParametersFields(L"Life Time ", L"Min", L"Max", group->getModel()->getLifeTimeMin(), group->getModel()->getLifeTimeMax());
-            nodeModel->addButton(L"Edit Values...");
-			nodeModel->addButton(L"Edit Interpolators...");
-
-			if (group->getRenderer()) {
-				SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)group->getRenderer();
-				CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-				nodeRenderer->setName("Renderer");
-				nodeRenderer->setParent(node2);
-				nodeRenderer->setData(group->getRenderer());
-				nodeRenderer->setDataType(EPSDT_RENDERER);
-				nodesEditor->addNode(nodeRenderer);
-				nodeRenderer->addTextField(L"Name :", stringw(nodeRenderer->getName()).c_str());
-				nodeRenderer->addDimension2DFields(L"Scale", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleX(),
-																	   ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleY())
-												   );
-				IGUIComboBox *texModecb = nodeRenderer->addComboBox(L"Texturing Mode");
-				texModecb->addItem(L"Texturing None");
-				texModecb->addItem(L"Texturing 2D");
-				texModecb->addItem(L"Texturing 3D");
-				texModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
-				IGUIComboBox *blendModecb = nodeRenderer->addComboBox(L"Blending Mode");
-				blendModecb->addItem(L"Blending None");
-				blendModecb->addItem(L"Blending Add");
-				blendModecb->addItem(L"Blending Alpha");
-				blendModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
-				nodeRenderer->addDimension2DFields(L"Atlas Dimension ", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Width,
-																				 ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Height)
-												   );
-				nodeRenderer->addButton(L"Configure Texture...");
-				nodeRenderer->addCheckBox(L"Enable Alpha Test", renderer->isRenderingHintEnabled(SPK::ALPHA_TEST));
-				nodeRenderer->addCheckBox(L"Enable Depth Test", renderer->isRenderingHintEnabled(SPK::DEPTH_TEST));
-				nodeRenderer->addCheckBox(L"Enable Depth Write", renderer->isRenderingHintEnabled(SPK::DEPTH_WRITE));
-				nodeRenderer->addCheckBox(L"Set Active", renderer->isActive());
-				nodeRenderer->addTextField(L"Alpha test threshold", stringw(renderer->getAlphaTestThreshold()).c_str());
-			}
-
-            for (u32 k=0; k < group->getEmitters().size(); k++) {
-                SPK::Emitter *emitter = group->getEmitters()[k];
-                
-                CGUINode *node3 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
-                node3->setName("Emitter");
-                node3->setParent(node2);
-                node3->setData(emitter);
-                node3->setDataType(EPSDT_EMITTER);
-                nodesEditor->addNode(node3);
-                node3->addTextField(L"Name :", stringw(node3->getName()).c_str());
-                node3->addTextField(L"Flow", stringw(emitter->getFlow()));
-                node3->add2ParametersFields(L"Force ", L"Min", L"Max", emitter->getForceMin(), emitter->getForceMax());
-                node3->addButton(L"Configure Zone...");
-				node3->addCheckBox(L"Active", emitter->isActive());
-				node3->addTextField(L"Tank",stringw(emitter->getTank()).c_str());
-				node3->addTextField(L"Change Tank", stringw(emitter->getTank()).c_str());
-				node3->addTextField(L"Flow", stringw(emitter->getFlow()).c_str());
-				node3->addTextField(L"Change Flow", stringw(emitter->getFlow()).c_str());
-            }
-
-			for (u32 k=0; k < group->getModifiers().size(); k++) {
-				SPK::Modifier *modifier = group->getModifiers()[k];
-
-				CUIAddModifier *addModifier = new CUIAddModifier(devices, window, group, nodesEditor, node2);
-				addModifier->createNode(modifier);
-				addModifier->close();
-				delete addModifier;
-
-			}
-
-        }
-    }
+    fillNodesEditor();
     
     //----------FILL FROM PS-----------------
     
@@ -336,6 +226,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                         devices->getXEffect()->addShadowToNode((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i), devices->getXEffectFilterType(), ESM_EXCLUDE);
 					}
 					psnew.destroyBaseNode();
+					fillNodesEditor();
 				}
 			}
         }
@@ -353,6 +244,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                     devices->getXEffect()->addShadowToNode((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i), devices->getXEffectFilterType(), ESM_EXCLUDE);
 				}
 				psnew.destroyBaseNode();
+				fillNodesEditor();
 			}
 		}
 
@@ -367,6 +259,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
                     devices->getXEffect()->addShadowToNode((SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i), devices->getXEffectFilterType(), ESM_EXCLUDE);
 				}
 				psnew.destroyBaseNode();
+				fillNodesEditor();
 			}
 		}
 
@@ -1015,4 +908,118 @@ void CUIParticleEditor::createGroup(CGUINode *node, SPK::Model *model, SPK::Grou
 	groupNode->addCheckBox(L"Enable Sorting", group->isSortingEnabled());
 	groupNode->addCheckBox(L"Enable Distance Computation", group->isDistanceComputationEnabled());
 	groupNode->addButton(L"Add Modifier...", L"Open dialog to add modifier (vortex, obstacle, etc)");
+}
+
+void CUIParticleEditor::fillNodesEditor() {
+	for (u32 i=0; i < ps->getSystems()->size(); i++) {
+		SPK::IRR::IRRSystem *system = (SPK::IRR::IRRSystem*)ps->getSystems()->operator[](i);
+        
+        CGUINode *node = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+        node->setName("System");
+        node->setParent(0);
+        node->setData(system);
+        node->setDataType(EPSDT_SYSTEM);
+        nodesEditor->addNode(node);
+        node->addTextField(L"Name :", stringw(node->getName()).c_str());
+        node->addCheckBox(L"AA-BB Computing", system->isAABBComputingEnabled());
+		node->addCheckBox(L"Enable Auto-Update", system->isAutoUpdateEnabled());
+		node->addCheckBox(L"Update Only if Visible", system->isUpdateOnlyWhenVisible());
+        node->addButton(L"Add Group", L"Adds a group to this system");
+        
+        for (u32 j=0; j < system->getGroups().size(); j++) {
+            SPK::Group *group = system->getGroups()[j];
+            
+            CGUINode *node2 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+            node2->setName("Group");
+            node2->setParent(node);
+            node2->setData(group);
+            node2->setDataType(EPSDT_GROUP);
+            nodesEditor->addNode(node2);
+            node2->addTextField(L"Name :", stringw(node2->getName()).c_str());
+            node2->addVector3DFields(L"Gravity", devices->getCore()->getVector3dfFromSpark(group->getGravity()));
+            node2->addCheckBox(L"AA-BB Computing", group->isAABBComputingEnabled());
+            node2->addButton(L"Add Renderer");
+            node2->addButton(L"Add Emitter");
+			node2->addTextField(L"Friction", stringw(group->getFriction()).c_str());
+			node2->addCheckBox(L"Enable Sorting", group->isSortingEnabled());
+			node2->addCheckBox(L"Enable Distance Computation", group->isDistanceComputationEnabled());
+			node2->addButton(L"Add Modifier...", L"Open dialog to add modifier (vortex, obstacle, etc)");
+            
+            CGUINode *nodeModel = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+            nodeModel->setName("Model");
+            nodeModel->setParent(node2);
+            nodeModel->setData(group->getModel());
+            nodeModel->setDataType(EPSDT_MODEL);
+            nodesEditor->addNode(nodeModel);
+			((IGUIWindow*)nodeModel->getInterface())->getCloseButton()->setVisible(false);
+            nodeModel->addTextField(L"Name :", stringw(nodeModel->getName()).c_str());
+            nodeModel->add2ParametersFields(L"Life Time ", L"Min", L"Max", group->getModel()->getLifeTimeMin(), group->getModel()->getLifeTimeMax());
+            nodeModel->addButton(L"Edit Values...");
+			nodeModel->addButton(L"Edit Interpolators...");
+
+			if (group->getRenderer()) {
+				SPK::IRR::IRRQuadRenderer *renderer = (SPK::IRR::IRRQuadRenderer*)group->getRenderer();
+				CGUINode *nodeRenderer = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+				nodeRenderer->setName("Renderer");
+				nodeRenderer->setParent(node2);
+				nodeRenderer->setData(group->getRenderer());
+				nodeRenderer->setDataType(EPSDT_RENDERER);
+				nodesEditor->addNode(nodeRenderer);
+				nodeRenderer->addTextField(L"Name :", stringw(nodeRenderer->getName()).c_str());
+				nodeRenderer->addDimension2DFields(L"Scale", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleX(),
+																	   ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getScaleY())
+												   );
+				IGUIComboBox *texModecb = nodeRenderer->addComboBox(L"Texturing Mode");
+				texModecb->addItem(L"Texturing None");
+				texModecb->addItem(L"Texturing 2D");
+				texModecb->addItem(L"Texturing 3D");
+				texModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
+				IGUIComboBox *blendModecb = nodeRenderer->addComboBox(L"Blending Mode");
+				blendModecb->addItem(L"Blending None");
+				blendModecb->addItem(L"Blending Add");
+				blendModecb->addItem(L"Blending Alpha");
+				blendModecb->setSelected(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getTexturingMode());
+				nodeRenderer->addDimension2DFields(L"Atlas Dimension ", vector2df(((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Width,
+																				 ((SPK::IRR::IRRQuadRenderer *)group->getRenderer())->getAtlasDimensions().Height)
+												   );
+				nodeRenderer->addButton(L"Configure Texture...");
+				nodeRenderer->addCheckBox(L"Enable Alpha Test", renderer->isRenderingHintEnabled(SPK::ALPHA_TEST));
+				nodeRenderer->addCheckBox(L"Enable Depth Test", renderer->isRenderingHintEnabled(SPK::DEPTH_TEST));
+				nodeRenderer->addCheckBox(L"Enable Depth Write", renderer->isRenderingHintEnabled(SPK::DEPTH_WRITE));
+				nodeRenderer->addCheckBox(L"Set Active", renderer->isActive());
+				nodeRenderer->addTextField(L"Alpha test threshold", stringw(renderer->getAlphaTestThreshold()).c_str());
+			}
+
+            for (u32 k=0; k < group->getEmitters().size(); k++) {
+                SPK::Emitter *emitter = group->getEmitters()[k];
+                
+                CGUINode *node3 = new CGUINode(devices->getGUIEnvironment(), nodesEditor, -1);
+                node3->setName("Emitter");
+                node3->setParent(node2);
+                node3->setData(emitter);
+                node3->setDataType(EPSDT_EMITTER);
+                nodesEditor->addNode(node3);
+                node3->addTextField(L"Name :", stringw(node3->getName()).c_str());
+                node3->addTextField(L"Flow", stringw(emitter->getFlow()));
+                node3->add2ParametersFields(L"Force ", L"Min", L"Max", emitter->getForceMin(), emitter->getForceMax());
+                node3->addButton(L"Configure Zone...");
+				node3->addCheckBox(L"Active", emitter->isActive());
+				node3->addTextField(L"Tank",stringw(emitter->getTank()).c_str());
+				node3->addTextField(L"Change Tank", stringw(emitter->getTank()).c_str());
+				node3->addTextField(L"Flow", stringw(emitter->getFlow()).c_str());
+				node3->addTextField(L"Change Flow", stringw(emitter->getFlow()).c_str());
+            }
+
+			for (u32 k=0; k < group->getModifiers().size(); k++) {
+				SPK::Modifier *modifier = group->getModifiers()[k];
+
+				CUIAddModifier *addModifier = new CUIAddModifier(devices, window, group, nodesEditor, node2);
+				addModifier->createNode(modifier);
+				addModifier->close();
+				delete addModifier;
+
+			}
+
+        }
+    }
 }

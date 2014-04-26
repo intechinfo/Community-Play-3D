@@ -3,6 +3,11 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+using namespace irr;
+using namespace core;
+using namespace video;
+using namespace scene;
+
 namespace SSWETests
 {
 	TEST_CLASS(CCoreDataTests) {
