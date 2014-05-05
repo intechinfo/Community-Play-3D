@@ -27,6 +27,8 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	ScreenQuad.rt[0] = driver->addRenderTargetTexture(ScreenRTTSize, "ColorMapSampler");
 	ScreenQuad.rt[1] = driver->addRenderTargetTexture(ScreenRTTSize, "ScreenMapSampler");
 
+	DOFMapSampler = driver->addRenderTargetTexture(ScreenRTTSize, "DOFMapSampler");
+
 	//LIGHT SCATTERING PASS
 	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
 	useLightScattering = false;
@@ -130,26 +132,25 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		ScreenQuadCB* SQCB = new ScreenQuadCB(this, true);
         
 		// Light modulate.
-		LightModulate = gpu->addHighLevelShaderMaterial(
-                                                        sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+		LightModulate = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                         sPP.ppShader(LIGHT_MODULATE_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
         
 		// Simple present.
-		Simple = gpu->addHighLevelShaderMaterial(
-                                                 sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+		Simple = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                  sPP.ppShader(SIMPLE_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB,
                                                  video::EMT_TRANSPARENT_ADD_COLOR);
         
 		// VSM blur.
-		VSMBlurH = gpu->addHighLevelShaderMaterial(
-                                                   sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+		VSMBlurH = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                    sPP.ppShader(VSM_BLUR_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
         
 		sPP.addShaderDefine("VERTICAL_VSM_BLUR");
         
-		VSMBlurV = gpu->addHighLevelShaderMaterial(
-                                                   sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+		VSMBlurV = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                    sPP.ppShader(VSM_BLUR_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
+
+		DepthOfField = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+													   sPP.ppShader(DEPTH_OF_FIELD_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
 		
 		// Drop the screen quad callback.
 		SQCB->drop();
@@ -178,11 +179,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	motionBlur->getCallback()->m_time = device->getTimer()->getTime();
 
     //DEPTH OF FIELD
-	dof = new ShaderGroup(device, smgr, device->getVideoModeList()->getDesktopResolution());
-	dof->focus = 0.22f;
-	dof->distanceScale = 0.0002f;
-	dof->range = 4.6f;
-	
 	useDOF = false;
 
 	//HDR PIPELINE
@@ -494,24 +490,13 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
         driver->updateAllOcclusionQueries(true);
 	}
 
-	if (useDOF) {
-		dof->render(true);
-		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
-	} else {
-		dof->render(false);
-	}
-
 	if (useMotionBlur && smgr->getActiveCamera() == FPSCamera) {
 		f32 distanceLength = smgr->getActiveCamera()->getRotation().getDistanceFrom(lastCameraRotation);
 		f32 seconds = (device->getTimer()->getTime() - motionBlur->getCallback()->m_time) / 1000.f;
 		motionBlur->getCallback()->m_Strength = ((distanceLength/seconds) * 0.4f) / (25.f / seconds);
-		dof->range = ((distanceLength/seconds) * 9.9) / (1000.f / seconds);
 
 		if (motionBlur->getCallback()->m_Strength > 0.4f) {
 			motionBlur->getCallback()->m_Strength = 0.4f;
-		}
-		if (dof->range > 7.0f) {
-			dof->range = 7.0f;
 		}
 
 		motionBlur->render();
@@ -527,17 +512,6 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 		smgr->drawAll();
 	}
-
-	const u32 PostProcessingRoutinesSize = PostProcessingRoutines.size();
-
-	driver->setRenderTarget(PostProcessingRoutinesSize 
-		? ScreenRTT : outputTarget, true, true, SColor(0x0));
-
-	ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
-	ScreenQuad.getMaterial().setTexture(1, ScreenQuad.rt[0]);
-
-	ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)LightModulate;
-	ScreenQuad.render(driver);
 
 	if (useLightScattering) {
         /// LightScatteringRTT is the RTT we created for the pass
@@ -678,17 +652,25 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
         driver->setRenderTarget(0, false, false);
 	}
 
+	const u32 PostProcessingRoutinesSize = PostProcessingRoutines.size();
+	bool rtTest = (useDOF);
+
+	driver->setRenderTarget(PostProcessingRoutinesSize || rtTest
+		? ScreenRTT : outputTarget, true, true, SColor(0x0));
+
+	ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
+	ScreenQuad.getMaterial().setTexture(1, ScreenQuad.rt[0]);
+
+	ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)LightModulate;
+	ScreenQuad.render(driver);
+
+	//RENDER OTHER POST PROCESSES
 	bool Alter = false;
-	//HDR PIPELINE
-
-
-	
-    //RENDER OTHER POST PROCESSES
+	ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
+	ScreenQuad.getMaterial().setTexture(2, DepthRTT);
 	if(PostProcessingRoutinesSize)
 	{
-		ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
-		ScreenQuad.getMaterial().setTexture(2, DepthRTT);
-        
+      
 		for(u32 i = 0;i < PostProcessingRoutinesSize;++i)
 		{
 			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
@@ -697,8 +679,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 			Alter = !Alter;
 			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
-			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 ?
-									outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 && !rtTest ? outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
 
 			ScreenQuad.render(driver);
 
@@ -708,6 +689,38 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			ScreenQuad.getMaterial().setTexture(2, DepthRTT);
 		}
 	}
+
+	//---------------------------------------------------------------------------------------------------------------
+	//RENDER DEPTH OF FIELD
+	/// Configure screen quad
+	if (useDOF) {
+		driver->setRenderTarget(DOFMapSampler, true, true, ClearColour);
+		ScreenQuad.render(driver);
+		ScreenQuad.getMaterial().setTexture(1, DOFMapSampler);
+
+		/// Horizontal Blur
+		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurH;
+		Alter = !Alter;
+		ScreenQuad.getMaterial().setTexture(0, PostProcessingRoutinesSize == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
+		driver->setRenderTarget(ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+		ScreenQuad.render(driver);
+
+		/// Vertical Blur
+		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurV;
+		Alter = !Alter;
+		ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[int(!Alter)]);
+		driver->setRenderTarget(ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+		ScreenQuad.render(driver);
+
+		/// Depth Of Field
+		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)DepthOfField;
+		Alter = !Alter;
+		ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[int(!Alter)]);
+		driver->setRenderTarget(outputTarget, true, true, ClearColour);
+		ScreenQuad.render(driver);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------
 
 	//HDR PIPELINE
 	if (useHDR) {

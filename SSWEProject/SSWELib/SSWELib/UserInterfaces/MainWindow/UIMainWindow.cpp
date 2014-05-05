@@ -387,7 +387,6 @@ void CUIMainWindow::cloneNode() {
             if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_RECEIVE)) {
                 devices->getXEffect()->addShadowToNode(clonednode, devices->getXEffectFilterType(), ESM_RECEIVE);
             }
-			devices->getDOF()->add(clonednode);
 			
 			if (devices->getXEffect()->isDepthPassed(getSelectedNode().getNode()))
 				devices->getXEffect()->addNodeToDepthPass(clonednode);
@@ -853,7 +852,6 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (terrainsListBox->getSelected() != -1) {
                     devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
-					devices->getDOF()->remove(getSelectedNode().getNode());
 
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
@@ -879,7 +877,6 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
-					devices->getDOF()->remove(getSelectedNode().getNode());
 
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
@@ -905,7 +902,6 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
-					devices->getDOF()->remove(getSelectedNode().getNode());
 
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());
 					getSelectedNode().getNode()->setTriangleSelector(0);
@@ -956,7 +952,6 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (volumeLightsListBox->getSelected() != -1) {
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
-					devices->getDOF()->remove(devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode());
 
 					devices->getCoreData()->getVolumeLightsData()->operator[](volumeLightsListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getVolumeLightsData()->erase(volumeLightsListBox->getSelected());
@@ -983,7 +978,6 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
-					devices->getDOF()->remove(devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface());
 
 					devices->getObjectPlacement()->setNodeToPlace(0);
 					devices->getCollisionManager()->getMetaTriangleSelectors()->removeTriangleSelector(getSelectedNode().getNode()->getTriangleSelector());

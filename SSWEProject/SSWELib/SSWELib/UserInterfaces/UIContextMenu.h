@@ -158,6 +158,8 @@ enum GUI_CXT_MENU_EVENTS {
 
 #include "NodeFactory/CUIWindowEditClouds.h"
 
+#include "ScenarioMaker/CUIScenarioMakerMain.h"
+
 class CUIContextMenu : public IEventReceiver {
 
 public:

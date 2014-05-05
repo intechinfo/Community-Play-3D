@@ -9,6 +9,8 @@
 #ifndef __C_UI_WINDOW_EDIT_DOF_H_INCLUDED__
 #define __C_UI_WINDOW_EDIT_DOF_H_INCLUDED__
 
+#ifdef __COMPILE_WITH_DOF_SUPPORT_
+
 #include "../../Device/CDevices.h"
 
 class CUIWindowEditDOF : public IEventReceiver {
@@ -59,5 +61,7 @@ private:
 	//-----------------------------------
 
 };
+
+#endif
 
 #endif

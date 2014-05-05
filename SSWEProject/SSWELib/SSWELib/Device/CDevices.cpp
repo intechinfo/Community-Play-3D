@@ -39,7 +39,6 @@ CDevices::CDevices(CCoreUserInterface *_coreUserInterface, bool playOnly) {
     //RENDERS
     effect = 0;
 	renderCallbacks = 0;
-	dof = 0;
 
 	renderScene = true;
 
@@ -484,7 +483,6 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->enableDepthPass(false);
 	effect->setFPSCamera(camera_fps);
 
-	dof = effect->getDOF();
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
 
 	renderCore = new CRenderCore(this);
