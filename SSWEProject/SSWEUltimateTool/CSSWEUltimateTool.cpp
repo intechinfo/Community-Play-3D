@@ -58,8 +58,8 @@ void CSSWEUltimateTool::update() {
 										  devices->getVideoDriver()->getScreenSize().Height-25)
 							   );
 
-	if (devices->getGUIEnvironment()->getFocus() == 0)
-		devices->getGUIEnvironment()->getRootGUIElement()->bringToFront(window);
+	//if (devices->getGUIEnvironment()->getFocus() == 0)
+	//	devices->getGUIEnvironment()->getRootGUIElement()->bringToFront(window);
 }
 
 /// Close the plugin

@@ -93,8 +93,6 @@ public:
 
 	CRenderCallbacks *getRenderCallbacks() { return renderCallbacks; }
 
-	ShaderGroup* getDOF() { return dof; }
-
 	bool isRenderScene() { return renderScene; }
 	void setRenderScene(bool _renderScene) { renderScene = _renderScene; }
 
@@ -225,7 +223,6 @@ private:
 	E_FILTER_TYPE filterType;
 	stringc shaderExt;
 
-	ShaderGroup* dof;
 	IPostProcessMotionBlur* motionBlur;
 	CRenderCallbacks *renderCallbacks;
 

@@ -41,7 +41,6 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 	ISceneNode *skydome = smgr->addSkyDomeSceneNode(driver->getTexture("data/Lights/skydome.jpg"), 32, 32, 0.95f, 2.0f);
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
-	coreUserInterface->getDevices()->getDOF()->add(skydome);
     skydome->setVisible(false);
 
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, false);
@@ -55,7 +54,6 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, true);
 	skyboxNode->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkyBox(skyboxNode);
-	coreUserInterface->getDevices()->getDOF()->add(skyboxNode);
     skyboxNode->setVisible(true);
 	coreUserInterface->getDevices()->getXEffect()->setSkyNode(skyboxNode);
 

@@ -67,7 +67,6 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
 				waterSurface->setName(waterSurfaceName.c_str());
                 waterSurface->getWaterSceneNode()->setName(waterSurfaceName.c_str());
                 
-                m_devices->getDOF()->add(waterSurface->getWaterSceneNode());
 				m_devices->getXEffect()->addShadowToNode(waterSurface->getWaterSceneNode(), m_devices->getXEffectFilterType(), ESM_RECEIVE);
 				m_devices->getCollisionManager()->setCollisionFromBoundingBox(waterSurface->getWaterSceneNode());
                 

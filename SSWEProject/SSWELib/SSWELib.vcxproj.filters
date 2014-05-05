@@ -160,6 +160,15 @@
     <Filter Include="SSWELib\Device\Core\Scripting\math">
       <UniqueIdentifier>{c460cb60-fa84-4ad3-8c62-03d28a12fa25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\ScenarioMaker">
+      <UniqueIdentifier>{8b533d51-1e4e-4f39-b089-addd19705e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\UserInterfaces\ScenarioMaker\Utils">
+      <UniqueIdentifier>{2d5fc470-34a0-463d-8ea3-27f6509a5d3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSWELib\GUIExtension\TimeLine">
+      <UniqueIdentifier>{e3d6c600-92b5-4cb2-84b2-ca71bd356601}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -473,6 +482,15 @@
     </ClCompile>
     <ClCompile Include="SSWELib\Device\Core\Scripting\math\CVector3d.cpp">
       <Filter>SSWELib\Device\Core\Scripting\math</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ScenarioMaker\CUIScenarioMakerMain.cpp">
+      <Filter>SSWELib\UserInterfaces\ScenarioMaker</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\ScenarioMaker\Utils\CObjectsUtils.cpp">
+      <Filter>SSWELib\UserInterfaces\ScenarioMaker\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\GUIExtension\TimeLine\CGUITimeLine.cpp">
+      <Filter>SSWELib\GUIExtension\TimeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -859,6 +877,15 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Device\Core\Scripting\math\CVector3d.h">
       <Filter>SSWELib\Device\Core\Scripting\math</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ScenarioMaker\CUIScenarioMakerMain.h">
+      <Filter>SSWELib\UserInterfaces\ScenarioMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\ScenarioMaker\Utils\CObjectsUtils.h">
+      <Filter>SSWELib\UserInterfaces\ScenarioMaker\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\GUIExtension\TimeLine\CGUITimeLine.h">
+      <Filter>SSWELib\GUIExtension\TimeLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

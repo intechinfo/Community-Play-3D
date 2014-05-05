@@ -314,7 +314,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 			
-			stringw scene_to_import = L"LTestDemoGame.world";
+			stringw scene_to_import = L"LTest.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
@@ -381,7 +381,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
     
-    CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
+    //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
 
 	//LIGHT SCATTERING
 	/*devices->getRenderCallbacks()->buildLightScattering();
@@ -394,6 +394,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
     
     //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
+
+	//CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -686,7 +688,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				}
                     break;
 				case CXT_MENU_EVENTS_RENDERS_EDIT_DOF: {
-					CUIWindowEditDOF *editDOF = new CUIWindowEditDOF(devices);
+					//CUIWindowEditDOF *editDOF = new CUIWindowEditDOF(devices);
 				}
 					break;
                 //-----------------------------------

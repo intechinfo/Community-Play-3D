@@ -669,7 +669,6 @@ public:
 	/// Sets if use Depth Of Field
 	void setUseDepthOfField(bool use) { useDOF = use; }
 	bool isUsingDepthOfField() { return useDOF; }
-	ShaderGroup *getDOF() { return dof; }
 
 	/// Sets if use VSM shadows
 	void setUseVSMShadows(bool use) { useVSM = use; }
@@ -792,7 +791,6 @@ private:
 	bool useVSM;
 	bool DepthPass;
 
-	ShaderGroup *dof;
 	bool useDOF;
 
 	IPostProcessMotionBlur *motionBlur;
@@ -808,9 +806,12 @@ private:
 	video::ITexture* hdrRTT0;
 	bool useHDR;
 
-
 	//REFLECTION MAPPING
 	irr::video::ITexture *backRenderRTT;
+
+	//DEPTH OF FIELD
+	irr::s32 DepthOfField;
+	irr::video::ITexture *DOFMapSampler;
 };
 
 #endif

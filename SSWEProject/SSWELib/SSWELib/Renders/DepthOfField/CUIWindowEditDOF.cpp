@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CUIWindowEditDOF.h"
 
+#ifdef __COMPILE_WITH_DOF_SUPPORT_
+
 CUIWindowEditDOF::CUIWindowEditDOF(CDevices *_devices) {
     devices = _devices;
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
@@ -97,3 +99,5 @@ bool CUIWindowEditDOF::OnEvent(const SEvent &event) {
 
 	return false;
 }
+
+#endif

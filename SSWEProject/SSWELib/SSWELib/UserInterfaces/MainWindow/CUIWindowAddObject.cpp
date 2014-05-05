@@ -72,8 +72,6 @@ bool CUIWindowAddObject::OnEvent(const SEvent &event) {
                         stringw objectNodeName = L"#object:";
                         objectNodeName += addObjectEditBox->getText();
                         objectNode->setName(objectNodeName.c_str());
-
-						devices->getDOF()->add(objectNode);
                         
                         devices->getXEffect()->addShadowToNode(objectNode, devices->getXEffectFilterType(), ESM_BOTH);
                         devices->getCollisionManager()->setCollisionToAnAnimatedNode(objectNode);
