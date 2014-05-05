@@ -540,48 +540,51 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	ScreenQuad.render(driver);
 
 	if (useLightScattering) {
+        /// LightScatteringRTT is the RTT we created for the pass
 		driver->setRenderTarget(LightScatteringRTT, true, true, SColor(255, 0, 0, 0));
 
-		core::array<bool> BufferLightsStates;
-		BufferLightsStates.set_used(driver->getDynamicLightCount());
-
-		for (u32 g=0; g < driver->getDynamicLightCount(); g++)
-			driver->turnLightOn(g, false);
-
+        /// LightScatteringPass is the scene nodes array
 		for(u32 i = 0;i < LightScatteringPass.size();++i)
 		{
+            /// Create configurations array
 			core::array<irr::video::SMaterial> BufferMaterialList(LightScatteringPass[i]->getMaterialCount());
 			BufferMaterialList.set_used(0);
 
+            /// Save configurations, here we save all SMateiral structures of the scene nodes
 			for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(LightScatteringPass[i]->getMaterial(g));
             
 			ESCENE_NODE_TYPE type = LightScatteringPass[i]->getType();
 
+            /// Because we chose to render "Bill Boards" normally, we configure all other scene nodes to be
+            /// completely black
 			if (type != ESNT_BILLBOARD) {
 				for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g) {
+                    /// If current material type is a custom material type you created (like Normal Mapping), draw it SOLID.
+                    /// If not, exceptionally, we don't touch the material type to keep transparent materials
 					if (LightScatteringPass[i]->getMaterial(g).MaterialType > EMT_ONETEXTURE_BLEND) {
-						LightScatteringPass[i]->setMaterialType(irr::video::EMT_SOLID);
-						break;
+                        LightScatteringPass[i]->getMaterial(g).MaterialType = EMT_SOLID;
 					}
 				}
 
+                /// Set all materials of the current scene node lighting
 				LightScatteringPass[i]->setMaterialFlag(EMF_LIGHTING, true);
+                /// Configure the emissive color to black
 				for (u32 g=0; g < LightScatteringPass[i]->getMaterialCount(); g++) {
 					LightScatteringPass[i]->getMaterial(g).EmissiveColor = SColor(255, 0, 0, 0);
 				}
 			}
             
+            /// Animate and render the scene node
             LightScatteringPass[i]->OnAnimate(device->getTimer()->getTime());
             LightScatteringPass[i]->render();
 
+            /// Reset current scene node configuration
 			for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g)
 				LightScatteringPass[i]->getMaterial(g) = BufferMaterialList[g];
 		}
-
-		for (u32 g=0; g < driver->getDynamicLightCount(); g++)
-				driver->turnLightOn(g, BufferLightsStates[g]);
         
+        /// Reset current RTT to the previous RTT
         driver->setRenderTarget(0, false, false);
 	}
 
@@ -1206,3 +1209,4 @@ void EffectHandler::updateRadiosity(const irr::u32 time, const bool screenSpaceO
     }
 
 }
+

@@ -484,9 +484,17 @@ void CImporter::readEffects() {
 		read("ppeName");
 		stringc name = xmlReader->getAttributeValue("name");
 		read("ppeShader");
+        #ifndef _IRR_OSX_PLATFORM_
 		stringc shader = stringc(xmlReader->getAttributeValue("shader")).replace("&quot", "\"").replace("\n", "");
+        #else
+        stringc shader = stringc(xmlReader->getAttributeValue("shader")).replace("&quot", "\"").replace("\r", "");
+        #endif
 		read("ppeCallback");
+        #ifndef _IRR_OSX_PLATFORM_
 		stringc callback = stringc(xmlReader->getAttributeValue("callback")).replace("&quot", "\"").replace("\n", "");
+        #else
+        stringc callback = stringc(xmlReader->getAttributeValue("callback")).replace("&quot", "\"").replace("\r", "");
+        #endif
 
 		/// Create
 		SFilter f;
@@ -584,7 +592,11 @@ void CImporter::readMaterialShaderCallbacks() {
 		read("pixel");
 		pixel = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "");
 		read("constants");
+        #ifndef _IRR_OSX_PLATFORM_
 		constants = stringc(xmlReader->getAttributeValue("value")).replace("\n", "");
+        #else
+        constants = stringc(xmlReader->getAttributeValue("value")).replace("\r", "");
+        #endif
 
 		CShaderCallback *callback = new CShaderCallback();
 		callback->setName(name.c_str());

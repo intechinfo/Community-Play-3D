@@ -469,6 +469,12 @@ public:
 	{
 		ClearColour = ClearCol;
 	}
+    
+    void setNewFilterType(E_FILTER_TYPE type) {
+        for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+            ShadowNodeArray[i].filterType = type;
+        }
+    }
 	
 	/**
 	A very easy to use post processing function. Simply add a material type to apply to the screen as a post processing
