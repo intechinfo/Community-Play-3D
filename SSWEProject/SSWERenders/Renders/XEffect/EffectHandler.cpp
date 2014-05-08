@@ -516,6 +516,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	if (useLightScattering) {
         /// LightScatteringRTT is the RTT we created for the pass
 		driver->setRenderTarget(LightScatteringRTT, true, true, SColor(255, 0, 0, 0));
+        
+		for (u32 g=0; g < driver->getDynamicLightCount(); g++)
+			driver->turnLightOn(g, false);
 
         /// LightScatteringPass is the scene nodes array
 		for(u32 i = 0;i < LightScatteringPass.size();++i)
@@ -537,7 +540,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
                     /// If current material type is a custom material type you created (like Normal Mapping), draw it SOLID.
                     /// If not, exceptionally, we don't touch the material type to keep transparent materials
 					if (LightScatteringPass[i]->getMaterial(g).MaterialType > EMT_ONETEXTURE_BLEND) {
-                        LightScatteringPass[i]->getMaterial(g).MaterialType = EMT_SOLID;
+                        //LightScatteringPass[i]->getMaterial(g).MaterialType = EMT_SOLID;
+                        LightScatteringPass[i]->setMaterialType(EMT_SOLID);
+                        break;
 					}
 				}
 
@@ -689,15 +694,16 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			ScreenQuad.getMaterial().setTexture(2, DepthRTT);
 		}
 	}
-
+    
 	//---------------------------------------------------------------------------------------------------------------
 	//RENDER DEPTH OF FIELD
-	/// Configure screen quad
 	if (useDOF) {
+        /// Configure screen quad
 		driver->setRenderTarget(DOFMapSampler, true, true, ClearColour);
-		ScreenQuad.render(driver);
+        driver->draw2DImage(PostProcessingRoutinesSize == 0 ? ScreenRTT : ScreenQuad.rt[int(Alter)], core::rect<s32>(0 ,0 , ScreenRTTSize.Width, ScreenRTTSize.Height),
+							core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height), 0);
 		ScreenQuad.getMaterial().setTexture(1, DOFMapSampler);
-
+        
 		/// Horizontal Blur
 		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurH;
 		Alter = !Alter;

@@ -223,7 +223,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "274"
             endingLineNumber = "274"
-            landmarkName = "CShaderCallback::buildMaterial(irr::video::IVideoDriver *driver)"
+            landmarkName = "CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -400,7 +400,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../SSWELib/SSWELib/UserInterfaces/PluginsManager/CPluginsManager.cpp"

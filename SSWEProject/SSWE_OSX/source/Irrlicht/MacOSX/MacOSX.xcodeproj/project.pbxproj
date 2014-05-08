@@ -262,6 +262,9 @@
 		0E2E3D811103E6E4002DE8D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E3D791103E6E4002DE8D7 /* main.cpp */; };
 		2E1C22F418930905003033A3 /* libSSWELib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C60F91829835E00FB1027 /* libSSWELib.a */; };
 		2E202BE4187B55D000F44BB0 /* CUIWindowEditFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */; };
+		2E247FD51905DB0500410104 /* CParticleSystemsImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E247FD21905DB0500410104 /* CParticleSystemsImporter.cpp */; };
+		2E247FD61905DB0500410104 /* CParticleSystemsImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E247FD31905DB0500410104 /* CParticleSystemsImporter.h */; };
+		2E247FD71905DB0500410104 /* CParticleSystemsTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E247FD41905DB0500410104 /* CParticleSystemsTypes.h */; };
 		2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
 		2E2CA48F182D6DD7000BA9DA /* CCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C601D182981B700FB1027 /* CCollisionManager.h */; };
 		2E2CA491182D6DD7000BA9DA /* CCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6020182981B700FB1027 /* CCore.h */; };
@@ -286,6 +289,8 @@
 		2E2CA4B2182D6DF8000BA9DA /* XEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F64182980FA00FB1027 /* XEffects.h */; };
 		2E2CA4B4182D6DF8000BA9DA /* SSWERenders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
 		2E2CA4B6182D6DF8000BA9DA /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
+		2E360D3F1904B05300DF1C3E /* CUIParticleExport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E360D3D1904B05300DF1C3E /* CUIParticleExport.cpp */; };
+		2E360D401904B05300DF1C3E /* CUIParticleExport.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E360D3E1904B05300DF1C3E /* CUIParticleExport.h */; };
 		2E4129A218FC0D830086FD21 /* CUIAddEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E41299E18FC0D830086FD21 /* CUIAddEmitter.cpp */; };
 		2E4129A318FC0D830086FD21 /* CUIAddEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E41299F18FC0D830086FD21 /* CUIAddEmitter.h */; };
 		2E4129A418FC0D830086FD21 /* CUIAddModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4129A018FC0D830086FD21 /* CUIAddModifier.cpp */; };
@@ -746,6 +751,12 @@
 		2E932B26182E8311005FB341 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5687431719AE69007C0D05 /* CImageLoaderDDS.cpp */; };
 		2EAA30FA1854CF5400AE73CC /* RealisticWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA30F81854CF5400AE73CC /* RealisticWater.cpp */; };
 		2EBDA183188881680020D61A /* CUIEditParticleFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */; };
+		2EDA915719072B6500D83D90 /* CVector3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDA915519072B6500D83D90 /* CVector3d.cpp */; };
+		2EDA915819072B6500D83D90 /* CVector3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDA915619072B6500D83D90 /* CVector3d.h */; };
+		2EDE4F3E1918176B00C53ADD /* CUIScenarioMakerMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDE4F391918176B00C53ADD /* CUIScenarioMakerMain.cpp */; };
+		2EDE4F3F1918176B00C53ADD /* CUIScenarioMakerMain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDE4F3A1918176B00C53ADD /* CUIScenarioMakerMain.h */; };
+		2EDE4F401918176B00C53ADD /* CObjectsUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDE4F3C1918176B00C53ADD /* CObjectsUtils.cpp */; };
+		2EDE4F411918176B00C53ADD /* CObjectsUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDE4F3D1918176B00C53ADD /* CObjectsUtils.h */; };
 		2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */; };
 		2EE402B918494DD70058DD93 /* CGUINode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B718494DD70058DD93 /* CGUINode.cpp */; };
 		2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */; };
@@ -2115,6 +2126,11 @@
 		0E2E3E321103F773002DE8D7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditFilters.cpp; sourceTree = "<group>"; };
 		2E202BE3187B55D000F44BB0 /* CUIWindowEditFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIWindowEditFilters.h; sourceTree = "<group>"; };
+		2E247FD21905DB0500410104 /* CParticleSystemsImporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CParticleSystemsImporter.cpp; sourceTree = "<group>"; };
+		2E247FD31905DB0500410104 /* CParticleSystemsImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CParticleSystemsImporter.h; sourceTree = "<group>"; };
+		2E247FD41905DB0500410104 /* CParticleSystemsTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CParticleSystemsTypes.h; sourceTree = "<group>"; };
+		2E360D3D1904B05300DF1C3E /* CUIParticleExport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIParticleExport.cpp; path = ParticlesEditor/CUIParticleExport.cpp; sourceTree = "<group>"; };
+		2E360D3E1904B05300DF1C3E /* CUIParticleExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleExport.h; path = ParticlesEditor/CUIParticleExport.h; sourceTree = "<group>"; };
 		2E41299E18FC0D830086FD21 /* CUIAddEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIAddEmitter.cpp; path = ParticlesEditor/CUIAddEmitter.cpp; sourceTree = "<group>"; };
 		2E41299F18FC0D830086FD21 /* CUIAddEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIAddEmitter.h; path = ParticlesEditor/CUIAddEmitter.h; sourceTree = "<group>"; };
 		2E4129A018FC0D830086FD21 /* CUIAddModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIAddModifier.cpp; path = ParticlesEditor/CUIAddModifier.cpp; sourceTree = "<group>"; };
@@ -2557,6 +2573,12 @@
 		2EAA30F91854CF5400AE73CC /* RealisticWater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealisticWater.h; sourceTree = "<group>"; };
 		2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIEditParticleFlags.cpp; path = ParticlesEditor/CUIEditParticleFlags.cpp; sourceTree = "<group>"; };
 		2EBDA182188881680020D61A /* CUIEditParticleFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIEditParticleFlags.h; path = ParticlesEditor/CUIEditParticleFlags.h; sourceTree = "<group>"; };
+		2EDA915519072B6500D83D90 /* CVector3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVector3d.cpp; sourceTree = "<group>"; };
+		2EDA915619072B6500D83D90 /* CVector3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVector3d.h; sourceTree = "<group>"; };
+		2EDE4F391918176B00C53ADD /* CUIScenarioMakerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIScenarioMakerMain.cpp; sourceTree = "<group>"; };
+		2EDE4F3A1918176B00C53ADD /* CUIScenarioMakerMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIScenarioMakerMain.h; sourceTree = "<group>"; };
+		2EDE4F3C1918176B00C53ADD /* CObjectsUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CObjectsUtils.cpp; sourceTree = "<group>"; };
+		2EDE4F3D1918176B00C53ADD /* CObjectsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CObjectsUtils.h; sourceTree = "<group>"; };
 		2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINodesEditor.cpp; sourceTree = "<group>"; };
 		2EE402B4184947990058DD93 /* CGUINodesEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGUINodesEditor.h; sourceTree = "<group>"; };
 		2EE402B718494DD70058DD93 /* CGUINode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CGUINode.cpp; sourceTree = "<group>"; };
@@ -4302,6 +4324,16 @@
 			path = 23.SMeshHandling;
 			sourceTree = "<group>";
 		};
+		2E247FD11905DB0500410104 /* ParticleSystems */ = {
+			isa = PBXGroup;
+			children = (
+				2E247FD21905DB0500410104 /* CParticleSystemsImporter.cpp */,
+				2E247FD31905DB0500410104 /* CParticleSystemsImporter.h */,
+				2E247FD41905DB0500410104 /* CParticleSystemsTypes.h */,
+			);
+			path = ParticleSystems;
+			sourceTree = "<group>";
+		};
 		2E6C5D961829801100FB1027 /* Irrlicht */ = {
 			isa = PBXGroup;
 			children = (
@@ -4563,6 +4595,7 @@
 				2E6C6117182983A200FB1027 /* CCoreUserInterface.h */,
 				2E6C6118182983A200FB1027 /* CRenderCore.cpp */,
 				2E6C6119182983A200FB1027 /* CRenderCore.h */,
+				2E247FD11905DB0500410104 /* ParticleSystems */,
 				2E6C611A182983A200FB1027 /* Scripting */,
 			);
 			path = Core;
@@ -4571,6 +4604,7 @@
 		2E6C611A182983A200FB1027 /* Scripting */ = {
 			isa = PBXGroup;
 			children = (
+				2EDA915419072AC400D83D90 /* math */,
 				2E6C611B182983A200FB1027 /* CFileSystemScripting.cpp */,
 				2E6C611C182983A200FB1027 /* CFileSystemScripting.h */,
 				2E6C611D182983A200FB1027 /* CLuaBinds.cpp */,
@@ -4786,6 +4820,7 @@
 		2E6C6169182983A400FB1027 /* UserInterfaces */ = {
 			isa = PBXGroup;
 			children = (
+				2EDE4F381918176B00C53ADD /* ScenarioMaker */,
 				2E6E76D118E9A6D900A1D14D /* Radiosity */,
 				2E92B78B18492CA900D955F8 /* ParticlesEditor */,
 				2E6C616A182983A400FB1027 /* AnimatorsEditor */,
@@ -5402,6 +5437,8 @@
 		2E92B78B18492CA900D955F8 /* ParticlesEditor */ = {
 			isa = PBXGroup;
 			children = (
+				2E360D3D1904B05300DF1C3E /* CUIParticleExport.cpp */,
+				2E360D3E1904B05300DF1C3E /* CUIParticleExport.h */,
 				2E41299E18FC0D830086FD21 /* CUIAddEmitter.cpp */,
 				2E41299F18FC0D830086FD21 /* CUIAddEmitter.h */,
 				2E4129A018FC0D830086FD21 /* CUIAddModifier.cpp */,
@@ -5418,6 +5455,34 @@
 				2EE402BC18494F970058DD93 /* CUIParticleEditor.h */,
 			);
 			name = ParticlesEditor;
+			sourceTree = "<group>";
+		};
+		2EDA915419072AC400D83D90 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				2EDA915519072B6500D83D90 /* CVector3d.cpp */,
+				2EDA915619072B6500D83D90 /* CVector3d.h */,
+			);
+			path = math;
+			sourceTree = "<group>";
+		};
+		2EDE4F381918176B00C53ADD /* ScenarioMaker */ = {
+			isa = PBXGroup;
+			children = (
+				2EDE4F391918176B00C53ADD /* CUIScenarioMakerMain.cpp */,
+				2EDE4F3A1918176B00C53ADD /* CUIScenarioMakerMain.h */,
+				2EDE4F3B1918176B00C53ADD /* Utils */,
+			);
+			path = ScenarioMaker;
+			sourceTree = "<group>";
+		};
+		2EDE4F3B1918176B00C53ADD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				2EDE4F3C1918176B00C53ADD /* CObjectsUtils.cpp */,
+				2EDE4F3D1918176B00C53ADD /* CObjectsUtils.h */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		2EE402B2184947990058DD93 /* NodesEditor */ = {
@@ -5993,15 +6058,20 @@
 				2E6E76AE18E9A3B100A1D14D /* ISSWERender.h in Headers */,
 				2E6E76DA18E9A6D900A1D14D /* CRadiosityGenerator.h in Headers */,
 				2E6E76A318E9A3B100A1D14D /* IDevices.h in Headers */,
+				2EDE4F3F1918176B00C53ADD /* CUIScenarioMakerMain.h in Headers */,
 				2E6E76AD18E9A3B100A1D14D /* ISSWELibPlugin.h in Headers */,
 				2E6E76E018E9A6D900A1D14D /* mtrand.h in Headers */,
 				2E6E76C018E9A60700A1D14D /* CFilterCallback.h in Headers */,
 				2E4129A518FC0D830086FD21 /* CUIAddModifier.h in Headers */,
 				2E6E76DC18E9A6D900A1D14D /* CUILightMapsCreator.h in Headers */,
+				2E247FD71905DB0500410104 /* CParticleSystemsTypes.h in Headers */,
 				2E6E76A518E9A3B100A1D14D /* IGUICodeEditor.h in Headers */,
 				2E6E76E118E9A6D900A1D14D /* types.h in Headers */,
+				2E360D401904B05300DF1C3E /* CUIParticleExport.h in Headers */,
 				2E6E76B818E9A5C000A1D14D /* CUIParticlesEditZone.h in Headers */,
 				2E6E76DE18E9A6D900A1D14D /* CUVTree.h in Headers */,
+				2EDE4F411918176B00C53ADD /* CObjectsUtils.h in Headers */,
+				2EDA915819072B6500D83D90 /* CVector3d.h in Headers */,
 				2E6E76B018E9A3B100A1D14D /* ITool.h in Headers */,
 				2E6E76AA18E9A3B100A1D14D /* ISSWECoreUserInterface.h in Headers */,
 				2E6E76AF18E9A3B100A1D14D /* ISSWEShaderCallback.h in Headers */,
@@ -6018,6 +6088,7 @@
 				2E6E76A718E9A3B100A1D14D /* IMonitorRegisterer.h in Headers */,
 				2E6E76AC18E9A3B100A1D14D /* ISSWEImporter.h in Headers */,
 				2E6E76A218E9A3B100A1D14D /* ICollisionManager.h in Headers */,
+				2E247FD61905DB0500410104 /* CParticleSystemsImporter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7398,6 +7469,7 @@
 				2E6C62C0182983CD00FB1027 /* CloudSceneNode.h in Sources */,
 				2E6C62C1182983CD00FB1027 /* LensFlareSceneNode.cpp in Sources */,
 				2E6C62C2182983CD00FB1027 /* LensFlareSceneNode.h in Sources */,
+				2EDE4F401918176B00C53ADD /* CObjectsUtils.cpp in Sources */,
 				2E6C62C3182983CD00FB1027 /* SceneNodeAnimatorFollowCamera.cpp in Sources */,
 				2E6C62C4182983CD00FB1027 /* SceneNodeAnimatorFollowCamera.h in Sources */,
 				2E6C62C5182983CD00FB1027 /* CTerrain.cpp in Sources */,
@@ -7440,6 +7512,7 @@
 				2E6C62E4182983CD00FB1027 /* CUIWindowEditNode.h in Sources */,
 				2E6E76B718E9A5C000A1D14D /* CUIParticlesEditZone.cpp in Sources */,
 				2E6C62E5182983CD00FB1027 /* CUIWindowEditVolumeLight.cpp in Sources */,
+				2EDE4F3E1918176B00C53ADD /* CUIScenarioMakerMain.cpp in Sources */,
 				2E6C62E6182983CD00FB1027 /* CUIWindowEditVolumeLight.h in Sources */,
 				2E6C62E7182983CD00FB1027 /* CUIWindowEditWater.cpp in Sources */,
 				2E6C62E8182983CD00FB1027 /* CUIWindowEditWater.h in Sources */,
@@ -7447,11 +7520,13 @@
 				2E6C62EA182983CD00FB1027 /* CUIWindowExportScene.h in Sources */,
 				2E6C62EB182983CD00FB1027 /* CUIWindowOpenScene.cpp in Sources */,
 				2E6C62EC182983CD00FB1027 /* CUIWindowOpenScene.h in Sources */,
+				2E360D3F1904B05300DF1C3E /* CUIParticleExport.cpp in Sources */,
 				2E6C62ED182983CD00FB1027 /* CUIWindowsManager.cpp in Sources */,
 				2E6C62EE182983CD00FB1027 /* CUIWindowsManager.h in Sources */,
 				2E6C62EF182983CD00FB1027 /* CUIWindowAddLight.cpp in Sources */,
 				2E6C62F0182983CD00FB1027 /* CUIWindowAddLight.h in Sources */,
 				2E6C62F1182983CD00FB1027 /* CUIWindowAddObject.cpp in Sources */,
+				2E247FD51905DB0500410104 /* CParticleSystemsImporter.cpp in Sources */,
 				2E6C62F2182983CD00FB1027 /* CUIWindowAddObject.h in Sources */,
 				2E6C62F3182983CD00FB1027 /* CUIWindowAddTerrain.cpp in Sources */,
 				2E6C62F4182983CD00FB1027 /* CUIWindowAddTerrain.h in Sources */,
@@ -7459,6 +7534,7 @@
 				2E6C62F6182983CD00FB1027 /* CUIWindowAddTree.h in Sources */,
 				2E6C62F7182983CD00FB1027 /* CUIWindowAddVolumeLight.cpp in Sources */,
 				2E6C62F8182983CD00FB1027 /* CUIWindowAddVolumeLight.h in Sources */,
+				2EDA915719072B6500D83D90 /* CVector3d.cpp in Sources */,
 				2E6C62F9182983CD00FB1027 /* CUIWindowAddWatersSurface.cpp in Sources */,
 				2E6C62FA182983CD00FB1027 /* CUIWindowAddWatersSurface.h in Sources */,
 				2E6C62FB182983CD00FB1027 /* UIMainWindow.cpp in Sources */,

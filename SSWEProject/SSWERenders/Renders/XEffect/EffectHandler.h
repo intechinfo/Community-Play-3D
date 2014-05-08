@@ -13,6 +13,21 @@
 
 #include <ISSWERender.h>
 
+
+/// Internal the CP3D, it allow point lights computation.
+/// It is a "deffered rendering like", each pass we change the current target of the light
+/// With this method the FPS will not fall but will need more than 24 FPS to be fuild.
+
+enum E_SHADOW_LIGHT_CURRENT_PASS {
+    ESLCP_FRONT = 0,
+    ESLCP_LEFT,
+    ESLCP_BACK,
+    ESLCP_RIGHT,
+    ESLCP_UP,
+    ESLCP_DOWN,
+    ESLCP_COUNT
+};
+
 /// Shadow light constructor. The first parameter is the square shadow map resolution.
 /// This should be a power of 2 number, and within reasonable size to achieve optimal
 /// performance and quality. Recommended sizes are 512 to 4096 subject to your target
@@ -39,6 +54,7 @@ struct SShadowLight : public ICP3DShadowLight
 		this->nearValue = _nearValue;
 		frontOfView = fov;
 		isDirectional = directional;
+        isSpot = !directional;
 
 		updateViewMatrix();
 		
@@ -50,6 +66,8 @@ struct SShadowLight : public ICP3DShadowLight
 		recalculate = true;
 		autoRecalculate = false;
 		isCamera = false;
+        
+        pointLightDepthMaps.set_used(0);
 	}
 
 	/// Sets the light's position.
@@ -145,22 +163,29 @@ struct SShadowLight : public ICP3DShadowLight
 
 	/// Change the shadow light mode
 	void setLightType(E_SHADOW_LIGHT_TYPE type) {
-		pointShadowLights.clear();
-		isDirectional = false;
-		projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
 
-		updateViewMatrix();
 		if (type == ESLT_DIRECTIONAL) {
 			isDirectional = true;
+            isSpot = false;
 			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
-		} else {
-			for (u32 i=0; i < 5; i++) {
-				pointShadowLights.push_back(SShadowLight(this->getShadowMapResolution(), this->getPosition(),
-														 this->getTarget(), this->getLightColor(), this->getNearValue(), 
-														 this->getFarValue(), this->getFOV(), false));
-			}
-		}
+            updateViewMatrix();
+		} else if (type == ESLT_SPOT) {
+            isDirectional = false;
+            isSpot = true;
+            projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+            updateViewMatrix();
+        } else {
+            isSpot = false;
+            isDirectional = false;
+        }
 	}
+    
+    void createPointLightDepthMaps(irr::video::IVideoDriver *driver, bool use32BitDepth, irr::core::stringc smname) {
+        for (irr::u32 i=0; i < 5; i++) {
+            pointLightDepthMaps.push_back(driver->addRenderTargetTexture(irr::core::dimension2du(mapRes, mapRes),
+                                                                         smname.c_str(), use32BitDepth ? irr::video::ECF_G32R32F : irr::video::ECF_G16R16F));
+        }
+    }
 
 private:
 
@@ -181,8 +206,10 @@ private:
 	bool autoRecalculate;
 	bool isCamera;
 	bool isDirectional;
+    bool isSpot;
 
-	irr::core::array<SShadowLight> pointShadowLights;
+	irr::core::array<irr::video::ITexture*> pointLightDepthMaps;
+    E_SHADOW_LIGHT_CURRENT_PASS currentPointPass;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -702,8 +729,6 @@ public:
 	void setFPSCamera(irr::scene::ICameraSceneNode *camera) { FPSCamera = camera; }
 	#endif
 
-	void setSkyNode(irr::scene::ISceneNode *node) { skyNode = node; }
-
 private:
 
 	struct SShadowNode
@@ -802,8 +827,6 @@ private:
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;
 	irr::core::vector3df lastCameraRotation;
-
-	irr::scene::ISceneNode *skyNode;
 
 	//HDR PIPELINE
 	irr::s32 HDRModel;
