@@ -439,8 +439,6 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                 }
 				if (event.GUIEvent.Caller == shadowLightTypecb) {
 					devices->getXEffect()->getShadowLight(index).setLightType((E_SHADOW_LIGHT_TYPE)shadowLightTypecb->getSelected());
-					if (shadowLightTypecb->getSelected() == 1)
-						devices->getXEffect()->getShadowLight(index).setLightType(ESLT_SPOT);
 				}
             }
 

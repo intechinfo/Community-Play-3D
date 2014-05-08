@@ -46,7 +46,7 @@ struct SShadowLight : public ICP3DShadowLight
 					const irr::core::vector3df& target,
 					irr::video::SColorf lightColour = irr::video::SColor(0xffffffff), 
 					irr::f32 _nearValue = 10.0, irr::f32 farValue = 100.0,
-					irr::f32 fov = 90.0 * irr::core::DEGTORAD64, bool directional = false)
+					irr::f32 fov = 90.0 * irr::core::DEGTORAD64, bool directional = false, bool isParent=true)
 					:	pos(position), tar(target), farPlane(directional ? 1.0f : farValue), diffuseColour(lightColour), 
 						mapRes(shadowMapResolution)
 	{
@@ -67,18 +67,37 @@ struct SShadowLight : public ICP3DShadowLight
 		autoRecalculate = false;
 		isCamera = false;
         
-        pointLightDepthMaps.set_used(0);
+		this->isParent = isParent;
+		if (isParent)
+			shadowLights.push_back(SShadowLight(mapRes, pos, tar, diffuseColour, this->nearValue, farPlane, frontOfView, directional, false));
 	}
 
 	/// Sets the light's position.
 	void setPosition(const irr::core::vector3df& position) {
 		pos = position;
 		updateViewMatrix();
+		if (!isParent) return;
+		if (isDirectional || isSpot) {
+			shadowLights[0].setPosition(position);
+		} else {
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setPosition(position);
+			shadowLights[0].setTarget(irr::core::vector3df(position.X-1.f, position.Y, position.Z));
+			shadowLights[1].setTarget(irr::core::vector3df(position.X+1.f, position.Y, position.Z));
+			shadowLights[2].setTarget(irr::core::vector3df(position.X, position.Y-1.f, position.Z));
+			shadowLights[3].setTarget(irr::core::vector3df(position.X, position.Y+1.f, position.Z));
+			shadowLights[4].setTarget(irr::core::vector3df(position.X, position.Y, position.Z-1.f));
+			shadowLights[5].setTarget(irr::core::vector3df(position.X, position.Y, position.Z+1.f));
+		}
 	}
 	/// Sets the light's target.
 	void setTarget(const irr::core::vector3df& target) {
 		tar = target;
 		updateViewMatrix();
+		if (!isParent) return;
+		if (isDirectional || isSpot) {
+			shadowLights[0].setTarget(target);
+		}
 	}
 
 	/// Gets the light's position.
@@ -91,11 +110,24 @@ struct SShadowLight : public ICP3DShadowLight
 		irr::core::matrix4 vInverse;
 		viewMat.getInverse(vInverse);
 		pos = vInverse.getTranslation();
+		if (!isParent) return;
+		if (isDirectional || isSpot) {
+			shadowLights[0].setViewMatrix(matrix);
+		} else {
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setViewMatrix(matrix);
+		}
 	}
 
 	/// Sets the light's projection matrix.
 	void setProjectionMatrix(const irr::core::matrix4& matrix) {
 		projMat = matrix;
+		if (!isParent) return;
+		if (isDirectional || isSpot)
+			shadowLights[0].setProjectionMatrix(matrix);
+		else
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setProjectionMatrix(matrix);
 	}
 	irr::core::matrix4& getViewMatrix() { return viewMat; }
 	irr::core::matrix4& getProjectionMatrix() { return projMat; }
@@ -105,12 +137,20 @@ struct SShadowLight : public ICP3DShadowLight
     void setFarValue(const irr::f32 _farPlane) {
 		farPlane = _farPlane;
 		recalculate = true;
+		if (!isParent) return;
+		if (isDirectional || isSpot) {
+			shadowLights[0].setFarValue(_farPlane);
+		} else {
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setFarValue(_farPlane);
+		}
 	}
 
 	/// Gets the near value
 	irr::f32 getNearValue() { return nearValue; }
 	void setNearValue(irr::f32 _nearValue) {
 		nearValue = _nearValue;
+		if (!isParent) return;
 		if(isDirectional)
 			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
 		else
@@ -125,32 +165,79 @@ struct SShadowLight : public ICP3DShadowLight
 			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
 		else
 			projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+		if (!isParent) return;
+		if (isDirectional || isSpot) {
+			shadowLights[0].setFOV(_fov);
+		} else {
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setFOV(_fov);
+		}
 	}
 
 	/// Gets the light's color.
 	const irr::video::SColorf& getLightColor() const { return diffuseColour; }
 	void setLightColor(const irr::video::SColorf& lightColour)  {
 		diffuseColour = lightColour;
+		if (!isParent) return;
+		if (isDirectional || isSpot)
+			shadowLights[0].setLightColor(lightColour);
+		else
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setLightColor(lightColour);
 	}
 
 	/// Sets the shadow map resolution for this light.
 	void setShadowMapResolution(irr::u32 shadowMapResolution) {
 		mapRes = shadowMapResolution;
 		recalculate = true;
+		if (!isParent) return;
+		if (isDirectional || isSpot) {
+			shadowLights[0].setShadowMapResolution(shadowMapResolution);
+		} else {
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setShadowMapResolution(shadowMapResolution);
+		}
 	}
 	irr::u32& getShadowMapResolution() { return mapRes; }
 
 	/// Sets if we must recalculate shadow map
 	bool mustRecalculate() { return recalculate; }
-	void setRecalculate(bool _recalculate) { recalculate = _recalculate; }
+	void setRecalculate(bool _recalculate) {
+		recalculate = _recalculate;
+		if (!isParent) return;
+		if (isDirectional || isSpot)
+			shadowLights[0].setRecalculate(_recalculate);
+		else
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setRecalculate(_recalculate);
+	}
 
 	/// Sets if we must auto recalculate shadow map
 	bool isAutoRecalculate() { return autoRecalculate; }
-	void setAutoRecalculate(bool _autoRecalculate) { autoRecalculate = _autoRecalculate; }
+	void setAutoRecalculate(bool _autoRecalculate) {
+		autoRecalculate = _autoRecalculate;
+		if (!isParent) return;
+		if (isDirectional || isSpot)
+			shadowLights[0].setAutoRecalculate(_autoRecalculate);
+		else
+			for (irr::u32 i=0; i < 6; i++)
+				shadowLights[i].setAutoRecalculate(_autoRecalculate);
+	}
 
 	/// Sets if is torch mode
 	bool isTorchMode() { return isCamera; }
-	void setTorchMode(bool use) { isCamera = use; }
+	void setTorchMode(bool use) {
+		if (isDirectional || isSpot)
+			isCamera = use;
+		if (!isParent) return;
+		if (isDirectional ||isSpot)
+			shadowLights[0].setTorchMode(use);
+	}
+
+	/// Get current light type
+	E_SHADOW_LIGHT_TYPE getLightType() {
+		return (!isDirectional && !isSpot) ? ESLT_POINT : (isDirectional) ? ESLT_DIRECTIONAL : ESLT_SPOT;
+	}
 
 	void setDirection(bool set) {
 		if (set) {
@@ -163,29 +250,34 @@ struct SShadowLight : public ICP3DShadowLight
 
 	/// Change the shadow light mode
 	void setLightType(E_SHADOW_LIGHT_TYPE type) {
+		shadowLights.clear();
 
 		if (type == ESLT_DIRECTIONAL) {
 			isDirectional = true;
             isSpot = false;
 			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
             updateViewMatrix();
+			shadowLights.push_back(SShadowLight(mapRes, pos, tar, diffuseColour, this->nearValue, farPlane, frontOfView, isDirectional, false));
 		} else if (type == ESLT_SPOT) {
             isDirectional = false;
             isSpot = true;
             projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
             updateViewMatrix();
+			shadowLights.push_back(SShadowLight(mapRes, pos, tar, diffuseColour, this->nearValue, farPlane, frontOfView, isDirectional, false));
         } else {
+			projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
+            updateViewMatrix();
             isSpot = false;
             isDirectional = false;
+			for (irr::u32 i=0; i < 6; i++) {
+				SShadowLight l = SShadowLight(mapRes, pos, tar, diffuseColour, this->nearValue, farPlane, frontOfView, false, false);
+				shadowLights.push_back(l);
+			}
         }
 	}
-    
-    void createPointLightDepthMaps(irr::video::IVideoDriver *driver, bool use32BitDepth, irr::core::stringc smname) {
-        for (irr::u32 i=0; i < 5; i++) {
-            pointLightDepthMaps.push_back(driver->addRenderTargetTexture(irr::core::dimension2du(mapRes, mapRes),
-                                                                         smname.c_str(), use32BitDepth ? irr::video::ECF_G32R32F : irr::video::ECF_G16R16F));
-        }
-    }
+
+	irr::u32 getShadowLightCount() { return shadowLights.size(); }
+	SShadowLight &getShadowLight(irr::u32 i) { return shadowLights[i]; }
 
 private:
 
@@ -207,9 +299,9 @@ private:
 	bool isCamera;
 	bool isDirectional;
     bool isSpot;
+	bool isParent;
 
-	irr::core::array<irr::video::ITexture*> pointLightDepthMaps;
-    E_SHADOW_LIGHT_CURRENT_PASS currentPointPass;
+	irr::core::array<SShadowLight> shadowLights;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -276,7 +368,7 @@ public:
 	/// Only one shadow map is kept for each resolution, so if multiple lights are using
 	/// the same resolution, you will only see the last light drawn's output.
 	/// The secondary param specifies whether to retrieve the secondary shadow map used in blurring.
-	irr::video::ITexture* getShadowMapTexture(const irr::u32 resolution, const bool secondary = false, const irr::u32 id = 0);
+	irr::video::ITexture* getShadowMapTexture(const irr::u32 resolution, const bool secondary = false, const irr::u32 id = 0, const irr::u32 id2 = 0);
 
 	/// Retrieves the screen depth map texture if the depth pass is enabled. This is unrelated to the shadow map, and is
 	/// meant to be used for post processing effects that require screen depth info, eg. DOF or SSAO.

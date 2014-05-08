@@ -316,118 +316,121 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
 		const u32 LightListSize = LightList.size();
 		for(u32 l = 0;l < LightListSize;++l) {
+			for (u32 ll=0; ll < LightList[l].getShadowLightCount(); ll++) {
             
-			if (LightList[l].getFarValue() == 0 || LightList[l].getPosition().getDistanceFrom(optCameraPos) > LightList[l].getFarValue())
-                continue;
-            
-			currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
-			if (LightList[l].mustRecalculate() || LightList[l].isAutoRecalculate()) {
-				depthMC->FarLink = LightList[l].getFarValue();
+				if (LightList[l].getShadowLight(ll).getFarValue() == 0
+					|| LightList[l].getShadowLight(ll).getPosition().getDistanceFrom(optCameraPos) > LightList[l].getShadowLight(ll).getFarValue())
+					continue;
 
-				driver->setTransform(ETS_VIEW, LightList[l].getViewMatrix());
-				driver->setTransform(ETS_PROJECTION, LightList[l].getProjectionMatrix());
+				currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowLight(ll).getShadowMapResolution(), false, l, ll);
+				if (LightList[l].getShadowLight(ll).mustRecalculate() || LightList[l].getShadowLight(ll).isAutoRecalculate()) {
+					depthMC->FarLink = LightList[l].getShadowLight(ll).getFarValue();
 
-				//currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
-				driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
+					driver->setTransform(ETS_VIEW, LightList[l].getShadowLight(ll).getViewMatrix());
+					driver->setTransform(ETS_PROJECTION, LightList[l].getShadowLight(ll).getProjectionMatrix());
 
-				for(u32 i = 0;i < ShadowNodeArraySize;++i) {
-					if(ShadowNodeArray[i].shadowMode == ESM_RECEIVE || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
+					//currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowMapResolution(), false, l);
+					driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
+
+					for(u32 i = 0;i < ShadowNodeArraySize;++i) {
+						if(ShadowNodeArray[i].shadowMode == ESM_RECEIVE || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
+							continue;
+
+						if (!ShadowNodeArray[i].node->isVisible())
+							continue;
+
+						const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
+						core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
+						BufferMaterialList.set_used(0);
+
+						for(u32 m = 0;m < CurrentMaterialCount;++m) {
+							BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
+							ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)
+								(BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF || driver->getMaterialRenderer(BufferMaterialList[m])->isTransparent()
+															? DepthT : Depth);
+						}
+
+						ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
+						ShadowNodeArray[i].node->render();
+
+						const u32 BufferMaterialListSize = BufferMaterialList.size();
+						for(u32 m = 0;m < BufferMaterialListSize;++m)
+							ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
+					}
+				}
+
+				// Blur the shadow map texture if we're using VSM filtering.
+				if (LightList[l].getShadowLight(ll).mustRecalculate() || LightList[l].getShadowLight(ll).isAutoRecalculate()) {
+					if(useVSM) {
+						ITexture *currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowLight(ll).getShadowMapResolution(), true, l);
+
+						driver->setRenderTarget(currentSecondaryShadowMap, true, true, SColor(0xffffffff));
+						ScreenQuad.getMaterial().setTexture(0, currentShadowMapTexture);
+						ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurH;
+				
+						ScreenQuad.render(driver);
+
+						driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
+						ScreenQuad.getMaterial().setTexture(0, currentSecondaryShadowMap);
+						ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurV;
+				
+						ScreenQuad.render(driver);
+					}
+				}
+
+				LightList[l].getShadowLight(ll).setRecalculate(false);
+
+				driver->setRenderTarget(ScreenQuad.rt[1], true, true, SColor(0xffffffff));
+
+				driver->setTransform(ETS_VIEW, activeCam->getViewMatrix());
+				driver->setTransform(ETS_PROJECTION, activeCam->getProjectionMatrix());
+
+				shadowMC->LightColour = LightList[l].getShadowLight(ll).getLightColor();
+				shadowMC->LightLink = LightList[l].getShadowLight(ll).getPosition();
+				shadowMC->FarLink = LightList[l].getShadowLight(ll).getFarValue();
+				shadowMC->ViewLink = LightList[l].getShadowLight(ll).getViewMatrix();
+				shadowMC->ProjLink = LightList[l].getShadowLight(ll).getProjectionMatrix();
+				shadowMC->MapRes = (f32)LightList[l].getShadowLight(ll).getShadowMapResolution();
+
+				// Render all the Receive nodes
+				for(u32 i = 0;i < ShadowNodeArraySize;++i)
+				{
+					if(ShadowNodeArray[i].shadowMode == ESM_CAST || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
+							continue;
+
+					if (!ShadowNodeArray[i].node->isVisible()) {
 						continue;
-
-					if (!ShadowNodeArray[i].node->isVisible())
-						continue;
+					}
 
 					const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
 					core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
-					BufferMaterialList.set_used(0);
-
-					for(u32 m = 0;m < CurrentMaterialCount;++m) {
+					core::array<irr::video::ITexture*> BufferTextureList(CurrentMaterialCount);
+				
+					for(u32 m = 0;m < CurrentMaterialCount;++m)
+					{
 						BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
-						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)
-							(BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF || driver->getMaterialRenderer(BufferMaterialList[m])->isTransparent()
-														? DepthT : Depth);
+						BufferTextureList.push_back(ShadowNodeArray[i].node->getMaterial(m).getTexture(0));
+				
+						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)Shadow[ShadowNodeArray[i].filterType];
+						ShadowNodeArray[i].node->getMaterial(m).setTexture(0, currentShadowMapTexture);
 					}
 
 					ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
 					ShadowNodeArray[i].node->render();
 
-					const u32 BufferMaterialListSize = BufferMaterialList.size();
-					for(u32 m = 0;m < BufferMaterialListSize;++m)
+					for(u32 m = 0;m < CurrentMaterialCount;++m)
+					{
 						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
-				}
-			}
-
-			// Blur the shadow map texture if we're using VSM filtering.
-			if (LightList[l].mustRecalculate() || LightList[l].isAutoRecalculate()) {
-				if(useVSM) {
-					ITexture *currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowMapResolution(), true, l);
-
-					driver->setRenderTarget(currentSecondaryShadowMap, true, true, SColor(0xffffffff));
-					ScreenQuad.getMaterial().setTexture(0, currentShadowMapTexture);
-					ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurH;
-				
-					ScreenQuad.render(driver);
-
-					driver->setRenderTarget(currentShadowMapTexture, true, true, SColor(0xffffffff));
-					ScreenQuad.getMaterial().setTexture(0, currentSecondaryShadowMap);
-					ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurV;
-				
-					ScreenQuad.render(driver);
-				}
-			}
-
-			LightList[l].setRecalculate(false);
-
-			driver->setRenderTarget(ScreenQuad.rt[1], true, true, SColor(0xffffffff));
-
-			driver->setTransform(ETS_VIEW, activeCam->getViewMatrix());
-			driver->setTransform(ETS_PROJECTION, activeCam->getProjectionMatrix());
-
-			shadowMC->LightColour = LightList[l].getLightColor();
-			shadowMC->LightLink = LightList[l].getPosition();
-			shadowMC->FarLink = LightList[l].getFarValue();
-			shadowMC->ViewLink = LightList[l].getViewMatrix();
-			shadowMC->ProjLink = LightList[l].getProjectionMatrix();
-			shadowMC->MapRes = (f32)LightList[l].getShadowMapResolution();
-
-			// Render all the Receive nodes
-			for(u32 i = 0;i < ShadowNodeArraySize;++i)
-			{
-				if(ShadowNodeArray[i].shadowMode == ESM_CAST || ShadowNodeArray[i].shadowMode == ESM_EXCLUDE)
-						continue;
-
-				if (!ShadowNodeArray[i].node->isVisible()) {
-					continue;
+						ShadowNodeArray[i].node->getMaterial(m).setTexture(0, BufferTextureList[m]);
+					}
 				}
 
-				const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
-				core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
-				core::array<irr::video::ITexture*> BufferTextureList(CurrentMaterialCount);
-				
-				for(u32 m = 0;m < CurrentMaterialCount;++m)
-				{
-					BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
-					BufferTextureList.push_back(ShadowNodeArray[i].node->getMaterial(m).getTexture(0));
-				
-					ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)Shadow[ShadowNodeArray[i].filterType];
-					ShadowNodeArray[i].node->getMaterial(m).setTexture(0, currentShadowMapTexture);
-				}
-
-				ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
-				ShadowNodeArray[i].node->render();
-
-				for(u32 m = 0;m < CurrentMaterialCount;++m)
-				{
-					ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
-					ShadowNodeArray[i].node->getMaterial(m).setTexture(0, BufferTextureList[m]);
-				}
-			}
-
-			driver->setRenderTarget(ScreenQuad.rt[0], false, false, SColor(0x0));
-			ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
-			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
+				driver->setRenderTarget(ScreenQuad.rt[0], false, false, SColor(0x0));
+				ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
+				ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
 			
-			ScreenQuad.render(driver);
+				ScreenQuad.render(driver);
+			}
 		}
 
 		// Render all the excluded and casting-only nodes.
@@ -750,12 +753,14 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	
 }
 
-irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id)
+irr::video::ITexture* EffectHandler::getShadowMapTexture(const irr::u32 resolution, const bool secondary, const irr::u32 id, const irr::u32 id2)
 {
 	// Using Irrlicht cache now.
 	core::stringc shadowMapName = core::stringc("SSWE_SM_") + core::stringc(resolution);
 	shadowMapName += "_";
 	shadowMapName += id;
+	shadowMapName += "_";
+	shadowMapName += id2;
 	shadowMapName += "_";
     
 	if(secondary)

@@ -356,7 +356,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
     //DEVICE
 	Device = createDeviceEx(parameters);
-    Device->setWindowCaption(L"Eternal 3D");
+    Device->setWindowCaption(L"Community Play 3D : Editor");
 	Device->setResizable(true);
     
     driver = Device->getVideoDriver();
