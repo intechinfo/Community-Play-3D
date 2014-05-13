@@ -11,12 +11,14 @@
 
 #include "../../../Device/CDevices.h"
 
-class CObjectsUtils {
+class CUIScenarioMakerMain;
+
+class CUIScenarioObjects {
 	
 public:
 
-	CObjectsUtils(CDevices *_devices, IGUITreeView *_treeView);
-	~CObjectsUtils();
+	CUIScenarioObjects(CDevices *_devices, IGUITreeView *_treeView, CUIScenarioMakerMain *_scenarioMain);
+	~CUIScenarioObjects();
 
 	void setTreeView(IGUITreeView *_treeView) { treeView = _treeView; }
 
@@ -24,11 +26,11 @@ public:
 	//METHODS
 	void fill();
 
-	void fillTerrains();
-	void fillObjects();
-	void filleLights();
-	void fillVolumeLights();
-	void fillWaterSurfaces();
+	void fillAnimators();
+	void fillSounds();
+	void fillScripts();
+	void fillEvents();
+	void fillScene();
 
 	void createNodes();
 	//-----------------------------------
@@ -40,11 +42,11 @@ private:
 	IGUITreeView *treeView;
 
 	IGUITreeViewNode *rootNode;
-	IGUITreeViewNode *terrainsNode;
-	IGUITreeViewNode *objectsNode;
-	IGUITreeViewNode *lightsNode;
-	IGUITreeViewNode *volumeLightsNode;
-	IGUITreeViewNode *waterSurfacesNode;
+	IGUITreeViewNode *animatorsNode;
+	IGUITreeViewNode *soundsNode;
+	IGUITreeViewNode *scriptsNode;
+	IGUITreeViewNode *eventsNode;
+	IGUITreeViewNode *sceneNode;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -53,6 +55,8 @@ private:
 	IGUIEnvironment *gui;
 
 	ISceneNode *whoIstreeNodeSelected;
+
+	CUIScenarioMakerMain *scenarioMain;
 	//-----------------------------------
 
 	//-----------------------------------
@@ -61,6 +65,13 @@ private:
 	void addChildrenBackSDataRecursively(IGUITreeViewNode *treeNode, SData node);
 	void addChildrenBackRecursively(IGUITreeViewNode *treeNode, ISceneNode *node);
 	s32 getImageListIndexForNodeType(ESCENE_NODE_TYPE type);
+	//-----------------------------------
+
+	//-----------------------------------
+	//ENUMS
+	enum E_SCENARIO_OBJECTS_RC {
+		ESORC_CREATE_NEW = 0
+	};
 	//-----------------------------------
 
 };

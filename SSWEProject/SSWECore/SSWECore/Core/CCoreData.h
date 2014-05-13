@@ -31,6 +31,9 @@
 //EXTRAS
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
+//SCENARIOS
+#include "CScenarioData.h"
+
 //INTERFACES AND PLUGINS
 #include <IMonitor.h>
 #include <ISSWECoreData.h>
@@ -802,8 +805,38 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
-//----------------------------------PHYSICS----------------------------------------------------
+//----------------------------------SCENARIO DATAS---------------------------------------------
 //---------------------------------------------------------------------------------------------
+
+struct SScenarioData {
+public:
+	SScenarioData(stringw _name) {
+		name = _name;
+
+		mainScript.setName(name + " - Main Script");
+		mainScript.setFile(stringw("--This is the main script of the scenario.\n"
+								   "--Declare your global variables here, and why not, your own functions"
+								   "--All the classes are binded, so you can do everything as you want.\n\n\n"));
+	}
+
+	SScriptFile *getMainScriptPointer() { return &mainScript; }
+	SScriptFile getMainScript() { return mainScript; }
+
+	CScenarioData *getScenarioData() { return scenarioData; }
+
+	void createScenario() {
+		scenarioData = new CScenarioData();
+	}
+	void destroyScenario() {
+		delete scenarioData;
+	}
+
+private:
+	stringw name;
+	SScriptFile mainScript;
+
+	CScenarioData *scenarioData;
+};
 
 //---------------------------------------------------------------------------------------------
 //----------------------------------CORE DATA CLASS--------------------------------------------
@@ -946,6 +979,11 @@ public:
 	//-----------------------------------
 
 	//-----------------------------------
+	//SCRIPTS
+	array<SScenarioData> *getScenarios() { return &scenarios; }
+	//-----------------------------------
+
+	//-----------------------------------
 	//PLUGINS
 	array<SMonitor> *getMonitors() { return &monitors; }
     array<SSSWEPlugin> *getSSWEPlugins() { return &sswePlugins; }
@@ -991,6 +1029,11 @@ private:
 	//-----------------------------------
 	//SCRIPTS
 	array<SScriptFile> scriptFiles;
+	//-----------------------------------
+
+	//-----------------------------------
+	//SCENARIOS
+	array<SScenarioData> scenarios;
 	//-----------------------------------
 
 	//-----------------------------------

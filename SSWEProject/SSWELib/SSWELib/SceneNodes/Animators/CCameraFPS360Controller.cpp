@@ -147,8 +147,6 @@ void CCameraAnimatorFPS360Controller::animateNode(ISceneNode* node, u32 timeMs)
 			relativeRotation.X = MaxVerticalAngle;
 		}
 
-		CursorControl->setPosition(0.5f + (0.5f * LX) / 32767, 0.5f + (0.5f * LY) / 32767);
-
 		LX = this->getState().Gamepad.sThumbLX;
 		LY = this->getState().Gamepad.sThumbLY;
 

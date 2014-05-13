@@ -14,9 +14,11 @@
 #include "../../GUIExtension/ViewPort/CGUIViewPort.h"
 #include "../../GUIExtension/TimeLine/CGUITimeLine.h"
 
-class CObjectsUtils;
+class CUIScenarioObjects;
 
 class CUIScenarioMakerMain : public IEventReceiver, public IUpdate {
+	
+	friend class CUIScenarioObjects;
 	
 public:
 
@@ -53,7 +55,7 @@ private:
 
 	IGUIEnvironment *gui;
 
-	CObjectsUtils *objectsUtils;
+	CUIScenarioObjects *objectsUtils;
 	//-----------------------------------
 
 	//-----------------------------------

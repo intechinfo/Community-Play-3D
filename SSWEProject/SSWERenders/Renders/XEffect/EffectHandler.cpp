@@ -177,6 +177,10 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	motionBlur->initiate(screenRTTSize.Width, screenRTTSize.Height, 0.6);
 	useMotionBlur = false;
 	motionBlur->getCallback()->m_time = device->getTimer()->getTime();
+	motionBlur->getCallback()->m_Strength = 0.f;
+	if (smgr->getActiveCamera())
+		lastCameraRotation = smgr->getActiveCamera()->getRotation();
+	lastTimeRotationDiff = device->getTimer()->getTime();
 
     //DEPTH OF FIELD
 	useDOF = false;
@@ -323,7 +327,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 					continue;
 
 				currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowLight(ll).getShadowMapResolution(), false, l, ll);
-				if (LightList[l].getShadowLight(ll).mustRecalculate() || LightList[l].getShadowLight(ll).isAutoRecalculate()) {
+
+				if ((LightList[l].getShadowLight(ll).mustRecalculate() || LightList[l].getShadowLight(ll).isAutoRecalculate())
+					&& LightList[l].getShadowLight(ll).getShadowMapResolution() > 1) {
 					depthMC->FarLink = LightList[l].getShadowLight(ll).getFarValue();
 
 					driver->setTransform(ETS_VIEW, LightList[l].getShadowLight(ll).getViewMatrix());
@@ -493,24 +499,22 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
         driver->updateAllOcclusionQueries(true);
 	}
 
-	if (useMotionBlur && smgr->getActiveCamera() == FPSCamera) {
-		f32 distanceLength = smgr->getActiveCamera()->getRotation().getDistanceFrom(lastCameraRotation);
-		f32 seconds = (device->getTimer()->getTime() - motionBlur->getCallback()->m_time) / 1000.f;
-		motionBlur->getCallback()->m_Strength = ((distanceLength/seconds) * 0.4f) / (25.f / seconds);
+	if (useMotionBlur) { //&& smgr->getActiveCamera() == FPSCamera) {
 
-		if (motionBlur->getCallback()->m_Strength > 0.4f) {
-			motionBlur->getCallback()->m_Strength = 0.4f;
+		core::vector3df camRotationDiff = smgr->getActiveCamera()->getRotation() - lastCameraRotation;
+		lastTimeRotationDiff = device->getTimer()->getTime() - lastTimeRotationDiff;
+		if (abs(camRotationDiff.X) > 50 || abs(camRotationDiff.Y) > 50 || abs(camRotationDiff.Z) > 50) {
+			motionBlur->getCallback()->m_Strength = (0.8f * (camRotationDiff.Y / (lastTimeRotationDiff / 10.f))) / (360.f / (lastTimeRotationDiff / 10.f));
+		} else {
+			motionBlur->getCallback()->m_Strength = 0.2f;
 		}
+		lastCameraRotation = smgr->getActiveCamera()->getRotation();
+		lastTimeRotationDiff = device->getTimer()->getTime();
 
 		motionBlur->render();
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
+		motionBlur->renderFinal();
 
-		if (motionBlur->getCallback()->m_Strength > 0.4f) {
-			motionBlur->renderFinal();
-		} else {
-			smgr->drawAll();
-		}
-		lastCameraRotation = smgr->getActiveCamera()->getRotation();
 	} else {
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
 		smgr->drawAll();
@@ -540,9 +544,14 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
             /// completely black
 			if (type != ESNT_BILLBOARD) {
 				for(u32 g = 0;g < LightScatteringPass[i]->getMaterialCount();++g) {
+					E_MATERIAL_TYPE mattype = LightScatteringPass[i]->getMaterial(g).MaterialType;
+					bool lsptest = (mattype != EMT_SOLID && mattype != EMT_TRANSPARENT_ADD_COLOR
+									&& mattype != EMT_TRANSPARENT_ALPHA_CHANNEL
+									&& mattype != EMT_TRANSPARENT_ALPHA_CHANNEL_REF
+									&& mattype != EMT_TRANSPARENT_VERTEX_ALPHA);
                     /// If current material type is a custom material type you created (like Normal Mapping), draw it SOLID.
                     /// If not, exceptionally, we don't touch the material type to keep transparent materials
-					if (LightScatteringPass[i]->getMaterial(g).MaterialType > EMT_ONETEXTURE_BLEND) {
+					if (lsptest) {
                         //LightScatteringPass[i]->getMaterial(g).MaterialType = EMT_SOLID;
                         LightScatteringPass[i]->setMaterialType(EMT_SOLID);
                         break;
@@ -672,6 +681,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)LightModulate;
 	ScreenQuad.render(driver);
 
+	ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
+
 	//RENDER OTHER POST PROCESSES
 	bool Alter = false;
 	ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
@@ -743,7 +754,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		hdrScreenQuad->getMaterial(0).setTexture(0,mainTarget);
 		hdrScreenQuad->getMaterial(0).setTexture(1,hdrRTT0);
 		driver->setRenderTarget(mainTarget,true,true,video::SColor(255,128,160,160));
-		ScreenQuad.render(driver);
+		driver->draw2DImage(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)], core::rect<s32>(0 ,0 , ScreenRTTSize.Width, ScreenRTTSize.Height),
+							core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height));
 		driver->setRenderTarget(hdrRTT0,true,true,video::SColor(0,0,0,0));
 		driver->draw2DImage(mainTarget, core::rect<s32>(0 ,0 , 32, 32),
 							core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height), 0, colors);

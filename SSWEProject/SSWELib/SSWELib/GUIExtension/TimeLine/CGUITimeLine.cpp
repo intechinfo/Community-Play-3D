@@ -27,7 +27,19 @@ CGUITimeLine::CGUITimeLine(IrrlichtDevice *_devices, IGUIElement* parent, s32 id
     scrollBar->setSubElement(true);
     scrollBar->setPos( 0 );
 
-	length = 30;
+	zoomMinus = Environment->addButton(rect<s32>(RelativeRect.getWidth()-20, RelativeRect.getHeight() - s - 20,
+												 RelativeRect.getWidth(), RelativeRect.getHeight() - s),
+									   this, -1, L"", L"Zoom less on timeline");
+	zoomMinus->setImage(Environment->getVideoDriver()->getTexture("GUI/zoom_remove.png"));
+	zoomMinus->setScaleImage(true);
+	zoomMinus->setUseAlphaChannel(true);
+
+	zoomPlus = Environment->addButton(rect<s32>(RelativeRect.getWidth()-40, RelativeRect.getHeight() - s - 20,
+												RelativeRect.getWidth()-20, RelativeRect.getHeight() - s),
+									  this, -1, L"", L"Zoom less on timeline");
+	zoomPlus->setImage(Environment->getVideoDriver()->getTexture("GUI/zoom_add.png"));
+	zoomPlus->setScaleImage(true);
+	zoomPlus->setUseAlphaChannel(true);
 }
 
 CGUITimeLine::~CGUITimeLine() {
@@ -35,6 +47,22 @@ CGUITimeLine::~CGUITimeLine() {
 }
 
 bool CGUITimeLine::OnEvent(const SEvent& event) {
+
+	if (event.EventType == EET_GUI_EVENT) {
+
+		/// Button clicked
+		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+			if (event.GUIEvent.Caller == zoomPlus) {
+				setZoom(zoom + 1);
+				return true;
+			} else
+			if (event.GUIEvent.Caller == zoomMinus) {
+				setZoom(zoom - 1);
+				return true;
+			}
+		}
+
+	}
 
 	return Parent ? Parent->OnEvent(event) : false;
 }
@@ -129,7 +157,7 @@ void CGUITimeLine::draw() {
 
 		/// Write current secs (FIX with ms)
 		stringw txt = "";
-		txt += (length / steps) * i;
+		txt += (30 / steps) * i;
 		txt += " secs";
 		Environment->getSkin()->getFont()->draw(txt, rect, video::SColor(255, 196, 196, 196));
 
@@ -150,10 +178,28 @@ void CGUITimeLine::setRelativePosition(const core::rect<s32>& r) {
     s32 s = skin->getSize( EGDS_SCROLLBAR_SIZE );
     
     scrollBar->setRelativePosition(core::rect<s32>(0, RelativeRect.getHeight() - s, RelativeRect.getWidth(), RelativeRect.getHeight()));
+	zoomMinus->setRelativePosition(rect<s32>(RelativeRect.getWidth()-20, RelativeRect.getHeight() - s - 20, RelativeRect.getWidth(), RelativeRect.getHeight() - s));
+	zoomPlus->setRelativePosition(rect<s32>(RelativeRect.getWidth()-40, RelativeRect.getHeight() - s - 20, RelativeRect.getWidth()-20, RelativeRect.getHeight() - s));
 }
 
-void CGUITimeLine::setLength(s32 seconds) { length = seconds; }
-void CGUITimeLine::setZoom(s32 interval) { zoom = interval; }
+void CGUITimeLine::setTimeEnd(u32 time) {
+
+}
+
+void CGUITimeLine::setZoom(s32 interval) {
+	if (interval > 20)
+		interval = 20;
+
+	zoom = interval;
+}
+
+void CGUITimeLine::updateView() {
+	/// zoom
+	/// current view
+	/// time end
+
+
+}
 
 } /// End namespace gui
 } /// End namespace irr

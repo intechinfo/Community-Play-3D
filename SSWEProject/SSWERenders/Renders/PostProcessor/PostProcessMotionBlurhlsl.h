@@ -5,37 +5,35 @@
 #include <irrlicht.h>
 using namespace irr;
 
-#include "../XEffect/CScreenQuad.h"
-
 class SSWE_RENDERS_API CMotionBlurCallback : public video::IShaderConstantSetCallBack
 {
 public:
-    float m_ScreenWidth, m_ScreenHeight, m_Strength;
-    int texture1, texture2;
+	float m_ScreenWidth, m_ScreenHeight, m_Strength;
+	int texture1, texture2;
 	u32 m_time;
 public:
-   CMotionBlurCallback(float screenWidth, float screenHeight, float strength)
-   {
-       m_ScreenWidth  = screenWidth;
-       m_ScreenHeight = screenHeight;
-       m_Strength     = strength;
+	CMotionBlurCallback(float screenWidth, float screenHeight, float strength)
+	{
+		m_ScreenWidth  = screenWidth;
+		m_ScreenHeight = screenHeight;
+		m_Strength     = strength;
        
-       texture1 = 0;
-       texture2 = 1;
-   }
-   virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
-   {
-       if (services->getVideoDriver()->getDriverType() == video::EDT_OPENGL) {
-           services->setPixelShaderConstant("texture1", &texture1, 1);
-           services->setPixelShaderConstant("texture2", &texture2, 1);
-       }
+		texture1 = 0;
+		texture2 = 1;
+	}
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
+	{
+		if (services->getVideoDriver()->getDriverType() == video::EDT_OPENGL) {
+			services->setPixelShaderConstant("texture1", &texture1, 1);
+			services->setPixelShaderConstant("texture2", &texture2, 1);
+		}
        
-       if (services->getVideoDriver()->getDriverType() != video::EDT_OPENGL) {
-           services->setVertexShaderConstant("screenWidth", &m_ScreenWidth, 1);
-           services->setVertexShaderConstant("screenHeight", &m_ScreenHeight, 1);
-       }
-       services->setPixelShaderConstant("strength", &m_Strength, 1);
-   }
+		if (services->getVideoDriver()->getDriverType() != video::EDT_OPENGL) {
+			services->setVertexShaderConstant("screenWidth", &m_ScreenWidth, 1);
+			services->setVertexShaderConstant("screenHeight", &m_ScreenHeight, 1);
+		}
+		services->setPixelShaderConstant("strength", &m_Strength, 1);
+	}
 };
 
 class IPostProcessMotionBlur : scene::ISceneNode
@@ -54,9 +52,6 @@ private:
 	irr::core::stringc pixel_shader_2;
 
 	CMotionBlurCallback* callback;
-
-	bool renderSQ;
-	CScreenQuad *quad;
    
 public:
 
@@ -70,9 +65,6 @@ public:
       m_Vertices[4] = video::S3DVertex(-1.0f, -1.0f, 0.0f, 0, 0, 0, video::SColor(0), 0.0f, 1.0f);
       m_Vertices[5] = video::S3DVertex(1.0f, 1.0f, 0.0f, 0, 0, 0, video::SColor(0), 1.0f, 0.0f);
 
-	  quad = 0;
-	  renderSQ = false;
-       
 #ifndef _IRR_OSX_PLATFORM_
 	  vertex_shader = ""
 		"float screenWidth;\n"
@@ -188,52 +180,42 @@ public:
    }
 
    void render(CScreenQuad *_quad) {
-	   renderSQ = (_quad != 0) ? true : false;
-	   quad = _quad;
-
 	   this->render();
    }
 
    virtual void render()
-   {
-      u16 indices[] = {0, 1, 2, 3, 4, 5};
-      video::IVideoDriver* driver = SceneManager->getVideoDriver();
-	  driver->setRenderTarget(m_rtNext, true, true, 0);
-	  if (!renderSQ) {
-		  SceneManager->drawAll();
-	  } else {
-		  quad->render(driver);
-	  }
+	{
+		u16 indices[] = {0, 1, 2, 3, 4, 5};
+		video::IVideoDriver* driver = SceneManager->getVideoDriver();
+		driver->setRenderTarget(m_rtNext, true, true, 0);
+		SceneManager->drawAll();
 
-      driver->setRenderTarget(m_rtAccum, true, true, 0);
-      driver->setMaterial(m_Material1);
-      driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
-      driver->drawIndexedTriangleList(&m_Vertices[0], 6, &indices[0], 2);
+		driver->setRenderTarget(m_rtAccum, true, true, 0);
+		driver->setMaterial(m_Material1);
+		driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
+		driver->drawIndexedTriangleList(&m_Vertices[0], 6, &indices[0], 2);
 
-      driver->setRenderTarget(m_rtPrev, true, true, 0);
-      driver->setMaterial(m_Material2);
-      driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
-      driver->drawIndexedTriangleList(&m_Vertices[0], 6, &indices[0], 2);
-   }
-   virtual void renderFinal()
-   {
-      video::IVideoDriver* driver = SceneManager->getVideoDriver();
-      u16 indices[] = {0, 1, 2, 3, 4, 5};
-      driver->setMaterial(m_Material2);
-      driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
-      driver->drawIndexedTriangleList(&m_Vertices[0], 6, &indices[0], 2);
-
-	  renderSQ = false;
-	  quad = 0;
-   }
-   virtual video::SMaterial& getMaterial(s32 i)
-   {
-      return m_Material1;
-   }
-   virtual const core::aabbox3d<f32>& getBoundingBox() const
-   {
-      return m_BBox;
-   }
+		driver->setRenderTarget(m_rtPrev, true, true, 0);
+		driver->setMaterial(m_Material2);
+		driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
+		driver->drawIndexedTriangleList(&m_Vertices[0], 6, &indices[0], 2);
+	}
+	virtual void renderFinal()
+	{
+		video::IVideoDriver* driver = SceneManager->getVideoDriver();
+		u16 indices[] = {0, 1, 2, 3, 4, 5};
+		driver->setMaterial(m_Material2);
+		driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
+		driver->drawIndexedTriangleList(&m_Vertices[0], 6, &indices[0], 2);
+	}
+	virtual video::SMaterial& getMaterial(s32 i)
+	{
+		return m_Material1;
+	}
+	virtual const core::aabbox3d<f32>& getBoundingBox() const
+	{
+		return m_BBox;
+	}
 };
 
 #endif

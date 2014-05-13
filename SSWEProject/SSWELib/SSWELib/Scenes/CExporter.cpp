@@ -563,8 +563,15 @@ void CExporter::exportTransformations(stringc tabs, ISceneNode *node) {
             node->getPosition().Z);
 	fprintf(export_file, stringc(tabs + " <rotation X=\"%f\" Y=\"%f\" Z=\"%f\" />\n").c_str(), node->getRotation().X, node->getRotation().Y,
             node->getRotation().Z);
-	fprintf(export_file, stringc(tabs + " <scale X=\"%f\" Y=\"%f\" Z=\"%f\" />\n\n").c_str(), node->getScale().X, node->getScale().Y,
-            node->getScale().Z);
+	if (node->getType() == ESNT_BILLBOARD) {
+		fprintf(export_file, stringc(tabs + " <scale X=\"%f\" Y=\"%f\" Z=\"%f\" />\n\n").c_str(), 
+				((IBillboardSceneNode*)node)->getSize().Width,
+				((IBillboardSceneNode*)node)->getSize().Height,
+				((IBillboardSceneNode*)node)->getSize().Width + ((IBillboardSceneNode*)node)->getSize().Height);
+	} else {
+		fprintf(export_file, stringc(tabs + " <scale X=\"%f\" Y=\"%f\" Z=\"%f\" />\n\n").c_str(), node->getScale().X, node->getScale().Y,
+				node->getScale().Z);
+	}
 
 	//RENDERS
 	fprintf(export_file, stringc(tabs + "<depthPassed value=\"%d\" />\n").c_str(), devices->getXEffect()->isDepthPassed(node));

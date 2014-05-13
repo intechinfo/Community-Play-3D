@@ -325,7 +325,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\Radiosity\CUVTree.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\Radiosity\mtrand.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ScenarioMaker\CUIScenarioMakerMain.cpp" />
-    <ClCompile Include="SSWELib\UserInterfaces\ScenarioMaker\Utils\CObjectsUtils.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\ScenarioMaker\ScenarioObjects\CUIScenarioObjects.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\UIContextMenu.cpp" />
@@ -463,7 +463,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\Radiosity\mtrand.h" />
     <ClInclude Include="SSWELib\UserInterfaces\Radiosity\types.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ScenarioMaker\CUIScenarioMakerMain.h" />
-    <ClInclude Include="SSWELib\UserInterfaces\ScenarioMaker\Utils\CObjectsUtils.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\ScenarioMaker\ScenarioObjects\CUIScenarioObjects.h" />
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITextureEditor.h" />
     <ClInclude Include="SSWELib\UserInterfaces\TexturesManager\CUITexturesManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\UIContextMenu.h" />

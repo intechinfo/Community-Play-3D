@@ -18,6 +18,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
     //-----------------------------------
     //DEVICE
 
+	params.WindowSize = dimension2d<u32>(0, 0);
     #ifdef _IRR_OSX_PLATFORM_
         params.DriverType=irr::video::EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
@@ -26,7 +27,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
         params.WindowSize = dimension2du(1630, 1000);
     #else
 		params.DriverType=EDT_DIRECT3D9;
-        params.WindowSize = dimension2d<u32>(800, 600);
+        params.WindowSize = dimension2d<u32>(1680, 987);
     #endif
         params.Bits=32;
     #ifdef _IRR_OSX_PLATFORM_
@@ -35,8 +36,8 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 		if (!playOnly) {
 			params.Fullscreen = false;
 		} else {
-			params.WindowSize = dimension2d<u32>(1280, 800);
-			params.Fullscreen = false;
+			params.WindowSize = dimension2d<u32>(640, 480);
+			params.Fullscreen = true;
 		}
     #endif
 	params.WithAlphaChannel = true;
@@ -47,7 +48,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 	params.EventReceiver=0;
 	params.DriverMultithreaded = true;
 	
-	if (params.Fullscreen) {
+	if (params.Fullscreen && params.WindowSize == dimension2d<u32>(0, 0)) {
 		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);
 		params.WindowSize = tempDevice->getVideoModeList()->getDesktopResolution();
 		tempDevice->closeDevice();
@@ -125,7 +126,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 
 	clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
 
-	logWindow->setVisible(logVisible);
+	logWindow->setVisible(false);
 
     //-----------------------------------
 

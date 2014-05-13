@@ -6,22 +6,25 @@
 //
 //
 #include "stdafx.h"
-#include "CObjectsUtils.h"
+#include "CUIScenarioObjects.h"
 
-CObjectsUtils::CObjectsUtils(CDevices *_devices, IGUITreeView *_treeView) {
+#include "../CUIScenarioMakerMain.h"
+
+CUIScenarioObjects::CUIScenarioObjects(CDevices *_devices, IGUITreeView *_treeView, CUIScenarioMakerMain *_scenarioMain) {
 	devices = _devices;
 	treeView = _treeView;
+	scenarioMain = _scenarioMain;
 
 	gui = devices->getGUIEnvironment();
 
 	createNodes();
 }
 
-CObjectsUtils::~CObjectsUtils() {
+CUIScenarioObjects::~CUIScenarioObjects() {
 
 }
 
-void CObjectsUtils::createNodes() {
+void CUIScenarioObjects::createNodes() {
 	IGUIImageList* imageList = gui->createImageList(devices->getVideoDriver()->getTexture(devices->getWorkingDirectory() + "GUI/iconlist_small.png"),
 													dimension2d<s32>(16, 16), true);
 	if (imageList) {
@@ -30,46 +33,46 @@ void CObjectsUtils::createNodes() {
 	}
 
 	rootNode = treeView->getRoot();
-	terrainsNode = rootNode->addChildBack(L"TERRAINS", L"", 2, -1);
-	objectsNode = rootNode->addChildBack(L"OBJECTS", L"", 2, -1);
-	lightsNode = rootNode->addChildBack(L"LIGHTS", L"", 2, -1);
-	volumeLightsNode = rootNode->addChildBack(L"VOLUME LIGHTS", L"", 2, -1);
-	waterSurfacesNode = rootNode->addChildBack(L"WATER SURFACES", L"", 2, -1);
+	animatorsNode = rootNode->addChildBack(L"ANIMATORS", L"", 2, -1);
+	soundsNode = rootNode->addChildBack(L"SOUNDS", L"", 2, -1);
+	scriptsNode = rootNode->addChildBack(L"SCRIPTS", L"", 2, -1);
+	eventsNode = rootNode->addChildBack(L"EVENTS", L"", 2, -1);
+	sceneNode = rootNode->addChildBack(L"SCENE", L"", 2, -1);
 
 	fill();
 }
 
-void CObjectsUtils::fill() {
-	fillTerrains();
-	fillObjects();
-	filleLights();
-	fillVolumeLights();
-	fillWaterSurfaces();
+void CUIScenarioObjects::fill() {
+	fillAnimators();
+	fillSounds();
+	fillScripts();
+	fillEvents();
+	fillScene();
 }
 
-void CObjectsUtils::fillTerrains() {
-	terrainsNode->clearChildren();
-	addChildrenBackWithSDataArray(terrainsNode, devices->getCoreData()->getTerrainsSData());
+void CUIScenarioObjects::fillAnimators() {
+	animatorsNode->clearChildren();
+	//addChildrenBackWithSDataArray(terrainsNode, devices->getCoreData()->getTerrainsSData());
 }
 
-void CObjectsUtils::fillObjects() {
-	objectsNode->clearChildren();
-	addChildrenBackWithSDataArray(objectsNode, devices->getCoreData()->getObjectsSData());
+void CUIScenarioObjects::fillSounds() {
+	soundsNode->clearChildren();
+	//addChildrenBackWithSDataArray(objectsNode, devices->getCoreData()->getObjectsSData());
 }
-void CObjectsUtils::filleLights() {
-	lightsNode->clearChildren();
-	addChildrenBackWithSDataArray(lightsNode, devices->getCoreData()->getLightsSData());
+void CUIScenarioObjects::fillScripts() {
+	scriptsNode->clearChildren();
+	//addChildrenBackWithSDataArray(lightsNode, devices->getCoreData()->getLightsSData());
 }
-void CObjectsUtils::fillVolumeLights() {
-	volumeLightsNode->clearChildren();
-	addChildrenBackWithSDataArray(volumeLightsNode, devices->getCoreData()->getVolumeLightsSData());
+void CUIScenarioObjects::fillEvents() {
+	eventsNode->clearChildren();
+	//addChildrenBackWithSDataArray(volumeLightsNode, devices->getCoreData()->getVolumeLightsSData());
 }
-void CObjectsUtils::fillWaterSurfaces() {
-	waterSurfacesNode->clearChildren();
-	addChildrenBackWithSDataArray(waterSurfacesNode, devices->getCoreData()->getWaterSurfacesSData());
+void CUIScenarioObjects::fillScene() {
+	sceneNode->clearChildren();
+	//addChildrenBackWithSDataArray(waterSurfacesNode, devices->getCoreData()->getWaterSurfacesSData());
 }
 
-void CObjectsUtils::addChildrenBackWithSDataArray(IGUITreeViewNode *treeNode, array<SData> *nodes) {
+void CUIScenarioObjects::addChildrenBackWithSDataArray(IGUITreeViewNode *treeNode, array<SData> *nodes) {
 	IGUITreeViewNode *nextNode = treeNode->getFirstChild();
 	IGUITreeViewNode *nextNextNode;
 	if (treeView->getSelected())
@@ -91,7 +94,7 @@ void CObjectsUtils::addChildrenBackWithSDataArray(IGUITreeViewNode *treeNode, ar
 		}
 	}
 }
-void CObjectsUtils::addChildrenBackSDataRecursively(IGUITreeViewNode *treeNode, SData node) {
+void CUIScenarioObjects::addChildrenBackSDataRecursively(IGUITreeViewNode *treeNode, SData node) {
 	s32 imageIndex;
 	IGUITreeViewNode *nodeTreeView;
 	treeNode->clearChildren();
@@ -135,7 +138,7 @@ void CObjectsUtils::addChildrenBackSDataRecursively(IGUITreeViewNode *treeNode, 
         addChildrenBackRecursively(nodeTreeView, *(it));
 	}
 }
-void CObjectsUtils::addChildrenBackRecursively(IGUITreeViewNode *treeNode, ISceneNode *node) {
+void CUIScenarioObjects::addChildrenBackRecursively(IGUITreeViewNode *treeNode, ISceneNode *node) {
 
 	s32 imageIndex;
 	IGUITreeViewNode *nodeTreeView;
@@ -167,7 +170,7 @@ void CObjectsUtils::addChildrenBackRecursively(IGUITreeViewNode *treeNode, IScen
         addChildrenBackRecursively(nodeTreeView, *(it));
 	}
 }
-s32 CObjectsUtils::getImageListIndexForNodeType(ESCENE_NODE_TYPE type) {
+s32 CUIScenarioObjects::getImageListIndexForNodeType(ESCENE_NODE_TYPE type) {
 	s32 index = 10;
 	switch (type) {
 		case ESNT_Q3SHADER_SCENE_NODE: index = 0; break;

@@ -271,6 +271,7 @@ struct SShadowLight : public ICP3DShadowLight
             isDirectional = false;
 			for (irr::u32 i=0; i < 6; i++) {
 				SShadowLight l = SShadowLight(mapRes, pos, tar, diffuseColour, this->nearValue, farPlane, frontOfView, false, false);
+				l.setFOV(115.f * irr::core::DEGTORAD64);
 				shadowLights.push_back(l);
 			}
         }
@@ -673,7 +674,9 @@ public:
 			if (removeCallbacks && PostProcessingRoutines[i].renderCallback) {
 				delete PostProcessingRoutines[i].renderCallback;
 			}
-			delete PostProcessingRoutines[i].callback;
+			//if (PostProcessingRoutines[i].callback) {
+			//	delete PostProcessingRoutines[i].callback;
+			//}
 		}
 		PostProcessingRoutines.clear();
 	}
@@ -838,7 +841,10 @@ private:
 
 	struct SPostProcessingPair
 	{
-        SPostProcessingPair() { }
+        SPostProcessingPair() {
+			callback = 0;
+			renderCallback = 0;
+		}
         
 		SPostProcessingPair(const irr::s32 materialTypeIn, ScreenQuadCB* callbackIn,
 			IPostProcessingRenderCallback* renderCallbackIn = 0)
@@ -863,7 +869,6 @@ private:
 	irr::IrrlichtDevice* device;
 	irr::video::IVideoDriver* driver;
 	irr::scene::ISceneManager* smgr;
-	irr::core::dimension2du mapRes;
 	
 	irr::s32 Depth;
 	irr::s32 DepthT;
@@ -919,6 +924,7 @@ private:
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;
 	irr::core::vector3df lastCameraRotation;
+	irr::u32 lastTimeRotationDiff;
 
 	//HDR PIPELINE
 	irr::s32 HDRModel;

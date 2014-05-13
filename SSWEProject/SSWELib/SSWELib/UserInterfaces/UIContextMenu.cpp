@@ -246,6 +246,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	image = devices->getVideoDriver()->getTexture("GUI/play_game.png");
 	bar->addButton(CXT_MENU_EVENTS_PLAY_GAME, 0, L"", image, 0, false, true);
 
+	//Load other images
+	devices->getVideoDriver()->getTexture("GUI/zoom_add.png");
+	devices->getVideoDriver()->getTexture("GUI/zoom_remove.png");
+
 	IGUIEnvironment *gui = devices->getGUIEnvironment();
 	IVideoDriver *driver = devices->getVideoDriver();
 	contextNameText = gui->addStaticText(L"", rect<s32>(bar->getRelativePosition().getWidth()-400, 5,
@@ -395,7 +399,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     
     //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
 
-	//CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
+	CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {

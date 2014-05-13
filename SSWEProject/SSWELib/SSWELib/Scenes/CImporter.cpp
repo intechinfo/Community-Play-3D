@@ -192,9 +192,9 @@ void CImporter::buildObject() {
 		readTransformations(node);
 		readViewModes(node);
 
-		if (node->getType() == ESNT_BILLBOARD) {
-			((IBillboardSceneNode*)node)->setSize(dimension2df(node->getScale().X, node->getScale().Y));
-		}
+		//if (node->getType() == ESNT_BILLBOARD) {
+		//	((IBillboardSceneNode*)node)->setSize(dimension2df(node->getScale().X, node->getScale().Y));
+		//}
 
 		array<CAction *> actions;
 		read("actions");

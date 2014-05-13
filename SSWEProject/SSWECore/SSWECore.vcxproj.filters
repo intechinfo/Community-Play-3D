@@ -66,6 +66,9 @@
     <ClCompile Include="SSWECore\DecaleSystem\DecalSceneNode.cpp">
       <Filter>SSWECore\DecaleSystem</Filter>
     </ClCompile>
+    <ClCompile Include="SSWECore\Core\CScenarioData.cpp">
+      <Filter>SSWECore\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWECore.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="SSWECore\DecaleSystem\DecalSceneNode.h">
       <Filter>SSWECore\DecaleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\Core\CScenarioData.h">
+      <Filter>SSWECore\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

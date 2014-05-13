@@ -8,7 +8,7 @@
 #include "stdafx.h"
 #include "CUIScenarioMakerMain.h"
 
-#include "Utils/CObjectsUtils.h"
+#include "ScenarioObjects/CUIScenarioObjects.h"
 
 CUIScenarioMakerMain::CUIScenarioMakerMain(CDevices *_devices) {
 	devices = _devices;
@@ -68,7 +68,7 @@ CUIScenarioMakerMain::CUIScenarioMakerMain(CDevices *_devices) {
 	timeline = new CGUITimeLine(devices->getDevice(), timeLineZone, -1, rect<s32>(5, 25, 1005, 200), false);
 
 	/// End
-	objectsUtils = new CObjectsUtils(devices, objectsView);
+	objectsUtils = new CUIScenarioObjects(devices, objectsView, this);
 
 	//maximize();
 	devices->getEventReceiver()->AddEventReceiver(this, window, this);

@@ -41,17 +41,26 @@ public:
     //-----------------------------------------METHODS---------------------------------------------
     //---------------------------------------------------------------------------------------------
 
-	//! Sets time to draw in the timeline (in sec)
-	void setLength(s32 seconds);
+	//! Returns the end time of the timeline (total duration) in milliseconds
+	u32 getTimeEnd() { return timeEnd; }
+	//! Sets the end time of the time line (total duration) in milliseconds
+	void setTimeEnd(u32 time);
 
-	//! Sets the current zoom on the timeline (0-20) where 10 is equivalent of normal zoom
+	//! Sets the current zoom on the timeline (0-20) where 0 shows the entire timeline
 	void setZoom(s32 interval);
 
 private:
 
 	//-----------------------------------
+	//METHODS
+	void updateView();
+    //-----------------------------------
+
+	//-----------------------------------
 	//GUI ELEMENTS
     IGUIScrollBar *scrollBar;
+
+	IGUIButton *zoomPlus, *zoomMinus;
     //-----------------------------------
 
 	//-----------------------------------
@@ -59,7 +68,11 @@ private:
     irr::IrrlichtDevice *device;
     bool clip;
 
-	s32 length, zoom;
+	/// View Datas
+	s32 zoom;
+	u32 start, end;
+
+	u32 timeEnd;
     //-----------------------------------
 
 };

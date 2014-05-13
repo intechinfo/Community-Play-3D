@@ -174,7 +174,8 @@ void CDevices::updateEntities() {
 		DeltaTime = Device->getTimer()->getTime() - TimeStamp;
 		TimeStamp = Device->getTimer()->getTime();
 
-		bulletWorld->stepSimulation(DeltaTime*0.001f);
+		//bulletWorld->stepSimulation(DeltaTime*0.001f);
+		bulletWorld->stepSimulation(DeltaTime);
 	}
 }
 
