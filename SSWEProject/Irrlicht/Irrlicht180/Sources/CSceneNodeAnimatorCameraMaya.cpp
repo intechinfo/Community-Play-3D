@@ -33,8 +33,6 @@ CSceneNodeAnimatorCameraMaya::CSceneNodeAnimatorCameraMaya(gui::ICursorControl* 
 
 	allKeysUp();
 
-	controlDown = false;
-
 	currentZoomWheel = 0.f;
 	zoomingWheel = false;
 }
@@ -55,9 +53,6 @@ CSceneNodeAnimatorCameraMaya::~CSceneNodeAnimatorCameraMaya()
 //! for changing their position, look at target or whatever.
 bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 {
-	if (event.EventType == EET_KEY_INPUT_EVENT) {
-		controlDown = event.KeyInput.Control;
-	}
 
 	if (event.EventType != EET_MOUSE_INPUT_EVENT) {
 		return false;
@@ -66,13 +61,22 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 	switch(event.MouseInput.Event)
 	{
 	case EMIE_LMOUSE_PRESSED_DOWN:
-		MouseKeys[0] = true;
+		if (event.MouseInput.Control)
+			MouseKeys[0] = true;
+		else
+			MouseKeys[0] = false;
 		break;
 	case EMIE_RMOUSE_PRESSED_DOWN:
-		MouseKeys[2] = true;
+		if (event.MouseInput.Control)
+			MouseKeys[2] = true;
+		else
+			MouseKeys[2] = false;
 		break;
 	case EMIE_MMOUSE_PRESSED_DOWN:
-		MouseKeys[1] = true;
+		if (event.MouseInput.Control)
+			MouseKeys[1] = true;
+		else
+			MouseKeys[1] = false;
 		break;
 	case EMIE_LMOUSE_LEFT_UP:
 		MouseKeys[0] = false;
@@ -87,8 +91,10 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 		MousePos = CursorControl->getRelativePosition();
 		break;
 	case EMIE_MOUSE_WHEEL:
-		currentZoomWheel = event.MouseInput.Wheel;
-		zoomingWheel = true;
+		if (event.MouseInput.Control) {
+			currentZoomWheel = event.MouseInput.Wheel;
+			zoomingWheel = true;
+		}
 		break;
 	case EMIE_LMOUSE_DOUBLE_CLICK:
 	case EMIE_RMOUSE_DOUBLE_CLICK:
@@ -111,11 +117,6 @@ void CSceneNodeAnimatorCameraMaya::animateNode(ISceneNode *node, u32 timeMs)
 	//Alt + MM = Move on camera plane (Screen center is about the mouse pointer, depending on move speed)
 
 	MousePos = CursorControl->getRelativePosition();
-
-	if (!controlDown) {
-		allKeysUp();
-		return;
-	}
 
 	if (!node || node->getType() != ESNT_CAMERA)
 		return;

@@ -69,10 +69,10 @@ private:
     bool clip;
 
 	/// View Datas
-	s32 zoom;
-	u32 start, end;
+	s32 zoom; //current zoom in range [0-20] where 0 is the complete timeline
+	u32 start, end; //start and end view in milliseconds
 
-	u32 timeEnd;
+	u32 timeEnd; //Total time of the limeline
     //-----------------------------------
 
 };

@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
 	/// Create and configure our interface
 	ISSWECoreUserInterface *coreInterface = createSSWEDevice(true, "");
-	coreInterface->setLogEventWindowVisible(true);
+	coreInterface->setLogEventWindowVisible(false);
 	coreInterface->getIDevices()->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 
 	IDevices *devices = coreInterface->getIDevices();

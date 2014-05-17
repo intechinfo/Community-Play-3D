@@ -180,6 +180,17 @@ void CUIWindowEditMaterialsCallback::resetCodeBox() {
 }
 
 void CUIWindowEditMaterialsCallback::build() {
+	array<ISceneNode *> nodes;
+	array<SMaterial *> materials;
+	devices->getSceneManager()->getSceneNodesFromType(ESNT_ANY, nodes);
+	for (u32 i=0; i < nodes.size(); i++) {
+		for (u32 j=0; j < nodes[i]->getMaterialCount(); j++) {
+			if (nodes[i]->getMaterial(j).MaterialType == (E_MATERIAL_TYPE)callback->getMaterial()) {
+				materials.push_back(&nodes[i]->getMaterial(j));
+			}
+		}
+	}
+
 	ELOG_LEVEL logLevel = devices->getDevice()->getLogger()->getLogLevel();
 	devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 
@@ -209,6 +220,13 @@ void CUIWindowEditMaterialsCallback::build() {
 	} else {
 		text += "Failure\n";
 	}
+
+	for (u32 i=0; i < materials.size(); i++) {
+		materials[i]->MaterialType = (E_MATERIAL_TYPE)callback->getMaterial();
+	}
+
+	nodes.clear();
+	materials.clear();
 
 	constantsCodeBox->setText(text.c_str());
 }

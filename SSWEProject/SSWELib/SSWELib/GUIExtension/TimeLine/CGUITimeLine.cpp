@@ -16,17 +16,19 @@ CGUITimeLine::CGUITimeLine(IrrlichtDevice *_devices, IGUIElement* parent, s32 id
     clip = noclip;
     device = _devices;
 
-	// This element can be tabbed.
+	// This element cannot be tabbed.
 	setTabStop(false);
 	setTabOrder(-1);
 
 	IGUISkin* skin = Environment->getSkin();
 	s32 s = skin->getSize( EGDS_SCROLLBAR_SIZE );
 
+	/// Add Scroll Bar
 	scrollBar = Environment->addScrollBar(true, core::rect<s32>(0, RelativeRect.getHeight() - s, RelativeRect.getWidth(), RelativeRect.getHeight()), this, 1);
     scrollBar->setSubElement(true);
     scrollBar->setPos( 0 );
 
+	/// Zoom Buttons
 	zoomMinus = Environment->addButton(rect<s32>(RelativeRect.getWidth()-20, RelativeRect.getHeight() - s - 20,
 												 RelativeRect.getWidth(), RelativeRect.getHeight() - s),
 									   this, -1, L"", L"Zoom less on timeline");
@@ -40,6 +42,11 @@ CGUITimeLine::CGUITimeLine(IrrlichtDevice *_devices, IGUIElement* parent, s32 id
 	zoomPlus->setImage(Environment->getVideoDriver()->getTexture("GUI/zoom_add.png"));
 	zoomPlus->setScaleImage(true);
 	zoomPlus->setUseAlphaChannel(true);
+
+	/// Finish
+	start = 0;
+	end = 30000;
+
 }
 
 CGUITimeLine::~CGUITimeLine() {
@@ -187,6 +194,9 @@ void CGUITimeLine::setTimeEnd(u32 time) {
 }
 
 void CGUITimeLine::setZoom(s32 interval) {
+	if (interval < 0)
+		interval = 0;
+
 	if (interval > 20)
 		interval = 20;
 

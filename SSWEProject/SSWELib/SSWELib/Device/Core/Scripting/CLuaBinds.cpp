@@ -199,7 +199,10 @@ void CScripting::runScript(irr::core::stringc script, irr::core::stringc name) {
 	CProcess *process = new CProcess(devices->getGUIEnvironment(), name.c_str());
 	devices->getProcessesLogger()->addProcess(process);
 
-	luaL_dostring(L, script.c_str());
+	int erred = luaL_dostring(L, script.c_str());
+	if(erred)
+		devices->addInformationDialog(stringw("Error script : ") + name, luaL_checkstring(L, -1), EMBF_OK, true);
+    //std::cout << "Lua error: " << luaL_checkstring(L, -1) << std::endl;
 	process->setHasFinished(true);
 }
 
@@ -399,6 +402,8 @@ int scene_get_node_material_count(lua_State *L) {
 	int argc = lua_gettop(L);
 
 	ISceneNode *node = (ISceneNode*)lua_touserdata(L, 2);
+	if (node == 0)
+		return 0;
 
 	lua_pushinteger(L, node->getMaterialCount());
 

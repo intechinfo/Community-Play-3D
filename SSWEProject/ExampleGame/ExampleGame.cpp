@@ -192,7 +192,7 @@ int main(int argc, char *argv[]) {
 	//devices->getXEffect()->setAmbientColor(irr::video::SColor(255, 0, 0, 0));
 
 	/// Load our game play class
-	CUpdate *updater = new CUpdate(devices);
+	//CUpdate *updater = new CUpdate(devices);
 
 	/// Update our device
 	/// Let CP3D updating the device, it will optimize everything for us :-)

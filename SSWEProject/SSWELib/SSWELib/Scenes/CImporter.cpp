@@ -427,7 +427,7 @@ void CImporter::readConfig() {
 		u32 spacing = devices->getCore()->getU32(xmlReader->getAttributeValue("SP"));
 		devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(spacing);
 	}
-                
+
 	//IF CAMERA
 	read("camera");
 	read("position");

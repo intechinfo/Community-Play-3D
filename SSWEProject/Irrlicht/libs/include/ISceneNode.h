@@ -53,9 +53,7 @@ namespace scene
 		{
 			if (parent)
 				parent->addChild(this);
-            
-            TriangleSelector = 0;
-            
+
 			updateAbsolutePosition();
 		}
 
@@ -634,7 +632,7 @@ namespace scene
 		check if there is already a selector in this node by calling
 		ISceneNode::getTriangleSelector().
 		\param selector New triangle selector for this scene node. */
-		void setTriangleSelector(ITriangleSelector* selector)
+		virtual void setTriangleSelector(ITriangleSelector* selector)
 		{
 			if (TriangleSelector != selector)
 			{
@@ -643,7 +641,7 @@ namespace scene
 
 				TriangleSelector = selector;
 				if (TriangleSelector)
-					this->TriangleSelector->grab();
+					TriangleSelector->grab();
 			}
 		}
 
