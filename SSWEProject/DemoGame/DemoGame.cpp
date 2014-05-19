@@ -10,10 +10,17 @@
 #include "DemoGame/Example2/CExample2.h"
 #include "DemoGame/Example3/CExample3.h"
 
-int exampleNumber = 1;
+int exampleNumber = 3;
 
 int main(int argc, char *argv[])
 {
+
+	std::cout << "Choose your example : 1-2-3" << std::endl;
+	std::cout << "1 - Simple Example" << std::endl;
+	std::cout << "2 - Example with animated models + callbacks" << std::endl;
+	std::cout << "3 - FPS Gameplay example with animated weapon" << std::endl;
+	std::cin >> exampleNumber;
+
 	/// Create and configure our interface
 	ISSWECoreUserInterface *coreInterface = createSSWEDevice(true, "");
 	coreInterface->setLogEventWindowVisible(false);
@@ -47,6 +54,9 @@ int main(int argc, char *argv[])
 		example3->load();
 		example3->run();
 	}
+
+	devices->getCoreData()->clear();
+	devices->getCoreData()->clearAllTheArrays();
 
 	/// Old example lines, CCharacterControl
 	/*

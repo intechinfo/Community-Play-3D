@@ -12,6 +12,8 @@
 #include "../Renders/XEffect/Interfaces/CFilterCallback.h"
 #include "irrbullet.h"
 
+#include "../UserInterfaces/MaterialEditor/CMaterialEditorFactory.h"
+
 CImporter::CImporter(CDevices *_devices) {
     devices = _devices;
 
@@ -86,18 +88,19 @@ void CImporter::buildTerrain() {
 		for (u32 i=0; i < mesh->getMeshBufferCount(); i++) {
 			numberOfVertices += mesh->getMeshBuffer(i)->getVertexCount();
 		}
+		assert(mesh != 0);
 		/*node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ? 
 													 numberOfVertices/(minPolysPerNode+1)
 													 : numberOfVertices/minPolysPerNode);*/
 		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
-        
+
         assert(mesh != 0);
         
         mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
-			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, false, true, false, true);
+			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, true, true, false, true);
 		}
 		node = smgr->addMeshSceneNode(mesh, 0, -1);
 	}
@@ -664,8 +667,20 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		for (u32 i=0; i < irr::video::MATERIAL_MAX_TEXTURES; i++) {
 			read("texture");
 			if (stringc(xmlReader->getAttributeValue("path")) != "") {
-				ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
-				_node->getMaterial(id).TextureLayer[i].Texture = tex;
+
+				stringc texturePath = stringc(xmlReader->getAttributeValue("path")).c_str();
+				io::path ioTexturePath;
+				core::getFileNameExtension(ioTexturePath, texturePath);
+
+				if (ioTexturePath == "._normal_mapped") {
+					stringc originalTexture = stringc(xmlReader->getAttributeValue("path")).remove("._normal_mapped");
+					CMaterialEditorFactory *materialEditor = new CMaterialEditorFactory(devices);
+					ITexture *tex = materialEditor->setTextureNormalMapped(texturePath, devices->getVideoDriver()->getTexture(originalTexture));
+					_node->getMaterial(id).TextureLayer[i].Texture = tex;
+				} else {
+					ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
+					_node->getMaterial(id).TextureLayer[i].Texture = tex;
+				}
 			}
 		}
 

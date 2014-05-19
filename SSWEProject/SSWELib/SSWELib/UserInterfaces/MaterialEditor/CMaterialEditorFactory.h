@@ -27,9 +27,10 @@ public:
     //-----------------------------------
 	void reupdateTreeView(ISceneNode *node, IGUITreeView *materialsList, IGUITreeViewNode *rootTreeViewNode, IGUIImageList *imageList);
 
-
 	void setCreateAllTextureLayer2NormalMapped();
 	void setAllTextureLayer2NormalMapped(f32 factor);
+
+	ITexture *setTextureNormalMapped(stringc nameOfTexture, ITexture *originalTexture);
 
 	ITexture *copyTexture(stringc nameOfTexture, ITexture *texture);
 

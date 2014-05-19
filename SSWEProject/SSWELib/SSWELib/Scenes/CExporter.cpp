@@ -213,7 +213,7 @@ void CExporter::exportTerrains() {
 		} else if (node->getType() == ESNT_TERRAIN) {
 			fprintf(export_file, "\t\t\t <type esnt=\"heightMap\" />\n\n");
 		} else {
-            fprintf(export_file, "\t\t\t <type esnt=\"mesh\" />\n\n");
+			fprintf(export_file, "\t\t\t <type esnt=\"mesh\" tangents=\"%d\" />\n\n", devices->getCoreData()->getTerrainsData()->operator[](i).wasTangentRecalculated());
         }
         
 		exportFactory("\t\t\t", node);

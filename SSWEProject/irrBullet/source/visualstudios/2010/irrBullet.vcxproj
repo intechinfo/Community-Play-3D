@@ -96,7 +96,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\lib\win32_visualstudio\2010\Release</OutDir>
     <IncludePath>$(SolutionDir)..\..\..\..\Irrlicht\Irrlicht180\include\;$(SolutionDir)..\..\bheaders\Bullet;$(SolutionDir)..\..\bheaders;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming\Library\irrlicht-1.7.1\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\..\..\..\Irrlicht\Irrlicht180\Output;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

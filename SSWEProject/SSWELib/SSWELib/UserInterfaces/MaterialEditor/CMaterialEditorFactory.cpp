@@ -42,6 +42,12 @@ void CMaterialEditorFactory::reupdateTreeView(ISceneNode *node, IGUITreeView *ma
     rootTreeViewNode->getFirstChild()->setSelected(true);
 }
 
+ITexture *CMaterialEditorFactory::setTextureNormalMapped(stringc nameOfTexture, ITexture *originalTexture) {
+	ITexture *tex = copyTexture(nameOfTexture, originalTexture);
+	devices->getVideoDriver()->makeNormalMapTexture(tex, 9.0f);
+	return tex;
+}
+
 void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
 	//CREATE PROCESS
 	CProcess *process = new CProcess(devices->getGUIEnvironment(), "CREATE AND NORMAL MAP TEXTURES");
@@ -62,7 +68,7 @@ void CMaterialEditorFactory::setCreateAllTextureLayer2NormalMapped() {
 				continue;
 
 			stringc texname = node->getMaterial(i).TextureLayer[0].Texture->getName().getPath().c_str();
-			stringc texmname = stringc(texname + stringc("_copy")).c_str();
+			stringc texmname = stringc(texname + stringc("._normal_mapped")).c_str();
             
 			if (devices->getCore()->textureAlreadyExists(texmname, devices->getVideoDriver()) == -1) {
 				ITexture *texm = node->getMaterial(i).TextureLayer[0].Texture;
