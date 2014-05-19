@@ -328,7 +328,7 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 			switch (event.KeyInput.Key) {
                     
                 case KEY_SPACE:
-					if(nodeToPlace != gridSceneNode && allowFreeMoving == false) {
+					if(nodeToPlace != gridSceneNode && allowFreeMoving == false && allowMoving == true) {
 						if(arrowType == Position) {
 							core::line3d<f32> ray = collisionManager->getRayFromScreenCoordinates(cursorCtrl->getPosition());
 							vector3df intersection;

@@ -48,6 +48,8 @@ x64/
 *.bi
 *.unsuccessfulbuild
 *.sdf
+*.DS_Store
+*.Thumbs
 
 # Visual C++ cache files
 ipch/

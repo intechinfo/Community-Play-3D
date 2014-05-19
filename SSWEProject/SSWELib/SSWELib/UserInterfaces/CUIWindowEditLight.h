@@ -24,7 +24,7 @@ enum CXT_EDIT_LIGHT_WINDOW_EVENTS {
     CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON
 };
 
-class CUIWindowEditLight : public IEventReceiver {
+class CUIWindowEditLight : public IEventReceiver, public IUpdate {
     
 public:
     
@@ -34,8 +34,11 @@ public:
     void open(ISceneNode *node, stringw prefix);
     
     bool OnEvent(const SEvent &event);
+	void update();
     
 private:
+
+	void rebuildShadowMapPrevivew();
     
     CDevices *devices;
     s32 index;

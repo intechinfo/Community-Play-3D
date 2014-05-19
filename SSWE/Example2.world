@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="199.413544" Y="123.366211" Z="-4.491835" />
-			 <rotation X="15.197579" Y="296.785614" Z="0.000000" />
+			 <position X="-23.452860" Y="117.987595" Z="76.188538" />
+			 <rotation X="19.756924" Y="56.428524" Z="0.000000" />
 
 		 </camera>
 
@@ -35,6 +35,114 @@
 		 <reflectionPassEnabled enabled="0" />
 
 		 <effect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/sepia_toon_shader.hlsl" />
+				 <ppeShader shader="//------------------------------ TEXTURE PROPERTIES ----------------------------
+// This is the texture that SpriteBatch will try to set before drawing
+texture ScreenTexture;
+ 
+// Our sampler for the texture, which is just going to be pretty simple
+sampler TextureSampler = sampler_state
+{
+    Texture = <ScreenTexture>;
+};
+ 
+//------------------------ PIXEL SHADER ----------------------------------------
+// This pixel shader will simply look up the color of the texture at the
+// requested point, and turns it into a sepia tone
+float4 pixelMain(float2 TextureCoordinate : TEXCOORD0) : COLOR0
+{
+    float4 color = tex2D(TextureSampler, TextureCoordinate);
+ 
+    float4 outputColor = color;
+    outputColor.r = (color.r * 0.393) + (color.g * 0.769) + (color.b * 0.189);
+    outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);    
+    outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
+ 
+    return outputColor;
+}
+ 
+//-------------------------- TECHNIQUES ----------------------------------------
+// This technique is pretty simple - only one pass, and only a pixel shader
+technique Sepia
+{
+    pass Pass1
+    {
+        PixelShader = compile ps_2_0 pixelMain();
+    }
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/blurhp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(1.0 / SCREENX, 0),
+		float2(-1.0 / SCREENX, 0),
+		float2(2.0 / SCREENX, 0),
+		float2(-2.0 / SCREENX, 0)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.0), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/blurvp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
+{
+	const float2 offsetArray[4] = 
+	{
+		float2(0, 1.0 / SCREENY),
+		float2(0, -1.0 / SCREENY),
+		float2(0, 2.0 / SCREENY),
+		float2(0, -2.0 / SCREENY)
+	};
+
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
+
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.01), float2(1.0, 1.0)));
+
+	finalVal /= 4.0f;
+	return finalVal;
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/bloomp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+sampler2D ScreenMapSampler : register(s1);
+
+float4 pixelMain(float2 TexCoords : TEXCOORD0) : COLOR0
+{		
+	float4 screenCol = tex2D(ScreenMapSampler, TexCoords);
+	float4 bloomCol = tex2D(ColorMapSampler, TexCoords);
+	
+	return(screenCol * 0.9 + bloomCol * 0.5);
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
 
 
 		 </effect>

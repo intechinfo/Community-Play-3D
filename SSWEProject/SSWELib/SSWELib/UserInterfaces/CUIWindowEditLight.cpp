@@ -239,10 +239,11 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		fovSL = devices->getGUIEnvironment()->addEditBox(stringw(devices->getXEffect()->getShadowLight(index).getFOV()).c_str(), rect<s32>(280, 20, 380, 40), true, shadowLightTab, -1);
 
 
-		shadowMapPreview = devices->getGUIEnvironment()->addImage(rect<s32>(10, 50, 250, 310), shadowLightTab, -1, L"Shadow Light Preview 1");
+		/*shadowMapPreview = devices->getGUIEnvironment()->addImage(rect<s32>(10, 50, 250, 310), shadowLightTab, -1, L"Shadow Light Preview 1");
 		shadowMapPreview->setScaleImage(true);
 		shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false, index));
-		devices->getGUIEnvironment()->addStaticText(L"Primary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview, -1, false);
+		devices->getGUIEnvironment()->addStaticText(L"Primary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview, -1, false);*/
+		rebuildShadowMapPrevivew();
 
 		shadowMapPreview2 = devices->getGUIEnvironment()->addImage(rect<s32>(250, 50, 500, 310), shadowLightTab, -1, L"Shadow Light Preview 2");
 		shadowMapPreview2->setScaleImage(true);
@@ -265,9 +266,79 @@ void CUIWindowEditLight::open(ISceneNode *node, stringw prefix) {
 		closeButton = devices->getGUIEnvironment()->addButton(rect<s32>(100, 430, 175, 460), editWindow, CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON,
 															  L"Close", L"Close without effect");
 
-		devices->getEventReceiver()->AddEventReceiver(this, editWindow);
+		devices->getEventReceiver()->AddEventReceiver(this, editWindow, this);
 
 
+	}
+}
+
+void CUIWindowEditLight::rebuildShadowMapPrevivew() {
+	shadowMapPreview = devices->getGUIEnvironment()->addImage(rect<s32>(10, 50, 250, 310), shadowLightTab, -1, L"Shadow Light Preview 1");
+
+	const char* names[6] = {
+		"Left",
+		"Right",
+		"Down",
+		"Up",
+		"Back",
+		"Front"
+	};
+
+	if (devices->getXEffect()->getShadowLight(index).getLightType() == ESLT_POINT) {
+		u32 currentIndex = 0;
+		for (u32 i=0; i < 2; i++) {
+			for (u32 j=0; j < 3; j++) {
+				//Width : 240
+				//Height = 260
+				IGUIImage *im = devices->getGUIEnvironment()->addImage(rect<s32>(120*i, 87*j, 120*(i+1), 87*(j+1)), shadowMapPreview, -1, L"Shadow Light Preview 1");
+				im->setScaleImage(true);
+				im->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowLight(currentIndex).getShadowMapResolution(), false, index, currentIndex));
+				devices->getGUIEnvironment()->addStaticText(stringw(names[currentIndex]).c_str(), rect<s32>(5, 5, 115, 85), false, false, im, -1, false);
+				currentIndex++;
+			}
+		}
+	} else {
+		shadowMapPreview->setScaleImage(true);
+		shadowMapPreview->setImage(devices->getXEffect()->getShadowMapTexture(devices->getXEffect()->getShadowLight(index).getShadowMapResolution(), false, index));
+		devices->getGUIEnvironment()->addStaticText(L"Primary Shadow Map", rect<s32>(5, 5, 240, 20), false, false, shadowMapPreview, -1, false);
+	}
+}
+
+void CUIWindowEditLight::update() {
+	bool canChange = true;
+
+	IGUIElement *element = devices->getGUIEnvironment()->getFocus();
+	while (element != 0) {
+		if (element == editWindow) {
+			canChange = false;
+			break;
+		}
+		element = element->getParent();
+	}
+
+	if (canChange) {
+		CCore *core = devices->getCore();
+		//POSITION
+		if (core->getF32(ebNodePositionX->getText()) != nodeToEdit->getPosition().X) {
+			ebNodePositionX->setText(stringw(nodeToEdit->getPosition().X).c_str());
+		}
+		if (core->getF32(ebNodePositionY->getText()) != nodeToEdit->getPosition().Y) {
+			ebNodePositionY->setText(stringw(nodeToEdit->getPosition().Y).c_str());
+		}
+		if (core->getF32(ebNodePositionZ->getText()) != nodeToEdit->getPosition().Z) {
+			ebNodePositionZ->setText(stringw(nodeToEdit->getPosition().Z).c_str());
+		}
+
+		//ROTATION
+		if (core->getF32(ebNodeTargetX->getText()) != nodeToEdit->getRotation().X) {
+			ebNodeTargetX->setText(stringw(nodeToEdit->getRotation().X).c_str());
+		}
+		if (core->getF32(ebNodeTargetY->getText()) != nodeToEdit->getRotation().Y) {
+			ebNodeTargetY->setText(stringw(nodeToEdit->getRotation().Y).c_str());
+		}
+		if (core->getF32(ebNodeTargetZ->getText()) != nodeToEdit->getRotation().Z) {
+			ebNodeTargetZ->setText(stringw(nodeToEdit->getRotation().Z).c_str());
+		}
 	}
 }
 
@@ -294,6 +365,16 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 	}
 
 	if (event.EventType == EET_GUI_EVENT) {
+
+		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
+            if (event.GUIEvent.Caller == editWindow) {
+                nodeToEdit->setDebugDataVisible(EDS_OFF);
+                editWindow->remove();
+                devices->getEventReceiver()->RemoveEventReceiver(this);
+                delete this;
+				return true;
+            }
+        }
         
         IGUIElement *selectedElement = event.GUIEvent.Caller;
         bool treat = false;
@@ -306,16 +387,6 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
         }
         
         if (treat) {
-            if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-                if (event.GUIEvent.Caller == editWindow) {
-                    SEvent ev;
-                    ev.EventType = EET_GUI_EVENT;
-                    ev.GUIEvent.EventType = EGET_BUTTON_CLICKED;
-                    ev.GUIEvent.Caller = closeButton;
-                    ev.GUIEvent.Element = closeButton;
-                    OnEvent(ev);
-                }
-            }
 
             if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
                 if (event.GUIEvent.Caller == editWindow->getMinimizeButton()) {
@@ -439,6 +510,9 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                 }
 				if (event.GUIEvent.Caller == shadowLightTypecb) {
 					devices->getXEffect()->getShadowLight(index).setLightType((E_SHADOW_LIGHT_TYPE)shadowLightTypecb->getSelected());
+
+					shadowMapPreview->remove();
+					rebuildShadowMapPrevivew();
 				}
             }
 
