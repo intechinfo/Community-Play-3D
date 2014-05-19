@@ -80,7 +80,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SSWE_EDITOR;WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\source\;$(SolutionDir)irrBullet\trunk\source\bheaders;$(SolutionDir)irrBullet\trunk\source\bheaders\Bullet;$(SolutionDir)OhmSDK\lib\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWECore\;$(ProjectDir);%(AdditionalIncludeDirectories);$(SolutionDir)SSWERenders\;$(SolutionDir)SSWELib\include\;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\source\;$(SolutionDir)irrBullet\source\bheaders;$(SolutionDir)irrBullet\source\bheaders\Bullet;$(SolutionDir)OhmSDK\lib\</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -93,7 +93,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>.\SSWELib.def</ModuleDefinitionFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\trunk\lib\win32_visualstudio\2010\Debug;%(AdditionalLibraryDirectories);$(SolutionDir)OhmSDK\libs\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)SSWERenders\Output\;$(SolutionDir)SSWECore\Output\;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)Bullet\libs\;$(SolutionDir)irrBullet\lib\win32_visualstudio\2010\Debug;%(AdditionalLibraryDirectories);$(SolutionDir)OhmSDK\libs\</AdditionalLibraryDirectories>
       <AdditionalDependencies>SSWECore_d.lib;SSWERenders_d.lib;lua52.lib;SPARK Engine CORE DLL_d.lib;SPARK Engine IRR DLL_d.lib;winmm.lib;Irrlicht_d.lib;BulletCollision_vs2010_debug.lib;BulletDynamics_vs2010_debug.lib;BulletSoftBody_vs2010_debug.lib;ConvexDecomposition_vs2010_debug.lib;LinearMath_vs2010_debug.lib;irrBullet.lib;%(AdditionalDependencies);OhmSDK_d.lib</AdditionalDependencies>
       <RegisterOutput>false</RegisterOutput>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
