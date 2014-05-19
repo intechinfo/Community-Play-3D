@@ -16,11 +16,14 @@
     <Filter Include="DemoGame">
       <UniqueIdentifier>{4b3b953c-f0d2-47ea-a52b-c05425e1103c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DemoGame\Camera">
-      <UniqueIdentifier>{c0364422-770f-4ebc-b880-b4fb628ae973}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DemoGame\Character">
       <UniqueIdentifier>{929afe86-aff0-4273-8071-bdc2cab0f8f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DemoGame\Example1">
+      <UniqueIdentifier>{c0364422-770f-4ebc-b880-b4fb628ae973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DemoGame\Example2">
+      <UniqueIdentifier>{692cb3a1-3fd4-4857-82df-2d6829a3e01f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,14 +36,14 @@
     <ClInclude Include="targetver.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="DemoGame\Camera\CThirdCameraSceneNode.h">
-      <Filter>DemoGame\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="DemoGame\Character\CCharacterControl.h">
       <Filter>DemoGame\Character</Filter>
     </ClInclude>
-    <ClInclude Include="DemoGame\Character\CCharacterLookAt.h">
-      <Filter>DemoGame\Character</Filter>
+    <ClInclude Include="DemoGame\Example1\CExample1.h">
+      <Filter>DemoGame\Example1</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoGame\Example2\CExample2.h">
+      <Filter>DemoGame\Example2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,14 +53,14 @@
     <ClCompile Include="DemoGame.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="DemoGame\Camera\CThirdCameraSceneNode.cpp">
-      <Filter>DemoGame\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="DemoGame\Character\CCharacterControl.cpp">
       <Filter>DemoGame\Character</Filter>
     </ClCompile>
-    <ClCompile Include="DemoGame\Character\CCharacterLookAt.cpp">
-      <Filter>DemoGame\Character</Filter>
+    <ClCompile Include="DemoGame\Example1\CExample1.cpp">
+      <Filter>DemoGame\Example1</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoGame\Example2\CExample2.cpp">
+      <Filter>DemoGame\Example2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

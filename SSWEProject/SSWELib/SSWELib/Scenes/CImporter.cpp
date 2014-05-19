@@ -525,48 +525,6 @@ void CImporter::readEffects() {
 	}
 
 	delete cCoreCallback;
-	/*while (element == "postProcessingEffect") {
-		stringw path = L"";
-		stringw myPath = L"";
-		read("file_path");
-		path = xmlReader->getAttributeValue("path");
-		myPath = path;
-
-		stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
-		stringc fileDir = devices->getDevice()->getFileSystem()->getFileDir(path.c_str());
-		fileDir += "/";
-		fileDir.remove(devices->getWorkingDirectory().c_str());
-		devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(fileDir);
-		path.remove(fileDir);
-                    
-		s32 render = devices->getXEffect()->addPostProcessingEffectFromFile(path.c_str());
-		devices->getCoreData()->getEffectRenders()->push_back(render);
-		devices->getCoreData()->getEffectRendersPaths()->push_back(myPath);
-                    
-		CEffectRenderCallback *callback = new CEffectRenderCallback(render, devices->getDevice());
-		callback->clearPixelValues();
-		devices->getCoreData()->getEffectRenderCallbacks()->push_back(callback);
-		devices->getXEffect()->setPostProcessingRenderCallback(render, callback);
-                    
-		read("values");
-		readWithNextElement("value", "values");
-		while (element == "value") {
-			stringw name = L"";
-			stringc value = "0.0";
-                        
-			name = xmlReader->getAttributeValue("name");
-			value = xmlReader->getAttributeValue("val");
-                        
-			callback->getPixelValues()->push_back(value);
-			callback->getPixelValuesNames()->push_back(name);
-                        
-			readWithNextElement("value", "values");
-		}
-
-		devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(oldPath.c_str());
-		read("postProcessingEffect");
-		readWithNextElement("postProcessingEffect", "effect");
-	}*/
 }
 
 void CImporter::readMaterialShaderCallbacks() {
@@ -705,8 +663,10 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		read("textures");
 		for (u32 i=0; i < irr::video::MATERIAL_MAX_TEXTURES; i++) {
 			read("texture");
-			ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
-			_node->getMaterial(id).TextureLayer[i].Texture = tex;
+			if (stringc(xmlReader->getAttributeValue("path")) != "") {
+				ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
+				_node->getMaterial(id).TextureLayer[i].Texture = tex;
+			}
 		}
 
 		//COLORS

@@ -169,6 +169,9 @@
     <Filter Include="SSWELib\UserInterfaces\ScenarioMaker\ScenarioObjects">
       <UniqueIdentifier>{2d5fc470-34a0-463d-8ea3-27f6509a5d3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\Device\Controllers">
+      <UniqueIdentifier>{e3787e33-513c-46b8-ac44-e2f31c045df8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -491,6 +494,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\ScenarioMaker\ScenarioObjects\CUIScenarioObjects.cpp">
       <Filter>SSWELib\UserInterfaces\ScenarioMaker\ScenarioObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\Device\Controllers\CAnimationController.cpp">
+      <Filter>SSWELib\Device\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -886,6 +892,12 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\ScenarioMaker\ScenarioObjects\CUIScenarioObjects.h">
       <Filter>SSWELib\UserInterfaces\ScenarioMaker\ScenarioObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Controllers\CAnimationController.h">
+      <Filter>SSWELib\Device\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAnimationController.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

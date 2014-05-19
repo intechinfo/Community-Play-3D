@@ -11,8 +11,6 @@
  
 #include <irrlicht.h>
 
-#include "../Camera/CThirdCameraSceneNode.h"
-
 class IDevices;
 
 enum E_CHARACTER_ANIMATIONS {

@@ -1,153 +1,0 @@
-<?xml version="1.0"?>
-
-<rootScene>
-
-	<config>
-
-		 <numberOfObjects value="2" />
-
-		 <grid>
-
-			 <accentLineOffset ALO="8" />
-			 <size S="1024" />
-			 <spacing SP="8" />
-
-		 </grid>
-
-		 <camera>
-
-			 <position X="-389.367920" Y="-60.490086" Z="-413.143066" />
-			 <rotation X="359.817230" Y="36.786133" Z="0.000000" />
-
-		 </camera>
-
-		 <fpsCameraSettings>
-
-			 <ellipsoidRadius X="30.000000" Y="60.000000" Z="30.000000" />
-			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
-			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <slidingValue value="0.000500" />
-
-		 </fpsCameraSettings>
-
-		 <effect>
-
-
-		 </effect>
-
-		 <materialTypes>
-
-			 <materialType>
-				 <pixelShaderType type="4" /> 
-				 <vertexShaderType type="1" /> 
-				 <baseMaterial type="0" /> 
-				 <name cname="Triplanar Mapping" />
-				 <vertex shader=
-"float4x4 matWorldViewProjection;float4x4 matWorld;float tileSize;float3 viewPos;struct VS_INPUT {   float4 Position : POSITION0;   float2 Texcoord : TEXCOORD0;   float3 Normal :   NORMAL0; };struct VS_OUTPUT {   float4 Position :        POSITION0;   float  Fog		:       FOG0;   float2 TexcoordX :       TEXCOORD0;   float2 TexcoordY :       TEXCOORD1;   float2 TexcoordZ :       TEXCOORD2;   float3 viewDirection   : TEXCOORD3;      float3x3 tangentSpace :  TEXCOORD4;};VS_OUTPUT vertexMain( VS_INPUT Input ){   VS_OUTPUT Output;   Output.Position         = mul( Input.Position, matWorldViewProjection );   float3 realPos          = mul( Input.Position,matWorld).xyz;      Output.viewDirection = realPos-viewPos;      Output.TexcoordX         = realPos.zy/tileSize;   Output.TexcoordY         = realPos.xz/tileSize;   Output.TexcoordZ         = realPos.xy/tileSize;      float3 worldNormal = normalize(Input.Normal);   float3 n = worldNormal;   n*=n;         float3 xtan,ytan,ztan;   float3 xbin,ybin,zbin;      xtan = float3(0,0,1);   xbin = float3(0,1,0);      ytan = float3(1,0,0);   ybin = float3(0,0,1);      ztan = float3(1,0,0);   zbin = float3(0,1,0);      float3 worldBinormal = normalize(xbin*n.x+ybin*n.y+zbin*n.z);   float3 worldTangent = normalize(xtan*n.x+ytan*n.y+ztan*n.z);   worldNormal = mul(matWorld,worldNormal);   worldBinormal = mul(matWorld,worldBinormal);   worldTangent = mul(matWorld,worldTangent);      Output.tangentSpace[0]   = worldTangent;   Output.tangentSpace[1]   = worldBinormal;    Output.tangentSpace[2]   = worldNormal;   Output.Fog = Output.Position.z/Output.Position.w;         return( Output );   }" />
-				 <pixel shader=
-"float4 ambient;float4 specular;float4 diffuse;float specularPower;float3 lightDirection;sampler2D baseX : register(s0);sampler2D baseY : register(s2);sampler2D normalX : register(s1);sampler2D normalY : register(s3);struct PS_INPUT {   float4 Position :        POSITION0;   float2 TexcoordX :       TEXCOORD0;   float2 TexcoordY :       TEXCOORD1;   float2 TexcoordZ :       TEXCOORD2;   float3 viewDirection   : TEXCOORD3;      float3x3 tangentSpace :  TEXCOORD4;};float4 pixelMain( PS_INPUT Input ) : COLOR0{         float3 fvLightDirection = normalize( lightDirection );   float3 fvNormal         = normalize( Input.tangentSpace[2]);   float3 fvViewDirection  = normalize( Input.viewDirection );       float3 n                = fvNormal;   n*=n;      float4 fvBaseColor      = tex2D( baseX, Input.TexcoordX )*n.x+                             tex2D( baseY, Input.TexcoordY )*n.y+                             tex2D( baseX, Input.TexcoordZ )*n.z;   float4 fvBaseNormal     = tex2D( normalX, Input.TexcoordX )*n.x+                             tex2D( normalY, Input.TexcoordY )*n.y+                             tex2D( normalX, Input.TexcoordZ )*n.z;                                float3 normal           = normalize(mul(2.0*fvBaseNormal.xyz-1.0,Input.tangentSpace));           float  fNDotL           = max(0.0,dot( normal, fvLightDirection ));    float3 fvReflection     = reflect(fvLightDirection,normal);   float  fRDotV           = max(0.0, dot( fvReflection, fvViewDirection ) );                                float4 fvTotalAmbient   = ambient * fvBaseColor;    float4 fvTotalDiffuse   = diffuse * fNDotL * fvBaseColor;    float4 fvTotalSpecular  = specular * pow( fRDotV, specularPower )*fvBaseColor;      return( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );      }" />
-				 <constants value="pSColori ambient 127 127 127 127pSColori specular 255 255 255 255pSColori diffuse 255 255 255 255pfloat specularPower 4pvector3df lightDirection -0.1 1 0.1
-
-vmatrix4 matWorldViewProjection proj[0] view[0] world[0] 0vmatrix4 matWorld world[0] 0 0 0vfloat tileSize 10vvector3df viewPos camPos
-" />
-			 </materialType>
-
-
-		 </materialTypes>
-
-		 <scripts>
-
-
-		 </scripts>
-
-	</config>
-
-
-
-	<scene>
-
-		 <terrain>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/height_maps/crab_island_hm.jpg" />
-
-			 <type esnt="heightMap" />
-
-			 <factory> 
-
-
-			 </factory> 
-
-			 <name c8name="#map:myName" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="height_maps/rock.png" />
-						 <texture id="1" path="height_maps/rockn.png" />
-						 <texture id="2" path="height_maps/water_ice_and_snow_0034_01.jpg" />
-						 <texture id="3" path="height_maps/rockn.png" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 </materials>
-			 <position X="-480.000000" Y="-12.750000" Z="-480.000000" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.000000" Y="0.200000" Z="1.000000" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="2" />
-
-		 </terrain>
-
-		 <light>
-
-			 <name c8name="#light:1" />
-
-			 <position X="71.902466" Y="331.916656" Z="-203.567017" />
-			 <target X="0.571502" Y="2.340985" Z="-107.662346" />
-
-			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
-			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
-			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
-
-			 <radius value="100.000000" />
-			 <farValue value="5000.000000" />
-			 <autoRecalculate value="0" />
-
-			 <shadows resol="1024" />
-
-			 <lensFlare>
-			 </lensFlare>
-
-		 </light>
-
-
-	</scene>
-
-</rootScene>

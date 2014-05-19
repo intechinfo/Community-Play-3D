@@ -4,28 +4,28 @@
 
 	<config>
 
-		 <numberOfObjects value="2" />
+		 <numberOfObjects value="5" />
 
 		 <grid>
 
 			 <accentLineOffset ALO="8" />
-			 <size S="1024" />
+			 <size S="0" />
 			 <spacing SP="8" />
 
 		 </grid>
 
 		 <camera>
 
-			 <position X="-56.973804" Y="-55.006294" Z="-255.624435" />
-			 <rotation X="355.440613" Y="13.035645" Z="0.000000" />
+			 <position X="63.893818" Y="90.929710" Z="178.263962" />
+			 <rotation X="24.316322" Y="191.964294" Z="0.000000" />
 
 		 </camera>
 
 		 <fpsCameraSettings>
 
-			 <ellipsoidRadius X="30.000000" Y="60.000000" Z="30.000000" />
+			 <ellipsoidRadius X="5.000000" Y="10.000000" Z="5.000000" />
 			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
-			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="75.000000" Z="0.000000" />
 			 <slidingValue value="0.000500" />
 
 		 </fpsCameraSettings>
@@ -122,22 +122,6 @@ float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
 		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.01), float2(1.0, 1.0)));
 
 	finalVal /= 4.0f;
-	return finalVal;
-}
-" />
-				 <ppeCallback callback="" />
-			 </postProcessingEffect>
-
-			 <postProcessingEffect>
-				 <ppeName name="/brightpass.hlsl" />
-				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
-
-float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
-{
-	float4 finalVal = tex2D(ColorMapSampler, Texcoords.xy);
-	finalVal *= 2.0;
-	finalVal = pow(finalVal, 8.0);
-
 	return finalVal;
 }
 " />
@@ -452,6 +436,208 @@ vfloat Timer + ctime 100
 vmatrix4 Viewl view[0] 0 0 0" />
 			 </materialType>
 
+			 <materialType>
+				 <pixelShaderType type="7" /> 
+				 <vertexShaderType type="3" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="normal_mapping_normal_package.spkg" />
+				 <vertex shader=
+"float4x4 matWorldInverse; 
+float4x4 ModelViewMatrix;
+float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; 
+float3 fvLightPosition2; 
+float3 fvLightPosition3; 
+float3 fvLightPosition4; 
+float fLightStrength1; 
+float fLightStrength2; 
+float fLightStrength3; 
+float fLightStrength4; 
+struct VS_OUTPUT
+{
+   float4 Position            : POSITION0;
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3; 
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float getLengthSQR (float3 vec) 
+{ 
+   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+}  
+struct VS_INPUT
+{
+   float3 Position         : POSITION0;
+   float3 Normal           : NORMAL;
+   float2 Texcoord         : TEXCOORD0;
+};
+VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+{    
+   VS_OUTPUT OUT = (VS_OUTPUT)0;
+   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   OUT.Texcoord = IN.Texcoord;
+   
+   float4x4 LightTransform= ModelViewMatrix; 
+   LightTransform= mul(matWorldInverse, LightTransform);
+   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+   
+   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+   
+   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+   float3 fvBinormal   = cross(fvTangent,IN.Normal);
+   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+   
+   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+   
+   return OUT;
+}
+" />
+				 <pixel shader=
+"float4 fvAmbient;
+float4 fvLight1Color; 
+float4 fvLight2Color; 
+float4 fvLight3Color; 
+float4 fvLight4Color; 
+float fSpecularPower; 
+float fSpecularStrength; 
+float fBumpStrength; 
+sampler2D baseMap      : register(s0); 
+sampler2D bumpMap      : register(s1); 
+struct PS_INPUT
+{   
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3;
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float4 pixelMain( in PS_INPUT IN ) : COLOR
+{
+   float4 color = float4(0,0,0,0);
+   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+   
+   fvNormal.xy*=2.0; 
+   fvNormal.xy-=1.0;
+   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+   if(color.r>1.0){color.gb+=color.r-1.0;} 
+   if(color.g>1.0){color.rb+=color.g-1.0;} 
+   if(color.b>1.0){color.rg+=color.b-1.0;} 
+   
+   return color;
+}
+" />
+				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
+
+vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+
+
+vfloat fLightStrength1 80
+
+vfloat fLightStrength2 80
+
+vfloat fLightStrength3 80
+
+vfloat fLightStrength4 80
+
+
+
+vvector3df fvLightPosition1 150 240 -34
+
+vvector3df fvLightPosition2 150 240 -34
+
+vvector3df fvLightPosition3 150 240 -34
+
+vvector3df fvLightPosition4 150 240 -34
+
+
+
+pSColor fvAmbient 1 0.7 0.7 0.7
+
+pSColor fvLight1Color 1 0.02 0.02 0.02
+
+pSColor fvLight2Color 1 0.02 0.02 0.02
+
+pSColor fvLight3Color 1 0.02 0.02 0.02
+
+pSColor fvLight4Color 1 0.02 0.02 0.02
+
+
+
+pfloat fSpecularPower 20
+
+pfloat fSpecularStrength 0.9
+
+pfloat fBumpStrength 5
+
+" />
+			 </materialType>
+
 
 		 </materialTypes>
 
@@ -461,7 +647,7 @@ vmatrix4 Viewl view[0] 0 0 0" />
 		 </scripts>
 
 		 <physics>
-			 <gravity X="0.000000" Y="-50.000000" Z="0.000000" />
+			 <gravity X="0.000000" Y="-500.000000" Z="0.000000" />
 		 </physics>
 
 	</config>
@@ -5335,12 +5521,852 @@ vmatrix4 Viewl view[0] 0 0 0" />
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 			 <physics>
-			 	 <body type="0">
+			 	 <body type="1">
+			 		 <mass value="0.000000" />
 			 	 </body>
 			 </physics>
 
 
 		 </terrain>
+
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/scifi/chief/chief_alone_enter.x" />
+
+			 <name c8name="#object:chief" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_cm.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_nm.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_cm.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_cm.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m4_cm.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m4_nm.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m4_cm.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m4_cm.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_cm.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="3">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_cm.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="4">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_beard.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="14" />
+
+			 	 </material>
+			 	 <material id="5">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/assaulthelmet_gear_cm.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/assaulthelmet_gear_nm.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/assaulthelmet_gear_cm.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/assaulthelmet_gear_cm.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="6">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="60.660889" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="7">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/helmetbase_cm.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/helmetbase_nm.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/helmetbase_cm.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/helmetbase_cm.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="8">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="62.479279" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="9">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="10">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/us_chiefhead_cm.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/us_chiefhead_nm.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/us_chiefhead_cm.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/us_chiefhead_cm.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="11">
+					 <textures>
+						 <texture id="0" path="" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="0" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="61.699249" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="12">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m203grenadelauchersight_cm.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m203grenadelauchersight_nm.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m203grenadelauchersight_cm.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m203grenadelauchersight_cm.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="13">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm1.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_nm1.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm1.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm1.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-1" />
+
+			 	 </material>
+			 	 <material id="14">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm2.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_nm2.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm2.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm2.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="15">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/glove_cm.jpg" />
+						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/glove_nm.jpg" />
+						 <texture id="2" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/glove_cm.jpg" />
+						 <texture id="3" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/glove_cm.jpg" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-34.193146" Y="-0.310532" Z="77.576172" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="0.050000" Y="0.050000" Z="0.050000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+				 <action start="0" end="9440" name="IDLE" speed="4000.000000" animPath="" /> 
+
+				 <action start="0" end="18080" name="RELOAD" speed="4000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/reload.x" /> 
+
+				 <action start="0" end="9440" name="FIRE" speed="4000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/fire.x" /> 
+
+			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="cube" />
+
+			 <name c8name="#object:new_cube" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="shaders/textures/predefined/specular.tga" />
+						 <texture id="3" path="shaders/Textures/predefined/diffuse.tga" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-3" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-58.067368" Y="264.237885" Z="144.209320" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="1">
+			 		 <mass value="100.000000" />
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/idle.x" />
+
+			 <name c8name="#object:mp5_animated" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/mp5/idle.fbm/mp5_d.jpg" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="150" g="150" b="150" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="128" g="128" b="128" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="59.772800" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-3" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/mp5/idle.fbm/aimpoint_sight.jpg" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="150" g="150" b="150" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-3" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/architecture/garden/mp5/idle.fbm/hands_1stp_military_diff.jpg" />
+						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="150" g="150" b="150" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-3" />
+
+			 	 </material>
+			 </materials>
+			 <position X="39.814758" Y="73.865433" Z="111.733704" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="5.000000" Y="5.000000" Z="5.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+				 <action start="0" end="9440" name="IDLE" speed="4000.000000" animPath="" /> 
+
+				 <action start="0" end="18080" name="RELOAD" speed="4000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/reload.x" /> 
+
+				 <action start="0" end="9440" name="FIRE" speed="4000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/fire.x" /> 
+
+			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
+
+		 </object>
 
 		 <light>
 

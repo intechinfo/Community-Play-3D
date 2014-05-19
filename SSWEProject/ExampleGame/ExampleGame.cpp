@@ -23,7 +23,7 @@ public:
 			node->setPosition(irr::core::vector3df(7.f, 0.f, 0.f));
 			node->setRotation(irr::core::vector3df(0.f, -90.f, 0.f));
 
-			devices->applyAnimationToModel(node, 0);
+			devices->getAnimationController()->applyAnimationToModel(node, 0);
 			node->setLoopMode(true);
 
 			tipNode = node->getJointNode("tip");
@@ -34,7 +34,7 @@ public:
 
 		irr::scene::ISceneNode *chiefNode = devices->getSceneManager()->getSceneNodeFromName("#object:chief");
 		if (chiefNode)
-			devices->applyAnimationToModel(chiefNode, 0);
+			devices->getAnimationController()->applyAnimationToModel(chiefNode, 0);
 
 		devices->getEventReceiver()->AddEventReceiver(this, 0, this);
 
@@ -57,7 +57,7 @@ public:
 
 		if (isFireing) {
 			if (node->getFrameNr() > 400) {
-				devices->applyAnimationToModel(node, 2);
+				devices->getAnimationController()->applyAnimationToModel(node, 2);
 				tipNode->updateAbsolutePosition();
 				tipNode->updateAbsolutePositionOfAllChildren();
 				irr::scene::IBillboardSceneNode *fireNode = devices->getSceneManager()->addBillboardSceneNode(tipNode, irr::core::dimension2df(20.f, 20.f));
@@ -108,7 +108,7 @@ public:
 
 		if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
 			if (!event.KeyInput.PressedDown && event.KeyInput.Key == irr::KEY_KEY_R) {
-				devices->applyAnimationToModel(node, 1);
+				devices->getAnimationController()->applyAnimationToModel(node, 1);
 				node->setAnimationEndCallback(new COnReloadFinished(this));
 				node->setLoopMode(false);
 			}
@@ -132,7 +132,7 @@ private:
 		COnReloadFinished(CUpdate *_updater) : updater(_updater) { }
 
 		virtual void OnAnimationEnd(irr::scene::IAnimatedMeshSceneNode* _node) {
-			updater->devices->applyAnimationToModel(_node, 0);
+			updater->devices->getAnimationController()->applyAnimationToModel(_node, 0);
 			_node->setLoopMode(true);
 			_node->setAnimationEndCallback(0);
 			delete this;
@@ -148,7 +148,7 @@ private:
 		COnFireFinished(CUpdate *_updater) : updater(_updater) { }
 
 		virtual void OnAnimationEnd(irr::scene::IAnimatedMeshSceneNode* _node) {
-			updater->devices->applyAnimationToModel(_node, 0);
+			updater->devices->getAnimationController()->applyAnimationToModel(_node, 0);
 			updater->isFireing = false;
 			_node->setLoopMode(true);
 			_node->setAnimationEndCallback(0);

@@ -206,6 +206,7 @@ void CExporter::exportTerrains() {
 		devices->getCoreData()->getTerrainsData()->operator[](i).getPath().remove(wd.c_str());
         
         fprintf(export_file, "\t\t <terrain>\n\n");
+		devices->getCoreData()->getTerrainsData()->operator[](i).getPath().remove(devices->getWorkingDirectory().c_str());
 		fprintf(export_file, "\t\t\t <path file=\"%s\" />\n\n", devices->getCoreData()->getTerrainsData()->operator[](i).getPath().c_str());
         if (node->getType() == ESNT_OCTREE) {
 			fprintf(export_file, "\t\t\t <type esnt=\"octtree\" mppn=\"%u\" />\n\n", devices->getCoreData()->getTerrainsData()->operator[](i).getMinPolysPerNode());

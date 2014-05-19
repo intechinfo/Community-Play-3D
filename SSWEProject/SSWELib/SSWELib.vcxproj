@@ -233,6 +233,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\CharacterEdition\ManualAnimation\CFrame.cpp" />
     <ClCompile Include="SSWELib\CharacterEdition\ManualAnimation\CManualAction.cpp" />
     <ClCompile Include="SSWELib\Device\CDevices.cpp" />
+    <ClCompile Include="SSWELib\Device\Controllers\CAnimationController.cpp" />
     <ClCompile Include="SSWELib\Device\Core\CCoreUserInterface.cpp" />
     <ClCompile Include="SSWELib\Device\Core\CRenderCore.cpp" />
     <ClCompile Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.cpp" />
@@ -339,6 +340,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\DLLExport.h" />
+    <ClInclude Include="include\IAnimationController.h" />
     <ClInclude Include="include\ICollisionManager.h" />
     <ClInclude Include="include\IDevices.h" />
     <ClInclude Include="include\IGraphicTool.h" />
@@ -365,6 +367,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\CharacterEdition\ManualAnimation\CFrame.h" />
     <ClInclude Include="SSWELib\CharacterEdition\ManualAnimation\CManualAction.h" />
     <ClInclude Include="SSWELib\Device\CDevices.h" />
+    <ClInclude Include="SSWELib\Device\Controllers\CAnimationController.h" />
     <ClInclude Include="SSWELib\Device\Core\CCoreUserInterface.h" />
     <ClInclude Include="SSWELib\Device\Core\CRenderCore.h" />
     <ClInclude Include="SSWELib\Device\Core\ParticleSystems\CParticleSystemsImporter.h" />

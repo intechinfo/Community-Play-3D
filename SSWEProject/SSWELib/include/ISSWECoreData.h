@@ -73,6 +73,7 @@ public:
     
     virtual void removeSceneNode(irr::scene::ISceneNode *node, ISSWERender *effect) = 0;
     virtual ISData *copySDataOfSceneNode(irr::scene::ISceneNode *node) = 0;
+	virtual ISData *getISDataOfSceneNode(irr::scene::ISceneNode *node) = 0;
 	//-----------------------------------
     
 	//-----------------------------------

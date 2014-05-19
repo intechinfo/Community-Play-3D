@@ -17,6 +17,8 @@
 
 #include <irrbullet.h>
 
+#include "Controllers/CAnimationController.h"
+
 #if defined(_WIN32)
 #include "../SceneNodes/Animators/CCameraFPS360Controller.h"
 #endif
@@ -515,6 +517,9 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	bulletWorld = createIrrBulletWorld(Device, true, false);
     bulletWorld->setGravity(vector3df(0,-50,0));
 	u32 TimeStamp = Device->getTimer()->getTime();
+
+	//CONTROLLERS
+	animationController = new cp3d::controllers::CAnimationController(this);
 }
 
 void CDevices::rebuildXEffect() {
@@ -586,59 +591,6 @@ ISData *CDevices::getSelectedData() {
 	data = worldCoreData->copySDataOfSceneNode(node);
 
 	return data;
-}
-
-void CDevices::applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber) {
-	if (node->getType() == ESNT_ANIMATED_MESH) {
-		SObjectsData *sdatat = (SObjectsData*)worldCoreData->getISDataOfSceneNode(node);
-		if (animationNumber >= sdatat->getActions()->size())
-			return;
-
-		IAnimatedMeshSceneNode *node = (IAnimatedMeshSceneNode*)sdatat->getNode();
-		if (sdatat->getActions()->operator[](animationNumber)->getAnimationPath() == "Current"
-			|| sdatat->getActions()->operator[](animationNumber)->getAnimationPath() == "")
-		{
-			((ISkinnedMesh*)node->getMesh())->useAnimationFrom((ISkinnedMesh*)sdatat->getMesh());
-		} else {
-			IAnimatedMesh *smesh = smgr->getMesh(sdatat->getActions()->operator[](animationNumber)->getAnimationPath());
-			((ISkinnedMesh*)node->getMesh())->useAnimationFrom((ISkinnedMesh*)smesh);
-		}
-
-		((IAnimatedMeshSceneNode*)node)->setFrameLoop(sdatat->getActions()->operator[](animationNumber)->getStart(),
-													  sdatat->getActions()->operator[](animationNumber)->getEnd());
-		((IAnimatedMeshSceneNode*)node)->setAnimationSpeed(sdatat->getActions()->operator[](animationNumber)->getAnimSpeed());
-	}
-}
-
-void CDevices::applyAnimationFromNameToModel(irr::scene::ISceneNode *node, irr::core::stringc name) {
-	SObjectsData *sdatat = (SObjectsData*)worldCoreData->getISDataOfSceneNode(node);
-	if (sdatat) {
-		for (u32 i=0; i < sdatat->getActions()->size(); i++) {
-			if (name.make_upper() == sdatat->getActions()->operator[](i)->getName().make_upper()) {
-				this->applyAnimationToModel(node, i);
-				break;
-			}
-		}
-	}
-}
-
-irr::s32 CDevices::getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node) {
-	IAnimatedMesh *mesh = ((IAnimatedMeshSceneNode*)node)->getMesh();
-	SObjectsData *sdatat = (SObjectsData*)worldCoreData->getISDataOfSceneNode(node);
-	if (sdatat) {
-		for (u32 i=0; i < sdatat->getActions()->size(); i++) {
-			if (((IAnimatedMeshSceneNode*)node)->getFrameNr() >= sdatat->getActions()->operator[](i)->getStart()
-				&& ((IAnimatedMeshSceneNode*)node)->getFrameNr() <= sdatat->getActions()->operator[](i)->getEnd())
-			{
-				for (u32 j=0; j < sdatat->getAnimationMeshes()->size(); j++) {
-					if (mesh == sdatat->getAnimationMeshes()->operator[](j)) {
-						return i;
-					}
-				}
-			}
-		}
-	}
-	return -1;
 }
 
 bool CDevices::OnEvent(const SEvent &event) {

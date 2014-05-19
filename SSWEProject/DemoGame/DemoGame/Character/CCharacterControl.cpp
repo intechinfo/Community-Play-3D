@@ -26,7 +26,7 @@ CCharacterControl::CCharacterControl(irr::scene::IAnimatedMeshSceneNode *node,
 	/// Configure node
 	node->setLoopMode(true);
 	node->setRotation(core::vector3df(0.f, 90.f, 0.f));
-	devices->applyAnimationFromNameToModel(node, "IDLE");
+	devices->getAnimationController()->applyAnimationFromNameToModel(node, "IDLE");
 	currentAnimationType = ECA_IDLE;
 	wantedAnimationType = ECA_IDLE;
 
@@ -77,7 +77,7 @@ void CCharacterControl::update() {
 
 	/// Animate with current animation
 	if (wantedAnimationType == ECA_IDLE && currentAnimationType != ECA_IDLE) {
-		devices->applyAnimationFromNameToModel(node, "IDLE");
+		devices->getAnimationController()->applyAnimationFromNameToModel(node, "IDLE");
 		currentAnimationType = ECA_IDLE;
 	}
 
@@ -94,11 +94,11 @@ void CCharacterControl::update() {
 		}
 
 		if (wantedAnimationType == ECA_RUN && currentAnimationType != ECA_RUN && shiftDown) {
-			devices->applyAnimationFromNameToModel(node, "RUN");
+			devices->getAnimationController()->applyAnimationFromNameToModel(node, "RUN");
 			currentAnimationType = ECA_RUN;
 		}
 		if (wantedAnimationType == ECA_WALK && currentAnimationType != ECA_WALK && !shiftDown) {
-			devices->applyAnimationFromNameToModel(node, "WALK");
+			devices->getAnimationController()->applyAnimationFromNameToModel(node, "WALK");
 			currentAnimationType = ECA_WALK;
 		}
 

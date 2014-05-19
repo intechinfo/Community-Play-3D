@@ -42,6 +42,12 @@
 class CCoreUserInterface;
 class irrBulletWorld;
 
+namespace cp3d {
+	namespace controllers {
+		class CAnimationController;
+	}
+}
+
 enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_CLOSE = 0x15000,
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
@@ -107,7 +113,7 @@ public:
 	//CORE
     CCoreUserInterface *getCoreUserInterface() { return coreUserInterface; }
     
-	CCore *getCore() { return wolrdCore; };
+	CCore *getCore() { return wolrdCore; }
 	CCoreData *getCoreData() { return worldCoreData; }
 
 	CCollisionManager *getCollisionManager() { return collisionManager; }
@@ -118,6 +124,8 @@ public:
 	CScripting *getScripting() { return scripting; }
 
 	irrBulletWorld *getBulletWorld() { return bulletWorld; }
+
+	cp3d::controllers::IAnimationController *getAnimationController() { return (cp3d::controllers::IAnimationController*)animationController; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -144,10 +152,6 @@ public:
 	void setProjectName(stringw _projectName) { projectName = _projectName; }
 
 	bool isOnlyForPlaying() { return isOnlyForPlay; }
-
-	void applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber);
-	void applyAnimationFromNameToModel(irr::scene::ISceneNode *node, irr::core::stringc name);
-	irr::s32 getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -260,6 +264,8 @@ private:
 	CScripting *scripting;
 
 	irrBulletWorld *bulletWorld;
+
+	cp3d::controllers::CAnimationController *animationController;
 	//-----------------------------------
 
 	//-----------------------------------
