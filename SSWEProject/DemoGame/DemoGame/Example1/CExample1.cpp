@@ -46,7 +46,6 @@ void CExample1::load(irr::core::stringc file) {
 
 	/// You can also get the data structure of the scene node with getISDataOfSceneNode
 	ISData *sceneNodeData = devices->getCoreData()->getISDataOfSceneNode(smokePlaneNode);
-	assert(sceneNodeData->getNode() == smokePlaneNode);
 	/// You can now access to all methods of the scene node structure!
 
 	/// Finish

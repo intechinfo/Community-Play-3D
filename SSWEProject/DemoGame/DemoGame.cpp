@@ -8,6 +8,7 @@
 //#include "DemoGame/Character/CCharacterControl.h"
 #include "DemoGame/Example1/CExample1.h"
 #include "DemoGame/Example2/CExample2.h"
+#include "DemoGame/Example3/CExample3.h"
 
 int exampleNumber = 1;
 
@@ -38,6 +39,13 @@ int main(int argc, char *argv[])
 		CExample2 *example2 = new CExample2(coreInterface);
 		example2->load();
 		example2->run();
+	} else
+	if (exampleNumber == 3) {
+		/// Lear combination with IEventReceiver and IUpdate + animations with a weapon
+		example->load("Example3.world");
+		CExample3 *example3 = new CExample3(coreInterface);
+		example3->load();
+		example3->run();
 	}
 
 	/// Old example lines, CCharacterControl
