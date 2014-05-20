@@ -177,6 +177,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu = menu->getSubMenu(i-1);
 	submenu->addSeparator();
 	submenu->addItem(L"New Terrain... (WIP)", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
+	submenu->addItem(L"Mesh Factory...", CXT_MENU_EVENTS_MESH_FACTORY_EDIT);
 
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
@@ -533,6 +534,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 //CONTEXT MENU VIEW EVENT
                 case CXT_MENU_EVENTS_EDIT_EDIT_SELECTED_NODE: {
 					ISceneNode *prefix = mainWindowInstance->getSelectedNode().getNode();
+					if (!prefix) break;
+
 					if (prefix->getType() != ESNT_LIGHT) {
                         CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
 						editNode->open(mainWindowInstance->getSelectedNode().getNode(), 
@@ -547,6 +550,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     
                 case CXT_MENU_EVENTS_EDIT_EDIT_MATERIALS_SELECTED_NODE: {
 					ISceneNode *prefix = mainWindowInstance->getSelectedNode().getNode();
+					if (!prefix) break;
+
 					if (prefix->getType() != ESNT_LIGHT) {
                         CUIMaterialEditor *matEditor = new CUIMaterialEditor(devices);
 						matEditor->open(mainWindowInstance->getSelectedNode().getNode());
@@ -886,6 +891,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				case CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN: {
 					CUIWindowAddNewTerrain *newTerrain = new CUIWindowAddNewTerrain(devices);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_MESH_FACTORY_EDIT: {
+					CUIMeshFactory *meshFactory = new CUIMeshFactory(devices);
 				}
 					break;
 

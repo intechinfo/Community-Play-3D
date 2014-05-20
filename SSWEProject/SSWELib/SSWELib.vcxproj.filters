@@ -172,6 +172,9 @@
     <Filter Include="SSWELib\Device\Controllers">
       <UniqueIdentifier>{e3787e33-513c-46b8-ac44-e2f31c045df8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\MeshFactory">
+      <UniqueIdentifier>{a0c3f5bc-442c-430e-9855-388cd9e0a454}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -497,6 +500,12 @@
     </ClCompile>
     <ClCompile Include="SSWELib\Device\Controllers\CAnimationController.cpp">
       <Filter>SSWELib\Device\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshFactory.cpp">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.cpp">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -898,6 +907,12 @@
     </ClInclude>
     <ClInclude Include="include\IAnimationController.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshFactory.h">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.h">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

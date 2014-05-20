@@ -48,6 +48,11 @@ public:
     bool isPlacing() { return isMoving; }
 	ArrowType getArrowType() { return arrowType; }
     void setAllowMoving(bool _allowMoving) { allowMoving = _allowMoving; }
+
+	IAnimatedMesh *getArrowYLine() { return arrowYLine; }
+	IAnimatedMesh *getArrowXLine() { return arrowXLine; }
+	IAnimatedMesh *getArrowZLine() { return arrowZLine; }
+	IAnimatedMesh *getArrowYXZLine() { return arrowYXZLine; }
     
 private:
     

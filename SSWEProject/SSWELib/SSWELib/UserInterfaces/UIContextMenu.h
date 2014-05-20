@@ -101,6 +101,7 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYDOME,
 	CXT_MENU_EVENTS_NODE_FACTORY_EDIT_MATERIALS_SKYDOME,
 	CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN,
+	CXT_MENU_EVENTS_MESH_FACTORY_EDIT,
 
 	CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER,
 
@@ -159,6 +160,8 @@ enum GUI_CXT_MENU_EVENTS {
 #include "NodeFactory/CUIWindowEditClouds.h"
 
 #include "ScenarioMaker/CUIScenarioMakerMain.h"
+
+#include "MeshFactory/CUIMeshFactory.h"
 
 class CUIContextMenu : public IEventReceiver {
 

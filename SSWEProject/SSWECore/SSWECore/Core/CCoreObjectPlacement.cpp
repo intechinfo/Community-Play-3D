@@ -31,7 +31,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
     allowMoving = true;
 	allowFreeMoving = false;
     
-    arrowYLine = smgr->addArrowMesh("arrowYLine", 0x66BB00, 0x66BB00); //vert
+    arrowYLine = otherSmgr->addArrowMesh("arrowYLine", 0x66BB00, 0x66BB00); //vert
 	arrowYLineNode = smgr->addAnimatedMeshSceneNode(arrowYLine);
 	arrowYLineNode->setVisible(false);
 	arrowYLineNode->setName("editor:arrowY");
@@ -41,7 +41,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowYLineNode->setScale(vector3df(10, 40, 10));
 	colMgr->setCollisionFromBoundingBox(arrowYLineNode);
     
-	arrowXLine = smgr->addArrowMesh("arrowXLine", 0xffff0000, 0xffff0000); //rouge
+	arrowXLine = otherSmgr->addArrowMesh("arrowXLine", 0xffff0000, 0xffff0000); //rouge
 	arrowXLineNode = smgr->addAnimatedMeshSceneNode(arrowXLine);
 	arrowXLineNode->setVisible(false);
 	arrowXLineNode->setName("editor:arrowX");
@@ -52,7 +52,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowXLineNode->setRotation(vector3df(0, 0, -90));
 	colMgr->setCollisionFromBoundingBox(arrowXLineNode);
 
-	arrowZLine = smgr->addArrowMesh("arrowZLine", 0x3300DD, 0x3300DD); //bleu
+	arrowZLine = otherSmgr->addArrowMesh("arrowZLine", 0x3300DD, 0x3300DD); //bleu
 	arrowZLineNode = smgr->addAnimatedMeshSceneNode(arrowZLine);
 	arrowZLineNode->setVisible(false);
 	arrowZLineNode->setName("editor:arrowZ");
@@ -63,7 +63,7 @@ CCoreObjectPlacement::CCoreObjectPlacement(ISceneManager *_smgr, ICursorControl 
 	arrowZLineNode->setRotation(vector3df(90, 0, 0));
 	colMgr->setCollisionFromBoundingBox(arrowZLineNode);
 
-	arrowYXZLine = smgr->addArrowMesh("arrowYXZLine", 0xf2a400, 0xf2a400); //orange
+	arrowYXZLine = otherSmgr->addArrowMesh("arrowYXZLine", 0xf2a400, 0xf2a400); //orange
 	arrowYXZLineNode = smgr->addAnimatedMeshSceneNode(arrowYXZLine);
 	arrowYXZLineNode->setVisible(false);
 	arrowYXZLineNode->setName("editor:arrowYXZ");
