@@ -17,6 +17,8 @@
 
 #include <irrbullet.h>
 
+#include "../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
+
 #include "Controllers/CAnimationController.h"
 
 #if defined(_WIN32)
@@ -487,6 +489,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setFPSCamera(camera_fps);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
+    normalMappingMaterial = new CNormalMappingMaterial();
+    normalMappingMaterial->build(driver);
 
 	renderCore = new CRenderCore(this);
 

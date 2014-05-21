@@ -207,6 +207,8 @@ EffectHandler::~EffectHandler()
 
 void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2du& resolution)
 {
+    //driver->setRenderTarget(0);
+    
 	bool tempTexFlagMipMaps = driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
 	bool tempTexFlag32 = driver->getTextureCreationFlag(ETCF_ALWAYS_32_BIT);
     
@@ -228,8 +230,11 @@ void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2d
 	if(DepthRTT != 0)
 	{
 		//driver->removeTexture(DepthRTT);
-		DepthRTT = driver->addRenderTargetTexture(ScreenRTTSize, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
+		DepthRTT = driver->addRenderTargetTexture(resolution, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
 	}
+    
+    if (DOFMapSampler)
+        DOFMapSampler = driver->addRenderTargetTexture(resolution, "DOFMapSampler");
     
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);

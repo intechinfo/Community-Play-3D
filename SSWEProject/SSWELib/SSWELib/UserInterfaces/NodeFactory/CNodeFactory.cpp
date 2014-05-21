@@ -10,6 +10,8 @@
 #include "stdafx.h"
 #include "CNodeFactory.h"
 
+#include "../../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
+
 #include <irrbullet.h>
 
 CNodeFactory::CNodeFactory(CDevices *_devices) {
@@ -71,7 +73,7 @@ void CNodeFactory::createBillBoardSceneNode() {
 }
 
 void CNodeFactory::createLightSceneNode() {
-	ISceneNode *light = devices->getSceneManager()->addLightSceneNode();
+	ILightSceneNode *light = devices->getSceneManager()->addLightSceneNode();
 	if (light) {
 		light->setName("#light:new_light");
 		SLightsData ldata(light, 0, 0, 0);
@@ -79,6 +81,8 @@ void CNodeFactory::createLightSceneNode() {
 
 		SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
 		devices->getXEffect()->addShadowLight(shadowLight);
+        
+        devices->getNormalMappingMaterial()->addLight(light);
 
 		devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 	}

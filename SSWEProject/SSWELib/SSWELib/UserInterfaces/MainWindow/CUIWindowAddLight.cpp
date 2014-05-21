@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CUIWindowAddLight.h"
 
+#include "../../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
+
 CUIWindowAddLight::CUIWindowAddLight(CDevices *_devices, IGUIListBox *_lightsListBox) {
     devices = _devices;
     devices->getEventReceiver()->AddEventReceiver(this);
@@ -59,6 +61,8 @@ bool CUIWindowAddLight::OnEvent(const SEvent &event) {
                         
 						SLightsData ldata(light);
 						devices->getCoreData()->getLightsData()->push_back(ldata);
+                        
+                        devices->getNormalMappingMaterial()->addLight(light);
                         
                         lightsListBox->addItem(lightNodeName.c_str());
                         
