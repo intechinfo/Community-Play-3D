@@ -27,14 +27,18 @@ private:
 	CDevices *devices;
 	CMeshFactory *factory;
 
+	void reloadListBox();
+
 	//-----------------------------------
     //GUI ELEMENTS
 	IGUIWindow *window;
 
 	IGUIListBox *meshes;
 
-	IGUIButton *reload, *remove;
+	IGUIButton *reload, *remove, *clear;
 	IGUIButton *close;
+
+	IGUIWindow *removeInformationWindow;
 	//-----------------------------------
 
 };

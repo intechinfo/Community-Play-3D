@@ -20,6 +20,8 @@ public:
 
 	void reloadMesh(IMesh *mesh, stringc meshName);
 
+	array<ISceneNode *> getNodesThatUse(IMesh *mesh);
+
 private:
 
 	CDevices *devices;

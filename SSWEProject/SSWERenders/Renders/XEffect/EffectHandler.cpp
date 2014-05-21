@@ -328,8 +328,25 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 				currentShadowMapTexture = getShadowMapTexture(LightList[l].getShadowLight(ll).getShadowMapResolution(), false, l, ll);
 
-				if ((LightList[l].getShadowLight(ll).mustRecalculate() || LightList[l].getShadowLight(ll).isAutoRecalculate())
-					&& LightList[l].getShadowLight(ll).getShadowMapResolution() > 1) {
+				bool mustRecalculate = LightList[l].getShadowLight(ll).mustRecalculate() || LightList[l].getShadowLight(ll).isAutoRecalculate();
+				E_SHADOW_LIGHT_TYPE lightType = LightList[l].getLightType();
+				bool computeLight=mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1;
+
+				/*if (!computeLight) {
+					if (lightType == ESLT_SPOT || lightType == ESLT_DIRECTIONAL) {
+						if (mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1)
+							computeLight = true;
+						else
+							computeLight = false;
+					} else {
+						if (ll == LightList[l].getCurrentPass() && mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1)
+							computeLight = true;
+						else
+							computeLight = false;
+					}
+				}*/
+
+				if (computeLight) {
 					depthMC->FarLink = LightList[l].getShadowLight(ll).getFarValue();
 
 					driver->setTransform(ETS_VIEW, LightList[l].getShadowLight(ll).getViewMatrix());
@@ -437,6 +454,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 			
 				ScreenQuad.render(driver);
 			}
+
+			LightList[l].getNextPass();
 		}
 
 		// Render all the excluded and casting-only nodes.

@@ -1473,9 +1473,10 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					IAnimatedMeshSceneNode *animatedNode = (IAnimatedMeshSceneNode *)nodeToEdit;
 					u32 i = devices->getCoreData()->getObjectNodeIndice(nodeToEdit);
 					if (i != -1) {
-						animatedNode->setFrameLoop(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getStart(),
+						/*animatedNode->setFrameLoop(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getStart(),
 												   devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getEnd());
-					animatedNode->setAnimationSpeed(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getAnimSpeed());
+						animatedNode->setAnimationSpeed(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getAnimSpeed());*/
+						devices->getAnimationController()->applyAnimationToModel(animatedNode, chooseSavedAnimation->getSelected());
 					}
 				}
 			}

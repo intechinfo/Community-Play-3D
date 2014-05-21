@@ -75,6 +75,13 @@ public:
 	/// filterType : which filter you want to apply
 	/// shadowMode : which shadow mode you want to apply (cast, receive, both ? etc.)
 	virtual void addShadowToNode(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType, E_SHADOW_MODE shadowMode) = 0;
+	virtual void removeShadowFromNode(irr::scene::ISceneNode* node) = 0;
+
+	virtual void removeNodeFromLightScatteringPass(irr::scene::ISceneNode *node) = 0;
+
+	virtual void removeNodeFromDepthPass(irr::scene::ISceneNode *node) = 0;
+
+	virtual void setAllShadowLightsRecalculate() = 0;
 
 	/// Set enable and disable Motion Blur renderer
 	/// Also get is the motion blur is enabled

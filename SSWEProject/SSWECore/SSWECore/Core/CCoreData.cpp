@@ -216,12 +216,17 @@ array<ISceneNode *> CCoreData::getArrayOfWaterSurfaceNodes() {
 
 void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
 	EffectHandler *effect = (EffectHandler *)_effect;
+
+	ISData *data = this->getISDataOfSceneNode(node);
+	if (data) {
+		effect->removeNodeFromDepthPass(data->getNode());
+        effect->removeShadowFromNode(data->getNode());
+        effect->removeNodeFromLightScatteringPass(data->getNode());
+	}
+
     //SEARCH TERRAINS
     s32 indice = getArrayOfTerrainNodes().binary_search(node);
     if (indice != -1) {
-        effect->removeNodeFromDepthPass(terrainsData[indice].getNode());
-        effect->removeShadowFromNode(terrainsData[indice].getNode());
-        effect->removeNodeFromLightScatteringPass(terrainsData[indice].getNode());
         terrainsData[indice].getNode()->remove();
         terrainsData[indice].removeClonedNodes();
         terrainsData.erase(indice);
@@ -232,9 +237,6 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
     //SEARCH OBJECTS
     indice = getArrayOfObjectNodes().binary_search(node);
     if (indice != -1) {
-        effect->removeNodeFromDepthPass(objectsData[indice].getNode());
-        effect->removeShadowFromNode(objectsData[indice].getNode());
-        effect->removeNodeFromLightScatteringPass(objectsData[indice].getNode());
         objectsData[indice].getNode()->remove();
         objectsData[indice].removeClonedNodes();
         objectsData.erase(indice);
@@ -245,9 +247,6 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
     //SEARCH TREES
     indice = getArrayOfTreeNodes().binary_search(node);
     if (indice != -1) {
-        effect->removeNodeFromDepthPass(treesData[indice].getNode());
-        effect->removeShadowFromNode(treesData[indice].getNode());
-        effect->removeNodeFromLightScatteringPass(treesData[indice].getNode());
         treesData[indice].getNode()->remove();
         treesData[indice].removeClonedNodes();
         treesData.erase(indice);
@@ -288,9 +287,6 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
     //SEARCH VOLUME LIGHTS
     indice = getArrayOfVolumeLightNodes().binary_search(node);
     if (indice != -1) {
-        effect->removeNodeFromDepthPass(volumeLightsData[indice].getNode());
-        effect->removeShadowFromNode(volumeLightsData[indice].getNode());
-        effect->removeNodeFromLightScatteringPass(volumeLightsData[indice].getNode());
         volumeLightsData[indice].getNode()->remove();
         volumeLightsData[indice].removeClonedNodes();
         volumeLightsData.erase(indice);

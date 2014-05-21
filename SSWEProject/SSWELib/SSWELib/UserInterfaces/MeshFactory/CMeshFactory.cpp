@@ -17,6 +17,31 @@ CMeshFactory::~CMeshFactory() {
 
 }
 
+array<ISceneNode *> CMeshFactory::getNodesThatUse(IMesh *mesh) {
+	array<ISceneNode *> nodesThatuse(0);
+
+	/// Get all scene nodes of current instance
+	array<ISceneNode *> nodes;
+	devices->getSceneManager()->getSceneNodesFromType(ESNT_ANY, nodes);
+
+	/// Fill nodes that uses the selected mesh
+	for (u32 i=0; i < nodes.size(); i++) {
+		if (nodes[i]->getType() == ESNT_OCTREE || nodes[i]->getType() == ESNT_MESH) {
+			IMeshSceneNode *node = (IMeshSceneNode*)nodes[i];
+			if (node->getMesh() == mesh) {
+				nodesThatuse.push_back(node);
+			}
+		} else if (nodes[i]->getType() == ESNT_ANIMATED_MESH) {
+			IAnimatedMeshSceneNode *node = (IAnimatedMeshSceneNode*)nodes[i];
+			if (node->getMesh() == mesh) {
+				nodesThatuse.push_back(node);
+			}
+		}
+	}
+
+	return nodesThatuse;
+}
+
 void CMeshFactory::reloadMesh(IMesh *mesh, stringc meshName) {
 	array<ISceneNode *> nodesThatuse(0);
 
@@ -42,7 +67,10 @@ void CMeshFactory::reloadMesh(IMesh *mesh, stringc meshName) {
 	/// Reload mesh
 	devices->getSceneManager()->getMeshCache()->removeMesh(mesh);
 	mesh = 0;
-	mesh = devices->getSceneManager()->getMesh(meshName);
+
+	mesh = devices->getSceneManager()->getMesh(devices->getWorkingDirectory() + meshName);
+	if (!mesh)
+		mesh = devices->getSceneManager()->getMesh(meshName);
 
 	/// Restart nodes
 	for (u32 i=0; i < nodesThatuse.size(); i++) {

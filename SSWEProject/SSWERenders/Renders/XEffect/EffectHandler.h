@@ -41,6 +41,8 @@ enum E_SHADOW_LIGHT_CURRENT_PASS {
 /// projection matrix will be created instead of a perspective one.
 struct SShadowLight : public ICP3DShadowLight
 {
+public:
+
 	SShadowLight(	irr::u32 shadowMapResolution,
 					const irr::core::vector3df& position, 
 					const irr::core::vector3df& target,
@@ -70,6 +72,21 @@ struct SShadowLight : public ICP3DShadowLight
 		this->isParent = isParent;
 		if (isParent)
 			shadowLights.push_back(SShadowLight(mapRes, pos, tar, diffuseColour, this->nearValue, farPlane, frontOfView, directional, false));
+
+		currentPass = ESLCP_DOWN;
+	}
+
+	E_SHADOW_LIGHT_CURRENT_PASS getNextPass() {
+		if (currentPass+1 == ESLCP_COUNT)
+			currentPass = ESLCP_FRONT;
+		else
+			currentPass = (E_SHADOW_LIGHT_CURRENT_PASS)(currentPass+1);
+
+		return currentPass;
+	}
+
+	E_SHADOW_LIGHT_CURRENT_PASS getCurrentPass() {
+		return currentPass;
 	}
 
 	/// Sets the light's position.
@@ -303,6 +320,7 @@ private:
 	bool isParent;
 
 	irr::core::array<SShadowLight> shadowLights;
+	E_SHADOW_LIGHT_CURRENT_PASS currentPass;
 };
 
 // This is a general interface that can be overidden if you want to perform operations before or after
@@ -453,7 +471,7 @@ public:
 	/// Removes shadows from a scene node.
 	void removeShadowFromNode(irr::scene::ISceneNode* node)
 	{
-        bool founded = false;
+        /*bool founded = false;
         irr::s32 i = 0;
         
         while (!founded && i < (s32)ShadowNodeArray.size()) {
@@ -462,7 +480,14 @@ public:
                 founded = true;
             }
             i++;
-        }
+        }*/
+
+		for (u32 i=0; i < this->ShadowNodeArray.size(); i++) {
+			if (this->ShadowNodeArray[i].node == node) {
+				this->ShadowNodeArray.erase(i);
+				break;
+			}
+		}
 	}
     
     /// Check if node is shadowed
