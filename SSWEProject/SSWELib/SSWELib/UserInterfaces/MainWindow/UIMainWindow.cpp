@@ -9,6 +9,8 @@
 #include "stdafx.h"
 #include "UIMainWindow.h"
 
+#include "../../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
+
 CUIMainWindow::CUIMainWindow(CDevices *_devices) {
     devices = _devices;
     devices->getEventReceiver()->AddEventReceiver(this);
@@ -936,6 +938,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (lightsListBox->getSelected() != -1) {
                     devices->getXEffect()->removeShadowLight(lightsListBox->getSelected());
                     light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+                    devices->getNormalMappingMaterial()->removeLight(lightsListBox->getSelected());
 					devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getLightsData()->erase(lightsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);

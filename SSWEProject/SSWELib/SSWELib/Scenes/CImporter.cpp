@@ -10,7 +10,10 @@
 #include "CImporter.h"
 
 #include "../Renders/XEffect/Interfaces/CFilterCallback.h"
+
 #include "irrbullet.h"
+
+#include "../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
 
 #include "../UserInterfaces/MaterialEditor/CMaterialEditorFactory.h"
 
@@ -31,7 +34,7 @@ void CImporter::readWithNextElement(std::string node, std::string nextNode) {
     if (element != node && element != nextNode) {
         while (xmlReader && element != node && element != nextNode && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            printf("current element : %s\n", element.c_str());
+            //printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -42,7 +45,7 @@ void CImporter::read(std::string node) {
     if (element != node) {
         while (xmlReader && element != node && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            printf("current element : %s\n", element.c_str());
+            //printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -92,16 +95,17 @@ void CImporter::buildTerrain() {
 		/*node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ? 
 													 numberOfVertices/(minPolysPerNode+1)
 													 : numberOfVertices/minPolysPerNode);*/
+        mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
 		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
 
         assert(mesh != 0);
         
-        mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
 			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, true, true, false, true);
 		}
+        mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
 		node = smgr->addMeshSceneNode(mesh, 0, -1);
 	}
 
@@ -328,7 +332,8 @@ void CImporter::buildLight() {
 		ldata.setLensFlareBillboardSceneNode(lfBillBoard);
 		ldata.setLensFlareSceneNode(lfNode);
 	}
-
+    
+    devices->getNormalMappingMaterial()->addLight(node);
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
 
@@ -549,17 +554,22 @@ void CImporter::readMaterialShaderCallbacks() {
 		stringc name = "";
 		read("name");
 		name = xmlReader->getAttributeValue("cname");
-
-		stringc vertex = "", pixel = "", constants = "";
+        
+        stringc vertex = "", pixel = "", constants = "";
+        #ifndef _IRR_OSX_PLATFORM_
 		read("vertex");
 		vertex = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "");
 		read("pixel");
 		pixel = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "");
 		read("constants");
-        #ifndef _IRR_OSX_PLATFORM_
 		constants = stringc(xmlReader->getAttributeValue("value")).replace("\n", "");
         #else
-        constants = stringc(xmlReader->getAttributeValue("value")).replace("\r", "");
+		read("vertex");
+		vertex = stringc(xmlReader->getAttributeValue("shader")).replace("\r", "");
+		read("pixel");
+		pixel = stringc(xmlReader->getAttributeValue("shader")).replace("\r", "");
+		read("constants");
+		constants = stringc(xmlReader->getAttributeValue("value")).replace("\r", "");
         #endif
 
 		CShaderCallback *callback = new CShaderCallback();
@@ -634,6 +644,11 @@ SData CImporter::readFactory(ISceneNode *_node, IMesh *_mesh) {
 
 	if (_mesh)
 		_mesh->setDirty();
+    
+    if (_mesh) {
+        for (u32 i=0; i < _mesh->getMeshBufferCount(); i++)
+            _mesh->getMeshBuffer(i)->setDirty();
+    }
 
 	/// Configure
 	data.setTangentRecalculated(isTangents);

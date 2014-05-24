@@ -15,8 +15,8 @@
 
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"
-#include "Core/CRenderCore.h"
 
+#include "Core/CRenderCore.h"
 #include "Core/Scripting/CLuaBinds.h"
 
 #include "../../../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
@@ -41,6 +41,7 @@
 
 class CCoreUserInterface;
 class irrBulletWorld;
+class CNormalMappingMaterial;
 
 namespace cp3d {
 	namespace controllers {
@@ -98,6 +99,7 @@ public:
 	void rebuildXEffect();
 
 	CRenderCallbacks *getRenderCallbacks() { return renderCallbacks; }
+    CNormalMappingMaterial *getNormalMappingMaterial() { return normalMappingMaterial; }
 
 	bool isRenderScene() { return renderScene; }
 	void setRenderScene(bool _renderScene) { renderScene = _renderScene; }
@@ -229,6 +231,7 @@ private:
 
 	IPostProcessMotionBlur* motionBlur;
 	CRenderCallbacks *renderCallbacks;
+    CNormalMappingMaterial *normalMappingMaterial;
 
 	bool renderScene;
 	bool renderXEffect, renderGUI;

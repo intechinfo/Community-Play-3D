@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "CUIWindowEditNode.h"
 
+#include "../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
+
 #include <irrbullet.h>
 
 CUIWindowEditNode::CUIWindowEditNode(CDevices *_devices) {
@@ -1423,7 +1425,10 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                         
                     case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
                         if (generalMaterialCB->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
-                            nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
+                            if (generalMaterialCB->getSelected() == EMT_NORMAL_MAP_SOLID)
+                                nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid());
+                            else
+                                nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
 							lastMaterialType = getMaterialType(generalMaterialCB->getSelected());
                         } else {
                             nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial());

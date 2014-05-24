@@ -7,6 +7,7 @@
 #include "ICameraSceneNode.h"
 #include "SViewFrustum.h"
 #include "ISceneManager.h"
+#include "IGUIEnvironment.h"
 
 namespace irr
 {
@@ -32,9 +33,8 @@ CSceneNodeAnimatorCameraMaya::CSceneNodeAnimatorCameraMaya(gui::ICursorControl* 
 	}
 
 	allKeysUp();
-
-	controlDown = false;
-
+    
+    controlDown = false;
 	currentZoomWheel = 0.f;
 	zoomingWheel = false;
 }
@@ -55,23 +55,64 @@ CSceneNodeAnimatorCameraMaya::~CSceneNodeAnimatorCameraMaya()
 //! for changing their position, look at target or whatever.
 bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 {
-	if (event.EventType == EET_KEY_INPUT_EVENT) {
-		controlDown = event.KeyInput.Control;
-	}
+    #ifdef _IRR_OSX_PLATFORM_
+    if (event.EventType == EET_KEY_INPUT_EVENT) {
+        if (!event.KeyInput.PressedDown) {
+            if (!event.KeyInput.Control) {
+                controlDown = false;
+            }
+        } else {
+            if (event.KeyInput.Control) {
+                controlDown = true;
+            }
+        }
+    }
+    #endif
 
-	if (event.EventType != EET_MOUSE_INPUT_EVENT || !controlDown)
+	if (event.EventType != EET_MOUSE_INPUT_EVENT) {
 		return false;
+	}
 
 	switch(event.MouseInput.Event)
 	{
 	case EMIE_LMOUSE_PRESSED_DOWN:
-		MouseKeys[0] = true;
+        #ifndef _IRR_OSX_PLATFORM_
+		if (event.MouseInput.Control)
+			MouseKeys[0] = true;
+		else
+			MouseKeys[0] = false;
+        #else
+        if (controlDown)
+            MouseKeys[0] = true;
+        else
+            MouseKeys[0] = false;
+        #endif
 		break;
 	case EMIE_RMOUSE_PRESSED_DOWN:
-		MouseKeys[2] = true;
+        #ifndef _IRR_OSX_PLATFORM_
+        if (event.MouseInput.Control)
+            MouseKeys[2] = true;
+        else
+            MouseKeys[2] = false;
+        #else
+        if (controlDown)
+            MouseKeys[2] = true;
+        else
+            MouseKeys[2] = false;
+        #endif
 		break;
 	case EMIE_MMOUSE_PRESSED_DOWN:
-		MouseKeys[1] = true;
+        #ifndef _IRR_OSX_PLATFORM_
+        if (event.MouseInput.Control)
+            MouseKeys[1] = true;
+        else
+            MouseKeys[1] = false;
+        #else
+        if (controlDown)
+            MouseKeys[1] = true;
+        else
+            MouseKeys[1] = false;
+        #endif
 		break;
 	case EMIE_LMOUSE_LEFT_UP:
 		MouseKeys[0] = false;
@@ -87,11 +128,16 @@ bool CSceneNodeAnimatorCameraMaya::OnEvent(const SEvent& event)
 		break;
 	case EMIE_MOUSE_WHEEL:
         #ifndef _IRR_OSX_PLATFORM_
-		currentZoomWheel = event.MouseInput.Wheel;
+		if (event.MouseInput.Control) {
+			currentZoomWheel = event.MouseInput.Wheel;
+			zoomingWheel = true;
+		}
         #else
-        currentZoomWheel = event.MouseInput.Wheel * 0.05f;
+        if (controlDown) {
+            currentZoomWheel = event.MouseInput.Wheel;
+            zoomingWheel = true;
+        }
         #endif
-		zoomingWheel = true;
 		break;
 	case EMIE_LMOUSE_DOUBLE_CLICK:
 	case EMIE_RMOUSE_DOUBLE_CLICK:
@@ -112,17 +158,19 @@ void CSceneNodeAnimatorCameraMaya::animateNode(ISceneNode *node, u32 timeMs)
 	//Alt + LM = Rotate around camera pivot
 	//Alt + LM + MM = Dolly forth/back in view direction (speed % distance camera pivot - max distance to pivot)
 	//Alt + MM = Move on camera plane (Screen center is about the mouse pointer, depending on move speed)
+    
+	MousePos = CursorControl->getRelativePosition();
 
 	if (!node || node->getType() != ESNT_CAMERA)
 		return;
-
-	ICameraSceneNode* camera = static_cast<ICameraSceneNode*>(node);
+    
+    ICameraSceneNode* camera = static_cast<ICameraSceneNode*>(node);
 
 	// If the camera isn't the active camera, and receiving input, then don't process it.
 	if (!camera->isInputReceiverEnabled())
 		return;
 
-	scene::ISceneManager * smgr = camera->getSceneManager();
+    scene::ISceneManager * smgr = camera->getSceneManager();
 	if (smgr && smgr->getActiveCamera() != camera)
 		return;
 
