@@ -162,6 +162,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "ScenarioMaker/CUIScenarioMakerMain.h"
 
 #include "MeshFactory/CUIMeshFactory.h"
+#include "MeshFactory/CUIAnimatedMeshViewer.h"
 
 class CUIContextMenu : public IEventReceiver {
 

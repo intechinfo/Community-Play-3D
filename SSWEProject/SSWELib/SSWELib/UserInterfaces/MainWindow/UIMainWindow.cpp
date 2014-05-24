@@ -539,7 +539,17 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 
 		if (event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP) {
 			IGUIElement *parent = devices->getGUIEnvironment()->getFocus();
-			bool isAListBoxOfMainWindow = (parent == getActiveListBox());
+			bool isAListBoxOfMainWindow = (parent == getActiveListBox() || parent == mainWindow);
+			if (parent && parent->getParent())
+				isAListBoxOfMainWindow |= parent->getParent() == mainWindow;
+
+			if (parent == devices->getGUIEnvironment()->getRootGUIElement() || parent == 0) {
+				if (mainWindow->isPointInside(devices->getDevice()->getCursorControl()->getPosition())) {
+					devices->getGUIEnvironment()->setFocus(mainWindow);
+					isAListBoxOfMainWindow = true;
+				}
+			}
+
 			if (isAListBoxOfMainWindow) {
 				if (mainWindow->isVisible() && mainWindow->isPointInside(devices->getDevice()->getCursorControl()->getPosition()) && getSelectedNode().getNode()) {
 					IGUIEnvironment *gui = devices->getGUIEnvironment();

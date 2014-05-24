@@ -58,6 +58,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 	devices = new CDevices(this, playOnly);
 	devices->createDevice(params);
     
+	device = devices->getDevice();
     driver = devices->getVideoDriver();
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
@@ -182,11 +183,11 @@ void CCoreUserInterface::update() {
 }
 
 bool CCoreUserInterface::OnEvent(const SEvent &event) {
-    
+
     if (devices->getVideoDriver()->getScreenSize() != windowSize) {
         windowSize = devices->getVideoDriver()->getScreenSize();
     }
-    
+
     if (event.EventType == EET_GUI_EVENT) {
         if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (!devices->isOnlyForPlaying() && event.GUIEvent.Caller == contextMenuInstance->getConsoleButton()) {

@@ -401,6 +401,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
 
 	//CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
+
+	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {

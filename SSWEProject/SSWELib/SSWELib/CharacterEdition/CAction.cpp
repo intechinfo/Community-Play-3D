@@ -20,7 +20,7 @@ CAction::CAction() {
 }
 
 CAction::~CAction() {
-    
+
 }
 
 irr::core::stringc CAction::getXMLValues() {

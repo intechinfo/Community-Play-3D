@@ -507,6 +507,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.cpp">
       <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.cpp">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -912,6 +915,9 @@
       <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.h">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.h">
       <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
     </ClInclude>
   </ItemGroup>
