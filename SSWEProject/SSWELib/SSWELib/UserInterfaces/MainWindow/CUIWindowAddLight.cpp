@@ -62,7 +62,9 @@ bool CUIWindowAddLight::OnEvent(const SEvent &event) {
 						SLightsData ldata(light);
 						devices->getCoreData()->getLightsData()->push_back(ldata);
                         
+						#ifdef _IRR_OSX_PLATFORM_
                         devices->getNormalMappingMaterial()->addLight(light);
+						#endif
                         
                         lightsListBox->addItem(lightNodeName.c_str());
                         

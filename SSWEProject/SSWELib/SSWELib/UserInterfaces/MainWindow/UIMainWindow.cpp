@@ -938,7 +938,11 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 if (lightsListBox->getSelected() != -1) {
                     devices->getXEffect()->removeShadowLight(lightsListBox->getSelected());
                     light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
+
+					#ifdef _IRR_OSX_PLATFORM_
                     devices->getNormalMappingMaterial()->removeLight(lightsListBox->getSelected());
+					#endif
+
 					devices->getCoreData()->getLightsData()->operator[](lightsListBox->getSelected()).getNode()->remove();
                     devices->getCoreData()->getLightsData()->erase(lightsListBox->getSelected());
                     devices->getObjectPlacement()->setNodeToPlace(0);

@@ -12,6 +12,8 @@
 #include <SSWERenders.h>
 #include <irrlicht.h>
 
+#ifdef _IRR_OSX_PLATFORM_
+
 class SSWE_RENDERS_API CNormalMappingMaterial : public irr::video::IShaderConstantSetCallBack {
   
 public:
@@ -67,5 +69,7 @@ private:
     //-----------------------------------
     
 };
+
+#endif
 
 #endif /* defined(__C_NORMAL_MAPPING_RENDERER_H_INCLUDED__) */

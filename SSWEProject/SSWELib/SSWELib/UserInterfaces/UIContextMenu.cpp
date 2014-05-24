@@ -178,6 +178,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu->addSeparator();
 	submenu->addItem(L"New Terrain... (WIP)", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
 	submenu->addItem(L"Mesh Factory...", CXT_MENU_EVENTS_MESH_FACTORY_EDIT);
+	submenu->addItem(L"Animated Mesh Viewer...", CXT_MENU_EVENTS_ANIMATED_MESH_TESTER);
 
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
@@ -898,6 +899,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				case CXT_MENU_EVENTS_MESH_FACTORY_EDIT: {
 					CUIMeshFactory *meshFactory = new CUIMeshFactory(devices);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_ANIMATED_MESH_TESTER: {
+					CUIAnimatedMeshViewer *animatedMeshViewer = new CUIAnimatedMeshViewer(devices);
 				}
 					break;
 

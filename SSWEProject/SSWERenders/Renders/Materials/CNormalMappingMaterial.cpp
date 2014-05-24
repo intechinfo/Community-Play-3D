@@ -6,7 +6,10 @@
 //
 //
 
+#include "stdafx.h"
 #include "CNormalMappingMaterial.h"
+
+#ifdef _IRR_OSX_PLATFORM_
 #include "../XEffect/EffectShaders.h"
 
 using namespace irr;
@@ -88,6 +91,7 @@ void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererService
     SColorf fvAmbient(0.7f, 0.7f, 0.7f, 1.f);
     services->setPixelShaderConstant(services->getPixelShaderConstantID("fvAmbient"), (float*)(&fvAmbient), 4);
     services->setPixelShaderConstant(services->getPixelShaderConstantID("fvLightColor"), fvLightColorArray.pointer(), fvLightColorArray.size());
+
 }
 
 void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
@@ -254,3 +258,5 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
     printf("\n\n %d \n\n", nmTransAlphaRef);
     
 }
+
+#endif

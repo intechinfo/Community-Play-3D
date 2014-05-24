@@ -82,7 +82,9 @@ void CNodeFactory::createLightSceneNode() {
 		SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
 		devices->getXEffect()->addShadowLight(shadowLight);
         
+		#ifdef _IRR_OSX_PLATFORM_
         devices->getNormalMappingMaterial()->addLight(light);
+		#endif
 
 		devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 	}

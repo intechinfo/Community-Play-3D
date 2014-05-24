@@ -28,6 +28,9 @@
     <Filter Include="Renders\DepthOfField">
       <UniqueIdentifier>{cce20349-480c-4ab6-bb86-8e9f7c7f4253}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renders\Materials">
+      <UniqueIdentifier>{3c5d2d1e-6df2-40e0-9ee0-a7a3692b61ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWERenders.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="Renders\XEffect\CPSSMUtils.cpp">
       <Filter>Renders\XEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\Materials\CNormalMappingMaterial.cpp">
+      <Filter>Renders\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="Renders\XEffect\CPSSMUtils.h">
       <Filter>Renders\XEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Materials\CNormalMappingMaterial.h">
+      <Filter>Renders\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

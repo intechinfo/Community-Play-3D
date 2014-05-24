@@ -1425,10 +1425,12 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                         
                     case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
                         if (generalMaterialCB->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
+							#ifdef _IRR_OSX_PLATFORM_
                             if (generalMaterialCB->getSelected() == EMT_NORMAL_MAP_SOLID)
                                 nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid());
                             else
-                                nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
+							#endif
+                            nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));
 							lastMaterialType = getMaterialType(generalMaterialCB->getSelected());
                         } else {
                             nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](generalMaterialCB->getSelected() - devices->getCore()->getNumberOfBuildInMaterialTypes())->getMaterial());

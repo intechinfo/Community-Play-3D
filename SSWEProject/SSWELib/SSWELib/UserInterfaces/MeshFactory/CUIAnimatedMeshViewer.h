@@ -12,12 +12,14 @@
 #include "../../Device/CDevices.h"
 #include "../../GUIExtension/ViewPort/CGUIViewPort.h"
 
-class CUIAnimatedMeshFactory : public IEventReceiver {
+class CMeshFactory;
+
+class CUIAnimatedMeshViewer : public IEventReceiver {
 
 public:
 
-	CUIAnimatedMeshFactory(CDevices *_devices);
-	~CUIAnimatedMeshFactory();
+	CUIAnimatedMeshViewer(CDevices *_devices);
+	~CUIAnimatedMeshViewer();
 
 	bool OnEvent(const SEvent &event);
 
@@ -30,6 +32,13 @@ private:
 	ISceneManager *smgr;
 	IAnimatedMesh *mesh;
 	IAnimatedMeshSceneNode *node;
+
+	IGUIFileOpenDialog *openDialog;
+
+	bool meshAlreadyExists;
+	stringw meshPath;
+
+	CMeshFactory *factory;
 	//-----------------------------------
 
 	//-----------------------------------

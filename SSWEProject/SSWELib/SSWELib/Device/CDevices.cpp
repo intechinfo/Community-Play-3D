@@ -489,8 +489,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setFPSCamera(camera_fps);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
+	#ifdef _IRR_OSX_PLATFORM_
     normalMappingMaterial = new CNormalMappingMaterial();
     normalMappingMaterial->build(driver);
+	#endif
 
 	renderCore = new CRenderCore(this);
 

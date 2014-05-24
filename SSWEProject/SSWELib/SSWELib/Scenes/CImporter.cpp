@@ -332,8 +332,11 @@ void CImporter::buildLight() {
 		ldata.setLensFlareBillboardSceneNode(lfBillBoard);
 		ldata.setLensFlareSceneNode(lfNode);
 	}
-    
+
+	#ifdef _IRR_OSX_PLATFORM_
     devices->getNormalMappingMaterial()->addLight(node);
+	#endif
+
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
 
