@@ -441,9 +441,9 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	}
 	#endif
 
-	camera_maya = smgr->addCameraSceneNodeMaya();
-	//camera_maya = smgr->addCameraSceneNode();
-	//camera_maya->addAnimator(new CSceneNodeAnimatorEditorCamera(Device->getCursorControl()));
+	//camera_maya = smgr->addCameraSceneNodeMaya();
+	camera_maya = smgr->addCameraSceneNode();
+	camera_maya->addAnimator(new CSceneNodeAnimatorEditorCamera(Device->getCursorControl()));
 	camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
 	camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
 	camera_maya->bindTargetAndRotation(true);

@@ -2,31 +2,27 @@
 // This file is part of the "Irrlicht Engine".
 // For conditions of distribution and use, see copyright notice in irrlicht.h
 
-#ifndef __C_SCENE_NODE_ANIMATOR_EDITOR_CAMERA_H_INCLUDED__
-#define __C_SCENE_NODE_ANIMATOR_EDITOR_CAMERA_H_INCLUDED__
+#ifndef __C_SCENE_NODE_ANIMATOR_CAMERA_EDITOR_H_INCLUDED__
+#define __C_SCENE_NODE_ANIMATOR_CAMERA_EDITOR_H_INCLUDED__
 
 #include <irrlicht.h>
 
 namespace irr
 {
-namespace gui
-{
-	class ICursorControl;
-}
 
 namespace scene
 {
 
 	//! Special scene node animator for FPS cameras
-	class CSceneNodeAnimatorEditorCamera : public ISceneNodeAnimatorCameraFPS
+	/** This scene node animator can be attached to a camera to make it act
+	like a 3d modelling tool camera
+	*/
+	class CSceneNodeAnimatorEditorCamera : public ISceneNodeAnimatorCameraMaya 
 	{
 	public:
-
 		//! Constructor
-		CSceneNodeAnimatorEditorCamera(gui::ICursorControl* cursorControl,
-			f32 rotateSpeed = 100.0f, f32 moveSpeed = .5f, f32 jumpSpeed=0.f,
-			SKeyMap* keyMapArray=0, u32 keyMapSize=0, bool noVerticalMovement=false,
-			bool invertY=false);
+		CSceneNodeAnimatorEditorCamera(gui::ICursorControl* cursor, f32 rotateSpeed = -1500.f, 
+			f32 zoomSpeed = 200.f, f32 translationSpeed = 1500.f, f32 distance=70.f);
 
 		//! Destructor
 		virtual ~CSceneNodeAnimatorEditorCamera();
@@ -37,10 +33,10 @@ namespace scene
 		//! Event receiver
 		virtual bool OnEvent(const SEvent& event);
 
-		//! Returns the speed of movement in units per second
+		//! Returns the speed of movement in units per millisecond
 		virtual f32 getMoveSpeed() const;
 
-		//! Sets the speed of movement in units per second
+		//! Sets the speed of movement in units per millisecond
 		virtual void setMoveSpeed(f32 moveSpeed);
 
 		//! Returns the rotation speed
@@ -49,25 +45,17 @@ namespace scene
 		//! Set the rotation speed
 		virtual void setRotateSpeed(f32 rotateSpeed);
 
-		//! Sets the keyboard mapping for this animator (old style)
-		//! \param keymap: an array of keyboard mappings, see SKeyMap
-		//! \param count: the size of the keyboard map array
-		virtual void setKeyMap(SKeyMap *map, u32 count);
+		//! Returns the zoom speed
+		virtual f32 getZoomSpeed() const;
 
-		//! Sets the keyboard mapping for this animator
-		//!	\param keymap The new keymap array 
-		virtual void setKeyMap(const core::array<SKeyMap>& keymap);
+		//! Set the zoom speed
+		virtual void setZoomSpeed(f32 zoomSpeed);
 
-		//! Gets the keyboard mapping for this animator
-		virtual const core::array<SKeyMap>& getKeyMap() const;
+		//! Returns the current distance, i.e. orbit radius
+		virtual f32 getDistance() const;
 
-		//! Sets whether vertical movement should be allowed.
-		virtual void setVerticalMovement(bool allow);
-
-		//! Sets whether the Y axis of the mouse should be inverted.
-		/** If enabled then moving the mouse down will cause
-		the camera to look up. It is disabled by default. */
-		virtual void setInvertMouse(bool invert);
+		//! Set the distance
+		virtual void setDistance(f32 distance);
 
 		//! This animator will receive events when attached to the active camera
 		virtual bool isEventReceiverEnabled() const
@@ -75,48 +63,54 @@ namespace scene
 			return true;
 		}
 
-		//! Returns the type of this animator
-		virtual ESCENE_NODE_ANIMATOR_TYPE getType() const
+		//! Returns type of the scene node
+		virtual ESCENE_NODE_ANIMATOR_TYPE getType() const 
 		{
-			return ESNAT_CAMERA_FPS;
+			return ESNAT_CAMERA_MAYA;
 		}
 
 		//! Creates a clone of this animator.
 		/** Please note that you will have to drop
-		(IReferenceCounted::drop()) the returned pointer once you're
-		done with it. */
+		(IReferenceCounted::drop()) the returned pointer after calling
+		this. */
 		virtual ISceneNodeAnimator* createClone(ISceneNode* node, ISceneManager* newManager=0);
 
 	private:
+
 		void allKeysUp();
+		void animate();
+		bool isMouseKeyDown(s32 key) const;
+
+		bool MouseKeys[3];
 
 		gui::ICursorControl *CursorControl;
-
-		f32 MaxVerticalAngle;
-
-		f32 MoveSpeed;
+		scene::ICameraSceneNode* OldCamera;
+		core::vector3df OldTarget;
+		core::vector3df LastCameraTarget;	// to find out if the camera target was moved outside this animator
+		core::position2df RotateStart;
+		core::position2df ZoomStart;
+		core::position2df TranslateStart;
+		core::position2df MousePos;
+		f32 ZoomSpeed;
 		f32 RotateSpeed;
-		f32 JumpSpeed;
-		// -1.0f for inverted mouse, defaults to 1.0f
-		f32 MouseYDirection;
+		f32 TranslateSpeed;
+		f32 CurrentZoom;
+		f32 RotX, RotY;
+		bool Zooming;
+		bool Rotating;
+		bool Moving;
+		bool Translating;
 
 		s32 LastAnimationTime;
 
-		core::array<SKeyMap> KeyMap;
-		core::position2d<f32> CenterCursor, CursorPos;
-
-		bool CursorKeys[EKA_COUNT];
-
-		bool firstUpdate;
-		bool firstInput;
-		bool NoVerticalMovement;
-
-		bool controlDown, mousePressed;
-		bool strafeHorizontal;
+		bool controlDown;
+		f32 currentZoomWheel;
+		bool zoomingWheel;
+		bool strafeForward;
 	};
 
 } // end namespace scene
 } // end namespace irr
 
-#endif // __C_SCENE_NODE_ANIMATOR_CAMERA_FPS_H_INCLUDED__
+#endif
 
