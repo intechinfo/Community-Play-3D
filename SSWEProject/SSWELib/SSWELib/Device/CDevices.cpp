@@ -12,18 +12,20 @@
 
 #include "Core/CCoreUserInterface.h"
 
+/// CP3D editor
 #include "../GUIExtension/CodeEditor/CGUICodeEditor.h"
 #include "../GUIExtension/FileLoader/CUIFileLoader.h"
 
+/// Core & Rendering
 #include <irrbullet.h>
-
 #include "../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
-
 #include "Controllers/CAnimationController.h"
 
+/// Controllers
 #if defined(_WIN32)
 #include "../SceneNodes/Animators/CCameraFPS360Controller.h"
 #endif
+#include "../SceneNodes/Camera/CEditorCamera.h"
 
 u32 TimeStamp;
 u32 DeltaTime = 0;
@@ -127,7 +129,10 @@ void CDevices::updateEntities() {
 
 		if (!effect->getShadowLight(i).isTorchMode()) {
 			effect->getShadowLight(i).setPosition(worldCoreData->getLightsData()->operator[](i).getNode()->getPosition());
-			effect->getShadowLight(i).setTarget(worldCoreData->getLightsData()->operator[](i).getNode()->getRotation());
+
+			vector3df rotation = worldCoreData->getLightsData()->operator[](i).getNode()->getRotation();
+			rotation = rotation.rotationToDirection(vector3df(0.f, 0.f, 1000000.f));
+			effect->getShadowLight(i).setTarget(rotation);
 		} else {
 			vector3df camPos = smgr->getActiveCamera()->getPosition();
 			camPos.X += 10.f;
@@ -437,6 +442,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#endif
 
 	camera_maya = smgr->addCameraSceneNodeMaya();
+	//camera_maya = smgr->addCameraSceneNode();
+	//camera_maya->addAnimator(new CSceneNodeAnimatorEditorCamera(Device->getCursorControl()));
 	camera_maya->setTarget(vector3df(0.0f,0.0f, 0.0f));
 	camera_maya->setPosition(vector3df(50.0f, 50.0f, 50.0f));
 	camera_maya->bindTargetAndRotation(true);

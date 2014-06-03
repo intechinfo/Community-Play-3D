@@ -28,6 +28,9 @@
     <Filter Include="DemoGame\Example3">
       <UniqueIdentifier>{4592f22a-437b-40f5-b4fc-7653a28e47b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DemoGame\Example4">
+      <UniqueIdentifier>{8e88e1d4-2a9c-451c-9987-fd7d17e985c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -51,6 +54,9 @@
     <ClInclude Include="DemoGame\Example3\CExample3.h">
       <Filter>DemoGame\Example3</Filter>
     </ClInclude>
+    <ClInclude Include="DemoGame\Example4\CExample4.h">
+      <Filter>DemoGame\Example4</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -70,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="DemoGame\Example3\CExample3.cpp">
       <Filter>DemoGame\Example3</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoGame\Example4\CExample4.cpp">
+      <Filter>DemoGame\Example4</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

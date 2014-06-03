@@ -175,7 +175,7 @@ private:
 	/// Standard
 	ISceneNode *node;
 	IMesh *mesh;
-	stringc path;
+	stringc path; // Clé pour savoir où aller chercher la donnée du mesh
 	ESCENE_NODE_TYPE type;
 
 	/// Clones

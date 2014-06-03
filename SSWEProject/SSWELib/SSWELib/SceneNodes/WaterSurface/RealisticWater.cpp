@@ -43,8 +43,8 @@ RealisticWaterSceneNode::RealisticWaterSceneNode(scene::ISceneManager* sceneMana
 												core::dimension2df(0.f, 0.f),
 												core::dimension2df(1.f, 1.f));
 
-	//_waterSceneNode = sceneManager->addMeshSceneNode(_waterMesh->getMesh(0), this);
-	_waterSceneNode = sceneManager->addWaterSurfaceSceneNode(_waterMesh->getMesh(0), 3.0f, 300.0f, 1.0f, this);
+	_waterSceneNode = sceneManager->addMeshSceneNode(_waterMesh->getMesh(0), this);
+	//_waterSceneNode = sceneManager->addWaterSurfaceSceneNode(_waterMesh->getMesh(0), 3.0f, 300.0f, 1.0f, this);
 
 	video::IGPUProgrammingServices* GPUProgrammingServices = _videoDriver->getGPUProgrammingServices();
 

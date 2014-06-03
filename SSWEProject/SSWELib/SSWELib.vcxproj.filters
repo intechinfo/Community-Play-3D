@@ -510,6 +510,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.cpp">
       <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\SceneNodes\Camera\CEditorCamera.cpp">
+      <Filter>SSWELib\SceneNodes\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -919,6 +922,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.h">
       <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\SceneNodes\Camera\CEditorCamera.h">
+      <Filter>SSWELib\SceneNodes\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

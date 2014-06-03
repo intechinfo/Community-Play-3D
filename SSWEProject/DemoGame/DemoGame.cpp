@@ -9,8 +9,9 @@
 #include "DemoGame/Example1/CExample1.h"
 #include "DemoGame/Example2/CExample2.h"
 #include "DemoGame/Example3/CExample3.h"
+#include "DemoGame/Example4/CExample4.h"
 
-int exampleNumber = 3;
+int exampleNumber = 4;
 
 int main(int argc, char *argv[])
 {
@@ -53,6 +54,12 @@ int main(int argc, char *argv[])
 		CExample3 *example3 = new CExample3(coreInterface);
 		example3->load();
 		example3->run();
+	} else
+	if (exampleNumber == 4) {
+		example->load("LMP5.world");
+		CExample4 *example4 = new CExample4(coreInterface);
+		example4->load();
+		example4->run();
 	}
 
 	devices->getCoreData()->clear();
