@@ -222,6 +222,10 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
 		effect->removeNodeFromDepthPass(data->getNode());
         effect->removeShadowFromNode(data->getNode());
         effect->removeNodeFromLightScatteringPass(data->getNode());
+	} else if (node) {
+		effect->removeNodeFromDepthPass(node);
+        effect->removeShadowFromNode(node);
+        effect->removeNodeFromLightScatteringPass(node);
 	}
 
     //SEARCH TERRAINS

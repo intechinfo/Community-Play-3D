@@ -334,6 +334,7 @@ class ShadowShaderCB;
 class ScreenQuadCB;
 class LightShaftsCB;
 class CPSSMUtils;
+class NormalShaderCB;
 
 /// Main effect handling class, use this to apply shadows and effects.
 class SSWE_RENDERS_API EffectHandler : public ISSWERender
@@ -827,6 +828,10 @@ public:
 	void setUseVSMShadows(bool use) { useVSM = use; }
 	bool isUsingVSMShadows() { return useVSM; }
 
+	/// Sets if use normal pass
+	void setUseNormalPass(bool use) { renderNormalPass = use; }
+	bool isUsingNormalPass() { return renderNormalPass; }
+
 	/// Clears all datas of XEffect framework
 	void clearAll() {
 		ShadowNodeArray.clear();
@@ -890,10 +895,6 @@ private:
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
 	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& pixelShader, 
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
-
-	irr::IrrlichtDevice* device;
-	irr::video::IVideoDriver* driver;
-	irr::scene::ISceneManager* smgr;
 	
 	irr::s32 Depth;
 	irr::s32 DepthT;
@@ -907,32 +908,50 @@ private:
 	irr::s32 WhiteWashTAlpha;
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
+	irr::s32 DepthOfField;
+	irr::s32 NormalPass;
+
 	#ifdef SSWE_EDITOR
 	irr::s32 SelectionMaterial;
 	irr::scene::ICameraSceneNode *FPSCamera;
 	#endif
 	
+	//CALLBACKS
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
+	NormalShaderCB *normalMC;
 
+	//RENDER TARGETS
+	irr::video::ITexture* currentShadowMapTexture;
+    irr::video::ITexture* currentSecondaryShadowMap;
 	irr::video::ITexture* ScreenRTT;
 	irr::video::ITexture* DepthRTT;
-
-	bool useLightScattering;
 	irr::video::ITexture *LightScatteringRTT;
-
-	bool useReflectionPass;
 	irr::video::ITexture *ReflectionRTT;
-	irr::scene::ICameraSceneNode *cameraForPasses;
-            
-    irr::video::ITexture* currentShadowMapTexture;
-    irr::video::ITexture* currentSecondaryShadowMap;
+	irr::video::ITexture *normalRenderRTT;
+	irr::video::ITexture *backRenderRTT;
+	irr::video::ITexture *DOFMapSampler;
 
+	//PASSES
+	bool useLightScattering;
+	bool useReflectionPass;
+	bool DepthPass;
+	bool useDOF;
+	bool renderNormalPass;
+
+	irr::scene::ICameraSceneNode *cameraForPasses;
+
+	//PASSES ARRAY
 	irr::core::array<SPostProcessingPair> PostProcessingRoutines;
 	irr::core::array<SShadowLight> LightList;
 	irr::core::array<SShadowNode> ShadowNodeArray;
 	irr::core::array<irr::scene::ISceneNode*> DepthPassArray;
 	irr::core::array<irr::scene::ISceneNode*> LightScatteringPass;
+
+	//DATAS
+	irr::IrrlichtDevice* device;
+	irr::video::IVideoDriver* driver;
+	irr::scene::ISceneManager* smgr;
 
 	irr::core::dimension2du ScreenRTTSize;
 	irr::video::SColor ClearColour;
@@ -942,9 +961,6 @@ private:
 	bool shadowsUnsupported;
 	bool use32BitDepth;
 	bool useVSM;
-	bool DepthPass;
-
-	bool useDOF;
 
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;
@@ -957,13 +973,6 @@ private:
 	video::ITexture* mainTarget;
 	video::ITexture* hdrRTT0;
 	bool useHDR;
-
-	//REFLECTION MAPPING
-	irr::video::ITexture *backRenderRTT;
-
-	//DEPTH OF FIELD
-	irr::s32 DepthOfField;
-	irr::video::ITexture *DOFMapSampler;
 };
 
 #endif

@@ -690,4 +690,64 @@ const char *DEPTH_OF_FIELD_P[ESE_COUNT] = {
 "}\n"
 };
 
+const char *NORMAL_PASS_V[ESE_COUNT] = {
+"",
+"float4x4 cWorldViewProj;\n"
+"float4x4 cWorldView;\n"
+"\n"
+"struct SVSOutput {\n"
+"    float4 Position : POSITION;\n"
+"    float3 ViewPos : TEXCOORD0;\n"
+"    float3 Normal : TEXCOORD1;\n"
+"    float3 Tangent : TEXCOORD2;\n"
+"    float3 BiNormal : TEXCOORD3;\n"
+"    float2 UV0 : TEXCOORD4;\n"
+"};\n"
+"\n"
+"struct SVSInput {\n"
+"    float4 Position : POSITION;\n"
+"    float3 Normal   : NORMAL;\n"
+"    float2 UV0 : TEXCOORD0;\n"
+"    float3 Tangent : TANGENT0;\n"
+"};\n"
+"\n"
+"SVSOutput vertexMain(SVSInput input) {\n"
+"    SVSOutput output = (SVSOutput)0;\n"
+"    \n"
+"    output.Position = mul(input.Position, cWorldViewProj);\n"
+"    output.Normal = mul(cWorldView, float4(input.Normal,0)).xyz;\n"
+"    output.Tangent = mul(cWorldView, float4(input.Tangent,0)).xyz;\n"
+"    output.BiNormal = cross(output.Normal, output.Tangent);\n"
+"    output.ViewPos = mul(cWorldView, input.Position).xyz;\n"
+"    output.UV0 = input.UV0;\n"
+"    \n"
+"    return output;\n"
+"}\n"
+
+};
+
+const char *NORMAL_PASS_P[ESE_COUNT] = {
+"",
+"sampler sNormalMap : register(s1);\n"
+"float cFarDistance;\n"
+"\n"
+"struct SVSOutput {\n"
+"    float4 Position : POSITION;\n"
+"    float3 ViewPos : TEXCOORD0;\n"
+"    float3 Normal : TEXCOORD1;\n"
+"    float3 Tangent : TEXCOORD2;\n"
+"    float3 BiNormal : TEXCOORD3;\n"
+"    float2 UV0 : TEXCOORD4;\n"
+"};\n"
+"\n"
+"float4 pixelMain(SVSOutput input) : COLOR0 {\n"
+"    float4 color = float4(0.0, 0.0, 0.0, 0.0);\n"
+"    float3 texNormal = (tex2D(sNormalMap, input.UV0)-0.5)*2;\n"
+"    float3x3 normalRotation = float3x3(input.Tangent, input.BiNormal, input.Normal);\n"
+"    color.rgb = normalize(mul(texNormal, normalRotation));\n"
+"    color.a = length(input.ViewPos) / cFarDistance;\n"
+"    return color;\n"
+"}\n"
+};
+
 #endif

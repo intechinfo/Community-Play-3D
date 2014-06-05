@@ -123,6 +123,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu->addSeparator();
 	submenu->addItem(L"Reflection Pass", CXT_MENU_EVENTS_ALLOW_REFLECTION_PASS, true, false, devices->getXEffect()->isReflectionPassEnabled(), true);
 	submenu->addItem(L"Light Scattering Pass", CXT_MENU_EVENTS_ALLOW_LIGHT_SCATTERING_PASS, true, false, devices->getXEffect()->isLightScatteringPassEnabled(), true);
+	submenu->addItem(L"Normal Pass", CXT_MENU_EVENTS_ALLOW_NORMAL_PASS, true, false, devices->getXEffect()->isUsingNormalPass(), true);
     submenu = menu->getSubMenu(i);
 	submenu = submenu->getSubMenu(1);
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
@@ -678,6 +679,10 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					break;
 				case CXT_MENU_EVENTS_ALLOW_LIGHT_SCATTERING_PASS:
 					devices->getXEffect()->enableLightScatteringPass(!devices->getXEffect()->isLightScatteringPassEnabled());
+					break;
+
+				case CXT_MENU_EVENTS_ALLOW_NORMAL_PASS:
+					devices->getXEffect()->setUseNormalPass(!devices->getXEffect()->isUsingNormalPass());
 					break;
                     
                 case CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW:

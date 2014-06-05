@@ -379,7 +379,15 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
                     
                     if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 8) {
                         if (sceneView->getSelected()->getData()) {
-                            devices->getCoreData()->removeSceneNode((ISceneNode *)sceneView->getSelected()->getData(), devices->getXEffect());
+							ISData *data = devices->getCoreData()->getISDataOfSceneNode((ISceneNode *)sceneView->getSelected()->getData());
+							if (data) {
+								devices->getCoreData()->removeSceneNode((ISceneNode *)sceneView->getSelected()->getData(), devices->getXEffect());
+							} else {
+								///It's a cloned node
+								devices->getCoreData()->removeSceneNode((ISceneNode *)sceneView->getSelected()->getData(), devices->getXEffect());
+								data = devices->getCoreData()->getISDataOfSceneNode((ISceneNode*)sceneView->getSelected()->getParent()->getParent()->getData());
+								data->removeClonedNode((ISceneNode *)sceneView->getSelected()->getData());
+							}
                             devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
                         } else {
                             devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);

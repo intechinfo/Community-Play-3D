@@ -28,6 +28,30 @@ private:
 	core::matrix4 worldViewProj;
 };
 
+class SSWE_RENDERS_API NormalShaderCB : public video::IShaderConstantSetCallBack {
+public:
+	NormalShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
+
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
+		IVideoDriver* driver = services->getVideoDriver();
+
+		worldViewProj = driver->getTransform(video::ETS_PROJECTION);			
+		worldViewProj *= driver->getTransform(video::ETS_VIEW);
+		worldViewProj *= driver->getTransform(video::ETS_WORLD);
+		services->setVertexShaderConstant("cWorldViewProj", worldViewProj.pointer(), 16);
+
+		worldView = driver->getTransform(video::ETS_WORLD);
+		worldView *= driver->getTransform(video::ETS_VIEW);
+		services->setVertexShaderConstant("cWorldView", worldView.pointer(), 16);
+
+		services->setVertexShaderConstant("cFarDistance", &FarLink, 1);
+	}
+
+	EffectHandler* effect;
+	f32 FarLink;
+	core::matrix4 worldViewProj, worldView;
+};
+
 class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack {
 public:
 	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn) {};

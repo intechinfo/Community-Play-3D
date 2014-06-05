@@ -114,12 +114,12 @@ struct SData : public ISData {
     }
 	void removeClonedNode(ISceneNode *cnode) {
 		ISceneNodeList::Iterator it = clonedNodes.begin();
-		for (; it != clonedNodes.end(); ++it)
+		for (; it != clonedNodes.end(); ++it) {
 			if ((*it) == cnode) {
-				(*it)->remove();
 				clonedNodes.erase(it);
 				break;
 			}
+		}
 	}
 	ISceneNode *getClonedNode(ISceneNode *cnode) {
 		ISceneNodeList::Iterator it = clonedNodes.begin();

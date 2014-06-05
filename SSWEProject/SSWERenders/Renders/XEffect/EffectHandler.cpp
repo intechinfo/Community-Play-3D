@@ -43,6 +43,10 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	//BACK RENDER
 	backRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "BackRenderRTT");
 
+	//NORMAL PASS
+	normalRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "NormalPassRTT");
+	renderNormalPass = false;
+
 	//REFLECTION PASS
 	useReflectionPass = false;
 	ReflectionRTT = driver->addRenderTargetTexture(dimension2du(512, 512), "ReflectionPassRTT");
@@ -63,6 +67,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	{
 		depthMC = new DepthShaderCB(this);
 		shadowMC = new ShadowShaderCB(this);
+		normalMC = new NormalShaderCB(this);
         
 		Depth = gpu->addHighLevelShaderMaterial(
                                                 sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
@@ -151,6 +156,9 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 
 		DepthOfField = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
 													   sPP.ppShader(DEPTH_OF_FIELD_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
+
+		NormalPass = gpu->addHighLevelShaderMaterial(sPP.ppShader(NORMAL_PASS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+													 sPP.ppShader(NORMAL_PASS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, normalMC);
 		
 		// Drop the screen quad callback.
 		SQCB->drop();
@@ -664,6 +672,32 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 		driver->setRenderTarget(0, false, false);
 	}*/
+
+	// Perform normal pass after rendering, to ensure animations stay up to date.
+	if(renderNormalPass)
+	{
+		driver->setRenderTarget(normalRenderRTT, true, true, SColor(0x0));
+
+		normalMC->FarLink = smgr->getActiveCamera()->getFarValue();
+
+		for(u32 i = 0;i < DepthPassArray.size();++i)
+		{
+			core::array<irr::s32> BufferMaterialList(DepthPassArray[i]->getMaterialCount());
+			BufferMaterialList.set_used(0);
+
+			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
+				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g).MaterialType);
+            
+            DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)NormalPass);
+            DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
+            DepthPassArray[i]->render();
+
+			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
+				DepthPassArray[i]->getMaterial(g).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[g];
+		}
+        
+        driver->setRenderTarget(0, false, false);
+	}
 
 	// Perform depth pass after rendering, to ensure animations stay up to date.
 	if(DepthPass)

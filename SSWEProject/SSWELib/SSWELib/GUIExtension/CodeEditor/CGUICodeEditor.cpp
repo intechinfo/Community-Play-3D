@@ -2389,6 +2389,7 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
 	addKeyword("COLOR1", prctColor, false);
 	addKeyword("COLOR2", prctColor, false);
 	addKeyword("COLOR3", prctColor, false);
+
 	addKeyword("TEXCOORD0", prctColor, false);
 	addKeyword("TEXCOORD1", prctColor, false);
 	addKeyword("TEXCOORD2", prctColor, false);
@@ -2396,7 +2397,17 @@ void CGUIEditBoxIRB::addShaderKeywords(irr::video::SColor keywordColor, irr::vid
 	addKeyword("TEXCOORD4", prctColor, false);
 	addKeyword("TEXCOORD5", prctColor, false);
 	addKeyword("TEXCOORD6", prctColor, false);
+
 	addKeyword("NORMAL", prctColor, false);
+	addKeyword("NORMAL0", prctColor, false);
+	addKeyword("NORMAL1", prctColor, false);
+	addKeyword("NORMAL2", prctColor, false);
+	addKeyword("NORMAL3", prctColor, false);
+	addKeyword("TANGENT", prctColor, false);
+	addKeyword("TANGENT0", prctColor, false);
+	addKeyword("TANGENT1", prctColor, false);
+	addKeyword("TANGENT2", prctColor, false);
+	addKeyword("TANGENT3", prctColor, false);
 
     addKeyword("texture2D",keywordColor,true);
     addKeyword("dot",keywordColor,true);

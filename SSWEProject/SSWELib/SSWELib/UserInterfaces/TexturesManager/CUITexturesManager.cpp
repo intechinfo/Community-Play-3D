@@ -29,7 +29,7 @@ CUITexturesManager::CUITexturesManager(CDevices *_devices) {
     clear = gui->addButton(rect<s32>(510, 60, 610, 80), window, -1, L"Clear", L"Clear unused textures");
     //clear->setEnabled(false);
 
-	texturePreview = gui->addImage(rect<s32>(400, 130, 690, 430), window, -1, L"Preview");
+	texturePreview = gui->addImage(rect<s32>(400, 130, 690, 430), window, -1, L"Preview", false);
 	texturePreview->setScaleImage(true);
 
 	//FILL LIST BOX

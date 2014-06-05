@@ -693,8 +693,8 @@ void CImporter::readMaterials(ISceneNode *_node) {
 				if (ioTexturePath == "._normal_mapped") {
 					stringc originalTexture = stringc(xmlReader->getAttributeValue("path")).remove("._normal_mapped");
 					CMaterialEditorFactory *materialEditor = new CMaterialEditorFactory(devices);
-					ITexture *tex = materialEditor->setTextureNormalMapped(texturePath, devices->getVideoDriver()->getTexture(originalTexture));
-					_node->getMaterial(id).TextureLayer[i].Texture = tex;
+					//ITexture *tex = materialEditor->setTextureNormalMapped(texturePath, devices->getVideoDriver()->getTexture(originalTexture));
+					//_node->getMaterial(id).TextureLayer[i].Texture = tex;
 				} else {
 					ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
 					_node->getMaterial(id).TextureLayer[i].Texture = tex;
