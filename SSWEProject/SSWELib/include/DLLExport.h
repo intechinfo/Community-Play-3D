@@ -1,7 +1,7 @@
-// The following ifdef block is the standard way of creating macros which make exporting 
+// The following ifdef block is the standard way of creating macros which make exporting
 // from a DLL simpler. All files within this DLL are compiled with the SSWEGENERICMONITOR_EXPORTS
 // symbol defined on the command line. This symbol should not be defined on any project
-// that uses this DLL. This way any other project whose source files include this file see 
+// that uses this DLL. This way any other project whose source files include this file see
 // SSWEGENERICMONITOR_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 
@@ -17,7 +17,11 @@
 #define MONITOR_EXPORT __declspec(dllimport)
 #endif
 
+#ifndef _IRR_LINUX_PLATFORM_
 extern "C" MONITOR_EXPORT void* createMonitor();
+#else
+extern "C" void* createMonitor();
+#endif
 
 #endif
 
@@ -31,6 +35,10 @@ extern "C" MONITOR_EXPORT void* createMonitor();
 #define SSWELIB_EXPORT __declspec(dllimport)
 #endif
 
+#ifndef _IRR_LINUX_PLATFORM_
 extern "C" SSWELIB_EXPORT void* createSSWELibPlugin();
+#else
+extern "C" void* createSSWELibPlugin();
+#endif
 
 #endif

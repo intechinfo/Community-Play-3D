@@ -40,7 +40,7 @@
 #include <thread>
 #include <mutex>
 
-#ifndef _IRR_OSX_PLATFORM_
+#ifdef _IRR_WINDOWS_API_
 	#include <Windows.h>
 #else
     #include <dlfcn.h>
@@ -75,24 +75,24 @@ enum E_CORE_USER_EVENTS {
 //CORE CLASS
 
 class SSWE_CORE_API CCore : public ISSWECore {
-    
+
 public:
-	
+
 	CCore();
 	~CCore();
 
 	void setDevice(IrrlichtDevice *_device) { device = _device; }
 	IrrlichtDevice *getDevice() { return device; }
-    
+
     //CORE METHODS AND FUNCTIONS
 	std::string convertToString(stringw _textToConvert);
-    
+
 	vector3df getVector3df(std::string X, std::string Y, std::string Z); //VECTORS
     vector3df getVector3df(stringw X, stringw Y, stringw Z);
-	
+
 	dimension2d<u32> getDimensionU32(std::string sizeW, std::string sizeH); //DIMENSIONS
 	dimension2d<f32> getDimensionF32(std::string sizeW, std::string sizeH);
-	
+
 	f32 getF32(stringc valuef32); //NUMBERS
 	u32 getU32(stringc valueu32);
     s32 getS32(stringc values32);
@@ -103,7 +103,7 @@ public:
 
 	stringc getStringcFromFile(stringc pathFile); //FILES
 	stringc getStringcFromIReadFile(stringc pathFile);
-	
+
 	stringw changeTextWithValue(const wchar_t *text, s32 value);
 
 	//DRIVER METHODS
@@ -128,7 +128,7 @@ public:
 	void maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition);
 	void centerWindow(IGUIWindow *window, dimension2du screenSize);
 	rect<s32> getScreenCenterRectFromRect(rect<s32> elementRect);
-    
+
 	//VIDEO METHODS
 	u32 getNumberOfBuildInMaterialTypes();
 	array<stringc> getArrayOfBuildInMaterialTypes();
@@ -140,7 +140,7 @@ public:
 
 	//SPARK METHODS
     vector3df getVector3dfFromSpark(SPK::Vector3D vector) { return vector3df(vector.x, vector.y, vector.z); }
-    
+
 private:
 	//--------------------------
     //DATAS
@@ -163,7 +163,7 @@ private:
 class EventReceiver : public ISSWEEventsManager {
 
 public:
-    
+
 	//--------------------------
 	//MULTIPLE EVENTS MANAGER
 	void sendUserEvent(E_CORE_USER_EVENTS event) {
@@ -195,7 +195,7 @@ public:
         }
         return false;
     }
-    
+
     void AddEventReceiver(IEventReceiver * receiver, IGUIWindow *window=0, IUpdate *autoUpdate=0) {
 		u32 indice = mEventReceivers.size();
 		for (u32 i=0; i < mEventReceivers.size(); i++) {
@@ -231,7 +231,7 @@ public:
 			mGuiWindows.push_back(0);
 		}
     }
-    
+
     bool RemoveEventReceiver(IEventReceiver * receiver) {
         for (unsigned int i=0; i < mEventReceivers.size(); ++i) {
             if (mEventReceivers[i] == receiver) {
@@ -262,7 +262,7 @@ public:
 
 	void setDriver(IVideoDriver *_driver) { driver = _driver; }
 	void setGUI(IGUIEnvironment *_gui) { gui = _gui; }
-    
+
 private:
 
     array<IEventReceiver *> mEventReceivers;

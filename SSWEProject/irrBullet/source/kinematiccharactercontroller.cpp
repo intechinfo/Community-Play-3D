@@ -1,7 +1,7 @@
 #include "kinematiccharactercontroller.h"
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 #include "BulletDynamics/Character/btKinematicCharacterController.h"
-#include "irrBullet.h"
+#include "irrbullet.h"
 
 IKinematicCharacterController::IKinematicCharacterController(irrBulletWorld* const world) : World(world)
 {

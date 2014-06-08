@@ -8,10 +8,14 @@
 #pragma once
 
 #define SSWE_LIB_EXPORTS
-#ifdef SSWE_LIB_EXPORTS
-	#define SSWE_LIB_API __declspec(dllexport)
+#ifndef _IRR_LINUX_PLATFORM_
+    #ifdef SSWE_LIB_EXPORTS
+        #define SSWE_LIB_API __declspec(dllexport)
+    #else
+        #define SSWE_LIB_API __declspec(dllimport)
+    #endif
 #else
-	#define SSWE_LIB_API __declspec(dllimport)
+    #define SSWE_LIB_API
 #endif
 
 #if defined(_STDCALL_SUPPORTED)
@@ -20,7 +24,7 @@
 	#define SSWELIBCALLCONV __cdecl
 #endif
 
-#ifndef _IRR_OSX_PLATFORM_
+#ifdef _IRR_WINDOWS_API_
 extern "C" SSWE_LIB_API ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
 extern "C" SSWE_LIB_API void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface);
 #else

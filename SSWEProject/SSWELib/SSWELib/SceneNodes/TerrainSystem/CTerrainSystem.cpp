@@ -58,7 +58,9 @@ CTerrainSystem::CTerrainSystem(ISceneManager *smgr, stringc hgtmap, u32 divFacto
 
 CTerrainSystem::~CTerrainSystem() {
 
+    #ifndef _IRR_LINUX_PLATFORM_
 	ISceneNode::~ISceneNode();
+	#endif
 }
 
 void CTerrainSystem::OnRegisterSceneNode() {

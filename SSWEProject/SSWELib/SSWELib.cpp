@@ -13,7 +13,7 @@
 static pthread_mutex_t cs_mutex =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #endif
 
-#ifndef _IRR_OSX_PLATFORM_
+#ifdef _IRR_WINDOWS_API_
 SSWE_LIB_API ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
 #else
 ISSWECoreUserInterface* createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
@@ -21,7 +21,7 @@ ISSWECoreUserInterface* createSSWEDevice(bool playOnly, irr::core::stringc argPa
 	return (ISSWECoreUserInterface*)(new CCoreUserInterface(playOnly, argPath));
 }
 
-#ifndef _IRR_OSX_PLATFORM_
+#ifdef _IRR_WINDOWS_API_
 SSWE_LIB_API void SSWELIBCALLCONV updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 #else
 void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
@@ -80,18 +80,18 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 	coreUserInterface->getDevices()->getCoreData()->getCloudsData()->push_back(SCloudData(cloudLayer1));
 	coreUserInterface->getDevices()->getCoreData()->getCloudsData()->push_back(SCloudData(cloudLayer2));
 	coreUserInterface->getDevices()->getCoreData()->getCloudsData()->push_back(SCloudData(cloudLayer3));
-    
+
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer1, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer2, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(cloudLayer3, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
-    
+
     //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer1);
     //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer2);
     //coreUserInterface->getDevices()->getXEffect()->addNodeToDepthPass(cloudLayer3);
-    
+
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skyboxNode, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
     //coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skydome, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_EXCLUDE);
-    
+
 	driver->beginScene(true, true, SColor(0x0));
 	driver->endScene();
 	if (!coreUserInterface->getDevices()->isOnlyForPlaying())
@@ -99,7 +99,7 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 
 	//coreUserInterface->getDevices()->getRenderingSceneManager()->setActiveCamera(coreUserInterface->getDevices()->getMayaCamera());
 
-    #ifndef _IRR_OSX_PLATFORM_
+    #ifdef _IRR_WINDOWS_API_
 	if (!InitializeCriticalSectionAndSpinCount(&CriticalSection,  0x00000400))
 		return;
     #endif
@@ -107,15 +107,15 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
     #ifndef _IRR_OSX_PLATFORM_
 	std::mutex mutex;
     #endif
-    
+
 	while (device->run()) {
 
 		if (device->isWindowActive()) {
-            
-            #ifndef _IRR_OSX_PLATFORM_
+
+            #ifdef _IRR_WINDOWS_API_
 				EnterCriticalSection(&CriticalSection);
 			#endif
-            
+
             #ifndef _IRR_OSX_PLATFORM_
             mutex.lock();
             #else
@@ -135,16 +135,16 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
             #else
             pthread_mutex_unlock( &cs_mutex );
             #endif
-            
-            
-			#ifndef _IRR_OSX_PLATFORM_
+
+
+			#ifdef _IRR_WINDOWS_API_
 				LeaveCriticalSection(&CriticalSection);
 			#endif
-            
+
         }
 	}
 
-    #ifndef _IRR_OSX_PLATFORM_
+    #ifdef _IRR_WINDOWS_API_
 	DeleteCriticalSection(&CriticalSection);
     #endif
 

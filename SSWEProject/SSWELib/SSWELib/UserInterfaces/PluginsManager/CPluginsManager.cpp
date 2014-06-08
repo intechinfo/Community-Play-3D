@@ -84,8 +84,8 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
     ppath += ".dylib";
     #endif
 
-    #ifndef _IRR_OSX_PLATFORM_
-    
+    #ifdef _IRR_WINDOWS_API_
+
 	HINSTANCE hdll = NULL;
 	IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();
@@ -113,9 +113,9 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
 		}
 	}
-    
+
     #else
-    
+
     void* hdll = NULL;
 	IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();
@@ -131,21 +131,21 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createMonitor\" into the dynamic library").c_str(), EMBF_OK);
 		} else {
 			newMonitor = static_cast < IMonitor* > (createMonitor());
-            
+
 			newMonitor->setActiveCamera(devices->getRenderingSceneManager()->getActiveCamera());
 			newMonitor->setSceneManager(devices->getRenderingSceneManager());
 			newMonitor->setGUIEnvironment(devices->getGUIEnvironment());
 			newMonitor->setRender(devices->getXEffect());
 			newMonitor->setName(path);
-            
+
             newMonitor->init();
-            
+
 			SMonitor m(newMonitor, hdll);
 			devices->getCoreData()->getMonitors()->push_back(m);
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
 		}
     }
-    
+
     #endif
 }
 
@@ -154,13 +154,17 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 	stringc ppath = devices->getWorkingDirectory().c_str();
 	ppath += "plugins/sswe/";
 	ppath += path;
-    #ifndef _IRR_OSX_PLATFORM_
+    #ifndef _IRR_WINDOWS_API_
 	ppath += ".dll";
-    #else
+    #endif
+    #ifdef _IRR_OSX_PLATFORM_
     ppath += ".dylib";
     #endif
+    #ifdef _IRR_LINUX_PLATFORM_
+    ppath += ".so";
+    #endif
 
-    #ifndef _IRR_OSX_PLATFORM_
+    #ifdef _IRR_WINDOWS_API_
 	HINSTANCE hdll = NULL;
     #else
     void *hdll = NULL;
@@ -168,7 +172,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 	ISSWELibPlugin* newPlugin = NULL;
 	typedef void* (*pvFunctv)();
 	pvFunctv createSSWELibPlugin;
-    #ifndef _IRR_OSX_PLATFORM_
+    #ifdef _IRR_WINDOWS_API_
 	hdll = LoadLibrary(stringw(ppath).c_str());
     #else
     hdll = dlopen(stringc(ppath).c_str(), RTLD_LAZY);
@@ -177,7 +181,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 	if (hdll == NULL) {
 		devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
 	} else {
-        #ifndef _IRR_OSX_PLATFORM_
+        #ifdef _IRR_WINDOWS_API_
 		createSSWELibPlugin = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createSSWELibPlugin"));
         #else
         createSSWELibPlugin = reinterpret_cast < pvFunctv > (dlsym(hdll, "createSSWELibPlugin"));
@@ -189,7 +193,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 
             SSSWEPlugin sswePlugin(newPlugin, hdll);
             devices->getCoreData()->getSSWEPlugins()->push_back(sswePlugin);
-            
+
 			newPlugin->setDevices(devices);
 			newPlugin->setWorkingDirectory(devices->getWorkingDirectory() + "Plugins/SSWE/");
 			newPlugin->open();

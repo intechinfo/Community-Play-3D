@@ -26,6 +26,6 @@
 
 #include <irrbullet.h>
 
-#ifndef _IRR_OSX_PLATFORM_
+#ifdef _IRR_WINDOWS_API_
     extern CRITICAL_SECTION CriticalSection;
 #endif

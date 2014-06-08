@@ -29,7 +29,7 @@ namespace SPK
 		y(y),
 		z(z) {}
 
-	Vector3D& Vector3D::operator+=(const Vector3D& v)
+Vector3D& Vector3D::operator+=(const Vector3D& v)
 	{
 		x += v.x;
 		y += v.y;

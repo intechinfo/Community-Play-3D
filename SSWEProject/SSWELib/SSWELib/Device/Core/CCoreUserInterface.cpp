@@ -14,20 +14,20 @@
 #include "ParticleSystems/CParticleSystemsImporter.h"
 
 CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath) {
-    
+
     //-----------------------------------
     //DEVICE
 
 	params.WindowSize = dimension2d<u32>(0, 0);
-    #ifdef _IRR_OSX_PLATFORM_
+    #ifdef _IRR_WINDOWS_API_
+        params.DriverType=EDT_DIRECT3D9;
+        params.WindowSize = dimension2d<u32>(1680, 987);
+    #else
         params.DriverType=irr::video::EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window
         //params.WindowSize = dimension2d<u32>(1920, 1070);
         //params.WindowSize = dimension2d<u32>(1280, 690);
         params.WindowSize = dimension2du(1630, 1000);
-    #else
-		params.DriverType=EDT_DIRECT3D9;
-        params.WindowSize = dimension2d<u32>(1680, 987);
     #endif
         params.Bits=32;
     #ifdef _IRR_OSX_PLATFORM_
@@ -47,7 +47,8 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
     params.ZBufferBits = 32;
 	params.EventReceiver=0;
 	params.DriverMultithreaded = true;
-	
+
+
 	if (params.Fullscreen && params.WindowSize == dimension2d<u32>(0, 0)) {
 		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);
 		params.WindowSize = tempDevice->getVideoModeList()->getDesktopResolution();
@@ -57,12 +58,12 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 
 	devices = new CDevices(this, playOnly);
 	devices->createDevice(params);
-    
+
 	device = devices->getDevice();
     driver = devices->getVideoDriver();
     smgr = devices->getSceneManager();
     gui = devices->getGUIEnvironment();
-    
+
     windowSize = devices->getVideoDriver()->getScreenSize();
 
 	#ifdef SSWE_RELEASE
@@ -85,7 +86,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 	}
 
     //-----------------------------------
-    
+
     //-----------------------------------
     //GUI SKIN
 
@@ -93,7 +94,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 	IGUIFont *FontM = gui->getFont("GUI/fontlucida.png");
     skin_window_classic->setFont(FontM);
     gui->setSkin(skin_window_classic);
-    
+
     skin_window_classic->setColor(EGDC_BUTTON_TEXT, SColor(255,0xAA,0xAA,0xAA));
 	skin_window_classic->setColor(EGDC_3D_HIGH_LIGHT, SColor(255,0x22,0x22,0x22));
 	skin_window_classic->setColor(EGDC_3D_FACE, SColor(255,0x44,0x44,0x44));
@@ -108,7 +109,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 	skin_window_classic->getSpriteBank()->addTexture(driver->getTexture("GUI/info.png"));
 
     //-----------------------------------
-    
+
     //-----------------------------------
     //LOG CONSOLE
 
@@ -194,11 +195,11 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
                 logVisible = !logVisible;
                 logWindow->setVisible(logVisible);
             }
-            
+
             if (event.GUIEvent.Caller == clear) {
                 logListBox->clear();
             }
-            
+
             if (event.GUIEvent.Caller == logWindow->getMaximizeButton()) {
                 if (logWindow->getRelativePosition().getHeight() == 520) {
                     logWindow->setRelativePosition(rect<s32>(0, 0, 1000, 600));
@@ -220,7 +221,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
             }
         }
     }
-    
+
     if (event.EventType == EET_LOG_TEXT_EVENT && logListBox) {
 		if (event.LogEvent.Text) {
 			stringw text = event.LogEvent.Text;
@@ -281,7 +282,7 @@ bool CCoreUserInterface::OnEvent(const SEvent &event) {
 			}
 		}
     }
-    
+
     return false;
 }
 

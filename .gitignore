@@ -45,6 +45,8 @@ x64/
 *.exp
 *.res
 *.exe
+*.a
+*.d
 *.bi
 *.unsuccessfulbuild
 *.sdf
@@ -131,6 +133,7 @@ sources.pro
 sources.pro.user
 mingw
 msvc
+SSWEProject/Bullet/bullet-2.81-rev2613/Demos/
 Lua
 SSWE/libs/lua52.dll
 SSWE/libs/lua52.lib

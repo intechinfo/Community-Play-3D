@@ -17,7 +17,7 @@
     #endif
 #endif
 
-#ifndef _IRR_OSX_PLATFORM_
+#ifdef _IRR_WINDOWS_API_
 #include <Windows.h>
 #endif
 

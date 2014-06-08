@@ -142,10 +142,10 @@ void CDevices::updateEntities() {
 			effect->getShadowLight(i).setTarget(smgr->getActiveCamera()->getTarget());
 			effect->getShadowLight(i).setNearValue(smgr->getActiveCamera()->getNearValue());
 		}
-        
+
         effect->getShadowLight(i).setLightColor(((ILightSceneNode *)worldCoreData->getLightsData()->operator[](i).getNode())->getLightData().DiffuseColor);
     }
-    
+
     //UPDATE LENS FLARE STRENGTHS
     for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getLensFlareSceneNode() != 0) {
@@ -232,9 +232,9 @@ void CDevices::updateDevice() {
 
                     if(renderGUI)
                         monitor->drawGUI();
-                    
+
                 }
-                
+
                 /*if (activeCamera == camera_fps) {
                     if (activeCamera->getRotation() != oldRotation) {
                         effect->setUseDepthOfField(true);
@@ -246,11 +246,11 @@ void CDevices::updateDevice() {
                     }
                 }*/
             }
-            
+
             receiver.update();
 
-            //OLD CODE ! TOOOOOO OLD ! :D 
-            /*if (renderScene) 
+            //OLD CODE ! TOOOOOO OLD ! :D
+            /*if (renderScene)
                 drawScene();
 
             if (renderFullPostTraitements && renderXEffect) {
@@ -261,9 +261,9 @@ void CDevices::updateDevice() {
             drawGUI();*/
         }
     }
-    
+
 #else
-    
+
     if (renderXEffect) {
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
 		effect->update(renderFullPostTraitements);
@@ -273,7 +273,7 @@ void CDevices::updateDevice() {
 
 	effectSmgr->drawAll();
 
-	gui->getSkin()->getFont()->draw(L"Not for commercial use and not for free use.", 
+	gui->getSkin()->getFont()->draw(L"Not for commercial use and not for free use.",
 									rect<s32>(50, driver->getScreenSize().Height - 50,
 											  400,
 											  driver->getScreenSize().Height-30), SColor(255, 255, 255, 255),
@@ -294,7 +294,7 @@ void CDevices::updateDevice() {
     gui->drawAll();
 
 	receiver.update();
-    
+
 #endif
 
 	//camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
@@ -312,7 +312,7 @@ void CDevices::reupdate(EffectHandler *_effect) {
 		if (_effect) {
 			effect = _effect;
 		}
-        
+
         coreUserInterface->update();
 
 		driver->beginScene(true, true, SColor(0x0));
@@ -336,7 +336,7 @@ void CDevices::drawScene() {
 
     effectSmgr->drawAll();
 
-	gui->getSkin()->getFont()->draw(L"Not for commercial use and not for free use.", 
+	gui->getSkin()->getFont()->draw(L"Not for commercial use and not for free use.",
 									rect<s32>(50, driver->getScreenSize().Height - 50,
 											  400,
 											  driver->getScreenSize().Height-30), SColor(255, 255, 255, 255),
@@ -365,12 +365,16 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	//XBOX 360
 
     //DEVICE
+    #ifndef _IRR_LINUX_PLATFORM_
 	Device = createDeviceEx(parameters);
+    #else
+    Device = createDeviceEx(parameters);
+    #endif
     Device->setWindowCaption(L"Community Play 3D : Editor");
 	Device->setResizable(true);
-    
+
     driver = Device->getVideoDriver();
-    
+
 	smgr = Device->getSceneManager();
 	smgrs.push_back(smgr);
 
@@ -394,7 +398,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		driver->endScene();
 		driver->removeTexture(splashScreen);
 	}
-    
+
     //-----------------------------------
     //CAMERAS
     keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -407,13 +411,13 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	keyMap[3].KeyCode = KEY_KEY_D;
 	keyMap[4].Action = EKA_JUMP_UP;
 	keyMap[4].KeyCode = KEY_SPACE;
-	keyMap[5].Action = EKA_MOVE_FORWARD; 
+	keyMap[5].Action = EKA_MOVE_FORWARD;
 	keyMap[5].KeyCode = KEY_UP;
-	keyMap[6].Action = EKA_MOVE_BACKWARD; 
+	keyMap[6].Action = EKA_MOVE_BACKWARD;
 	keyMap[6].KeyCode = KEY_DOWN;
-	keyMap[7].Action = EKA_STRAFE_LEFT; 
+	keyMap[7].Action = EKA_STRAFE_LEFT;
 	keyMap[7].KeyCode = KEY_LEFT;
-	keyMap[8].Action = EKA_STRAFE_RIGHT; 
+	keyMap[8].Action = EKA_STRAFE_RIGHT;
 	keyMap[8].KeyCode = KEY_RIGHT;
 
 	camera_rig = new CCameraRig(Device, keyMap);
@@ -452,10 +456,10 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	camera_maya->setName("editor:MayaCamera");
 	camera_maya->setID(-1);
 	camera_maya->setAspectRatio(1.f * driver->getScreenSize().Width / driver->getScreenSize().Height);
-    
+
 	smgr->setActiveCamera(camera_maya);
 	effectSmgr->setActiveCamera(camera_maya);
-    
+
     cursorBillBoard = smgr->addBillboardSceneNode();
     cursorBillBoard->setName("editor:cursor");
 	cursorBillBoard->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
@@ -473,7 +477,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	core::list<ISceneNodeAnimator *>::ConstIterator fpsAnimators = camera_fps->getAnimators().begin();
 	collisionManager->getFPSCameraSettings()->setSceneNodeAnimatorCameraFPS(((ISceneNodeAnimatorCameraFPS *)*fpsAnimators));
 	animatorFPS = ((ISceneNodeAnimatorCameraFPS *)*fpsAnimators);
-	
+
 	if (!isOnlyForPlay)
 		objPlacement = new CCoreObjectPlacement(effectSmgr, Device->getCursorControl(), new CCollisionManager(effectSmgr), smgr);
 
@@ -510,7 +514,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	Device->setEventReceiver(&receiver);
 	receiver.setDriver(driver);
 	receiver.setGUI(gui);
-	
+
 	receiver.AddEventReceiver(this);
 	if (!isOnlyForPlay)
 		receiver.AddEventReceiver(objPlacement);
@@ -551,7 +555,7 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
     //CGUIFileSelector* selector = new CGUIFileSelector(title.c_str(), gui, parent, 1, type);
     CUIFileLoader *loader = new CUIFileLoader(this);
     CGUIFileSelector *selector = (CGUIFileSelector*)loader->create(title, type, parent, modal);
-    
+
     selector->setCustomFileIcon(driver->getTexture(workingDirectory + "GUI/file.png"));
     selector->setCustomDirectoryIcon(driver->getTexture(workingDirectory + "GUI/folder.png"));
 
@@ -571,24 +575,24 @@ CGUIFileSelector *CDevices::createFileOpenDialog(stringw title, CGUIFileSelector
 		IGUIElement *modalg = gui->addModalScreen(parent);
 		modalg->addChild(loader->getWindow());
 	}
-    
+
     return selector;
 }
 
 IGUIWindow *CDevices::addInformationDialog(stringw title, stringw text, s32 flag, bool modal, IGUIElement *parent) {
-    IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), modal, flag, parent, -1, 
+    IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), modal, flag, parent, -1,
 											gui->getVideoDriver()->getTexture(workingDirectory + stringc("/GUI/info.png")));
 	return window;
 }
 
 IGUIWindow *CDevices::addErrorDialog(stringw title, stringw text, s32 flag) {
-    IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), true, flag, 0, -1, 
+    IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), true, flag, 0, -1,
                        gui->getVideoDriver()->getTexture(workingDirectory + stringc("/GUI/error.png")));
 	return window;
 }
 
 IGUIWindow *CDevices::addWarningDialog(stringw title, stringw text, s32 flag) {
-    IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), true, flag, 0, -1, 
+    IGUIWindow *window = gui->addMessageBox(title.c_str(), text.c_str(), true, flag, 0, -1,
                        gui->getVideoDriver()->getTexture(workingDirectory + stringc("/GUI/warning.png")));
 	return window;
 }
@@ -611,7 +615,7 @@ bool CDevices::OnEvent(const SEvent &event) {
 	if (smgr->getActiveCamera() == camera_rig->getCameraSceneNode()) {
 		//camera_rig->OnEvent(event);
 	}
-    
+
     if (event.EventType == EET_KEY_INPUT_EVENT) {
         #ifndef _IRR_OSX_PLATFORM_
         if (!event.KeyInput.PressedDown) {
@@ -665,9 +669,9 @@ bool CDevices::OnEvent(const SEvent &event) {
             }
         }*/
     }
-    
+
     if (event.EventType == EET_GUI_EVENT) {
-        
+
         if (event.EventType == EET_GUI_EVENT) {
             if (event.GUIEvent.EventType == EGET_EDITBOX_MARKING_CHANGED) {
                 setEditBoxEntered(true);
@@ -679,7 +683,7 @@ bool CDevices::OnEvent(const SEvent &event) {
 			}
         }
     }
-    
+
     if (event.EventType == EET_MOUSE_INPUT_EVENT) {
         if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
             setEditBoxEntered(false);
@@ -687,6 +691,6 @@ bool CDevices::OnEvent(const SEvent &event) {
 				getObjectPlacement()->setAllowMoving(true);
         }
     }
-    
+
     return false;
 }
