@@ -34,9 +34,43 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-W" />
+			<Add option="-O0" />
+			<Add option="-Wno-unused-parameter" />
+			<Add option="-DSSWE_EDITOR" />
+			<Add option="-D_IRR_STATIC_LIB_" />
+			<Add directory="../../SSWERenders" />
+			<Add directory="../../../../irrlicht-1.8.1/include" />
+			<Add directory="../../SSWELib/include" />
+		</Compiler>
+		<Linker>
+			<Add directory="../../../../irrlicht-1.8.1/lib/Linux" />
+		</Linker>
+		<Unit filename="../Renders/DepthOfField/shadergroup.cpp" />
+		<Unit filename="../Renders/DepthOfField/shadergroup.h" />
+		<Unit filename="../Renders/DepthOfField/shadermaterial.cpp" />
+		<Unit filename="../Renders/DepthOfField/shadermaterial.h" />
+		<Unit filename="../Renders/Materials/CNormalMappingMaterial.cpp" />
+		<Unit filename="../Renders/Materials/CNormalMappingMaterial.h" />
+		<Unit filename="../Renders/PostProcessor/PostProcessMotionBlurhlsl.h" />
+		<Unit filename="../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.cpp" />
+		<Unit filename="../Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h" />
+		<Unit filename="../Renders/XEffect/CPSSMUtils.cpp" />
+		<Unit filename="../Renders/XEffect/CPSSMUtils.h" />
+		<Unit filename="../Renders/XEffect/CScreenQuad.h" />
+		<Unit filename="../Renders/XEffect/CShaderPre.cpp" />
+		<Unit filename="../Renders/XEffect/CShaderPre.h" />
+		<Unit filename="../Renders/XEffect/EffectCB.h" />
+		<Unit filename="../Renders/XEffect/EffectHandler.cpp" />
+		<Unit filename="../Renders/XEffect/EffectHandler.h" />
+		<Unit filename="../Renders/XEffect/EffectShaders.h" />
+		<Unit filename="../Renders/XEffect/XEffects.h" />
+		<Unit filename="../SSWERenders.cpp" />
+		<Unit filename="../SSWERenders.h" />
+		<Unit filename="../stdafx.cpp" />
+		<Unit filename="../stdafx.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

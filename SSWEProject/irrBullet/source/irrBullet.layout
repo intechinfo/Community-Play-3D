@@ -1,106 +1,179 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Win32 GCC Release" />
-	<File name="boxshape.h" open="1" top="0" tabpos="10">
-		<Cursor position="119" topLine="0" />
+	<ActiveTarget name="Linux Release" />
+	<File name="collisionobjectaffector.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="bulletworld.cpp" open="1" top="1" tabpos="27">
-		<Cursor position="8471" topLine="265" />
+	<File name="boxshape.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="bulletworld.h" open="1" top="0" tabpos="11">
-		<Cursor position="6343" topLine="140" />
+	<File name="raycastvehicle.cpp" open="0" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="bvhtrianglemeshshape.h" open="1" top="0" tabpos="12">
-		<Cursor position="402" topLine="0" />
+	<File name="kinematiccharactercontroller.cpp" open="0" top="0" tabpos="32" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="193" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisioncallbackinformation.h" open="1" top="0" tabpos="13">
-		<Cursor position="616" topLine="15" />
+	<File name="irrbulletcommon.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionobject.cpp" open="1" top="0" tabpos="29">
-		<Cursor position="10158" topLine="378" />
+	<File name="raycastvehicle.h" open="0" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionobject.h" open="1" top="0" tabpos="14">
-		<Cursor position="1779" topLine="153" />
+	<File name="collisionobjectaffectorattract.cpp" open="0" top="0" tabpos="33" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionobjectaffector.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="0" topLine="0" />
+	<File name="liquidbody.h" open="0" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionobjectaffector.h" open="1" top="0" tabpos="8">
-		<Cursor position="790" topLine="9" />
+	<File name="trianglemeshshape.h" open="0" top="0" tabpos="25" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionobjectaffectorattract.cpp" open="1" top="0" tabpos="33">
-		<Cursor position="1323" topLine="33" />
+	<File name="motionstate.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionobjectaffectorattract.h" open="1" top="0" tabpos="15">
-		<Cursor position="457" topLine="0" />
+	<File name="irrbullet_compile_config.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionobjectaffectordelete.h" open="1" top="0" tabpos="16">
-		<Cursor position="465" topLine="0" />
+	<File name="rigidbody.cpp" open="0" top="0" tabpos="28" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionshape.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="722" topLine="7" />
+	<File name="collisionobjectaffectorattract.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="collisionshape.h" open="1" top="0" tabpos="2">
-		<Cursor position="599" topLine="21" />
+	<File name="collisionshape.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="convexhullshape.h" open="1" top="0" tabpos="17">
-		<Cursor position="0" topLine="0" />
+	<File name="kinematiccharactercontroller.h" open="0" top="0" tabpos="31" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="gimpactmeshshape.cpp" open="1" top="0" tabpos="34">
-		<Cursor position="0" topLine="0" />
+	<File name="bulletworld.cpp" open="0" top="0" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="gimpactmeshshape.h" open="1" top="0" tabpos="18">
-		<Cursor position="0" topLine="0" />
+	<File name="bulletworld.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="irrbullet.h" open="1" top="0" tabpos="19">
-		<Cursor position="2145" topLine="37" />
+	<File name="collisionobject.cpp" open="0" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="irrbullet_compile_config.h" open="1" top="0" tabpos="3">
-		<Cursor position="497" topLine="0" />
+	<File name="irrbulletcommon.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="irrbulletcommon.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="490" topLine="0" />
+	<File name="collisionobject.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="irrbulletcommon.h" open="1" top="0" tabpos="6">
-		<Cursor position="649" topLine="6" />
+	<File name="softbody.h" open="0" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="kinematiccharactercontroller.cpp" open="1" top="0" tabpos="32">
-		<Cursor position="2830" topLine="74" />
+	<File name="convexhullshape.h" open="0" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="kinematiccharactercontroller.h" open="1" top="0" tabpos="31">
-		<Cursor position="2415" topLine="53" />
+	<File name="bvhtrianglemeshshape.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="liquidbody.h" open="1" top="0" tabpos="20">
-		<Cursor position="0" topLine="0" />
+	<File name="gimpactmeshshape.cpp" open="0" top="0" tabpos="34" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="motionstate.h" open="1" top="0" tabpos="1">
-		<Cursor position="0" topLine="0" />
+	<File name="collisioncallbackinformation.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="physicsdebug.h" open="1" top="0" tabpos="21">
-		<Cursor position="0" topLine="0" />
+	<File name="gimpactmeshshape.h" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="raycastvehicle.cpp" open="1" top="0" tabpos="26">
-		<Cursor position="5863" topLine="165" />
+	<File name="boxshape.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="325" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="raycastvehicle.h" open="1" top="0" tabpos="22">
-		<Cursor position="0" topLine="0" />
+	<File name="sphereshape.h" open="0" top="0" tabpos="24" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="rigidbody.cpp" open="1" top="0" tabpos="28">
-		<Cursor position="14102" topLine="468" />
+	<File name="collisionshape.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="rigidbody.h" open="1" top="0" tabpos="9">
-		<Cursor position="11905" topLine="262" />
+	<File name="physicsdebug.h" open="0" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="softbody.cpp" open="1" top="0" tabpos="30">
-		<Cursor position="10180" topLine="307" />
+	<File name="irrbullet.h" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="softbody.h" open="1" top="0" tabpos="23">
-		<Cursor position="594" topLine="171" />
+	<File name="collisionobjectaffector.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="sphereshape.h" open="1" top="0" tabpos="24">
-		<Cursor position="0" topLine="0" />
+	<File name="collisionobjectaffectordelete.h" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="trianglemeshshape.h" open="1" top="0" tabpos="25">
-		<Cursor position="394" topLine="0" />
+	<File name="softbody.cpp" open="0" top="0" tabpos="30" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="rigidbody.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

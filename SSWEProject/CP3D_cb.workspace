@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
+		<Project filename="../../irrlicht-1.8.1/source/Irrlicht/Irrlicht-gcc.cbp" />
 		<Project filename="SSWERenders/SSWERenders/SSWERenders.cbp" />
+		<Project filename="SPARK/SPARK155/projects/SPARK155/SPARK155.cbp" />
+		<Project filename="SSWECore/SSWECore/SSWECore.cbp" />
+		<Project filename="irrBullet/source/irrBullet.cbp" />
+		<Project filename="SSWELib/SSWELib/SSWELib.cbp" />
+		<Project filename="SSWE/SSWE/SSWE.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

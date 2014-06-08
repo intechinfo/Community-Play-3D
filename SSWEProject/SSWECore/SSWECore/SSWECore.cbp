@@ -34,9 +34,47 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-W" />
+			<Add option="-O0" />
+			<Add option="-Wno-unused-parameter" />
+			<Add option="-D_IRR_STATIC_LIB_" />
+			<Add directory="../../SSWECore" />
+			<Add directory="../../../../irrlicht-1.8.1/include" />
+			<Add directory="../../SSWELib/include" />
+			<Add directory="../../Bullet/bullet-2.81-rev2613" />
+			<Add directory="../../Bullet/bullet-2.81-rev2613/src" />
+			<Add directory="../../SPARK/SPARK155/include" />
+			<Add directory="../../SSWERenders" />
+		</Compiler>
+		<Linker>
+			<Add directory="../../SSWERenders/SSWERenders" />
+		</Linker>
+		<Unit filename="../SSWECore.cpp" />
+		<Unit filename="../SSWECore.h" />
+		<Unit filename="../stdafx.cpp" />
+		<Unit filename="../stdafx.h" />
+		<Unit filename="CCollisionManager.cpp" />
+		<Unit filename="CCollisionManager.h" />
+		<Unit filename="Core/CCore.cpp" />
+		<Unit filename="Core/CCore.h" />
+		<Unit filename="Core/CCoreData.cpp" />
+		<Unit filename="Core/CCoreData.h" />
+		<Unit filename="Core/CCoreObjectPlacement.cpp" />
+		<Unit filename="Core/CCoreObjectPlacement.h" />
+		<Unit filename="Core/CCorePhysics.cpp" />
+		<Unit filename="Core/CCorePhysics.h" />
+		<Unit filename="Core/CScenarioData.cpp" />
+		<Unit filename="Core/CScenarioData.h" />
+		<Unit filename="DecaleSystem/CBatchingMesh.cpp" />
+		<Unit filename="DecaleSystem/CBatchingMesh.h" />
+		<Unit filename="DecaleSystem/DecalManager.cpp" />
+		<Unit filename="DecaleSystem/DecalManager.h" />
+		<Unit filename="DecaleSystem/DecalSceneNode.cpp" />
+		<Unit filename="DecaleSystem/DecalSceneNode.h" />
+		<Unit filename="SceneNodes/CGridSceneNode.cpp" />
+		<Unit filename="SceneNodes/CGridSceneNode.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -40,14 +40,14 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 			params.Fullscreen = false;
 		}
     #endif
-	params.WithAlphaChannel = true;
+	params.WithAlphaChannel = false;
 	params.Stencilbuffer=false;
 	params.Vsync=false;
 	params.AntiAlias=true;
-    params.ZBufferBits = 32;
+    params.ZBufferBits = 16;
 	params.EventReceiver=0;
 	params.DriverMultithreaded = true;
-
+    params.Doublebuffer = false;
 
 	if (params.Fullscreen && params.WindowSize == dimension2d<u32>(0, 0)) {
 		IrrlichtDevice *tempDevice = createDevice(EDT_NULL);

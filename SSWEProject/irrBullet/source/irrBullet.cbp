@@ -39,16 +39,16 @@ water simulation, flag simulation, helper functions, etc.) that must be paid for
 		<Build>
 			<Target title="Win32 GCC Release">
 				<Option platforms="Windows;" />
-				<Option output="..\lib\win32_gcc\Release\libirrBullet" prefix_auto="1" extension_auto="1" />
+				<Option output="../lib/win32_gcc/Release/irrBullet" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add directory="bheaders" />
-					<Add directory="bheaders\Bullet" />
+					<Add directory="bheaders/Bullet" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -56,9 +56,9 @@ water simulation, flag simulation, helper functions, etc.) that must be paid for
 			</Target>
 			<Target title="Win32 GCC Debug">
 				<Option platforms="Windows;" />
-				<Option output="..\lib\win32_gcc\Debug\libirrBulletDebug" prefix_auto="1" extension_auto="1" />
+				<Option output="../lib/win32_gcc/Debug/irrBulletDebug" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -66,25 +66,25 @@ water simulation, flag simulation, helper functions, etc.) that must be paid for
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add directory="bheaders" />
-					<Add directory="bheaders\Bullet" />
+					<Add directory="bheaders/Bullet" />
 				</Compiler>
 			</Target>
 			<Target title="Linux Release">
 				<Option platforms="Unix;" />
-				<Option output="..\lib\linux\Release\libirrBullet" prefix_auto="1" extension_auto="1" />
+				<Option output="../lib/linux/Release/irrBullet" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-DDEF_LINUX" />
-					<Add directory="\usr\include\BulletCollision" />
-					<Add directory="\usr\include\BulletDynamics" />
-					<Add directory="\usr\include\BulletSoftBody" />
-					<Add directory="\usr\include\BulletMultiThreaded" />
-					<Add directory="\usr\include\irrlicht" />
+					<Add directory="/usr/include/BulletCollision" />
+					<Add directory="/usr/include/BulletDynamics" />
+					<Add directory="/usr/include/BulletSoftBody" />
+					<Add directory="/usr/include/BulletMultiThreaded" />
+					<Add directory="/usr/include/irrlicht" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -93,9 +93,9 @@ water simulation, flag simulation, helper functions, etc.) that must be paid for
 			</Target>
 			<Target title="Linux Debug">
 				<Option platforms="Unix;" />
-				<Option output="..\lib\linux\Debug\libirrBulletDebug" prefix_auto="1" extension_auto="1" />
+				<Option output="../lib/linux/Debug/irrBulletDebug" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -103,11 +103,11 @@ water simulation, flag simulation, helper functions, etc.) that must be paid for
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-DDEF_LINUX" />
-					<Add directory="\usr\include\BulletCollision" />
-					<Add directory="\usr\include\BulletDynamics" />
-					<Add directory="\usr\include\BulletSoftBody" />
-					<Add directory="\usr\include\BulletMultiThreaded" />
-					<Add directory="\usr\include\irrlicht" />
+					<Add directory="/usr/include/BulletCollision" />
+					<Add directory="/usr/include/BulletDynamics" />
+					<Add directory="/usr/include/BulletSoftBody" />
+					<Add directory="/usr/include/BulletMultiThreaded" />
+					<Add directory="/usr/include/irrlicht" />
 				</Compiler>
 				<Linker>
 					<Add library="Irrlicht" />
@@ -116,11 +116,19 @@ water simulation, flag simulation, helper functions, etc.) that must be paid for
 		</Build>
 		<Compiler>
 			<Add option="-O3" />
+			<Add option="-std=c++11" />
 			<Add option="-W" />
-			<Add option="-g" />
-			<Add directory="Bullet" />
-			<Add directory="$(#irrlicht.include)" />
+			<Add option="-O0" />
+			<Add option="-Wno-unused-parameter" />
+			<Add option="-D_IRR_STATIC_LIB_" />
+			<Add directory="../../../../irrlicht-1.8.1/include" />
+			<Add directory="bheaders" />
+			<Add directory="bheaders/Bullet" />
+			<Add directory="../source" />
 		</Compiler>
+		<Linker>
+			<Add directory="../../Bullet/libs" />
+		</Linker>
 		<Unit filename="boxshape.cpp" />
 		<Unit filename="boxshape.h" />
 		<Unit filename="bulletworld.cpp" />

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../include/Core/SPK_Emitter.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2565" topLine="55" />
+		</Cursor>
+	</File>
+	<File name="../../include/Core/SPK_Registerable.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13710" topLine="336" />
+		</Cursor>
+	</File>
+	<File name="../../include/Core/SPK_Zone.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1714" topLine="30" />
+		</Cursor>
+	</File>
+	<File name="../../src/Core/SPK_Vector3D.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1339" topLine="16" />
+		</Cursor>
+	</File>
+	<File name="../../include/Core/SPK_Vector3D.h" open="1" top="1" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="13034" topLine="494" />
+		</Cursor>
+	</File>
+	<File name="../../include/Core/SPK_Interpolator.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2270" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="../../include/SPK_IRR.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1505" topLine="5" />
+		</Cursor>
+	</File>
+	<File name="../../include/RenderingAPIs/Irrlicht/SPK_IRR_DEF.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1381" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../include/RenderingAPIs/Irrlicht/SPK_IRRRenderer.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5805" topLine="184" />
+		</Cursor>
+	</File>
+	<File name="../../src/Core/SPK_BufferHandler.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1291" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../../include/Core/SPK_Renderer.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3882" topLine="60" />
+		</Cursor>
+	</File>
+	<File name="../../src/Core/SPK_Registerable.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1315" topLine="19" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>
