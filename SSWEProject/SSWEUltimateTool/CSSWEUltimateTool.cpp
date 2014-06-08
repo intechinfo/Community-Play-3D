@@ -10,7 +10,7 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "CSSWEUltimateTool.h"
 
 #include "SSWEUltimateTool/UserInterfaces/OpenSCAD/CSSWEUTOpenSCADDocument.h"
@@ -83,7 +83,7 @@ void CSSWEUltimateTool::open() {
 	window->getMinimizeButton()->setVisible(false);
 	window->getCloseButton()->setVisible(false);
 	window->setDraggable(false);
-	
+
 	//Terrains
 	this->addArea(L"Terrains");
 	this->addButton(L"Create a new terrain", devices->getVideoDriver()->getTexture(workingDirectory
@@ -104,16 +104,16 @@ void CSSWEUltimateTool::open() {
 
 	//OpenSCAD
 	this->addArea(L"OpenSCAD");
-	createNewOpenSCADDocButton = this->addButton(L"Add a new ", devices->getVideoDriver()->getTexture(workingDirectory 
+	createNewOpenSCADDocButton = this->addButton(L"Add a new ", devices->getVideoDriver()->getTexture(workingDirectory
 		+ "datas/SSWEUltimateTool/GUI/openscad_new.png"));
-	openscadButton = this->addButton(L"Add a new ", devices->getVideoDriver()->getTexture(workingDirectory 
+	openscadButton = this->addButton(L"Add a new ", devices->getVideoDriver()->getTexture(workingDirectory
 		+ "datas/SSWEUltimateTool/GUI/openscad_logo.png"));
-	openscadOpenButton = this->addButton(L"Add a new object from an OpenSCAD file", devices->getVideoDriver()->getTexture(workingDirectory 
+	openscadOpenButton = this->addButton(L"Add a new object from an OpenSCAD file", devices->getVideoDriver()->getTexture(workingDirectory
 		+ "datas/SSWEUltimateTool/GUI/openscad_open.png"));
 
 	//Primitives
 	this->addArea(L"Primitives");
-	splitSelectedNodeButton = this->addButton(L"Split Mesh into different nodes", devices->getVideoDriver()->getTexture(workingDirectory 
+	splitSelectedNodeButton = this->addButton(L"Split Mesh into different nodes", devices->getVideoDriver()->getTexture(workingDirectory
 		+ "datas/SSWEUltimateTool/GUI/primitives_split.png"));
 
 	quitButton = gui->addButton(rect<s32>(0, 110, 80, 130), window, -1, L"Quit", L"Quit the Ultimate Tool");
@@ -134,7 +134,7 @@ void CSSWEUltimateTool::addArea(irr::core::stringw name) {
 
 IGUIButton *CSSWEUltimateTool::addButton(irr::core::stringw tooltipText, irr::video::ITexture *texture) {
 	u32 pos = getNewElementPosition();
-	IGUIButton *b = devices->getGUIEnvironment()->addButton(buttonIsLeftElement == true ? rect<s32>(2, 40, 38, 80) : rect<s32>(40, 40, 80, 80), 
+	IGUIButton *b = devices->getGUIEnvironment()->addButton(buttonIsLeftElement == true ? rect<s32>(2, 40, 38, 80) : rect<s32>(40, 40, 80, 80),
 															window, -1, L"", tooltipText.c_str());
 	b->setRelativePosition(position2di(b->getRelativePosition().UpperLeftCorner.X, (buttonIsLeftElement == true) ? pos : pos-45));
 	b->setUseAlphaChannel(true);
@@ -190,7 +190,7 @@ void CSSWEUltimateTool::buildOpenSCADFromFile() {
 	std::lock_guard<std::mutex> lck(cssweultimatetoolm);
 	IMesh *openscadMesh = devices->getSceneManager()->getMesh(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/temp/test" + uniqName + ".stl");
 	if (openscadMesh) {
-		IMeshSceneNode *openscadNode = devices->getSceneManager()->addMeshSceneNode(openscadMesh, 0, -1, vector3df(0), 
+		IMeshSceneNode *openscadNode = devices->getSceneManager()->addMeshSceneNode(openscadMesh, 0, -1, vector3df(0),
 																					vector3df(0), vector3df(1), false);
 		openscadNode->setMaterialFlag(EMF_LIGHTING, false);
 		openscadNode->setName("#object:new_openscad_node");
@@ -208,13 +208,13 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 			//MESHES PART
 			if (event.GUIEvent.Caller == addSuzanneButton) {
 				/// Add Blender's Suzanne model
-				IMeshSceneNode *suzanne = devices->getSceneManager()->addMeshSceneNode(devices->getSceneManager()->getMesh(workingDirectory + 
+				IMeshSceneNode *suzanne = devices->getSceneManager()->addMeshSceneNode(devices->getSceneManager()->getMesh(workingDirectory +
 																					   "datas/SSWEUltimateTool/Models/suzanne.obj"),
 																					   0, -1, vector3df(0), vector3df(0), vector3df(20), false);
 				suzanne->setMaterialFlag(EMF_LIGHTING, false);
 				suzanne->setName("#object:new_suzanne_node");
 				devices->getCollisionManager()->setCollisionFromBoundingBox(suzanne);
-				devices->getCoreData()->addObjectNode(suzanne, suzanne->getMesh(), stringw(workingDirectory + 
+				devices->getCoreData()->addObjectNode(suzanne, suzanne->getMesh(), stringw(workingDirectory +
 																				   "datas/SSWEUltimateTool/Models/suzanne.obj")
 																				   .remove(devices->getWorkingDirectory()));
 				devices->getXEffect()->addShadowToNode(suzanne, devices->getXEffectFilterType(), ESM_BOTH);
@@ -222,7 +222,7 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == addCylinderButton) {
 				/// Add a cylnder model
 				IMesh *cylinderMesh = devices->getSceneManager()->getGeometryCreator()->createCylinderMesh(10, 100, 200);
-				IMeshSceneNode *cylinderNode = devices->getSceneManager()->addMeshSceneNode(cylinderMesh, 0, -1, vector3df(0), 
+				IMeshSceneNode *cylinderNode = devices->getSceneManager()->addMeshSceneNode(cylinderMesh, 0, -1, vector3df(0),
 																							vector3df(0), vector3df(1), false);
 				cylinderNode->setMaterialFlag(EMF_LIGHTING, false);
 				cylinderNode->setName("#object:new_cylinder_node");
@@ -233,7 +233,7 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == addCornerButton) {
 				/// Add a Corner model
 				IMesh *cornerMesh = devices->getSceneManager()->getGeometryCreator()->createConeMesh(10, 100, 200);
-				IMeshSceneNode *cornerNode = devices->getSceneManager()->addMeshSceneNode(cornerMesh, 0, -1, vector3df(0), 
+				IMeshSceneNode *cornerNode = devices->getSceneManager()->addMeshSceneNode(cornerMesh, 0, -1, vector3df(0),
 																						  vector3df(0), vector3df(1), false);
 				cornerNode->setMaterialFlag(EMF_LIGHTING, false);
 				cornerNode->setName("#object:new_corner_node");
@@ -247,8 +247,12 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 				COpenSCADDocument *document = new COpenSCADDocument(devices, workingDirectory);
 			} else
 			if (event.GUIEvent.Caller == openscadButton) {
+                #ifndef _IRR_LINUX_PLATFORM_
 				std::thread t(&CSSWEUltimateTool::runOpenSCAD, *this);
 				t.detach();
+				#else
+				runOpenSCAD();
+				#endif
 			} else
 			if (event.GUIEvent.Caller == openscadOpenButton) {
 				openScadFileDialog = devices->createFileOpenDialog(L"Choose .scad file", CGUIFileSelector::EFST_OPEN_DIALOG, 0, true);
@@ -302,8 +306,12 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 
 		if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
 			if (event.GUIEvent.Caller == openScadFileDialog) {
+                #ifndef _IRR_LINUX_PLATFORM_
 				std::thread t(&CSSWEUltimateTool::buildOpenSCADFromFile, *this);
 				t.detach();
+				#else
+				buildOpenSCADFromFile();
+				#endif
 			}
 		}
 	}

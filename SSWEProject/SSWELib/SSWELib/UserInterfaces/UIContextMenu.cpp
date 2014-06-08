@@ -25,10 +25,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	nodeFactory = new CNodeFactory(devices);
 
 	//SETS GENERIC MONITOR AS DEFAULT
-	#ifndef _IRR_OSX_PLATFORM_
+	#ifdef _IRR_WINDOWS_API_
 		#ifndef SSWE_RELEASE
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR_D");
-			//pluginsManager->loadMonitorPlugin("SSWEOCULUSRIFTPLUGIN_D");
 			pluginsManager->loadSSWEPlugin("SSWEULTIMATETOOL_D");
 		#else
 			pluginsManager->loadMonitorPlugin("SSWEGENERICMONITOR");
@@ -199,7 +198,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//PLUGINS
 	submenu = menu->getSubMenu(i++);
 	submenu->addItem(L"Edit Plugins...", CXT_MENU_EVENTS_PLUGINS_EDIT);
-	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo("plugins/monitors");
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(devices->getWorkingDirectory() + "Plugins/Monitors");
 	submenu->addItem(L"Monitors", -1, true, true);
 	monitorsMenu = submenu->getSubMenu(1);
 	submenu = monitorsMenu;
@@ -211,7 +210,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			submenu->addItem(pluginname.c_str(), -1, true, false, false, true);
 		}
 	}
-	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo("../../");
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(devices->getWorkingDirectory());
     //-----------------------------------
 
     //-----------------------------------
@@ -455,15 +454,19 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && devices->getGUIEnvironment()->getFocus() == menu) {
 			stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
-			devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "plugins/monitors").c_str());
+			devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "Plugins/Monitors").c_str());
 			IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
 			monitorsMenu->removeAllItems();
 			for (u32 j=0; j < fl->getFileCount(); j++) {
 				if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 					stringw pluginname = fl->getFileName(j);
-                    #ifndef _IRR_OSX_PLATFORM_
+                    #ifdef _IRR_WINDOWS_API_
 					pluginname.remove(".dll");
-                    #else
+                    #endif
+                    #ifdef _IRR_LINUX_PLATFORM_
+                    pluginname.remove(".so");
+                    #endif
+                    #ifdef _IRR_OSX_PLATFORM°
                     pluginname.remove(".dylib");
                     #endif
 					pluginname.make_upper();

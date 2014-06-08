@@ -74,10 +74,10 @@ bool CUIPluginsManager::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == monitors) {
 				if (monitors->getSelected() != -1) {
 					enableMonitor->setEnabled(true);
-					for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
+					for (u32 i=0; i < devices->getCoreData()->getMonitors()->size(); i++) {
 						stringc monitorName =  monitors->getListItem(monitors->getSelected());
 						monitorName.make_upper();
-						if (devices->getMonitorRegister()->getMonitor(i)->getName() == monitorName) {
+						if (devices->getCoreData()->getMonitors()->operator[](i).getName() == monitorName) {
 							enableMonitor->setChecked(true);
 							break;
 						}

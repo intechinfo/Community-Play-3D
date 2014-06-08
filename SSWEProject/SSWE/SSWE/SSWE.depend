@@ -1025,7 +1025,7 @@
 1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ICollisionManager.h
 	<irrlicht.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECore.h
+1402245347 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECore.h
 	<iostream>
 	<irrlicht.h>
 	<ITool.h>

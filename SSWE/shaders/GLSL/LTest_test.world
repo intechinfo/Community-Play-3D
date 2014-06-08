@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <numberOfObjects value="0" />
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="1024" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="-1.263907" Y="18.206245" Z="67.579102" />
+			 <rotation X="15.075356" Y="178.928543" Z="0.000000" />
+
+		 </camera>
+
+		 <fpsCameraSettings>
+
+			 <ellipsoidRadius X="30.000000" Y="60.000000" Z="30.000000" />
+			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <slidingValue value="0.000500" />
+
+		 </fpsCameraSettings>
+
+		 <depthPassEnabled enabled="0" />
+		 <lightScaterringPassEnabled enabled="0" />
+		 <reflectionPassEnabled enabled="0" />
+
+		 <effect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+
+		 </materialTypes>
+
+		 <scripts>
+
+
+		 </scripts>
+
+		 <physics>
+			 <gravity X="0.000000" Y="-50.000000" Z="0.000000" />
+		 </physics>
+
+	</config>
+
+
+
+	<scene>
+
+
+	</scene>
+
+</rootScene>

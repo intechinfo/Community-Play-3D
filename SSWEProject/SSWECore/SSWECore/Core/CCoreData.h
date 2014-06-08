@@ -742,6 +742,9 @@ public:
     void setInstance(void *_hdll) { hdll = _hdll; }
     #endif
 
+    stringw getName() { return name; }
+    void setName(stringw _name) { name = _name; }
+
 	void freeInstance() {
 		if (hdll) {
             #ifdef _IRR_WINDOWS_API_
@@ -760,6 +763,8 @@ private:
     #else
     void *hdll;
     #endif
+
+    stringw name;
 };
 
 //SSWE PLUGINS

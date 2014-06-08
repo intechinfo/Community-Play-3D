@@ -6,7 +6,7 @@
 //
 //
 
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "CSSWEUTOpenSCADDocument.h"
 
 #include <thread>
@@ -81,7 +81,7 @@ COpenSCADDocument::COpenSCADDocument(IDevices *_devices, stringc _workingDirecto
 																   rect<s32>(230,
 																			 codeEditor->getWindow()->getRelativePosition().getHeight()-40,
 																			 codeEditor->getWindow()->getRelativePosition().getWidth()-10,
-																			 codeEditor->getWindow()->getRelativePosition().getHeight()-10), 
+																			 codeEditor->getWindow()->getRelativePosition().getHeight()-10),
 																   false, false, codeEditor->getWindow(), -1, false);
 	stateTextElement->setTextAlignment(EGUIA_UPPERLEFT, EGUIA_CENTER);
 
@@ -124,7 +124,7 @@ void COpenSCADDocument::buildObject() {
 	std::lock_guard<std::mutex> lck(cssweutopenscaddocumentm);
 	IMesh *openscadMesh = devices->getSceneManager()->getMesh(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/temp/test" + cur + ".stl");
 	if (openscadMesh) {
-		IMeshSceneNode *openscadNode = devices->getSceneManager()->addMeshSceneNode(openscadMesh, 0, -1, vector3df(0), 
+		IMeshSceneNode *openscadNode = devices->getSceneManager()->addMeshSceneNode(openscadMesh, 0, -1, vector3df(0),
 																					vector3df(0), vector3df(1), false);
 		openscadNode->setMaterialFlag(EMF_LIGHTING, false);
 		openscadNode->setName("#object:new_openscad_node");
@@ -148,8 +148,12 @@ bool COpenSCADDocument::OnEvent(const SEvent &event) {
 	if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == buildButton) {
+                #ifndef _IRR_LINUX_PLATFORM_
 				std::thread t(&COpenSCADDocument::buildObject, *this);
 				t.detach();
+				#else
+				buildObject();
+				#endif
 			}
 
 			if (event.GUIEvent.Caller == closeButton) {

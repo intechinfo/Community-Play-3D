@@ -201,7 +201,6 @@ void CDevices::updateDevice() {
 	}
 
 #ifdef SSWE_RELEASE
-
     #pragma omp parallel sections
     {
         #pragma omp section

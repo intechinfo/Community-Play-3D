@@ -14,15 +14,19 @@ array<stringc> CPluginsManager::getAllMonitorsPluginsNames() {
 	array<stringc> names;
 
 	stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory();
-	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "plugins/monitors").c_str());
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "Plugins/Monitors").c_str());
 
 	IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
 	for (u32 j=0; j < fl->getFileCount(); j++) {
 		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 			stringw pluginname = fl->getFileName(j);
-            #ifndef _IRR_OSX_PLATFORM_
-			pluginname.remove(".dll");
-            #else
+            #ifdef _IRR_WINDOWS_API_
+            pluginname.remove(".dll");
+            #endif
+            #ifdef _IRR_LINUX_PLATFORM_
+            pluginname.remove(".so");
+            #endif
+            #ifdef _IRR_OSX_PLATFORM°
             pluginname.remove(".dylib");
             #endif
 			names.push_back(pluginname);
@@ -38,15 +42,19 @@ array<stringc> CPluginsManager::getAllSSWEPluginsNames() {
 	array<stringc> names;
 
 	stringc oldPath = devices->getDevice()->getFileSystem()->getWorkingDirectory();
-	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "plugins/SSWE").c_str());
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(stringc(devices->getWorkingDirectory() + "Plugins/SSWE").c_str());
 
 	IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
 	for (u32 j=0; j < fl->getFileCount(); j++) {
 		if (fl->getFileName(j) != "." && fl->getFileName(j) != "..") {
 			stringw pluginname = fl->getFileName(j);
-            #ifndef _IRR_OSX_PLATFORM_
-			pluginname.remove(".dll");
-            #else
+            #ifdef _IRR_WINDOWS_API_
+            pluginname.remove(".dll");
+            #endif
+            #ifdef _IRR_LINUX_PLATFORM_
+            pluginname.remove(".so");
+            #endif
+            #ifdef _IRR_OSX_PLATFORM°
             pluginname.remove(".dylib");
             #endif
 			names.push_back(pluginname);
@@ -62,7 +70,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 	//SEARCH IF THE MONITORS EXISTS
 	//IF EXISTS, MEANS WE REMOVE IT
 	for (u32 i=0; i < devices->getMonitorRegister()->getMonitorCount(); i++) {
-		if (path == devices->getMonitorRegister()->getMonitor(i)->getName()) {
+		/*if (path == devices->getMonitorRegister()->getMonitor(i)->getName()) {
 			IMonitor *existedMonitor = devices->getMonitorRegister()->getMonitor(i);
 			for (u32 j=0; j < devices->getCoreData()->getMonitors()->size(); j++) {
 				if (devices->getCoreData()->getMonitors()->operator[](j).getMonitor() == existedMonitor) {
@@ -71,17 +79,28 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 					return;
 				}
 			}
-		}
+		}*/
+        for (u32 j=0; j < devices->getCoreData()->getMonitors()->size(); j++) {
+            if (devices->getCoreData()->getMonitors()->operator[](j).getName() == path) {
+                devices->getMonitorRegister()->unregisterMonitor(i);
+                devices->getCoreData()->destroyMonitor(devices->getCoreData()->getMonitors()->operator[](j).getMonitor());
+                return;
+            }
+        }
 	}
 
 	//IF MONITOR DOESN'T EXISTS, TRY AND LOAD IT
 	stringc ppath = devices->getWorkingDirectory().c_str();
-	ppath += "plugins/monitors/";
+	ppath += "Plugins/Monitors/";
 	ppath += path;
-    #ifndef _IRR_OSX_PLATFORM_
+    #ifdef _IRR_WINDOWS_API_
 	ppath += ".dll";
-    #else
+    #endif
+    #ifdef _IRR_OSX_PLATFORM_
     ppath += ".dylib";
+    #endif
+    #ifdef _IRR_LINUX_PLATFORM_
+    ppath += ".so";
     #endif
 
     #ifdef _IRR_WINDOWS_API_
@@ -141,6 +160,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
             newMonitor->init();
 
 			SMonitor m(newMonitor, hdll);
+			m.setName(path);
 			devices->getCoreData()->getMonitors()->push_back(m);
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
 		}
@@ -152,9 +172,9 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 void CPluginsManager::loadSSWEPlugin(stringc path) {
 	//IF MONITOR DOESN'T EXISTS, TRY AND LOAD IT
 	stringc ppath = devices->getWorkingDirectory().c_str();
-	ppath += "plugins/sswe/";
+	ppath += "Plugins/SSWE/";
 	ppath += path;
-    #ifndef _IRR_WINDOWS_API_
+    #ifdef _IRR_WINDOWS_API_
 	ppath += ".dll";
     #endif
     #ifdef _IRR_OSX_PLATFORM_
