@@ -7,6 +7,13 @@
 		<Project filename="SSWECore/SSWECore/SSWECore.cbp" />
 		<Project filename="irrBullet/source/irrBullet.cbp" />
 		<Project filename="SSWELib/SSWELib/SSWELib.cbp" />
-		<Project filename="SSWE/SSWE/SSWE.cbp" />
+		<Project filename="SSWE/SSWE/SSWE.cbp">
+			<Depends filename="../../irrlicht-1.8.1/source/Irrlicht/Irrlicht-gcc.cbp" />
+			<Depends filename="SSWERenders/SSWERenders/SSWERenders.cbp" />
+			<Depends filename="SPARK/SPARK155/projects/SPARK155/SPARK155.cbp" />
+			<Depends filename="SSWECore/SSWECore/SSWECore.cbp" />
+			<Depends filename="irrBullet/source/irrBullet.cbp" />
+			<Depends filename="SSWELib/SSWELib/SSWELib.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

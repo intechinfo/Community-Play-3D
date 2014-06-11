@@ -36,6 +36,8 @@
 					<Add option="-W" />
 					<Add option="-O0" />
 					<Add option="-Wno-unused-parameter" />
+					<Add option="-DSSWE_RELEASE" />
+					<Add option="-DSSWE_EDITOR" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />

@@ -9,19 +9,26 @@
 #include "stdafx.h"
 #include "CNormalMappingMaterial.h"
 
-#ifdef _IRR_OSX_PLATFORM_
-#include "../XEffect/EffectShaders.h"
+#ifndef _IRR_WINDOWS_API
+
+enum E_SHADER_EXTENSION
+{
+	ESE_GLSL=0,
+	ESE_HLSL,
+
+	ESE_COUNT
+};
 
 using namespace irr;
 using namespace core;
 using namespace video;
 
 CNormalMappingMaterial::CNormalMappingMaterial() {
-    
+
 }
 
 CNormalMappingMaterial::~CNormalMappingMaterial() {
-    
+
 }
 
 void CNormalMappingMaterial::removeLight(irr::u32 indice) {
@@ -39,16 +46,16 @@ void CNormalMappingMaterial::addLight(irr::scene::ILightSceneNode *node) {
 void CNormalMappingMaterial::rebuildCallbackParameters() {
     fvLightColorArray.clear();
     fLightStrengthArray.clear();
-    
+
     for (u32 i=0; i < lights.size(); i++) {
         fvLightColorArray.push_back(lights[i]->getLightData().DiffuseColor.a);
         fvLightColorArray.push_back(lights[i]->getLightData().DiffuseColor.r);
         fvLightColorArray.push_back(lights[i]->getLightData().DiffuseColor.g);
         fvLightColorArray.push_back(lights[i]->getLightData().DiffuseColor.b);
-        
+
         fLightStrengthArray.push_back(lights[i]->getLightData().Radius);
     }
-    
+
     rebuildPositions();
 }
 
@@ -63,50 +70,50 @@ void CNormalMappingMaterial::rebuildPositions() {
 
 void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData) {
     rebuildCallbackParameters();
-    
-    s32 baseMap = 0;
-    s32 bumpMap = 1;
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("baseMap"), &baseMap, 1);
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("bumpMap"), &bumpMap, 1);
-    
-    s32 lightsCount = lights.size();
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("lightsCount"), &lightsCount, 1);
-    services->setVertexShaderConstant(services->getVertexShaderConstantID("lightsCount"), &lightsCount, 1);
-    
+
+    f32 baseMap = 0;
+    f32 bumpMap = 1;
+    services->setPixelShaderConstant(("baseMap"), &baseMap, 1);
+    services->setPixelShaderConstant(("bumpMap"), &bumpMap, 1);
+
+    f32 lightsCount = lights.size();
+    //services->setPixelShaderConstant(("lightsCount"), &lightsCount, 1);
+    services->setVertexShaderConstant(("lightsCount"), &lightsCount, 1);
+
     f32 fSpecularPower = 20.f;
     f32 fSpecularStrength = 0.9f;
     f32 fBumpStrength = 5.f;
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("fSpecularPower"), &fSpecularPower, 1);
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("fSpecularStrength"), &fSpecularStrength, 1);
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("fBumpStrength"), &fBumpStrength, 1);
-    
+    services->setPixelShaderConstant(("fSpecularPower"), &fSpecularPower, 1);
+    services->setPixelShaderConstant(("fSpecularStrength"), &fSpecularStrength, 1);
+    services->setPixelShaderConstant(("fBumpStrength"), &fBumpStrength, 1);
+
     matrix4 matWorldInverse;
     matWorldInverse *= services->getVideoDriver()->getTransform(ETS_WORLD);
     matWorldInverse.makeInverse();
-    services->setVertexShaderConstant(services->getVertexShaderConstantID("matWorldInverse"), matWorldInverse.pointer(), 16);
-    
-    services->setVertexShaderConstant(services->getVertexShaderConstantID("fvLightPosition"), fvLightPositionArray.pointer(), fvLightPositionArray.size());
-    services->setVertexShaderConstant(services->getVertexShaderConstantID("fLightStrength"), fLightStrengthArray.pointer(), fLightStrengthArray.size());
-    
-    SColorf fvAmbient(0.7f, 0.7f, 0.7f, 1.f);
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("fvAmbient"), (float*)(&fvAmbient), 4);
-    services->setPixelShaderConstant(services->getPixelShaderConstantID("fvLightColor"), fvLightColorArray.pointer(), fvLightColorArray.size());
+    services->setVertexShaderConstant(("matWorldInverse"), matWorldInverse.pointer(), 16);
+
+    services->setVertexShaderConstant(("fvLightPosition"), fvLightPositionArray.pointer(), fvLightPositionArray.size());
+    services->setVertexShaderConstant(("fLightStrength"), fLightStrengthArray.pointer(), fLightStrengthArray.size());
+
+    f32 fvAmbiant[4] = { 1.f, 1.f, 1.f, 1.f };
+    services->setPixelShaderConstant(("fvAmbient"), fvAmbiant, 4);
+    services->setPixelShaderConstant(("fvLightColor"), fvLightColorArray.pointer(), fvLightColorArray.size());
 
 }
 
 void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
     const char *NORMAL_MAPPING_V[ESE_COUNT] = {
-        "#define __CP3D__MAX_LIGHTS 32\n"
+        "#define __CP3D__MAX_LIGHTS 16\n"
         "\n"
         "uniform vec3 fvLightPosition[__CP3D__MAX_LIGHTS];\n"
         "uniform float fLightStrength[__CP3D__MAX_LIGHTS];\n"
-        "uniform int lightsCount;\n"
+        "uniform float lightsCount;\n"
         "uniform mat4 matWorldInverse;\n"
         "\n"
         "varying vec2 Texcoord;\n"
         "varying vec3 ViewDirection;\n"
         "varying vec3 LightDirection[__CP3D__MAX_LIGHTS];\n"
-        "varying vec4 LightDistMultiplier[__CP3D__MAX_LIGHTS];\n"
+        "varying float LightDistMultiplier[__CP3D__MAX_LIGHTS];\n"
         "\n"
         "float getLengthSQR (vec3 vec)\n"
         "{\n"
@@ -124,7 +131,7 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "\n"
         "    // Calculate Light Pos\n"
         "    vec4 fvLightPos[__CP3D__MAX_LIGHTS];\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        fvLightPos[i] = LightTransform * vec4(fvLightPosition[i],1.0);\n"
         "    }\n"
         "\n"
@@ -132,11 +139,11 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "\n"
         "    // Calculate Light Direction\n"
         "    vec3 fvLightDirection[__CP3D__MAX_LIGHTS];\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        fvLightDirection[i] = (fvLightPos[i].xyz - fvObjectPosition.xyz);\n"
         "    }\n"
         "\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        LightDistMultiplier[i]=1.0/(getLengthSQR(fvLightDirection[i])/(fLightStrength[i]*10000.0));\n"
         "    }\n"
         "\n"
@@ -152,21 +159,20 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "    ViewDirection.y  = dot( fvBinormal, fvViewDirection );\n"
         "    ViewDirection.z  = dot( fvNormal, fvViewDirection );\n"
         "\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        LightDirection[i].x  = dot( fvTangent, fvLightDirection[i].xyz );\n"
         "        LightDirection[i].y  = dot( fvBinormal, fvLightDirection[i].xyz );\n"
         "        LightDirection[i].z  = dot( fvNormal, fvLightDirection[i].xyz );\n"
         "    }\n"
         "}\n"
-        "\n"
     ,
     ""
     };
-    
+
     const char *NORMAL_MAPPING_P[ESE_COUNT] = {
-        "#define __CP3D__MAX_LIGHTS 32\n"
+        "#define __CP3D__MAX_LIGHTS 16\n"
         "\n"
-        "uniform int lightsCount;\n"
+        "uniform float lightsCount;\n"
         "\n"
         "uniform vec4 fvAmbient;\n"
         "uniform vec4 fvLightColor[__CP3D__MAX_LIGHTS];\n"
@@ -181,15 +187,15 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "varying vec2 Texcoord;\n"
         "varying vec3 ViewDirection;\n"
         "varying vec3 LightDirection[__CP3D__MAX_LIGHTS];\n"
-        "varying vec4 LightDistMultiplier[__CP3D_MAX_LIGHTS];\n"
+        "varying float LightDistMultiplier[__CP3D__MAX_LIGHTS];\n"
         "\n"
         "void main( void ){\n"
-        "    if (lightsCount == 0) {\n"
+        "    if (lightsCount == 0.0) {\n"
         "        gl_FragColor = texture2D(baseMap, Texcoord.xy);\n"
         "        return;\n"
         "    }\n"
         "    vec3 fvLightDirection[__CP3D__MAX_LIGHTS];\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        fvLightDirection[i] = normalize( LightDirection[i] );\n"
         "    }\n"
         "\n"
@@ -202,19 +208,19 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "    fvNormal=normalize(fvNormal);\n"
         "\n"
         "    float fNDotL[__CP3D__MAX_LIGHTS];\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        fNDotL[i] = max(dot(fvNormal, fvLightDirection[i]),0.0)-0.1;\n"
         "    }\n"
         "\n"
         "    vec3 fvReflection[__CP3D__MAX_LIGHTS];\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        fvReflection[i] = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection[i] );\n"
         "    }\n"
         "\n"
         "    vec3  fvViewDirection  = normalize( ViewDirection );\n"
         "\n"
         "    float fRDotV[__CP3D__MAX_LIGHTS];\n"
-        "    for (int i=0; i < lightsCount; i++) {\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
         "        fRDotV[i] = max( 0.0, dot( fvReflection[i], fvViewDirection ) );\n"
         "    }\n"
         "\n"
@@ -222,10 +228,13 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "\n"
         "    vec4  fvTotalAmbient   = fvAmbient * fvBaseColor;\n"
         "\n"
-        "    vec4  fvTotalDiffuse   = fvLightColor[0] * fNDotL[0]* fvBaseColor*LightDistMultiplier[0];\n"
-        "    vec4  fvTotalSpecular  = fNDotL[0]*fvLightColor[0] * ( pow( fRDotV[0], fSpecularPower ) )*LightDistMultiplier[0];\n"
+        "    vec4 fvTotalDiffuse = vec4(0.0, 0.0, 0.0, 0.0);\n"
+        "    vec4 fvTotalSpecular = vec4(0.0, 0.0, 0.0, 0.0);\n"
         "\n"
-        "\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
+        "         fvTotalDiffuse += fvLightColor[i] * fNDotL[i] * fvBaseColor * LightDistMultiplier[i];\n"
+        "         fvTotalSpecular  += fNDotL[i]*fvLightColor[i] * ( pow( fRDotV[i], fSpecularPower ) )*LightDistMultiplier[i];\n"
+        "    }\n"
         "\n"
         "    vec4 color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));\n"
         "    if(color.r>1.0){color.gb+=color.r-1.0;}\n"
@@ -233,16 +242,17 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "    if(color.b>1.0){color.rg+=color.b-1.0;}\n"
         "\n"
         "    gl_FragColor = color;\n"
+        "    gl_FragColor = texture2D(baseMap, Texcoord.xy);\n"
         "\n"
         "}\n"
         ,
         ""
     };
-    
+
     E_SHADER_EXTENSION ext = (driver->getDriverType() == EDT_OPENGL) ? ESE_GLSL : ESE_HLSL;
-    
+
     IGPUProgrammingServices *gpu = driver->getGPUProgrammingServices();
-    
+
     nmSolid = gpu->addHighLevelShaderMaterial(stringc(NORMAL_MAPPING_V[ext]).c_str(), "main", EVST_VS_1_1,
                                               stringc(NORMAL_MAPPING_P[ext]).c_str(), "main", EPST_PS_1_1,
                                               this, EMT_SOLID);
@@ -252,11 +262,11 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
     nmTransAlphaRef = gpu->addHighLevelShaderMaterial(stringc(NORMAL_MAPPING_V[ext]).c_str(), "main", EVST_VS_1_1,
                                                       stringc(NORMAL_MAPPING_P[ext]).c_str(), "main", EPST_PS_1_1,
                                                       this, EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
-    
+
     printf("\n\n %d \n\n", nmSolid);
     printf("\n\n %d \n\n", nmTransAdd);
     printf("\n\n %d \n\n", nmTransAlphaRef);
-    
+
 }
 
 #endif

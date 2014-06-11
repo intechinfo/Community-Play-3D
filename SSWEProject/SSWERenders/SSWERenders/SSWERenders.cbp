@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-DSSWE_EDITOR" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,8 +27,10 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-DSSWE_RELEASE" />
+					<Add option="-DSSWE_EDITOR" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />

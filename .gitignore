@@ -17,6 +17,7 @@ TestResults
 [Dd]ebug/
 [Rr]elease/
 x64/
+!*.*
 *_i.c
 *_p.c
 *.ilk
@@ -51,7 +52,7 @@ x64/
 *.bi
 *.unsuccessfulbuild
 *.sdf
-.DS_Store
+*.DS_Store
 Thumbs.db
 
 # Visual C++ cache files

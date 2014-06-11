@@ -1,6 +1,8 @@
 #ifndef H_XEFFECTS_SHADERS
 #define H_XEFFECTS_SHADERS
 
+#pragma once
+
 enum E_SHADER_EXTENSION
 {
 	ESE_GLSL=0,
@@ -416,23 +418,23 @@ const char* WHITE_WASH_P_ADD[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n
 const char* SCREEN_QUAD_V[ESE_COUNT] = {"uniform float screenX, screenY; \n"
 "uniform vec3 LineStarts0, LineStarts1, LineStarts2, LineStarts3; \n"
 "uniform vec3 LineEnds0, LineEnds1, LineEnds2, LineEnds3; \n"
-"void main() \n" 
-"{\n" 
+"void main() \n"
+"{\n"
 "	gl_Position = vec4(gl_Vertex.x, gl_Vertex.y, 0.0, 1.0); \n"
-"	vec2 tCoords; \n" 
-"	tCoords.x = 0.5 * (1.0 + gl_Vertex.x); \n" 
-"	tCoords.y = 0.5 * (1.0 + gl_Vertex.y); \n" 
-"	gl_TexCoord[0].xy = tCoords.xy; \n" 
-"	tCoords.y = 1.0 - tCoords.y; \n" 
-"	vec3 tLStart = mix(LineStarts0, LineStarts1, tCoords.x); \n" 
-"	vec3 bLStart = mix(LineStarts2, LineStarts3, tCoords.x); \n" 
-"	gl_TexCoord[1].xyz = mix(tLStart, bLStart, tCoords.y); \n" 
-"	vec3 tLEnd = mix(LineEnds0, LineEnds1, tCoords.x); \n" 
-"	vec3 bLEnd = mix(LineEnds2, LineEnds3, tCoords.x); \n" 
-"	gl_TexCoord[2].xyz = mix(tLEnd, bLEnd, tCoords.y); \n" 
+"	vec2 tCoords; \n"
+"	tCoords.x = 0.5 * (1.0 + gl_Vertex.x); \n"
+"	tCoords.y = 0.5 * (1.0 + gl_Vertex.y); \n"
+"	gl_TexCoord[0].xy = tCoords.xy; \n"
+"	tCoords.y = 1.0 - tCoords.y; \n"
+"	vec3 tLStart = mix(LineStarts0, LineStarts1, tCoords.x); \n"
+"	vec3 bLStart = mix(LineStarts2, LineStarts3, tCoords.x); \n"
+"	gl_TexCoord[1].xyz = mix(tLStart, bLStart, tCoords.y); \n"
+"	vec3 tLEnd = mix(LineEnds0, LineEnds1, tCoords.x); \n"
+"	vec3 bLEnd = mix(LineEnds2, LineEnds3, tCoords.x); \n"
+"	gl_TexCoord[2].xyz = mix(tLEnd, bLEnd, tCoords.y); \n"
 "	gl_TexCoord[3].xy = vec2(screenX, screenY); \n"
 "}"
-, 
+,
 "float screenX, screenY; \n"
 "float3 LineStarts0, LineStarts1, LineStarts2, LineStarts3; \n"
 "float3 LineEnds0, LineEnds1, LineEnds2, LineEnds3; \n"
@@ -448,14 +450,14 @@ const char* SCREEN_QUAD_V[ESE_COUNT] = {"uniform float screenX, screenY; \n"
 "{ \n"
 "	VS_OUTPUT OUT; \n"
 "   OUT.Position = float4(Position.x,Position.y, 0.0, 1.0); \n"
-"	OUT.TexCoords.x = 0.5 * (1.0 + Position.x + (1.0 / screenX)); \n" 
-"	OUT.TexCoords.y = 1.0 - 0.5 * (1.0 + Position.y - (1.0 / screenY)); \n" 
-"	float3 tLStart = lerp(LineStarts0, LineStarts1, OUT.TexCoords.x); \n" 
-"	float3 bLStart = lerp(LineStarts2, LineStarts3, OUT.TexCoords.x); \n" 
-"	OUT.LStart = lerp(tLStart, bLStart, OUT.TexCoords.y); \n" 
-"	float3 tLEnd = lerp(LineEnds0, LineEnds1, OUT.TexCoords.x); \n" 
-"	float3 bLEnd = lerp(LineEnds2, LineEnds3, OUT.TexCoords.x); \n" 
-"	OUT.LEnd = lerp(tLEnd, bLEnd, OUT.TexCoords.y); \n" 
+"	OUT.TexCoords.x = 0.5 * (1.0 + Position.x + (1.0 / screenX)); \n"
+"	OUT.TexCoords.y = 1.0 - 0.5 * (1.0 + Position.y - (1.0 / screenY)); \n"
+"	float3 tLStart = lerp(LineStarts0, LineStarts1, OUT.TexCoords.x); \n"
+"	float3 bLStart = lerp(LineStarts2, LineStarts3, OUT.TexCoords.x); \n"
+"	OUT.LStart = lerp(tLStart, bLStart, OUT.TexCoords.y); \n"
+"	float3 tLEnd = lerp(LineEnds0, LineEnds1, OUT.TexCoords.x); \n"
+"	float3 bLEnd = lerp(LineEnds2, LineEnds3, OUT.TexCoords.x); \n"
+"	OUT.LEnd = lerp(tLEnd, bLEnd, OUT.TexCoords.y); \n"
 "	OUT.ScreenSize = float2(screenX, screenY); \n"
 "	return(OUT); \n"
 "} \n"};
@@ -556,6 +558,7 @@ const char* BLACK_PASS_P[ESE_COUNT] = {
 const char* SELECTION_PASS_V[ESE_COUNT] = {
 "void main() {\n"
 "   gl_Position = ftransform();\n"
+"   gl_TexCoord[0].xy = gl_MultiTexCoord0.xy\n"
 "}\n"
 "\n"
 ,

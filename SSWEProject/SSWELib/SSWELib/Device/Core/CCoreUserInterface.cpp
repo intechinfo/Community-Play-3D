@@ -69,7 +69,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 	#ifdef SSWE_RELEASE
 		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
 	#else
-		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 	#endif
 
     //-----------------------------------
@@ -128,7 +128,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 
 	clear = gui->addButton(rect<s32>(207, 480, 307, 510), logWindow, -1, L"Clear", L"Clear The Console");
 
-	logWindow->setVisible(false);
+	logWindow->setVisible(true);
 
     //-----------------------------------
 

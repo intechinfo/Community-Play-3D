@@ -47,7 +47,7 @@ void CNodeFactory::createSphereSceneNode() {
 }
 
 void CNodeFactory::createPlaneMeshSceneNode() {
-	IAnimatedMesh *planeMesh = devices->getSceneManager()->addHillPlaneMesh("#object:new_hille_plane_mesh", 
+	IAnimatedMesh *planeMesh = devices->getSceneManager()->addHillPlaneMesh("#object:new_hille_plane_mesh",
 																			dimension2df(25, 25), dimension2du(25, 25),
 																			0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
 	IAnimatedMeshSceneNode *planeNode = devices->getSceneManager()->addAnimatedMeshSceneNode(planeMesh, 0, -1, vector3df(0));
@@ -76,13 +76,14 @@ void CNodeFactory::createLightSceneNode() {
 	ILightSceneNode *light = devices->getSceneManager()->addLightSceneNode();
 	if (light) {
 		light->setName("#light:new_light");
+		light->setPosition(vector3df(0, 200, 0));
 		SLightsData ldata(light, 0, 0, 0);
 		devices->getCoreData()->getLightsData()->push_back(ldata);
 
 		SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
 		devices->getXEffect()->addShadowLight(shadowLight);
-        
-		#ifdef _IRR_OSX_PLATFORM_
+
+		#ifndef _IRR_WINDOWS_API_
         devices->getNormalMappingMaterial()->addLight(light);
 		#endif
 

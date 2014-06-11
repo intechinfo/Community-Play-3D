@@ -488,7 +488,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
 
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_NONE;
+	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);
@@ -499,7 +499,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setFPSCamera(camera_fps);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
-	#ifdef _IRR_OSX_PLATFORM_
+	#ifndef _IRR_WINDOWS_API_
     normalMappingMaterial = new CNormalMappingMaterial();
     normalMappingMaterial->build(driver);
 	#endif

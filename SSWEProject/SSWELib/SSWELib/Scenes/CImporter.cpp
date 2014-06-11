@@ -54,11 +54,11 @@ void CImporter::importScene(stringc file_path) {
     stringc wd = devices->getWorkingDirectory().c_str();
     wd += "/";
     devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(wd.c_str());
-    
+
     xmlReader = createIrrXMLReader(file_path.c_str());
 	if (!xmlReader)
 		return;
-    
+
 	pathOfFile = file_path;
 	newImportScene(pathOfFile);
 	return;
@@ -92,7 +92,7 @@ void CImporter::buildTerrain() {
 			numberOfVertices += mesh->getMeshBuffer(i)->getVertexCount();
 		}
 		assert(mesh != 0);
-		/*node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ? 
+		/*node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ?
 													 numberOfVertices/(minPolysPerNode+1)
 													 : numberOfVertices/minPolysPerNode);*/
         mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
@@ -101,7 +101,7 @@ void CImporter::buildTerrain() {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
 
         assert(mesh != 0);
-        
+
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
 			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, true, true, false, true);
 		}
@@ -173,7 +173,7 @@ void CImporter::buildObject() {
 	} else if (path == "sphere") {
 		node = (IAnimatedMeshSceneNode *)smgr->addSphereSceneNode();
 	} else if (path == "hillPlaneMesh") {
-		mesh = smgr->addHillPlaneMesh("#new_hille_plane_mesh", 
+		mesh = smgr->addHillPlaneMesh("#new_hille_plane_mesh",
 									  dimension2df(25, 25), dimension2du(25, 25),
 									  0, 0, dimension2df(0.f, 0.f), dimension2df(1.f, 1.f));
 		node = smgr->addAnimatedMeshSceneNode(mesh);
@@ -373,7 +373,7 @@ void CImporter::buildVolumeLight() {
 void CImporter::buildWaterSurface() {
 	read("mesh");
 	stringc meshPath = xmlReader->getAttributeValue("path");
-	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, devices->getWorkingDirectory() + "shaders/Materials/Water/", 
+	RealisticWaterSceneNode *waterSurface = new RealisticWaterSceneNode(smgr, 512, 512, devices->getWorkingDirectory() + "shaders/Materials/Water/",
                                                                         dimension2du(512, 512), devices->getSceneManager()->getRootSceneNode());
 	ISceneNode *node = waterSurface;
 
@@ -429,11 +429,11 @@ void CImporter::readConfig() {
 		read("accentLineOffset");
 		u32 ALO = devices->getCore()->getU32(xmlReader->getAttributeValue("ALO"));
 		devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(ALO);
-                
+
 		read("size");
 		u32 size = devices->getCore()->getU32(xmlReader->getAttributeValue("S"));
 		devices->getObjectPlacement()->getGridSceneNode()->SetSize(size);
-                
+
 		read("spacing");
 		u32 spacing = devices->getCore()->getU32(xmlReader->getAttributeValue("SP"));
 		devices->getObjectPlacement()->getGridSceneNode()->SetSpacing(spacing);
@@ -557,7 +557,7 @@ void CImporter::readMaterialShaderCallbacks() {
 		stringc name = "";
 		read("name");
 		name = xmlReader->getAttributeValue("cname");
-        
+
         stringc vertex = "", pixel = "", constants = "";
         #ifndef _IRR_OSX_PLATFORM_
 		read("vertex");
@@ -647,7 +647,7 @@ SData CImporter::readFactory(ISceneNode *_node, IMesh *_mesh) {
 
 	if (_mesh)
 		_mesh->setDirty();
-    
+
     if (_mesh) {
         for (u32 i=0; i < _mesh->getMeshBufferCount(); i++)
             _mesh->getMeshBuffer(i)->setDirty();
@@ -753,7 +753,10 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		//MATERIAL TYPE
 		read("materianType");
 		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
-		_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
+		if (matS32 == EMT_NORMAL_MAP_SOLID)
+            _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid();
+		else
+            _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
 		if (matS32 < 0 && -matS32 <= devices->getCoreData()->getShaderCallbacks()->size()) {
 			_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](-matS32-1)->getMaterial();
 		}
@@ -768,12 +771,12 @@ void CImporter::readTransformations(ISceneNode *_node) {
     read("position");
     vector3df position = buildVector3df();
     _node->setPosition(position);
-                    
+
     //ROTATION
     read("rotation");
     vector3df rotation = buildVector3df();
     _node->setRotation(rotation);
-                    
+
     //SCALE
     read("scale");
     vector3df scale = buildVector3df();
@@ -865,7 +868,7 @@ SColor CImporter::buildSColor() {
 }
 
 SColorf CImporter::buildSColorf() {
-	SColorf color(xmlReader->getAttributeValueAsInt("r"), xmlReader->getAttributeValueAsInt("g"), 
+	SColorf color(xmlReader->getAttributeValueAsInt("r"), xmlReader->getAttributeValueAsInt("g"),
 				  xmlReader->getAttributeValueAsInt("b"), xmlReader->getAttributeValueAsInt("a"));
 	return color;
 }
@@ -966,7 +969,7 @@ void CImporter::importCamerasConfig() {
 	stringc wd = devices->getWorkingDirectory().c_str();
     wd += "/";
     devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(wd.c_str());
-    
+
     xmlReader = createIrrXMLReader("Config/cameras.scfg");
 	if (!xmlReader)
 		return;

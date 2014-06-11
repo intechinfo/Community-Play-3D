@@ -12,62 +12,62 @@
 #include <SSWERenders.h>
 #include <irrlicht.h>
 
-#ifdef _IRR_OSX_PLATFORM_
+#ifndef _IRR_WINDOWS_API
 
 class SSWE_RENDERS_API CNormalMappingMaterial : public irr::video::IShaderConstantSetCallBack {
-  
+
 public:
-    
+
     //-----------------------------------
     //CTOR & DTOR
     CNormalMappingMaterial();
     ~CNormalMappingMaterial();
     //-----------------------------------
-    
+
     //-----------------------------------
     //LIGHTS METHODS
     irr::scene::ILightSceneNode *getLightSceneNode(irr::u32 indice) { return lights[indice]; }
     irr::u32 getLightCount() { return lights.size(); }
-    
+
     void removeLight(irr::u32 indice);
-    
+
     void addLight(irr::scene::ILightSceneNode *node);
     //-----------------------------------
-    
+
     //-----------------------------------
     //MATERIAL METHODS
     void build(irr::video::IVideoDriver *driver);
-    
+
     irr::s32 getMaterialSolid() { return nmSolid; }
     //-----------------------------------
-    
+
     //-----------------------------------
     //INHERITANCE METHODS
 	virtual void OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData);
     //-----------------------------------
-    
+
 private:
-    
+
     //-----------------------------------
     //METHODS
     void rebuildCallbackParameters();
     void rebuildPositions();
     //-----------------------------------
-    
+
     //-----------------------------------
     //DATAS
     irr::core::array<irr::scene::ILightSceneNode*> lights;
-    
+
     irr::s32 nmSolid, nmTransAdd, nmTransAlphaRef;
     //-----------------------------------
-    
+
     //-----------------------------------
     //CALLBACK PARAMETERS
     irr::core::array<irr::f32> fLightStrengthArray;
     irr::core::array<irr::f32> fvLightPositionArray;
     irr::core::array<irr::f32> fvLightColorArray;
     //-----------------------------------
-    
+
 };
 
 #endif

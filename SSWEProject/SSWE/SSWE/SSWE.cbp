@@ -35,8 +35,6 @@
 					<Add option="-W" />
 					<Add option="-O0" />
 					<Add option="-Wno-unused-parameter" />
-					<Add option="-Wl" />
-					<Add option="--allow-multiple-definition" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
