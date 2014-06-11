@@ -333,7 +333,7 @@ void CImporter::buildLight() {
 		ldata.setLensFlareSceneNode(lfNode);
 	}
 
-	#ifdef _IRR_OSX_PLATFORM_
+	#ifndef _IRR_WINDOWS_API_
     devices->getNormalMappingMaterial()->addLight(node);
 	#endif
 
