@@ -351,6 +351,10 @@
 		2E4129A518FC0D830086FD21 /* CUIAddModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4129A118FC0D830086FD21 /* CUIAddModifier.h */; };
 		2E4129A818FC0D920086FD21 /* CUIWindowEditClouds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4129A618FC0D920086FD21 /* CUIWindowEditClouds.cpp */; };
 		2E4129A918FC0D930086FD21 /* CUIWindowEditClouds.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4129A718FC0D920086FD21 /* CUIWindowEditClouds.h */; };
+		2E4CB02019483C3400740D0D /* CEditorCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CB01E19483C3400740D0D /* CEditorCamera.cpp */; };
+		2E4CB02119483C3400740D0D /* CEditorCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4CB01F19483C3400740D0D /* CEditorCamera.h */; };
+		2E4CB02419483D3E00740D0D /* CUIAnimatedMeshViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CB02219483D3E00740D0D /* CUIAnimatedMeshViewer.cpp */; };
+		2E4CB02519483D3E00740D0D /* CUIAnimatedMeshViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4CB02319483D3E00740D0D /* CUIAnimatedMeshViewer.h */; };
 		2E56A2271828EF9500D63D65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E56A2281828EFA100D63D65 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
 		2E6C5F7C1829812E00FB1027 /* shadergroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F54182980F900FB1027 /* shadergroup.cpp */; };
@@ -2200,6 +2204,10 @@
 		2E4129A118FC0D830086FD21 /* CUIAddModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIAddModifier.h; path = ParticlesEditor/CUIAddModifier.h; sourceTree = "<group>"; };
 		2E4129A618FC0D920086FD21 /* CUIWindowEditClouds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIWindowEditClouds.cpp; sourceTree = "<group>"; };
 		2E4129A718FC0D920086FD21 /* CUIWindowEditClouds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIWindowEditClouds.h; sourceTree = "<group>"; };
+		2E4CB01E19483C3400740D0D /* CEditorCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CEditorCamera.cpp; sourceTree = "<group>"; };
+		2E4CB01F19483C3400740D0D /* CEditorCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEditorCamera.h; sourceTree = "<group>"; };
+		2E4CB02219483D3E00740D0D /* CUIAnimatedMeshViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIAnimatedMeshViewer.cpp; sourceTree = "<group>"; };
+		2E4CB02319483D3E00740D0D /* CUIAnimatedMeshViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIAnimatedMeshViewer.h; sourceTree = "<group>"; };
 		2E6B3D57182E7964006E12C6 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F51182980CD00FB1027 /* libSSWERenders.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSWERenders.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F54182980F900FB1027 /* shadergroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shadergroup.cpp; sourceTree = "<group>"; };
@@ -4355,6 +4363,8 @@
 		2E3F486A192D0ACA008926A7 /* MeshFactory */ = {
 			isa = PBXGroup;
 			children = (
+				2E4CB02219483D3E00740D0D /* CUIAnimatedMeshViewer.cpp */,
+				2E4CB02319483D3E00740D0D /* CUIAnimatedMeshViewer.h */,
 				2E3F486B192D0ACA008926A7 /* CMeshFactory.cpp */,
 				2E3F486C192D0ACA008926A7 /* CMeshFactory.h */,
 				2E3F486D192D0ACB008926A7 /* CUIMeshFactory.cpp */,
@@ -4809,6 +4819,8 @@
 		2E6C614E182983A300FB1027 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				2E4CB01E19483C3400740D0D /* CEditorCamera.cpp */,
+				2E4CB01F19483C3400740D0D /* CEditorCamera.h */,
 				2E6C614F182983A300FB1027 /* CRiggedCamera.cpp */,
 				2E6C6150182983A300FB1027 /* CRiggedCamera.h */,
 				2E6C6151182983A300FB1027 /* CSceneNodeAnimatorCameraUpVector.h */,
@@ -6115,6 +6127,7 @@
 				2E6E76AD18E9A3B100A1D14D /* ISSWELibPlugin.h in Headers */,
 				2E6E76E018E9A6D900A1D14D /* mtrand.h in Headers */,
 				2E6E76C018E9A60700A1D14D /* CFilterCallback.h in Headers */,
+				2E4CB02519483D3E00740D0D /* CUIAnimatedMeshViewer.h in Headers */,
 				2E4129A518FC0D830086FD21 /* CUIAddModifier.h in Headers */,
 				2E6E76DC18E9A6D900A1D14D /* CUILightMapsCreator.h in Headers */,
 				2E247FD71905DB0500410104 /* CParticleSystemsTypes.h in Headers */,
@@ -6125,6 +6138,7 @@
 				2E6E76DE18E9A6D900A1D14D /* CUVTree.h in Headers */,
 				2EDA915819072B6500D83D90 /* CVector3d.h in Headers */,
 				2E6E76B018E9A3B100A1D14D /* ITool.h in Headers */,
+				2E4CB02119483C3400740D0D /* CEditorCamera.h in Headers */,
 				2E6E76AA18E9A3B100A1D14D /* ISSWECoreUserInterface.h in Headers */,
 				2E6E76AF18E9A3B100A1D14D /* ISSWEShaderCallback.h in Headers */,
 				2E6E76A418E9A3B100A1D14D /* IGraphicTool.h in Headers */,
@@ -7479,6 +7493,7 @@
 				2E6C628F182983CD00FB1027 /* CManualAction.h in Sources */,
 				2E6C6290182983CD00FB1027 /* CDevices.cpp in Sources */,
 				2E6E76DB18E9A6D900A1D14D /* CUILightMapsCreator.cpp in Sources */,
+				2E4CB02419483D3E00740D0D /* CUIAnimatedMeshViewer.cpp in Sources */,
 				2E6C6291182983CD00FB1027 /* CDevices.h in Sources */,
 				2E6C6292182983CD00FB1027 /* CCoreUserInterface.cpp in Sources */,
 				2E6C6293182983CD00FB1027 /* CCoreUserInterface.h in Sources */,
@@ -7571,6 +7586,7 @@
 				2E6E76B718E9A5C000A1D14D /* CUIParticlesEditZone.cpp in Sources */,
 				2E6C62E5182983CD00FB1027 /* CUIWindowEditVolumeLight.cpp in Sources */,
 				2EDE4F3E1918176B00C53ADD /* CUIScenarioMakerMain.cpp in Sources */,
+				2E4CB02019483C3400740D0D /* CEditorCamera.cpp in Sources */,
 				2E6C62E6182983CD00FB1027 /* CUIWindowEditVolumeLight.h in Sources */,
 				2E6C62E7182983CD00FB1027 /* CUIWindowEditWater.cpp in Sources */,
 				2E6C62E8182983CD00FB1027 /* CUIWindowEditWater.h in Sources */,
