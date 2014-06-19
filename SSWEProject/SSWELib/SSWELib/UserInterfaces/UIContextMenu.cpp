@@ -322,7 +322,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 			stringw scene_to_import = L"LTest.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			impoterInstance->importScene(scene_to_import.c_str());
+			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -1235,6 +1235,23 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						}
                     }
                     break;
+
+				case KEY_KEY_J:
+					if (devices->isCtrlPushed() && devices->isShiftPushed()) {
+						devices->getXEffect()->getHDRManager()->GetBloomGenerator()->SetGaussianCoefficient(devices->getXEffect()->getHDRManager()->GetBloomGenerator()->GetGaussianCoefficient()+0.1f);
+					}
+					break;
+				case KEY_KEY_K:
+					if (devices->isCtrlPushed() && devices->isShiftPushed()) {
+						devices->getXEffect()->getHDRManager()->GetBloomGenerator()->SetGaussianCoefficient(devices->getXEffect()->getHDRManager()->GetBloomGenerator()->GetGaussianCoefficient()-0.1f);
+					}
+					break;
+
+				case KEY_KEY_H:
+					if (devices->isCtrlPushed() && devices->isShiftPushed()) {
+						devices->getXEffect()->setUseHDRPass(!devices->getXEffect()->isUsingHDRPass());
+					}
+					break;
 
                 case KEY_KEY_W: {
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {

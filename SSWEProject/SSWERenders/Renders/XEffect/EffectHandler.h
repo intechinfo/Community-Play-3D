@@ -13,6 +13,15 @@
 
 #include <ISSWERender.h>
 
+#include "../HDR/CHDRScreenQuad.h"
+#include "../HDR/CPhongShaderManager.h"
+#include "../HDR/CGlobalContext.h"
+#include "../HDR/CPostProcessingManager.h"
+#include "../HDR/CHDRPostProcess.h"
+#include "../HDR/CDSBloomGenerator.h"
+#include "../HDR/CLuminanceGenerator.h"
+#include "../HDR/CAmplifier.h"
+
 
 /// Internal the CP3D, it allow point lights computation.
 /// It is a "deffered rendering like", each pass we change the current target of the light
@@ -832,6 +841,12 @@ public:
 	void setUseNormalPass(bool use) { renderNormalPass = use; }
 	bool isUsingNormalPass() { return renderNormalPass; }
 
+	/// Sets if use the HDR pass
+	void setUseHDRPass(bool use) { useHDR = use; }
+	bool isUsingHDRPass() { return useHDR; }
+
+	Graphics::HDRPostProcess *getHDRManager() { return pp; }
+
 	/// Clears all datas of XEffect framework
 	void clearAll() {
 		ShadowNodeArray.clear();
@@ -973,6 +988,19 @@ private:
 	video::ITexture* mainTarget;
 	video::ITexture* hdrRTT0;
 	bool useHDR;
+
+	irr::video::ITexture* HDRProcessedRT;
+	Graphics::CHDRScreenQuad *quad;
+	PhongShaderManager *psm;
+	Graphics::Amplifier *amp;
+	Graphics::PostProcessingManager *ppm;
+	Graphics::HDRPostProcess *pp;
+	irr::video::SMaterial phong;
+
+	///Maybe useless
+	irr::core::rect<s32> lumStepView[Graphics::LuminanceGenerator::kNumLumSteps];
+	irr::core::rect<s32> quarters[4];
+	dimension2d<u32> viewDim;
 };
 
 #endif

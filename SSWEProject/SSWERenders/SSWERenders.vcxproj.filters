@@ -31,6 +31,9 @@
     <Filter Include="Renders\Materials">
       <UniqueIdentifier>{3c5d2d1e-6df2-40e0-9ee0-a7a3692b61ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renders\HDR">
+      <UniqueIdentifier>{61a0169b-81e7-4b1d-9741-c82d7fc9c9d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWERenders.cpp">
@@ -59,6 +62,60 @@
     </ClCompile>
     <ClCompile Include="Renders\Materials\CNormalMappingMaterial.cpp">
       <Filter>Renders\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CTextureAdder.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CResourceManager.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CPostProcessingManager.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CPhongShaderManager.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CLuminanceGenerator.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CLDRBloomPostProcess.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CInvertPostProcess.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CHDRPostProcessingManager.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CHDRPostProcess.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CGaussianBlurVPostProcess.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CGaussianBlurHPostProcess.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CGaussianBlurBase.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CErrorHandling.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CDSBloomGenerator.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CDownSampleX4PostProcess.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CContext.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CBrightPassPostProcess.cpp">
+      <Filter>Renders\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\HDR\CAAPostProcessingManager.cpp">
+      <Filter>Renders\HDR</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +166,78 @@
     </ClInclude>
     <ClInclude Include="Renders\Materials\CNormalMappingMaterial.h">
       <Filter>Renders\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\IPostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\IPostProcessHelper.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CTextureAdder.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CHDRScreenQuad.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CResourceManager.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CPostProcessingManager.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CPhongShaderManager.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CPaths.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CLuminanceGenerator.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CLDRBloomPostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CInvertPostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CHDRPostProcessingManager.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CHDRPostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CGlobalContext.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CGaussianBlurVPostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CGaussianBlurHPostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CGaussianBlurBase.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CErrorHandling.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CDSBloomGenerator.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CDownSampleX4PostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CDeviceContext.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CBrightPassPostProcess.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CAmplifier.h">
+      <Filter>Renders\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\HDR\CAAPostProcessingManager.h">
+      <Filter>Renders\HDR</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
