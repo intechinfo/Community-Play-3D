@@ -37,7 +37,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 			params.Fullscreen = false;
 		} else {
 			params.WindowSize = dimension2d<u32>(1280, 800);
-			params.Fullscreen = false;
+			params.Fullscreen = true;
 		}
     #endif
 	params.WithAlphaChannel = false;
@@ -132,7 +132,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 
     //-----------------------------------
 
-    devices->getEventReceiver()->AddEventReceiver(this);
+    devices->getEventReceiver()->AddEventReceiver(this, 0, this);
 	if (!playOnly) {
 		devices->getEventReceiver()->AddEventReceiver(contextMenuInstance);
 		devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
@@ -164,6 +164,10 @@ void CCoreUserInterface::setLogEventWindowVisible(bool visible) {
 }
 
 void CCoreUserInterface::update() {
+
+}
+
+void CCoreUserInterface::updateInterface() {
 
     devices->updateDevice();
 

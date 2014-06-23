@@ -217,7 +217,8 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="Renders\HDR\CResourceManager.cpp" />
     <ClCompile Include="Renders\HDR\CTextureAdder.cpp" />
     <ClCompile Include="Renders\Materials\CNormalMappingMaterial.cpp" />
-    <ClCompile Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.cpp" />
+    <ClCompile Include="Renders\PostProcessor\CHDRManager.cpp" />
+    <ClCompile Include="Renders\PostProcessor\CScreenSpaceAmbientOcclusion.cpp" />
     <ClCompile Include="Renders\XEffect\CPSSMUtils.cpp" />
     <ClCompile Include="Renders\XEffect\CShaderPre.cpp" />
     <ClCompile Include="Renders\XEffect\EffectHandler.cpp" />
@@ -256,8 +257,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="Renders\HDR\CHDRScreenQuad.h" />
     <ClInclude Include="Renders\HDR\CTextureAdder.h" />
     <ClInclude Include="Renders\Materials\CNormalMappingMaterial.h" />
-    <ClInclude Include="Renders\PostProcessor\PostProcessMotionBlurhlsl.h" />
-    <ClInclude Include="Renders\PostProcessor\ScreenSpaceAmbientOcclusion.h" />
+    <ClInclude Include="Renders\PostProcessor\CHDRManager.h" />
+    <ClInclude Include="Renders\PostProcessor\CPostProcessMotionBlurhlsl.h" />
+    <ClInclude Include="Renders\PostProcessor\CScreenSpaceAmbientOcclusion.h" />
     <ClInclude Include="Renders\XEffect\CPSSMUtils.h" />
     <ClInclude Include="Renders\XEffect\CScreenQuad.h" />
     <ClInclude Include="Renders\XEffect\CShaderPre.h" />

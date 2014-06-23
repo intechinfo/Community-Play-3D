@@ -9,18 +9,10 @@
 #include "../DepthOfField/shadergroup.h"
 #include "../DepthOfField/shadermaterial.h"
 
-#include "../../Renders/PostProcessor/PostProcessMotionBlurhlsl.h"
+#include "../../Renders/PostProcessor/CPostProcessMotionBlurhlsl.h"
+#include "../PostProcessor/CHDRManager.h"
 
 #include <ISSWERender.h>
-
-#include "../HDR/CHDRScreenQuad.h"
-#include "../HDR/CPhongShaderManager.h"
-#include "../HDR/CGlobalContext.h"
-#include "../HDR/CPostProcessingManager.h"
-#include "../HDR/CHDRPostProcess.h"
-#include "../HDR/CDSBloomGenerator.h"
-#include "../HDR/CLuminanceGenerator.h"
-#include "../HDR/CAmplifier.h"
 
 
 /// Internal the CP3D, it allow point lights computation.
@@ -48,7 +40,7 @@ enum E_SHADOW_LIGHT_CURRENT_PASS {
 /// a camera, this would be similar to setting the camera's field of view. The last
 /// parameter is whether the light is directional or not, if it is, an orthogonal
 /// projection matrix will be created instead of a perspective one.
-struct SShadowLight : public ICP3DShadowLight
+struct SShadowLight
 {
 public:
 
@@ -845,7 +837,7 @@ public:
 	void setUseHDRPass(bool use) { useHDR = use; }
 	bool isUsingHDRPass() { return useHDR; }
 
-	Graphics::HDRPostProcess *getHDRManager() { return pp; }
+	CHDRManager *getHDRManager() { return hdrManager; }
 
 	/// Clears all datas of XEffect framework
 	void clearAll() {
@@ -983,10 +975,6 @@ private:
 	irr::u32 lastTimeRotationDiff;
 
 	//HDR PIPELINE
-	irr::s32 HDRModel;
-	CScreenQuadHDRPipeline *hdrScreenQuad;
-	video::ITexture* mainTarget;
-	video::ITexture* hdrRTT0;
 	bool useHDR;
 
 	irr::video::ITexture* HDRProcessedRT;
@@ -997,10 +985,7 @@ private:
 	Graphics::HDRPostProcess *pp;
 	irr::video::SMaterial phong;
 
-	///Maybe useless
-	irr::core::rect<s32> lumStepView[Graphics::LuminanceGenerator::kNumLumSteps];
-	irr::core::rect<s32> quarters[4];
-	dimension2d<u32> viewDim;
+	CHDRManager *hdrManager;
 };
 
 #endif

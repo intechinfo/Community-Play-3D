@@ -313,6 +313,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CGrassPainter.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\Options\CUIHDRManager.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddEmitter.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.cpp" />
@@ -355,6 +356,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="include\ISSWECoreData.h" />
     <ClInclude Include="include\ISSWECoreUserInterface.h" />
     <ClInclude Include="include\ISSWEEvents.h" />
+    <ClInclude Include="include\ISSWEHDRManager.h" />
     <ClInclude Include="include\ISSWEImporter.h" />
     <ClInclude Include="include\ISSWELibPlugin.h" />
     <ClInclude Include="include\ISSWERender.h" />
@@ -455,6 +457,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CGrassPainter.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CTerrainPainter.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\TerrainPainting\CUITerrainPainting.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Options\CUIHDRManager.h" />
     <ClInclude Include="SSWELib\UserInterfaces\Options\CUISSWEOptions.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddEmitter.h" />
     <ClInclude Include="SSWELib\UserInterfaces\ParticlesEditor\CUIAddModifier.h" />

@@ -18,7 +18,7 @@ public:
 	CNodeFactory(CDevices *_devices);
 	~CNodeFactory();
 
-	void createCubeSceneNode();
+	ISceneNode *createCubeSceneNode();
 	void createSphereSceneNode();
 	void createPlaneMeshSceneNode();
 	void createBillBoardSceneNode();

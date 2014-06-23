@@ -513,6 +513,9 @@
     <ClCompile Include="SSWELib\SceneNodes\Camera\CEditorCamera.cpp">
       <Filter>SSWELib\SceneNodes\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\Options\CUIHDRManager.cpp">
+      <Filter>SSWELib\UserInterfaces\Options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -925,6 +928,12 @@
     </ClInclude>
     <ClInclude Include="SSWELib\SceneNodes\Camera\CEditorCamera.h">
       <Filter>SSWELib\SceneNodes\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ISSWEHDRManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Options\CUIHDRManager.h">
+      <Filter>SSWELib\UserInterfaces\Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

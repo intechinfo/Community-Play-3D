@@ -56,14 +56,14 @@ int main(int argc, char *argv[])
 		example3->run();
 	} else
 	if (exampleNumber == 4) {
-		example->load("LMP5.world");
+		example->load("LChineseYard.world");
 		CExample4 *example4 = new CExample4(coreInterface);
 		example4->load();
 		example4->run();
 	}
 
-	devices->getCoreData()->clear();
-	devices->getCoreData()->clearAllTheArrays();
+	//devices->getCoreData()->clear();
+	//devices->getCoreData()->clearAllTheArrays();
 
 	/// Old example lines, CCharacterControl
 	/*

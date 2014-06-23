@@ -26,7 +26,7 @@ public:
 
 	void SetExposure(f32 exposureLevel) { exposure = exposureLevel; }
 	f32 GetExposure() { return exposure; }
-
+	
 	void SetMinimumLuminance(f32 min) { min < 0.0f ? minLuminance = 0.0f : minLuminance = min; }
 	f32 GetMinimumLuminance() { return minLuminance; }
 		
