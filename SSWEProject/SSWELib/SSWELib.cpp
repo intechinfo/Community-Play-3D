@@ -126,7 +126,7 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 
             driver->beginScene(true, true, SColor(0x0));
 
-            coreUserInterface->update();
+			coreUserInterface->updateInterface();
 
             driver->endScene();
 

@@ -9,7 +9,7 @@ public:
 	//-----------------------------------
 	//CTERRAINSYSTEM METHODS
 	CTerrainSystem(irr::scene::ISceneManager *smgr, irr::core::stringc hgtmap, irr::u32 divFactor);
-    ~CTerrainSystem();
+    virtual ~CTerrainSystem();
 	//-----------------------------------
 
 	//-----------------------------------

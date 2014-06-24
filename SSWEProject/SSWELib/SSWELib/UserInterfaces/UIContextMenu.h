@@ -79,6 +79,7 @@ enum GUI_CXT_MENU_EVENTS {
 
 		CXT_MENU_EVENTS_RENDERS_EDIT_DOF,
 
+	CXT_MENU_EVENTS_EDIT_HDR_MANAGER,
 	CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER,
     
 	CXT_MENU_EVENTS_EDIT_CLOUDS,
@@ -131,6 +132,7 @@ enum GUI_CXT_MENU_EVENTS {
 #include "CUIWindowEditGrid.h"
 
 #include "Options/CUISSWEOptions.h"
+#include "Options/CUIHDRManager.h"
 
 #include "NodeFactory/CNodeFactory.h"
 #include "NodeFactory/CUINodeFactoryPlanarMapping.h"

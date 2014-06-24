@@ -127,11 +127,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu = submenu->getSubMenu(1);
 	submenu->addItem(L"Draw Effects (CTRL+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_DRAW, true, false, devices->isXEffectDrawable(), true);
     submenu->addSeparator();
-    submenu->addItem(L"Edit (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
+    submenu->addItem(L"Edit... (CTRL+SHIFT+X)", CXT_MENU_EVENTS_RENDERS_XEFFECT_EDIT);
 	submenu->addItem(L"Recalculate All Shadow Lights (CTRL+SHIFT+L)", CXT_MENU_EVENTS_RENDERS_XEFFECT_RECALCULATE_LIGHTS);
 	submenu->addSeparator();
 	submenu->addItem(L"Edit Depth Of Field...", CXT_MENU_EVENTS_RENDERS_EDIT_DOF);
 	submenu = menu->getSubMenu(i);
+	submenu->addItem(L"HDR Manager...", CXT_MENU_EVENTS_EDIT_HDR_MANAGER);
 	submenu->addItem(L"Edit Material Shaders", CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER);
 	i++;
 
@@ -322,7 +323,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 			stringw scene_to_import = L"LTest.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			impoterInstance->importScene(scene_to_import.c_str());
+			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -715,6 +716,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
                 //-----------------------------------
                 //CONTEXT MENU SHADERS EVENT
+				case CXT_MENU_EVENTS_EDIT_HDR_MANAGER: {
+					CUIHDRManager *hdrManager = new CUIHDRManager(devices);
+				}
+					break;
+
                 case CXT_MENU_EVENTS_EDIT_MATERIALS_SHADER: {
                     CUIWindowEditMaterials *editMaterials = new CUIWindowEditMaterials(devices);
                     editMaterials->open();
@@ -1235,6 +1241,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						}
                     }
                     break;
+
+				case KEY_KEY_H:
+					if (devices->isCtrlPushed() && devices->isShiftPushed()) {
+						devices->getXEffect()->setUseHDRPass(!devices->getXEffect()->isUsingHDRPass());
+					}
+					break;
 
                 case KEY_KEY_W: {
                     if (!devices->isEditBoxEntered() && devices->isCtrlPushed()) {

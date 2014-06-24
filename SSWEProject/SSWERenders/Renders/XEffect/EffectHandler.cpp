@@ -13,6 +13,8 @@ using namespace scene;
 using namespace video;
 using namespace core;
 
+using namespace Graphics;
+
 EffectHandler::EffectHandler(IrrlichtDevice* dev, const irr::core::dimension2du& screenRTTSize,
                              const bool useVSMShadows, const bool useRoundSpotLights, const bool use32BitDepthBuffers)
 : device(dev), smgr(dev->getSceneManager()), driver(dev->getVideoDriver()),
@@ -30,15 +32,31 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	DOFMapSampler = driver->addRenderTargetTexture(ScreenRTTSize, "DOFMapSampler");
 
 	//LIGHT SCATTERING PASS
-	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
+	LightScatteringRTT = driver->addRenderTargetTexture(dimension2du(800, 600), "LightScatteringRTT");
 	useLightScattering = false;
 
 	//HDR PIPELINE
-	const u32 hdr_rtt0_size = 32;//((ScreenRTTSize.Width * ScreenRTTSize.Height) * 32) / (800 * 600);
-	mainTarget = driver->addRenderTargetTexture(ScreenRTTSize,"HDRMainTarget");
-	hdrRTT0 = driver->addRenderTargetTexture(dimension2du(hdr_rtt0_size, hdr_rtt0_size),"rtt0");
-	hdrScreenQuad = new CScreenQuadHDRPipeline(smgr->getRootSceneNode(),smgr,10, ScreenRTTSize);
-	useHDR = false;
+	useHDR = true;
+
+	GlobalContext::DeviceContext.SetDevice(dev);
+
+	ppm = new PostProcessingManager();
+	amp = new Amplifier();
+	quad = new Graphics::CHDRScreenQuad();
+
+	psm = new PhongShaderManager(driver, device->getFileSystem()->getWorkingDirectory());
+	pp = new HDRPostProcess(screenRTTSize);
+	ppm->AddPostProcess(pp);
+	pp->GetBloomGenerator()->SetGaussianCoefficient(0.3f);
+
+	phong.Lighting = false;
+	phong.MaterialType = psm->getMaterialType();
+	phong.Shininess = 1.0f;
+	phong.MaterialTypeParam = 200.0f;
+
+	HDRProcessedRT = driver->addRenderTargetTexture(ScreenRTTSize,"HDRProcessedRTT", video::ECF_A8R8G8B8);
+
+	hdrManager = new CHDRManager(pp, &phong);
 
 	//BACK RENDER
 	backRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "BackRenderRTT");
@@ -562,6 +580,8 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
         /// LightScatteringPass is the scene nodes array
 		for(u32 i = 0;i < LightScatteringPass.size();++i)
 		{
+			if (!LightScatteringPass[i]->isVisible())
+				continue;
             /// Create configurations array
 			core::array<irr::video::SMaterial> BufferMaterialList(LightScatteringPass[i]->getMaterialCount());
 			BufferMaterialList.set_used(0);
@@ -682,6 +702,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 		for(u32 i = 0;i < DepthPassArray.size();++i)
 		{
+			if (!DepthPassArray[i]->isVisible())
+				continue;
+
 			core::array<irr::s32> BufferMaterialList(DepthPassArray[i]->getMaterialCount());
 			BufferMaterialList.set_used(0);
 
@@ -710,6 +733,9 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 		for(u32 i = 0;i < DepthPassArray.size();++i)
 		{
+			if (!DepthPassArray[i]->isVisible())
+				continue;
+
 			core::array<irr::s32> BufferMaterialList(DepthPassArray[i]->getMaterialCount());
 			BufferMaterialList.set_used(0);
 
@@ -730,7 +756,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 	const u32 PostProcessingRoutinesSize = PostProcessingRoutines.size();
 	bool rtTest = (useDOF);
 
-	driver->setRenderTarget(PostProcessingRoutinesSize || rtTest
+	driver->setRenderTarget(PostProcessingRoutinesSize || rtTest || useHDR
 		? ScreenRTT : outputTarget, true, true, SColor(0x0));
 
 	ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
@@ -756,7 +782,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 			Alter = !Alter;
 			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
-			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 && !rtTest ? outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 && !rtTest && !useHDR ? outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
 
 			ScreenQuad.render(driver);
 
@@ -794,7 +820,7 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)DepthOfField;
 		Alter = !Alter;
 		ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[int(!Alter)]);
-		driver->setRenderTarget(outputTarget, true, true, ClearColour);
+		driver->setRenderTarget(useHDR ? ScreenQuad.rt[int(Alter)] : outputTarget, true, true, ClearColour);
 		ScreenQuad.render(driver);
 	}
 
@@ -802,23 +828,11 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 	//HDR PIPELINE
 	if (useHDR) {
-		video::SColor colors[] =
-		{
-			video::SColor(255,96,96,96),
-			video::SColor(255,96,96,96),
-			video::SColor(255,96,96,96),
-			video::SColor(255,96,96,96)
-		};
-		hdrScreenQuad->getMaterial(0).setTexture(0,mainTarget);
-		hdrScreenQuad->getMaterial(0).setTexture(1,hdrRTT0);
-		driver->setRenderTarget(mainTarget,true,true,video::SColor(255,128,160,160));
-		driver->draw2DImage(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)], core::rect<s32>(0 ,0 , ScreenRTTSize.Width, ScreenRTTSize.Height),
-							core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height));
-		driver->setRenderTarget(hdrRTT0,true,true,video::SColor(0,0,0,0));
-		driver->draw2DImage(mainTarget, core::rect<s32>(0 ,0 , 32, 32),
-							core::rect<s32>(0,0,ScreenRTTSize.Width,ScreenRTTSize.Height), 0, colors);
-		driver->setRenderTarget(video::ERT_FRAME_BUFFER,true,true);
-		hdrScreenQuad->render();
+		ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)],
+					HDRProcessedRT);
+		driver->setRenderTarget(outputTarget, true, true, ClearColour);
+		quad->SetTexture(HDRProcessedRT);
+		quad->Render(false);
 	}
 	
 }

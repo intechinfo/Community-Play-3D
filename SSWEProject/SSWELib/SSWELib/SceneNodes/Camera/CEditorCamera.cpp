@@ -148,7 +148,7 @@ void CSceneNodeAnimatorEditorCamera::animateNode(ISceneNode *node, u32 timeMs)
 		CurrentZoom = CurrentZoom - currentZoomWheel * ZoomSpeed;
 		nZoom = CurrentZoom;
 
-		if (nZoom < 0) {
+		if (nZoom <= 0) {
 			nZoom = CurrentZoom = old;
 			strafeForward = true;
 		}
@@ -178,7 +178,7 @@ void CSceneNodeAnimatorEditorCamera::animateNode(ISceneNode *node, u32 timeMs)
 		CurrentZoom = CurrentZoom + (ZoomStart.X - MousePos.X ) * ZoomSpeed;
 		nZoom = CurrentZoom;
 
-		if (nZoom < 0)
+		if (nZoom <= 0)
 			nZoom = CurrentZoom = old;
 		Zooming = false;
 	}

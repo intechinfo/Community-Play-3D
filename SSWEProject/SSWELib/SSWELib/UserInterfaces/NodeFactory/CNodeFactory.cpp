@@ -22,7 +22,7 @@ CNodeFactory::~CNodeFactory() {
 
 }
 
-void CNodeFactory::createCubeSceneNode() {
+ISceneNode *CNodeFactory::createCubeSceneNode() {
 	IMeshSceneNode *cube = devices->getSceneManager()->addCubeSceneNode(50.f);
 	cube->setName("#object:new_cube");
 	cube->setMaterialFlag(EMF_LIGHTING, false);
@@ -31,7 +31,11 @@ void CNodeFactory::createCubeSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
 
+	cube->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
+
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+
+	return cube;
 }
 
 void CNodeFactory::createSphereSceneNode() {
@@ -42,6 +46,8 @@ void CNodeFactory::createSphereSceneNode() {
 	SObjectsData odata(sphere->getMesh(), sphere, "sphere");
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
+
+	sphere->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
 
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }
@@ -57,6 +63,8 @@ void CNodeFactory::createPlaneMeshSceneNode() {
 	SObjectsData odata(planeMesh, planeNode, "hillPlaneMesh");
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
+
+	planeNode->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
 
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }

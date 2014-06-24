@@ -23,7 +23,7 @@
 
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
 
-#include "../../../SSWERenders/Renders/PostProcessor/ScreenSpaceAmbientOcclusion.h"
+#include "../../../SSWERenders/Renders/PostProcessor/CScreenSpaceAmbientOcclusion.h"
 
 #include "Monitor/MonitorRegister.h"
 

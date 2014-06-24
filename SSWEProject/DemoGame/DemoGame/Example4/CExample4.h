@@ -11,6 +11,8 @@
 
 #include <ISSWECoreUserInterface.h>
 
+class CUpdate;
+
 class CExample4 : public irr::IEventReceiver, public IUpdate {
 
 public:
@@ -44,8 +46,7 @@ private:
 	ISSWECoreUserInterface *core;
 	IDevices *devices;
 
-	irr::scene::IAnimatedMeshSceneNode *chief;
-	irr::scene::IBoneSceneNode *boneNode;
+	CUpdate *updater;
 	//-----------------------------------
 
 };

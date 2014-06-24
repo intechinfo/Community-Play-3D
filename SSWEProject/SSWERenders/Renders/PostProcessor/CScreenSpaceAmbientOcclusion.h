@@ -1,8 +1,10 @@
-#ifndef __SCREEN_SPACE_AMBIANT_OCCLUSION__
-#define __SCREEN_SPACE_AMBIANT_OCCLUSION__
+#ifndef __I_SCREEN_SPACE_AMBIANT_OCCLUSION_H_INCLUDED__
+#define __I_SCREEN_SPACE_AMBIANT_OCCLUSION_H_INCLUDED__
 
 #include <SSWERenders.h>
-#include "../XEffect/EffectHandler.h"
+#include <ISSWERender.h>
+
+class EffectHandler;
 
 //---------------------------------------------------------------------------------------------
 //------------------------------------------CALLBACKS------------------------------------------

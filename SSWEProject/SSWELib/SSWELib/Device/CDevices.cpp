@@ -123,7 +123,7 @@ void CDevices::updateEntities() {
     //UPDATE EFFECT LIGHTS
     for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getNode()->getPosition() != effect->getShadowLight(i).getPosition()
-			|| worldCoreData->getLightsData()->operator[](i).getNode()->getRotation() != effect->getShadowLight(i).getTarget()) {
+			|| worldCoreData->getLightsData()->operator[](i).getNode()->getScale() != effect->getShadowLight(i).getTarget()) {
 			effect->getShadowLight(i).setRecalculate(true);
 		}
 
@@ -133,6 +133,7 @@ void CDevices::updateEntities() {
 			vector3df rotation = worldCoreData->getLightsData()->operator[](i).getNode()->getRotation();
 			rotation = rotation.rotationToDirection(vector3df(0.f, 0.f, 1000000.f));
 			effect->getShadowLight(i).setTarget(rotation);
+			worldCoreData->getLightsData()->operator[](i).getNode()->setScale(effect->getShadowLight(i).getTarget());
 		} else {
 			vector3df camPos = smgr->getActiveCamera()->getPosition();
 			camPos.X += 10.f;

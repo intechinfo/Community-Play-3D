@@ -17,7 +17,7 @@
 #include "../../UserInterfaces/CUIRightSceneTreeView.h"
 #include "../../UserInterfaces/CUIWindowsManager.h"
 
-class CCoreUserInterface : public IEventReceiver, public ISSWECoreUserInterface {
+class CCoreUserInterface : public IEventReceiver, public ISSWECoreUserInterface, public IUpdate {
 
 public:
 
@@ -42,6 +42,7 @@ public:
 	bool OnEvent(const SEvent &event);
 
 	void update();
+	void updateInterface();
 
 	void setLogEventWindowVisible(bool visible);
 	bool isLogEventWindowVisible() { return logVisible; }

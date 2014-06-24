@@ -9,7 +9,8 @@
 #include "../DepthOfField/shadergroup.h"
 #include "../DepthOfField/shadermaterial.h"
 
-#include "../../Renders/PostProcessor/PostProcessMotionBlurhlsl.h"
+#include "../../Renders/PostProcessor/CPostProcessMotionBlurhlsl.h"
+#include "../PostProcessor/CHDRManager.h"
 
 #include <ISSWERender.h>
 
@@ -39,7 +40,7 @@ enum E_SHADOW_LIGHT_CURRENT_PASS {
 /// a camera, this would be similar to setting the camera's field of view. The last
 /// parameter is whether the light is directional or not, if it is, an orthogonal
 /// projection matrix will be created instead of a perspective one.
-struct SShadowLight : public ICP3DShadowLight
+struct SShadowLight
 {
 public:
 
@@ -832,6 +833,12 @@ public:
 	void setUseNormalPass(bool use) { renderNormalPass = use; }
 	bool isUsingNormalPass() { return renderNormalPass; }
 
+	/// Sets if use the HDR pass
+	void setUseHDRPass(bool use) { useHDR = use; }
+	bool isUsingHDRPass() { return useHDR; }
+
+	CHDRManager *getHDRManager() { return hdrManager; }
+
 	/// Clears all datas of XEffect framework
 	void clearAll() {
 		ShadowNodeArray.clear();
@@ -968,11 +975,17 @@ private:
 	irr::u32 lastTimeRotationDiff;
 
 	//HDR PIPELINE
-	irr::s32 HDRModel;
-	CScreenQuadHDRPipeline *hdrScreenQuad;
-	video::ITexture* mainTarget;
-	video::ITexture* hdrRTT0;
 	bool useHDR;
+
+	irr::video::ITexture* HDRProcessedRT;
+	Graphics::CHDRScreenQuad *quad;
+	PhongShaderManager *psm;
+	Graphics::Amplifier *amp;
+	Graphics::PostProcessingManager *ppm;
+	Graphics::HDRPostProcess *pp;
+	irr::video::SMaterial phong;
+
+	CHDRManager *hdrManager;
 };
 
 #endif

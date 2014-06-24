@@ -1,5 +1,7 @@
 #include "stdafx.h"
-#include "ScreenSpaceAmbientOcclusion.h"
+#include "CScreenSpaceAmbientOcclusion.h"
+
+#include "../XEffect/EffectHandler.h"
 
 //---------------------------------------------------------------------------------------------
 //---------------------------------------CALLBACKS---------------------------------------------
