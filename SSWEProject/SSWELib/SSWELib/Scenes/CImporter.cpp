@@ -333,14 +333,13 @@ void CImporter::buildLight() {
 		ldata.setLensFlareSceneNode(lfNode);
 	}
 
-	#ifdef _IRR_OSX_PLATFORM_
+	#ifndef _IRR_WINDOWS_API_
     devices->getNormalMappingMaterial()->addLight(node);
 	#endif
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
 
-	//devices->getXEffect()->createLightShafts(devices->getXEffect()->getShadowLightCount()-1, 100);
 }
 
 void CImporter::buildVolumeLight() {
@@ -753,10 +752,11 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		//MATERIAL TYPE
 		read("materianType");
 		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
-		if (matS32 == EMT_NORMAL_MAP_SOLID)
+		if (matS32 == (s32)EMT_NORMAL_MAP_SOLID)
             _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid();
 		else
             _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
+        
 		if (matS32 < 0 && -matS32 <= devices->getCoreData()->getShaderCallbacks()->size()) {
 			_node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getCoreData()->getShaderCallbacks()->operator[](-matS32-1)->getMaterial();
 		}
