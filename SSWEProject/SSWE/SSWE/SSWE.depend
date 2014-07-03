@@ -1563,8 +1563,9 @@
 	<ISSWERender.h>
 	<ISSWEShaderCallback.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWERender.h
+1403704318 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWERender.h
 	<irrlicht.h>
+	<ISSWEHDRManager.h>
 
 1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEShaderCallback.h
 	<irrlicht.h>
@@ -2574,4 +2575,7 @@
 	"aabbox3d.h"
 	"matrix4.h"
 	"IVideoDriver.h"
+
+1403704318 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEHDRManager.h
+	<irrlicht.h>
 

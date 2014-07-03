@@ -45,12 +45,12 @@ struct SShadowLight
 public:
 
 	SShadowLight(	irr::u32 shadowMapResolution,
-					const irr::core::vector3df& position, 
+					const irr::core::vector3df& position,
 					const irr::core::vector3df& target,
-					irr::video::SColorf lightColour = irr::video::SColor(0xffffffff), 
+					irr::video::SColorf lightColour = irr::video::SColor(0xffffffff),
 					irr::f32 _nearValue = 10.0, irr::f32 farValue = 100.0,
 					irr::f32 fov = 90.0 * irr::core::DEGTORAD64, bool directional = false, bool isParent=true)
-					:	pos(position), tar(target), farPlane(directional ? 1.0f : farValue), diffuseColour(lightColour), 
+					:	pos(position), tar(target), farPlane(directional ? 1.0f : farValue), diffuseColour(lightColour),
 						mapRes(shadowMapResolution)
 	{
 		_nearValue = _nearValue <= 0.0f ? 0.1f : _nearValue;
@@ -60,7 +60,7 @@ public:
         isSpot = !directional;
 
 		updateViewMatrix();
-		
+
 		if(directional)
 			projMat.buildProjectionMatrixOrthoLH(fov, fov, nearValue, farValue);
 		else
@@ -69,7 +69,7 @@ public:
 		recalculate = true;
 		autoRecalculate = false;
 		isCamera = false;
-        
+
 		this->isParent = isParent;
 		if (isParent)
 			shadowLights.push_back(SShadowLight(mapRes, pos, tar, diffuseColour, this->nearValue, farPlane, frontOfView, directional, false));
@@ -304,7 +304,7 @@ private:
 	{
 		viewMat.buildCameraLookAtMatrixLH(pos, tar,
 			(pos - tar).dotProduct(irr::core::vector3df(1.0f, 0.0f, 1.0f)) == 0.0f ?
-			irr::core::vector3df(0.0f, 0.0f, 1.0f) : irr::core::vector3df(0.0f, 1.0f, 0.0f)); 
+			irr::core::vector3df(0.0f, 0.0f, 1.0f) : irr::core::vector3df(0.0f, 1.0f, 0.0f));
 	}
 
 	irr::video::SColorf diffuseColour;
@@ -337,6 +337,13 @@ class LightShaftsCB;
 class CPSSMUtils;
 class NormalShaderCB;
 
+namespace Graphics {
+    class Amplifier;
+    class PostProcessingManager;
+    class HDRPostProcess;
+}
+class PhongShaderManager;
+
 /// Main effect handling class, use this to apply shadows and effects.
 class SSWE_RENDERS_API EffectHandler : public ISSWERender
 {
@@ -351,11 +358,11 @@ public:
 		useRoundSpotlights: Shadow lights will have a soft round spot light mask. Default is false.
 		use32BitDepthBuffers: XEffects will use 32-bit depth buffers if this is true, otherwise 16-bit. Default is false.
 	*/
-	EffectHandler(irr::IrrlichtDevice* irrlichtDevice, 
+	EffectHandler(irr::IrrlichtDevice* irrlichtDevice,
 		const irr::core::dimension2du& screenRTTSize = irr::core::dimension2du(0, 0),
 		const bool useVSMShadows = false, const bool useRoundSpotLights = false,
 		const bool use32BitDepthBuffers = false);
-	
+
 	/// Destructor.
 	~EffectHandler();
 
@@ -364,7 +371,7 @@ public:
 	{
 		LightList.push_back(shadowLight);
 	}
-    
+
     void removeShadowLight(int index) {
         LightList.erase(index);
     }
@@ -411,14 +418,14 @@ public:
 	void addNodeToLightScatteringPass(irr::scene::ISceneNode *node) {
 		bool founded = false;
 		irr::s32 i = 0;
-    
+
 		while (!founded && i < (s32)LightScatteringPass.size()) {
 			if (LightScatteringPass[i] == node) {
 				founded = true;
 			}
 			i++;
 		}
-    
+
 		if (!founded) {
 			LightScatteringPass.push_back(node);
 		} else {
@@ -429,17 +436,17 @@ public:
 	/// Remove node from the light scattering pass
 	void removeNodeFromLightScatteringPass(irr::scene::ISceneNode *node) {
 		s32 i = LightScatteringPass.binary_search(node);
-	
-		if(i != -1) 
+
+		if(i != -1)
 			LightScatteringPass.erase(i);
 	}
-    
+
     /// Check is node is depth passed
     bool isLightScatteringPassed(irr::scene::ISceneNode *node) {
         bool lspassed = false;
         bool founded = false;
         irr::s32 i = 0;
-        
+
         while (!founded && i < (s32)LightScatteringPass.size()) {
             if (LightScatteringPass[i] == node) {
                 lspassed = true;
@@ -447,7 +454,7 @@ public:
             }
             i++;
         }
-        
+
         return lspassed;
     }
 
@@ -458,7 +465,7 @@ public:
 	//Check if reflection pass is enabled
 	bool isReflectionPassEnabled() { return useReflectionPass; }
 	void setReflectionPassEnabled(bool use) { useReflectionPass = use; }
-    
+
     //Check if depth pass is enabled
     bool isDepthPassEnabled() { return DepthPass; }
 
@@ -475,7 +482,7 @@ public:
 	{
         /*bool founded = false;
         irr::s32 i = 0;
-        
+
         while (!founded && i < (s32)ShadowNodeArray.size()) {
             if (ShadowNodeArray[i].node == node) {
                 ShadowNodeArray.erase(i);
@@ -491,13 +498,13 @@ public:
 			}
 		}
 	}
-    
+
     /// Check if node is shadowed
     bool isNodeShadowed(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType, E_SHADOW_MODE shadowMode) {
         bool shadowed = false;
         bool founded = false;
         irr::s32 i = 0;
-        
+
         while (!founded && i < (s32)ShadowNodeArray.size()) {
             if (ShadowNodeArray[i].node == node) {
                 if (ShadowNodeArray[i].shadowMode == shadowMode && ShadowNodeArray[i].filterType == filterType) {
@@ -507,7 +514,7 @@ public:
             }
             i++;
         }
-        
+
         return shadowed;
     }
 
@@ -523,13 +530,13 @@ public:
 
 		return founded;
 	}
-    
+
     //Check is node is depth passed
     bool isDepthPassed(irr::scene::ISceneNode *node) {
         bool depthPasses = false;
         bool founded = false;
         irr::s32 i = 0;
-        
+
         while (!founded && i < (s32)DepthPassArray.size()) {
             if (DepthPassArray[i] == node) {
                 depthPasses = true;
@@ -537,14 +544,14 @@ public:
             }
             i++;
         }
-        
+
         return depthPasses;
     }
-    
+
     //Check if node is excluded from lighting calculation
     bool isNodeExcludedFromLightingCalculations(irr::scene::ISceneNode *node) {
         bool excludedFromLightingCalculation = true;
-        
+
         bool founded = false;
         irr::s32 i = 0;
         while (!founded && i < (s32)ShadowNodeArray.size()) {
@@ -557,15 +564,15 @@ public:
             }
             i++;
         }
-        
+
         return excludedFromLightingCalculation;
     }
-    
+
     //Return node shadow mode
     E_SHADOW_MODE getNodeShadowMode(irr::scene::ISceneNode *node, E_FILTER_TYPE filterType) {
         E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
         irr::s32 i = 0;
-        
+
         bool founded = false;
         while (!founded && i < (s32)ShadowNodeArray.size()) {
             if (ShadowNodeArray[i].node == node) {
@@ -574,7 +581,7 @@ public:
             }
             i++;
         }
-        
+
         return shadowMode;
     }
 
@@ -595,7 +602,7 @@ public:
 	void updateEffect();
 
 	///Special To Calculate Radiosity
-	void updateRadiosity(const irr::u32 time, const bool screenSpaceOnly,irr::video::ITexture* outputTarget = 0, 
+	void updateRadiosity(const irr::u32 time, const bool screenSpaceOnly,irr::video::ITexture* outputTarget = 0,
 				irr::scene::ISceneNode* node =0 , irr::core::array<irr::scene::IMeshBuffer*>* buffers= 0);
 
 	/// Adds a shadow to the scene node. The filter type specifies how many shadow map samples
@@ -604,25 +611,25 @@ public:
 	/// ESM_CAST only casts shadows, and is unaffected by shadows or lighting, and ESM_RECEIVE
 	/// only receives but does not cast shadows.
 	void addShadowToNode(irr::scene::ISceneNode* node, E_FILTER_TYPE filterType = EFT_NONE, E_SHADOW_MODE shadowMode = ESM_BOTH);
-	
+
 	/// Returns the device time divided by 100, for use with the shader callbacks.
-	irr::f32 getTime() 
-	{ 
+	irr::f32 getTime()
+	{
 		return device->getTimer()->getTime() / 100.0f;
 	}
-	
+
 	/// Sets the scene clear colour, for when the scene is cleared before smgr->drawAll().
 	void setClearColour(irr::video::SColor ClearCol)
 	{
 		ClearColour = ClearCol;
 	}
-    
+
     void setNewFilterType(E_FILTER_TYPE type) {
         for (u32 i=0; i < ShadowNodeArray.size(); i++) {
             ShadowNodeArray[i].filterType = type;
         }
     }
-	
+
 	/**
 	A very easy to use post processing function. Simply add a material type to apply to the screen as a post processing
 	effect and it will be applied. You can add as many material types as you desire, and they will be double buffered and
@@ -632,7 +639,7 @@ public:
 	(When using OpenGL, in DirectX uniforms are not required to bind textures).
 	Please note that this will only work in OpenGL on vanilla Irrlicht, DX requires the large RTT patch to be able to create
 	sufficiently sized rendertargets for post processing. (Or you can just remove the engine check for Pow2).
-	
+
 	The structure of the textures is as follows:
 
 	Texture1 - "ColorMapSampler"
@@ -651,10 +658,10 @@ public:
 	If a depth pass has been enabled using enableDepthPass, then this sampler will contain the screen space depth information.
 	For better quality this is encoded to 16bits, and can be decoded like so:
 		Texture.red + (Texture.green / 256.0f);
-	That is by adding the red channel to the green channel which is first divided by 256. 
+	That is by adding the red channel to the green channel which is first divided by 256.
 	The data can still be used without decoding, in 8 bit precision, by just accessing the red component of the texture. Though
 	this is not recommended as 8 bit precision is usually not sufficient for modern post processing effects.
-	
+
 	Texture4 - "UserMapSampler"
 	A custom texture that can be set by the user using setPostProcessingUserTexture(irr::video::ITexture* userTexture).
 
@@ -669,13 +676,13 @@ public:
 	{
 		SPostProcessingPair tempPair(MaterialType, 0);
 		irr::s32 i = PostProcessingRoutines.binary_search(tempPair);
-        
+
 		if(i != -1)
 		{
 			if(PostProcessingRoutines[i].renderCallback) {
 				delete PostProcessingRoutines[i].renderCallback;
             }
-            
+
 			PostProcessingRoutines[i].renderCallback = callback;
 		}
 	}
@@ -714,19 +721,19 @@ public:
 	void *getPostProcessingEffectCallbackPtr(irr::u32 indice) {
 		return (void*)PostProcessingRoutines[indice].renderCallback;
 	}
-    
+
     bool postProcessingEffectExists(irr::s32 MaterialType)
     {
         bool returnedMaterialType=false;
-        
+
         SPostProcessingPair tempPair(MaterialType, 0);
 		irr::s32 i = PostProcessingRoutines.binary_search(tempPair);
-        
+
 		if(i != -1)
 		{
 			returnedMaterialType = true;
 		}
-        
+
         return returnedMaterialType;
     }
 
@@ -786,7 +793,7 @@ public:
 	{
 		return smgr;
 	}
-	
+
 	/// This allows the user to specify a custom, fourth texture to be used in the post-processing effects.
 	/// See addPostProcessingEffect for more info.
 	void setPostProcessingUserTexture(irr::video::ITexture* userTexture)
@@ -882,7 +889,7 @@ private:
 			callback = 0;
 			renderCallback = 0;
 		}
-        
+
 		SPostProcessingPair(const irr::s32 materialTypeIn, ScreenQuadCB* callbackIn,
 			IPostProcessingRenderCallback* renderCallbackIn = 0)
 			: materialType(materialTypeIn), callback(callbackIn), renderCallback(renderCallbackIn) {}
@@ -898,11 +905,11 @@ private:
 		irr::core::array<irr::video::ITexture *> textures;
 	};
 
-	SPostProcessingPair obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename, 
+	SPostProcessingPair obtainScreenQuadMaterialFromFile(const irr::core::stringc& filename,
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
-	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& pixelShader, 
+	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& pixelShader,
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
-	
+
 	irr::s32 Depth;
 	irr::s32 DepthT;
 	irr::s32 DepthWiggle;
@@ -922,7 +929,7 @@ private:
 	irr::s32 SelectionMaterial;
 	irr::scene::ICameraSceneNode *FPSCamera;
 	#endif
-	
+
 	//CALLBACKS
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;

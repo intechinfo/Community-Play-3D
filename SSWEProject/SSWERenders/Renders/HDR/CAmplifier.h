@@ -16,11 +16,16 @@ class Amplifier {
 public:
 
 	Amplifier() {
-		IReadFile* fh = GlobalContext::DeviceContext.GetFileSystem()->createAndOpenFile("Amplifier.fx");
+        IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
+
+		IReadFile* fh;
+		if (vd->getDriverType() == video::EDT_OPENGL)
+            fh = GlobalContext::DeviceContext.GetFileSystem()->createAndOpenFile("Amplifier.gfx");
+        else
+            fh = GlobalContext::DeviceContext.GetFileSystem()->createAndOpenFile("Amplifier.fx");
+
 		if(fh == NULL)
 			throw new Exception("Amplifier shader file couldn't be opened", __FUNCTION__);
-
-		IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
 
 		mt = (E_MATERIAL_TYPE)vd->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(nullptr, nullptr, video::EVST_VS_1_1, fh,
 																								   "PSAmplifier", video::EPST_PS_2_0);

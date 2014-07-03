@@ -4,7 +4,7 @@
 
 namespace Graphics {
 
-class TextureAdder : public IPostProcessHelper {
+class TextureAdder : public IPostProcessHelper, public IShaderConstantSetCallBack {
 
 public:
 
@@ -19,7 +19,9 @@ public:
 
 	void SetTexToAdd(ITexture* texToAdd) { quad.SetTexture(texToAdd, 1); }
 	ITexture* GetTexToAdd() { return quad.GetTexture(1); }
-		
+
+	void OnSetConstants(IMaterialRendererServices* services, s32 userData);
+
 
 protected:
 

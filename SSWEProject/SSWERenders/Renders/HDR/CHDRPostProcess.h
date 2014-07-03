@@ -26,10 +26,10 @@ public:
 
 	void SetExposure(f32 exposureLevel) { exposure = exposureLevel; }
 	f32 GetExposure() { return exposure; }
-	
+
 	void SetMinimumLuminance(f32 min) { min < 0.0f ? minLuminance = 0.0f : minLuminance = min; }
 	f32 GetMinimumLuminance() { return minLuminance; }
-		
+
 	void SetMaximumLuminance(f32 max) { max <= minLuminance ? maxLuminance = minLuminance + 0.1f : maxLuminance = max; }
 	f32 GetMaximumLuminance() { return maxLuminance; }
 
@@ -48,7 +48,7 @@ protected:
 	E_MATERIAL_TYPE mt;
 
 	f32 exposure;
-
+    s32 texVar;
 	u32 lastLuminanceAdjustment;
 
 	f32 currLuminance;
