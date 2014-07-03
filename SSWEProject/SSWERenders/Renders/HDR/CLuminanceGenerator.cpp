@@ -14,7 +14,12 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
 
 	IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
 
-	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Luminance);
+	IReadFile* fh;
+	if (vd->getDriverType() == video::EDT_OPENGL)
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::LuminanceGL);
+    else
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Luminance);
+
 	if(fh == NULL)
 		throw new Exception("Luminance calculator shader file couldn't be opened", __FUNCTION__);
 
@@ -30,7 +35,11 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
 	}
 	fh->drop();
 
-	fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Luminance);
+    if (vd->getDriverType() == video::EDT_OPENGL)
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::LuminanceDownSampleGL);
+    else
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Luminance);
+
 	if(fh == NULL)
 		throw new Exception("Luminance downsampler shader file couldn't be opened", __FUNCTION__);
 
@@ -94,6 +103,9 @@ ITexture* LuminanceGenerator::GetLuminanceStep(u32 step) {
 
 //Callback fun
 void LuminanceGenerator::LuminanceCallback::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    texVar = 0;
+    services->setPixelShaderConstant("tex0", &texVar, 1);
+
 	services->setPixelShaderConstant("lumOffsets", reinterpret_cast<f32*>(lumOffsets), 8);
 }
 
@@ -116,6 +128,9 @@ void LuminanceGenerator::LuminanceCallback::UpdateSourceDimensions(const dimensi
 }
 
 void LuminanceGenerator::DownsampleCallback::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    texVar = 0;
+    services->setPixelShaderConstant("tex0", &texVar, 1);
+
 	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(dsOffsets), 18);
 	services->setPixelShaderConstant("halfDestPixelSize", &halfDestPixelSize, 1);
 }

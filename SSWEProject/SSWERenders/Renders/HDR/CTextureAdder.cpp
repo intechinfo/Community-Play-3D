@@ -8,7 +8,12 @@
 namespace Graphics {
 
 TextureAdder::TextureAdder(const dimension2d<u32>& outputSize, ECOLOR_FORMAT bufferType) {
-	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::TextureAdder);
+	IReadFile* fh;
+	if (GlobalContext::DeviceContext.GetVideoDriver()->getDriverType() == video::EDT_OPENGL)
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::TextureAdderGL);
+	else
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::TextureAdder);
+
 	if(fh == NULL)
 		throw new Exception("Texture Adder shader file couldn't be opened", __FUNCTION__);
 
@@ -17,7 +22,7 @@ TextureAdder::TextureAdder(const dimension2d<u32>& outputSize, ECOLOR_FORMAT buf
 	mt = (E_MATERIAL_TYPE)vd->getGPUProgrammingServices()->
 		addHighLevelShaderMaterialFromFiles(nullptr,
 		nullptr, video::EVST_VS_1_1,
-		fh, "PSTextureAdder", video::EPST_PS_2_0);
+		fh, "PSTextureAdder", video::EPST_PS_2_0, this);
 
 	if(mt < 0) {
 		fh->drop();
@@ -25,10 +30,17 @@ TextureAdder::TextureAdder(const dimension2d<u32>& outputSize, ECOLOR_FORMAT buf
 	}
 
 	out = vd->addRenderTargetTexture(outputSize, "textureAdderRT", bufferType);
-		
+
 	quad.SetMaterialType(mt);
 
 	fh->drop();
+}
+
+void TextureAdder::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    irr::s32 texVar = 0;
+    services->setPixelShaderConstant("tex0", &texVar, 1);
+    irr::s32 texVar1 = 1;
+    services->setPixelShaderConstant("tex1", &texVar1, 1);
 }
 
 void TextureAdder::Render(ITexture* __restrict source) {

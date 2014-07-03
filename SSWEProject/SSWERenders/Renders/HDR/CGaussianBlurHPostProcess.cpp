@@ -9,7 +9,12 @@
 namespace Graphics {
 
 GaussianBlurHPostProcess::GaussianBlurHPostProcess() {
-	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::GaussianBlur);
+	IReadFile* fh;
+	if (GlobalContext::DeviceContext.GetVideoDriver()->getDriverType() == video::EDT_OPENGL)
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::GaussianBlurHGL);
+    else
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::GaussianBlur);
+
 	if(fh == NULL)
 		throw new Exception("Horizontal Gaussian Blur shader file couldn't be opened", __FUNCTION__);
 
@@ -23,13 +28,15 @@ GaussianBlurHPostProcess::GaussianBlurHPostProcess() {
 		fh->drop();
 		throw new Exception("Horizontal Gaussian Blur shader couldn't be loaded", __FUNCTION__);
 	}
-		
+
 	quad.SetMaterialType(mt);
 
 	fh->drop();
 }
 
 void GaussianBlurHPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    irr::s32 texVar = 0;
+    services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("blurOffsets", blurOffsets, 9);
 	services->setPixelShaderConstant("blurWeights", blurWeights, 9);
 }

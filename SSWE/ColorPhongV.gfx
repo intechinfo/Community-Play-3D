@@ -1,0 +1,41 @@
+//Transform vertices to world space
+uniform mat4 world;
+//Transform normals to world space
+uniform mat4 worldInverseTranspose;
+//transform view coordinates to world space
+uniform mat4 viewInverse;
+//Transform coordinates to screen space
+uniform mat4 worldViewProjection;
+//Light position in world space
+uniform vec3 lightPosition;
+
+/*struct VertexInput
+{
+	float3 position: POSITION;
+	float4 normal : NORMAL;
+	float4 color : COLOR0;
+};
+
+struct VertexOutput
+{
+	float4 screenPos : POSITION;
+	float3 lightVector : TEXCOORD1;
+	float3 worldNormal : TEXCOORD2;
+	float3 worldView : TEXCOORD3;
+	float4 color : COLOR0;
+};*/
+
+void main()
+{
+	gl_Position = ftransform();
+
+	gl_TexCoord[2].xyz = gl_MultiTexCoord2.xyz;//vec4(vec4(gl_Normal, 1.0) * worldInverseTranspose).xyz;
+
+	gl_TexCoord[1].xyz = lightPosition.xyz - gl_Position.xyz;
+
+	gl_TexCoord[3].xyz = normalize(viewInverse[3].xyz - gl_Position.xyz);
+
+	//OUT.screenPos = mul(float4(IN.position, 1), worldViewProjection);	
+
+	//return OUT;
+}
