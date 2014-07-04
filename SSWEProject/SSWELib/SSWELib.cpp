@@ -108,6 +108,8 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 	std::mutex mutex;
     #endif
 
+	//coreUserInterface->getDevices()->setRenderGUI(false);
+
 	while (device->run()) {
 
 		if (device->isWindowActive()) {

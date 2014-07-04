@@ -95,7 +95,7 @@ void CImporter::buildTerrain() {
 		/*node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ?
 													 numberOfVertices/(minPolysPerNode+1)
 													 : numberOfVertices/minPolysPerNode);*/
-        mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
+        mesh->setHardwareMappingHint(EHM_DYNAMIC, EBT_VERTEX_AND_INDEX);
 		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
@@ -105,7 +105,7 @@ void CImporter::buildTerrain() {
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
 			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, true, true, false, true);
 		}
-        mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
+		mesh->setHardwareMappingHint(EHM_DYNAMIC, EBT_VERTEX_AND_INDEX);
 		node = smgr->addMeshSceneNode(mesh, 0, -1);
 	}
 

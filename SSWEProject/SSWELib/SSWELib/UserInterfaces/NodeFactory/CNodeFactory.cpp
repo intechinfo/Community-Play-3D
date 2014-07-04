@@ -31,7 +31,7 @@ ISceneNode *CNodeFactory::createCubeSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
 
-	cube->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
+	//cube->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
 
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 
@@ -47,7 +47,7 @@ void CNodeFactory::createSphereSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
 
-	sphere->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
+	//sphere->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
 
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }
@@ -64,7 +64,7 @@ void CNodeFactory::createPlaneMeshSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
 
-	planeNode->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
+	//planeNode->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
 
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
 }

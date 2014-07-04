@@ -32,7 +32,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	DOFMapSampler = driver->addRenderTargetTexture(ScreenRTTSize, "DOFMapSampler");
 
 	//LIGHT SCATTERING PASS
-	LightScatteringRTT = driver->addRenderTargetTexture(dimension2du(800, 600), "LightScatteringRTT");
+	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
 	useLightScattering = false;
 
 	//HDR PIPELINE
@@ -45,7 +45,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	quad = new Graphics::CHDRScreenQuad();
 
 	psm = new PhongShaderManager(driver, device->getFileSystem()->getWorkingDirectory());
-	pp = new HDRPostProcess(screenRTTSize);
+	pp = new HDRPostProcess(ScreenRTTSize);
 	ppm->AddPostProcess(pp);
 	pp->GetBloomGenerator()->SetGaussianCoefficient(0.3f);
 
@@ -259,8 +259,15 @@ void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2d
 		DepthRTT = driver->addRenderTargetTexture(resolution, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
 	}
     
-    if (DOFMapSampler)
+    if (DOFMapSampler) {
+		//driver->removeTexture(DOFMapSampler);
         DOFMapSampler = driver->addRenderTargetTexture(resolution, "DOFMapSampler");
+	}
+
+	if (LightScatteringRTT) {
+		//driver->removeTexture(LightScatteringRTT);
+		LightScatteringRTT = driver->addRenderTargetTexture(resolution, "LightScatteringRTT");
+	}
     
 	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, tempTexFlagMipMaps);
 	driver->setTextureCreationFlag(ETCF_ALWAYS_32_BIT, tempTexFlag32);
@@ -828,11 +835,21 @@ void EffectHandler::update(bool  updateOcclusionQueries, irr::video::ITexture* o
 
 	//HDR PIPELINE
 	if (useHDR) {
-		ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)],
+		/*ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)],
 					HDRProcessedRT);
 		driver->setRenderTarget(outputTarget, true, true, ClearColour);
 		quad->SetTexture(HDRProcessedRT);
-		quad->Render(false);
+		quad->Render(false);*/
+		//driver->setRenderTarget(outputTarget, true, true, ClearColour);
+		//ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)]);
+
+		ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)], HDRProcessedRT);
+
+		driver->setRenderTarget(outputTarget, true, true, ClearColour);
+
+		ScreenQuad.getMaterial().setTexture(0, HDRProcessedRT);
+		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
+		ScreenQuad.render(driver);
 	}
 	
 }

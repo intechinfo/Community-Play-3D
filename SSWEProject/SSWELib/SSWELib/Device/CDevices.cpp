@@ -291,7 +291,8 @@ void CDevices::updateDevice() {
 														  driver->getScreenSize().Width,
 														  90), SColor(255, 255, 255, 255), false, false);
 
-    gui->drawAll();
+	if (renderGUI)
+		gui->drawAll();
 
 	receiver.update();
 
@@ -484,12 +485,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	//INIT EFFECTS
     //effect = new EffectHandler(Device, dimension2du(1920, 1138), true, true, true);
     if (!isOnlyForPlay)
-        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), false, true, true);
+        effect = new EffectHandler(Device, Device->getVideoModeList()->getDesktopResolution(), true, true, true);
 	else
-		effect = new EffectHandler(Device, driver->getScreenSize(), false, true, true);
+		effect = new EffectHandler(Device, driver->getScreenSize(), true, true, true);
 
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_16PCF;
+	filterType = EFT_4PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);

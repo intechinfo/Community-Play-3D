@@ -41,14 +41,14 @@ public:
 
 		//mat.BackfaceCulling = false;
 		mat.Lighting = false;
-		mat.ZBuffer = video::ECFN_ALWAYS;
+		//mat.ZBuffer = video::ECFN_ALWAYS;
 		mat.ZWriteEnable = false;
 		mat.Wireframe = false;
-		mat.AntiAliasing = true;
-		mat.UseMipMaps=false;
+		//mat.AntiAliasing = true;
+		//mat.UseMipMaps=false;
 		for(u32 c = 0; c < MATERIAL_MAX_TEXTURES; c++) {
-			//mat.TextureLayer[c].TextureWrapU = video::ETC_CLAMP;
-			//mat.TextureLayer[c].TextureWrapV = video::ETC_CLAMP;
+			mat.TextureLayer[c].TextureWrapU = video::ETC_CLAMP;
+			mat.TextureLayer[c].TextureWrapV = video::ETC_CLAMP;
 		}
 	}
 

@@ -405,6 +405,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
 
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
+
+	nodeFactory->createLightSceneNode();
+	nodeFactory->createPlaneMeshSceneNode();
+	nodeFactory->createCubeSceneNode()->setPosition(vector3df(0, 25, 0));
 }
 
 CUIContextMenu::~CUIContextMenu() {
