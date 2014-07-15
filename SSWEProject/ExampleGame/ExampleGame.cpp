@@ -175,6 +175,8 @@ int main(int argc, char *argv[]) {
 
 	/// Configure Monitor
 	coreUserInterface->addMonitor("SSWEGenericMonitor");
+	devices->getXEffect()->getHDRManager()->setExposure(1.2f);
+	devices->getXEffect()->setUseNormalPass(true);
 
 	/// Import our scene
 	ISSWEImporter *importer = coreUserInterface->createImporter();

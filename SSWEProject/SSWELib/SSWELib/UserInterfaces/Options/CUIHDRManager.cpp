@@ -108,9 +108,11 @@ bool CUIHDRManager::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			hdrStructs.clear();
-			devices->getEventReceiver()->RemoveEventReceiver(this);
-			delete this;
+			if (event.GUIEvent.Caller == window) {
+				hdrStructs.clear();
+				devices->getEventReceiver()->RemoveEventReceiver(this);
+				delete this;
+			}
 		}
 
 		if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {

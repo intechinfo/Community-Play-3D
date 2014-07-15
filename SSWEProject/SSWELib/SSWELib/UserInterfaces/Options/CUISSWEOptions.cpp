@@ -101,9 +101,11 @@ bool CUISSWEOptions::OnEvent(const SEvent &event) {
 		}
 
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			devices->getEventReceiver()->RemoveEventReceiver(this);
-			window->remove();
-			delete this;
+			if (event.GUIEvent.Caller == window) {
+				devices->getEventReceiver()->RemoveEventReceiver(this);
+				window->remove();
+				delete this;
+			}
 		}
 
 		if (event.GUIEvent.EventType == EGET_COMBO_BOX_CHANGED) {
