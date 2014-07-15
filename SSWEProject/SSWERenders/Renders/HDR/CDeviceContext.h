@@ -51,14 +51,23 @@ public:
 		sm = newSceneManager;
 	}
 
+    #ifdef _IRR_WINDOWS_API_
 	__forceinline IrrlichtDevice* GetDevice() { return device; }
 	__forceinline IVideoDriver* GetVideoDriver() { return vd; }
 	__forceinline ISceneManager* GetSceneManager() { return sm; }
 	__forceinline IFileSystem* GetFileSystem() { return fs; }
 	__forceinline ITimer* GetTimer() { return timer; }
 	__forceinline IGUIEnvironment* GetGUIEnvironment() { return guienv; }
+	#else
+    IrrlichtDevice* GetDevice() { return device; }
+    IVideoDriver* GetVideoDriver() { return vd; }
+    ISceneManager* GetSceneManager() { return sm; }
+    IFileSystem* GetFileSystem() { return fs; }
+    ITimer* GetTimer() { return timer; }
+    IGUIEnvironment* GetGUIEnvironment() { return guienv; }
+	#endif
 
-	
+
 private:
 
 	IrrlichtDevice* device;

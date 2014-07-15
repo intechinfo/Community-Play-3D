@@ -3,16 +3,13 @@
 
 #include <SSWERenders.h>
 
-#include "../HDR/CHDRScreenQuad.h"
-#include "../HDR/CPhongShaderManager.h"
-#include "../HDR/CGlobalContext.h"
-#include "../HDR/CPostProcessingManager.h"
 #include "../HDR/CHDRPostProcess.h"
-#include "../HDR/CDSBloomGenerator.h"
-#include "../HDR/CLuminanceGenerator.h"
-#include "../HDR/CAmplifier.h"
 
 #include "../../../SSWELib/include/ISSWEHDRManager.h"
+
+namespace Graphics {
+    class HDRPostProcess;
+}
 
 class CHDRManager : public IHDRManager {
 
@@ -58,7 +55,7 @@ public:
 	void setMinimumLuminance(f32 value);
 	irr::f32 getMinimumLuminance();
 	//-----------------------------------
-	
+
 	//-----------------------------------
 	/// Luminance Max
 	void setMaximumLuminance(f32 value);

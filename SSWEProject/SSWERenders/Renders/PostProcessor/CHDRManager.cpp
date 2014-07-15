@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "CHDRManager.h"
 
+#include "../HDR/CHDRScreenQuad.h"
+#include "../HDR/CPhongShaderManager.h"
+#include "../HDR/CGlobalContext.h"
+#include "../HDR/CPostProcessingManager.h"
+#include "../HDR/CDSBloomGenerator.h"
+#include "../HDR/CLuminanceGenerator.h"
+#include "../HDR/CAmplifier.h"
+
 CHDRManager::CHDRManager(Graphics::HDRPostProcess *instance, irr::video::SMaterial *phongInstance) {
 	pp = instance;
 
@@ -76,7 +84,7 @@ irr::f32 CHDRManager::getMinimumLuminance() {
 	return pp->GetMinimumLuminance();
 }
 //-----------------------------------
-	
+
 //-----------------------------------
 /// Luminance Max
 void CHDRManager::setMaximumLuminance(f32 value) {

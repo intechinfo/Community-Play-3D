@@ -1,0 +1,33 @@
+uniform vec3 lightColor;
+uniform vec3 ambientColor;
+uniform float specularAmount;
+uniform float specularExponent;
+
+/*struct VertexOutput
+{
+	float4 screenPos : POSITION;
+	float3 lightVector : TEXCOORD1;
+	float3 worldNormal : TEXCOORD2;
+	float3 worldView : TEXCOORD3;
+	float4 color : COLOR0;
+};*/
+
+void main()
+{
+	vec3 light = normalize(gl_TexCoord[1].xyz);
+	vec3 view = normalize(gl_TexCoord[3].xyz);
+	vec3 norm = normalize(gl_TexCoord[2].xyz);
+	vec3 halfAngle = normalize(view + light);
+
+	vec4 litResult = lit(dot(light, norm), dot(halfAngle, norm), specularExponent);
+
+	vec3 diffuseContrib = litResult.y * lightColor;
+	vec3 specularContrib = litResult.y * litResult.z * 
+		specularAmount * lightColor;
+	vec3 diffuse = gl_FragColor.rgb;
+
+	vec4 OUT = vec3(specularContrib +
+		(diffuse * (diffuseContrib + ambientColor)), 1);
+
+	gl_FragColor = OUT;
+}

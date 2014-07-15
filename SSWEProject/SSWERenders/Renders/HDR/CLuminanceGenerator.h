@@ -31,6 +31,7 @@ protected:
 
 		dimension2d<u32> lastSourceDims;
 		f32 lumOffsets[4][2];
+		irr::s32 texVar;
 	};
 
 	class DownsampleCallback : public IShaderConstantSetCallBack {
@@ -43,6 +44,7 @@ protected:
 	protected:
 		f32 dsOffsets[9][2];
 		f32 halfDestPixelSize;
+		irr::s32 texVar;
 	};
 
 

@@ -8,7 +8,12 @@
 namespace Graphics {
 
 DownSampleX4PostProcess::DownSampleX4PostProcess() {
-	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::DownSampleX4);
+	IReadFile* fh;
+	if (GlobalContext::DeviceContext.GetVideoDriver()->getDriverType() == video::EDT_OPENGL)
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::DownSampleX4GL);
+	else
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::DownSampleX4);
+
 	if(fh == NULL)
 		throw new Exception("Down-Sample shader file couldn't be opened", __FUNCTION__);
 
@@ -22,13 +27,15 @@ DownSampleX4PostProcess::DownSampleX4PostProcess() {
 		fh->drop();
 		throw new Exception("Down-Sample shader couldn't be loaded", __FUNCTION__);
 	}
-		
+
 	quad.SetMaterialType(mt);
 
 	fh->drop();
 }
 
 void DownSampleX4PostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    irr::s32 texVar = 0;
+    services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(dsOffsets), 32);
 }
 

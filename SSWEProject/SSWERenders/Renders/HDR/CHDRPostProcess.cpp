@@ -12,7 +12,7 @@ namespace Graphics {
 
 HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfBuffers)
 	: exposure(1.0f), lastLuminanceAdjustment(0), minLuminance(1.0f), maxLuminance(1e20f),
-	lumIncreaseRate(1.0f), lumDecreaseRate(2.0f), outputLuminance(-1.0f)
+	lumIncreaseRate(1.0f), lumDecreaseRate(2.0f), outputLuminance(-1.0f), texVar(0)
 {
 	if(useHalfBuffers) {
 		lg = new LuminanceGenerator(video::ECF_R16F);
@@ -26,7 +26,12 @@ HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfB
 
 	//quad.SetTexture(lg->GetOutput(), 1);
 
-	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDR);
+	IReadFile* fh;
+	if (GlobalContext::DeviceContext.GetVideoDriver()->getDriverType() == video::EDT_OPENGL)
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRGL);
+	else
+        fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDR);
+
 	if(fh == NULL)
 		throw new Exception("HDR shader file couldn't be opened", __FUNCTION__);
 
@@ -40,7 +45,7 @@ HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfB
 		fh->drop();
 		throw new Exception("HDR shader couldn't be loaded", __FUNCTION__);
 	}
-		
+
 	quad.SetMaterialType(mt);
 
 	fh->drop();
@@ -86,6 +91,7 @@ void HDRPostProcess::Render(ITexture* __restrict source, ITexture* __restrict ou
 }
 
 void HDRPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    services->setPixelShaderConstant("original_scene", &texVar, 1);
 	services->setPixelShaderConstant("exposure", &exposure, 1);
 	services->setPixelShaderConstant("avgLuminance", &outputLuminance, 1);
 }

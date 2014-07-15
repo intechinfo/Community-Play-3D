@@ -10,10 +10,17 @@ PhongShaderManager::PhongShaderManager(IVideoDriver* __restrict driver,
 {
 	IGPUProgrammingServices* gpu = vd->getGPUProgrammingServices();
 
-	colorMatType = gpu->addHighLevelShaderMaterialFromFiles(
-		shaderDirectory + "\\ColorPhong.fx", "ColorPhongVS", video::EVST_VS_1_1,
-		shaderDirectory + "\\ColorPhong.fx", "ColorPhongPS", video::EPST_PS_2_0,
-		this);
+    if (vd->getDriverType() != video::EDT_OPENGL) {
+        colorMatType = gpu->addHighLevelShaderMaterialFromFiles(
+            shaderDirectory + "\\ColorPhong.fx", "ColorPhongVS", video::EVST_VS_1_1,
+            shaderDirectory + "\\ColorPhong.fx", "ColorPhongPS", video::EPST_PS_2_0,
+            this);
+    } else {
+        colorMatType = gpu->addHighLevelShaderMaterialFromFiles(
+            shaderDirectory + "/ColorPhongV.gfx", "ColorPhongVS", video::EVST_VS_1_1,
+            shaderDirectory + "/ColorPhongP.gfx", "ColorPhongPS", video::EPST_PS_2_0,
+            this);
+    }
 }
 
 E_MATERIAL_TYPE PhongShaderManager::getMaterialType() {

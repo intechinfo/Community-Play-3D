@@ -12,7 +12,12 @@ namespace Graphics {
 
 BrightPassPostProcess::BrightPassPostProcess() : brightThreshold(0.8f)
 {
-	IReadFile* fh = ResourceManager::OpenResource(Paths::PostProcesses::BrightPass);
+	IReadFile* fh;
+	if (DeviceContext.GetVideoDriver()->getDriverType() == video::EDT_OPENGL)
+        fh = ResourceManager::OpenResource(Paths::PostProcesses::BrightPassGL);
+    else
+        fh = ResourceManager::OpenResource(Paths::PostProcesses::BrightPass);
+
 	if(fh == NULL)
 		throw new Exception("Bright Pass shader file couldn't be opened", __FUNCTION__);
 
@@ -25,13 +30,15 @@ BrightPassPostProcess::BrightPassPostProcess() : brightThreshold(0.8f)
 		fh->drop();
 		throw new Exception("Bright Pass shader couldn't be loaded", __FUNCTION__);
 	}
-	
+
 	quad.SetMaterialType(mt);
 
 	fh->drop();
 }
 
 void BrightPassPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    irr::s32 texVar = 0;
+    services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("brightThreshold", &brightThreshold, 1);
 	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(dsOffsets), 8);
 }

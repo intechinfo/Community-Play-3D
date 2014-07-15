@@ -248,6 +248,8 @@
 		<Unit filename="UserInterfaces/NodeFactory/TerrainPainting/CTerrainPainter.h" />
 		<Unit filename="UserInterfaces/NodeFactory/TerrainPainting/CUITerrainPainting.cpp" />
 		<Unit filename="UserInterfaces/NodeFactory/TerrainPainting/CUITerrainPainting.h" />
+		<Unit filename="UserInterfaces/Options/CUIHDRManager.cpp" />
+		<Unit filename="UserInterfaces/Options/CUIHDRManager.h" />
 		<Unit filename="UserInterfaces/Options/CUISSWEOptions.cpp" />
 		<Unit filename="UserInterfaces/Options/CUISSWEOptions.h" />
 		<Unit filename="UserInterfaces/ParticlesEditor/CUIAddEmitter.cpp" />
