@@ -17,5 +17,7 @@ public:
 
 	virtual irr::core::array<IMonitor*> getRegisteredMonitors() = 0;
 	virtual int getMonitorCount() = 0;
+
 };
+
 #endif

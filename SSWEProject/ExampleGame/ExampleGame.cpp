@@ -164,6 +164,37 @@ private:
 
 };
 
+class COcclusionTest : public irr::IEventReceiver, public IUpdate {
+
+public:
+
+	COcclusionTest(IDevices *devices) {
+		this->devices = devices;
+
+		node = devices->getSceneManager()->getSceneNodeFromName("#light:new_light_flare_mesh");
+		if (!node)
+			exit(0);
+
+		devices->getMonitorRegister()->getMonitor(0)->setRenderingFullTraitement(true);
+		devices->getEventReceiver()->AddEventReceiver(this, 0, this);
+	}
+	~COcclusionTest() { }
+
+	void update() {
+		irr::f32 test = devices->getVideoDriver()->getOcclusionQueryResult(node);
+		devices->getGUIEnvironment()->getSkin()->getFont()->draw(irr::core::stringc(test).c_str(), irr::core::rect<s32>(0, 0, 50, 800),
+																 irr::video::SColor(255, 0, 0, 0));
+	}
+
+	bool OnEvent(const SEvent &event) { return false; }
+
+private:
+
+	IDevices *devices;
+	irr::scene::ISceneNode *node;
+
+};
+
 int main(int argc, char *argv[]) {
 
 	ISSWECoreUserInterface *coreUserInterface = createSSWEDevice(true, "");
@@ -186,6 +217,7 @@ int main(int argc, char *argv[]) {
 	/// Configure FPS Camera
 	devices->getSceneManager()->setActiveCamera(devices->getFPSCamera());
 	devices->getFPSCamera()->setPosition(devices->getMayaCamera()->getPosition());
+	devices->getCollisionManager()->getFPSCameraSettings()->setEllipsoidRadius(irr::core::vector3df(5.f, 20.f, 5.f));
 	devices->getCollisionManager()->getFPSCameraSettings()->setSettings(devices->getSceneManager(),
 		devices->getCollisionManager()->getMetaTriangleSelectors(),
 		devices->getFPSCamera());
@@ -195,6 +227,9 @@ int main(int argc, char *argv[]) {
 
 	/// Load our game play class
 	//CUpdate *updater = new CUpdate(devices);
+
+	/// Load our occlusion test class
+	COcclusionTest *occlusioNTest = new COcclusionTest(devices);
 
 	/// Update our device
 	/// Let CP3D updating the device, it will optimize everything for us :-)

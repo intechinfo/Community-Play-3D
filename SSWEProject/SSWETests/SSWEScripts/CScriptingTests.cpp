@@ -24,12 +24,12 @@ namespace SSWETests {
 
 				L = luaL_newstate();
 				luaL_openlibs(L);
-				cp3d::scripting::bindVector3df(L);
 			}
 //---------------------------------------------------------------------------------------------
 //---------------------------------------MATH TESTS-----------------------------------------
 //---------------------------------------------------------------------------------------------
 			TEST_METHOD(vector3dfTest) {
+				cp3d::scripting::bindVector3df(L);
 				int erred = luaL_dofile(L, stringc(workingPath + "Lua_Tests/math/vector3df.lua").c_str());
 				if (erred)
 					Assert::Fail(stringw(luaL_checkstring(L, -1)).c_str());

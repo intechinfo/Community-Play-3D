@@ -23,6 +23,15 @@ vector3df *checkVector3df(lua_State *L, int n) {
     return *(vector3df **)luaL_checkudata(L, n, "luaL_Vector3df");
 }
 
+#define VECTOR3DF_CHECK_ARGUMENTS(argc, L) \
+	if (lua_gettop(L) != argc) return 1; \
+
+#define VECTOR3DF_CHECK_VECTORS(v1, v2) \
+	if (!v1 || !v2) return 1; \
+
+#define VECTOR3DF_CHECK_VECTOR(v1) \
+	if (!v1) return 1;
+
 //---------------------------------------------------------------------------------------------
 //------------------------------------CTOR & DTOR----------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -50,6 +59,8 @@ int vector3dfDestructor(lua_State * L) {
 
 int vector3dfSetX(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v);
+	VECTOR3DF_CHECK_ARGUMENTS(2, L);
     f32 x = luaL_checknumber(L, 2);
     v->X = x;
 	lua_pop(L, -2);
@@ -58,6 +69,8 @@ int vector3dfSetX(lua_State *L) {
 
 int vector3dfSetY(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v);
+	VECTOR3DF_CHECK_ARGUMENTS(2, L);
     f32 y = luaL_checknumber(L, 2);
     v->Y = y;
 	lua_pop(L, -2);
@@ -65,6 +78,8 @@ int vector3dfSetY(lua_State *L) {
 }
 int vector3dfSetZ(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v);
+	VECTOR3DF_CHECK_ARGUMENTS(2, L);
     f32 z = luaL_checknumber(L, 2);
     v->Z = z;
 	lua_pop(L, -2);
@@ -73,11 +88,14 @@ int vector3dfSetZ(lua_State *L) {
 int vector3dfSetVector(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
     v1->set(*v2);
     return 1;
 }
 int vector3dfsetXYZ(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
+	VECTOR3DF_CHECK_ARGUMENTS(4, L);
     f32 x = luaL_checknumber(L, 2);
     f32 y = luaL_checknumber(L, 3);
     f32 z = luaL_checknumber(L, 4);
@@ -91,16 +109,19 @@ int vector3dfsetXYZ(lua_State *L) {
 //---------------------------------------------------------------------------------------------
 int vector3dfGetX(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v);
     lua_pushnumber(L, v->X);
     return 1;
 }
 int vector3dfGetY(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v);
     lua_pushnumber(L, v->Y);
     return 1;
 }
 int vector3dfGetZ(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v);
     lua_pushnumber(L, v->Z);
     return 1;
 }
@@ -112,12 +133,15 @@ int vector3dfGetZ(lua_State *L) {
 int vector3dfAdd(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
     v1->operator+=(*v2);
     lua_pop(L, -2);
     return 1;
 }
 int vector3dfAddScalar(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
+	VECTOR3DF_CHECK_ARGUMENTS(2, L);
     f32 s = luaL_checknumber(L, 2);
     v1->operator+=(s);
     lua_pop(L, -2);
@@ -127,12 +151,15 @@ int vector3dfAddScalar(lua_State *L) {
 int vector3dfMultiply(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
     v1->operator*=(*v2);
     lua_pop(L, -2);
     return 1;
 }
 int vector3dfMultiplyScalar(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
+	VECTOR3DF_CHECK_ARGUMENTS(2, L);
     f32 s = luaL_checknumber(L, 2);
     v1->operator*=(s);
     lua_pop(L, -2);
@@ -142,6 +169,7 @@ int vector3dfMultiplyScalar(lua_State *L) {
 int vector3dfSub(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
     v1->operator-=(*v2);
     lua_pop(L, -2);
     return 1;
@@ -150,12 +178,15 @@ int vector3dfSub(lua_State *L) {
 int vector3dfDivide(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
     v1->operator/=(*v2);
     lua_pop(L, -2);
     return 1;
 }
 int vector3dfDivideScalar(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
+	VECTOR3DF_CHECK_ARGUMENTS(2, L);
     f32 s = luaL_checknumber(L, 2);
     v1->operator/=(s);
     lua_pop(L, -2);
@@ -165,6 +196,7 @@ int vector3dfDivideScalar(lua_State *L) {
 int vector3dfEquals(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	bool areEquals = v1->operator==(*v2);
 	lua_pushboolean(L, areEquals);
 	return 1;
@@ -173,6 +205,7 @@ int vector3dfEquals(lua_State *L) {
 int vector3dfInferiorTo(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	bool checkEquals = lua_toboolean(L, 3);
 	bool isInferior;
 	if (checkEquals)
@@ -185,6 +218,7 @@ int vector3dfInferiorTo(lua_State *L) {
 int vector3dfSuperiorTo(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	bool checkEquals = lua_toboolean(L, 3);
 	bool isSuperior;
 	if (checkEquals)
@@ -202,6 +236,7 @@ int vector3dfSuperiorTo(lua_State *L) {
 int vector3dfDot(lua_State *L) {
     vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
     f32 dot = v1->dotProduct(*v2);
     lua_pushnumber(L, dot);
     return 1;
@@ -209,24 +244,28 @@ int vector3dfDot(lua_State *L) {
 int vector3dfCrossProduct(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
     vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	v1->set(v1->crossProduct(*v2));
     return 1;
 }
 
 int vector3dfGetLength(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
 	f32 length = v1->getLength();
 	lua_pushnumber(L, length);
 	return 1;
 }
 int vector3dfGetLengthSQ(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
 	f32 lengthsq = v1->getLengthSQ();
 	lua_pushnumber(L, lengthsq);
 	return 1;
 }
 int vector3dfSetLength(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
 	f32 length = v1->getLengthSQ();
 	v1->setLength(length);
 	return 1;
@@ -234,6 +273,7 @@ int vector3dfSetLength(lua_State *L) {
 
 int vector3dfNegate(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
 	v1->invert();
     lua_pop(L, -2);
     return 1;
@@ -241,6 +281,7 @@ int vector3dfNegate(lua_State *L) {
 
 int vector3dfNormalize(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v1);
 	v1->normalize();
     lua_pop(L, -2);
     return 1;
@@ -249,6 +290,7 @@ int vector3dfNormalize(lua_State *L) {
 int vector3dfDistanceTo(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	f32 distance = v1->getDistanceFrom(*v2);
     lua_pushnumber(L, distance);
     return 1;
@@ -256,6 +298,7 @@ int vector3dfDistanceTo(lua_State *L) {
 int vector3dfDistanceToSQ(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	f32 distance = v1->getDistanceFromSQ(*v2);
     lua_pushnumber(L, distance);
     return 1;
@@ -264,6 +307,7 @@ int vector3dfDistanceToSQ(lua_State *L) {
 int vector3dfRotationToDirection(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	v1->set(v1->rotationToDirection(*v2));
 	lua_pop(L, -2);
     return 1;
@@ -272,6 +316,7 @@ int vector3dfRotationToDirection(lua_State *L) {
 int vector3dfGetSphericalCoordinateAngles(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	v2->set(v1->getSphericalCoordinateAngles());
 	lua_pop(L, -1);
     return 1;
@@ -279,6 +324,7 @@ int vector3dfGetSphericalCoordinateAngles(lua_State *L) {
 int vector3dfGetHorizontalAngle(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	v2->set(v1->getHorizontalAngle());
 	lua_pop(L, -1);
     return 1;
@@ -287,9 +333,12 @@ int vector3dfGetHorizontalAngle(lua_State *L) {
 int vector3dfInterpolate(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	vector3df *v3 = checkVector3df(L, 3);
+	VECTOR3DF_CHECK_ARGUMENTS(5, L);
 	f32 d = luaL_checknumber(L, 4);
 	vector3df *v4 = checkVector3df(L, 5);
+	VECTOR3DF_CHECK_VECTORS(v3, v4);
 	v4->set(v1->interpolate(*v2, *v3, d));
 	lua_pop(L, -2);
     return 1;
@@ -297,9 +346,12 @@ int vector3dfInterpolate(lua_State *L) {
 int vector3dfGetInterpolated_quadratic(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	vector3df *v3 = checkVector3df(L, 3);
+	VECTOR3DF_CHECK_ARGUMENTS(5, L);
 	f32 d = luaL_checknumber(L, 4);
 	vector3df *v4 = checkVector3df(L, 5);
+	VECTOR3DF_CHECK_VECTORS(v3, v4);
 	v4->set(v1->getInterpolated_quadratic(*v2, *v3, d));
 	lua_pop(L, -2);
     return 1;
@@ -307,8 +359,11 @@ int vector3dfGetInterpolated_quadratic(lua_State *L) {
 int vector3dfGetInterpolated(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
+	VECTOR3DF_CHECK_ARGUMENTS(4, L);
 	f32 d = luaL_checknumber(L, 3);
 	vector3df *v3 = checkVector3df(L, 4);
+	VECTOR3DF_CHECK_VECTOR(v3);
 	v3->set(v1->getInterpolated(*v2, d));
 	lua_pop(L, -2);
 	return 1;
@@ -316,24 +371,30 @@ int vector3dfGetInterpolated(lua_State *L) {
 
 int vector3dfRotateYZBy(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_ARGUMENTS(3, L);
 	f32 d = luaL_checknumber(L, 2);
 	vector3df *v2 = checkVector3df(L, 3);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	v1->rotateYZBy(d, *v2);
 	lua_pop(L, -2);
 	return 1;
 }
 int vector3dfRotateXYBy(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_ARGUMENTS(3, L);
 	f32 d = luaL_checknumber(L, 2);
 	vector3df *v2 = checkVector3df(L, 3);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	v1->rotateXYBy(d, *v2);
 	lua_pop(L, -2);
 	return 1;
 }
 int vector3dfRotateXZBy(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_ARGUMENTS(3, L);
 	f32 d = luaL_checknumber(L, 2);
 	vector3df *v2 = checkVector3df(L, 3);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
 	v1->rotateXZBy(d, *v2);
 	lua_pop(L, -2);
 	return 1;
@@ -343,6 +404,8 @@ int vector3dfIsBetweenPoints(lua_State *L) {
 	vector3df *v1 = checkVector3df(L, 1);
 	vector3df *v2 = checkVector3df(L, 2);
 	vector3df *v3 = checkVector3df(L, 3);
+	VECTOR3DF_CHECK_VECTORS(v1, v2);
+	VECTOR3DF_CHECK_VECTOR(v3);
 	bool isBetween = v1->isBetweenPoints(*v2, *v3);
 	lua_pushboolean(L, isBetween);
 	return 1;
@@ -353,6 +416,7 @@ int vector3dfIsBetweenPoints(lua_State *L) {
 //---------------------------------------------------------------------------------------------
 int vector3dfPrint(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	VECTOR3DF_CHECK_VECTOR(v);
     
     printf("X=%f -- Y=%f -- Z=%f\n", v->X, v->Y, v->Z);
     
