@@ -34,6 +34,14 @@ namespace SSWETests {
 				if (erred)
 					Assert::Fail(stringw(luaL_checkstring(L, -1)).c_str());
 			}
+
+			TEST_METHOD(matrix4Test) {
+				cp3d::scripting::bindVector3df(L);
+				cp3d::scripting::bindMatrix4(L, device->getVideoDriver());
+				int erred = luaL_dofile(L, stringc(workingPath + "Lua_Tests/math/matrix4.lua").c_str());
+				if (erred)
+					Assert::Fail(stringw(luaL_checkstring(L, -1)).c_str());
+			}
 //---------------------------------------------------------------------------------------------
 //---------------------------------------TEAR DOWN CLASS---------------------------------------
 //---------------------------------------------------------------------------------------------

@@ -19,18 +19,16 @@ using namespace core;
 //-----------------------------------------UTILS-----------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-vector3df *checkVector3df(lua_State *L, int n) {
+vector3df *checkVector3df(lua_State *L, int n, bool error) {
+	if (lua_type(L, n) != LUA_TUSERDATA) {
+		if (error)
+			luaL_error(L, "Argument must be a Vector3df");
+		else
+			return 0;
+	}
+
     return *(vector3df **)luaL_checkudata(L, n, "luaL_Vector3df");
 }
-
-#define VECTOR3DF_CHECK_ARGUMENTS(argc, L) \
-	if (lua_gettop(L) != argc) return 1; \
-
-#define VECTOR3DF_CHECK_VECTORS(v1, v2) \
-	if (!v1 || !v2) return 1; \
-
-#define VECTOR3DF_CHECK_VECTOR(v1) \
-	if (!v1) return 1;
 
 //---------------------------------------------------------------------------------------------
 //------------------------------------CTOR & DTOR----------------------------------------------

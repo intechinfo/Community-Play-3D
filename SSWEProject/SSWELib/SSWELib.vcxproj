@@ -241,6 +241,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\Device\Core\Scripting\CLuaBinds.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CSceneScripting.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.cpp" />
+    <ClCompile Include="SSWELib\Device\Core\Scripting\math\CMatrix4.cpp" />
     <ClCompile Include="SSWELib\Device\Core\Scripting\math\CVector3d.cpp" />
     <ClCompile Include="SSWELib\Device\Monitor\MonitorRegister.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.cpp" />
@@ -382,6 +383,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\Device\Core\Scripting\CLuaBinds.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CSceneScripting.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\CUIScriptEditor.h" />
+    <ClInclude Include="SSWELib\Device\Core\Scripting\math\CMatrix4.h" />
     <ClInclude Include="SSWELib\Device\Core\Scripting\math\CVector3d.h" />
     <ClInclude Include="SSWELib\Device\Monitor\MonitorRegister.h" />
     <ClInclude Include="SSWELib\GUIExtension\CodeEditor\CGUICodeEditor.h" />

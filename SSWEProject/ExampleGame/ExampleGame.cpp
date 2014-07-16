@@ -175,6 +175,8 @@ public:
 		if (!node)
 			exit(0);
 
+		devices->getXEffect()->setUseMotionBlur(true);
+
 		devices->getMonitorRegister()->getMonitor(0)->setRenderingFullTraitement(true);
 		devices->getEventReceiver()->AddEventReceiver(this, 0, this);
 	}

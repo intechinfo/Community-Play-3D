@@ -213,9 +213,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	useMotionBlur = false;
 	motionBlur->getCallback()->m_time = device->getTimer()->getTime();
 	motionBlur->getCallback()->m_Strength = 0.f;
-	if (smgr->getActiveCamera())
-		lastCameraRotation = smgr->getActiveCamera()->getRotation();
-	lastTimeRotationDiff = device->getTimer()->getTime();
 
     //DEPTH OF FIELD
 	useDOF = false;
@@ -568,17 +565,8 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
         driver->updateAllOcclusionQueries(true);
 	}
 
-	if (useMotionBlur) { //&& smgr->getActiveCamera() == FPSCamera) {
-
-		core::vector3df camRotationDiff = smgr->getActiveCamera()->getRotation() - lastCameraRotation;
-		lastTimeRotationDiff = device->getTimer()->getTime() - lastTimeRotationDiff;
-		if (abs(camRotationDiff.X) > 50 || abs(camRotationDiff.Y) > 50 || abs(camRotationDiff.Z) > 50) {
-			motionBlur->getCallback()->m_Strength = (0.8f * (camRotationDiff.Y / (lastTimeRotationDiff / 10.f))) / (360.f / (lastTimeRotationDiff / 10.f));
-		} else {
-			motionBlur->getCallback()->m_Strength = 0.2f;
-		}
-		lastCameraRotation = smgr->getActiveCamera()->getRotation();
-		lastTimeRotationDiff = device->getTimer()->getTime();
+	if (useMotionBlur) {
+		motionBlur->getCallback()->m_Strength = 0.2f;
 
 		motionBlur->render();
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);

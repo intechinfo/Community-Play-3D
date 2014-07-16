@@ -17,7 +17,17 @@ namespace scripting {
 
 #include <SSWELib.h>
 
+irr::core::vector3df *checkVector3df(lua_State *L, int n, bool error = true);
 void SSWE_LIB_API bindVector3df(lua_State *L);
+
+#define VECTOR3DF_CHECK_ARGUMENTS(argc, L) \
+	if (lua_gettop(L) != argc) return 0; \
+
+#define VECTOR3DF_CHECK_VECTORS(v1, v2) \
+	if (!v1 || !v2) return 0; \
+
+#define VECTOR3DF_CHECK_VECTOR(v) \
+	if (!v) return 0;
 
 } // End namespace scripting
 } // End namespace cp3d
