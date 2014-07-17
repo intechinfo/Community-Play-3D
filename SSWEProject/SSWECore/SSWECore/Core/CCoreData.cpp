@@ -184,7 +184,7 @@ array<ISceneNode *> CCoreData::getArrayOfObjectNodes() {
 	return nodes;
 }
 
-array<ISceneNode *> &CCoreData::getArrayOfLightNodes() {
+array<ISceneNode *> CCoreData::getArrayOfLightNodes() {
 	array<ISceneNode *> nodes;
 
 	for (u32 i=0; i < lightsData.size(); i++) {

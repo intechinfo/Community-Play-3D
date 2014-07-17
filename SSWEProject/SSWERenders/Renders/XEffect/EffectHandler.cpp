@@ -585,8 +585,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 			driver->turnLightOn(g, false);
 
         /// LightScatteringPass is the scene nodes array
-		for(u32 i = 0;i < LightScatteringPass.size();++i)
-		{
+		for(u32 i = 0;i < LightScatteringPass.size();++i) {
 			if (!LightScatteringPass[i]->isVisible())
 				continue;
             /// Create configurations array

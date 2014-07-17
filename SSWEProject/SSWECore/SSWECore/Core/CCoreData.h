@@ -879,7 +879,7 @@ public:
 	array<ISceneNode *> getArrayOfTerrainNodes();
 	array<ISceneNode *> getArrayOfTreeNodes();
 	array<ISceneNode *> getArrayOfObjectNodes();
-	array<ISceneNode *> &getArrayOfLightNodes();
+	array<ISceneNode *> getArrayOfLightNodes();
 	array<ISceneNode *> getArrayOfVolumeLightNodes();
 	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
 

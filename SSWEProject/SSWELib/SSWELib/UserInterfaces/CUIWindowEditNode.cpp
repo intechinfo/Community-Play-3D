@@ -1532,6 +1532,17 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					ILiquidBody *lbody = devices->getBulletWorld()->addLiquidBody(vector3df(-5000,0,5000), 
 																				  aabbox3df(0, -10000, 0, 10000, 0, 10000),
 																				  500.0f, 200.0f);
+
+					lbody->setCurrentDirection(vector3df(0,0,0));
+					lbody->setGlobalWaveChangeIncrement(0.01f);
+					lbody->setGlobalWaveUpdateFrequency(1.0f);
+					lbody->setMaxGlobalWaveHeight(4.0f);
+					lbody->setMinGlobalWaveHeight(-1.0f);
+					lbody->setLocalWaveValues(10,1,0.5f);
+					lbody->setInfinite(true);
+					lbody->setInfiniteDepth(true);
+					lbody->setLiquidDensity(0.1f);
+
 					sdatat->setBodyType(ISData::EIPT_LIQUID_BODY);
 					sdatat->setPBodyPtr(lbody);
 					pMasseb->setEnabled(false);

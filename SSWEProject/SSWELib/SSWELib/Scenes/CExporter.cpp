@@ -424,6 +424,8 @@ void CExporter::exporterWaterSurfaces() {
 		shaderPackagePath.remove(devices->getWorkingDirectory().c_str());
 		fprintf(export_file, "\t\t\t <shaderPackagePath value=\"%s\" />\n", shaderPackagePath.c_str());
 
+		exportPhysics("\t\t\t", node);
+
 		fprintf(export_file, "\t\t </waterSurface>\n\n");
 	}
 }

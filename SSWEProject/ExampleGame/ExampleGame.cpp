@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
 	//CUpdate *updater = new CUpdate(devices);
 
 	/// Load our occlusion test class
-	COcclusionTest *occlusioNTest = new COcclusionTest(devices);
+	//COcclusionTest *occlusioNTest = new COcclusionTest(devices);
 
 	/// Update our device
 	/// Let CP3D updating the device, it will optimize everything for us :-)

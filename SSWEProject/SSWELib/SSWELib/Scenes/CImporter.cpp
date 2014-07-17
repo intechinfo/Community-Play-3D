@@ -170,6 +170,7 @@ void CImporter::buildObject() {
 
 	if (path == "cube") {
 		node = (IAnimatedMeshSceneNode *)smgr->addCubeSceneNode(50.f);
+		devices->getSceneManager()->getMeshManipulator()->recalculateNormals(((IMeshSceneNode*)node)->getMesh(), true);
 	} else if (path == "sphere") {
 		node = (IAnimatedMeshSceneNode *)smgr->addSphereSceneNode();
 	} else if (path == "hillPlaneMesh") {
@@ -407,6 +408,9 @@ void CImporter::buildWaterSurface() {
 
 		devices->getCollisionManager()->setCollisionFromBoundingBox(waterSurface->getWaterSceneNode());
 		SWaterSurfacesData wsdata(waterSurface, callback, shaderPackagePath, meshPath);
+
+		readPhysics(&wsdata);
+
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}
 
@@ -839,6 +843,22 @@ void CImporter::readPhysics(SData *data) {
 		if (shape != 0) {
 			IRigidBody *rbody = devices->getBulletWorld()->addRigidBody(shape);
 
+			irr::f32 t = 0.5f;
+            irr::f32 buoyancy = 10.8f;
+
+            irr::core::array<SBuoyancyPoint> points;
+
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,t,-t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,t,-t), buoyancy));
+
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,-t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,-t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,-t,-t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,-t,-t), buoyancy));
+			rbody->setBuoyancyPoints(points);
+
 			if (!devices->isOnlyForPlaying()) {
 				rbody->setActivationState(EAS_DISABLE_DEACTIVATION);
 				rbody->forceActivationState(EAS_DISABLE_DEACTIVATION);
@@ -849,8 +869,26 @@ void CImporter::readPhysics(SData *data) {
 			data->setPBodyPtr(rbody);
 		}
 	}
-	if (ptype == ISData::EIPT_SOFT_BODY) {
+	else if (ptype == ISData::EIPT_SOFT_BODY) {
 
+	}
+	else if (ptype == ISData::EIPT_LIQUID_BODY) {
+		ILiquidBody *lbody = devices->getBulletWorld()->addLiquidBody(vector3df(-5000,0,5000), 
+																	  aabbox3df(0, -10000, 0, 10000, 0, 10000),
+																	  2000.0f, 200.0f);
+
+		lbody->setCurrentDirection(vector3df(0.f, 0.f, 0.f));
+		lbody->setGlobalWaveChangeIncrement(0.1f);
+		lbody->setGlobalWaveUpdateFrequency(1.0f);
+		lbody->setMaxGlobalWaveHeight(4.0f);
+		lbody->setMinGlobalWaveHeight(-1.f);
+		lbody->setLocalWaveValues(10, 1, 0.5f);
+		lbody->setInfinite(true);
+		lbody->setInfiniteDepth(true);
+		lbody->setLiquidDensity(0.1f);
+
+		data->setBodyType(ISData::EIPT_LIQUID_BODY);
+		data->setPBodyPtr(lbody);
 	}
 
 	read("body");
