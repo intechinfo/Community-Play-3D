@@ -159,8 +159,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu->addItem(L"Add a billboard", CXT_MENU_EVENTS_ADD_BILL_BOARD);
 	submenu->addItem(L"Edit Skybox", -1, true, true);
 	skyboxMenu = submenu->getSubMenu(4);
-	skyboxMenu->addItem(L"Enable", CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYBOX, true, false, false, false);
-	skyboxMenu->addItem(L"Edit...", -1);
+	skyboxMenu->addItem(L"Enable", CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYBOX, true, false, true, false);
+	skyboxMenu->addItem(L"Edit...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYBOX);
 	skyboxMenu->addItem(L"Edit Materials...", -1);
 	submenu = menu->getSubMenu(i-1);
 	submenu->addItem(L"Edit Skydome", -1, true, true);
@@ -449,6 +449,12 @@ void CUIContextMenu::update() {
 }
 
 void CUIContextMenu::playExampleGame() {
+	stringc currentPath = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(devices->getWorkingDirectory().c_str());
+
+	bool isDrawingEffects = devices->isXEffectDrawable();
+	devices->setXEffectDrawable(false);
+
 	CExporter *exporter = new CExporter(devices);
 	exporter->exportScene(stringc(devices->getProjectName() + "_test.world").c_str());
 
@@ -460,6 +466,9 @@ void CUIContextMenu::playExampleGame() {
 	path += devices->getProjectName();
 	path += "_test.world";
 	system(path.c_str());
+
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(currentPath);
+	devices->setXEffectDrawable(isDrawingEffects);
 }
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
@@ -1177,7 +1186,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				case CXT_MENU_EVENTS_PLAY_GAME: {
                     #ifdef _IRR_WINDOWS_API_
 					std::thread t(&CUIContextMenu::playExampleGame, *this);
-					t.detach();
+					t.join();
 					#else
 					playExampleGame();
 					#endif

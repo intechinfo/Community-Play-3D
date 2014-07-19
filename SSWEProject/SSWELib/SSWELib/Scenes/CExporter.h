@@ -42,6 +42,8 @@ private:
 	void exportVolumeLights();
 	void exporterWaterSurfaces();
 
+	void exportSkybox();
+
 	//INFORMATIONS EXPORTERS
 	void exportMaterials(stringc tabs, ISceneNode *node);
 	void exportTransformations(stringc tabs, ISceneNode *node);

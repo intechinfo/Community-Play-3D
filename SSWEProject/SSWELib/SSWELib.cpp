@@ -43,18 +43,20 @@ void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
 	coreUserInterface->getDevices()->setSkydome(skydome);
     skydome->setVisible(false);
 
-	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, false);
-	ISceneNode* skyboxNode = smgr->addSkyBoxSceneNode(
-		driver->getTexture("data/Lights/glacier_up.png"),
-		driver->getTexture("data/Lights/glacier_dn.png"),
-		driver->getTexture("data/Lights/glacier_lf.png"),
-		driver->getTexture("data/Lights/glacier_rt.png"),
-		driver->getTexture("data/Lights/glacier_ft.png"),
-		driver->getTexture("data/Lights/glacier_bk.png"));
-	driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, true);
-	skyboxNode->setName("editor:skydome");
-	coreUserInterface->getDevices()->setSkyBox(skyboxNode);
-    skyboxNode->setVisible(true);
+	if (!coreUserInterface->getDevices()->getSkyBox()) {
+		driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, false);
+		ISceneNode* skyboxNode = smgr->addSkyBoxSceneNode(
+			driver->getTexture("data/Lights/glacier_up.png"),
+			driver->getTexture("data/Lights/glacier_dn.png"),
+			driver->getTexture("data/Lights/glacier_lf.png"),
+			driver->getTexture("data/Lights/glacier_rt.png"),
+			driver->getTexture("data/Lights/glacier_ft.png"),
+			driver->getTexture("data/Lights/glacier_bk.png"));
+		driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, true);
+		skyboxNode->setName("editor:skydome");
+		coreUserInterface->getDevices()->setSkyBox(skyboxNode);
+		skyboxNode->setVisible(true);
+	}
 
 	//ADD CLOUDS SYSTEM
 	CCloudSceneNode *cloudLayer1 = new scene::CCloudSceneNode(smgr->getRootSceneNode(), coreUserInterface->getDevices()->getRenderingSceneManager());

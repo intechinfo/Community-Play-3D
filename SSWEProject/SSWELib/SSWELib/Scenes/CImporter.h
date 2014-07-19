@@ -60,6 +60,8 @@ private:
 	void buildVolumeLight();
 	void buildWaterSurface();
 
+	void buildSkybox();
+
 	//BUILDING CONFIGURATIONS
 	void readConfig();
 	void readEffects();

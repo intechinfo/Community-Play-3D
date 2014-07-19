@@ -20,17 +20,17 @@ public:
 		vd = GlobalContext::DeviceContext.GetVideoDriver();
 
 		const SColor white(255, 255, 255, 255);
-		vertices[0].Pos = vector3df(-1, 1, 0);
-		vertices[0].TCoords = vector2df(0, 0);
+		vertices[0].Pos = vector3df(-1.f, 1.f, 0.f);
+		vertices[0].TCoords = vector2df(0.f, 0.f);
 		vertices[0].Color = white;
-		vertices[1].Pos = vector3df(1, 1, 0);
-		vertices[1].TCoords = vector2df(1, 0);
+		vertices[1].Pos = vector3df(1.f, 1.f, 0.f);
+		vertices[1].TCoords = vector2df(1.f, 0.f);
 		vertices[1].Color = white;
-		vertices[2].Pos = vector3df(1, -1, 0);
-		vertices[2].TCoords = vector2df(1, 1);
+		vertices[2].Pos = vector3df(1.f, -1.f, 0.f);
+		vertices[2].TCoords = vector2df(1.f, 1.f);
 		vertices[2].Color = white;
-		vertices[3].Pos = vector3df(-1, -1, 0);
-		vertices[3].TCoords = vector2df(0, 1);
+		vertices[3].Pos = vector3df(-1.f, -1.f, 0.f);
+		vertices[3].TCoords = vector2df(0.f, 1.f);
 		vertices[3].Color = white;
 		indices[0] = 0;
 		indices[1] = 1;

@@ -10,13 +10,52 @@
 
 #include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 
+const char *CP3D_VERTEX_SHADER_TEMPLATE =
+"float4x4 worldViewProj;\n"
+"\n"
+"struct VertexShaderOutput {\n"
+"    float4 Position : POSITION0;\n"
+"    float4 TexCoords : TEXCOORD0;\n"
+"};\n"
+"struct VertexShaderInput {\n"
+"    float4 Position : POSITION0;\n"
+"    float4 TexCoords : TEXCOORD0;\n"
+"};\n"
+"\n"
+"VertexShaderOutput vertexMain(VertexShaderInput input) {\n"
+"    VertexShaderOutput output = (VertexShaderOutput)0;\n"
+"    \n"
+"    output.Position = mul(input.Position, worldViewProj);\n"
+"    output.TexCoords = input.TexCoords;\n"
+"    \n"
+"    return output;\n"
+"}\n"
+;
+
+const char *CP3D_PIXEL_SHADER_TEMPLATE =
+"sampler2D DiffuseSampler : register(s0);\n"
+"\n"
+"float4x4 worldViewProj;\n"
+"\n"
+"struct VertexShaderOutput {\n"
+"    float4 Position : POSITION0;\n"
+"    float4 TexCoords : TEXCOORD0;\n"
+"};\n"
+"\n"
+"float4 pixelMain(VertexShaderOutput input) : COLOR0 {\n"
+"    float4 color = tex2D(DiffuseSampler, input.TexCoords);\n"
+"\n"
+"    return color;\n"
+"}\n"
+;
+
 CShaderCallback::CShaderCallback() {
     material = 0;
     name = "";
     
-	constants = "";
-    vertexShader = "";
-    pixelShader = "";
+	constants = "vmatrix4 worldViewProj proj[0] view[0] world[0] 0\n";
+    vertexShader = CP3D_VERTEX_SHADER_TEMPLATE;
+    pixelShader = CP3D_PIXEL_SHADER_TEMPLATE;
     
     nullMatrix *= 0;
 }

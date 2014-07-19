@@ -34,7 +34,7 @@ void CImporter::readWithNextElement(std::string node, std::string nextNode) {
     if (element != node && element != nextNode) {
         while (xmlReader && element != node && element != nextNode && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            //printf("current element : %s\n", element.c_str());
+            printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -45,7 +45,7 @@ void CImporter::read(std::string node) {
     if (element != node) {
         while (xmlReader && element != node && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            //printf("current element : %s\n", element.c_str());
+            printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -414,6 +414,32 @@ void CImporter::buildWaterSurface() {
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}
 
+}
+
+void CImporter::buildSkybox() {
+	if (!devices->getSkyBox()) {
+		devices->getVideoDriver()->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, false);
+		ISceneNode* skyboxNode = smgr->addSkyBoxSceneNode(
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_up.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_dn.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_lf.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_rt.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_ft.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_bk.png"));
+		devices->getVideoDriver()->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, true);
+		skyboxNode->setName("editor:skydome");
+		devices->setSkyBox(skyboxNode);
+		skyboxNode->setVisible(true);
+	}
+
+	u32 i=0;
+	read("texture");
+	while (element == "texture") {
+		stringc path = xmlReader->getAttributeValue("path");
+		devices->getSkyBox()->getMaterial(i).setTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+		readWithNextElement("texture", "skybox");
+		i++;
+	}
 }
 
 //---------------------------------------------------------------------------------------------
@@ -877,7 +903,7 @@ void CImporter::readPhysics(SData *data) {
 																	  aabbox3df(0, -10000, 0, 10000, 0, 10000),
 																	  2000.0f, 200.0f);
 
-		lbody->setCurrentDirection(vector3df(0.f, 0.f, 0.f));
+		lbody->setCurrentDirection(vector3df(10.f, 0.f, 0.f));
 		lbody->setGlobalWaveChangeIncrement(0.1f);
 		lbody->setGlobalWaveUpdateFrequency(1.0f);
 		lbody->setMaxGlobalWaveHeight(4.0f);
@@ -981,6 +1007,8 @@ void CImporter::newImportScene(stringc file_path) {
 			buildWaterSurface();
 		else if (element == "volumeLight")
 			buildVolumeLight();
+		else if (element == "skybox")
+			buildSkybox();
 
 
 		currentElementNumber++;

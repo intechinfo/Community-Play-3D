@@ -379,20 +379,6 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 				E_SHADOW_LIGHT_TYPE lightType = LightList[l].getLightType();
 				bool computeLight=mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1;
 
-				/*if (!computeLight) {
-					if (lightType == ESLT_SPOT || lightType == ESLT_DIRECTIONAL) {
-						if (mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1)
-							computeLight = true;
-						else
-							computeLight = false;
-					} else {
-						if (ll == LightList[l].getCurrentPass() && mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1)
-							computeLight = true;
-						else
-							computeLight = false;
-					}
-				}*/
-
 				if (computeLight) {
 					depthMC->FarLink = LightList[l].getShadowLight(ll).getFarValue();
 
@@ -834,14 +820,6 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 	//HDR PIPELINE
 	if (useHDR) {
-		/*ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)],
-					HDRProcessedRT);
-		driver->setRenderTarget(outputTarget, true, true, ClearColour);
-		quad->SetTexture(HDRProcessedRT);
-		quad->Render(false);*/
-
-		//driver->setRenderTarget(outputTarget, true, true, ClearColour);
-		//ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)]);
 
 		ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)], HDRProcessedRT);
 

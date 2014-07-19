@@ -173,6 +173,12 @@ public:
 
 	/// Retunrs if the normal pass is used
 	virtual bool isUsingNormalPass() = 0;
+
+	/// Set if use the HDR pass
+	virtual void setUseHDRPass(bool use) = 0;
+
+	/// Returns if the HDR pass is used
+	virtual bool isUsingHDRPass() = 0;
     
 };
 
