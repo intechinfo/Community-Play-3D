@@ -49,7 +49,7 @@ public:
 		worldView *= driver->getTransform(video::ETS_VIEW);
 		services->setVertexShaderConstant("cWorldView", worldView.pointer(), 16);
 
-		services->setVertexShaderConstant("cFarDistance", &FarLink, 1);
+		services->setPixelShaderConstant("cFarDistance", &FarLink, 1);
 	}
 
 	EffectHandler* effect;

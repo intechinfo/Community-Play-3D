@@ -978,6 +978,8 @@ private:
 
 	IPostProcessMotionBlur *motionBlur;
 	bool useMotionBlur;
+	irr::core::vector3df lastCameraRotation;
+	irr::u32 lastTimeRotationDiff;
 
 	//HDR PIPELINE
 	bool useHDR;

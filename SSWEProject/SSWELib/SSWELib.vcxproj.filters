@@ -516,6 +516,9 @@
     <ClCompile Include="SSWELib\UserInterfaces\Options\CUIHDRManager.cpp">
       <Filter>SSWELib\UserInterfaces\Options</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\Device\Core\Scripting\math\CMatrix4.cpp">
+      <Filter>SSWELib\Device\Core\Scripting\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -934,6 +937,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\Options\CUIHDRManager.h">
       <Filter>SSWELib\UserInterfaces\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Core\Scripting\math\CMatrix4.h">
+      <Filter>SSWELib\Device\Core\Scripting\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

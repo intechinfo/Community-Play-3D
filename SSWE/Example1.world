@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="3" />
+		 <numberOfObjects value="2" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-22.550272" Y="132.441254" Z="115.082550" />
-			 <rotation X="33.434444" Y="191.428711" Z="0.000000" />
+			 <position X="168.722107" Y="118.611618" Z="105.350555" />
+			 <rotation X="7.598874" Y="221.785828" Z="0.000000" />
 
 		 </camera>
 
@@ -30,7 +30,7 @@
 
 		 </fpsCameraSettings>
 
-		 <depthPassEnabled enabled="0" />
+		 <depthPassEnabled enabled="1" />
 		 <lightScaterringPassEnabled enabled="0" />
 		 <reflectionPassEnabled enabled="0" />
 
@@ -427,10 +427,10 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
 vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
-vfloat fLightStrength1 100
-vfloat fLightStrength2 100
-vfloat fLightStrength3 100
-vfloat fLightStrength4 100
+vfloat fLightStrength1 150
+vfloat fLightStrength2 150
+vfloat fLightStrength3 150
+vfloat fLightStrength4 150
 
 vvector3df fvLightPosition1 -210 284 190
 vvector3df fvLightPosition2 -210 284 190
@@ -444,8 +444,8 @@ pSColor fvLight3Color 1 0.02 0.02 0.02
 pSColor fvLight4Color 1 0.02 0.02 0.02
 
 pfloat fSpecularPower 20
-pfloat fSpecularStrength 1.9
-pfloat fBumpStrength 5
+pfloat fSpecularStrength 0.9
+pfloat fBumpStrength 10
 " />
 			 </materialType>
 
@@ -471,7 +471,7 @@ pfloat fBumpStrength 5
 
 			 <path file="data/turbo/subway/ecleposs subway opj  xsi.obj" />
 
-			 <type esnt="mesh" />
+			 <type esnt="mesh" tangents="0" />
 
 			 <factory> 
 
@@ -5339,89 +5339,12 @@ pfloat fBumpStrength 5
 
 		 </terrain>
 
-		 <object>
-
-			 <path file="hillPlaneMesh" />
-
-			 <name c8name="#object:smoke_plan" />
-
-			 <factory> 
-
-				 <meshFactory>
-				 <tangents value="0" />
-				 <normals value="0" />
-				 <angleWeighted value="0" />
-				 <smooth value="0" />
-				 </meshFactory>
-				 <planarMapping>
-				 <planarMapped value="1" />
-				 <planarMappedValue value="0.002000" />
-				 </planarMapping>
-
-			 </factory> 
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="shaders/textures/fire/noise01.png" />
-						 <texture id="1" path="shaders/textures/fire/noise01.png" />
-						 <texture id="2" path="shaders/textures/lf/sun.png" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 </materials>
-			 <position X="-54.076736" Y="0.478241" Z="-15.431221" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="0.149490" Y="0.433333" Z="0.293235" />
-
-			<depthPassed value="0" />
-			<lightScatteringPassed value="0" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="0" />
-			 <actions>
-			 </actions>
-
-			 <physics>
-			 	 <body type="0">
-			 	 </body>
-			 </physics>
-
-		 </object>
-
 		 <light>
 
 			 <name c8name="#light:new_light" />
 
 			 <position X="-210.260284" Y="284.056213" Z="190.476028" />
-			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+			 <target X="118.845703" Y="327.081299" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
@@ -5431,10 +5354,24 @@ pfloat fBumpStrength 5
 			 <farValue value="1000.000000" />
 			 <autoRecalculate value="1" />
 
-			 <shadows resol="4096" />
+			 <shadows resol="1024" />
 
 			 <lensFlare>
-			 </lensFlare>
+				 <mesh> 
+					 <scale X="0.000000" Y="0.000000" Z="0.000000" />
+					 <texture path="" />
+				 </mesh> 
+				 <bill> 
+					 <size Width="1.000000" Height="1.000000" />
+					 <texture path="" />
+				 </bill> 
+				 <lfsn> 
+					 <strength value="0.000000" />
+					 <texture path="" />
+					 <falseOcclusion value="0" />
+				 </lfsn> 
+				 <position X="0.000000" Y="0.000000" Z="0.000000" />
+ 			 </lensFlare>
 
 		 </light>
 

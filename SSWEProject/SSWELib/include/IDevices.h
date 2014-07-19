@@ -9,6 +9,7 @@
 #include <ISSWERender.h>
 #include <IGUICodeEditor.h>
 #include <IAnimationController.h>
+#include <IMonitorRegisterer.h>
 
 class IDevices {
 
@@ -107,6 +108,8 @@ public:
 	virtual irr::SKeyMap getKeyMap(int i) = 0;
 	virtual void setKeyMap(irr::SKeyMap _keyMap, int i) = 0;
 	virtual void applyKeyMapOnFPSCamera() = 0;
+
+	virtual IMonitorRegisterer *getMonitorRegister() = 0;
 };
 
 

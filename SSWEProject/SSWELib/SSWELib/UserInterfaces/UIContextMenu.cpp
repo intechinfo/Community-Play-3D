@@ -47,7 +47,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	menu->addItem(L"Edit", -1, true, true);
 	menu->addItem(L"View", -1, true, true);
 	menu->addItem(L"Animators", -1, true, true);
-	menu->addItem(L"Renders", -1, true, true);
+	s32 cmRenderingID = menu->addItem(L"Rendering", -1, true, true);
     menu->addItem(L"Scene", -1, true, true);
 	menu->addItem(L"Factory", -1, true, true);
 	menu->addItem(L"Scripting", -1, true, true);
@@ -111,7 +111,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//RENDERS
     submenu = menu->getSubMenu(i);
-    submenu->addItem(L"Post Processes", -1, true, true);
+    s32 cmPostProcessesID = submenu->addItem(L"Post Processes", -1, true, true);
 	submenu->addItem(L"Effects", -1, true, true);
     submenu = submenu->getSubMenu(0);
 	submenu->addItem(L"Draw Full Post-Traitement", CXT_MENU_EVENTS_RENDERS_DRAW_FULL_PT, true, false, devices->isRenderingFullPostTraitements(), true);
@@ -159,8 +159,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu->addItem(L"Add a billboard", CXT_MENU_EVENTS_ADD_BILL_BOARD);
 	submenu->addItem(L"Edit Skybox", -1, true, true);
 	skyboxMenu = submenu->getSubMenu(4);
-	skyboxMenu->addItem(L"Enable", CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYBOX, true, false, false, false);
-	skyboxMenu->addItem(L"Edit...", -1);
+	skyboxMenu->addItem(L"Enable", CXT_MENU_EVENTS_NODE_FACTORY_ENABLE_SKYBOX, true, false, true, false);
+	skyboxMenu->addItem(L"Edit...", CXT_MENU_EVENTS_NODE_FACTORY_EDIT_SKYBOX);
 	skyboxMenu->addItem(L"Edit Materials...", -1);
 	submenu = menu->getSubMenu(i-1);
 	submenu->addItem(L"Edit Skydome", -1, true, true);
@@ -212,6 +212,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 		}
 	}
 	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(devices->getWorkingDirectory());
+
+	//FILL MENUS
+	renderingMenu = menu->getSubMenu(cmRenderingID);
+	postProcessesMenu = renderingMenu->getSubMenu(cmPostProcessesID);
     //-----------------------------------
 
     //-----------------------------------
@@ -321,9 +325,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"LTest.world";
+			stringw scene_to_import = L"Test.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			//impoterInstance->importScene(scene_to_import.c_str());
+			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -405,6 +409,10 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
 
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
+
+	//nodeFactory->createLightSceneNode();
+	//nodeFactory->createPlaneMeshSceneNode();
+	//nodeFactory->createCubeSceneNode()->setPosition(vector3df(0, 25, 0));
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -434,9 +442,19 @@ void CUIContextMenu::update() {
 
 	comboModecb->setRelativePosition(rect<s32>(infosBar->getRelativePosition().getWidth()-200, infosBar->getRelativePosition().UpperLeftCorner.Y+5,
 											   infosBar->getRelativePosition().getWidth(), infosBar->getRelativePosition().UpperLeftCorner.Y+25));
+
+	postProcessesMenu->setItemChecked(postProcessesMenu->findItemWithCommandId(CXT_MENU_EVENTS_ALLOW_REFLECTION_PASS, 0), devices->getXEffect()->isReflectionPassEnabled());
+	postProcessesMenu->setItemChecked(postProcessesMenu->findItemWithCommandId(CXT_MENU_EVENTS_ALLOW_LIGHT_SCATTERING_PASS, 0), devices->getXEffect()->isLightScatteringPassEnabled());
+	postProcessesMenu->setItemChecked(postProcessesMenu->findItemWithCommandId(CXT_MENU_EVENTS_ALLOW_NORMAL_PASS, 0), devices->getXEffect()->isUsingNormalPass());
 }
 
 void CUIContextMenu::playExampleGame() {
+	stringc currentPath = devices->getDevice()->getFileSystem()->getWorkingDirectory().c_str();
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(devices->getWorkingDirectory().c_str());
+
+	bool isDrawingEffects = devices->isXEffectDrawable();
+	devices->setXEffectDrawable(false);
+
 	CExporter *exporter = new CExporter(devices);
 	exporter->exportScene(stringc(devices->getProjectName() + "_test.world").c_str());
 
@@ -448,6 +466,9 @@ void CUIContextMenu::playExampleGame() {
 	path += devices->getProjectName();
 	path += "_test.world";
 	system(path.c_str());
+
+	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(currentPath);
+	devices->setXEffectDrawable(isDrawingEffects);
 }
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
@@ -1165,7 +1186,7 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				case CXT_MENU_EVENTS_PLAY_GAME: {
                     #ifdef _IRR_WINDOWS_API_
 					std::thread t(&CUIContextMenu::playExampleGame, *this);
-					t.detach();
+					t.join();
 					#else
 					playExampleGame();
 					#endif

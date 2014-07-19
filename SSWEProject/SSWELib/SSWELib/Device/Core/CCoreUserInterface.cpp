@@ -37,7 +37,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 			params.Fullscreen = false;
 		} else {
 			params.WindowSize = dimension2d<u32>(1280, 800);
-			params.Fullscreen = true;
+			params.Fullscreen = false;
 		}
     #endif
 	params.WithAlphaChannel = false;

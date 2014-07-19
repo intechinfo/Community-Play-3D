@@ -37,14 +37,20 @@ RealisticWaterSceneNode::RealisticWaterSceneNode(scene::ISceneManager* sceneMana
 	//create new camera
 	_camera = sceneManager->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0, 0, 0), -1, false);
 
-	_waterMesh = sceneManager->addHillPlaneMesh("RealisticWater", _size,
+	/*_waterMesh = sceneManager->addHillPlaneMesh("RealisticWater", _size,
 												core::dimension2d<u32>(1, 1),
 												0, 0.f,
 												core::dimension2df(0.f, 0.f),
-												core::dimension2df(1.f, 1.f));
+												core::dimension2df(1.f, 1.f));*/
+	_waterMesh = sceneManager->addHillPlaneMesh("RealisticWater",
+												core::dimension2d<f32>(20.f, 20.f),
+												core::dimension2d<u32>(40.f, 40.f), 0, 0,
+												core::dimension2d<f32>(0.f, 0.f),
+												core::dimension2d<f32>(1.f, 1.f));
 
-	_waterSceneNode = sceneManager->addMeshSceneNode(_waterMesh->getMesh(0), this);
-	//_waterSceneNode = sceneManager->addWaterSurfaceSceneNode(_waterMesh->getMesh(0), 3.0f, 300.0f, 1.0f, this);
+	//_waterSceneNode = sceneManager->addMeshSceneNode(_waterMesh->getMesh(0), this);
+	_waterSceneNode = sceneManager->addWaterSurfaceSceneNode(_waterMesh->getMesh(0), 3.0f, 600.0f, 1.0f, this);
+	_waterSceneNode->setScale(core::vector3df(1.f, 1.f, 1.f));
 
 	video::IGPUProgrammingServices* GPUProgrammingServices = _videoDriver->getGPUProgrammingServices();
 

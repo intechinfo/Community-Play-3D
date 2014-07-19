@@ -62,6 +62,10 @@ void CExporter::exportScene(stringc file_path) {
 	//-----------------------------------WATER SURFACES--------------------------------------------
 	//---------------------------------------------------------------------------------------------
 	exporterWaterSurfaces();
+	//---------------------------------------------------------------------------------------------
+	//-----------------------------------SKYBOX----------------------------------------------------
+	//---------------------------------------------------------------------------------------------
+	exportSkybox();
     //---------------------------------------------------------------------------------------------
 	//-----------------------------------FINISH EXPORTATION----------------------------------------
 	//---------------------------------------------------------------------------------------------
@@ -424,8 +428,25 @@ void CExporter::exporterWaterSurfaces() {
 		shaderPackagePath.remove(devices->getWorkingDirectory().c_str());
 		fprintf(export_file, "\t\t\t <shaderPackagePath value=\"%s\" />\n", shaderPackagePath.c_str());
 
+		exportPhysics("\t\t\t", node);
+
 		fprintf(export_file, "\t\t </waterSurface>\n\n");
 	}
+}
+
+void CExporter::exportSkybox() {
+	if (!devices->getSkyBox())
+		return;
+
+	fprintf(export_file, "\t\t <skybox>\n\n");
+	
+	for (u32 i=0; i < devices->getSkyBox()->getMaterialCount(); i++) {
+		stringc path = devices->getSkyBox()->getMaterial(i).TextureLayer[0].Texture->getName().getPath();
+		path = path.remove(devices->getWorkingDirectory());
+		fprintf(export_file, "\t\t\t <texture path=\"%s\" />\n", path.c_str());
+	}
+
+	fprintf(export_file, "\t\t </skybox>\n\n");
 }
 
 //CONFIGS

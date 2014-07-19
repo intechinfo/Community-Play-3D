@@ -213,6 +213,9 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	useMotionBlur = false;
 	motionBlur->getCallback()->m_time = device->getTimer()->getTime();
 	motionBlur->getCallback()->m_Strength = 0.f;
+	if (smgr->getActiveCamera())
+		lastCameraRotation = smgr->getActiveCamera()->getRotation();
+	lastTimeRotationDiff = device->getTimer()->getTime();
 
     //DEPTH OF FIELD
 	useDOF = false;
@@ -378,6 +381,20 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 				bool mustRecalculate = LightList[l].getShadowLight(ll).mustRecalculate() || LightList[l].getShadowLight(ll).isAutoRecalculate();
 				E_SHADOW_LIGHT_TYPE lightType = LightList[l].getLightType();
 				bool computeLight=mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1;
+
+				/*if (!computeLight) {
+					if (lightType == ESLT_SPOT || lightType == ESLT_DIRECTIONAL) {
+						if (mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1)
+							computeLight = true;
+						else
+							computeLight = false;
+					} else {
+						if (ll == LightList[l].getCurrentPass() && mustRecalculate && LightList[l].getShadowLight(ll).getShadowMapResolution() > 1)
+							computeLight = true;
+						else
+							computeLight = false;
+					}
+				}*/
 
 				if (computeLight) {
 					depthMC->FarLink = LightList[l].getShadowLight(ll).getFarValue();
@@ -551,8 +568,17 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
         driver->updateAllOcclusionQueries(true);
 	}
 
-	if (useMotionBlur) {
-		motionBlur->getCallback()->m_Strength = 0.2f;
+	if (useMotionBlur) { //&& smgr->getActiveCamera() == FPSCamera) {
+
+		core::vector3df camRotationDiff = smgr->getActiveCamera()->getRotation() - lastCameraRotation;
+		lastTimeRotationDiff = device->getTimer()->getTime() - lastTimeRotationDiff;
+		if (abs(camRotationDiff.X) > 50 || abs(camRotationDiff.Y) > 50 || abs(camRotationDiff.Z) > 50) {
+			motionBlur->getCallback()->m_Strength = (0.8f * (camRotationDiff.Y / (lastTimeRotationDiff / 10.f))) / (360.f / (lastTimeRotationDiff / 10.f));
+		} else {
+			motionBlur->getCallback()->m_Strength = 0.2f;
+		}
+		lastCameraRotation = smgr->getActiveCamera()->getRotation();
+		lastTimeRotationDiff = device->getTimer()->getTime();
 
 		motionBlur->render();
 		driver->setRenderTarget(ScreenQuad.rt[1], true, true, ClearColour);
@@ -571,7 +597,8 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 			driver->turnLightOn(g, false);
 
         /// LightScatteringPass is the scene nodes array
-		for(u32 i = 0;i < LightScatteringPass.size();++i) {
+		for(u32 i = 0;i < LightScatteringPass.size();++i)
+		{
 			if (!LightScatteringPass[i]->isVisible())
 				continue;
             /// Create configurations array
@@ -820,6 +847,14 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 	//HDR PIPELINE
 	if (useHDR) {
+		/*ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)],
+					HDRProcessedRT);
+		driver->setRenderTarget(outputTarget, true, true, ClearColour);
+		quad->SetTexture(HDRProcessedRT);
+		quad->Render(false);*/
+
+		//driver->setRenderTarget(outputTarget, true, true, ClearColour);
+		//ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)]);
 
 		ppm->Render(PostProcessingRoutinesSize == 0 && !rtTest ? ScreenRTT : ScreenQuad.rt[int(Alter)], HDRProcessedRT);
 

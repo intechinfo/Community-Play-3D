@@ -214,7 +214,10 @@ private:
 
 	//-----------------------------------
 	//GUI ELEMENTS
-	IGUIContextMenu *menu, *submenu, *monitorsMenu;
+	IGUIContextMenu *menu, *submenu;
+	IGUIContextMenu *monitorsMenu;
+	IGUIContextMenu *renderingMenu, *postProcessesMenu;
+
 	IGUIToolBar *bar, *infosBar;
 
 	IGUIButton *ibposition, *ibrotation, *ibscale;

@@ -34,7 +34,7 @@ void CImporter::readWithNextElement(std::string node, std::string nextNode) {
     if (element != node && element != nextNode) {
         while (xmlReader && element != node && element != nextNode && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            //printf("current element : %s\n", element.c_str());
+            printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -45,7 +45,7 @@ void CImporter::read(std::string node) {
     if (element != node) {
         while (xmlReader && element != node && xmlReader->read()) {
             element = xmlReader->getNodeName();
-            //printf("current element : %s\n", element.c_str());
+            printf("current element : %s\n", element.c_str());
         }
     }
 }
@@ -95,7 +95,7 @@ void CImporter::buildTerrain() {
 		/*node = smgr->addOctreeSceneNode(mesh, 0, -1, (numberOfVertices % minPolysPerNode == 0) ?
 													 numberOfVertices/(minPolysPerNode+1)
 													 : numberOfVertices/minPolysPerNode);*/
-        mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
+        mesh->setHardwareMappingHint(EHM_DYNAMIC, EBT_VERTEX_AND_INDEX);
 		node = smgr->addOctreeSceneNode(mesh, 0, -1, minPolysPerNode);
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
@@ -105,7 +105,7 @@ void CImporter::buildTerrain() {
 		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
 			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, true, true, false, true);
 		}
-        mesh->setHardwareMappingHint(EHM_STATIC, EBT_VERTEX_AND_INDEX);
+		mesh->setHardwareMappingHint(EHM_DYNAMIC, EBT_VERTEX_AND_INDEX);
 		node = smgr->addMeshSceneNode(mesh, 0, -1);
 	}
 
@@ -170,6 +170,7 @@ void CImporter::buildObject() {
 
 	if (path == "cube") {
 		node = (IAnimatedMeshSceneNode *)smgr->addCubeSceneNode(50.f);
+		devices->getSceneManager()->getMeshManipulator()->recalculateNormals(((IMeshSceneNode*)node)->getMesh(), true);
 	} else if (path == "sphere") {
 		node = (IAnimatedMeshSceneNode *)smgr->addSphereSceneNode();
 	} else if (path == "hillPlaneMesh") {
@@ -406,9 +407,38 @@ void CImporter::buildWaterSurface() {
 
 		devices->getCollisionManager()->setCollisionFromBoundingBox(waterSurface->getWaterSceneNode());
 		SWaterSurfacesData wsdata(waterSurface, callback, shaderPackagePath, meshPath);
+
+		readPhysics(&wsdata);
+
 		devices->getCoreData()->getWaterSurfaces()->push_back(wsdata);
 	}
 
+}
+
+void CImporter::buildSkybox() {
+	if (!devices->getSkyBox()) {
+		devices->getVideoDriver()->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, false);
+		ISceneNode* skyboxNode = smgr->addSkyBoxSceneNode(
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_up.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_dn.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_lf.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_rt.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_ft.png"),
+			devices->getVideoDriver()->getTexture("data/Lights/glacier_bk.png"));
+		devices->getVideoDriver()->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, true);
+		skyboxNode->setName("editor:skydome");
+		devices->setSkyBox(skyboxNode);
+		skyboxNode->setVisible(true);
+	}
+
+	u32 i=0;
+	read("texture");
+	while (element == "texture") {
+		stringc path = xmlReader->getAttributeValue("path");
+		devices->getSkyBox()->getMaterial(i).setTexture(0, devices->getVideoDriver()->getTexture(path.c_str()));
+		readWithNextElement("texture", "skybox");
+		i++;
+	}
 }
 
 //---------------------------------------------------------------------------------------------
@@ -839,6 +869,22 @@ void CImporter::readPhysics(SData *data) {
 		if (shape != 0) {
 			IRigidBody *rbody = devices->getBulletWorld()->addRigidBody(shape);
 
+			irr::f32 t = 0.5f;
+            irr::f32 buoyancy = 10.8f;
+
+            irr::core::array<SBuoyancyPoint> points;
+
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,t,-t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,t,-t), buoyancy));
+
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,-t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,-t,t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(-t,-t,-t), buoyancy));
+            points.push_back(SBuoyancyPoint(irr::core::vector3df(t,-t,-t), buoyancy));
+			rbody->setBuoyancyPoints(points);
+
 			if (!devices->isOnlyForPlaying()) {
 				rbody->setActivationState(EAS_DISABLE_DEACTIVATION);
 				rbody->forceActivationState(EAS_DISABLE_DEACTIVATION);
@@ -849,8 +895,26 @@ void CImporter::readPhysics(SData *data) {
 			data->setPBodyPtr(rbody);
 		}
 	}
-	if (ptype == ISData::EIPT_SOFT_BODY) {
+	else if (ptype == ISData::EIPT_SOFT_BODY) {
 
+	}
+	else if (ptype == ISData::EIPT_LIQUID_BODY) {
+		ILiquidBody *lbody = devices->getBulletWorld()->addLiquidBody(vector3df(-5000,0,5000), 
+																	  aabbox3df(0, -10000, 0, 10000, 0, 10000),
+																	  2000.0f, 200.0f);
+
+		lbody->setCurrentDirection(vector3df(10.f, 0.f, 0.f));
+		lbody->setGlobalWaveChangeIncrement(0.1f);
+		lbody->setGlobalWaveUpdateFrequency(1.0f);
+		lbody->setMaxGlobalWaveHeight(4.0f);
+		lbody->setMinGlobalWaveHeight(-1.f);
+		lbody->setLocalWaveValues(10, 1, 0.5f);
+		lbody->setInfinite(true);
+		lbody->setInfiniteDepth(true);
+		lbody->setLiquidDensity(0.1f);
+
+		data->setBodyType(ISData::EIPT_LIQUID_BODY);
+		data->setPBodyPtr(lbody);
 	}
 
 	read("body");
@@ -943,6 +1007,8 @@ void CImporter::newImportScene(stringc file_path) {
 			buildWaterSurface();
 		else if (element == "volumeLight")
 			buildVolumeLight();
+		else if (element == "skybox")
+			buildSkybox();
 
 
 		currentElementNumber++;

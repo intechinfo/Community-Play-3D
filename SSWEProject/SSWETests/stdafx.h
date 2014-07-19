@@ -20,3 +20,4 @@
 
 #include "../Lua52/include/lua.hpp"
 #include "../SSWELib/Device/Core/Scripting/math/CVector3d.h"
+#include "../SSWELib/Device/Core/Scripting/math/CMatrix4.h"

@@ -90,7 +90,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>.\SSWECore.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories>$(SolutionDir)Irrlicht\Irrlicht180\Output;$(SolutionDir)Lua52\;$(SolutionDir)SPARK\libs\;$(SolutionDir)SSWERenders\Output\;$(SolutionDir)Bullet\libs\;$(SolutionDir)OhmSDK\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Irrlicht_d.lib;SSWERenders_d.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Irrlicht_d.lib;SSWERenders_d.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;lua52.lib;OhmSDK_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

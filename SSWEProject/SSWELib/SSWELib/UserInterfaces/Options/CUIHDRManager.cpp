@@ -75,19 +75,22 @@ CUIHDRManager::CUIHDRManager(CDevices *_devices) {
 	fillField(1, devices->getXEffect()->getHDRManager()->getGaussianCoefficient());
 	fillField(2, devices->getXEffect()->getHDRManager()->getGaussianMean());
 	fillField(3, devices->getXEffect()->getHDRManager()->getGaussianStandardDeviation());
-	fillField(4, devices->getXEffect()->getHDRManager()->getExprosure());
 	fillField(5, devices->getXEffect()->getHDRManager()->getMinimumLuminance());
 
+	hdrStructs[4].valuebar->setMax(3000.f);
+	hdrStructs[4].divider = 1000.f;
+	fillField(4, devices->getXEffect()->getHDRManager()->getExprosure());
+
 	hdrStructs[6].valuebar->setMax(1e20f);
-	hdrStructs[6].divider = 1;
+	hdrStructs[6].divider = 1.f;
 	fillField(6, devices->getXEffect()->getHDRManager()->getMaximumLuminance());
 
 	hdrStructs[7].valuebar->setMax(100);
-	hdrStructs[7].divider = 1;
+	hdrStructs[7].divider = 1.f;
 	fillField(7, devices->getXEffect()->getHDRManager()->getLuminanceIncreaseRate());
 	
 	hdrStructs[8].valuebar->setMax(100);
-	hdrStructs[8].divider = 1;
+	hdrStructs[8].divider = 1.f;
 	fillField(8, devices->getXEffect()->getHDRManager()->getLumnanceDecreaseRate());
 
 	//-----------------------------------
@@ -108,9 +111,11 @@ bool CUIHDRManager::OnEvent(const SEvent &event) {
 
 	if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGDT_WINDOW_CLOSE) {
-			hdrStructs.clear();
-			devices->getEventReceiver()->RemoveEventReceiver(this);
-			delete this;
+			if (event.GUIEvent.Caller == window) {
+				hdrStructs.clear();
+				devices->getEventReceiver()->RemoveEventReceiver(this);
+				delete this;
+			}
 		}
 
 		if (event.GUIEvent.EventType == EGET_SCROLL_BAR_CHANGED) {

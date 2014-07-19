@@ -12,14 +12,14 @@
 #include "stdafx.h"
 #include "CCore.h"
 
-//LUA
+/// Lua
 #include "../Lua52/include/lua.hpp"
 
-//SHADERS
+/// Shaders
 #include "../../../SSWELib/SSWELib/Renders/XEffect/Interfaces/CShaderCallback.h"
 #include "../../../SSWERenders/Renders/XEffect/EffectCB.h"
 
-//NODES
+/// Nodes
 #include "../../../SSWELib/SSWELib/SceneNodes/Clouds/CloudSceneNode.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/LensFlareSceneNode.h"
 #include "../../../SSWELib/SSWELib/SceneNodes/SceneNodeAnimatorFollowCamera.h"
@@ -28,17 +28,26 @@
 
 #include "../../../SSWELib/SSWELib/SceneNodes/WaterSurface/RealisticWater.h"
 
-//EXTRAS
+/// Extras & Animations
 #include "../../../SSWELib/SSWELib/CharacterEdition/CAction.h"
 
-//SCENARIOS
+/// Scenarios
 #include "CScenarioData.h"
 
-//INTERFACES AND PLUGINS
+/// Interfaces & plugins
 #include <IMonitor.h>
 #include <ISSWECoreData.h>
 
 #include "CCorePhysics.h"
+
+/// Ohm FL!P
+#pragma once
+#if defined (_MSC_VER)
+   #pragma warning (4 : 4250) // "Inherits via dominance."
+#endif
+
+#include "ohm/flip/Object.h"
+#include "ohm/flip/TxSessionGuard.h"
 
 class ISSWELibPlugin;
 
@@ -52,7 +61,8 @@ struct SData : public ISData {
 		SData(0, 0, "", ESNT_UNKNOWN);
 	}
 
-	SData(ISceneNode *_node, IMesh *_mesh, stringc _path, ESCENE_NODE_TYPE _type) {
+	SData(ISceneNode *_node, IMesh *_mesh, stringc _path, ESCENE_NODE_TYPE _type)
+	{
 		/// Standard
 		node = _node;
 		mesh = _mesh;
@@ -180,11 +190,6 @@ private:
 
 	/// Clones
 	ISceneNodeList clonedNodes;
-
-	/// Physics
-	bool enablePhysics;
-	E_ISDATA_PHYSIC_TYPE bodyType;
-	void *pBodyPtr;
 
 	/// Primitives
 	bool isTangentRecalculated;
@@ -441,10 +446,14 @@ private:
 
 struct SObjectsData : SData {
 
-	SObjectsData() : SData(0, 0, "", ESNT_UNKNOWN) {
+	/// SObject data constructor
+	SObjectsData()
+		: SData(0, 0, "", ESNT_UNKNOWN)
+	{
 		SObjectsData(0, 0, "");
 	}
 
+	/// SObject data constructor one shot
 	SObjectsData(IMesh *_mesh, ISceneNode *_node, stringw _path)
 		: SData(_node, _mesh, _path, ESNT_ANIMATED_MESH)
 	{

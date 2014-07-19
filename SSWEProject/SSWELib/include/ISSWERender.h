@@ -167,6 +167,18 @@ public:
 
 	/// Get the HDR manager performed by the CP3D rendering pipeline
 	virtual IHDRManager *getHDRManager() = 0;
+
+	/// Sets if use normal pass
+	virtual void setUseNormalPass(bool use) = 0;
+
+	/// Retunrs if the normal pass is used
+	virtual bool isUsingNormalPass() = 0;
+
+	/// Set if use the HDR pass
+	virtual void setUseHDRPass(bool use) = 0;
+
+	/// Returns if the HDR pass is used
+	virtual bool isUsingHDRPass() = 0;
     
 };
 
