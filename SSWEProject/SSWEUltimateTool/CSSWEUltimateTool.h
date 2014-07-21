@@ -18,9 +18,8 @@ include DLLExport.h to precise how the createSSWELibPlugin will be compiled
 #include <irrlicht.h>
 
 #include <ISSWELibPlugin.h>
-#include <DLLExport.h>
 
-class CSSWEUltimateTool : ISSWELibPlugin {
+class CSSWEUltimateTool : public ISSWELibPlugin {
 public:
 
 	/// Constructor of the class
@@ -30,11 +29,11 @@ public:
 
 	/// Method to handle events into the plugin
 	/// Herited from irrlicht irr::IEventReceiver
-	virtual bool OnEvent(const SEvent &event);
+	bool OnEvent(const SEvent &event);
 
 	/// update method to update the current plugin.
 	/// Here, we update the window relative positions
-	virtual void update();
+	void update();
 
 	//-----------------------------------
 	//ISSWELibPlugin
@@ -84,6 +83,9 @@ private:
 
 	/// Primitives
 	irr::gui::IGUIButton *splitSelectedNodeButton;
+
+	/// Sound
+	irr::gui::IGUIButton *soundViewerButton;
 
 	/// Quit button
 	irr::gui::IGUIButton *quitButton;

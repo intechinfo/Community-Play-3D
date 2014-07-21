@@ -3,6 +3,8 @@
 
 #include <irrlicht.h>
 
+#include <IAudioManager.h>
+
 #include <ISSWECore.h>
 #include <ISSWERender.h>
 
@@ -77,8 +79,6 @@ public:
     
     //-----------------------------------
 	//METHODS
-	virtual void clearAllTheArrays() = 0;
-	virtual void clear() = 0;
     
     virtual irr::core::array<irr::core::stringw> getSceneNodeAnimatorsNames(irr::IrrlichtDevice *_device, irr::u32 idx=0) = 0;
     virtual irr::u32 getAmountOfSceneNodeAnimators() = 0;
@@ -87,6 +87,7 @@ public:
 	virtual irr::core::array<irr::scene::IMesh *> getAllMeshes() = 0;
     
     virtual void removeSceneNode(irr::scene::ISceneNode *node, ISSWERender *effect) = 0;
+
     virtual ISData *copySDataOfSceneNode(irr::scene::ISceneNode *node) = 0;
 	virtual ISData *getISDataOfSceneNode(irr::scene::ISceneNode *node) = 0;
 	//-----------------------------------
@@ -95,21 +96,24 @@ public:
 	//GET IRRLICHT NODES
 	//TERRAINS
 	virtual irr::u32 getTerrainsCount() = 0;
-	virtual void addTerrainNode(irr::scene::ISceneNode *node, 
-								irr::scene::IMesh *mesh,
+
+	virtual void addTerrainNode(irr::scene::ISceneNode *node, irr::scene::IMesh *mesh,
 								irr::core::stringw path,
 								irr::scene::E_TERRAIN_PATCH_SIZE patchSize) = 0;
-	virtual void addTerrainNode(irr::scene::ISceneNode *node, 
-								irr::scene::IMesh *mesh,
+
+	virtual void addTerrainNode(irr::scene::ISceneNode *node, irr::scene::IMesh *mesh,
 								irr::core::stringw path,
 								irr::u32 minPolysPerNode = 0) = 0;
     
 	//TREES
-	/// Trees here
+	/// Vegetation here
     
 	//OBJECTS
 	virtual irr::u32 getObjectNodeIndice(irr::scene::ISceneNode *node) = 0;
+
 	virtual void addObjectNode(irr::scene::ISceneNode *node, irr::scene::IMesh *mesh, irr::core::stringw path) = 0;
+
+	virtual irr::u32 getObjectCount() = 0;
     
 	//LIGHTS
 	/// Lights here
@@ -135,6 +139,8 @@ public:
 	//-----------------------------------
 	//PLUGINS
 	virtual void destroySSWEPlugin(ISSWELibPlugin *plugin) = 0;
+
+	virtual cp3d::audio::IAudioManager *getAudioManager(irr::s32 index) = 0;
 	//-----------------------------------
     
 };

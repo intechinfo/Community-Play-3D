@@ -11,9 +11,11 @@
 #endif
 
 #include "Stdafx.h"
+#include <DLLExport.h>
 #include "CSSWEUltimateTool.h"
 
 #include "SSWEUltimateTool/UserInterfaces/OpenSCAD/CSSWEUTOpenSCADDocument.h"
+#include "SSWEUltimateTool/UserInterfaces/SoundViewer/CSSWEUTSoundViewer.h"
 
 #include <thread>
 #include <mutex>
@@ -27,8 +29,8 @@ using namespace video;
 
 /// Create the extern method to return a new instance of the plugin (heritates ISSWELibPlugin)
 /// The constructor must have any arguments and must be casted as void * (as explained in the DLLExport.h header
-void* createSSWELibPlugin() {
-	return static_cast< void* > (new CSSWEUltimateTool);
+ISSWELibPlugin* createSSWELibPlugin() {
+	return new CSSWEUltimateTool();
 }
 
 /// Constructor
@@ -116,9 +118,12 @@ void CSSWEUltimateTool::open() {
 	splitSelectedNodeButton = this->addButton(L"Split Mesh into different nodes", devices->getVideoDriver()->getTexture(workingDirectory
 		+ "datas/SSWEUltimateTool/GUI/primitives_split.png"));
 
+	this->addArea(L"Sound");
+	soundViewerButton = this->addButton(L"Sound Viewer", devices->getVideoDriver()->getTexture(workingDirectory + "datas/SSWEUltimateTool/GUI/sound_viewer.png"));
+
 	quitButton = gui->addButton(rect<s32>(0, 110, 80, 130), window, -1, L"Quit", L"Quit the Ultimate Tool");
 
-	//OPEN PLUGIN
+	//FINISH PLUGIN
 	ISSWELibPlugin::open();
 
 }
@@ -296,6 +301,10 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 					}
 					//devices->getCoreData()->removeSceneNode(data->getNode(), devices->getXEffect());
 				}*/
+			} else
+
+			if (event.GUIEvent.Caller == soundViewerButton) {
+				CSoundViewer *soundViewer = new CSoundViewer(devices, workingDirectory);
 			} else
 
 			//QUIT BUTTON

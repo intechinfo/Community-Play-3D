@@ -36,18 +36,10 @@
 
 /// Interfaces & plugins
 #include <IMonitor.h>
+#include <IAudioManager.h>
 #include <ISSWECoreData.h>
 
 #include "CCorePhysics.h"
-
-/// Ohm FL!P
-#pragma once
-#if defined (_MSC_VER)
-   #pragma warning (4 : 4250) // "Inherits via dominance."
-#endif
-
-#include "ohm/flip/Object.h"
-#include "ohm/flip/TxSessionGuard.h"
 
 class ISSWELibPlugin;
 
@@ -818,6 +810,50 @@ private:
     #endif
 };
 
+//AUDIO PLUGINS
+struct SAudioPlugin {
+public:
+
+	#ifdef _IRR_WINDOWS_API_
+	SAudioPlugin(stringc name, HINSTANCE _hdll) {
+	#else
+	SAudioPlugin(stringc name, void *_hdll) {
+	#endif
+		hdll = _hdll;
+	}
+
+	void setAudioManager(cp3d::audio::IAudioManager *_manager) { manager = _manager; }
+	cp3d::audio::IAudioManager *getAudioManager() { return manager; }
+
+	stringc getName() { return name; }
+	void setName(stringc _name) { name = _name; }
+
+	void freeInstance() {
+		if (hdll) {
+            #ifdef _IRR_WINDOWS_API_
+			FreeLibrary(hdll);
+            #else
+            dlclose(hdll);
+            #endif
+		}
+	}
+
+	#ifdef _IRR_WINDOWS_API_
+	HINSTANCE getInstance() { return hdll; }
+	#else
+	void *getInstance() { return hdll; }
+	#endif
+
+private:
+	cp3d::audio::IAudioManager *manager;
+	stringc name;
+	#ifdef _IRR_WINDOWS_API_
+	HINSTANCE hdll;
+	#else
+	void *hdll;
+	#endif
+};
+
 //---------------------------------------------------------------------------------------------
 //----------------------------------SCENARIO DATAS---------------------------------------------
 //---------------------------------------------------------------------------------------------
@@ -924,6 +960,7 @@ public:
 
 	//OBJECTS
 	array<SObjectsData> *getObjectsData() { return &objectsData; }
+
 	array<SData> *getObjectsSData() {
 		array<SData> *datas = new array<SData>();
 		for (u32 i=0; i < objectsData.size(); i++)
@@ -931,10 +968,14 @@ public:
 
 		return datas;
 	}
+
 	u32 getObjectNodeIndice(ISceneNode *node);
+
 	void addObjectNode(ISceneNode *node, IMesh *mesh, stringw path) {
 		objectsData.push_back(SObjectsData(mesh, node, path));
 	}
+
+	irr::u32 getObjectCount() { return objectsData.size(); }
 
 	//LIGHTS
 	array<SLightsData> *getLightsData() { return &lightsData; }
@@ -1001,9 +1042,12 @@ public:
 	//PLUGINS
 	array<SMonitor> *getMonitors() { return &monitors; }
     array<SSSWEPlugin> *getSSWEPlugins() { return &sswePlugins; }
+	array<SAudioPlugin> *getAudioPlugins() { return &audioPlugins; }
 
     void destroyMonitor(IMonitor *monitor);
     void destroySSWEPlugin(ISSWELibPlugin *plugin);
+
+	cp3d::audio::IAudioManager *getAudioManager(irr::s32 index) { return audioPlugins[index].getAudioManager(); }
 	//-----------------------------------
 
 private:
@@ -1054,6 +1098,7 @@ private:
 	//PLUGINS
 	array<SMonitor> monitors;
     array<SSSWEPlugin> sswePlugins;
+	array<SAudioPlugin> audioPlugins;
 	//-----------------------------------
 
 };

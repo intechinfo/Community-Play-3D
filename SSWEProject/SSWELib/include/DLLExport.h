@@ -7,10 +7,18 @@
 
 #pragma once
 
+class ISSWELibPlugin;
+class IMonitor;
+
+namespace cp3d {
+	namespace audio {
+		class IAudioManager;
+	}
+}
+
 //MONITOR EXPORTS
 #ifndef MONITOR_DLL_EXPORTS_H
 #define MONITOR_DLL_EXPORTS_H
-
 #ifdef __dll__
 #define MONITOR_EXPORT __declspec(dllexport)
 #else
@@ -18,9 +26,9 @@
 #endif
 
 #ifndef _IRR_LINUX_PLATFORM_
-extern "C" MONITOR_EXPORT void* createMonitor();
+extern "C" MONITOR_EXPORT IMonitor* createMonitor();
 #else
-extern "C" void* createMonitor();
+extern "C" IMonitor* createMonitor();
 #endif
 
 #endif
@@ -36,9 +44,26 @@ extern "C" void* createMonitor();
 #endif
 
 #ifndef _IRR_LINUX_PLATFORM_
-extern "C" SSWELIB_EXPORT void* createSSWELibPlugin();
+extern "C" SSWELIB_EXPORT ISSWELibPlugin *createSSWELibPlugin();
 #else
-extern "C" void* createSSWELibPlugin();
+extern "C" ISSWELibPlugin *createSSWELibPlugin();
+#endif
+
+//AUDIO EXPORTS
+#ifndef AUDIO_DLL_EXPORTS_H
+#define AUDIO_DLL_EXPORTS_H
+#ifdef __dll__
+#define AUDIO_EXPORT __declspec(dllexport)
+#else
+#define AUDIO_EXPORT __declspec(dllimport)
+#endif
+
+#ifndef _IRR_LINUX_PLATFORM_
+extern "C" AUDIO_EXPORT cp3d::audio::IAudioManager* createAudioManager();
+#else
+extern "C" cp3d::audio::IAudioManager* createAudioManager();
+#endif
+
 #endif
 
 #endif

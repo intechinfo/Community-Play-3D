@@ -33,6 +33,12 @@ public:
 		workingDirectory = _workingDirectory;
 	}
 
+	/// update method, called every loop
+	virtual void update() = 0;
+
+	/// Event receiver
+	virtual bool OnEvent(const SEvent &event) = 0;
+
 	/// Called after the CP3D has built the plugin's instance
 	/// open() is used to initialize elements like GUI elements, scene nodes, etc.
 	virtual void open() {
@@ -44,8 +50,8 @@ public:
 	/// Then, you can free the memory yourself
 	virtual void close() {
 		devices->getEventReceiver()->RemoveEventReceiver(this);
-		devices->getCoreData()->destroySSWEPlugin(this);
 		delete this;
+		//devices->getCoreData()->destroySSWEPlugin(this);
 	}
 
 protected:

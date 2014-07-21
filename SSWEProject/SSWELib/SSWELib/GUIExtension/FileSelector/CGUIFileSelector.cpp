@@ -819,7 +819,7 @@ void CGUIFileSelector::populatePCDrives()
 	wchar_t dr_avail[1024];
 	wchar_t *temp=dr_avail;
 
-	GetLogicalDriveStrings(32,dr_avail);
+	GetLogicalDriveStrings(32, dr_avail);
 	while(*temp!=NULL) { // Split the buffer by null
 		dr_type=GetDriveType((LPWSTR)temp);
 		switch(dr_type) {

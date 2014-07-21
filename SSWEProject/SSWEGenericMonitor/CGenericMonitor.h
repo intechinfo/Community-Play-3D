@@ -12,7 +12,6 @@
 #include <irrlicht.h>
 
 #include <IMonitor.h>
-#include <DLLExport.h>
 
 class CGenericMonitor : public IMonitor {
 public:

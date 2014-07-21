@@ -941,6 +941,15 @@
     <ClInclude Include="SSWELib\Device\Core\Scripting\math\CMatrix4.h">
       <Filter>SSWELib\Device\Core\Scripting\math</Filter>
     </ClInclude>
+    <ClInclude Include="include\IAudioElement.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAudioManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAudioElement3D.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

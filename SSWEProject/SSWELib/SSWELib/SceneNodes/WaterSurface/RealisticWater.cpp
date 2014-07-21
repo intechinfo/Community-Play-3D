@@ -192,7 +192,7 @@ void RealisticWaterSceneNode::OnAnimate(u32 timeMs)
 
 		setVisible(true); //show it again
         
-        _videoDriver->setRenderTarget(_originalRenderTarget, true, true, SColor(0,0,0,0));
+        _videoDriver->setRenderTarget(_originalRenderTarget, true, true, video::SColor(0,0,0,0));
 	}
 }
 

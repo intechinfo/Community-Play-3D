@@ -347,6 +347,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
   <ItemGroup>
     <ClInclude Include="include\DLLExport.h" />
     <ClInclude Include="include\IAnimationController.h" />
+    <ClInclude Include="include\IAudioElement.h" />
+    <ClInclude Include="include\IAudioElement3D.h" />
+    <ClInclude Include="include\IAudioManager.h" />
     <ClInclude Include="include\ICollisionManager.h" />
     <ClInclude Include="include\IDevices.h" />
     <ClInclude Include="include\IGraphicTool.h" />

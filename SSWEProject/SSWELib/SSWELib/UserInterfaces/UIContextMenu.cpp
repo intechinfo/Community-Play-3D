@@ -11,6 +11,8 @@
 
 #include "../CharacterEdition/CUICharacterManager.h"
 
+cp3d::audio::IAudioElement *element;
+
 CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     devices = _devices;
 
@@ -36,6 +38,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	#else
         pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
         pluginsManager->loadSSWEPlugin("LIBSSWEULTIMATETOOL");
+	#endif
+
+	#ifndef SSWE_RELEASE
+	pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager_d.dll");
+	#else
+	pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager.dll");
 	#endif
 
     //-----------------------------------
@@ -420,6 +428,7 @@ CUIContextMenu::~CUIContextMenu() {
 }
 
 void CUIContextMenu::update() {
+
 	if (devices->getContextName() == "General") {
 		if (mainWindowInstance->getMainWindow()->isVisible())
 			mainWindowInstance->getMainWindow()->setVisible(true);

@@ -903,7 +903,7 @@ void CImporter::readPhysics(SData *data) {
 																	  aabbox3df(0, -10000, 0, 10000, 0, 10000),
 																	  2000.0f, 200.0f);
 
-		lbody->setCurrentDirection(vector3df(10.f, 0.f, 0.f));
+		lbody->setCurrentDirection(vector3df(0.f, 0.f, 0.f));
 		lbody->setGlobalWaveChangeIncrement(0.1f);
 		lbody->setGlobalWaveUpdateFrequency(1.0f);
 		lbody->setMaxGlobalWaveHeight(4.0f);

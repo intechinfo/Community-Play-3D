@@ -22,6 +22,9 @@
     <Filter Include="SSWEUltimateTools\UserInterfaces\OpenSCAD">
       <UniqueIdentifier>{34980cd9-d4d2-448a-9394-bd97990e2789}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWEUltimateTools\UserInterfaces\SoundViewer">
+      <UniqueIdentifier>{7bee6be8-70cd-4270-b012-91a34f1e2f7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -36,6 +39,12 @@
     <ClInclude Include="SSWEUltimateTool\UserInterfaces\OpenSCAD\CSSWEUTOpenSCADDocument.h">
       <Filter>SSWEUltimateTools\UserInterfaces\OpenSCAD</Filter>
     </ClInclude>
+    <ClInclude Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CSSWEUTSoundViewer.h">
+      <Filter>SSWEUltimateTools\UserInterfaces\SoundViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CGUISpectrum.h">
+      <Filter>SSWEUltimateTools\UserInterfaces\SoundViewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -46,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="SSWEUltimateTool\UserInterfaces\OpenSCAD\CSSWEUTOpenSCADDocument.cpp">
       <Filter>SSWEUltimateTools\UserInterfaces\OpenSCAD</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CSSWEUTSoundViewer.cpp">
+      <Filter>SSWEUltimateTools\UserInterfaces\SoundViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CGUISpectrum.cpp">
+      <Filter>SSWEUltimateTools\UserInterfaces\SoundViewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
