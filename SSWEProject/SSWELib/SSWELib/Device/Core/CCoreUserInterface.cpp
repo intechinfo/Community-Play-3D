@@ -148,7 +148,7 @@ ISSWEImporter *CCoreUserInterface::createImporter() {
 	return (ISSWEImporter*)(new CImporter(devices));
 }
 
-IMonitor *CCoreUserInterface::addMonitor(irr::core::stringc path) {
+cp3d::video::IMonitor *CCoreUserInterface::addMonitor(irr::core::stringc path) {
 	u32 existingNb = devices->getCoreData()->getMonitors()->size();
 	pluginsManager->loadMonitorPlugin(path.make_upper().c_str());
 	if (existingNb < devices->getCoreData()->getMonitors()->size())

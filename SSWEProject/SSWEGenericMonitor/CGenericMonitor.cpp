@@ -13,8 +13,8 @@
 
 #include <DLLExport.h>
 
-IMonitor *createMonitor() {
-	return (IMonitor*) new CGenericMonitor();
+cp3d::video::IMonitor *createMonitor() {
+	return (cp3d::video::IMonitor*) new CGenericMonitor();
 }
 
 CGenericMonitor::CGenericMonitor() {

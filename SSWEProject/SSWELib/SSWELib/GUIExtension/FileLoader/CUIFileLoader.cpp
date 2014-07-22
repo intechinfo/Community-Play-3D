@@ -4,9 +4,13 @@
 
 CUIFileLoader::CUIFileLoader(CDevices *_devices) {
     devices = _devices;
+
+	selector = 0;
     
     removeOldTexture = false;
     oldTexture = 0;
+
+	devices->getEventReceiver()->AddEventReceiver(this);
 }
 
 CUIFileLoader::~CUIFileLoader() {
@@ -15,7 +19,6 @@ CUIFileLoader::~CUIFileLoader() {
 
 IGUIFileOpenDialog *CUIFileLoader::create(stringw name, CGUIFileSelector::E_FILESELECTOR_TYPE type, IGUIElement *parent, bool modal) {
     IGUIEnvironment *gui = devices->getGUIEnvironment();
-    devices->getEventReceiver()->AddEventReceiver(this);
     
     //GUI ELEMENTS
 	window = gui->addWindow(rect<s32>(120, 100, 970, 610), false, name.c_str(), 0, -1);

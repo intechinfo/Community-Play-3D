@@ -7,12 +7,15 @@
 
 #pragma once
 
-class ISSWELibPlugin;
-class IMonitor;
-
 namespace cp3d {
 	namespace audio {
 		class IAudioManager;
+	}
+	namespace core {
+		class ISSWELibPlugin;
+	}
+	namespace video {
+		class IMonitor;
 	}
 }
 
@@ -26,9 +29,9 @@ namespace cp3d {
 #endif
 
 #ifndef _IRR_LINUX_PLATFORM_
-extern "C" MONITOR_EXPORT IMonitor* createMonitor();
+extern "C" MONITOR_EXPORT cp3d::video::IMonitor* createMonitor();
 #else
-extern "C" IMonitor* createMonitor();
+extern "C" cp3d::video::IMonitor* createMonitor();
 #endif
 
 #endif
@@ -44,9 +47,9 @@ extern "C" IMonitor* createMonitor();
 #endif
 
 #ifndef _IRR_LINUX_PLATFORM_
-extern "C" SSWELIB_EXPORT ISSWELibPlugin *createSSWELibPlugin();
+extern "C" SSWELIB_EXPORT cp3d::core::ISSWELibPlugin *createSSWELibPlugin();
 #else
-extern "C" ISSWELibPlugin *createSSWELibPlugin();
+extern "C" cp3d::core::ISSWELibPlugin *createSSWELibPlugin();
 #endif
 
 //AUDIO EXPORTS

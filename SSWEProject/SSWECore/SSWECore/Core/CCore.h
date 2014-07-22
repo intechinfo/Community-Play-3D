@@ -74,7 +74,7 @@ enum E_CORE_USER_EVENTS {
 //--------------------------
 //CORE CLASS
 
-class SSWE_CORE_API CCore : public ISSWECore {
+class SSWE_CORE_API CCore : public cp3d::core::ISSWECore {
 
 public:
 
@@ -160,7 +160,7 @@ private:
 //--------------------------
 //MULTIPLE EVENT RECEIVERS CLASS
 
-class EventReceiver : public ISSWEEventsManager {
+class EventReceiver : public cp3d::core::ISSWEEventsManager {
 
 public:
 
@@ -181,7 +181,7 @@ public:
 	}
 
     virtual bool OnEvent(const SEvent& mainEvent) {
-        for (u32 i=0; i < mEventReceivers.size(); ++i) {
+        for (u32 i=0; i < mEventReceivers.size(); i++) {
             mEventReceivers[i]->OnEvent(mainEvent);
 			if (i < mGuiWindows.size()) {
 				if (mGuiWindows[i] && mainEvent.EventType == EET_GUI_EVENT) {
@@ -233,7 +233,7 @@ public:
     }
 
     bool RemoveEventReceiver(IEventReceiver * receiver) {
-        for (unsigned int i=0; i < mEventReceivers.size(); ++i) {
+        for (u32 i=0; i < mEventReceivers.size(); i++) {
             if (mEventReceivers[i] == receiver) {
                 mEventReceivers.erase(i);
 				mGuiWindows.erase(i);
@@ -241,6 +241,7 @@ public:
 					mNames[i]->remove();
 				mNames.erase(i);
 				mEventReceiversUpdate.erase(i);
+				return true;
             }
         }
         return false;

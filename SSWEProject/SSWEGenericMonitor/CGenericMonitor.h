@@ -13,7 +13,7 @@
 
 #include <IMonitor.h>
 
-class CGenericMonitor : public IMonitor {
+class CGenericMonitor : public cp3d::video::IMonitor {
 public:
 
 	CGenericMonitor();

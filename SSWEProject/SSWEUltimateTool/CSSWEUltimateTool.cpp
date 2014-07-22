@@ -29,7 +29,7 @@ using namespace video;
 
 /// Create the extern method to return a new instance of the plugin (heritates ISSWELibPlugin)
 /// The constructor must have any arguments and must be casted as void * (as explained in the DLLExport.h header
-ISSWELibPlugin* createSSWELibPlugin() {
+cp3d::core::ISSWELibPlugin* createSSWELibPlugin() {
 	return new CSSWEUltimateTool();
 }
 
@@ -201,7 +201,7 @@ void CSSWEUltimateTool::buildOpenSCADFromFile() {
 		openscadNode->setName("#object:new_openscad_node");
 		devices->getCollisionManager()->setCollisionFromBoundingBox(openscadNode);
 		devices->getCoreData()->addObjectNode(openscadNode, openscadMesh, "corner");
-		devices->getXEffect()->addShadowToNode(openscadNode, devices->getXEffectFilterType(), ESM_BOTH);
+		devices->getXEffect()->addShadowToNode(openscadNode, devices->getXEffectFilterType(), cp3d::video::ESM_BOTH);
 	}
 
 	remove(stringc(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/test" + uniqName + ".stl").c_str());
@@ -222,7 +222,7 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 				devices->getCoreData()->addObjectNode(suzanne, suzanne->getMesh(), stringw(workingDirectory +
 																				   "datas/SSWEUltimateTool/Models/suzanne.obj")
 																				   .remove(devices->getWorkingDirectory()));
-				devices->getXEffect()->addShadowToNode(suzanne, devices->getXEffectFilterType(), ESM_BOTH);
+				devices->getXEffect()->addShadowToNode(suzanne, devices->getXEffectFilterType(), cp3d::video::ESM_BOTH);
 			} else
 			if (event.GUIEvent.Caller == addCylinderButton) {
 				/// Add a cylnder model
@@ -233,7 +233,7 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 				cylinderNode->setName("#object:new_cylinder_node");
 				devices->getCollisionManager()->setCollisionFromBoundingBox(cylinderNode);
 				devices->getCoreData()->addObjectNode(cylinderNode, cylinderNode->getMesh(), "cylinder");
-				devices->getXEffect()->addShadowToNode(cylinderNode, devices->getXEffectFilterType(), ESM_BOTH);
+				devices->getXEffect()->addShadowToNode(cylinderNode, devices->getXEffectFilterType(), cp3d::video::ESM_BOTH);
 			} else
 			if (event.GUIEvent.Caller == addCornerButton) {
 				/// Add a Corner model
@@ -244,7 +244,7 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 				cornerNode->setName("#object:new_corner_node");
 				devices->getCollisionManager()->setCollisionFromBoundingBox(cornerNode);
 				devices->getCoreData()->addObjectNode(cornerNode, cornerNode->getMesh(), "corner");
-				devices->getXEffect()->addShadowToNode(cornerNode, devices->getXEffectFilterType(), ESM_BOTH);
+				devices->getXEffect()->addShadowToNode(cornerNode, devices->getXEffectFilterType(), cp3d::video::ESM_BOTH);
 			} else
 
 			//OPENSCAD

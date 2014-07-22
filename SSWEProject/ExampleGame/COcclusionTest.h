@@ -3,11 +3,11 @@
 
 #include "stdafx.h"
 
-class COcclusionTest : public irr::IEventReceiver, public IUpdate {
+class COcclusionTest : public irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
 
-	COcclusionTest(IDevices *devices) {
+	COcclusionTest(cp3d::core::IDevices *devices) {
 		this->devices = devices;
 
 		node = devices->getSceneManager()->getSceneNodeFromName("#light:new_light_flare_mesh");
@@ -39,7 +39,7 @@ public:
 
 private:
 
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 	irr::scene::ISceneNode *node;
 
 };

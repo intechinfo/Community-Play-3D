@@ -399,9 +399,9 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
 
 			devices->getGUIEnvironment()->addStaticText(L"Mass :", rect<s32>(9, 93, 63, 113), true, true, physicsTab, -1, true);
 			pMasseb = devices->getGUIEnvironment()->addEditBox(L"0", rect<s32>(63, 93, 233, 113), true, physicsTab, -1);
-			if (sdatat->getBodyType() == ISData::EIPT_LIQUID_BODY) {
+			if (sdatat->getBodyType() == cp3d::core::ISData::EIPT_LIQUID_BODY) {
 				pMasseb->setEnabled(false);
-			} else if (sdatat->getBodyType() == ISData::EIPT_NONE) {
+			} else if (sdatat->getBodyType() == cp3d::core::ISData::EIPT_NONE) {
 				pMasseb->setEnabled(false);
 			} else {
 				pMasseb->setText(stringw(((ICollisionShape*)sdatat->getBodyPtr())->getMass()).c_str());
@@ -1177,7 +1177,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == pMasseb) {
 				SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
 				f32 newMass = devices->getCore()->getF32(pMasseb->getText());
-				if (sdatat->getBodyType() == ISData::EIPT_RIGID_BODY) {
+				if (sdatat->getBodyType() == cp3d::core::ISData::EIPT_RIGID_BODY) {
 					devices->getBulletWorld()->removeCollisionObject((IRigidBody*)sdatat->getBodyPtr(), false);
 					ICollisionShape *newShape = 0;
 
@@ -1197,7 +1197,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 						sdatat->setPBodyPtr(rbody);
 					}
 				}
-				if (sdatat->getBodyType() == ISData::EIPT_SOFT_BODY) {
+				if (sdatat->getBodyType() == cp3d::core::ISData::EIPT_SOFT_BODY) {
 					devices->getBulletWorld()->removeCollisionObject((ISoftBody*)sdatat->getBodyPtr(), false);
 
 				}
@@ -1355,11 +1355,11 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 				SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
 				sdatat->setEnablePhysics(penablePhysics->isChecked());
 				if (!penablePhysics->isChecked()) {
-					if (sdatat->getBodyType() == ISData::EIPT_LIQUID_BODY)
+					if (sdatat->getBodyType() == cp3d::core::ISData::EIPT_LIQUID_BODY)
 						devices->getBulletWorld()->removeLiquidBody((ILiquidBody*)sdatat->getBodyPtr());
 					else
 						devices->getBulletWorld()->removeCollisionObject((ICollisionObject*)sdatat->getBodyPtr(), false);
-					sdatat->setBodyType(ISData::EIPT_NONE);
+					sdatat->setBodyType(cp3d::core::ISData::EIPT_NONE);
 					sdatat->setPBodyPtr(0);
 					pBodyType->setSelected(0);
 				}
@@ -1491,17 +1491,17 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == pBodyType) {
 				pMasseb->setEnabled(true);
 				SData *sdatat = (SData*)devices->getCoreData()->getISDataOfSceneNode(nodeToEdit);
-				if (sdatat->getBodyType() != ISData::EIPT_NONE) {
+				if (sdatat->getBodyType() != cp3d::core::ISData::EIPT_NONE) {
 					//REMOVE HERE
-					if (sdatat->getType() == ISData::EIPT_RIGID_BODY) {
+					if (sdatat->getType() == cp3d::core::ISData::EIPT_RIGID_BODY) {
 						devices->getBulletWorld()->removeCollisionObject((IRigidBody*)sdatat->getBodyPtr(), false);
-					} else if (sdatat->getType() == ISData::EIPT_SOFT_BODY) {
+					} else if (sdatat->getType() == cp3d::core::ISData::EIPT_SOFT_BODY) {
 						devices->getBulletWorld()->removeCollisionObject((ISoftBody*)sdatat->getBodyPtr(), false);
-					} else if (sdatat->getType() == ISData::EIPT_LIQUID_BODY) {
+					} else if (sdatat->getType() == cp3d::core::ISData::EIPT_LIQUID_BODY) {
 						devices->getBulletWorld()->removeLiquidBody((ILiquidBody*)sdatat->getBodyPtr());
 					}
 				}
-				if (pBodyType->getSelected() == ISData::EIPT_RIGID_BODY) {
+				if (pBodyType->getSelected() == cp3d::core::ISData::EIPT_RIGID_BODY) {
 					ICollisionShape *shape = 0;
 
 					if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE) {
@@ -1523,11 +1523,11 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 						rbody->forceActivationState(EAS_DISABLE_DEACTIVATION);
 						rbody->setActivationState(EAS_DISABLE_DEACTIVATION);
 
-						sdatat->setBodyType(ISData::EIPT_RIGID_BODY);
+						sdatat->setBodyType(cp3d::core::ISData::EIPT_RIGID_BODY);
 						sdatat->setPBodyPtr(rbody);
 					}
 				}
-				if (pBodyType->getSelected() == ISData::EIPT_LIQUID_BODY) {
+				if (pBodyType->getSelected() == cp3d::core::ISData::EIPT_LIQUID_BODY) {
 					aabbox3d<f32> box = nodeToEdit->getBoundingBox();
 					ILiquidBody *lbody = devices->getBulletWorld()->addLiquidBody(vector3df(-5000,0,5000), 
 																				  aabbox3df(0, -10000, 0, 10000, 0, 10000),
@@ -1543,19 +1543,19 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					lbody->setInfiniteDepth(true);
 					lbody->setLiquidDensity(0.1f);
 
-					sdatat->setBodyType(ISData::EIPT_LIQUID_BODY);
+					sdatat->setBodyType(cp3d::core::ISData::EIPT_LIQUID_BODY);
 					sdatat->setPBodyPtr(lbody);
 					pMasseb->setEnabled(false);
 				}
-				if (pBodyType->getSelected() == ISData::EIPT_SOFT_BODY) {
+				if (pBodyType->getSelected() == cp3d::core::ISData::EIPT_SOFT_BODY) {
 					if (nodeToEdit->getType() == ESNT_MESH || nodeToEdit->getType() == ESNT_OCTREE || nodeToEdit->getType() == ESNT_CUBE) {
 						ISoftBody *sbody = devices->getBulletWorld()->addSoftBody((IMeshSceneNode*)nodeToEdit);
-						sdatat->setBodyType(ISData::EIPT_SOFT_BODY);
+						sdatat->setBodyType(cp3d::core::ISData::EIPT_SOFT_BODY);
 						sdatat->setPBodyPtr(sbody);
 					}
 				}
-				if (pBodyType->getSelected() == ISData::EIPT_NONE) {
-					sdatat->setBodyType(ISData::EIPT_NONE);
+				if (pBodyType->getSelected() == cp3d::core::ISData::EIPT_NONE) {
+					sdatat->setBodyType(cp3d::core::ISData::EIPT_NONE);
 					sdatat->setPBodyPtr(0);
 				}
 			}

@@ -33,7 +33,7 @@ public:
 
 	bool load(irr::core::stringc path);
 
-	void play();
+	bool play();
 
 	void close();
 

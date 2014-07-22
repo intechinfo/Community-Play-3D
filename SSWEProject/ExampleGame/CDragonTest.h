@@ -3,11 +3,11 @@
 
 #include "stdafx.h"
 
-class CDragonTest : public irr::IEventReceiver, public IUpdate {
+class CDragonTest : public irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
 
-	CDragonTest(IDevices *devices) {
+	CDragonTest(cp3d::core::IDevices *devices) {
 		this->devices = devices;
 		offset = 0;
 		lastTime = 0;
@@ -38,7 +38,7 @@ public:
 
 private:
 
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 	irr::scene::IAnimatedMeshSceneNode *node;
 	irr::scene::IBoneSceneNode *head;
 	

@@ -67,7 +67,7 @@ public:
 		return false;
 	}
 
-	/// returns the IAudioElement at index "index
+	/// Returns the IAudioElement at index "index
 	IAudioElement *getAudioElementAt(irr::s32 index) {
 		IAudioElementList::Iterator it = Elements.begin();
 		irr::u32 cindex = 0;
@@ -78,6 +78,16 @@ public:
 		}
 
 		return 0;
+	}
+
+	/// Returns the Elements list
+	IAudioElementList &getAudioElements() {
+		return Elements;
+	}
+
+	/// Returns the amount of audio elements
+	irr::u32 getAudioCount() {
+		return Elements.size();
 	}
 
 protected:

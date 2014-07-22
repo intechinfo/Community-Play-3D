@@ -158,6 +158,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     submenu->addItem(L"Add Light...", CXT_MENU_EVENTS_SCENE_ADD_LIGHT);
     submenu->addItem(L"Add Volume Light...", CXT_MENU_EVENTS_SCENE_ADD_VOLUME_LIGHT);
     submenu->addItem(L"Add Water Surface...", CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE);
+	submenu->addSeparator();
+	submenu->addItem(L"Audio", -1, false, false, false, false);
+    submenu->addItem(L"Add 3D Sound...", CXT_MENU_EVENTS_SCENE_ADD_3D_SOUND);
 
 	//FACTORY
 	submenu = menu->getSubMenu(i++);
@@ -809,6 +812,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE:
                     mainWindowInstance->openAddWaterSurface();
                     break;
+
+				case CXT_MENU_EVENTS_SCENE_ADD_3D_SOUND: {
+					CUIAddAudioElement *amgr = new CUIAddAudioElement(devices);
+					amgr->open();
+				}
+					break;
 
                 //-----------------------------------
 

@@ -15,15 +15,18 @@ The goal is to have the possibility of making tests in real-time with real-time 
 
 #include <IDevices.h>
 
-class ISSWELibPlugin : irr::IEventReceiver, IUpdate {
+namespace cp3d {
+namespace core {
+
+class ISSWELibPlugin : irr::IEventReceiver, cp3d::core::IUpdate {
 public:
 	/// Sets the CP3D device that can acceed to the irrlicht device
 	/// Cf. IDevices.h
-	void setDevices(IDevices *_devices) {
+	void setDevices(cp3d::core::IDevices *_devices) {
 		devices = _devices;
 	}
 	/// Returns the CP3D device. So far only used by CP3D
-	IDevices *getDevices() {
+	cp3d::core::IDevices *getDevices() {
 		return devices;
 	}
 
@@ -56,10 +59,13 @@ public:
 
 protected:
 	/// Main class that is a more advanced Irrlicht Device
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 
 	/// plugin's working directory (example : C:/my_folder/SSWE/Plugins/SSWE/)
 	irr::core::stringw workingDirectory;
 };
+
+} /// End namespace core
+} /// End namespace cp3d
 
 #endif

@@ -9,7 +9,11 @@
 #include <ISSWERender.h>
 
 #include <ISSWEShaderCallback.h>
+
 class CShaderCallback;
+
+namespace cp3d {
+namespace core {
 
 struct ISData {
 
@@ -86,7 +90,7 @@ public:
 	virtual irr::core::array<irr::scene::ISceneNode *> getAllSceneNodes() = 0;
 	virtual irr::core::array<irr::scene::IMesh *> getAllMeshes() = 0;
     
-    virtual void removeSceneNode(irr::scene::ISceneNode *node, ISSWERender *effect) = 0;
+    virtual void removeSceneNode(irr::scene::ISceneNode *node, video::ISSWERender *effect) = 0;
 
     virtual ISData *copySDataOfSceneNode(irr::scene::ISceneNode *node) = 0;
 	virtual ISData *getISDataOfSceneNode(irr::scene::ISceneNode *node) = 0;
@@ -145,5 +149,7 @@ public:
     
 };
 
+} /// End namespace core
+} /// End namespace cp3d
 
 #endif

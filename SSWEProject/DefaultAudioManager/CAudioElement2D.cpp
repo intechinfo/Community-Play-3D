@@ -41,10 +41,12 @@ bool CAudioElement::load(irr::core::stringc path) {
 	return result == FMOD_OK;
 }
 
-void CAudioElement::play() {
+bool CAudioElement::play() {
 	result = system->playSound(FMOD_CHANNEL_FREE, sound, false, &channel);
 
 	assert(result == FMOD_OK);
+
+	return result == FMOD_OK;
 }
 
 void CAudioElement::getSpectrum(irr::f32 *spectrumTable, irr::s32 numElements) {

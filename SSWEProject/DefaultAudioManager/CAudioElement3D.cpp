@@ -66,6 +66,9 @@ void CAudioElement3D::setPosition(irr::core::vector3df position) {
 	f.normalize();
 	FMOD_VECTOR up = {f.X, f.Z, f.Y};
 
+	FMOD_VECTOR channelPosition = {position.X, position.Y, position.Z};
+
+	channel->set3DAttributes(&channelPosition, &velocity);
 	system->set3DListenerAttributes(0, &listenerpos, &velocity, &forward, &up);
 
 	system->update();
@@ -96,13 +99,15 @@ bool CAudioElement3D::load(irr::core::stringc path) {
 	return result == FMOD_OK;
 }
 
-void CAudioElement3D::play() {
+bool CAudioElement3D::play() {
 	result = system->playSound(FMOD_CHANNEL_FREE, sound, false, &channel);
 
 	sound->set3DMinMaxDistance(MinDistance, MaxDistance);
 	result = channel->set3DAttributes(&position, &velocity);
 
 	assert(result == FMOD_OK);
+
+	return result == FMOD_OK;
 }
 
 void CAudioElement3D::close() {

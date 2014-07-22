@@ -3,6 +3,9 @@
 
 #include "IMonitor.h"
 
+namespace cp3d {
+namespace video {
+
 class IMonitorRegisterer {
 
 public:
@@ -19,5 +22,8 @@ public:
 	virtual int getMonitorCount() = 0;
 
 };
+
+} /// End namespace video
+} /// End namespace cp3d
 
 #endif

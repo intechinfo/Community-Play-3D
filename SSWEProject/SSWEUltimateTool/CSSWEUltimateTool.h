@@ -19,7 +19,7 @@ include DLLExport.h to precise how the createSSWELibPlugin will be compiled
 
 #include <ISSWELibPlugin.h>
 
-class CSSWEUltimateTool : public ISSWELibPlugin {
+class CSSWEUltimateTool : public cp3d::core::ISSWELibPlugin {
 public:
 
 	/// Constructor of the class

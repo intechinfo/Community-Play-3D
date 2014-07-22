@@ -278,6 +278,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\Audio\CUIAddAudioElement.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\CUILoadNodesGroup.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\CUIRenderingInfos.cpp" />
@@ -426,6 +427,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CameraScenarioMaker\CUICameraScenerioMaker.h" />
     <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIEditFPSCamera.h" />
     <ClInclude Include="SSWELib\UserInterfaces\AnimatorsEditor\CUIWindowEditNodeAnimators.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\Audio\CUIAddAudioElement.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CodeEditor\CUICodeEditor.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CUILoadNodesGroup.h" />
     <ClInclude Include="SSWELib\UserInterfaces\CUIRenderingInfos.h" />

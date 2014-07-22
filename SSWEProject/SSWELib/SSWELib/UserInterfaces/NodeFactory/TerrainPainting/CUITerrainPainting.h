@@ -16,7 +16,7 @@
 
 class CUIMainWindow;
 
-class CUITerrainPainter : public IUpdate, public IEventReceiver {
+class CUITerrainPainter : public cp3d::core::IUpdate, public IEventReceiver {
 
 public:
 

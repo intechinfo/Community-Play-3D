@@ -16,10 +16,10 @@
 
 #include "CGUISpectrum.h"
 
-class CSoundViewer : public irr::IEventReceiver, public IUpdate {
+class CSoundViewer : public irr::IEventReceiver, public cp3d::core::IUpdate {
 public:
 
-	CSoundViewer(IDevices *_devices, irr::core::stringc _workingDirectory);
+	CSoundViewer(cp3d::core::IDevices *_devices, irr::core::stringc _workingDirectory);
 	~CSoundViewer();
 
 	void update();
@@ -39,7 +39,7 @@ private:
 
 	//-----------------------------------
 	//DATAS
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 
 	irr::core::stringc workingDirectory;
 

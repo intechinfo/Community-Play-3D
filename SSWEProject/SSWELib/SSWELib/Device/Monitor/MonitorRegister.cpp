@@ -4,7 +4,7 @@
 
 MonitorRegister::MonitorRegister()
 {
-	m_register = new irr::core::array<IMonitor*>();
+	m_register = new irr::core::array<cp3d::video::IMonitor*>();
 }
 
 
@@ -13,7 +13,7 @@ MonitorRegister::~MonitorRegister()
 	delete m_register;
 }
 
-void MonitorRegister::registerMonitor(IMonitor *monitor)
+void MonitorRegister::registerMonitor(cp3d::video::IMonitor *monitor)
 {
 	m_register->push_back(monitor);
 }
@@ -39,12 +39,12 @@ void MonitorRegister::unregisterMonitorByName(irr::core::stringc name)
 	}
 }
 
-IMonitor* MonitorRegister::getMonitor(int index)
+cp3d::video::IMonitor* MonitorRegister::getMonitor(int index)
 {
 	return m_register->operator[](index);
 }
 
-IMonitor* MonitorRegister::getMonitorByName(irr::core::stringc name)
+cp3d::video::IMonitor* MonitorRegister::getMonitorByName(irr::core::stringc name)
 {
 	for(int i = 0; i < m_register->size(); i++)
 	{
@@ -62,7 +62,7 @@ IMonitor* MonitorRegister::getMonitorByName(irr::core::stringc name)
 	}
 }
 
-irr::core::array<IMonitor*> MonitorRegister::getRegisteredMonitors()
+irr::core::array<cp3d::video::IMonitor*> MonitorRegister::getRegisteredMonitors()
 {
 	return *m_register;
 }

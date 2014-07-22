@@ -25,8 +25,8 @@
 #endif
 
 #ifdef _IRR_WINDOWS_API_
-extern "C" SSWE_LIB_API ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
-extern "C" SSWE_LIB_API void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface);
+extern "C" SSWE_LIB_API cp3d::ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
+extern "C" SSWE_LIB_API void updateSSWEDevice(cp3d::ISSWECoreUserInterface *_coreUserInterface);
 #else
 ISSWECoreUserInterface* createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
 void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface);

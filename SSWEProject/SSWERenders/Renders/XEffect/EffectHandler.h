@@ -14,6 +14,7 @@
 
 #include <ISSWERender.h>
 
+using namespace cp3d::video;
 
 /// Internal the CP3D, it allow point lights computation.
 /// It is a "deffered rendering like", each pass we change the current target of the light

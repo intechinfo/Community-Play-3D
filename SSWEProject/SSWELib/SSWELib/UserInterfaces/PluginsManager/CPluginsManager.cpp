@@ -107,7 +107,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
     #ifdef _IRR_WINDOWS_API_
 
 	HINSTANCE hdll = NULL;
-	IMonitor* newMonitor = NULL;
+	cp3d::video::IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();
 	pvFunctv createMonitor;
 	hdll = LoadLibrary(stringw(ppath).c_str());
@@ -118,7 +118,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 		if (createMonitor == NULL) {
 			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createMonitor\" into the DLL").c_str(), EMBF_OK);
 		} else {
-			newMonitor = static_cast < IMonitor* > (createMonitor());
+			newMonitor = static_cast < cp3d::video::IMonitor* > (createMonitor());
 
 			newMonitor->setActiveCamera(devices->getRenderingSceneManager()->getActiveCamera());
 			newMonitor->setSceneManager(devices->getRenderingSceneManager());
@@ -191,7 +191,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
     #else
     void *hdll = NULL;
     #endif
-	ISSWELibPlugin* newPlugin = NULL;
+	cp3d::core::ISSWELibPlugin* newPlugin = NULL;
 	typedef void* (*pvFunctv)();
 	pvFunctv createSSWELibPlugin;
     #ifdef _IRR_WINDOWS_API_
@@ -199,7 +199,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
     #else
     hdll = dlopen(stringc(ppath).c_str(), RTLD_LAZY);
     #endif
-
+	
 	if (hdll == NULL) {
 		devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
 	} else {
@@ -211,7 +211,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 		if (createSSWELibPlugin == NULL) {
 			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createSSWELibPlugin\" into the DLL").c_str(), EMBF_OK);
 		} else {
-			newPlugin = static_cast < ISSWELibPlugin* > (createSSWELibPlugin());
+			newPlugin = static_cast < cp3d::core::ISSWELibPlugin* > (createSSWELibPlugin());
 
             SSSWEPlugin sswePlugin(newPlugin, hdll);
             devices->getCoreData()->getSSWEPlugins()->push_back(sswePlugin);

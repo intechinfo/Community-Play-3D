@@ -17,7 +17,7 @@ using namespace video;
 
 #define SPECTRUM_SIZE 512
 
-CSoundViewer::CSoundViewer(IDevices *_devices, stringc _workingDirectory) {
+CSoundViewer::CSoundViewer(cp3d::core::IDevices *_devices, stringc _workingDirectory) {
 	/// Set datas
 	devices = _devices;
 	workingDirectory = _workingDirectory;

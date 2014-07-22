@@ -7,6 +7,9 @@
 #include "CWeaponTest.h"
 #include "CDragonTest.h"
 
+using namespace cp3d;
+using namespace cp3d::core;
+
 int main(int argc, char *argv[]) {
 
 	ISSWECoreUserInterface *coreUserInterface = createSSWEDevice(true, "");

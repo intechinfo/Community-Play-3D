@@ -41,6 +41,7 @@ private:
 	IGUITreeViewNode *objectsNode, *lightsNode;
 	IGUITreeViewNode *volumeLightsNode, *waterSurfacesNode;
     IGUITreeViewNode *particlesNode;
+	IGUITreeViewNode *soundsNode;
 
 	IGUIContextMenu *rightClickCxtMenu;
     //-----------------------------------

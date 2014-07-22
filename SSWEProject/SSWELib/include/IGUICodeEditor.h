@@ -5,6 +5,9 @@
 
 #include <ITool.h>
 
+namespace cp3d {
+namespace tool {
+
 class IGUICodeEditor : public ITool {
 
 public:
@@ -35,5 +38,8 @@ public:
 	virtual void clearKeyWords() = 0;
 
 };
+
+} /// End namespace tool
+} /// End namespace cp3d
 
 #endif

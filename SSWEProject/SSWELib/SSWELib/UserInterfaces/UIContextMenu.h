@@ -89,6 +89,7 @@ enum GUI_CXT_MENU_EVENTS {
     CXT_MENU_EVENTS_SCENE_ADD_LIGHT,
     CXT_MENU_EVENTS_SCENE_ADD_VOLUME_LIGHT,
     CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE,
+	CXT_MENU_EVENTS_SCENE_ADD_3D_SOUND,
 
 	CXT_MENU_EVENTS_ADD_CUBE_SCENE_NODE,
 	CXT_MENU_EVENTS_ADD_SPHERE_SCENE_NODE,
@@ -167,6 +168,8 @@ enum GUI_CXT_MENU_EVENTS {
 
 #include "MeshFactory/CUIMeshFactory.h"
 #include "MeshFactory/CUIAnimatedMeshViewer.h"
+
+#include "Audio/CUIAddAudioElement.h"
 
 class CUIContextMenu : public IEventReceiver {
 

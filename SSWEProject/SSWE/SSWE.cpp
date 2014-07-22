@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, 
 int main(int argc, char* argv[]) {
 #endif
 
-	ISSWECoreUserInterface *coreUserInterface = createSSWEDevice();
+	cp3d::ISSWECoreUserInterface *coreUserInterface = createSSWEDevice();
 
 	updateSSWEDevice(coreUserInterface);
 

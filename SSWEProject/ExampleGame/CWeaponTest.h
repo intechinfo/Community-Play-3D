@@ -3,11 +3,11 @@
 
 #include "stdafx.h"
 
-class CUpdate : public irr::IEventReceiver, public IUpdate {
+class CUpdate : public irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
 
-	CUpdate(IDevices *devices) {
+	CUpdate(cp3d::core::IDevices *devices) {
 		this->devices = devices;
 
 		lastTime = devices->getDevice()->getTimer()->getTime();
@@ -119,7 +119,7 @@ public:
 private:
 
 	/// Our IDevices interaface
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 
 	/// To simulate our weapon movement / position
 	irr::scene::IAnimatedMeshSceneNode *node;

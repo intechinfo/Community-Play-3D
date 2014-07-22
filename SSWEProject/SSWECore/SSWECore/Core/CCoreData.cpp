@@ -217,7 +217,7 @@ array<ISceneNode *> CCoreData::getArrayOfWaterSurfaceNodes() {
 void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
 	EffectHandler *effect = (EffectHandler *)_effect;
 
-	ISData *data = this->getISDataOfSceneNode(node);
+	cp3d::core::ISData *data = this->getISDataOfSceneNode(node);
 	if (data) {
 		effect->removeNodeFromDepthPass(data->getNode());
         effect->removeShadowFromNode(data->getNode());
@@ -318,7 +318,7 @@ void CCoreData::removeSceneNode(ISceneNode *node, ISSWERender *_effect) {
     node->remove();
 }
 
-ISData *CCoreData::getISDataOfSceneNode(ISceneNode *node) {
+cp3d::core::ISData *CCoreData::getISDataOfSceneNode(ISceneNode *node) {
 	//SEARCH TERRAINS
 	for (u32 i=0; i < terrainsData.size(); i++) {
 		if (terrainsData[i].getNode() == node) {
@@ -366,11 +366,19 @@ ISData *CCoreData::getISDataOfSceneNode(ISceneNode *node) {
 			break;
 		}
 	}
+
+	///SEARCH SOUNDS
+	for (u32 i=0; i < audioData.size(); i++) {
+		if (audioData[i].getNode() == node) {
+			return &audioData[i];
+			break;
+		}
+	}
     
     return 0;
 }
 
-ISData *CCoreData::copySDataOfSceneNode(irr::scene::ISceneNode *node) {
+cp3d::core::ISData *CCoreData::copySDataOfSceneNode(irr::scene::ISceneNode *node) {
     //SEARCH TERRAINS
     s32 indice = getArrayOfTerrainNodes().binary_search(node);
     if (indice != -1) {
@@ -449,7 +457,7 @@ u32 CCoreData::getTerrainNodeIndice(ISceneNode *node) {
 //----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-void CCoreData::destroyMonitor(IMonitor *monitor) {
+void CCoreData::destroyMonitor(cp3d::video::IMonitor *monitor) {
     for (u32 i=0; i < monitors.size(); i++) {
         if (monitors[i].getMonitor() == monitor) {
             monitors[i].freeInstance();
@@ -459,7 +467,7 @@ void CCoreData::destroyMonitor(IMonitor *monitor) {
     }
 }
 
-void CCoreData::destroySSWEPlugin(ISSWELibPlugin *plugin) {
+void CCoreData::destroySSWEPlugin(cp3d::core::ISSWELibPlugin *plugin) {
     for (u32 i=0; i < sswePlugins.size(); i++) {
         if (sswePlugins[i].getPlugin() == plugin) {
             sswePlugins[i].freeInstance();

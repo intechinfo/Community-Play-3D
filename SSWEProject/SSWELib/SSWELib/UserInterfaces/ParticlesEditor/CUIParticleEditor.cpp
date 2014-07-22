@@ -202,7 +202,7 @@ bool CUIParticleEditor::OnEvent(const SEvent &event) {
 					filename += "unamed";
 
 				io::path ext, filenamepath = filename.c_str();
-				core::getFileNameExtension(ext, filenamepath);
+				irr::core::getFileNameExtension(ext, filenamepath);
 				if (ext != ".psc")
 					filename += ".psc";
 
