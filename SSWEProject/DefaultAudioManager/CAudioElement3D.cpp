@@ -50,9 +50,9 @@ void CAudioElement3D::setPosition(irr::core::vector3df position) {
 
 	camera = smgr->getActiveCamera();
 
-	velocity.x = ( (position.X-Position.X) / 50 );
-    velocity.y = ( (position.Z-Position.Z) / 50 );
-	velocity.z = ( (position.Y-Position.Y) / 50 );
+	velocity.x = ( (position.X-Position.X) / 50.f );
+    velocity.y = ( (position.Z-Position.Z) / 50.f );
+	velocity.z = ( (position.Y-Position.Y) / 50.f );
 
 	listenerpos.x = camera->getPosition().X;
 	listenerpos.y = camera->getPosition().Z;
@@ -66,7 +66,7 @@ void CAudioElement3D::setPosition(irr::core::vector3df position) {
 	f.normalize();
 	FMOD_VECTOR up = {f.X, f.Z, f.Y};
 
-	FMOD_VECTOR channelPosition = {position.X, position.Y, position.Z};
+	FMOD_VECTOR channelPosition = {position.X, position.Z, position.Y};
 
 	channel->set3DAttributes(&channelPosition, &velocity);
 	system->set3DListenerAttributes(0, &listenerpos, &velocity, &forward, &up);

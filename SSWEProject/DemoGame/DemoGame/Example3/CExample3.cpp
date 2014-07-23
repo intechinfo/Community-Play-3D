@@ -15,7 +15,7 @@ using namespace irr;
 using namespace core;
 using namespace scene;
 
-CExample3::CExample3(ISSWECoreUserInterface *core) {
+CExample3::CExample3(cp3d::ISSWECoreUserInterface *core) {
 	/// Get the core user interface
 	this->core = core;
 	/// Get the IDevices interface router

@@ -10,7 +10,7 @@
 
 #include "CExample1.h"
 
-CExample1::CExample1(ISSWECoreUserInterface *core) {
+CExample1::CExample1(cp3d::ISSWECoreUserInterface *core) {
 	/// Get the core user interface
 	this->core = core;
 	/// Get the IDevices interface router
@@ -45,7 +45,7 @@ void CExample1::load(irr::core::stringc file) {
 	}
 
 	/// You can also get the data structure of the scene node with getISDataOfSceneNode
-	ISData *sceneNodeData = devices->getCoreData()->getISDataOfSceneNode(smokePlaneNode);
+	cp3d::core::ISData *sceneNodeData = devices->getCoreData()->getISDataOfSceneNode(smokePlaneNode);
 	/// You can now access to all methods of the scene node structure!
 
 	/// Finish

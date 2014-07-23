@@ -14,7 +14,7 @@
 #include <ISSWELibPlugin.h>
 #include <DLLExport.h>
 
-class CSSWELibTestPlugin : ISSWELibPlugin {
+class CSSWELibTestPlugin : cp3d::core::ISSWELibPlugin {
 public:
 
 	CSSWELibTestPlugin();

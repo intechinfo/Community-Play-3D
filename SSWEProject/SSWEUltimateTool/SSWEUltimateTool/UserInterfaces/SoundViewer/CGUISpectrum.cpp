@@ -26,8 +26,6 @@ CGUISpectrum::CGUISpectrum(cp3d::audio::IAudioElement *element, IrrlichtDevice *
 	Spectrum = new f32[SPECTRUM_SIZE];
 	AudioElement = 0;
 
-	LastTime = device->getTimer()->getTime();
-
 }
 
 CGUISpectrum::~CGUISpectrum() {
@@ -73,21 +71,26 @@ void CGUISpectrum::draw() {
 		clientClip.clipAgainst( *clipRect );
 	}
 
-	if (AudioElement /*&& Device->getTimer()->getTime() - LastTime >= 25*/) {
+	if (AudioElement) {
 
 		AudioElement->getSpectrum(Spectrum, SPECTRUM_SIZE);
 
 		s32 height = AbsoluteRect.LowerRightCorner.Y - AbsoluteRect.UpperLeftCorner.Y;
 
-		for (u32 i=0; i < SPECTRUM_SIZE-1; i++) {
-			Environment->getVideoDriver()->draw2DLine(core::vector2di(AbsoluteRect.UpperLeftCorner.X+i, AbsoluteRect.LowerRightCorner.Y),
-				core::vector2di(AbsoluteRect.UpperLeftCorner.X+i, AbsoluteRect.LowerRightCorner.Y - s32(height*Spectrum[i])),
-				video::SColor(255, 255, 255*(s32)Spectrum[i], 255*(s32)Spectrum[i]));
+		Environment->getSkin()->getFont()->draw(Name, core::rect<s32>(AbsoluteRect.UpperLeftCorner.X+5, AbsoluteRect.UpperLeftCorner.Y,
+																	  AbsoluteRect.LowerRightCorner.X, AbsoluteRect.UpperLeftCorner.Y+50),
+									 video::SColor(255, 255, 255, 255));
+
+		video::IVideoDriver *driver = Environment->getVideoDriver();
+
+		for (u32 i=0; i < 127; i++) {
+			core::vector2di begin(AbsoluteRect.UpperLeftCorner.X+i*4, AbsoluteRect.LowerRightCorner.Y-height/2 - s32((height/2)*Spectrum[i]));
+			core::vector2di end(AbsoluteRect.UpperLeftCorner.X+(i+1)*4, AbsoluteRect.LowerRightCorner.Y-height/2 - s32((height/2)*Spectrum[i+1]));
+
+			driver->draw2DLine(begin, end, video::SColor(255, 255, 255*(s32)Spectrum[i], 255*(s32)Spectrum[i]));
 		}
 
 	}
-
-	LastTime = Device->getTimer()->getTime();
 
 	/// End
 	IGUIElement::draw();

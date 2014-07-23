@@ -23,12 +23,12 @@ int main(int argc, char *argv[])
 	std::cin >> exampleNumber;
 
 	/// Create and configure our interface
-	ISSWECoreUserInterface *coreInterface = createSSWEDevice(true, "");
+	cp3d::ISSWECoreUserInterface *coreInterface = createSSWEDevice(true, "");
 	coreInterface->setLogEventWindowVisible(false);
 	coreInterface->getIDevices()->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 
 	/// Get the main interface, working as a router;
-	IDevices *devices = coreInterface->getIDevices();
+	cp3d::core::IDevices *devices = coreInterface->getIDevices();
 
 	/// Add our default monitor the examples
 	/// Just give the name of the .dll monitor located in ~Plugins/Monitors/

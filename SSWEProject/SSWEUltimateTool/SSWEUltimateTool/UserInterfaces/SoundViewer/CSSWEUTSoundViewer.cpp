@@ -99,8 +99,10 @@ bool CSoundViewer::OnEvent(const SEvent &event) {
 					audioElement = 0;
 				}
 				audioElement = amgr->add2DAudioElementFromFile(stringc(soundDialog->getFileName()));
+
 				audioElement->play();
 				spectrumViewer->setAudioElement(audioElement);
+				spectrumViewer->setAudioName(devices->getDevice()->getFileSystem()->getFileBasename(soundDialog->getFileName()).c_str());
 				return true;
 			}
 		} else

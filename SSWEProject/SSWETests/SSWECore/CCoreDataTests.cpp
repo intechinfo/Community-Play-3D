@@ -116,9 +116,9 @@ namespace SSWETests
 			coreData->getLightsData()->push_back(l1data);
 
 			/// Act
-			ISData *cube1Data = coreData->getISDataOfSceneNode(odata1.getNode());
-			ISData *terrainData = coreData->getISDataOfSceneNode(tdata.getNode());
-			ISData *lightData = coreData->getISDataOfSceneNode(l1data.getNode());
+			cp3d::core::ISData *cube1Data = coreData->getISDataOfSceneNode(odata1.getNode());
+			cp3d::core::ISData *terrainData = coreData->getISDataOfSceneNode(tdata.getNode());
+			cp3d::core::ISData *lightData = coreData->getISDataOfSceneNode(l1data.getNode());
 
 			/// Test
 			if (cube1Data->getNode() != cube1) {

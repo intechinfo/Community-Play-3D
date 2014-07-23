@@ -22,13 +22,13 @@ enum E_CHARACTER_ANIMATIONS {
 	ECA_NEED_TO_CHANGE
 };
 
-class CCharacterControl : irr::IEventReceiver, public IUpdate {
+class CCharacterControl : irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
 
 	CCharacterControl(irr::scene::IAnimatedMeshSceneNode *node,
 					  irr::scene::ICameraSceneNode *camera,
-					  IDevices *devices);
+					  cp3d::core::IDevices *devices);
 	~CCharacterControl();
 
 	void update();
@@ -47,7 +47,7 @@ private:
 	irr::scene::IBoneSceneNode *boneNode;
 
 	/// Devices
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 
 	/// Touches
 	core::array<SKeyMap> KeyMap;

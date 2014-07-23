@@ -34,18 +34,19 @@ public:
 
 	void setAudioElement(cp3d::audio::IAudioElement *element);
 
+	void setAudioName(core::stringc name) { Name = name; }
+
 private:
 
 	//-----------------------------------
 	//DATAS
-    irr::IrrlichtDevice *Device;
+    IrrlichtDevice *Device;
     bool Clip;
-
-	u32 LastTime;
 
 	f32 *Spectrum; /// Spectrum array to draw
 
 	cp3d::audio::IAudioElement *AudioElement;
+	core::stringc Name;
     //-----------------------------------
 
 };

@@ -13,13 +13,13 @@
 
 class CUpdate;
 
-class CExample4 : public irr::IEventReceiver, public IUpdate {
+class CExample4 : public irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
 
 	//-----------------------------------
 	//CTOR & DTOR
-    CExample4(ISSWECoreUserInterface *core);
+    CExample4(cp3d::ISSWECoreUserInterface *core);
 	~CExample4();
 
 	/// From IEventReceiver interface
@@ -43,8 +43,8 @@ private:
 
 	//-----------------------------------
 	//DATAS
-	ISSWECoreUserInterface *core;
-	IDevices *devices;
+	cp3d::ISSWECoreUserInterface *core;
+	cp3d::core::IDevices *devices;
 
 	CUpdate *updater;
 	//-----------------------------------

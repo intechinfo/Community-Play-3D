@@ -11,13 +11,13 @@
 
 #include <ISSWECoreUserInterface.h>
 
-class CExample3 : public irr::IEventReceiver, public IUpdate {
+class CExample3 : public irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
 
 	//-----------------------------------
 	//CTOR & DTOR
-    CExample3(ISSWECoreUserInterface *core);
+    CExample3(cp3d::ISSWECoreUserInterface *core);
 	~CExample3();
 
 	/// From IEventReceiver interface
@@ -41,8 +41,8 @@ private:
 
 	//-----------------------------------
 	//DATAS
-	ISSWECoreUserInterface *core;
-	IDevices *devices;
+	cp3d::ISSWECoreUserInterface *core;
+	cp3d::core::IDevices *devices;
 
 	irr::scene::IAnimatedMeshSceneNode *mp5Node;
 	//-----------------------------------
