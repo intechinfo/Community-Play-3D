@@ -36,26 +36,18 @@
 
 /// Interfaces & plugins
 #include <IMonitor.h>
+#include <IAudioManager.h>
 #include <ISSWECoreData.h>
 
 #include "CCorePhysics.h"
 
-/// Ohm FL!P
-#pragma once
-#if defined (_MSC_VER)
-   #pragma warning (4 : 4250) // "Inherits via dominance."
-#endif
-
-#include "ohm/flip/Object.h"
-#include "ohm/flip/TxSessionGuard.h"
-
-class ISSWELibPlugin;
+class cp3d::core::ISSWELibPlugin;
 
 //---------------------------------------------------------------------------------------------
 //-----------------------------------HERITANCES------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-struct SData : public ISData {
+struct SData : public cp3d::core::ISData {
 
 	SData() {
 		SData(0, 0, "", ESNT_UNKNOWN);
@@ -100,7 +92,7 @@ struct SData : public ISData {
 	void setType(ESCENE_NODE_TYPE _type) { type = _type; }
 
 	//CLONED NODES METHODS
-	ISceneNode *cloneNode(vector3df position, ISSWECore *core=0) {
+	ISceneNode *cloneNode(vector3df position, cp3d::core::ISSWECore *core=0) {
 		ISceneNode *cnode = 0;
 		if (core)
 			cnode = core->clone(node, path, core->getDevice()->getSceneManager());
@@ -181,7 +173,7 @@ struct SData : public ISData {
 	f32 wasPlanarTextureMappedValue() { return isPlanarTextureMappedValue; }
 	void setPlanarTextureMappedValue(f32 value) { isPlanarTextureMappedValue = value; }
 
-private:
+protected:
 	/// Standard
 	ISceneNode *node;
 	IMesh *mesh;
@@ -721,6 +713,28 @@ private:
 };
 
 //---------------------------------------------------------------------------------------------
+//-----------------------------------------SOUNDS----------------------------------------------
+//---------------------------------------------------------------------------------------------
+
+struct SAudio : SData {
+public:
+
+	SAudio(ISceneManager *smgr) : SData(0, 0, L"", ESNT_UNKNOWN)
+	{
+		this->setNode(smgr->addEmptySceneNode());
+		this->node->setName("New Sound");
+	}
+
+	cp3d::audio::IAudioElement *getAudioElement() { return Element; }
+	void setAudioElement(cp3d::audio::IAudioElement *element) { Element = element; }
+
+private:
+
+	cp3d::audio::IAudioElement *Element;
+
+};
+
+//---------------------------------------------------------------------------------------------
 //----------------------------------PLUGINS----------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
@@ -728,9 +742,9 @@ private:
 struct SMonitor {
 public:
     #ifdef _IRR_WINDOWS_API_
-	SMonitor(IMonitor *_monitor, HINSTANCE _hdll) {
+	SMonitor(cp3d::video::IMonitor *_monitor, HINSTANCE _hdll) {
     #else
-    SMonitor(IMonitor *_monitor, void *_hdll) {
+    SMonitor(cp3d::video::IMonitor *_monitor, void *_hdll) {
     #endif
 		monitor = _monitor;
 		hdll = _hdll;
@@ -740,8 +754,8 @@ public:
 		SMonitor(0, 0);
 	}
 
-	IMonitor *getMonitor() { return monitor; }
-	void setMonitor(IMonitor *_monitor) { monitor = _monitor; }
+	cp3d::video::IMonitor *getMonitor() { return monitor; }
+	void setMonitor(cp3d::video::IMonitor *_monitor) { monitor = _monitor; }
 
     #ifdef _IRR_WINDOWS_API_
 	HINSTANCE getInstance() { return hdll; }
@@ -766,7 +780,7 @@ public:
 
 private:
 
-	IMonitor *monitor;
+	cp3d::video::IMonitor *monitor;
     #ifdef _IRR_WINDOWS_API_
 	HINSTANCE hdll;
     #else
@@ -780,9 +794,9 @@ private:
 struct SSSWEPlugin {
 public:
     #ifdef _IRR_WINDOWS_API_
-    SSSWEPlugin(ISSWELibPlugin *_plugin, HINSTANCE _hdll) {
+    SSSWEPlugin(cp3d::core::ISSWELibPlugin *_plugin, HINSTANCE _hdll) {
     #else
-    SSSWEPlugin(ISSWELibPlugin *_plugin, void *_hdll) {
+    SSSWEPlugin(cp3d::core::ISSWELibPlugin *_plugin, void *_hdll) {
     #endif
         plugin = _plugin;
         hdll = _hdll;
@@ -798,8 +812,8 @@ public:
 		}
     }
 
-    ISSWELibPlugin *getPlugin() { return plugin; }
-    void setMonitor(ISSWELibPlugin *_plugin) { plugin = _plugin; }
+    cp3d::core::ISSWELibPlugin *getPlugin() { return plugin; }
+    void setMonitor(cp3d::core::ISSWELibPlugin *_plugin) { plugin = _plugin; }
 
     #ifdef _IRR_WINDOWS_API_
     HINSTANCE getInstance() { return hdll; }
@@ -810,12 +824,56 @@ public:
     #endif
 
 private:
-    ISSWELibPlugin *plugin;
+    cp3d::core::ISSWELibPlugin *plugin;
     #ifdef _IRR_WINDOWS_API_
     HINSTANCE hdll;
     #else
     void *hdll;
     #endif
+};
+
+//AUDIO PLUGINS
+struct SAudioPlugin {
+public:
+
+	#ifdef _IRR_WINDOWS_API_
+	SAudioPlugin(stringc name, HINSTANCE _hdll) {
+	#else
+	SAudioPlugin(stringc name, void *_hdll) {
+	#endif
+		hdll = _hdll;
+	}
+
+	void setAudioManager(cp3d::audio::IAudioManager *_manager) { manager = _manager; }
+	cp3d::audio::IAudioManager *getAudioManager() { return manager; }
+
+	stringc getName() { return name; }
+	void setName(stringc _name) { name = _name; }
+
+	void freeInstance() {
+		if (hdll) {
+            #ifdef _IRR_WINDOWS_API_
+			FreeLibrary(hdll);
+            #else
+            dlclose(hdll);
+            #endif
+		}
+	}
+
+	#ifdef _IRR_WINDOWS_API_
+	HINSTANCE getInstance() { return hdll; }
+	#else
+	void *getInstance() { return hdll; }
+	#endif
+
+private:
+	cp3d::audio::IAudioManager *manager;
+	stringc name;
+	#ifdef _IRR_WINDOWS_API_
+	HINSTANCE hdll;
+	#else
+	void *hdll;
+	#endif
 };
 
 //---------------------------------------------------------------------------------------------
@@ -856,7 +914,7 @@ private:
 //----------------------------------CORE DATA CLASS--------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-class SSWE_CORE_API CCoreData : public ISSWECoreData {
+class SSWE_CORE_API CCoreData : public cp3d::core::ISSWECoreData {
 
 public:
 
@@ -884,8 +942,8 @@ public:
 	array<ISceneNode *> getArrayOfWaterSurfaceNodes();
 
     void removeSceneNode(ISceneNode *node, ISSWERender *_effect);
-    ISData *copySDataOfSceneNode(ISceneNode *node);
-	ISData *getISDataOfSceneNode(ISceneNode *node);
+    cp3d::core::ISData *copySDataOfSceneNode(ISceneNode *node);
+	cp3d::core::ISData *getISDataOfSceneNode(ISceneNode *node);
 	//-----------------------------------
 
 	//-----------------------------------
@@ -924,6 +982,7 @@ public:
 
 	//OBJECTS
 	array<SObjectsData> *getObjectsData() { return &objectsData; }
+
 	array<SData> *getObjectsSData() {
 		array<SData> *datas = new array<SData>();
 		for (u32 i=0; i < objectsData.size(); i++)
@@ -931,10 +990,14 @@ public:
 
 		return datas;
 	}
+
 	u32 getObjectNodeIndice(ISceneNode *node);
+
 	void addObjectNode(ISceneNode *node, IMesh *mesh, stringw path) {
 		objectsData.push_back(SObjectsData(mesh, node, path));
 	}
+
+	irr::u32 getObjectCount() { return objectsData.size(); }
 
 	//LIGHTS
 	array<SLightsData> *getLightsData() { return &lightsData; }
@@ -967,6 +1030,15 @@ public:
 	array<SPlanarTextureMappingData> *getPlanarTextureMappingValues() { return &planarTextureMappingValues; }
 
 	array<SCloudData> *getCloudsData() { return &cloudsData; }
+
+	array<SAudio> *getAudioData() { return &audioData; }
+	array<SData> *getAudioSData() {
+		array<SData> *datas = new array<SData>();
+		for (u32 i=0; i < audioData.size(); i++)
+			datas->push_back(audioData[i]);
+
+		return datas;
+	}
 	//-----------------------------------
 
     //-----------------------------------
@@ -1001,9 +1073,12 @@ public:
 	//PLUGINS
 	array<SMonitor> *getMonitors() { return &monitors; }
     array<SSSWEPlugin> *getSSWEPlugins() { return &sswePlugins; }
+	array<SAudioPlugin> *getAudioPlugins() { return &audioPlugins; }
 
-    void destroyMonitor(IMonitor *monitor);
-    void destroySSWEPlugin(ISSWELibPlugin *plugin);
+    void destroyMonitor(cp3d::video::IMonitor *monitor);
+    void destroySSWEPlugin(cp3d::core::ISSWELibPlugin *plugin);
+
+	cp3d::audio::IAudioManager *getAudioManager(irr::s32 index) { return audioPlugins[index].getAudioManager(); }
 	//-----------------------------------
 
 private:
@@ -1025,6 +1100,8 @@ private:
 	array<SCloudData> cloudsData;
 
 	array<SPlanarTextureMappingData> planarTextureMappingValues;
+
+	array<SAudio> audioData;
 	//-----------------------------------
 
     //-----------------------------------
@@ -1054,6 +1131,7 @@ private:
 	//PLUGINS
 	array<SMonitor> monitors;
     array<SSSWEPlugin> sswePlugins;
+	array<SAudioPlugin> audioPlugins;
 	//-----------------------------------
 
 };

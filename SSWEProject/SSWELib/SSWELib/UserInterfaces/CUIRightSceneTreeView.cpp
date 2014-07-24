@@ -54,6 +54,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	volumeLightsNode = rootNode->addChildBack(L"VOLUME LIGHTS", L"", 2, -1);
 	waterSurfacesNode = rootNode->addChildBack(L"WATER SURFACES", L"", 2, -1);
     particlesNode = rootNode->addChildBack(L"PARTICLE SYSTEMS", L"", 2, -1);
+	soundsNode = rootNode->addChildBack(L"SOUNDS", L"", 2, -1);
 	rootNode->addChildBack(L"OTHERS (TO DO)", L"", 2, -1);
 
 	addChildrenBackWithSDataArray(terrainsNode, worldCore->getTerrainsSData());
@@ -63,7 +64,7 @@ CUIRightSceneTreeView::CUIRightSceneTreeView(CDevices *_devices, CUIContextMenu 
 	addChildrenBackWithSDataArray(volumeLightsNode, worldCore->getVolumeLightsSData());
 	addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
     //addChildrenBackWithSDataArray(particlesNode, worldCore->getParticleSystemsSData());
-
+	addChildrenBackWithSDataArray(soundsNode, worldCore->getAudioSData());
 
 }
 
@@ -144,6 +145,8 @@ void CUIRightSceneTreeView::addChildrenBackWithSDataArray(IGUITreeViewNode *tree
 			addChildrenBackSDataRecursively(newTreeNode, nodes->operator[](i));
 		}
 	}
+
+	delete nodes;
 }
 void CUIRightSceneTreeView::addChildrenBackSDataRecursively(IGUITreeViewNode *treeNode, SData node) {
 	s32 imageIndex;
@@ -230,6 +233,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 			addChildrenBackWithSDataArray(lightsNode, worldCore->getLightsSData());
 			addChildrenBackWithSDataArray(volumeLightsNode, worldCore->getVolumeLightsSData());
 			addChildrenBackWithSDataArray(waterSurfacesNode, worldCore->getWaterSurfacesSData());
+			addChildrenBackWithSDataArray(soundsNode, worldCore->getAudioSData());
 		}
 	}
 
@@ -379,7 +383,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
                     
                     if (rightClickCxtMenu->getItemCommandId(rightClickCxtMenu->getSelectedItem()) == 8) {
                         if (sceneView->getSelected()->getData()) {
-							ISData *data = devices->getCoreData()->getISDataOfSceneNode((ISceneNode *)sceneView->getSelected()->getData());
+							cp3d::core::ISData *data = devices->getCoreData()->getISDataOfSceneNode((ISceneNode *)sceneView->getSelected()->getData());
 							if (data) {
 								devices->getCoreData()->removeSceneNode((ISceneNode *)sceneView->getSelected()->getData(), devices->getXEffect());
 							} else {

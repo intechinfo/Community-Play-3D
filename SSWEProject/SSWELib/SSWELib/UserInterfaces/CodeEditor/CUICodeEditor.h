@@ -15,7 +15,7 @@
 #include <IGUICodeEditor.h>
 #include "../../GUIExtension/CodeEditor/CGUICodeEditor.h"
 
-class CUICodeEditor : public IEventReceiver, public IGUICodeEditor {
+class CUICodeEditor : public IEventReceiver, public cp3d::tool::IGUICodeEditor {
 
 public:
 

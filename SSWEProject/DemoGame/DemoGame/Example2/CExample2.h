@@ -17,7 +17,7 @@ public:
 
 	//-----------------------------------
 	//CTOR & DTOR
-    CExample2(ISSWECoreUserInterface *core);
+    CExample2(cp3d::ISSWECoreUserInterface *core);
 	~CExample2();
 	//-----------------------------------
 
@@ -41,8 +41,8 @@ private:
 
 	//-----------------------------------
 	//DATAS
-	ISSWECoreUserInterface *core;
-	IDevices *devices;
+	cp3d::ISSWECoreUserInterface *core;
+	cp3d::core::IDevices *devices;
 
 	/// Chief Node is our animated mesh scene node
 	irr::scene::IAnimatedMeshSceneNode *chiefNode;

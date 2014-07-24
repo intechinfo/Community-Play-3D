@@ -12,6 +12,9 @@
 #include "src/btBulletCollisionCommon.h"
 #endif
 
+namespace cp3d {
+namespace core {
+
 class IUpdate {
 public:
 	virtual void update() = 0;
@@ -93,5 +96,8 @@ public:
     virtual bool RemoveEventReceiver(irr::IEventReceiver * receiver) = 0;
 
 };
+
+} /// End namespace core
+} /// End namespace cp3d
 
 #endif

@@ -22,7 +22,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>false</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -98,11 +98,15 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="resource.h" />
     <ClInclude Include="CSSWEUltimateTool.h" />
     <ClInclude Include="SSWEUltimateTool\UserInterfaces\OpenSCAD\CSSWEUTOpenSCADDocument.h" />
+    <ClInclude Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CGUISpectrum.h" />
+    <ClInclude Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CSSWEUTSoundViewer.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CSSWEUltimateTool.cpp" />
     <ClCompile Include="SSWEUltimateTool\UserInterfaces\OpenSCAD\CSSWEUTOpenSCADDocument.cpp" />
+    <ClCompile Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CGUISpectrum.cpp" />
+    <ClCompile Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CSSWEUTSoundViewer.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

@@ -187,6 +187,16 @@ void CDevices::updateEntities() {
 		//bulletWorld->stepSimulation(DeltaTime*0.001f);
 		bulletWorld->stepSimulation(DeltaTime*0.001f, 120);
 	}
+
+	//SOUND
+	if (worldCoreData->getAudioPlugins()->size() > 0) {
+		for (u32 i=0; i < worldCoreData->getAudioData()->size(); i++) {
+			cp3d::audio::IAudioElement *element = worldCoreData->getAudioData()->operator[](i).getAudioElement();
+			if (element->getType() == cp3d::audio::EAET_3D) {
+				((cp3d::audio::IAudioElement3D*)element)->setPosition(worldCoreData->getAudioData()->operator[](i).getNode()->getPosition());
+			}
+		}
+	}
 }
 
 void CDevices::updateDevice() {
@@ -599,12 +609,12 @@ IGUIWindow *CDevices::addWarningDialog(stringw title, stringw text, s32 flag) {
 }
 
 //PLUGINS
-IGUICodeEditor *CDevices::createGUICodeEditor() {
+cp3d::tool::IGUICodeEditor *CDevices::createGUICodeEditor() {
 	return new CUICodeEditor(this, 0, true);
 }
 
-ISData *CDevices::getSelectedData() {
-	ISData *data;
+cp3d::core::ISData *CDevices::getSelectedData() {
+	cp3d::core::ISData *data;
 	ISceneNode *node = coreUserInterface->getMainWindow()->getSelectedNode().getNode();
 	data = worldCoreData->copySDataOfSceneNode(node);
 

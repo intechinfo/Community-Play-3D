@@ -17,7 +17,7 @@
 #include "../../UserInterfaces/CUIRightSceneTreeView.h"
 #include "../../UserInterfaces/CUIWindowsManager.h"
 
-class CCoreUserInterface : public IEventReceiver, public ISSWECoreUserInterface, public IUpdate {
+class CCoreUserInterface : public IEventReceiver, public cp3d::ISSWECoreUserInterface, public cp3d::core::IUpdate {
 
 public:
 
@@ -26,12 +26,12 @@ public:
 
 	/// ISSWE Core User Interface
 	ISSWEImporter *createImporter();
-	IMonitor *addMonitor(irr::core::stringc path);
+	cp3d::video::IMonitor *addMonitor(irr::core::stringc path);
 
 	//-----------------------------------
 	//DEVICE
 	CDevices *getDevices() { return devices; }
-	IDevices *getIDevices() { return (IDevices*)devices; }
+	cp3d::core::IDevices *getIDevices() { return (cp3d::core::IDevices*)devices; }
 	IVideoDriver *getVideoDriver() { return driver; }
 	ISceneManager *getSceneManager() { return smgr; }
 	IGUIEnvironment *getGUIEnvironment() { return gui; }

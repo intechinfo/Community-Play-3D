@@ -11,6 +11,8 @@
 
 #include "../CharacterEdition/CUICharacterManager.h"
 
+cp3d::audio::IAudioElement *element;
+
 CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     devices = _devices;
 
@@ -36,6 +38,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	#else
         pluginsManager->loadMonitorPlugin("LIBSSWEGENERICMONITOR");
         pluginsManager->loadSSWEPlugin("LIBSSWEULTIMATETOOL");
+	#endif
+
+	#ifndef SSWE_RELEASE
+	pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager_d.dll");
+	#else
+	pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager.dll");
 	#endif
 
     //-----------------------------------
@@ -150,6 +158,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
     submenu->addItem(L"Add Light...", CXT_MENU_EVENTS_SCENE_ADD_LIGHT);
     submenu->addItem(L"Add Volume Light...", CXT_MENU_EVENTS_SCENE_ADD_VOLUME_LIGHT);
     submenu->addItem(L"Add Water Surface...", CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE);
+	submenu->addSeparator();
+	submenu->addItem(L"Audio", -1, false, false, false, false);
+    submenu->addItem(L"Add 3D Sound...", CXT_MENU_EVENTS_SCENE_ADD_3D_SOUND);
 
 	//FACTORY
 	submenu = menu->getSubMenu(i++);
@@ -420,6 +431,7 @@ CUIContextMenu::~CUIContextMenu() {
 }
 
 void CUIContextMenu::update() {
+
 	if (devices->getContextName() == "General") {
 		if (mainWindowInstance->getMainWindow()->isVisible())
 			mainWindowInstance->getMainWindow()->setVisible(true);
@@ -800,6 +812,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                 case CXT_MENU_EVENTS_SCENE_ADD_WATER_SURFACE:
                     mainWindowInstance->openAddWaterSurface();
                     break;
+
+				case CXT_MENU_EVENTS_SCENE_ADD_3D_SOUND: {
+					CUIAddAudioElement *amgr = new CUIAddAudioElement(devices);
+					amgr->open();
+				}
+					break;
 
                 //-----------------------------------
 

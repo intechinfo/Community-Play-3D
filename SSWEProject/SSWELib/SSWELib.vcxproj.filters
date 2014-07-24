@@ -175,6 +175,9 @@
     <Filter Include="SSWELib\UserInterfaces\MeshFactory">
       <UniqueIdentifier>{a0c3f5bc-442c-430e-9855-388cd9e0a454}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\UserInterfaces\Audio">
+      <UniqueIdentifier>{06ad6a02-5275-414f-8b84-0df8c0c22e8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -518,6 +521,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\Device\Core\Scripting\math\CMatrix4.cpp">
       <Filter>SSWELib\Device\Core\Scripting\math</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\Audio\CUIAddAudioElement.cpp">
+      <Filter>SSWELib\UserInterfaces\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -940,6 +946,18 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Device\Core\Scripting\math\CMatrix4.h">
       <Filter>SSWELib\Device\Core\Scripting\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAudioElement.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAudioManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IAudioElement3D.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\Audio\CUIAddAudioElement.h">
+      <Filter>SSWELib\UserInterfaces\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

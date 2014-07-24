@@ -16,7 +16,7 @@
 
 class CUIScenarioObjects;
 
-class CUIScenarioMakerMain : public IEventReceiver, public IUpdate {
+class CUIScenarioMakerMain : public IEventReceiver, public cp3d::core::IUpdate {
 	
 	friend class CUIScenarioObjects;
 	

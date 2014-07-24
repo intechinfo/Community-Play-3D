@@ -17,7 +17,7 @@ using namespace video;
 
 CCharacterControl::CCharacterControl(irr::scene::IAnimatedMeshSceneNode *node,
 									 irr::scene::ICameraSceneNode *camera,
-									 IDevices *devices)
+									 cp3d::core::IDevices *devices)
 {
 	this->node = node;
 	this->camera = camera;

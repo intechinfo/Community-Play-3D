@@ -10,15 +10,15 @@ class EffectHandler;
 //------------------------------------------CALLBACKS------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-class SSWE_RENDERS_API SSAORenderCallback : public SSWE_RENDERS_EXPORTS IPostProcessingRenderCallback {
+class SSWE_RENDERS_API SSAORenderCallback : public SSWE_RENDERS_EXPORTS cp3d::video::IPostProcessingRenderCallback {
 
 public:
 
 	SSAORenderCallback(irr::s32 materialTypeIn);
 	~SSAORenderCallback();
 
-	void OnPreRender(ISSWERender* effect);
-	void OnPostRender(ISSWERender* effect);
+	void OnPreRender(cp3d::video::ISSWERender* effect);
+	void OnPostRender(cp3d::video::ISSWERender* effect);
 
 	void setTexture(irr::video::ITexture *tex) { this->tex = tex; }
 	irr::video::ITexture *getTexture() { return this->tex; }

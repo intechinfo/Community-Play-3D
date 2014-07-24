@@ -19,7 +19,7 @@ using namespace core;
 using namespace scene;
 using namespace video;
 
-COpenSCADDocument::COpenSCADDocument(IDevices *_devices, stringc _workingDirectory) {
+COpenSCADDocument::COpenSCADDocument(cp3d::core::IDevices *_devices, stringc _workingDirectory) {
 	/// Set datas
 	devices = _devices;
 	workingDirectory = _workingDirectory;
@@ -130,7 +130,7 @@ void COpenSCADDocument::buildObject() {
 		openscadNode->setName("#object:new_openscad_node");
 		devices->getCollisionManager()->setCollisionFromBoundingBox(openscadNode);
 		devices->getCoreData()->addObjectNode(openscadNode, openscadMesh, "corner");
-		devices->getXEffect()->addShadowToNode(openscadNode, devices->getXEffectFilterType(), ESM_BOTH);
+		devices->getXEffect()->addShadowToNode(openscadNode, devices->getXEffectFilterType(), cp3d::video::ESM_BOTH);
 	}
 
 	/// Remove useless files

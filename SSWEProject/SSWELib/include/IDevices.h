@@ -11,6 +11,9 @@
 #include <IAnimationController.h>
 #include <IMonitorRegisterer.h>
 
+namespace cp3d {
+namespace core {
+
 class IDevices {
 
 public: 
@@ -39,8 +42,8 @@ public:
 
 	//-----------------------------------
 	//RENDERS
-	virtual ISSWERender *getXEffect() = 0;
-	virtual E_FILTER_TYPE getXEffectFilterType() = 0;
+	virtual video::ISSWERender *getXEffect() = 0;
+	virtual video::E_FILTER_TYPE getXEffectFilterType() = 0;
 	virtual void setXEffectDrawable(bool draw) = 0;
 	virtual bool isXEffectDrawable() = 0;
 	virtual irr::core::stringc getShaderExt() = 0;
@@ -96,7 +99,7 @@ public:
 
 	//-----------------------------------
 	//UI ADVANCED DIALOG METHODS
-	virtual IGUICodeEditor *createGUICodeEditor() = 0;
+	virtual tool::IGUICodeEditor *createGUICodeEditor() = 0;
 	virtual ISData *getSelectedData() = 0;
 	//-----------------------------------
 
@@ -109,8 +112,10 @@ public:
 	virtual void setKeyMap(irr::SKeyMap _keyMap, int i) = 0;
 	virtual void applyKeyMapOnFPSCamera() = 0;
 
-	virtual IMonitorRegisterer *getMonitorRegister() = 0;
+	virtual video::IMonitorRegisterer *getMonitorRegister() = 0;
 };
 
+} /// End namespace core
+} /// End namespace cp3d
 
 #endif

@@ -846,7 +846,7 @@ void CImporter::readPhysics(SData *data) {
 	read("body");
 	u32 ptype = devices->getCore()->getU32(xmlReader->getAttributeValue("type"));
 
-	if (ptype == ISData::EIPT_RIGID_BODY) {
+	if (ptype == cp3d::core::ISData::EIPT_RIGID_BODY) {
 		read("mass");
 		f32 mass = devices->getCore()->getF32(xmlReader->getAttributeValue("value"));
 
@@ -891,19 +891,19 @@ void CImporter::readPhysics(SData *data) {
 			}
 
 			data->setEnablePhysics(true);
-			data->setBodyType(ISData::EIPT_RIGID_BODY);
+			data->setBodyType(cp3d::core::ISData::EIPT_RIGID_BODY);
 			data->setPBodyPtr(rbody);
 		}
 	}
-	else if (ptype == ISData::EIPT_SOFT_BODY) {
+	else if (ptype == cp3d::core::ISData::EIPT_SOFT_BODY) {
 
 	}
-	else if (ptype == ISData::EIPT_LIQUID_BODY) {
+	else if (ptype == cp3d::core::ISData::EIPT_LIQUID_BODY) {
 		ILiquidBody *lbody = devices->getBulletWorld()->addLiquidBody(vector3df(-5000,0,5000), 
 																	  aabbox3df(0, -10000, 0, 10000, 0, 10000),
 																	  2000.0f, 200.0f);
 
-		lbody->setCurrentDirection(vector3df(10.f, 0.f, 0.f));
+		lbody->setCurrentDirection(vector3df(0.f, 0.f, 0.f));
 		lbody->setGlobalWaveChangeIncrement(0.1f);
 		lbody->setGlobalWaveUpdateFrequency(1.0f);
 		lbody->setMaxGlobalWaveHeight(4.0f);
@@ -913,7 +913,7 @@ void CImporter::readPhysics(SData *data) {
 		lbody->setInfiniteDepth(true);
 		lbody->setLiquidDensity(0.1f);
 
-		data->setBodyType(ISData::EIPT_LIQUID_BODY);
+		data->setBodyType(cp3d::core::ISData::EIPT_LIQUID_BODY);
 		data->setPBodyPtr(lbody);
 	}
 

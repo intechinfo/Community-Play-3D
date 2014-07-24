@@ -11,8 +11,10 @@
 
 #include <iostream>
 
-void *createMonitor() {
-	return static_cast< void* > (new CGenericMonitor);
+#include <DLLExport.h>
+
+cp3d::video::IMonitor *createMonitor() {
+	return (cp3d::video::IMonitor*) new CGenericMonitor();
 }
 
 CGenericMonitor::CGenericMonitor() {

@@ -13,8 +13,8 @@ using namespace irr;
 using namespace gui;
 using namespace core;
 
-void* createSSWELibPlugin() {
-	return static_cast< void* > (new CSSWELibTestPlugin);
+cp3d::core::ISSWELibPlugin* createSSWELibPlugin() {
+	return (cp3d::core::ISSWELibPlugin*)new CSSWELibTestPlugin();
 }
 
 CSSWELibTestPlugin::CSSWELibTestPlugin() {

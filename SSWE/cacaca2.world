@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-50.012211" Y="43.726086" Z="100.918610" />
-			 <rotation X="350.881561" Y="134.285721" Z="0.000000" />
+			 <position X="267.256805" Y="153.557480" Z="203.290710" />
+			 <rotation X="13.677740" Y="179.821533" Z="0.000000" />
 
 		 </camera>
 
@@ -2035,7 +2035,7 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 					 <colorMask value="15" />
 					 <colorMaterial value="1" />
 					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
+					 <frontfaceCulling value="1" />
 					 <gouraudShading value="1" />
 					 <normalizeNormals value="0" />
 					 <zBuffer value="1" />
@@ -2102,12 +2102,12 @@ float4 pixelMain(VertexShaderOutput input) : COLOR0 {
 
 		 <skybox>
 
-			 <texture path="data/lights/skdomeirr/irrlicht2_ft.jpg" />
-			 <texture path="data/lights/skdomeirr/irrlicht2_lf.jpg" />
-			 <texture path="data/lights/skdomeirr/irrlicht2_bk.jpg" />
-			 <texture path="data/lights/skdomeirr/irrlicht2_rt.jpg" />
-			 <texture path="data/lights/skdomeirr/irrlicht2_up.jpg" />
-			 <texture path="data/lights/skdomeirr/irrlicht2_dn.jpg" />
+			 <texture path="data/Lights/glacier_ft.png" />
+			 <texture path="data/Lights/glacier_lf.png" />
+			 <texture path="data/Lights/glacier_bk.png" />
+			 <texture path="data/Lights/glacier_rt.png" />
+			 <texture path="data/Lights/glacier_up.png" />
+			 <texture path="data/Lights/glacier_dn.png" />
 		 </skybox>
 
 

@@ -12,6 +12,9 @@
 #include <irrlicht.h>
 #include <ISSWEHDRManager.h>
 
+namespace cp3d {
+namespace video {
+
 enum E_SHADOW_MODE
 {
 	ESM_RECEIVE = 0,
@@ -40,6 +43,7 @@ enum E_SHADOW_LIGHT_TYPE
 };
 
 class ISSWERender;
+
 /*
 IPostProcessingRenderCallback pure virtual class
 Allows you to create custom callbacks 
@@ -181,5 +185,8 @@ public:
 	virtual bool isUsingHDRPass() = 0;
     
 };
+
+} /// End namespace video
+} /// End namespace cp3d
 
 #endif

@@ -85,7 +85,7 @@ enum CXT_EDIT_WINDOW_EVENTS {
     CXT_EDIT_WINDOW_EVENTS_CLOSE_BUTTON
 };
 
-class CUIWindowEditNode : public IEventReceiver, IUpdate {
+class CUIWindowEditNode : public IEventReceiver, cp3d::core::IUpdate {
     
 public:
     
@@ -176,7 +176,7 @@ private:
 	IGUIComboBox *pBodyType;
 	IGUIEditBox *pMasseb;
 	IGUIButton *pEditBody;
-	ISData::E_ISDATA_PHYSIC_TYPE lastPhysicBodyType;
+	cp3d::core::ISData::E_ISDATA_PHYSIC_TYPE lastPhysicBodyType;
 
 	//ANIMATED
 	IGUICheckBox *drawAnimations;

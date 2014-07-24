@@ -3,6 +3,9 @@
 
 #include <irrlicht.h>
 
+namespace cp3d {
+namespace video {
+
 class IHDRManager {
 
 public:
@@ -45,5 +48,7 @@ public:
 
 };
 
+} /// End namespace video
+} /// End namespace cp3d
 
 #endif

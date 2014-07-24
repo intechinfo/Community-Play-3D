@@ -607,10 +607,10 @@ void CExporter::exportPhysics(stringc tabs, ISceneNode *node) {
 	if (data) {
 		fprintf(export_file, stringc(tabs + " \t <body type=\"%d\">\n").c_str(), data->getBodyType());
 
-		if (data->getBodyType() == ISData::EIPT_RIGID_BODY) {
+		if (data->getBodyType() == cp3d::core::ISData::EIPT_RIGID_BODY) {
 			fprintf(export_file, stringc(tabs + " \t\t <mass value=\"%f\" />\n").c_str(), ((IRigidBody*)data->getBodyPtr())->getCollisionShape()->getMass());
 		}
-		if (data->getBodyType() == ISData::EIPT_SOFT_BODY) {
+		if (data->getBodyType() == cp3d::core::ISData::EIPT_SOFT_BODY) {
 
 		}
 

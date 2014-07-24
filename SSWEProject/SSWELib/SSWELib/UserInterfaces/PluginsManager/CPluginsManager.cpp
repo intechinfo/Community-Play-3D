@@ -81,7 +81,8 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			}
 		}*/
         for (u32 j=0; j < devices->getCoreData()->getMonitors()->size(); j++) {
-            if (devices->getCoreData()->getMonitors()->operator[](j).getName() == path) {
+			stringc temp_path = devices->getCoreData()->getMonitors()->operator[](j).getName();
+			if (devices->getCoreData()->getMonitors()->operator[](j).getName() == path) {
                 devices->getMonitorRegister()->unregisterMonitor(i);
                 devices->getCoreData()->destroyMonitor(devices->getCoreData()->getMonitors()->operator[](j).getMonitor());
                 return;
@@ -106,7 +107,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
     #ifdef _IRR_WINDOWS_API_
 
 	HINSTANCE hdll = NULL;
-	IMonitor* newMonitor = NULL;
+	cp3d::video::IMonitor* newMonitor = NULL;
 	typedef void* (*pvFunctv)();
 	pvFunctv createMonitor;
 	hdll = LoadLibrary(stringw(ppath).c_str());
@@ -117,7 +118,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 		if (createMonitor == NULL) {
 			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createMonitor\" into the DLL").c_str(), EMBF_OK);
 		} else {
-			newMonitor = static_cast < IMonitor* > (createMonitor());
+			newMonitor = static_cast < cp3d::video::IMonitor* > (createMonitor());
 
 			newMonitor->setActiveCamera(devices->getRenderingSceneManager()->getActiveCamera());
 			newMonitor->setSceneManager(devices->getRenderingSceneManager());
@@ -128,6 +129,7 @@ void CPluginsManager::loadMonitorPlugin(stringc path) {
 			newMonitor->init();
 
 			SMonitor m(newMonitor, hdll);
+			m.setName(path);
 			devices->getCoreData()->getMonitors()->push_back(m);
 			devices->getMonitorRegister()->registerMonitor(newMonitor);
 		}
@@ -189,7 +191,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
     #else
     void *hdll = NULL;
     #endif
-	ISSWELibPlugin* newPlugin = NULL;
+	cp3d::core::ISSWELibPlugin* newPlugin = NULL;
 	typedef void* (*pvFunctv)();
 	pvFunctv createSSWELibPlugin;
     #ifdef _IRR_WINDOWS_API_
@@ -197,7 +199,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
     #else
     hdll = dlopen(stringc(ppath).c_str(), RTLD_LAZY);
     #endif
-
+	
 	if (hdll == NULL) {
 		devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
 	} else {
@@ -209,7 +211,7 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 		if (createSSWELibPlugin == NULL) {
 			devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot find the process \"createSSWELibPlugin\" into the DLL").c_str(), EMBF_OK);
 		} else {
-			newPlugin = static_cast < ISSWELibPlugin* > (createSSWELibPlugin());
+			newPlugin = static_cast < cp3d::core::ISSWELibPlugin* > (createSSWELibPlugin());
 
             SSSWEPlugin sswePlugin(newPlugin, hdll);
             devices->getCoreData()->getSSWEPlugins()->push_back(sswePlugin);
@@ -217,6 +219,46 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 			newPlugin->setDevices(devices);
 			newPlugin->setWorkingDirectory(devices->getWorkingDirectory() + "Plugins/SSWE/");
 			newPlugin->open();
+		}
+	}
+}
+
+void CPluginsManager::loadAudioPlugin(stringc path) {
+
+    #ifdef _IRR_WINDOWS_API_
+	HINSTANCE hdll = NULL;
+    #else
+    void *hdll = NULL;
+    #endif
+	cp3d::audio::IAudioManager* newPlugin = NULL;
+	typedef void* (*pvFunctv)();
+	pvFunctv createAudioManager;
+    #ifdef _IRR_WINDOWS_API_
+	hdll = LoadLibrary(stringw(path).c_str());
+    #else
+    hdll = dlopen(stringc(path).c_str(), RTLD_LAZY);
+    #endif
+
+	if (hdll == NULL) {
+		devices->addErrorDialog(L"Plugin Error", stringw(path + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
+	} else {
+        #ifdef _IRR_WINDOWS_API_
+		createAudioManager = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createAudioManager"));
+        #else
+        createAudioManager = reinterpret_cast < pvFunctv > (dlsym(hdll, "createAudioManager"));
+        #endif
+		if (createAudioManager == NULL) {
+			devices->addErrorDialog(L"Plugin Error", stringw(path + L"\nAn error occured\nCannot find the process \"createSSWELibPlugin\" into the DLL").c_str(), EMBF_OK);
+		} else {
+			newPlugin = static_cast < cp3d::audio::IAudioManager* > (createAudioManager());
+
+			if (!newPlugin->initialize())
+				exit(0);
+
+			SAudioPlugin audioPlugin("testaudio", hdll);
+			audioPlugin.setAudioManager(newPlugin);
+
+			devices->getCoreData()->getAudioPlugins()->push_back(audioPlugin);
 		}
 	}
 }

@@ -5,6 +5,9 @@
 
 #include <ISSWERender.h>
 
+namespace cp3d {
+namespace video {
+
 class IMonitor
 {
 public:
@@ -77,6 +80,9 @@ protected:
 
 	irr::core::stringc monitorName;
 };
+
+} /// End namespace video
+} /// End namespace cp3d
 
 //! ARRAY HOLDING THE EXISTING METHODS INTO INonitor INTERFACE
 /*const char* const sIMonitorMethodsNames[] = {

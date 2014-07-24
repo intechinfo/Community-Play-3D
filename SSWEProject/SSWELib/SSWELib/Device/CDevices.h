@@ -54,7 +54,7 @@ enum DEVICES_FILE_OPEN_DIALOG_EVENTS {
 	DEVICES_FILE_OPEN_DIALOG_EVENTS_OK
 };
 
-class CDevices : public IDevices, public IEventReceiver {
+class CDevices : public cp3d::core::IDevices, public IEventReceiver {
 
 public:
 
@@ -169,8 +169,8 @@ public:
 
 	//-----------------------------------
 	//UI ADVANCED DIALOG METHODS
-	IGUICodeEditor *createGUICodeEditor();
-	ISData *getSelectedData();
+	cp3d::tool::IGUICodeEditor *createGUICodeEditor();
+	cp3d::core::ISData *getSelectedData();
 	//-----------------------------------
 
 	//-----------------------------------

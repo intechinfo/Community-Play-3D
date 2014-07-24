@@ -322,7 +322,7 @@ int matrix4SetWorld(lua_State *L) {
 	matrix4 *mat = checkMatrix4(L, 1);
 	MATRIX4_CHECK_MATRIX(mat);
 
-	mat->operator=(_driver->getTransform(video::ETS_WORLD));
+	mat->operator=(_driver->getTransform(irr::video::ETS_WORLD));
 
 	return 1;
 }
@@ -331,7 +331,7 @@ int matrix4SetView(lua_State *L) {
 	matrix4 *mat = checkMatrix4(L, 1);
 	MATRIX4_CHECK_MATRIX(mat);
 
-	mat->operator=(_driver->getTransform(video::ETS_VIEW));
+	mat->operator=(_driver->getTransform(irr::video::ETS_VIEW));
 
 	return 1;
 }
@@ -340,7 +340,7 @@ int matrix4SetProj(lua_State *L) {
 	matrix4 *mat = checkMatrix4(L, 1);
 	MATRIX4_CHECK_MATRIX(mat);
 
-	mat->operator=(_driver->getTransform(video::ETS_PROJECTION));
+	mat->operator=(_driver->getTransform(irr::video::ETS_PROJECTION));
 
 	return 1;
 }
@@ -350,9 +350,9 @@ int matrix4SetWorldViewProj(lua_State *L) {
 	MATRIX4_CHECK_MATRIX(mat);
 
 	mat->makeIdentity();
-	mat->operator*=(_driver->getTransform(video::ETS_PROJECTION));
-	mat->operator*=(_driver->getTransform(video::ETS_VIEW));
-	mat->operator*=(_driver->getTransform(video::ETS_WORLD));
+	mat->operator*=(_driver->getTransform(irr::video::ETS_PROJECTION));
+	mat->operator*=(_driver->getTransform(irr::video::ETS_VIEW));
+	mat->operator*=(_driver->getTransform(irr::video::ETS_WORLD));
 
 	return 1;
 }

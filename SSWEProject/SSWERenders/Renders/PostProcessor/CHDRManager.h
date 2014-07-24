@@ -11,7 +11,7 @@ namespace Graphics {
     class HDRPostProcess;
 }
 
-class CHDRManager : public IHDRManager {
+class CHDRManager : public cp3d::video::IHDRManager {
 
 public:
 

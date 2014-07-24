@@ -15,15 +15,18 @@ The goal is to have the possibility of making tests in real-time with real-time 
 
 #include <IDevices.h>
 
-class ISSWELibPlugin : irr::IEventReceiver, IUpdate {
+namespace cp3d {
+namespace core {
+
+class ISSWELibPlugin : irr::IEventReceiver, cp3d::core::IUpdate {
 public:
 	/// Sets the CP3D device that can acceed to the irrlicht device
 	/// Cf. IDevices.h
-	void setDevices(IDevices *_devices) {
+	void setDevices(cp3d::core::IDevices *_devices) {
 		devices = _devices;
 	}
 	/// Returns the CP3D device. So far only used by CP3D
-	IDevices *getDevices() {
+	cp3d::core::IDevices *getDevices() {
 		return devices;
 	}
 
@@ -32,6 +35,12 @@ public:
 	void setWorkingDirectory(irr::core::stringw _workingDirectory) {
 		workingDirectory = _workingDirectory;
 	}
+
+	/// update method, called every loop
+	virtual void update() = 0;
+
+	/// Event receiver
+	virtual bool OnEvent(const SEvent &event) = 0;
 
 	/// Called after the CP3D has built the plugin's instance
 	/// open() is used to initialize elements like GUI elements, scene nodes, etc.
@@ -44,16 +53,19 @@ public:
 	/// Then, you can free the memory yourself
 	virtual void close() {
 		devices->getEventReceiver()->RemoveEventReceiver(this);
-		devices->getCoreData()->destroySSWEPlugin(this);
 		delete this;
+		//devices->getCoreData()->destroySSWEPlugin(this);
 	}
 
 protected:
 	/// Main class that is a more advanced Irrlicht Device
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 
 	/// plugin's working directory (example : C:/my_folder/SSWE/Plugins/SSWE/)
 	irr::core::stringw workingDirectory;
 };
+
+} /// End namespace core
+} /// End namespace cp3d
 
 #endif

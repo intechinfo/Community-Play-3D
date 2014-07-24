@@ -6,6 +6,9 @@
 #include "../SSWECore/SSWECore/DecaleSystem/DecalManager.h"
 #include "../SSWECore/SSWECore/DecaleSystem/CBatchingMesh.h"
 
+namespace cp3d {
+namespace tool {
+
 class IGraphicTool {
 
 public:
@@ -15,5 +18,8 @@ public:
 	virtual DecalManager *getDecalManager() const = 0;
 
 };
+
+} /// End namespace tool
+} /// End namespace cp3d
 
 #endif

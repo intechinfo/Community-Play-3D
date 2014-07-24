@@ -24,7 +24,7 @@ enum CXT_EDIT_LIGHT_WINDOW_EVENTS {
     CXT_EDIT_LIGHT_WINDOW_EVENTS_CLOSE_BUTTON
 };
 
-class CUIWindowEditLight : public IEventReceiver, public IUpdate {
+class CUIWindowEditLight : public IEventReceiver, public cp3d::core::IUpdate {
     
 public:
     

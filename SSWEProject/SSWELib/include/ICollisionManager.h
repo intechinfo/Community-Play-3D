@@ -3,6 +3,9 @@
 
 #include <irrlicht.h>
 
+namespace cp3d {
+namespace core {
+
 class IFPSCameraSettings {
 public:
 	//METHODS
@@ -50,5 +53,8 @@ public:
     virtual irr::scene::IMetaTriangleSelector *getMetaTriangleSelectors() = 0;
     //-----------------------------------
 };
+
+} /// End namespace core
+} /// End namespace cp3d
 
 #endif

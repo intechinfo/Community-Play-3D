@@ -17,7 +17,7 @@
 class COpenSCADDocument : public irr::IEventReceiver {
 public:
 
-	COpenSCADDocument(IDevices *_devices, irr::core::stringc _workingDirectory);
+	COpenSCADDocument(cp3d::core::IDevices *_devices, irr::core::stringc _workingDirectory);
 	~COpenSCADDocument();
 
 	bool OnEvent(const SEvent &event);
@@ -35,7 +35,7 @@ private:
 
 	//-----------------------------------
 	//DATAS
-	IDevices *devices;
+	cp3d::core::IDevices *devices;
 
 	irr::core::stringw openscadCode;
 	irr::core::stringc workingDirectory;
@@ -45,7 +45,7 @@ private:
 
 	//-----------------------------------
 	//GUI ELEMENTS
-	IGUICodeEditor *codeEditor;
+	cp3d::tool::IGUICodeEditor *codeEditor;
 
 	irr::gui::IGUIButton *buildButton;
 	irr::gui::IGUIButton *closeButton;

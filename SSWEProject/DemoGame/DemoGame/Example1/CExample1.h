@@ -17,7 +17,7 @@ public:
 
 	//-----------------------------------
 	//CTOR & DTOR
-    CExample1(ISSWECoreUserInterface *core);
+    CExample1(cp3d::ISSWECoreUserInterface *core);
 	~CExample1();
 	//-----------------------------------
 
@@ -36,8 +36,8 @@ private:
 
 	//-----------------------------------
 	//DATAS
-	ISSWECoreUserInterface *core;
-	IDevices *devices;
+	cp3d::ISSWECoreUserInterface *core;
+	cp3d::core::IDevices *devices;
 	//-----------------------------------
 
 };

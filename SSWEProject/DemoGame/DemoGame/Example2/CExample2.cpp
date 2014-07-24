@@ -10,7 +10,7 @@
 
 #include "CExample2.h"
 
-CExample2::CExample2(ISSWECoreUserInterface *core) {
+CExample2::CExample2(cp3d::ISSWECoreUserInterface *core) {
 	/// Get the core user interface
 	this->core = core;
 	/// Get the IDevices interface router

@@ -14,7 +14,7 @@
 
 #include <ICollisionManager.h>
 
-class SSWE_CORE_API SFPSCameraSettings : public IFPSCameraSettings {
+class SSWE_CORE_API SFPSCameraSettings : public cp3d::core::IFPSCameraSettings {
 
 public:
 	SFPSCameraSettings() {
@@ -89,7 +89,7 @@ private:
 	f32 slidingValue;
 };
 
-class SSWE_CORE_API CCollisionManager : public ICollisionManager {
+class SSWE_CORE_API CCollisionManager : public cp3d::core::ICollisionManager {
     
 public:
 	

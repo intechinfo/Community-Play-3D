@@ -16,6 +16,7 @@ public:
 
 	void loadMonitorPlugin(stringc path);
 	void loadSSWEPlugin(stringc path);
+	void loadAudioPlugin(stringc path);
 
 private:
 
