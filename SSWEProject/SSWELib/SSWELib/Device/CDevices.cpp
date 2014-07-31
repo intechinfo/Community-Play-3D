@@ -123,7 +123,8 @@ void CDevices::updateEntities() {
     //UPDATE EFFECT LIGHTS
     for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getNode()->getPosition() != effect->getShadowLight(i).getPosition()
-			|| worldCoreData->getLightsData()->operator[](i).getNode()->getScale() != effect->getShadowLight(i).getTarget()) {
+			|| worldCoreData->getLightsData()->operator[](i).getNode()->getScale() != effect->getShadowLight(i).getTarget())
+		{
 			effect->getShadowLight(i).setRecalculate(true);
 		}
 

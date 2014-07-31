@@ -36,7 +36,7 @@ void CExample5::load() {
 	});
 
 	/// Add some cubes in the air with a rotation animator
-	bool inverse = true;
+	bool inverse = true; /// If we inverse the rotation
 	for (u32 i=0; i < 50; i++) {
 		factory->createCubeSceneNode([=](ISceneNode *node) {
 			f32 diff = 100.f;
@@ -44,11 +44,12 @@ void CExample5::load() {
 			node->setScale(vector3df(0.3f, 0.3f, 0.3f));
 			node->getMaterial(0).setTexture(0, devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg"));
 
+			/// Create a rotation animator and add it to the current cube node
 			ISceneNodeAnimator *anim = devices->getSceneManager()->createRotationAnimator(vector3df(0.3f, 0.3f, 0.3f) * ((inverse) ? -1.f : 1.f));
 			node->addAnimator(anim);
 			anim->drop();
 		});
-		inverse = !inverse;
+		inverse = !inverse; /// Inverse the rotation or not
 	}
 
 	/// Finally, add a light
@@ -73,7 +74,10 @@ void CExample5::load() {
 		[=](cp3d::video::ISSWERender *render, irr::s32 materialType) {
 			render->setPostProcessingEffectConstant(materialType, "Desaturation", &desaturation, 1);
 		},
-		[](cp3d::video::ISSWERender *render, irr::s32 materialType) { });
+		[](cp3d::video::ISSWERender *render, irr::s32 materialType) {
+			/// Nothing for post render :)
+		}
+	);
 
 	/// Hide the mouse cursor
 	devices->getDevice()->getCursorControl()->setVisible(false);

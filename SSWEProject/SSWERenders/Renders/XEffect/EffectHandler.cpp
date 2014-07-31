@@ -364,7 +364,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 		ICameraSceneNode* activeCam = smgr->getActiveCamera();
 		activeCam->OnAnimate(device->getTimer()->getTime());
-		//activeCam->OnRegisterSceneNode();
+		activeCam->OnRegisterSceneNode();
 		activeCam->render();
 
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
@@ -408,6 +408,9 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 								(BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF
 															? DepthT : Depth);
 						}
+
+						if (ShadowNodeArray[i].node->getParent() == activeCam)
+							activeCam->OnAnimate(device->getTimer()->getTime());
 
 						ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
 						ShadowNodeArray[i].node->render();
