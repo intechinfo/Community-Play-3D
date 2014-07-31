@@ -45,7 +45,6 @@ private:
     irr::f32 animSpeed;
 
 	irr::core::stringc animationsPath;
-
 };
 
 #endif

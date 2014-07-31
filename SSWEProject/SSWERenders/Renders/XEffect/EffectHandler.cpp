@@ -53,13 +53,13 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	amp = new Amplifier();
 	quad = new Graphics::CHDRScreenQuad();
 
-	psm = new PhongShaderManager(driver, device->getFileSystem()->getWorkingDirectory());
+	//psm = new PhongShaderManager(driver, device->getFileSystem()->getWorkingDirectory());
 	pp = new HDRPostProcess(ScreenRTTSize);
 	ppm->AddPostProcess(pp);
 	pp->GetBloomGenerator()->SetGaussianCoefficient(0.3f);
 
 	phong.Lighting = false;
-	phong.MaterialType = psm->getMaterialType();
+	//phong.MaterialType = psm->getMaterialType();
 	phong.Shininess = 1.0f;
 	phong.MaterialTypeParam = 200.0f;
 
@@ -184,8 +184,11 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		DepthOfField = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
 													   sPP.ppShader(DEPTH_OF_FIELD_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
 
-		NormalPass = gpu->addHighLevelShaderMaterial(sPP.ppShader(NORMAL_PASS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
-													 sPP.ppShader(NORMAL_PASS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, normalMC);
+		if (driver->getDriverType() == EDT_OPENGL)
+			NormalPass = EMT_SOLID;
+		else
+			NormalPass = gpu->addHighLevelShaderMaterial(sPP.ppShader(NORMAL_PASS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+														 sPP.ppShader(NORMAL_PASS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, normalMC);
 
 		// Drop the screen quad callback.
 		SQCB->drop();
@@ -966,6 +969,17 @@ void EffectHandler::setPostProcessingEffectConstant(const irr::s32 materialType,
 		PostProcessingRoutines[matIndex].callback->uniformDescriptors[name] = ScreenQuadCB::SUniformDescriptor(data, count);
 }
 
+s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& filename,
+												   std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback,
+												   std::function<void(ISSWERender *render, irr::s32 materialType)> postRenderCallback,
+												   bool pushFront)
+{
+	IPostProcessingRenderCallback *renderCallback = new CCustomFilterCallback(preRenderCallback, postRenderCallback);
+	s32 mat = addPostProcessingEffectFromFile(filename, renderCallback, pushFront);
+	((CCustomFilterCallback*)renderCallback)->MaterialType = mat;
+
+	return mat;
+}
 
 s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& filename,
                                                    IPostProcessingRenderCallback* callback,

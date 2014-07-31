@@ -43,7 +43,6 @@ bool CAudioElement::load(irr::core::stringc path) {
 
 bool CAudioElement::play() {
 	result = system->playSound(FMOD_CHANNEL_FREE, sound, false, &channel);
-
 	assert(result == FMOD_OK);
 
 	return result == FMOD_OK;
@@ -61,6 +60,8 @@ void CAudioElement::setCurrentTime(irr::u32 time) {
 }
 
 irr::u32 CAudioElement::getCurrentTime() {
+	if (!channel) return 0;
+
 	irr::u32 time;
 	channel->getPosition(&time, FMOD_TIMEUNIT_MS);
 
@@ -68,10 +69,21 @@ irr::u32 CAudioElement::getCurrentTime() {
 }
 
 irr::u32 CAudioElement::getDuration() {
+	if (!sound) return 0;
+
 	irr::u32 time;
 	sound->getLength(&time, FMOD_TIMEUNIT_MS);
 
 	return time;
+}
+
+void CAudioElement::setLoopMode(bool enable) {
+	if (enable)
+		channel->setMode(FMOD_LOOP_NORMAL);
+	else
+		channel->setMode(FMOD_LOOP_OFF);
+
+	IAudioElement::setLoopMode(enable);
 }
 
 void CAudioElement::close() {

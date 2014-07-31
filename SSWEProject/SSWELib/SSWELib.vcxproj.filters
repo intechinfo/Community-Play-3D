@@ -178,6 +178,9 @@
     <Filter Include="SSWELib\UserInterfaces\Audio">
       <UniqueIdentifier>{06ad6a02-5275-414f-8b84-0df8c0c22e8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\GUIExtension\SoundViewer">
+      <UniqueIdentifier>{dcf7ea66-528d-42ac-b89c-1034ffdc3d6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -524,6 +527,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\Audio\CUIAddAudioElement.cpp">
       <Filter>SSWELib\UserInterfaces\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\GUIExtension\SoundViewer\CGUISoundViewer.cpp">
+      <Filter>SSWELib\GUIExtension\SoundViewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -958,6 +964,12 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\Audio\CUIAddAudioElement.h">
       <Filter>SSWELib\UserInterfaces\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\GUIExtension\SoundViewer\CGUISoundViewer.h">
+      <Filter>SSWELib\GUIExtension\SoundViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IFactory.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

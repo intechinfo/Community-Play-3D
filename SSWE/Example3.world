@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="220.226959" Y="100.056831" Z="133.181030" />
-			 <rotation X="358.480255" Y="238.750031" Z="0.000000" />
+			 <position X="274.063385" Y="12.242988" Z="-221.529800" />
+			 <rotation X="1.519698" Y="304.821564" Z="0.000000" />
 
 		 </camera>
 
@@ -1402,7 +1402,7 @@ vfloat time + ctime 1000
 			 <name c8name="#light:new_light" />
 
 			 <position X="-64.776123" Y="261.182617" Z="-25.786285" />
-			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+			 <target X="70.423279" Y="66.581360" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
@@ -1432,6 +1432,16 @@ vfloat time + ctime 1000
  			 </lensFlare>
 
 		 </light>
+
+		 <skybox>
+
+			 <texture path="data/Lights/glacier_ft.png" />
+			 <texture path="data/Lights/glacier_lf.png" />
+			 <texture path="data/Lights/glacier_bk.png" />
+			 <texture path="data/Lights/glacier_rt.png" />
+			 <texture path="data/Lights/glacier_up.png" />
+			 <texture path="data/Lights/glacier_dn.png" />
+		 </skybox>
 
 
 	</scene>

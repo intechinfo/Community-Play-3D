@@ -32,8 +32,10 @@ HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfB
 	else
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDR);
 
-	if(fh == NULL)
+	if(fh == NULL) {
 		throw new Exception("HDR shader file couldn't be opened", __FUNCTION__);
+		exit(0);
+	}
 
 	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->
 		addHighLevelShaderMaterialFromFiles(nullptr,
@@ -44,6 +46,7 @@ HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfB
 	if(mt < 0) {
 		fh->drop();
 		throw new Exception("HDR shader couldn't be loaded", __FUNCTION__);
+		exit(0);
 	}
 
 	quad.SetMaterialType(mt);

@@ -53,14 +53,35 @@ public:
 	/// Get total time of the sound, duration
 	virtual irr::u32 getDuration() = 0;
 
+	/// Set loop mode enabled or disabled
+	virtual void setLoopMode(bool enable) {
+		LoopMode = enable;
+	}
+
+	bool isLoopMode() {
+		return LoopMode;
+	}
+
 	/// Retunrs the type of the sound : 2D or 3D
 	E_AUDIO_ELEMENT_TYPE getType() {
 		return Type;
 	}
 
+	/// Sets the audio file path
+	void setPath(irr::core::stringc path) {
+		Path = path;
+	}
+
+	/// Retunrs the audio file path
+	irr::core::stringc getPath() {
+		return Path;
+	}
+
 protected:
 
 	E_AUDIO_ELEMENT_TYPE Type;
+	irr::core::stringc Path;
+	bool LoopMode;
 
 };
 

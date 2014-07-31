@@ -18,7 +18,7 @@ const char* LIGHT_MODULATE_P[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n
 "{		"
 "	vec4 finalCol = texture2D(ColorMapSampler, gl_TexCoord[0].xy);\n"
 "	vec4 lightCol = texture2D(ScreenMapSampler, gl_TexCoord[0].xy);\n"
-""
+"\n"
 "	gl_FragColor = finalCol * lightCol;\n"
 "}"
 ,
@@ -64,7 +64,7 @@ const char* SHADOW_PASS_1PT[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n"
 ""
 "float4 pixelMain(float4 Color: TEXCOORD0, float2 Texcoords: TEXCOORD1) : COLOR0"
 "{"
-"	float depth = Color.z / Color.x;\n"
+"	float depth = Color.z / Color.w;\n"
 "	"
 "	float alpha = tex2D(ColorMapSampler, Texcoords).a;\n"
 "	"
@@ -558,7 +558,7 @@ const char* BLACK_PASS_P[ESE_COUNT] = {
 const char* SELECTION_PASS_V[ESE_COUNT] = {
 "void main() {\n"
 "   gl_Position = ftransform();\n"
-"   gl_TexCoord[0].xy = gl_MultiTexCoord0.xy\n"
+"   gl_TexCoord[0].xy = gl_MultiTexCoord0.xy;\n"
 "}\n"
 "\n"
 ,

@@ -11,7 +11,7 @@ using namespace io;
 
 namespace Graphics {
 
-class Amplifier {
+class Amplifier : public irr::video::IShaderConstantSetCallBack {
 
 public:
 
@@ -36,6 +36,11 @@ public:
 		}
 
 		fh->drop();
+	}
+
+	void OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+		irr::s32 tex0 = 0;
+		services->setPixelShaderConstant("tex0", &tex0, 1);
 	}
 
 	E_MATERIAL_TYPE getMaterialType() { return mt; }

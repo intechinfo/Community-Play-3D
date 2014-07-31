@@ -46,6 +46,8 @@ void CDefaultAudioManager::close(bool deleteElements) {
 
 IAudioElement *CDefaultAudioManager::add2DAudioElementFromFile(irr::core::stringc path) {
 	CAudioElement *element = new CAudioElement(system, path);
+	element->setPath(path);
+
 	Elements.push_back(element);
 
 	return element;
@@ -53,6 +55,8 @@ IAudioElement *CDefaultAudioManager::add2DAudioElementFromFile(irr::core::string
 
 IAudioElement3D *CDefaultAudioManager::add3DAudioElementFromFile(irr::core::stringc path, irr::scene::ISceneManager *smgr) {
 	CAudioElement3D *element = new CAudioElement3D(system, smgr, path);
+	element->setPath(path);
+
 	Elements.push_back(element);
 
 	return element;

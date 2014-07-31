@@ -12,6 +12,8 @@
 #include <irrlicht.h>
 #include <ISSWEHDRManager.h>
 
+#include <functional>
+
 namespace cp3d {
 namespace video {
 
@@ -46,7 +48,10 @@ class ISSWERender;
 
 /*
 IPostProcessingRenderCallback pure virtual class
-Allows you to create custom callbacks 
+Allows you to create custom callbacks when calling:
+	virtual irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename,
+													 IPostProcessingRenderCallback* callback = 0,
+													 bool pushFront=false) = 0;
 Example usage :
 
 class CCallbackExample : IPostProcessingRenderCallback {
@@ -75,6 +80,18 @@ private:
 
 };
 
+Create a callback using lambdas:
+
+renderer->addPostProcessingEffectFromFile("shaders/HLSL/my_shader.hlsl",
+	[](cp3d::video::ISSWERender *render, irr::s32 materialType) {
+		/// PreRender
+		render->setPostProcessingEffectConstant(materialType, "my_constant", &my_variable, count);
+	},
+	[](cp3d::video::ISSWERender *render, irr::s32 materialType) {
+		/// PostRender, same method as PreRender
+	}
+);
+
 */
 class IPostProcessingRenderCallback {
 
@@ -83,6 +100,51 @@ public:
 	virtual void OnPreRender(ISSWERender* effect) = 0;
 	virtual void OnPostRender(ISSWERender* effect) = 0;
 
+};
+
+struct IShadowLight {
+	
+public:
+
+	/// Returns the far value of the light
+	virtual irr::f32 getFarValue() const = 0;
+	/// Sets a new far value for the light
+    virtual void setFarValue(const irr::f32 farPlane) = 0;
+
+	/// Returns the near value of the light
+	virtual irr::f32 getNearValue() const = 0;
+	/// Sets the new near value for the light
+	virtual void setNearValue(const irr::f32 nearValue) = 0;
+
+	/// Returns the FOV of the light
+	virtual irr::f32 getFOV() const = 0;
+	/// Sets the new FOV of the light
+	virtual void setFOV(const irr::f32 fov) = 0;
+
+	/// Sets the new shadow map resolution of the light
+	virtual void setShadowMapResolution(irr::u32 shadowMapResolution) = 0;
+	/// Returns the shadow map resolution of the light
+	virtual irr::u32 &getShadowMapResolution() = 0;
+
+	/// Sets the new shadow light type
+	virtual void setLightType(E_SHADOW_LIGHT_TYPE type) = 0;
+	/// Returns the shadow light type
+	virtual E_SHADOW_LIGHT_TYPE getLightType() = 0;
+
+	/// Returns if the shadow light is a torch
+	virtual bool isTorchMode() = 0;
+	/// Shortcut to set the shadow light as a torch
+	virtual void setTorchMode(bool use) = 0;
+
+	/// Returns if the light must recalculate the shadow map
+	virtual bool mustRecalculate() = 0;
+	/// Sets if the light must recalculate the shadow map
+	virtual void setRecalculate(bool recalculate) = 0;
+
+	/// Returns if the shadow map is automatically recalculated by the light
+	virtual bool isAutoRecalculate() = 0;
+	/// Sets if the shadow map is automatically recalculated by the light
+	virtual void setAutoRecalculate(bool autoRecalculate) = 0;
 };
 
 class ISSWERender {
@@ -125,6 +187,10 @@ public:
 
 	/// Recalculate all the lights in the scene. Useful when you want to re-compute shadows for all lights or unordered lights.
 	virtual void setAllShadowLightsRecalculate() = 0;
+	/// Returns the IShadowLight at index "index"
+	virtual IShadowLight &getShadowLight(irr::u32 index) = 0;
+	/// Returns the shadow light count
+	virtual const irr::u32 getShadowLightCount() const = 0;
 
 	/// Set enable and disable Motion Blur renderer
 	/// use : set true if you want to use
@@ -137,6 +203,16 @@ public:
 	/// Get is DOF is enabled
 	virtual bool isUsingDepthOfField() = 0;
 
+	/// Returns if depth pass is enabled
+    virtual bool isDepthPassEnabled() = 0;
+	/// Sets depth pass enabled or disabled
+	virtual void enableDepthPass(bool enableDepthPass) = 0;
+
+	/// Sets if use the VSM shadows
+	virtual void setUseVSMShadows(bool use) = 0;
+	/// Returns if the renderer is using VSM shadows
+	virtual bool isUsingVSMShadows() = 0;
+
 	/// Removes of the post processing effects added by the user
 	/// removeCallbacks : set true if you want to remove the LUA callback programs too.
 	virtual void removeAllPostProcessingEffects(bool removeCallbacks = true) = 0;
@@ -146,6 +222,10 @@ public:
 	/// callback : the LUA callback program or a custom callback implementation that heritates IPostProcessingRenderCallback
 	/// pushfront : set true if you want to push the filter in front of all other filters
 	virtual irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename, IPostProcessingRenderCallback* callback = 0, bool pushFront=false) = 0;
+	virtual irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename, 
+													 std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback,
+													 std::function<void(ISSWERender *render, irr::s32 materialType)> postRenderCallback,
+													 bool pushFront=false) = 0;
 
 	/// Add a post-processing effect (filter) from a string
 	/// pixelShader : the string containing the shader program
@@ -163,7 +243,6 @@ public:
 	/// data : the data you want to send to the shader program
 	/// count : the amount of data in the pointer "*data"
 	virtual void setPostProcessingEffectConstant(const irr::s32 materialType, const irr::core::stringc& name, irr::f32* data, const irr::u32 count) = 0;
-
 	/// Sets a callback the specified post-process filter
 	/// MaterialType : the material type (the post-process filter)
 	/// callback : the callback implementation that heritates IPostProcessingRenderCallback

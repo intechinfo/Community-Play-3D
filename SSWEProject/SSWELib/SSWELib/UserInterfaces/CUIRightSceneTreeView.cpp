@@ -286,7 +286,12 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 				ISceneNode *node = (ISceneNode *)sceneView->getSelected()->getData();
 				if (node) {
 					cxtMenu->getMainWindow()->selectSelectedNode(node);
-					devices->getObjectPlacement()->setNodeToPlace(node);
+					CCoreObjectPlacement::ArrowType type = devices->getObjectPlacement()->getArrowType();
+					if (type != CCoreObjectPlacement::Undefined) {
+						devices->getObjectPlacement()->setNodeToPlace(node);
+						devices->getObjectPlacement()->setArrowVisible(true);
+						devices->getObjectPlacement()->setAllowMoving(true);
+					}
 				}
 			}
 		}

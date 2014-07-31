@@ -251,6 +251,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\GUIExtension\NodesEditor\CGUINode.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\NodesEditor\CGUINodesEditor.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.cpp" />
+    <ClCompile Include="SSWELib\GUIExtension\SoundViewer\CGUISoundViewer.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\TimeLine\CGUITimeLine.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\ViewPort\CGUIViewPort.cpp" />
     <ClCompile Include="SSWELib\Renders\DepthOfField\CUIWindowEditDOF.cpp" />
@@ -353,6 +354,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="include\IAudioManager.h" />
     <ClInclude Include="include\ICollisionManager.h" />
     <ClInclude Include="include\IDevices.h" />
+    <ClInclude Include="include\IFactory.h" />
     <ClInclude Include="include\IGraphicTool.h" />
     <ClInclude Include="include\IGUICodeEditor.h" />
     <ClInclude Include="include\IMonitor.h" />
@@ -397,6 +399,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\GUIExtension\NodesEditor\CGUINode.h" />
     <ClInclude Include="SSWELib\GUIExtension\NodesEditor\CGUINodesEditor.h" />
     <ClInclude Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.h" />
+    <ClInclude Include="SSWELib\GUIExtension\SoundViewer\CGUISoundViewer.h" />
     <ClInclude Include="SSWELib\GUIExtension\TimeLine\CGUITimeLine.h" />
     <ClInclude Include="SSWELib\GUIExtension\ViewPort\CGUIViewPort.h" />
     <ClInclude Include="SSWELib\GUIExtension\ViewPort\IGUIViewPort.h" />

@@ -500,7 +500,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		effect = new EffectHandler(Device, driver->getScreenSize(), true, true, true);
 
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_4PCF;
+	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);
@@ -511,10 +511,11 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setFPSCamera(camera_fps);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
-	#ifndef _IRR_WINDOWS_API_
-    normalMappingMaterial = new CNormalMappingMaterial();
-    normalMappingMaterial->build(driver);
-	#endif
+	
+	if (driver->getDriverType() == EDT_OPENGL) {
+		normalMappingMaterial = new CNormalMappingMaterial();
+		normalMappingMaterial->build(driver);
+	}
 
 	renderCore = new CRenderCore(this);
 
@@ -548,6 +549,9 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//CONTROLLERS
 	animationController = new cp3d::controllers::CAnimationController(this);
+
+	//FACTORY
+	nodeFactory = new CNodeFactory(this);
 }
 
 void CDevices::rebuildXEffect() {

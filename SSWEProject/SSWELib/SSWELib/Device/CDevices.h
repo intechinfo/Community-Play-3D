@@ -29,6 +29,8 @@
 
 #include "../SceneNodes/Camera/CRiggedCamera.h"
 
+#include "../UserInterfaces/NodeFactory/CNodeFactory.h"
+
 #ifndef _IRR_OSX_PLATFORM_
     #include <omp.h>
 #endif
@@ -128,6 +130,8 @@ public:
 	irrBulletWorld *getBulletWorld() { return bulletWorld; }
 
 	cp3d::controllers::IAnimationController *getAnimationController() { return (cp3d::controllers::IAnimationController*)animationController; }
+
+	cp3d::scene::IFactory *getNodeFactory() { return nodeFactory; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -269,6 +273,7 @@ private:
 	irrBulletWorld *bulletWorld;
 
 	cp3d::controllers::CAnimationController *animationController;
+	CNodeFactory *nodeFactory;
 	//-----------------------------------
 
 	//-----------------------------------

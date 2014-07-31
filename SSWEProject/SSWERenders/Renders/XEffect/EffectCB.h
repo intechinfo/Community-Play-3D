@@ -78,6 +78,36 @@ public:
 	core::matrix4 worldViewProj;
 };
 
+class CCustomFilterCallback : public IPostProcessingRenderCallback {
+
+public:
+
+	CCustomFilterCallback(std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback, 
+						  std::function<void(ISSWERender *render, irr::s32 materialType)> postRenderCallback,
+						  irr::s32 materialType=-1)
+	{
+		PreRenderCallback = preRenderCallback;
+		PostRenderCallback = postRenderCallback;
+		MaterialType = materialType;
+	}
+
+	void OnPostRender(ISSWERender* effect) {
+		PostRenderCallback(effect, MaterialType);
+	}
+
+	void OnPreRender(ISSWERender* effect) {
+		PreRenderCallback(effect, MaterialType);
+	}
+
+	irr::s32 MaterialType;
+
+private:
+
+	std::function<void(ISSWERender *render, irr::s32 materialType)> PreRenderCallback;
+	std::function<void(ISSWERender *render, irr::s32 materialType)> PostRenderCallback;
+
+};
+
 class CHDRCallback : public IPostProcessingRenderCallback {
 
 public:

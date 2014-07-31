@@ -6,23 +6,27 @@
 //
 //
 
-#ifndef __C_EXAMPLE_4_H_INCLUDED__
-#define __C_EXAMPLE_4_H_INCLUDED__
+#ifndef __C_EXAMPLE_6_H_INCLUDED__
+#define __C_EXAMPLE_6_H_INCLUDED__
 
 #include <ISSWECoreUserInterface.h>
 
-class CExample4 : public irr::IEventReceiver, public cp3d::core::IUpdate {
+class CExample6 : public irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
 
 	//-----------------------------------
 	//CTOR & DTOR
-    CExample4(cp3d::ISSWECoreUserInterface *core);
-	~CExample4();
+    CExample6(cp3d::ISSWECoreUserInterface *core);
+	~CExample6();
+	//-----------------------------------
 
-	/// From IEventReceiver interface
+	//-----------------------------------
+	//INHERITANCE
+	/// Handle our events
 	bool OnEvent(const SEvent &event);
-	/// From IUpdate interface
+
+	/// Update the game
 	void update();
 	//-----------------------------------
 
@@ -43,14 +47,15 @@ private:
 	//DATAS
 	cp3d::ISSWECoreUserInterface *core;
 	cp3d::core::IDevices *devices;
-
-	irr::scene::IAnimatedMeshSceneNode *mp5Node;
 	//-----------------------------------
 
 	//-----------------------------------
-	//ANIMATIONS
-	bool reloading;
-	bool fireing;
+	//CHARACTER
+	irr::f32 direction;
+	irr::f32 zdirection;
+	irr::scene::IAnimatedMeshSceneNode *player;
+	irr::scene::IBoneSceneNode *boneNode;
+	irr::scene::ICameraSceneNode *camera;
 	//-----------------------------------
 };
 

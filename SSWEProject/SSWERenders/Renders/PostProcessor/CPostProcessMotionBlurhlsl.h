@@ -47,9 +47,13 @@ private:
 	video::ITexture*    m_rtPrev;
 	video::ITexture*    m_rtAccum;
    
-	irr::core::stringc vertex_shader;
-	irr::core::stringc pixel_shader_1;
-	irr::core::stringc pixel_shader_2;
+	irr::core::stringc vertex_shader_hlsl;
+	irr::core::stringc pixel_shader_1_hlsl;
+	irr::core::stringc pixel_shader_2_hlsl;
+
+	irr::core::stringc vertex_shader_glsl;
+	irr::core::stringc pixel_shader_1_glsl;
+	irr::core::stringc pixel_shader_2_glsl;
 
 	CMotionBlurCallback* callback;
    
@@ -65,8 +69,7 @@ public:
       m_Vertices[4] = video::S3DVertex(-1.0f, -1.0f, 0.0f, 0, 0, 0, video::SColor(0), 0.0f, 1.0f);
       m_Vertices[5] = video::S3DVertex(1.0f, 1.0f, 0.0f, 0, 0, 0, video::SColor(0), 1.0f, 0.0f);
 
-#ifndef _IRR_OSX_PLATFORM_
-	  vertex_shader = ""
+	  vertex_shader_hlsl = ""
 		"float screenWidth;\n"
 		"float screenHeight;\n"
 
@@ -87,7 +90,7 @@ public:
 		"   return Out; \n"
 		"}\n";
 		
-	pixel_shader_1 = ""
+	pixel_shader_1_hlsl = ""
 		"sampler texture1 : register(s0);\n"
 		"sampler texture2 : register(s1);\n"
 
@@ -101,15 +104,15 @@ public:
 		"   return lerp(tex1, tex2, strength);\n"
 		"}\n";
 		
-	pixel_shader_2 = ""
+	pixel_shader_2_hlsl = ""
 		"sampler texture1 : register(s0);\n"
 
 		"float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR\n"
 		"{\n"
 		"   return tex2D(texture1, texCoord);\n"
 		"}\n";
-#else
-    vertex_shader =
+
+    vertex_shader_glsl =
     "varying vec2 vTexCoord;"
     "void main(void)"
     "{"
@@ -119,7 +122,7 @@ public:
     "vTexCoord =Position.xy *.5 + .5;"
     "}";
     
-    pixel_shader_1 =
+    pixel_shader_1_glsl =
     "uniform sampler2D texture1;"
     "uniform sampler2D texture2;"
     "varying vec2 vTexCoord;"
@@ -130,14 +133,14 @@ public:
     "}";
     
     
-    pixel_shader_2 =
+    pixel_shader_2_glsl =
     "uniform sampler2D texture1;"
     "varying vec2 vTexCoord;"
     "void main()"
     "{"
     "  gl_FragColor =texture2D( texture1, vTexCoord );"
     "}";
-#endif
+
    }
 
    ~IPostProcessMotionBlur()
@@ -158,13 +161,13 @@ public:
       callback = new CMotionBlurCallback((float)sizeW, (float)sizeH, strength);
 
       m_Material1.MaterialType = (video::E_MATERIAL_TYPE)gpu->addHighLevelShaderMaterial(
-		  vertex_shader.c_str(), "vertexMain", video::EVST_VS_1_1,
-		 pixel_shader_1.c_str(), "pixelMain", video::EPST_PS_1_4,
+		 (driver->getDriverType() == video::EDT_OPENGL ? vertex_shader_glsl.c_str() : vertex_shader_hlsl.c_str()), "vertexMain", video::EVST_VS_1_1,
+		 (driver->getDriverType() == video::EDT_OPENGL ? pixel_shader_1_glsl.c_str() : pixel_shader_1_hlsl.c_str()), "pixelMain", video::EPST_PS_1_4,
          callback, video::EMT_SOLID);
 
 	  m_Material2.MaterialType = (video::E_MATERIAL_TYPE)gpu->addHighLevelShaderMaterial(
-		  vertex_shader.c_str(), "vertexMain", video::EVST_VS_1_1,
-		  pixel_shader_2.c_str(), "pixelMain", video::EPST_PS_1_1,
+		  (driver->getDriverType() == video::EDT_OPENGL ? vertex_shader_glsl.c_str() : vertex_shader_hlsl.c_str()), "vertexMain", video::EVST_VS_1_1,
+		  (driver->getDriverType() == video::EDT_OPENGL ? pixel_shader_2_glsl.c_str() : pixel_shader_2_hlsl.c_str()), "pixelMain", video::EPST_PS_1_1,
          0, video::EMT_SOLID);
 
       m_rtNext  = driver->addRenderTargetTexture(irr::core::dimension2d<u32>(sizeW, sizeH));

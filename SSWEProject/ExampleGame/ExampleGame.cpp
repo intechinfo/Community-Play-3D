@@ -38,6 +38,9 @@ int main(int argc, char *argv[]) {
 		devices->getFPSCamera());
 	devices->getDevice()->getCursorControl()->setVisible(false);
 
+	if (devices->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL)
+		devices->getXEffect()->setUseHDRPass(false);
+
 	//devices->getXEffect()->setAmbientColor(irr::video::SColor(255, 0, 0, 0));
 
 	/// Load our game play class

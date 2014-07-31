@@ -41,7 +41,7 @@ enum E_SHADOW_LIGHT_CURRENT_PASS {
 /// a camera, this would be similar to setting the camera's field of view. The last
 /// parameter is whether the light is directional or not, if it is, an orthogonal
 /// projection matrix will be created instead of a perspective one.
-struct SShadowLight
+struct SShadowLight : public cp3d::video::IShadowLight
 {
 public:
 
@@ -153,22 +153,22 @@ public:
 
 	/// Gets the light's far value.
 	irr::f32 getFarValue() const { return farPlane; }
-    void setFarValue(const irr::f32 _farPlane) {
-		farPlane = _farPlane;
+    void setFarValue(const irr::f32 farPlane) {
+		this->farPlane = farPlane;
 		recalculate = true;
 		if (!isParent) return;
 		if (isDirectional || isSpot) {
-			shadowLights[0].setFarValue(_farPlane);
+			shadowLights[0].setFarValue(farPlane);
 		} else {
 			for (irr::u32 i=0; i < 6; i++)
-				shadowLights[i].setFarValue(_farPlane);
+				shadowLights[i].setFarValue(farPlane);
 		}
 	}
 
 	/// Gets the near value
-	irr::f32 getNearValue() { return nearValue; }
-	void setNearValue(irr::f32 _nearValue) {
-		nearValue = _nearValue;
+	irr::f32 getNearValue() const { return nearValue; }
+	void setNearValue(const irr::f32 nearValue) {
+		this->nearValue = nearValue;
 		if (!isParent) return;
 		if(isDirectional)
 			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
@@ -177,19 +177,19 @@ public:
 	}
 
 	/// Gets the fov value
-	irr::f32 getFOV() { return frontOfView; }
-	void setFOV(irr::f32 _fov) {
-		frontOfView = _fov;
+	irr::f32 getFOV() const { return frontOfView; }
+	void setFOV(const irr::f32 fov) {
+		frontOfView = fov;
 		if(isDirectional)
 			projMat.buildProjectionMatrixOrthoLH(frontOfView, frontOfView, nearValue, farPlane);
 		else
 			projMat.buildProjectionMatrixPerspectiveFovLH(frontOfView, 1.0f, nearValue, farPlane);
 		if (!isParent) return;
 		if (isDirectional || isSpot) {
-			shadowLights[0].setFOV(_fov);
+			shadowLights[0].setFOV(fov);
 		} else {
 			for (irr::u32 i=0; i < 6; i++)
-				shadowLights[i].setFOV(_fov);
+				shadowLights[i].setFOV(fov);
 		}
 	}
 
@@ -221,26 +221,26 @@ public:
 
 	/// Sets if we must recalculate shadow map
 	bool mustRecalculate() { return recalculate; }
-	void setRecalculate(bool _recalculate) {
-		recalculate = _recalculate;
+	void setRecalculate(bool recalculate) {
+		this->recalculate = recalculate;
 		if (!isParent) return;
 		if (isDirectional || isSpot)
-			shadowLights[0].setRecalculate(_recalculate);
+			shadowLights[0].setRecalculate(recalculate);
 		else
 			for (irr::u32 i=0; i < 6; i++)
-				shadowLights[i].setRecalculate(_recalculate);
+				shadowLights[i].setRecalculate(recalculate);
 	}
 
 	/// Sets if we must auto recalculate shadow map
 	bool isAutoRecalculate() { return autoRecalculate; }
-	void setAutoRecalculate(bool _autoRecalculate) {
-		autoRecalculate = _autoRecalculate;
+	void setAutoRecalculate(bool autoRecalculate) {
+		this->autoRecalculate = autoRecalculate;
 		if (!isParent) return;
 		if (isDirectional || isSpot)
-			shadowLights[0].setAutoRecalculate(_autoRecalculate);
+			shadowLights[0].setAutoRecalculate(autoRecalculate);
 		else
 			for (irr::u32 i=0; i < 6; i++)
-				shadowLights[i].setAutoRecalculate(_autoRecalculate);
+				shadowLights[i].setAutoRecalculate(autoRecalculate);
 	}
 
 	/// Sets if is torch mode
@@ -763,6 +763,11 @@ public:
 
 	irr::s32 addPostProcessingEffectFromString(const irr::core::stringc pixelShader,
 		IPostProcessingRenderCallback *callback = 0, bool pushFront=false);
+
+	irr::s32 addPostProcessingEffectFromFile(const irr::core::stringc& filename, 
+											 std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback,
+											 std::function<void(ISSWERender *render, irr::s32 materialType)> postRenderCallback,
+											 bool pushFront=false);
 
 	/// Sets a shader parameter for a post-processing effect. The first parameter is the material type, the second
 	/// is the uniform paratmeter name, the third is a float pointer that points to the data and the last is the

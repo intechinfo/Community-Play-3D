@@ -50,6 +50,7 @@ private:
 	IGUIListBox *filters;
 	IGUIButton *editFilter, *editCallback;
 	IGUIButton *addFilter, *removeFilter;
+	IGUIEditBox *filterName;
 	IGUIButton *openLogger;
 
 	IGUIButton *close;

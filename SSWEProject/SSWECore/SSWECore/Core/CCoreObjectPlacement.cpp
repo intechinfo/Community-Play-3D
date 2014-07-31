@@ -121,7 +121,7 @@ void CCoreObjectPlacement::refresh(ISceneNode *cursorPosition) {
 		setArrowVisible(false);
 		isMoving = false;
 		nodeToPlace = 0;
-		setArrowType(Undefined);
+		//setArrowType(Undefined);
 	}
 }
 

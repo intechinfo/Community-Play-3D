@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="6" />
+		 <numberOfObjects value="4" />
 
 		 <grid>
 
@@ -16,16 +16,16 @@
 
 		 <camera>
 
-			 <position X="-44.859440" Y="-87.057159" Z="-152.693878" />
-			 <rotation X="7.599152" Y="200.357315" Z="0.000000" />
+			 <position X="-84.155502" Y="-113.654221" Z="-98.076118" />
+			 <rotation X="347.841949" Y="70.892822" Z="0.000000" />
 
 		 </camera>
 
 		 <fpsCameraSettings>
 
-			 <ellipsoidRadius X="5.000000" Y="5.000000" Z="5.000000" />
+			 <ellipsoidRadius X="30.000000" Y="60.000000" Z="30.000000" />
 			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
-			 <ellipsoidTranslation X="0.000000" Y="20.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <slidingValue value="0.000500" />
 
 		 </fpsCameraSettings>
@@ -78,143 +78,67 @@ technique Sepia
 
 			 <postProcessingEffect>
 				 <ppeName name="/blurhp.hlsl" />
-				 <ppeShader shader="uniform sampler2D SceneBuffer : register(s0);
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
 
-uniform float BufferWidth;
-
-float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
 {
-	float blurSize = 1.0/BufferWidth; 
-	float4 finalCol = 0.0;
-	
-	// gauss distribution with  mean:0 std:2
-	float weight[9] = {
-		0.0295,
-		0.0673,
-		0.1235,
-		0.1786,
-		0.2022,
-		0.1786,
-		0.1235,
-		0.0673,
-		0.0295
+	const float2 offsetArray[4] = 
+	{
+		float2(1.0 / SCREENX, 0),
+		float2(-1.0 / SCREENX, 0),
+		float2(2.0 / SCREENX, 0),
+		float2(-2.0 / SCREENX, 0)
 	};
-	
-	// blur in x (horizontal)
-	// take the samples with the distance blurSize between them
-	for (int i=0; i<9; i++)
-		finalCol += tex2D(SceneBuffer, float2(texCoord.x+(i-4)*blurSize, texCoord.y))*weight[i];
 
-	return finalCol;
-}
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
 
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.0), float2(1.0, 1.0)));
 
-float4 main7x7(float2 texCoord : TEXCOORD0) : COLOR0
-{
-	float blurSize = 1.0/BufferWidth; 
-	float4 finalCol = 0.0;
-	
-	// gauss distribution with mean:0 std:1
-	float weight[7] = {
-		0.0050,
-		0.0540,
-		0.2410,
-		0.4000,
-		0.2410,
-		0.0540,
-		0.0050
-	};
-	
-	// blur in x (horizontal)
-	// take the samples with the distance blurSize between them
-	for (int i=0; i<7; i++)
-		finalCol += tex2D(SceneBuffer, float2(texCoord.x+(i-3)*blurSize, texCoord.y))*weight[i];
-
-	return finalCol;
+	finalVal /= 4.0f;
+	return finalVal;
 }
 " />
-				 <ppeCallback callback="filter:setPixelShaderConstantFloat(&quotBufferWidth&quot, 1280)" />
+				 <ppeCallback callback="" />
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
 				 <ppeName name="/blurvp.hlsl" />
-				 <ppeShader shader="uniform sampler2D SceneBuffer : register(s0);
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
 
-uniform float BufferHeight;
-
-float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+float4 pixelMain ( float4 Texcoords : TEXCOORD0 ) : COLOR0
 {
-	float blurSize = 1.0/BufferHeight; 
-	float4 finalCol = 0.0;
-	
-	// gauss distribution with mean:0 std:2
-	float weight[9] = {
-		0.0295,
-		0.0673,
-		0.1235,
-		0.1786,
-		0.2022,
-		0.1786,
-		0.1235,
-		0.0673,
-		0.0295
+	const float2 offsetArray[4] = 
+	{
+		float2(0, 1.0 / SCREENY),
+		float2(0, -1.0 / SCREENY),
+		float2(0, 2.0 / SCREENY),
+		float2(0, -2.0 / SCREENY)
 	};
-	
-	// blur in y (vertical)
-	// take the samples with the distance blurSize between them
-	for (int i=0; i<9; i++)
-		finalCol += tex2D(SceneBuffer, float2(texCoord.x, texCoord.y+(i-4)*blurSize))*weight[i];
 
-	return finalCol;
-}
+	float4 finalVal = float4(0.0, 0.0, 0.0, 0.0);
 
-float4 main7x7(float2 texCoord : TEXCOORD0) : COLOR0
-{
-	float blurSize = 1.0/BufferHeight; 
-	float4 finalCol = 0.0;
-	
-	// gauss distribution with mean:0 std:1
-	float weight[7] = {
-		0.0050,
-		0.0540,
-		0.2410,
-		0.4000,
-		0.2410,
-		0.0540,
-		0.0050
-	};
-	
-	// blur in y (vertical)
-	// take the samples with the distance blurSize between them
-	for (int i=0; i<7; i++)
-		finalCol += tex2D(SceneBuffer, float2(texCoord.x, texCoord.y+(i-3)*blurSize))*weight[i];
+	for(int i = 0;i < 4;++i)
+		finalVal += tex2D(ColorMapSampler, clamp(Texcoords.xy + offsetArray[i] * 2.25, float2(0.0, 0.01), float2(1.0, 1.0)));
 
-	return finalCol;
+	finalVal /= 4.0f;
+	return finalVal;
 }
 " />
-				 <ppeCallback callback="filter:setPixelShaderConstantFloat(&quotBufferHeight&quot, 800)" />
+				 <ppeCallback callback="" />
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
 				 <ppeName name="/bloomp.hlsl" />
 				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
 sampler2D ScreenMapSampler : register(s1);
-sampler2D DepthMapSampler : register(s2);
-
-float getAverage(float4 color) {
-    return (color.r + color.g + color.b) / 3.0;
-}
 
 float4 pixelMain(float2 TexCoords : TEXCOORD0) : COLOR0
 {		
 	float4 screenCol = tex2D(ScreenMapSampler, TexCoords);
 	float4 bloomCol = tex2D(ColorMapSampler, TexCoords);
- float depth = tex2D(DepthMapSampler, TexCoords).r;
 	
- if (getAverage(bloomCol) > 0.6 && depth != 1.0)
-     return (screenCol * 0.9 + bloomCol * 0.9);
- else
-	    return (screenCol * 0.9 + bloomCol * 0.5);
+	return(screenCol * 0.9 + bloomCol * 0.5);
 }
 " />
 				 <ppeCallback callback="" />
@@ -226,9 +150,7 @@ float4 pixelMain(float2 TexCoords : TEXCOORD0) : COLOR0
 // http://developer.download.nvidia.com/shaderlibrary/webpages/shader_library.html
 
 uniform sampler2D SceneBuffer : register(s0);
-uniform sampler2D ScreenMapSampler : register(s1);
-uniform sampler2D DepthMapSampler : register(s2);
-uniform sampler2D UserMapSampler : register(s3);
+sampler2D DepthMapSampler : register(s2);
 
 uniform float Desaturation;
 
@@ -239,32 +161,25 @@ float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
 	const float3 ITU_R_709 = float3(0.2126, 0.7152, 0.0722);
 
     float4 texColor = tex2D(SceneBuffer, texCoord);
-    float depthColor = tex2D(DepthMapSampler, texCoord);
 	
     float3 gray = dot(texColor.rgb, ITU_R_601);
     float3 result = lerp(texColor, gray.xxx, Desaturation);
-    if (depthColor.r != 1.0) {
-        return float4(result, 1.0) + depthColor.r
-        + tex2D(UserMapSampler, texCoord);
-    } else {
-        return float4(result, 1.0) + tex2D(UserMapSampler, texCoord);
-    }
+    return float4(result, 1.0) + tex2D(DepthMapSampler, texCoord).r;
 }
 
 " />
-				 <ppeCallback callback="driver:setTexture(&quotshaders/Textures/LF/lensdirt.png&quot)
-
-filter:setPixelShaderConstantFloat(&quotDesaturation&quot, -0.4)" />
+				 <ppeCallback callback="filter:setPixelShaderConstantFloat(&quotDesaturation&quot, 0.4)" />
 			 </postProcessingEffect>
 
 			 <postProcessingEffect>
 				 <ppeName name="/godrays.hlsl" />
-				 <ppeShader shader="
-sampler2D ColorMapSampler : register(s0);
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+sampler2D LuminanceSampler : register(s1);
+sampler2D LensSampler : register(s2);
 sampler2D UserMapSampler : register(s3);
 
 float2 lightPositionOnScreen;
-		
+        
 //float decay=0.96815;
 //float exposure=0.2;
 //float density=0.26;
@@ -272,59 +187,52 @@ float2 lightPositionOnScreen;
 
 float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
 {
-	float decay=0.987815;
-	float exposure=0.52;
-	float density=0.966;
-	float weight=0.58767;
+    float decay=0.97815;
+    float exposure=0.92;
+    float density=0.966;
+    float weight=0.58767;
 
-	int NUM_SAMPLES = 100;
-	
-	float2 tc = texCoord;
- 	float2 deltaTexCoord = (tc - lightPositionOnScreen.xy);  
- 	deltaTexCoord *= 1.0f / NUM_SAMPLES * density;  
- 	
- 	float illuminationDecay = 1.0;
+    int NUM_SAMPLES = 100;
+    
+    float2 tc = texCoord;
+     float2 deltaTexCoord = (tc - lightPositionOnScreen.xy);  
+     deltaTexCoord *= 1.0f / NUM_SAMPLES * density;  
+     
+     float illuminationDecay = 1.0;
 
-	float4 color =tex2D(UserMapSampler, tc)*0.4;
-	
- 	for(int i=0; i < NUM_SAMPLES ; i++)
-  	{
-		tc -= deltaTexCoord;
-		float4 sample = tex2D(UserMapSampler, tc)*0.4;
-		sample *= illuminationDecay * weight;  
-		color += sample;
-		illuminationDecay *= decay;  
- 	}
+    float4 color =tex2D(UserMapSampler, tc)*0.4;
+    
+     for(int i=0; i < NUM_SAMPLES ; i++)
+      {
+        tc -= deltaTexCoord;
+        float4 sample = tex2D(UserMapSampler, tc)*0.4;
+        sample *= illuminationDecay * weight;  
+        color += sample;
+        illuminationDecay *= decay;  
+     }
 
- 	//gl_FragColor *= exposure;
- 	//gl_FragColor += texture2D(ColorMapSampler, textCoo.xy);
- 	float4 realColor = tex2D(ColorMapSampler, texCoord.xy);
- 	//gl_FragColor = ((vec4((vec3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
-	//gl_FragColor = color;
-	//return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
-	//return realColor + float3(color.r, color.g, color.b) * exposure));
-	//return color + realColor;
-	//return float4( float3(color.r, color.g, color.b) * exposure, 1) + realColor;
-	//return float4( color * exposure, 1);
-	//return realColor + float4(color.r, color.g, color.b, 1);
+     float4 realColor = tex2D(ColorMapSampler, texCoord.xy);
+ 
+  float4 lensColor = tex2D(LensSampler, texCoord.xy);
+  lensColor.b = 0.0;
+  lensColor.g = lensColor.r / 2.0;
+  realColor += lensColor * color * 10.0;
+  
+  float4 lumColor = tex2D(LuminanceSampler, texCoord.xy);
+  realColor += lumColor * lensColor;
+  
+  color *= 0.5;
 
-	return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
-}
-
-" />
+    return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
+}" />
 				 <ppeCallback callback="driver:setRttTexture(&quotLightScatteringRTT&quot)
 
-billPosition = {
-    x=444.426361,
-    y=287.418091,
-    z=-72.578583
-}
-
-position = utils:getScreenCoordinatesFrom3DPosition(billPosition)
+position = utils:getScreenCoordinatesFrom3DPosition(driver:getLightPosition(0))
 position.y = 1-position.y
 
+filter:setRttTextureAtIndex(1, &quotLuminanceGeneratorStep0&quot)
+filter:setTextureAtIndex(2, &quotshaders/Textures/LF/lensdirt.png&quot)
 filter:setPixelShaderConstantVector2D(&quotlightPositionOnScreen&quot, position)
-
 " />
 			 </postProcessingEffect>
 
@@ -334,181 +242,48 @@ filter:setPixelShaderConstantVector2D(&quotlightPositionOnScreen&quot, position)
 		 <materialTypes>
 
 			 <materialType>
-				 <pixelShaderType type="7" /> 
-				 <vertexShaderType type="3" /> 
-				 <baseMaterial type="0" /> 
-				 <name cname="normal_mapping_package.spkg" />
+				 <pixelShaderType type="19" /> 
+				 <vertexShaderType type="59" /> 
+				 <baseMaterial type="66" /> 
+				 <name cname="Test" />
 				 <vertex shader=
-"float4x4 matWorldInverse; 
-float4x4 ModelViewMatrix;
-float4x4 ModelViewProjectionMatrix;
-float3 fvLightPosition1; 
-float3 fvLightPosition2; 
-float3 fvLightPosition3; 
-float3 fvLightPosition4; 
-float fLightStrength1; 
-float fLightStrength2; 
-float fLightStrength3; 
-float fLightStrength4; 
-struct VS_OUTPUT
-{
-   float4 Position            : POSITION0;
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3; 
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
+"float4x4 worldViewProj;
+
+struct VertexShaderOutput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
 };
-float getLengthSQR (float3 vec) 
-{ 
-   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-}  
-struct VS_INPUT
-{
-   float3 Position         : POSITION0;
-   float3 Normal           : NORMAL;
-   float2 Texcoord         : TEXCOORD0;
+struct VertexShaderInput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
 };
-VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-{    
-   VS_OUTPUT OUT = (VS_OUTPUT)0;
-   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   OUT.Texcoord = IN.Texcoord;
-   
-   float4x4 LightTransform= ModelViewMatrix; 
-   LightTransform= mul(matWorldInverse, LightTransform);
-   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-   
-   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-   
-   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-   float3 fvBinormal   = cross(fvTangent,IN.Normal);
-   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-   
-   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-   
-   return OUT;
+
+VertexShaderOutput vertexMain(VertexShaderInput input) {
+    VertexShaderOutput output = (VertexShaderOutput)0;
+    
+    output.Position = mul(input.Position, worldViewProj);
+    output.TexCoords = input.TexCoords;
+    
+    return output;
 }
 " />
 				 <pixel shader=
-"float4 fvAmbient;
-float4 fvLight1Color; 
-float4 fvLight2Color; 
-float4 fvLight3Color; 
-float4 fvLight4Color; 
-float fSpecularPower; 
-float fSpecularStrength; 
-float fBumpStrength; 
-sampler2D baseMap      : register(s0); 
-sampler2D bumpMap      : register(s1); 
-struct PS_INPUT
-{   
-   float2 Texcoord            : TEXCOORD0;
-   float3 ViewDirection      : TEXCOORD1; 
-   float3 LightDirection1      : TEXCOORD2; 
-   float3 LightDirection2      : TEXCOORD3;
-   float3 LightDirection3      : TEXCOORD4; 
-   float3 LightDirection4      : TEXCOORD5; 
-   float4 LightDistMultiplier  : TEXCOORD6;
+"sampler2D DiffuseSampler : register(s0);
+
+float4x4 worldViewProj;
+
+struct VertexShaderOutput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
 };
-float4 pixelMain( in PS_INPUT IN ) : COLOR
-{
-   float4 color = float4(0,0,0,0);
-   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-   
-   fvNormal.xy*=2.0; 
-   fvNormal.xy-=1.0;
-   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-   fvNormal=normalize(fvNormal);
-   
-   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-   if(color.r>1.0){color.gb+=color.r-1.0;} 
-   if(color.g>1.0){color.rb+=color.g-1.0;} 
-   if(color.b>1.0){color.rg+=color.b-1.0;} 
-   
-   return color;
+
+float4 pixelMain(VertexShaderOutput input) : COLOR0 {
+    float4 color = tex2D(DiffuseSampler, input.TexCoords);
+
+    return color;
 }
 " />
-				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
-vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
-vmatrix4 matWorldInverse world[0] 0 0 makeInverse
-
-vfloat fLightStrength1 5
-vfloat fLightStrength2 5
-vfloat fLightStrength3 5
-vfloat fLightStrength4 5
-
-vvector3df fvLightPosition1 0 574 0
-vvector3df fvLightPosition2 0 574 0
-vvector3df fvLightPosition3 0 574 0
-vvector3df fvLightPosition4 0 574 0
-
-pSColor fvAmbient 1 1 1 1
-pSColor fvLight1Color 1 1 1 1
-pSColor fvLight2Color 1 1 1 1
-pSColor fvLight3Color 1 1 1 1
-pSColor fvLight4Color 1 1 1 1
-
-pfloat fSpecularPower 20
-pfloat fSpecularStrength 0.9
-pfloat fBumpStrength 5
+				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0
 " />
 			 </materialType>
 
@@ -532,17 +307,17 @@ pfloat fBumpStrength 5
 
 		 <terrain>
 
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/chinese yard/obj/chinese_yard.obj" />
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/bridge/chinese yard/obj/chinese_yard.obj" />
 
-			 <type esnt="mesh" />
+			 <type esnt="mesh" tangents="0" />
 
 			 <factory> 
 
 				 <meshFactory>
-				 <tangents value="1" />
-				 <normals value="1" />
+				 <tangents value="0" />
+				 <normals value="0" />
 				 <angleWeighted value="0" />
-				 <smooth value="1" />
+				 <smooth value="0" />
 				 </meshFactory>
 				 <planarMapping>
 				 <planarMapped value="0" />
@@ -551,7 +326,7 @@ pfloat fBumpStrength 5
 
 			 </factory> 
 
-			 <name c8name="#map:myName_with_tangents" />
+			 <name c8name="#map:myName" />
 
 			 <materials>
 			 	 <material id="0">
@@ -586,13 +361,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="20" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Brick_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Brick_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -626,8 +401,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="2">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -661,8 +436,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="3">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Window2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Window2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Window2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Window2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -696,8 +471,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="4">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Facade1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Facade1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -731,8 +506,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="5">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -766,8 +541,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="6">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Sign_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Sign_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -801,8 +576,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="7">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -836,8 +611,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="8">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -871,8 +646,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="9">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Facade1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Facade1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -906,8 +681,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="10">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Windows1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Windows1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Windows1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Windows1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -941,8 +716,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="11">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -976,8 +751,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="12">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1011,8 +786,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="13">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1046,8 +821,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="14">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Wood2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Wood2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Wood2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Wood2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1081,8 +856,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="15">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1116,8 +891,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="16">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/PlyWood_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/PlyWood_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/PlyWood_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/PlyWood_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1151,8 +926,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="17">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACunit2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACunit2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1186,8 +961,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="18">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Sign_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Sign_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1221,8 +996,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="19">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACUnit_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACUnit_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1286,13 +1061,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="20" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="21">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/NoSmoking_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/NoSmoking_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/NoSmoking_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/NoSmoking_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1356,13 +1131,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="20" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="23">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1396,8 +1171,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="24">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Facade1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Facade1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1431,8 +1206,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="25">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Windows1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Windows1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Windows1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Windows1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1466,8 +1241,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="26">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1501,8 +1276,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="27">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1536,8 +1311,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="28">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1571,8 +1346,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="29">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Wood2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Wood2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Wood2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Wood2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1606,8 +1381,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="30">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1641,8 +1416,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="31">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/PlyWood_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/PlyWood_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/PlyWood_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/PlyWood_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1676,8 +1451,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="32">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACunit2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACunit2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1711,8 +1486,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="33">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACUnit_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACUnit_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1776,13 +1551,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="20" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="35">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1816,8 +1591,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="36">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Sign_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Sign_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1851,8 +1626,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="37">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Brick_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Brick_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1886,8 +1661,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="38">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1921,8 +1696,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="39">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Window2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Window2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Window2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Window2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1956,8 +1731,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="40">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Facade1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Facade1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1991,8 +1766,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="41">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2026,8 +1801,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="42">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2061,8 +1836,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="43">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2096,8 +1871,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="44">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Sign_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Sign_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2131,8 +1906,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="45">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2166,8 +1941,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="46">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2201,8 +1976,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="47">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2236,8 +2011,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="48">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Wood2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Wood2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Wood2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Wood2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2271,8 +2046,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="49">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2306,8 +2081,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="50">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Facade1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Facade1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2341,8 +2116,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="51">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2376,8 +2151,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="52">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Windows1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Windows1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Windows1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Windows1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2411,8 +2186,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="53">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Sign_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Sign_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2446,8 +2221,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="54">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Signage_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Signage_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Signage_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Signage_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2481,8 +2256,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="55">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACUnit_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACUnit_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2516,8 +2291,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="56">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2551,8 +2326,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="57">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/PlyWood_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/PlyWood_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/PlyWood_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/PlyWood_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2586,8 +2361,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="58">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACunit2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACunit2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2621,8 +2396,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="59">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2656,8 +2431,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="60">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2691,8 +2466,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="61">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACunit2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACunit2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACunit2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2726,8 +2501,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="62">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2761,8 +2536,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="63">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2796,8 +2571,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="64">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2831,8 +2606,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="65">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Wood1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Wood1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Wood1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Wood1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2866,8 +2641,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="66">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Brick_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Brick_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2901,8 +2676,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="67">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Window2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Window2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Window2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Window2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -2966,13 +2741,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="20" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="69">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Facade1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Facade1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Facade1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3006,8 +2781,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="70">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Sign_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Sign_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Sign_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3041,8 +2816,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="71">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/ACUnit_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/ACUnit_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/ACUnit_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3076,8 +2851,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="72">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3111,8 +2886,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="73">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Brick_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Brick_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Brick_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3146,8 +2921,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="74">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3181,8 +2956,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="75">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Ground_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Ground_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Ground_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Ground_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3216,8 +2991,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="76">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Concrete2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Concrete2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Concrete2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3251,8 +3026,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="77">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Wood1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Wood1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Wood1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Wood1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3286,8 +3061,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="78">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal2_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal2_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal2_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3321,8 +3096,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="79">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Lightbulb_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Lightbulb_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3356,8 +3131,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="80">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
-						 <texture id="1" path="data/architecture/garden/chinese yard/obj/Metal1_Bump_Composite.tga" />
+						 <texture id="0" path="data/architecture/bridge/chinese yard/obj/Metal1_DiffuseColor_Composite.tga" />
+						 <texture id="1" path="data/architecture/bridge/chinese yard/obj/Metal1_Bump_Composite.tga" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3409,86 +3184,9 @@ pfloat fBumpStrength 5
 
 		 <object>
 
-			 <path file="billboard" />
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/scifi/chief/full_animation/chief.x" />
 
-			 <name c8name="#object:new_bill_board" />
-
-			 <factory> 
-
-				 <meshFactory>
-				 <tangents value="0" />
-				 <normals value="0" />
-				 <angleWeighted value="0" />
-				 <smooth value="0" />
-				 </meshFactory>
-				 <planarMapping>
-				 <planarMapped value="0" />
-				 <planarMappedValue value="0.000000" />
-				 </planarMapping>
-
-			 </factory> 
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="data/lights/lightfalloff.png" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="12" />
-
-			 	 </material>
-			 </materials>
-			 <position X="444.426361" Y="287.418091" Z="-72.578583" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="100.000000" Y="100.000000" Z="200.000000" />
-
-			<depthPassed value="1" />
-			<lightScatteringPassed value="1" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="3" />
-			 <actions>
-			 </actions>
-
-			 <physics>
-			 	 <body type="0">
-			 	 </body>
-			 </physics>
-
-		 </object>
-
-		 <object>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/idle.x" />
-
-			 <name c8name="#object:mp5_animated" />
+			 <name c8name="#object:myName" />
 
 			 <factory> 
 
@@ -3508,161 +3206,8 @@ pfloat fBumpStrength 5
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="data/architecture/garden/mp5/idle.fbm/mp5_d.jpg" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/aframe_cm.jpg" />
 						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="150" g="150" b="150" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="128" g="128" b="128" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="59.772800" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="1">
-					 <textures>
-						 <texture id="0" path="data/architecture/garden/mp5/idle.fbm/aimpoint_sight.jpg" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="150" g="150" b="150" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="2">
-					 <textures>
-						 <texture id="0" path="data/architecture/garden/mp5/idle.fbm/hands_1stp_military_diff.jpg" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="150" g="150" b="150" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 </materials>
-			 <position X="-203.206741" Y="-66.000000" Z="-66.369240" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="4.000000" Y="4.000000" Z="4.000000" />
-
-			<depthPassed value="1" />
-			<lightScatteringPassed value="1" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="2" />
-			 <actions>
-				 <action start="0" end="9440" name="IDLE" speed="3000.000000" animPath="" /> 
-
-				 <action start="0" end="18080" name="RELOAD" speed="3000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/reload.x" /> 
-
-				 <action start="0" end="9440" name="FIRE" speed="3000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/garden/mp5/fire.x" /> 
-
-			 </actions>
-
-			 <physics>
-			 	 <body type="0">
-			 	 </body>
-			 </physics>
-
-		 </object>
-
-		 <object>
-
-			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/architecture/scifi/chief/chief_alone_enter.x" />
-
-			 <name c8name="#object:chief" />
-
-			 <factory> 
-
-				 <meshFactory>
-				 <tangents value="0" />
-				 <normals value="0" />
-				 <angleWeighted value="0" />
-				 <smooth value="0" />
-				 </meshFactory>
-				 <planarMapping>
-				 <planarMapped value="0" />
-				 <planarMappedValue value="0.000000" />
-				 </planarMapping>
-
-			 </factory> 
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_cm.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/aframe_nm.jpg" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3691,13 +3236,13 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="1">
 					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m4_cm.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/m4_nm.jpg" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/m4_cm.jpg" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -3726,7 +3271,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="2">
@@ -3761,7 +3306,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="3">
@@ -3796,12 +3341,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="4">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/chief_beard.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -3831,12 +3376,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="5">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/assaulthelmet_gear_cm.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -3866,7 +3411,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="6">
@@ -3901,12 +3446,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="7">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/helmetbase_cm.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -3936,7 +3481,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="8">
@@ -3971,12 +3516,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="9">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/eye_lightblue_cm.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -4006,12 +3551,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="10">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/us_chiefhead_cm.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -4041,7 +3586,7 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="11">
@@ -4062,7 +3607,7 @@ pfloat fBumpStrength 5
 					 <materialTypeParam1 value="0.000000" />
 					 <materialTypeParam2 value="0.000000" />
 
-					 <shininess value="61.699249" />
+					 <shininess value="60.874630" />
 					 <thickness value="1.000000" />
 
 					 <antiAliasing value="1" />
@@ -4076,12 +3621,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="12">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/assaulthelmet_gear_cm.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -4111,82 +3656,12 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 	 <material id="13">
 					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm1.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_nm1.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="14">
-					 <textures>
-						 <texture id="0" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_cm2.jpg" />
-						 <texture id="1" path="data/architecture/scifi/chief/gag_alone_hut_enter_mother.fbm/chief_nm2.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="204" g="204" b="204" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="-1" />
-
-			 	 </material>
-			 	 <material id="15">
-					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/chief_cm1.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -4216,13 +3691,83 @@ pfloat fBumpStrength 5
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="14">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/chief_cm2.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="15">
+					 <textures>
+						 <texture id="0" path="data/architecture/scifi/chief/full_animation/gag_npc_dropdown280cm_2mfwd.fbm/glove_cm.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
-			 <position X="-79.382050" Y="-129.030792" Z="-195.341797" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="0.020000" Y="0.020000" Z="0.020000" />
+			 <position X="-71.828873" Y="-129.625244" Z="-97.464050" />
+			 <rotation X="0.000000" Y="46.160568" Z="0.000000" />
+			 <scale X="0.563611" Y="0.563611" Z="0.563611" />
 
 			<depthPassed value="1" />
 			<lightScatteringPassed value="1" />
@@ -4230,7 +3775,7 @@ pfloat fBumpStrength 5
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
 			 <actions>
-				 <action start="0" end="29760" name="ALL" speed="4000.000000" animPath="" /> 
+				 <action start="0" end="23840" name="ANIM_CLEMENCE" speed="4000.000000" animPath="" /> 
 
 			 </actions>
 
@@ -4243,47 +3788,71 @@ pfloat fBumpStrength 5
 
 		 <light>
 
-			 <name c8name="#light:new_light" />
+			 <name c8name="#light:sun" />
 
-			 <position X="0.000000" Y="574.387695" Z="0.000000" />
-			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+			 <position X="322.921783" Y="234.718781" Z="-61.548847" />
+			 <target X="50.141602" Y="276.883484" Z="0.000000" />
 
-			 <diffuseColor r="255.000000" g="255.000000" b="255.000000" a="255.000000" />
-			 <ambiantColor r="255.000000" g="255.000000" b="255.000000" a="255.000000" />
-			 <specularColor r="255.000000" g="255.000000" b="255.000000" a="255.000000" />
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 
-			 <radius value="5000.000000" />
-			 <farValue value="2000.000000" />
-			 <autoRecalculate value="1" />
+			 <radius value="20000.000000" />
+			 <farValue value="1500.000000" />
+			 <autoRecalculate value="0" />
 
 			 <shadows resol="4096" />
 
 			 <lensFlare>
-			 </lensFlare>
+				 <mesh> 
+					 <scale X="0.000000" Y="0.000000" Z="0.000000" />
+					 <texture path="" />
+				 </mesh> 
+				 <bill> 
+					 <size Width="62.000000" Height="62.000000" />
+					 <texture path="shaders/textures/lf/sun.png" />
+				 </bill> 
+				 <lfsn> 
+					 <strength value="0.000000" />
+					 <texture path="" />
+					 <falseOcclusion value="0" />
+				 </lfsn> 
+				 <position X="0.000000" Y="0.000000" Z="0.000000" />
+ 			 </lensFlare>
 
 		 </light>
 
 		 <light>
 
-			 <name c8name="#light:new_light" />
+			 <name c8name="#light:hall" />
 
-			 <position X="-71.593964" Y="-93.640938" Z="-304.814484" />
+			 <position X="-100.701248" Y="-60.101578" Z="-84.048241" />
 			 <target X="0.000000" Y="0.000000" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
 			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 
-			 <radius value="100.000000" />
-			 <farValue value="5000.000000" />
+			 <radius value="20000.000000" />
+			 <farValue value="0.000000" />
 			 <autoRecalculate value="0" />
 
-			 <shadows resol="1" />
+			 <shadows resol="1024" />
 
 			 <lensFlare>
 			 </lensFlare>
 
 		 </light>
+
+		 <skybox>
+
+			 <texture path="data/Lights/glacier_ft.png" />
+			 <texture path="data/Lights/glacier_lf.png" />
+			 <texture path="data/Lights/glacier_bk.png" />
+			 <texture path="data/Lights/glacier_rt.png" />
+			 <texture path="data/Lights/glacier_up.png" />
+			 <texture path="data/Lights/glacier_dn.png" />
+		 </skybox>
 
 
 	</scene>

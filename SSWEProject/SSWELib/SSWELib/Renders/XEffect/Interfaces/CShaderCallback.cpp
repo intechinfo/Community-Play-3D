@@ -10,7 +10,20 @@
 
 #include "../../../UserInterfaces/CodeEditor/CUICodeEditor.h"
 
-const char *CP3D_VERTEX_SHADER_TEMPLATE =
+enum E_SHADER_EXTENSION
+{
+	ESE_GLSL=0,
+	ESE_HLSL,
+
+	ESE_COUNT
+};
+
+const char *CP3D_VERTEX_SHADER_TEMPLATE[ESE_COUNT] = {
+"void main(void) {\n"
+"	gl_Position  = ftransform();\n"
+"	gl_TexCoord[0].xy = gl_MultiTexCoord0.xy;\n"
+"}\n"
+,
 "float4x4 worldViewProj;\n"
 "\n"
 "struct VertexShaderOutput {\n"
@@ -30,9 +43,15 @@ const char *CP3D_VERTEX_SHADER_TEMPLATE =
 "    \n"
 "    return output;\n"
 "}\n"
-;
+};
 
-const char *CP3D_PIXEL_SHADER_TEMPLATE =
+const char *CP3D_PIXEL_SHADER_TEMPLATE[ESE_COUNT] = {
+"uniform sampler2D diffuse;\n"
+"void main(void) {\n"
+"	vec4 color = texture2D(diffuse, gl_TexCoord[0].xy);\n"
+"	gl_FragColor = color;\n"
+"}\n"
+,
 "sampler2D DiffuseSampler : register(s0);\n"
 "\n"
 "float4x4 worldViewProj;\n"
@@ -47,7 +66,7 @@ const char *CP3D_PIXEL_SHADER_TEMPLATE =
 "\n"
 "    return color;\n"
 "}\n"
-;
+};
 
 CShaderCallback::CShaderCallback() {
     material = 0;

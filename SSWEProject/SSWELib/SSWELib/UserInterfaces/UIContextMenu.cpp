@@ -24,7 +24,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	pluginsManager = manager;
 
-	nodeFactory = new CNodeFactory(devices);
+	nodeFactory = (CNodeFactory*)devices->getNodeFactory();
 
 	//SETS GENERIC MONITOR AS DEFAULT
 	#ifdef _IRR_WINDOWS_API_
@@ -336,7 +336,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"Test.world";
+			stringw scene_to_import = L"LRuins.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
@@ -421,9 +421,19 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
 
-	//nodeFactory->createLightSceneNode();
-	//nodeFactory->createPlaneMeshSceneNode();
-	//nodeFactory->createCubeSceneNode()->setPosition(vector3df(0, 25, 0));
+	/*nodeFactory->createLightSceneNode([](ISceneNode *node){
+		node->setPosition(vector3df(-141.f, 200.f, -127.f));
+		node->setRotation(vector3df(50.f, 46.f, 0.f));
+	});
+	nodeFactory->createPlaneMeshSceneNode([this](ISceneNode *node){
+		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/kitchen_tile.jpg");
+	});
+	nodeFactory->createCubeSceneNode([this](ISceneNode *node){
+		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg");
+		node->setPosition(vector3df(0.f, 25.f, 0.f));
+	});*/
+
+	//CUIAddAudioElement *amgr = new CUIAddAudioElement(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -815,7 +825,6 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				case CXT_MENU_EVENTS_SCENE_ADD_3D_SOUND: {
 					CUIAddAudioElement *amgr = new CUIAddAudioElement(devices);
-					amgr->open();
 				}
 					break;
 

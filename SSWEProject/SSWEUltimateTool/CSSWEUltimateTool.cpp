@@ -265,10 +265,11 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 
 			//PRIMITIVES
 			if (event.GUIEvent.Caller == splitSelectedNodeButton) {
-				/*ISData *data = devices->getSelectedData();
+				/*cp3d::core::ISData *data = devices->getSelectedData();
 				if (data) {
 					ISceneNode *dataNode = data->getNode();
 					if (data->getType() == ESNT_OCTREE || data->getType() == ESNT_MESH) {
+						devices->getDevice()->getLogger()->log("it is a mesh or octtree");
 						for (u32 i=0; i < dataNode->getMaterialCount(); i++) {
 							/// Set up mesh
 							SMesh *mesh = new SMesh();
@@ -277,6 +278,14 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 
 							meshBuffer->Vertices.set_used(orBuffer->getVertexCount());
 							/// Copy vertices here
+							for (u32 i=0; i < orBuffer->getVertexCount(); i++) {
+								if (meshBuffer->getVertexType() == EVT_2TCOORDS)
+									meshBuffer->getVertices[i] = ((S3DVertex2TCoords*)meshBuffer->getVertices())[i];
+								else if (meshBuffer->getVertexType() == EVT_STANDARD)
+									meshBuffer->getVertices[i] = ((S3DVertex*)meshBuffer->getVertices())[i];
+								else if (meshBuffer->getVertexType() == EVT_TANGENTS)
+									meshBuffer->getVertices[i] = ((S3DVertexTangents*)meshBuffer->getVertices())[i];
+							}
 							meshBuffer->Indices.set_used(orBuffer->getIndexCount());
 							/// Copy indices here
 
@@ -298,8 +307,11 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 							devices->getCoreData()->addTerrainNode(node, mesh, "");
 						}
 
+					} else {
+						devices->getDevice()->getLogger()->log("it is NOT a mesh or octtree");
 					}
-					//devices->getCoreData()->removeSceneNode(data->getNode(), devices->getXEffect());
+				} else {
+					devices->addErrorDialog(L"Error", L"cannot find the data", EMBF_OK);
 				}*/
 			} else
 

@@ -22,7 +22,7 @@ CNodeFactory::~CNodeFactory() {
 
 }
 
-ISceneNode *CNodeFactory::createCubeSceneNode() {
+ISceneNode *CNodeFactory::createCubeSceneNode(std::function<void(irr::scene::ISceneNode *node)> callback) {
 	IMeshSceneNode *cube = devices->getSceneManager()->addCubeSceneNode(50.f);
 	cube->setName("#object:new_cube");
 	cube->setMaterialFlag(EMF_LIGHTING, false);
@@ -31,14 +31,14 @@ ISceneNode *CNodeFactory::createCubeSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
 
-	//cube->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
-
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+
+	callback(cube);
 
 	return cube;
 }
 
-void CNodeFactory::createSphereSceneNode() {
+ISceneNode *CNodeFactory::createSphereSceneNode(std::function<void(irr::scene::ISceneNode *node)> callback) {
 	IMeshSceneNode *sphere = devices->getSceneManager()->addSphereSceneNode();
 	sphere->setName("#object:new_sphere");
 	sphere->setMaterialFlag(EMF_LIGHTING, false);
@@ -47,12 +47,14 @@ void CNodeFactory::createSphereSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
 
-	//sphere->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
-
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+
+	callback(sphere);
+
+	return sphere;
 }
 
-void CNodeFactory::createPlaneMeshSceneNode() {
+ISceneNode *CNodeFactory::createPlaneMeshSceneNode(std::function<void(irr::scene::ISceneNode *node)> callback) {
 	IAnimatedMesh *planeMesh = devices->getSceneManager()->addHillPlaneMesh("#object:new_hille_plane_mesh",
 																			dimension2df(25, 25), dimension2du(25, 25),
 																			0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
@@ -64,12 +66,14 @@ void CNodeFactory::createPlaneMeshSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
 
-	//planeNode->getMaterial(0) = devices->getXEffect()->getHDRManager()->getPhongMaterial();
-
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+
+	callback(planeNode);
+
+	return planeNode;
 }
 
-void CNodeFactory::createBillBoardSceneNode() {
+ISceneNode *CNodeFactory::createBillBoardSceneNode(std::function<void(irr::scene::ISceneNode *node)> callback) {
 	IBillboardSceneNode *billboard = devices->getSceneManager()->addBillboardSceneNode();
 	billboard->setName("#object:new_bill_board");
 	billboard->setMaterialFlag(EMF_LIGHTING, false);
@@ -78,23 +82,30 @@ void CNodeFactory::createBillBoardSceneNode() {
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 
 	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+
+	callback(billboard);
+
+	return billboard;
 }
 
-void CNodeFactory::createLightSceneNode() {
+ISceneNode *CNodeFactory::createLightSceneNode(std::function<void(irr::scene::ISceneNode *node)> callback) {
 	ILightSceneNode *light = devices->getSceneManager()->addLightSceneNode();
-	if (light) {
-		light->setName("#light:new_light");
-		light->setPosition(vector3df(0, 200, 0));
-		SLightsData ldata(light, 0, 0, 0);
-		devices->getCoreData()->getLightsData()->push_back(ldata);
 
-		SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
-		devices->getXEffect()->addShadowLight(shadowLight);
+	light->setName("#light:new_light");
+	light->setPosition(vector3df(0, 200, 0));
+	SLightsData ldata(light, 0, 0, 0);
+	devices->getCoreData()->getLightsData()->push_back(ldata);
 
-		#ifndef _IRR_WINDOWS_API_
-        devices->getNormalMappingMaterial()->addLight(light);
-		#endif
+	SShadowLight shadowLight(1024, vector3df(0,0,0), vector3df(0,0,0), SColor(255, 255, 255, 255), 20.0f, 1000.f, 89.99f * DEGTORAD, false);
+	devices->getXEffect()->addShadowLight(shadowLight);
 
-		devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
-	}
+	#ifndef _IRR_WINDOWS_API_
+    devices->getNormalMappingMaterial()->addLight(light);
+	#endif
+
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+
+	callback(light);
+
+	return light;
 }

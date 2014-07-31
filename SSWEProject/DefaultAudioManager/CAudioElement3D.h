@@ -45,11 +45,13 @@ public:
 
 	void getSpectrum(irr::f32 *spectrumTable, irr::s32 numElements) { }
 
-	irr::u32 getCurrentTime() { return 0; }
+	irr::u32 getCurrentTime();
 
-	irr::u32 getDuration() { return 0; }
+	irr::u32 getDuration();
 
-	void setCurrentTime(irr::u32 time) { }
+	void setCurrentTime(irr::u32 time);
+
+	void setLoopMode(bool enable);
 
 private:
 
