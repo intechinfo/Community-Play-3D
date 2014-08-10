@@ -14,23 +14,25 @@ namespace irr {
 
             virtual ~CGUIViewport();
 
-            virtual bool OnEvent(const SEvent &event);
+            bool OnEvent(const SEvent &event);
 
-            virtual void draw();
+            void draw();
 
-            virtual void setSceneManager(scene::ISceneManager* scene);
-			virtual void setRenderScreenQuad(bool render) { renderScreenQuad = render; }
+            void setSceneManager(scene::ISceneManager* scene);
+			void setSecondarySceneManager(scene::ISceneManager *scene);
+			void setRenderScreenQuad(bool render) { renderScreenQuad = render; }
 			void setScreenQuad(CScreenQuad *quad) { ScreenQuadPtr = quad; }
 
-            virtual scene::ISceneManager* getSceneManager() const;
+            scene::ISceneManager* getSceneManager() const;
 
-            virtual void setOverrideColor(video::SColor color);
+            void setOverrideColor(video::SColor color);
 
-            virtual void enableOverrideColor(bool override);
+            void enableOverrideColor(bool override);
 
         private:
 
             scene::ISceneManager* SceneManager;
+			scene::ISceneManager *SecondarySceneManager;
 			CScreenQuad *ScreenQuadPtr;
 			bool renderScreenQuad;
 

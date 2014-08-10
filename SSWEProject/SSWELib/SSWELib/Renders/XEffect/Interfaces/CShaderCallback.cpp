@@ -68,13 +68,15 @@ const char *CP3D_PIXEL_SHADER_TEMPLATE[ESE_COUNT] = {
 "}\n"
 };
 
-CShaderCallback::CShaderCallback() {
+CShaderCallback::CShaderCallback(E_DRIVER_TYPE driverType) {
     material = 0;
     name = "";
+
+	E_SHADER_EXTENSION shaderExt = (driverType == EDT_OPENGL) ? ESE_GLSL : ESE_HLSL;
     
 	constants = "vmatrix4 worldViewProj proj[0] view[0] world[0] 0\n";
-    vertexShader = CP3D_VERTEX_SHADER_TEMPLATE;
-    pixelShader = CP3D_PIXEL_SHADER_TEMPLATE;
+    vertexShader = stringw(CP3D_VERTEX_SHADER_TEMPLATE[shaderExt]);
+    pixelShader = stringw(CP3D_PIXEL_SHADER_TEMPLATE[shaderExt]);
     
     nullMatrix *= 0;
 }
@@ -266,7 +268,7 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
                         floats.push_back(value);
                     } else {
                         float divide = std::atof(sub.c_str());
-                        float value = device->getTimer()->getRealTime() / divide;
+                        float value = (f32)(device->getTimer()->getRealTime()) / divide;
                         floats.push_back(value);
                     }
                 }
@@ -285,7 +287,14 @@ void CShaderCallback::buildConstants(irr::video::IVideoDriver *_driver) {
             iss >> sub;
             integers_c.push_back(sub.c_str());
             iss >> sub;
-            int value = std::atof(sub.c_str());
+            int value;
+			if (sub == "viewPortX") {
+				value = _driver->getViewPort().getWidth();
+			} else if (sub == "viewPortY") {
+				value = _driver->getViewPort().getHeight();
+			} else {
+				value = std::atof(sub.c_str());
+			}
             integers.push_back(value);
         }
 

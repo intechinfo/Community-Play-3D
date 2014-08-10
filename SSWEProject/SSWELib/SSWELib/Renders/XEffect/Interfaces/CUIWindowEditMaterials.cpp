@@ -102,7 +102,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
             IGUIElement *element = event.GUIEvent.Caller;
 
             if (element == addOGLMaterialShader) {
-                CShaderCallback *callback = new CShaderCallback();
+				CShaderCallback *callback = new CShaderCallback(devices->getVideoDriver()->getDriverType());
                 callback->setName("New Material Type");
                 callback->setDevice(devices->getDevice());
                 devices->getCoreData()->getShaderCallbacks()->push_back(callback);
@@ -167,7 +167,7 @@ bool CUIWindowEditMaterials::OnEvent(const SEvent &event) {
 						stringc pixelLines = devices->getCore()->getStringcFromIReadFile("pixel.fbs");
 						stringc constantsLines = devices->getCore()->getStringcFromIReadFile("constants.cbs");
 
-						CShaderCallback *callback = new CShaderCallback();
+						CShaderCallback *callback = new CShaderCallback(devices->getVideoDriver()->getDriverType());
 						callback->setName(fileSystem->getFileBasename(openShaderPackage->getFileName()).c_str());
 						callback->setDevice(devices->getDevice());
 						devices->getCoreData()->getShaderCallbacks()->push_back(callback);

@@ -403,7 +403,7 @@ public:
 	/// meant to be used for post processing effects that require screen depth info, eg. DOF or SSAO.
 	irr::video::ITexture* getDepthMapTexture()
 	{
-		return DepthRTT;
+		return DepthRTT.RenderTexture;
 	}
 
 	/// This function is now unrelated to shadow mapping. It simply adds a node to the screen space depth map render, for use
@@ -473,7 +473,7 @@ public:
 	/// Enables/disables an additional pass before applying post processing effects (If there are any) which records screen depth info
 	/// to the depth buffer for use with post processing effects that require screen depth info, such as SSAO or DOF. For nodes to be
 	/// rendered in this pass, they must first be added using addNodeToDepthPass(SceneNode).
-	void enableDepthPass(bool enableDepthPass);
+	void enableDepthPass(bool enableDepthPass, bool SSAODepthPass = false);
 
 	/// Get array of depth pass nodes
 	irr::core::array<irr::scene::ISceneNode *>& getDepthPassNodes() { return DepthPassArray; }
@@ -829,6 +829,9 @@ public:
 	/// Returns the device that this EffectHandler was initialized with.
 	irr::IrrlichtDevice* getIrrlichtDevice() {return device;}
 
+	//---------------------------------------------------------------------------------------------
+	//-----------------------------------PASSES----------------------------------------------------
+	//---------------------------------------------------------------------------------------------
 	/// Sets if use Motion Blur Render
 	void setUseMotionBlur(bool use) { useMotionBlur = use; }
 	bool isUsingMotionBlur() { return useMotionBlur; }
@@ -850,8 +853,19 @@ public:
 	void setUseHDRPass(bool use) { useHDR = use; }
 	bool isUsingHDRPass() { return useHDR; }
 
-	CHDRManager *getHDRManager() { return hdrManager; }
+	/// Returns the Depth Pass Callback
+	DepthShaderCB *getDepthPassCallback() { return depthMC; }
+	//---------------------------------------------------------------------------------------------
 
+	//---------------------------------------------------------------------------------------------
+	//-----------------------------------HDR-------------------------------------------------------
+	//---------------------------------------------------------------------------------------------
+	CHDRManager *getHDRManager() { return hdrManager; }
+	//---------------------------------------------------------------------------------------------
+
+	//---------------------------------------------------------------------------------------------
+	//-----------------------------------FUNCTIONS-------------------------------------------------
+	//---------------------------------------------------------------------------------------------
 	/// Clears all datas of XEffect framework
 	void clearAll() {
 		ShadowNodeArray.clear();
@@ -873,7 +887,11 @@ public:
 
 	void setFPSCamera(irr::scene::ICameraSceneNode *camera) { FPSCamera = camera; }
 	#endif
+	//---------------------------------------------------------------------------------------------
 
+	//---------------------------------------------------------------------------------------------
+	//-----------------------------------PRIVATE---------------------------------------------------
+	//---------------------------------------------------------------------------------------------
 private:
 
 	struct SShadowNode
@@ -916,7 +934,7 @@ private:
 	SPostProcessingPair obtainScreenQuadMaterialFromStrings(const irr::core::stringc& pixelShader,
 		irr::video::E_MATERIAL_TYPE baseMaterial = irr::video::EMT_SOLID);
 
-	irr::s32 Depth;
+	irr::s32 Depth, Depth2T;
 	irr::s32 DepthT;
 	irr::s32 DepthWiggle;
 	irr::s32 Shadow[EFT_COUNT];
@@ -945,7 +963,11 @@ private:
 	irr::video::ITexture* currentShadowMapTexture;
     irr::video::ITexture* currentSecondaryShadowMap;
 	irr::video::ITexture* ScreenRTT;
-	irr::video::ITexture* DepthRTT;
+
+	irr::core::array<IRenderTarget> DepthTargets;
+	irr::video::IRenderTarget DepthRTT;
+	irr::video::IRenderTarget SSAORTT;
+
 	irr::video::ITexture *LightScatteringRTT;
 	irr::video::ITexture *ReflectionRTT;
 	irr::video::ITexture *normalRenderRTT;
@@ -987,7 +1009,6 @@ private:
 
 	//HDR PIPELINE
 	bool useHDR;
-
 	irr::video::ITexture* HDRProcessedRT;
 	Graphics::CHDRScreenQuad *quad;
 	PhongShaderManager *psm;
@@ -997,6 +1018,7 @@ private:
 	irr::video::SMaterial phong;
 
 	CHDRManager *hdrManager;
+	//-------------------------------------------------------------------------------------------------------
 };
 
 #endif

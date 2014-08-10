@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDragonTest.h" />
+    <ClInclude Include="CFactoryTest.h" />
     <ClInclude Include="COcclusionTest.h" />
     <ClInclude Include="CWeaponTest.h" />
     <ClInclude Include="resource.h" />

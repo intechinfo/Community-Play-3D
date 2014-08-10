@@ -34,7 +34,7 @@ matrix4 *checkMatrix4(lua_State *L, int n) {
 //---------------------------------------------------------------------------------------------
 
 int matrix4Constructor(lua_State *L) {
-    matrix4 ** udata = (matrix4 **)lua_newuserdata(L, sizeof(vector3df *));
+    matrix4 ** udata = (matrix4 **)lua_newuserdata(L, sizeof(matrix4 *));
     *udata = new matrix4();
     
     luaL_getmetatable(L, "luaL_Matrix4");
@@ -44,10 +44,11 @@ int matrix4Constructor(lua_State *L) {
 }
 
 int matrix4Destructor(lua_State * L) {
-    matrix4 *v = checkMatrix4(L, 1);
-    delete v;
+    matrix4 *mat = checkMatrix4(L, 1);
+	MATRIX4_CHECK_MATRIX(mat);
+    delete mat;
     
-    return 0;
+    return 1;
 }
 
 //---------------------------------------------------------------------------------------------
@@ -102,6 +103,7 @@ int matrix4Equals(lua_State *L) {
 int matrix4Add(lua_State *L) {
 	matrix4 *mat1 = checkMatrix4(L, 1);
 	matrix4 *mat2 = checkMatrix4(L, 2);
+
 	MATRIX4_CHECK_MATRIXES(mat1, mat2);
 
 	mat1->operator+=(*mat2);
@@ -373,13 +375,13 @@ int printMatrix4(lua_State *L) {
 	return 1;
 }
 
-void bindMatrix4(lua_State *L, irr::video::IVideoDriver *driver) {
+void bindMatrix4(lua_State *L, irr::video::IVideoDriver *driver, bool allowConstructor) {
 
 	_driver = driver;
     
     luaL_Reg sVector3dfMeta[] =
     {
-		{ "__gc", matrix4Destructor },
+		//{ "__gc", matrix4Destructor },
         {"__index", NULL},
         {"__newindex", NULL},
         { NULL, NULL }

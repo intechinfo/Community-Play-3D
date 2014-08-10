@@ -64,7 +64,6 @@ void CExample6::run() {
 void CExample6::update() {
 	/// Update bone (head)
 	boneNode->updateAbsolutePosition();
-	boneNode->updateAbsolutePositionOfAllChildren();
 
 	//-----------------------------------
 	/// Update camera

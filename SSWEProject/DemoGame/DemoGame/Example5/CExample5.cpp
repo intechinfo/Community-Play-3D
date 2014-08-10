@@ -48,6 +48,9 @@ void CExample5::load() {
 			ISceneNodeAnimator *anim = devices->getSceneManager()->createRotationAnimator(vector3df(0.3f, 0.3f, 0.3f) * ((inverse) ? -1.f : 1.f));
 			node->addAnimator(anim);
 			anim->drop();
+
+			/// Add the node to the depth pass
+			devices->getXEffect()->addNodeToDepthPass(node);
 		});
 		inverse = !inverse; /// Inverse the rotation or not
 	}

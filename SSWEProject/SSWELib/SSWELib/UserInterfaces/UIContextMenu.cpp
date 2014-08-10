@@ -336,7 +336,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"LRuins.world";
+			stringw scene_to_import = L"Test.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
@@ -412,7 +412,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	}
 	devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getLightsData()->operator[](0).getLensFlareBillBoardSceneNode());
 	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
-
+	
 	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
 
     //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
@@ -421,7 +421,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
 
-	/*nodeFactory->createLightSceneNode([](ISceneNode *node){
+	#ifdef SSWE_RELEASE
+	nodeFactory->createLightSceneNode([](ISceneNode *node){
 		node->setPosition(vector3df(-141.f, 200.f, -127.f));
 		node->setRotation(vector3df(50.f, 46.f, 0.f));
 	});
@@ -431,7 +432,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	nodeFactory->createCubeSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg");
 		node->setPosition(vector3df(0.f, 25.f, 0.f));
-	});*/
+	});
+	#endif
 
 	//CUIAddAudioElement *amgr = new CUIAddAudioElement(devices);
 }
@@ -790,6 +792,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 						cmanager->open();
 						cmanager->setModel((IAnimatedMeshSceneNode*)ssn.getNode());
 					}
+				}
+					break;
+
+				case CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER: {
+					CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
 				}
 					break;
                 //-----------------------------------

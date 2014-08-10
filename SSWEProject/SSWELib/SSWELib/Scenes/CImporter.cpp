@@ -100,13 +100,17 @@ void CImporter::buildTerrain() {
 	} else if (type == "mesh") {
 		mesh = devices->getSceneManager()->getMesh(path.c_str());
 
-        assert(mesh != 0);
+		if (mesh) {
+			assert(mesh != 0);
 
-		if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
-			mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, true, true, false, true);
+			if (xmlReader->getAttributeValueAsInt("tangents") == 1) {
+				mesh = smgr->getMeshManipulator()->createMeshWithTangents(mesh, true, true, false, true);
+			}
+			mesh->setHardwareMappingHint(EHM_DYNAMIC, EBT_VERTEX_AND_INDEX);
+			node = smgr->addMeshSceneNode(mesh, 0, -1);
+		} else {
+			read("terrain");
 		}
-		mesh->setHardwareMappingHint(EHM_DYNAMIC, EBT_VERTEX_AND_INDEX);
-		node = smgr->addMeshSceneNode(mesh, 0, -1);
 	}
 
 	SData data = readFactory(node, mesh);
@@ -182,6 +186,9 @@ void CImporter::buildObject() {
 		node = (IAnimatedMeshSceneNode *)smgr->addBillboardSceneNode();
 	} else {
 		mesh = smgr->getMesh(path.c_str());
+		if (mesh->getMeshType() == EAMT_SKINNED) {
+			((ISkinnedMesh*)mesh)->convertMeshToTangents();
+		}
 		node = smgr->addAnimatedMeshSceneNode(mesh);
 		if (node) {
 			node->setAnimationSpeed(0);
@@ -389,7 +396,7 @@ void CImporter::buildWaterSurface() {
 
 		read("shaderPackagePath");
 		stringc shaderPackagePath = xmlReader->getAttributeValue("value");
-		CShaderCallback *callback = new CShaderCallback();
+		CShaderCallback *callback = new CShaderCallback(devices->getVideoDriver()->getDriverType());
 		IFileSystem *fileSystem = devices->getDevice()->getFileSystem();
 		if (fileSystem->addZipFileArchive(shaderPackagePath.c_str())) {
 			stringc vertexLines = devices->getCore()->getStringcFromIReadFile("vertex.vbs");
@@ -605,7 +612,7 @@ void CImporter::readMaterialShaderCallbacks() {
 		constants = stringc(xmlReader->getAttributeValue("value")).replace("\r", "");
         #endif
 
-		CShaderCallback *callback = new CShaderCallback();
+		CShaderCallback *callback = new CShaderCallback(devices->getVideoDriver()->getDriverType());
 		callback->setName(name.c_str());
 		callback->setVertexShader(vertex.c_str());
 		callback->setPixelShader(pixel.c_str());

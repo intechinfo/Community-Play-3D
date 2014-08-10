@@ -396,7 +396,7 @@ bool CCoreObjectPlacement::OnEvent(const SEvent &event) {
 				smgr->getActiveCamera()->setInputReceiverEnabled(true);
 			}
 			else if(selectedArrow == NULL) {
-				core::line3d<f32> ray = collisionManager->getRayFromScreenCoordinates(cursorCtrl->getPosition());
+				core::line3d<f32> ray = collisionManager->getRayFromScreenCoordinates(cursorCtrl->getPosition(), smgr->getActiveCamera());
 				vector3df intersection;
 				triangle3df hitTriangle;
 				ISceneNode *selectedMouseNode = collisionManager->getSceneNodeAndCollisionPointFromRay(ray, intersection,

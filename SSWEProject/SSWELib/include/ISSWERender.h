@@ -206,7 +206,9 @@ public:
 	/// Returns if depth pass is enabled
     virtual bool isDepthPassEnabled() = 0;
 	/// Sets depth pass enabled or disabled
-	virtual void enableDepthPass(bool enableDepthPass) = 0;
+	virtual void enableDepthPass(bool enableDepthPass, bool SSAODepthPass = false) = 0;
+	/// Add a node to the depth pass
+	virtual void addNodeToDepthPass(irr::scene::ISceneNode *node) = 0;
 
 	/// Sets if use the VSM shadows
 	virtual void setUseVSMShadows(bool use) = 0;

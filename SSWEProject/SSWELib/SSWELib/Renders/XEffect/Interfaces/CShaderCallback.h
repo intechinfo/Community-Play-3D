@@ -20,7 +20,7 @@ class CShaderCallback : public IShaderCallback {
 
 public:
 
-	CShaderCallback();
+	CShaderCallback(E_DRIVER_TYPE driverType);
 	~CShaderCallback();
 
 	//METHODS

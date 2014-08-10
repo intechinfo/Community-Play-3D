@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="69.529678" Y="-0.411771" Z="-0.780540" />
-			 <rotation X="0.000000" Y="270.000000" Z="0.000000" />
+			 <position X="-108.939003" Y="272.761475" Z="-53.002419" />
+			 <rotation X="31.914782" Y="51.071274" Z="0.000000" />
 
 		 </camera>
 
@@ -160,7 +160,7 @@
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/xeffects.png" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -190,7 +190,7 @@
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="14" />
 
 			 	 </material>
 			 </materials>
@@ -202,7 +202,7 @@
 			<lightScatteringPassed value="0" />
 
 			 <visible bool="1" />
-			 <shadowMode mode="2" />
+			 <shadowMode mode="1" />
 			 <actions>
 			 </actions>
 
@@ -307,10 +307,24 @@
 			 <farValue value="1000.000000" />
 			 <autoRecalculate value="1" />
 
-			 <shadows resol="1024" />
+			 <shadows resol="2048" />
 
 			 <lensFlare>
-			 </lensFlare>
+				 <mesh> 
+					 <scale X="0.000000" Y="0.000000" Z="0.000000" />
+					 <texture path="" />
+				 </mesh> 
+				 <bill> 
+					 <size Width="115.000000" Height="115.000000" />
+					 <texture path="shaders/textures/lf/sun.png" />
+				 </bill> 
+				 <lfsn> 
+					 <strength value="-107374176.000000" />
+					 <texture path="" />
+					 <falseOcclusion value="0" />
+				 </lfsn> 
+				 <position X="0.000000" Y="0.000000" Z="0.000000" />
+ 			 </lensFlare>
 
 		 </light>
 
@@ -375,12 +389,12 @@
 
 		 <skybox>
 
-		 <texture path="data/Lights/glacier_ft.png" />
-		 <texture path="data/Lights/glacier_lf.png" />
-		 <texture path="data/Lights/glacier_bk.png" />
-		 <texture path="data/Lights/glacier_rt.png" />
-		 <texture path="data/Lights/glacier_up.png" />
-		 <texture path="data/Lights/glacier_dn.png" />
+			 <texture path="data/Lights/glacier_ft.png" />
+			 <texture path="data/Lights/glacier_lf.png" />
+			 <texture path="data/Lights/glacier_bk.png" />
+			 <texture path="data/Lights/glacier_rt.png" />
+			 <texture path="data/Lights/glacier_up.png" />
+			 <texture path="data/Lights/glacier_dn.png" />
 		 </skybox>
 
 

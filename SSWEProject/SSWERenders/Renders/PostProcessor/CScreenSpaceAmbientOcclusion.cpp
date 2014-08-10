@@ -7,9 +7,10 @@
 //---------------------------------------CALLBACKS---------------------------------------------
 //---------------------------------------------------------------------------------------------
 //SSAO
-SSAORenderCallback::SSAORenderCallback(irr::s32 materialTypeIn) { 
+SSAORenderCallback::SSAORenderCallback(irr::s32 materialTypeIn, irr::video::ITexture *depthTex) { 
 	materialType = materialTypeIn;
-	tex = 0;
+	noiseTex = 0;
+	this->depthTex = depthTex;
 }
 
 SSAORenderCallback::~SSAORenderCallback() {
@@ -25,7 +26,9 @@ void SSAORenderCallback::OnPreRender(ISSWERender* effect) {
 	viewProj = driver->getTransform(irr::video::ETS_PROJECTION) * driver->getTransform(irr::video::ETS_VIEW);
 	effect->setPostProcessingEffectConstant(materialType, "mViewProj", viewProj.pointer(), 16);
 
-	effect->setPostProcessingUserTexture(tex);
+	effect->setPostProcessingUserTexture(noiseTex);
+
+	((EffectHandler *)effect)->getScreenQuadPtr()->getMaterial().setTexture(2, depthTex);
 }
 
 //---------------------------------------------------------------------------------------------
@@ -55,7 +58,7 @@ irr::core::array<irr::s32> CRenderCallbacks::buildSSAO() {
 	SSAO = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAO") + extention, 0);
 	BlurH = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurHP") + extention, 0);
 	BlurV = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/BlurVP") + extention, 0);
-	SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAOCombine") + extention, 0);
+	//SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/HLSL/SSAOCombine") + extention, 0);
     #else
     SSAO = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/GLSL/SSAO") + extention, 0, false);
 	BlurH = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/GLSL/BlurHP") + extention, 0, false);
@@ -63,9 +66,9 @@ irr::core::array<irr::s32> CRenderCallbacks::buildSSAO() {
 	SSAOCombine = reffect->addPostProcessingEffectFromFile(workingDirirectory + irr::core::stringc("shaders/GLSL/SSAOCombine") + extention, 0, false);
     #endif
 
-	ssaoRenderCallback = new SSAORenderCallback(SSAO);
+	ssaoRenderCallback = new SSAORenderCallback(SSAO, reffect->getIrrlichtDevice()->getVideoDriver()->getTexture("SSAODepthRTT"));
 	reffect->setPostProcessingRenderCallback(SSAO, ssaoRenderCallback);
-	ssaoRenderCallback->setTexture(reffect->generateRandomVectorTexture(irr::core::dimension2du(256, 256)));
+	ssaoRenderCallback->setTexture(reffect->generateRandomVectorTexture(irr::core::dimension2du(512, 512)));
 	reffect->setPostProcessingUserTexture(ssaoRenderCallback->getTexture());
 
 	irr::core::array<irr::s32> materialTypes;

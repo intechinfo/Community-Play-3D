@@ -6,6 +6,7 @@
 #include "COcclusionTest.h"
 #include "CWeaponTest.h"
 #include "CDragonTest.h"
+#include "CFactoryTest.h"
 
 using namespace cp3d;
 using namespace cp3d::core;
@@ -50,7 +51,10 @@ int main(int argc, char *argv[]) {
 	//COcclusionTest *occlusioNTest = new COcclusionTest(devices);
 
 	/// Load our dragon test class
-	CDragonTest *dragonTest = new CDragonTest(devices);
+	//CDragonTest *dragonTest = new CDragonTest(devices);
+	
+	/// Load our factory test
+	//CFactoryTest *factoryTest = new CFactoryTest(devices);
 
 	/// Update our device
 	/// Let CP3D updating the device, it will optimize everything for us :-)
