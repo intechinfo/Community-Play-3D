@@ -67,7 +67,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
     windowSize = devices->getVideoDriver()->getScreenSize();
 
 	#ifdef SSWE_RELEASE
-		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 	#else
 		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 	#endif

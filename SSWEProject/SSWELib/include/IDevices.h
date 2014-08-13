@@ -11,6 +11,7 @@
 #include <IAnimationController.h>
 #include <IMonitorRegisterer.h>
 #include <IFactory.h>
+#include <IMeshSimplificator.h>
 
 namespace cp3d {
 namespace core {
@@ -18,6 +19,8 @@ namespace core {
 class IDevices {
 
 public: 
+	//-----------------------------------
+	//IRRLICHT
 	/// Returns the irrlicht device
 	virtual irr::IrrlichtDevice *getDevice() = 0;
 	/// Returns the irrlicht video driver
@@ -93,6 +96,9 @@ public:
 
 	/// Returns the nodes factory to create lights, cubes, etc.
 	virtual cp3d::scene::IFactory *getNodeFactory() = 0;
+
+	/// Returns the pointer to the mesh simplificator. Then, you can create LOD on the flag
+	virtual cp3d::scene::IMeshSimplificator *getMeshSimplificator() = 0;
 	//-----------------------------------
 
 	//-----------------------------------

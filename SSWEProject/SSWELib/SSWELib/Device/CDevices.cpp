@@ -501,7 +501,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		effect = new EffectHandler(Device, driver->getScreenSize(), true, true, true);
 
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_NONE;
+	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);
@@ -553,6 +553,9 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//FACTORY
 	nodeFactory = new CNodeFactory(this);
+
+	//PROGRESSIVE MESH BUFFER
+	meshSimplificator = new CMeshSimplificator(smgr);
 }
 
 void CDevices::rebuildXEffect() {

@@ -31,6 +31,9 @@
     <Filter Include="SSWECore\DecaleSystem">
       <UniqueIdentifier>{c8acba02-ba81-4157-8ec1-69f087f56dcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWECore\ProgressiveMeshBuffer">
+      <UniqueIdentifier>{0ae50e75-b52a-4f40-85a6-0df4f6add96a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWECore.cpp">
@@ -68,6 +71,21 @@
     </ClCompile>
     <ClCompile Include="SSWECore\Core\CScenarioData.cpp">
       <Filter>SSWECore\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CMeshSimplificator.cpp">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CVertex.cpp">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CTriangle.cpp">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CProgressiveMeshBuffer.cpp">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CEdge.cpp">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +130,21 @@
     </ClInclude>
     <ClInclude Include="SSWECore\Core\CScenarioData.h">
       <Filter>SSWECore\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CMeshSimplificator.h">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CVertex.h">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CTriangle.h">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CProgressiveMeshBuffer.h">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CEdge.h">
+      <Filter>SSWECore\ProgressiveMeshBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

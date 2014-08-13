@@ -357,6 +357,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="include\IFactory.h" />
     <ClInclude Include="include\IGraphicTool.h" />
     <ClInclude Include="include\IGUICodeEditor.h" />
+    <ClInclude Include="include\IMeshSimplificator.h" />
     <ClInclude Include="include\IMonitor.h" />
     <ClInclude Include="include\IMonitorRegisterer.h" />
     <ClInclude Include="include\ISSWECore.h" />

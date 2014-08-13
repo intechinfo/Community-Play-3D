@@ -209,6 +209,11 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWECore\DecaleSystem\CBatchingMesh.cpp" />
     <ClCompile Include="SSWECore\DecaleSystem\DecalManager.cpp" />
     <ClCompile Include="SSWECore\DecaleSystem\DecalSceneNode.cpp" />
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CMeshSimplificator.cpp" />
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CEdge.cpp" />
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CProgressiveMeshBuffer.cpp" />
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CTriangle.cpp" />
+    <ClCompile Include="SSWECore\ProgressiveMeshBuffer\CVertex.cpp" />
     <ClCompile Include="SSWECore\SceneNodes\CGridSceneNode.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -228,6 +233,11 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWECore\DecaleSystem\CBatchingMesh.h" />
     <ClInclude Include="SSWECore\DecaleSystem\DecalManager.h" />
     <ClInclude Include="SSWECore\DecaleSystem\DecalSceneNode.h" />
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CMeshSimplificator.h" />
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CEdge.h" />
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CProgressiveMeshBuffer.h" />
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CTriangle.h" />
+    <ClInclude Include="SSWECore\ProgressiveMeshBuffer\CVertex.h" />
     <ClInclude Include="SSWECore\SceneNodes\CGridSceneNode.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

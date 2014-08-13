@@ -971,6 +971,9 @@
     <ClInclude Include="include\IFactory.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\IMeshSimplificator.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWELib.def">

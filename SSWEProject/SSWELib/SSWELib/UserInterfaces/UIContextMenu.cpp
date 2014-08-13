@@ -338,7 +338,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 			stringw scene_to_import = L"Test.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			impoterInstance->importScene(scene_to_import.c_str());
+			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -421,7 +421,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
 
-	#ifdef SSWE_RELEASE
+	//#ifdef SSWE_RELEASE
 	nodeFactory->createLightSceneNode([](ISceneNode *node){
 		node->setPosition(vector3df(-141.f, 200.f, -127.f));
 		node->setRotation(vector3df(50.f, 46.f, 0.f));
@@ -429,13 +429,40 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	nodeFactory->createPlaneMeshSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/kitchen_tile.jpg");
 	});
-	nodeFactory->createCubeSceneNode([this](ISceneNode *node){
+	/*nodeFactory->createCubeSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg");
 		node->setPosition(vector3df(0.f, 25.f, 0.f));
-	});
-	#endif
+	});*/
+	//#endif
 
-	//CUIAddAudioElement *amgr = new CUIAddAudioElement(devices);
+	IMesh *mesh = devices->getSceneManager()->getMesh("data/bunny.b3d");
+	//((ISkinnedMesh*)mesh)->convertMeshToTangents();
+	mesh = devices->getSceneManager()->getMeshManipulator()->createMeshWithTangents(mesh);
+	IMeshSceneNode *node = devices->getSceneManager()->addMeshSceneNode(mesh);
+	node->setMaterialFlag(EMF_LIGHTING, false);
+	node->setScale(vector3df(50.f));
+	node->setName("#terrain:progressive_mesh_buffer_test");
+	devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_BOTH);
+	STerrainsData tdata(mesh, node, "data/cow.b3d", 0, ESNT_MESH);
+	devices->getCoreData()->getTerrainsData()->push_back(tdata);
+
+	CProcess *process = new CProcess(devices->getGUIEnvironment(), "LOD MESH");
+	devices->getProcessesLogger()->addProcess(process);
+	devices->getMeshSimplificator()->addSimplifiedMeshBuffer(mesh->getMeshBuffer(0)); // 1
+	process->getProgressBar()->setPercentage(33);
+	devices->getMeshSimplificator()->simplifyMeshBuffer(mesh->getMeshBuffer(0), 95.f, // 2
+		[=](IMeshBuffer *buffer){
+			process->getProgressBar()->setPercentage(99);
+			devices->getDevice()->getLogger()->log(stringc(mesh->getMeshBuffer(0)->getVertexCount()).c_str());
+			devices->getMeshSimplificator()->switchToSimplifiedMeshBuffer(mesh->getMeshBuffer(0)); // 3
+			devices->getDevice()->getLogger()->log(stringc(mesh->getMeshBuffer(0)->getVertexCount()).c_str());
+			//devices->getMeshSimplificator()->switchToOriginalMeshBuffer(mesh->getMeshBuffer(0));
+			//devices->getDevice()->getLogger()->log(stringc(mesh->getMeshBuffer(0)->getVertexCount()).c_str());
+			mesh->setDirty();
+			process->setHasFinished(true);
+		}
+	);
+	process->getProgressBar()->setPercentage(66);
 }
 
 CUIContextMenu::~CUIContextMenu() {

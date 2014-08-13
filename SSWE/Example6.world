@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-155.308136" Y="37.393299" Z="-6.470043" />
-			 <rotation X="355.440857" Y="62.678986" Z="0.000000" />
+			 <position X="-76.784500" Y="66.846840" Z="2.083254" />
+			 <rotation X="7.598934" Y="284.999969" Z="0.000000" />
 
 		 </camera>
 
@@ -30,7 +30,7 @@
 
 		 </fpsCameraSettings>
 
-		 <depthPassEnabled enabled="0" />
+		 <depthPassEnabled enabled="1" />
 		 <lightScaterringPassEnabled enabled="0" />
 		 <reflectionPassEnabled enabled="0" />
 
@@ -424,10 +424,10 @@ float4 pixelMain( in PS_INPUT IN ) : COLOR
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
 vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
-vfloat fLightStrength1 5
-vfloat fLightStrength2 5
-vfloat fLightStrength3 5
-vfloat fLightStrength4 5
+vfloat fLightStrength1 50
+vfloat fLightStrength2 50
+vfloat fLightStrength3 50
+vfloat fLightStrength4 50
 
 vvector3df fvLightPosition1 250 250 0
 vvector3df fvLightPosition2 250 250 0
@@ -435,14 +435,67 @@ vvector3df fvLightPosition3 250 250 0
 vvector3df fvLightPosition4 250 250 0
 
 pSColor fvAmbient 1 1 1 1
-pSColor fvLight1Color 1 1 1 1
-pSColor fvLight2Color 1 1 1 1
-pSColor fvLight3Color 1 1 1 1
-pSColor fvLight4Color 1 1 1 1
+pSColor fvLight1Color 0.02 0.02 0.02 0.02
+pSColor fvLight2Color 0.02 0.02 0.02 0.02
+pSColor fvLight3Color 0.02 0.02 0.02 0.02
+pSColor fvLight4Color 0.02 0.02 0.02 0.02
 
-pfloat fSpecularPower 20
+pfloat fSpecularPower 200
 pfloat fSpecularStrength 0.9
-pfloat fBumpStrength 50
+pfloat fBumpStrength 5
+" />
+			 </materialType>
+
+			 <materialType>
+				 <pixelShaderType type="7" /> 
+				 <vertexShaderType type="3" /> 
+				 <baseMaterial type="14" /> 
+				 <name cname="New Material Type" />
+				 <vertex shader=
+"float4x4 worldViewProj;
+
+struct VertexShaderOutput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
+};
+struct VertexShaderInput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
+};
+
+VertexShaderOutput vertexMain(VertexShaderInput input) {
+    VertexShaderOutput output = (VertexShaderOutput)0;
+    
+    output.Position = mul(input.Position, worldViewProj);
+    output.TexCoords = input.TexCoords;
+    
+    return output;
+}
+" />
+				 <pixel shader=
+"sampler2D DiffuseSampler : register(s0);
+sampler2D ColorMapSampler : register(s2);
+sampler2D ScreenMapSampler : register(s3);
+
+float4x4 worldViewProj;
+
+struct VertexShaderOutput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
+};
+
+float4 pixelMain(VertexShaderOutput input) : COLOR0 {
+    float4 color = tex2D(DiffuseSampler, input.TexCoords);
+    color.a = (color.r + color.g + color.b) / 3.0;
+    if (color.a < 0.5) {
+        color.rgb = float3(0.0, 0.0, 0.0);
+    } else {
+        color.rgb = float3(0.0, 0.0, 0.0);
+    }
+    return color;
+}
+" />
+				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0
 " />
 			 </materialType>
 
@@ -595,7 +648,7 @@ pfloat fBumpStrength 50
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="-1" />
+					 <materianType value="0" />
 
 			 	 </material>
 			 </materials>
@@ -644,8 +697,8 @@ pfloat fBumpStrength 50
 					 <textures>
 						 <texture id="0" path="data/characters/murphy/walk.fbm/char_murphybody02_d_an.jpg" />
 						 <texture id="1" path="data/characters/murphy/walk.fbm/char_murphybody02_n_an.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -672,15 +725,15 @@ pfloat fBumpStrength 50
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-2" />
 
 			 	 </material>
 			 	 <material id="1">
 					 <textures>
 						 <texture id="0" path="data/characters/murphy/walk.fbm/charles01_head01_au_d.jpg" />
 						 <texture id="1" path="data/characters/murphy/walk.fbm/charles01_head01_au_n.jpg" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -707,15 +760,15 @@ pfloat fBumpStrength 50
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-2" />
 
 			 	 </material>
 			 	 <material id="2">
 					 <textures>
 						 <texture id="0" path="data/characters/murphy/walk.fbm/brown_eye01_an_d.jpg" />
 						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
 					 <textures>
 
 					 <diffuseColor r="204" g="204" b="204" a="255" />
@@ -749,14 +802,14 @@ pfloat fBumpStrength 50
 					 <textures>
 						 <texture id="0" path="data/characters/murphy/walk.fbm/hair01_au_d.jpg" />
 						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
 					 <textures>
 
-					 <diffuseColor r="43" g="29" b="25" a="255" />
+					 <diffuseColor r="255" g="255" b="255" a="255" />
 					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="0" g="0" b="0" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="255" g="255" b="255" a="255" />
 
 					 <lighting value="0" />
 
@@ -777,15 +830,15 @@ pfloat fBumpStrength 50
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="0" />
+					 <materianType value="-3" />
 
 			 	 </material>
 			 </materials>
 			 <position X="-99.860222" Y="0.000000" Z="0.080544" />
-			 <rotation X="0.000000" Y="320.104858" Z="0.000000" />
+			 <rotation X="0.000000" Y="24.723038" Z="0.000000" />
 			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
 
-			<depthPassed value="0" />
+			<depthPassed value="1" />
 			<lightScatteringPassed value="0" />
 
 			 <visible bool="1" />
