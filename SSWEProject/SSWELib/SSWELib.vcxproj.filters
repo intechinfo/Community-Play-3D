@@ -531,6 +531,9 @@
     <ClCompile Include="SSWELib\GUIExtension\SoundViewer\CGUISoundViewer.cpp">
       <Filter>SSWELib\GUIExtension\SoundViewer</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.cpp">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -973,6 +976,9 @@
     </ClInclude>
     <ClInclude Include="include\IMeshSimplificator.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.h">
+      <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

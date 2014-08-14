@@ -191,6 +191,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu->addItem(L"New Terrain... (WIP)", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
 	submenu->addItem(L"Mesh Factory...", CXT_MENU_EVENTS_MESH_FACTORY_EDIT);
 	submenu->addItem(L"Animated Mesh Viewer...", CXT_MENU_EVENTS_ANIMATED_MESH_TESTER);
+	submenu->addItem(L"Mesh Simplificator...", CXT_MENU_EVENTS_MESH_SIMPLIFICATOR);
 
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
@@ -421,7 +422,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
 
-	//#ifdef SSWE_RELEASE
+	#ifdef SSWE_RELEASE
 	nodeFactory->createLightSceneNode([](ISceneNode *node){
 		node->setPosition(vector3df(-141.f, 200.f, -127.f));
 		node->setRotation(vector3df(50.f, 46.f, 0.f));
@@ -429,40 +430,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	nodeFactory->createPlaneMeshSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/kitchen_tile.jpg");
 	});
-	/*nodeFactory->createCubeSceneNode([this](ISceneNode *node){
+	nodeFactory->createCubeSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg");
 		node->setPosition(vector3df(0.f, 25.f, 0.f));
-	});*/
-	//#endif
-
-	IMesh *mesh = devices->getSceneManager()->getMesh("data/bunny.b3d");
-	//((ISkinnedMesh*)mesh)->convertMeshToTangents();
-	mesh = devices->getSceneManager()->getMeshManipulator()->createMeshWithTangents(mesh);
-	IMeshSceneNode *node = devices->getSceneManager()->addMeshSceneNode(mesh);
-	node->setMaterialFlag(EMF_LIGHTING, false);
-	node->setScale(vector3df(50.f));
-	node->setName("#terrain:progressive_mesh_buffer_test");
-	devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_BOTH);
-	STerrainsData tdata(mesh, node, "data/cow.b3d", 0, ESNT_MESH);
-	devices->getCoreData()->getTerrainsData()->push_back(tdata);
-
-	CProcess *process = new CProcess(devices->getGUIEnvironment(), "LOD MESH");
-	devices->getProcessesLogger()->addProcess(process);
-	devices->getMeshSimplificator()->addSimplifiedMeshBuffer(mesh->getMeshBuffer(0)); // 1
-	process->getProgressBar()->setPercentage(33);
-	devices->getMeshSimplificator()->simplifyMeshBuffer(mesh->getMeshBuffer(0), 95.f, // 2
-		[=](IMeshBuffer *buffer){
-			process->getProgressBar()->setPercentage(99);
-			devices->getDevice()->getLogger()->log(stringc(mesh->getMeshBuffer(0)->getVertexCount()).c_str());
-			devices->getMeshSimplificator()->switchToSimplifiedMeshBuffer(mesh->getMeshBuffer(0)); // 3
-			devices->getDevice()->getLogger()->log(stringc(mesh->getMeshBuffer(0)->getVertexCount()).c_str());
-			//devices->getMeshSimplificator()->switchToOriginalMeshBuffer(mesh->getMeshBuffer(0));
-			//devices->getDevice()->getLogger()->log(stringc(mesh->getMeshBuffer(0)->getVertexCount()).c_str());
-			mesh->setDirty();
-			process->setHasFinished(true);
-		}
-	);
-	process->getProgressBar()->setPercentage(66);
+	});
+	#endif
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -1000,6 +972,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				case CXT_MENU_EVENTS_ANIMATED_MESH_TESTER: {
 					CUIAnimatedMeshViewer *animatedMeshViewer = new CUIAnimatedMeshViewer(devices);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_MESH_SIMPLIFICATOR: {
+					CUIMeshSimplificator *meshSimplificator = new CUIMeshSimplificator(devices);
 				}
 					break;
 

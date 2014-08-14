@@ -10,6 +10,8 @@
 #include "CMeshSimplificator.h"
 
 #include <thread>
+#include <mutex>
+std::mutex csswemeshsimplificator;
 
 using namespace irr;
 using namespace core;
@@ -45,7 +47,21 @@ void CMeshSimplificator::addSimplifiedMeshBuffer(IMeshBuffer *buffer) {
 	progressiveBuffers.push_back(spb);
 }
 
+void CMeshSimplificator::removeSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer) {
+	list<SProgressiveBuffer *>::Iterator it = progressiveBuffers.begin();
+	for (; it != progressiveBuffers.end(); ++it) {
+		if ((*it)->meshBuffer == buffer) {
+			switchToOriginalMeshBuffer(buffer);
+			delete (*it)->originalBuffer;
+			delete (*it)->pmb;
+			progressiveBuffers.erase(it);
+			break;
+		}
+	}
+}
+
 void CMeshSimplificator::switchToSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer) {
+	std::lock_guard<std::mutex> lck(csswemeshsimplificator);
 	list<SProgressiveBuffer *>::ConstIterator it = progressiveBuffers.begin();
 	for (; it != progressiveBuffers.end(); ++it) {
 		if ((*it)->meshBuffer == buffer) {
@@ -56,6 +72,7 @@ void CMeshSimplificator::switchToSimplifiedMeshBuffer(irr::scene::IMeshBuffer *b
 }
 
 void CMeshSimplificator::switchToOriginalMeshBuffer(irr::scene::IMeshBuffer *buffer) {
+	std::lock_guard<std::mutex> lck(csswemeshsimplificator);
 	list<SProgressiveBuffer *>::ConstIterator it = progressiveBuffers.begin();
 	for (; it != progressiveBuffers.end(); ++it) {
 		if ((*it)->meshBuffer == buffer) {
@@ -67,7 +84,7 @@ void CMeshSimplificator::switchToOriginalMeshBuffer(irr::scene::IMeshBuffer *buf
 
 void CMeshSimplificator::simplifyMeshBuffer(IMeshBuffer *buffer, irr::f32 percentage, std::function<void(irr::scene::IMeshBuffer *buffer)> callback) {
 	std::thread t(&CMeshSimplificator::simplifyMeshBuffer_t, *this, buffer, percentage, callback);
-	t.detach();
+	//t.join();
 }
 
 //---------------------------------------------------------------------------------------------
@@ -151,8 +168,8 @@ void CMeshSimplificator::simplifyMeshBuffer_t(IMeshBuffer *buffer, irr::f32 perc
 			}
 			(*it)->pmb->contractTillTriangleCount(triangleCount);
 
-			callback((*it)->pmb->getCurrentMeshBuffer());
 			buffer->setDirty();
+			callback(buffer);
 			break;
 		}
 	}

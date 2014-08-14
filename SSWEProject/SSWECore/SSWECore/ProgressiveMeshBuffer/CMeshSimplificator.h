@@ -22,6 +22,8 @@ public:
 	~CMeshSimplificator();
 
 	void addSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
+	void removeSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
+
 	void simplifyMeshBuffer(irr::scene::IMeshBuffer *buffer, irr::f32 percentage,
 		std::function<void(irr::scene::IMeshBuffer *buffer)> callback = [](irr::scene::IMeshBuffer *buffer){});
 

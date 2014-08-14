@@ -26,6 +26,7 @@
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -88,6 +89,7 @@
       <OpenMPSupport>true</OpenMPSupport>
       <CallingConvention>Cdecl</CallingConvention>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,6 +149,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -308,6 +311,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshFactory.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
@@ -460,6 +464,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshFactory.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />
