@@ -15,8 +15,8 @@ CRenderCore::CRenderCore(CDevices *_devices) {
 
 	//INITIALIZE MEMBERS
 	skybox = 0;
-	for (u32 i=0; i < 6; i++)
-		rt[i] = devices->getVideoDriver()->addRenderTargetTexture(dimension2du(1024, 1024));
+	//for (u32 i=0; i < 6; i++)
+		//rt[i] = devices->getVideoDriver()->addRenderTargetTexture(dimension2du(1024, 1024), "rt", video::ECF_A8R8G8B8);
 
 	camera = devices->getSceneManager()->addCameraSceneNode();
 	devices->getSceneManager()->setActiveCamera(devices->getMayaCamera());

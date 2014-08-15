@@ -1,0 +1,905 @@
+<?xml version="1.0"?>
+
+<rootScene>
+
+	<config>
+
+		 <numberOfObjects value="4" />
+
+		 <grid>
+
+			 <accentLineOffset ALO="8" />
+			 <size S="1024" />
+			 <spacing SP="8" />
+
+		 </grid>
+
+		 <camera>
+
+			 <position X="-76.784500" Y="66.846840" Z="2.083254" />
+			 <rotation X="7.598934" Y="284.999969" Z="0.000000" />
+
+		 </camera>
+
+		 <fpsCameraSettings>
+
+			 <ellipsoidRadius X="30.000000" Y="60.000000" Z="30.000000" />
+			 <gravityPerSecond X="0.000000" Y="-10.000000" Z="0.000000" />
+			 <ellipsoidTranslation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <slidingValue value="0.000500" />
+
+		 </fpsCameraSettings>
+
+		 <depthPassEnabled enabled="1" />
+		 <lightScaterringPassEnabled enabled="0" />
+		 <reflectionPassEnabled enabled="0" />
+
+		 <effect>
+
+
+		 </effect>
+
+		 <materialTypes>
+
+			 <materialType>
+				 <pixelShaderType type="0" /> 
+				 <vertexShaderType type="0" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="fire_package.spkg" />
+				 <vertex shader=
+"float4x4 wvp;
+
+float time;
+
+struct VS_OUTPUT
+
+{
+
+   float4 Pos       : POSITION;
+
+   float2 TexCoord0 : TEXCOORD0;
+
+   float2 TexCoord1 : TEXCOORD1;
+
+   float2 TexCoord2 : TEXCOORD2;
+
+   float2 TexCoord3 : TEXCOORD3;
+
+};
+
+VS_OUTPUT vertexMain (float4 pos: POSITION, 
+
+                      float2 texCoord : TEXCOORD0)
+
+{
+
+   VS_OUTPUT Out;
+
+   Out.Pos = mul(pos, wvp);
+
+   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
+
+   
+
+   Out.TexCoord0 = texCoord;
+
+   Out.TexCoord0.y += 0.2;
+
+   Out.TexCoord1.x = texCoord.x;
+
+   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
+
+   Out.TexCoord2.x = texCoord.x;
+
+   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
+
+   Out.TexCoord3.x = texCoord.x;
+
+   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
+
+   
+
+   return Out;
+
+}
+
+sampler fire_base       : register(s0);
+
+sampler fire_distortion : register(s1);
+
+sampler fire_opacity    : register(s2);
+
+float4 bx2(float x)
+
+{
+
+   return 2.0f * x - 1.0f;
+
+}
+
+float4 pixelMain (float4 tc0 : TEXCOORD0, 
+
+                  float4 tc1 : TEXCOORD1,
+
+                  float4 tc2 : TEXCOORD2, 
+
+                  float4 tc3 : TEXCOORD3) : COLOR
+
+{
+
+   float distortion_amount0  = 0.092;
+
+   float distortion_amount1  = 0.092;
+
+   float distortion_amount2  = 0.092;
+
+   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
+
+   float4 noise0 = tex2D(fire_distortion, tc1);
+
+   float4 noise1 = tex2D(fire_distortion, tc2);
+
+   float4 noise2 = tex2D(fire_distortion, tc3);
+
+   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
+
+   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
+
+   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
+
+   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
+
+   return base * opacity;
+
+}
+
+" />
+				 <pixel shader=
+"
+
+float4x4 wvp;
+
+float time;
+
+struct VS_OUTPUT
+
+{
+
+   float4 Pos       : POSITION;
+
+   float2 TexCoord0 : TEXCOORD0;
+
+   float2 TexCoord1 : TEXCOORD1;
+
+   float2 TexCoord2 : TEXCOORD2;
+
+   float2 TexCoord3 : TEXCOORD3;
+
+};
+
+VS_OUTPUT vertexMain (float4 pos: POSITION, 
+
+                      float2 texCoord : TEXCOORD0)
+
+{
+
+   VS_OUTPUT Out;
+
+   Out.Pos = mul(pos, wvp);
+
+   float4 layer_speed = float4(0.2, 0.52, 0.1, 1.0);
+
+   Out.TexCoord0 = texCoord;
+
+   Out.TexCoord0.y += 0.2;
+
+   Out.TexCoord1.x = texCoord.x;
+
+   Out.TexCoord1.y = texCoord.y + layer_speed.x * time / 1000.0;
+
+   Out.TexCoord2.x = texCoord.x;
+
+   Out.TexCoord2.y = texCoord.y + layer_speed.y * time / 1000.0;
+
+   Out.TexCoord3.x = texCoord.x;
+
+   Out.TexCoord3.y = texCoord.y + layer_speed.z * time / 1000.0;
+
+   return Out;
+
+   
+
+}
+
+sampler fire_base       : register(s0);
+
+sampler fire_distortion : register(s1);
+
+sampler fire_opacity    : register(s2);
+
+float4 bx2(float x)
+
+{
+
+   return 2.0f * x - 1.0f;
+
+}
+
+float4 pixelMain (float4 tc0 : TEXCOORD0, 
+
+                  float4 tc1 : TEXCOORD1,
+
+                  float4 tc2 : TEXCOORD2, 
+
+                  float4 tc3 : TEXCOORD3) : COLOR
+
+{
+
+   float distortion_amount0  = 0.092;
+
+   float distortion_amount1  = 0.092;
+
+   float distortion_amount2  = 0.092;
+
+   float4 height_attenuation = float4(0.3, 0.39, 0.0, 1.0);
+
+   float4 noise0 = tex2D(fire_distortion, tc1);
+
+   float4 noise1 = tex2D(fire_distortion, tc2);
+
+   float4 noise2 = tex2D(fire_distortion, tc3);
+
+   float4 noiseSum = bx2(noise0) * distortion_amount0 + bx2(noise1) * distortion_amount1 + bx2(noise2) * distortion_amount2;
+
+   float4 perturbedBaseCoords = tc0 + noiseSum * (tc0.y * height_attenuation.x + height_attenuation.y);
+
+   float4 base    = tex2D(fire_base, perturbedBaseCoords) * 2;
+
+   float4 opacity = tex2D(fire_opacity, perturbedBaseCoords);
+
+   return base * opacity;
+
+}
+
+" />
+				 <constants value="vmatrix4 wvp proj[0] view[0] world[0] dontMakeInverse
+vfloat time + ctime 1
+" />
+			 </materialType>
+
+			 <materialType>
+				 <pixelShaderType type="7" /> 
+				 <vertexShaderType type="3" /> 
+				 <baseMaterial type="0" /> 
+				 <name cname="normal_mapping_package.spkg" />
+				 <vertex shader=
+"float4x4 matWorldInverse; 
+float4x4 ModelViewMatrix;
+float4x4 ModelViewProjectionMatrix;
+float3 fvLightPosition1; 
+float3 fvLightPosition2; 
+float3 fvLightPosition3; 
+float3 fvLightPosition4; 
+float fLightStrength1; 
+float fLightStrength2; 
+float fLightStrength3; 
+float fLightStrength4; 
+struct VS_OUTPUT
+{
+   float4 Position            : POSITION0;
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3; 
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float getLengthSQR (float3 vec) 
+{ 
+   return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
+}  
+struct VS_INPUT
+{
+   float3 Position         : POSITION0;
+   float3 Normal           : NORMAL;
+   float2 Texcoord         : TEXCOORD0;
+};
+VS_OUTPUT vertexMain( in VS_INPUT IN ) 
+{    
+   VS_OUTPUT OUT = (VS_OUTPUT)0;
+   OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   OUT.Texcoord = IN.Texcoord;
+   
+   float4x4 LightTransform= ModelViewMatrix; 
+   LightTransform= mul(matWorldInverse, LightTransform);
+   float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
+   float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
+   float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
+   float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
+   float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
+   float3 fvViewDirection  =  - fvObjectPosition.xyz; 
+   float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
+   float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
+   
+   OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
+   OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
+   OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
+   OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
+   
+   float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
+   float3 fvBinormal   = cross(fvTangent,IN.Normal);
+   float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
+   fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
+   fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
+   
+   OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
+   OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
+   OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
+   OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
+   OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
+   OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
+   OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
+   OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
+   
+   return OUT;
+}
+" />
+				 <pixel shader=
+"float4 fvAmbient;
+float4 fvLight1Color; 
+float4 fvLight2Color; 
+float4 fvLight3Color; 
+float4 fvLight4Color; 
+float fSpecularPower; 
+float fSpecularStrength; 
+float fBumpStrength; 
+sampler2D baseMap      : register(s0); 
+sampler2D bumpMap      : register(s1); 
+struct PS_INPUT
+{   
+   float2 Texcoord            : TEXCOORD0;
+   float3 ViewDirection      : TEXCOORD1; 
+   float3 LightDirection1      : TEXCOORD2; 
+   float3 LightDirection2      : TEXCOORD3;
+   float3 LightDirection3      : TEXCOORD4; 
+   float3 LightDirection4      : TEXCOORD5; 
+   float4 LightDistMultiplier  : TEXCOORD6;
+};
+float4 pixelMain( in PS_INPUT IN ) : COLOR
+{
+   float4 color = float4(0,0,0,0);
+   float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
+   float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
+   float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
+   float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
+   float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
+   
+   fvNormal.xy*=2.0; 
+   fvNormal.xy-=1.0;
+   fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
+   fvNormal=normalize(fvNormal);
+   
+   float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
+   float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
+   float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
+   float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
+   float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
+   float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
+   float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
+   float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
+   float3  fvViewDirection  = normalize( IN.ViewDirection ); 
+   float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
+   float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
+   float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
+   float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
+   float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
+   float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
+   float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
+   float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
+   fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
+   fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
+   fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
+   fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
+   fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
+   fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
+   color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
+   if(color.r>1.0){color.gb+=color.r-1.0;} 
+   if(color.g>1.0){color.rb+=color.g-1.0;} 
+   if(color.b>1.0){color.rg+=color.b-1.0;} 
+   
+   return color;
+}
+" />
+				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
+vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
+vmatrix4 matWorldInverse world[0] 0 0 makeInverse
+
+vfloat fLightStrength1 50
+vfloat fLightStrength2 50
+vfloat fLightStrength3 50
+vfloat fLightStrength4 50
+
+vvector3df fvLightPosition1 250 250 0
+vvector3df fvLightPosition2 250 250 0
+vvector3df fvLightPosition3 250 250 0
+vvector3df fvLightPosition4 250 250 0
+
+pSColor fvAmbient 1 1 1 1
+pSColor fvLight1Color 0.02 0.02 0.02 0.02
+pSColor fvLight2Color 0.02 0.02 0.02 0.02
+pSColor fvLight3Color 0.02 0.02 0.02 0.02
+pSColor fvLight4Color 0.02 0.02 0.02 0.02
+
+pfloat fSpecularPower 200
+pfloat fSpecularStrength 0.9
+pfloat fBumpStrength 5
+" />
+			 </materialType>
+
+			 <materialType>
+				 <pixelShaderType type="7" /> 
+				 <vertexShaderType type="3" /> 
+				 <baseMaterial type="14" /> 
+				 <name cname="New Material Type" />
+				 <vertex shader=
+"float4x4 worldViewProj;
+
+struct VertexShaderOutput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
+};
+struct VertexShaderInput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
+};
+
+VertexShaderOutput vertexMain(VertexShaderInput input) {
+    VertexShaderOutput output = (VertexShaderOutput)0;
+    
+    output.Position = mul(input.Position, worldViewProj);
+    output.TexCoords = input.TexCoords;
+    
+    return output;
+}
+" />
+				 <pixel shader=
+"sampler2D DiffuseSampler : register(s0);
+sampler2D ColorMapSampler : register(s2);
+sampler2D ScreenMapSampler : register(s3);
+
+float4x4 worldViewProj;
+
+struct VertexShaderOutput {
+    float4 Position : POSITION0;
+    float4 TexCoords : TEXCOORD0;
+};
+
+float4 pixelMain(VertexShaderOutput input) : COLOR0 {
+    float4 color = tex2D(DiffuseSampler, input.TexCoords);
+    color.a = (color.r + color.g + color.b) / 3.0;
+    if (color.a < 0.5) {
+        color.rgb = float3(0.0, 0.0, 0.0);
+    } else {
+        color.rgb = float3(0.0, 0.0, 0.0);
+    }
+    return color;
+}
+" />
+				 <constants value="vmatrix4 worldViewProj proj[0] view[0] world[0] 0
+" />
+			 </materialType>
+
+
+		 </materialTypes>
+
+		 <scripts>
+
+
+		 </scripts>
+
+		 <physics>
+			 <gravity X="0.000000" Y="-50.000000" Z="0.000000" />
+		 </physics>
+
+	</config>
+
+
+
+	<scene>
+
+		 <object>
+
+			 <path file="hillPlaneMesh" />
+
+			 <name c8name="#object:new_hille_plane_mesh" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.030000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/lights/kitchen_tile.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="0.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="0" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="0" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="cube" />
+
+			 <name c8name="#object:new_cube" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="shaders/textures/fire/fire01.png" />
+						 <texture id="1" path="shaders/textures/fire/noise01.png" />
+						 <texture id="2" path="shaders/textures/fire/fire01.png" />
+						 <texture id="3" path="" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="0" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 </materials>
+			 <position X="0.000000" Y="25.000000" Z="0.000000" />
+			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <object>
+
+			 <path file="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/murphy/walk.x" />
+
+			 <name c8name="#object:murphy" />
+
+			 <factory> 
+
+				 <meshFactory>
+				 <tangents value="0" />
+				 <normals value="0" />
+				 <angleWeighted value="0" />
+				 <smooth value="0" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
+
+			 </factory> 
+
+			 <materials>
+			 	 <material id="0">
+					 <textures>
+						 <texture id="0" path="data/characters/murphy/walk.fbm/char_murphybody02_d_an.jpg" />
+						 <texture id="1" path="data/characters/murphy/walk.fbm/char_murphybody02_n_an.jpg" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-2" />
+
+			 	 </material>
+			 	 <material id="1">
+					 <textures>
+						 <texture id="0" path="data/characters/murphy/walk.fbm/charles01_head01_au_d.jpg" />
+						 <texture id="1" path="data/characters/murphy/walk.fbm/charles01_head01_au_n.jpg" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="0" g="0" b="0" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-2" />
+
+			 	 </material>
+			 	 <material id="2">
+					 <textures>
+						 <texture id="0" path="data/characters/murphy/walk.fbm/brown_eye01_an_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
+					 <textures>
+
+					 <diffuseColor r="204" g="204" b="204" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="0" g="0" b="0" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="61.898239" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="1" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="0" />
+
+			 	 </material>
+			 	 <material id="3">
+					 <textures>
+						 <texture id="0" path="data/characters/murphy/walk.fbm/hair01_au_d.jpg" />
+						 <texture id="1" path="" />
+						 <texture id="2" path="ColorMapSampler" />
+						 <texture id="3" path="ScreenMapSampler" />
+					 <textures>
+
+					 <diffuseColor r="255" g="255" b="255" a="255" />
+					 <ambiantColor r="255" g="255" b="255" a="255" />
+					 <specularColor r="255" g="255" b="255" a="255" />
+					 <emissiveColor r="255" g="255" b="255" a="255" />
+
+					 <lighting value="0" />
+
+					 <materialTypeParam1 value="0.000000" />
+					 <materialTypeParam2 value="0.000000" />
+
+					 <shininess value="0.000000" />
+					 <thickness value="1.000000" />
+
+					 <antiAliasing value="1" />
+					 <backfaceCulling value="0" />
+					 <colorMask value="15" />
+					 <colorMaterial value="1" />
+					 <fogEnable value="0" />
+					 <frontfaceCulling value="0" />
+					 <gouraudShading value="1" />
+					 <normalizeNormals value="0" />
+					 <zBuffer value="1" />
+					 <zWriteEnable value="1" />
+
+					 <materianType value="-3" />
+
+			 	 </material>
+			 </materials>
+			 <position X="-99.860222" Y="0.000000" Z="0.080544" />
+			 <rotation X="0.000000" Y="24.723038" Z="0.000000" />
+			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
+
+			<depthPassed value="1" />
+			<lightScatteringPassed value="0" />
+
+			 <visible bool="1" />
+			 <shadowMode mode="2" />
+			 <actions>
+				 <action start="0" end="7999" name="WALK" speed="5000.000000" animPath="Current" /> 
+
+				 <action start="0" end="10879" name="STAND" speed="3500.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/murphy/scared.x" /> 
+
+				 <action start="0" end="7039" name="HIT" speed="3000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/murphy/hit.x" /> 
+
+				 <action start="1500" end="6880" name="TURN_180" speed="4000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/murphy/turn180.x" /> 
+
+				 <action start="0" end="6880" name="WALK_STAND" speed="4000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/murphy/walk_stand.x" /> 
+
+				 <action start="0" end="81440" name="IDLE" speed="3000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/murphy/idle.x" /> 
+
+				 <action start="0" end="3040" name="RUN" speed="4000.000000" animPath="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/data/characters/murphy/run.x" /> 
+
+			 </actions>
+
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
+
+		 </object>
+
+		 <light>
+
+			 <name c8name="#light:new_light" />
+
+			 <position X="-132.822342" Y="200.000000" Z="-118.812744" />
+			 <target X="53.013245" Y="44.600647" Z="0.000000" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="100.000000" />
+			 <farValue value="1000.000000" />
+			 <autoRecalculate value="1" />
+
+			 <shadows resol="2048" />
+
+			 <lensFlare>
+			 </lensFlare>
+
+		 </light>
+
+		 <skybox>
+
+			 <texture path="data/Lights/glacier_ft.png" />
+			 <texture path="data/Lights/glacier_lf.png" />
+			 <texture path="data/Lights/glacier_bk.png" />
+			 <texture path="data/Lights/glacier_rt.png" />
+			 <texture path="data/Lights/glacier_up.png" />
+			 <texture path="data/Lights/glacier_dn.png" />
+		 </skybox>
+
+
+	</scene>
+
+</rootScene>

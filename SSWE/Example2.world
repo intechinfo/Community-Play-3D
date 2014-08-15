@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-23.452860" Y="117.987595" Z="76.188538" />
-			 <rotation X="19.756924" Y="56.428524" Z="0.000000" />
+			 <position X="261.652435" Y="365.824951" Z="-50.524216" />
+			 <rotation X="24.316151" Y="295.000092" Z="0.000000" />
 
 		 </camera>
 
@@ -579,7 +579,7 @@ pfloat fBumpStrength 5
 
 			 <path file="data/turbo/subway/ecleposs subway opj  xsi.obj" />
 
-			 <type esnt="mesh" />
+			 <type esnt="mesh" tangents="0" />
 
 			 <factory> 
 
@@ -6058,7 +6058,7 @@ pfloat fBumpStrength 5
 			 <name c8name="#light:new_light" />
 
 			 <position X="-210.260284" Y="284.056213" Z="190.476028" />
-			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+			 <target X="44.812317" Y="122.016357" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
@@ -6074,6 +6074,16 @@ pfloat fBumpStrength 5
 			 </lensFlare>
 
 		 </light>
+
+		 <skybox>
+
+			 <texture path="data/Lights/glacier_ft.png" />
+			 <texture path="data/Lights/glacier_lf.png" />
+			 <texture path="data/Lights/glacier_bk.png" />
+			 <texture path="data/Lights/glacier_rt.png" />
+			 <texture path="data/Lights/glacier_up.png" />
+			 <texture path="data/Lights/glacier_dn.png" />
+		 </skybox>
 
 
 	</scene>

@@ -11,14 +11,18 @@
 
 #include "../../Device/CDevices.h"
 
+namespace irr {
+	namespace gui {
+		class CGUISoundViewer;
+	}
+}
+
 class CUIAddAudioElement : public IEventReceiver {
 
 public:
 
 	CUIAddAudioElement(CDevices *_devices);
 	~CUIAddAudioElement();
-
-	void open();
 
 	//-----------------------------------
     /// Event receiver
@@ -27,15 +31,31 @@ public:
 
 private:
 
+	void closeWindow();
+	void removeAudioElement();
+
 	//-----------------------------------
     //DEVICES AND DATAS
 	CDevices *devices;
+
+	cp3d::audio::IAudioElement *audioElement;
 
 	IGUIEnvironment *gui;
 	//-----------------------------------
 
 	//-----------------------------------
     //GUI ELEMENTS
+	IGUIWindow *window;
+	CGUISoundViewer *soundViewer;
+
+	IGUIButton *open;
+
+	IGUICheckBox *loopMode, *loadAs3D;
+
+	IGUIStaticText *informations;
+
+	IGUIButton *accept, *close;
+
 	IGUIFileOpenDialog *openFromFileDialog;
 	//-----------------------------------
 

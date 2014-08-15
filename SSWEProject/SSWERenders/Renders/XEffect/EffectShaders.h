@@ -18,7 +18,7 @@ const char* LIGHT_MODULATE_P[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n
 "{		"
 "	vec4 finalCol = texture2D(ColorMapSampler, gl_TexCoord[0].xy);\n"
 "	vec4 lightCol = texture2D(ScreenMapSampler, gl_TexCoord[0].xy);\n"
-""
+"\n"
 "	gl_FragColor = finalCol * lightCol;\n"
 "}"
 ,
@@ -33,7 +33,6 @@ const char* LIGHT_MODULATE_P[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n
 "	return finalCol * lightCol;\n"
 "}"};
 
-
 const char* SHADOW_PASS_1P[ESE_COUNT] = {"void main() "
 "{"
 "	vec4 vInfo = gl_TexCoord[0];\n"
@@ -41,11 +40,39 @@ const char* SHADOW_PASS_1P[ESE_COUNT] = {"void main() "
 "   gl_FragColor = vec4(depth, depth * depth, 0.0, 0.0);\n"
 "}"
 ,
-"float4 pixelMain(float4 ClipPos: TEXCOORD0) : COLOR0"
-"{"
+"float4 pixelMain(float4 ClipPos: TEXCOORD0) : COLOR0\n"
+"{\n"
 "	float depth = ClipPos.z / ClipPos.x;\n"
 "	return float4(depth, depth * depth, 0.0, 0.0);\n"
 "}"};
+
+const char* SHADOW_PASS_1P_2T[ESE_COUNT] = {
+"uniform float maxSSAODepthPass\n"
+"void main() "
+"{"
+"	vec4 vInfo = gl_TexCoord[0];\n"
+"	float depth = vInfo.z / vInfo.x;\n"
+"   gl_FragData[0] = vec4(depth, depth * depth, 0.0, 0.0);\n"
+"	gl_FragData[1] = vec4(depth, depth * depth, 0.0, 0.0);\n"
+"}"
+,
+"struct PixelOutput {\n"
+"	float4 DepthPassColor : COLOR0;\n"
+"	float4 SSAOColor : COLOR1;\n"
+"};\n"
+"\n"
+"float maxSSAODepthPass;\n"
+"\n"
+"PixelOutput pixelMain(float4 ClipPos: TEXCOORD0)\n"
+"{\n"
+"	PixelOutput output = (PixelOutput)0;\n"
+"	float depth = ClipPos.z / ClipPos.x;\n"
+"	float ssaoDepth = ClipPos.z / maxSSAODepthPass;\n"
+"	output.DepthPassColor = float4(depth, depth * depth, 0.0, 0.0);\n"
+"	output.SSAOColor = float4(ssaoDepth, ssaoDepth * ssaoDepth, 0.0, 0.0);\n"
+"	return output;\n"
+"}"
+};
 
 const char* SHADOW_PASS_1PT[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n"
 ""
@@ -269,7 +296,7 @@ const char* SHADOW_PASS_2P[ESE_COUNT] = {"uniform sampler2D ShadowMapSampler;\n"
 "##else\n"
 "		finalCol = LightColour * lightFactor * MVar[1];\n"
 "##endif\n"
-"	}"
+"	}\n"
 "	"
 "	return finalCol;\n"
 "}"};
@@ -558,7 +585,7 @@ const char* BLACK_PASS_P[ESE_COUNT] = {
 const char* SELECTION_PASS_V[ESE_COUNT] = {
 "void main() {\n"
 "   gl_Position = ftransform();\n"
-"   gl_TexCoord[0].xy = gl_MultiTexCoord0.xy\n"
+"   gl_TexCoord[0].xy = gl_MultiTexCoord0.xy;\n"
 "}\n"
 "\n"
 ,

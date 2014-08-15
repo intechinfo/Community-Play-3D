@@ -9,6 +9,8 @@
 #include "CFilterCallback.h"
 
 #include "../../../Device/CDevices.h"
+#include "../../../Device/Core/Scripting/math/CVector3d.h"
+#include "../../../Device/Core/Scripting/math/CMatrix4.h"
 
 //---------------------------------------------------------------------------------------------
 //--------------------------------------POST PROCESS METHODS-----------------------------------
@@ -247,6 +249,10 @@ void CCoreFilterCallback::createLuaState(lua_State *L) {
     lua_setmetatable(L, lib_id);
     lua_setglobal(L, "Driver");
 
+	//OTHERS
+	cp3d::scripting::bindVector3df(L);
+	cp3d::scripting::bindMatrix4(L, devices->getVideoDriver());
+
 	luaL_dostring(L, "filter = Core.new()\n"
 					 "utils = Utils.new()\n"
 					 "driver = Driver.new()\n");
@@ -275,7 +281,7 @@ int core_new(lua_State *L) {
 
 	lua_newuserdata(L,sizeof(userData));
     luaL_getmetatable(L, "Core");
-    lua_setmetatable(L, -2); 
+    lua_setmetatable(L, -2);
 
     return 1;
 }
@@ -337,9 +343,14 @@ int core_setPixelShaderConstantVector3D(lua_State *L) {
 	if (argc < 3)
 		return 0;
 
+	VECTOR3DF_CHECK_ARGUMENTS(3, L);
 	stringc name = lua_tostring(L, 2);
+	vector3df *v = cp3d::scripting::checkVector3df(L, 3);
+	VECTOR3DF_CHECK_VECTOR(v);
 
-	luaL_checktype(L, 3, LUA_TTABLE);
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (f32*)v, 3);
+
+	/*luaL_checktype(L, 3, LUA_TTABLE);
 	lua_getfield(L, 3, "x");
 	lua_getfield(L, 3, "y");
 	lua_getfield(L, 3, "z");
@@ -354,12 +365,20 @@ int core_setPixelShaderConstantVector3D(lua_State *L) {
 	v[1] = y;
 	v[2] = z;
 
-	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), v, 3);
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), v, 3);*/
 
 	return 0;
 }
 
 int core_setPixelShaderConstantMatrix4(lua_State *L) {
+	int argc = lua_gettop(L);
+	MATRIX4_CHECK_ARGUMENTS(3, L);
+	stringc name = lua_tostring(L, 2);
+	matrix4 *mat = cp3d::scripting::checkMatrix4(L, 3);
+	MATRIX4_CHECK_MATRIX(mat);
+
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), mat->pointer(), 16);
+
 	return 0;
 }
 

@@ -77,6 +77,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Irrlicht\Irrlicht180\include;$(SolutionDir)SSWELib\include\;$(SolutionDir)SSWELib;$(SolutionDir)Bullet\libs\;$(SolutionDir)SSWECore;$(SolutionDir)SSWERenders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -95,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDragonTest.h" />
+    <ClInclude Include="CFactoryTest.h" />
     <ClInclude Include="COcclusionTest.h" />
     <ClInclude Include="CWeaponTest.h" />
     <ClInclude Include="resource.h" />

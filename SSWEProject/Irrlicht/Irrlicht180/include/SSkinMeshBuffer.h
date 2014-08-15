@@ -386,7 +386,7 @@ struct SSkinMeshBuffer : public IMeshBuffer
 
 	video::SMaterial Material;
 	video::E_VERTEX_TYPE VertexType;
-
+	
 	core::aabbox3d<f32> BoundingBox;
 
 	// hardware mapping hint

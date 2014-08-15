@@ -18,16 +18,25 @@ namespace scripting {
 #include <SSWELib.h>
 
 irr::core::matrix4 *checkMatrix4(lua_State *L, int n);
-void SSWE_LIB_API bindMatrix4(lua_State *L, irr::video::IVideoDriver *driver);
+void SSWE_LIB_API bindMatrix4(lua_State *L, irr::video::IVideoDriver *driver, bool allowConstructor = true);
 
 #define MATRIX4_CHECK_ARGUMENTS(argc, L) \
-	if (lua_gettop(L) != argc) return 0; \
+	if (lua_gettop(L) != argc) {\
+		luaL_error(L, "cannot check the matrix"); \
+		return 0; \
+	}
 
 #define MATRIX4_CHECK_MATRIXES(mat1, mat2) \
-	if (!mat1 || !mat2) return 0; \
+	if (!mat1 || !mat2) { \
+		luaL_error(L, "cannot check the matrices"); \
+		return 0; \
+	}
 
 #define MATRIX4_CHECK_MATRIX(mat) \
-	if (!mat) return 0;
+	if (!mat) { \
+		luaL_error(L, "cannot check the matrix"); \
+		return 0; \
+	}
 
 } // End namespace scripting
 } // End namespace cp3d

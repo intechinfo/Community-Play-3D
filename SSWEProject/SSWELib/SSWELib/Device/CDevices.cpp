@@ -123,7 +123,8 @@ void CDevices::updateEntities() {
     //UPDATE EFFECT LIGHTS
     for (s32 i=0; i < worldCoreData->getLightsData()->size(); i++) {
 		if (worldCoreData->getLightsData()->operator[](i).getNode()->getPosition() != effect->getShadowLight(i).getPosition()
-			|| worldCoreData->getLightsData()->operator[](i).getNode()->getScale() != effect->getShadowLight(i).getTarget()) {
+			|| worldCoreData->getLightsData()->operator[](i).getNode()->getScale() != effect->getShadowLight(i).getTarget())
+		{
 			effect->getShadowLight(i).setRecalculate(true);
 		}
 
@@ -500,7 +501,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		effect = new EffectHandler(Device, driver->getScreenSize(), true, true, true);
 
     effect->setActiveSceneManager(smgr);
-	filterType = EFT_4PCF;
+	filterType = EFT_16PCF;
 	effect->setClearColour(SColor(0x0));
 	effect->setAmbientColor(SColor(255, 64, 64, 64));
 	effect->setUseMotionBlur(false);
@@ -511,10 +512,11 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setFPSCamera(camera_fps);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
-	#ifndef _IRR_WINDOWS_API_
-    normalMappingMaterial = new CNormalMappingMaterial();
-    normalMappingMaterial->build(driver);
-	#endif
+	
+	if (driver->getDriverType() == EDT_OPENGL) {
+		normalMappingMaterial = new CNormalMappingMaterial();
+		normalMappingMaterial->build(driver);
+	}
 
 	renderCore = new CRenderCore(this);
 
@@ -548,6 +550,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	//CONTROLLERS
 	animationController = new cp3d::controllers::CAnimationController(this);
+
+	//FACTORY
+	nodeFactory = new CNodeFactory(this);
+
+	//PROGRESSIVE MESH BUFFER
+	meshSimplificator = new CMeshSimplificator(smgr);
 }
 
 void CDevices::rebuildXEffect() {

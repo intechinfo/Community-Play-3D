@@ -106,6 +106,7 @@ enum GUI_CXT_MENU_EVENTS {
 	CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN,
 	CXT_MENU_EVENTS_MESH_FACTORY_EDIT,
 	CXT_MENU_EVENTS_ANIMATED_MESH_TESTER,
+	CXT_MENU_EVENTS_MESH_SIMPLIFICATOR,
 
 	CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER,
 
@@ -168,6 +169,7 @@ enum GUI_CXT_MENU_EVENTS {
 
 #include "MeshFactory/CUIMeshFactory.h"
 #include "MeshFactory/CUIAnimatedMeshViewer.h"
+#include "MeshFactory/CUIMeshSimplificator.h"
 
 #include "Audio/CUIAddAudioElement.h"
 

@@ -26,6 +26,7 @@
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -88,6 +89,7 @@
       <OpenMPSupport>true</OpenMPSupport>
       <CallingConvention>Cdecl</CallingConvention>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,6 +149,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -251,6 +254,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\GUIExtension\NodesEditor\CGUINode.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\NodesEditor\CGUINodesEditor.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.cpp" />
+    <ClCompile Include="SSWELib\GUIExtension\SoundViewer\CGUISoundViewer.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\TimeLine\CGUITimeLine.cpp" />
     <ClCompile Include="SSWELib\GUIExtension\ViewPort\CGUIViewPort.cpp" />
     <ClCompile Include="SSWELib\Renders\DepthOfField\CUIWindowEditDOF.cpp" />
@@ -307,6 +311,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshFactory.cpp" />
+    <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.cpp" />
     <ClCompile Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.cpp" />
@@ -353,8 +358,10 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="include\IAudioManager.h" />
     <ClInclude Include="include\ICollisionManager.h" />
     <ClInclude Include="include\IDevices.h" />
+    <ClInclude Include="include\IFactory.h" />
     <ClInclude Include="include\IGraphicTool.h" />
     <ClInclude Include="include\IGUICodeEditor.h" />
+    <ClInclude Include="include\IMeshSimplificator.h" />
     <ClInclude Include="include\IMonitor.h" />
     <ClInclude Include="include\IMonitorRegisterer.h" />
     <ClInclude Include="include\ISSWECore.h" />
@@ -397,6 +404,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\GUIExtension\NodesEditor\CGUINode.h" />
     <ClInclude Include="SSWELib\GUIExtension\NodesEditor\CGUINodesEditor.h" />
     <ClInclude Include="SSWELib\GUIExtension\ProgressBar\ProgressBar.h" />
+    <ClInclude Include="SSWELib\GUIExtension\SoundViewer\CGUISoundViewer.h" />
     <ClInclude Include="SSWELib\GUIExtension\TimeLine\CGUITimeLine.h" />
     <ClInclude Include="SSWELib\GUIExtension\ViewPort\CGUIViewPort.h" />
     <ClInclude Include="SSWELib\GUIExtension\ViewPort\IGUIViewPort.h" />
@@ -456,6 +464,7 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CMeshFactory.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIAnimatedMeshViewer.h" />
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshFactory.h" />
+    <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CNodeFactory.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryCreateMeshWithTangents.h" />
     <ClInclude Include="SSWELib\UserInterfaces\NodeFactory\CUINodeFactoryPlanarMapping.h" />

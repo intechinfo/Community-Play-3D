@@ -22,7 +22,7 @@ CAnimationController::CAnimationController(CDevices *_devices) {
  }
 
 void CAnimationController::applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber) {
-	if (node->getType() == ESNT_ANIMATED_MESH) {
+	if (node && node->getType() == ESNT_ANIMATED_MESH) {
 		SObjectsData *sdatat = (SObjectsData*)devices->getCoreData()->getISDataOfSceneNode(node);
 		if (animationNumber >= sdatat->getActions()->size())
 			return;
@@ -56,9 +56,9 @@ void CAnimationController::applyAnimationFromNameToModel(irr::scene::ISceneNode 
 }
 
 irr::s32 CAnimationController::getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node) {
-	IAnimatedMesh *mesh = ((IAnimatedMeshSceneNode*)node)->getMesh();
 	SObjectsData *sdatat = (SObjectsData*)devices->getCoreData()->getISDataOfSceneNode(node);
 	if (sdatat) {
+		IAnimatedMesh *mesh = ((IAnimatedMeshSceneNode*)node)->getMesh();
 		for (u32 i=0; i < sdatat->getActions()->size(); i++) {
 			if (((IAnimatedMeshSceneNode*)node)->getFrameNr() >= sdatat->getActions()->operator[](i)->getStart()
 				&& ((IAnimatedMeshSceneNode*)node)->getFrameNr() <= sdatat->getActions()->operator[](i)->getEnd())
@@ -72,6 +72,13 @@ irr::s32 CAnimationController::getCurrentAnimationIndiceOf(irr::scene::ISceneNod
 		}
 	}
 	return -1;
+}
+
+void CAnimationController::setCustomCallback(irr::scene::ISceneNode *node, std::function<void(irr::scene::IAnimatedMeshSceneNode *node)> callback) {
+	SObjectsData *sdatat = (SObjectsData*)devices->getCoreData()->getISDataOfSceneNode(node);
+	if (sdatat) {
+		((IAnimatedMeshSceneNode*)sdatat->getNode())->setAnimationEndCallback(new CCustomAnimationCallback(callback));
+	}
 }
 
 } /// End namespace controllers

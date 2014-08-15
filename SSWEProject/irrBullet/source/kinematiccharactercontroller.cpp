@@ -7,12 +7,12 @@ IKinematicCharacterController::IKinematicCharacterController(irrBulletWorld* con
 {
     btTransform startTransform;
 	startTransform.setIdentity();
-	startTransform.setOrigin(btVector3(0.210098,100.6433364,1.453260));
+	startTransform.setOrigin(btVector3(0.210098f,100.6433364f,1.453260f));
 
 	GhostObject = new btPairCachingGhostObject();
 	GhostObject->setWorldTransform(startTransform);
-	btScalar characterHeight = 3.0;
-	btScalar characterWidth = 1.95;
+	btScalar characterHeight = 3.0f;
+	btScalar characterWidth = 1.95f;
 	Capsule = new btCapsuleShape(characterWidth,characterHeight);
 	GhostObject->setCollisionShape(Capsule);
 	GhostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);

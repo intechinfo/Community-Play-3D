@@ -106,7 +106,7 @@ void CUIWindowEditMaterialsCallback::open(CShaderCallback *_callback) {
                                                                                     stringc("shaders/Textures/predefined/specular.tga")).c_str()));
         previewNode->setMaterialType((E_MATERIAL_TYPE)callback->getMaterial());
                     
-        ICameraSceneNode *camera = smgr->addCameraSceneNode();
+		ICameraSceneNode *camera = smgr->addCameraSceneNode();
         camera->setFarValue(50.f);
         camera->setPosition(vector3df(-20.f, 15.f, -17.f));
         camera->setAspectRatio(1.f * viewPort->getRelativePosition().getWidth() / viewPort->getRelativePosition().getHeight());

@@ -45,6 +45,8 @@ public:
 
 	void setCurrentTime(irr::u32 time);
 
+	void setLoopMode(bool enable);
+
 private:
 
 	FMOD_RESULT result;

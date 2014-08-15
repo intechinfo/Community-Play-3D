@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="2" />
+		 <numberOfObjects value="3" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="11.254487" Y="207.268570" Z="111.710243" />
-			 <rotation X="22.796267" Y="181.607285" Z="0.000000" />
+			 <position X="152.529144" Y="35.511749" Z="107.417816" />
+			 <rotation X="350.881470" Y="215.536133" Z="0.000000" />
 
 		 </camera>
 
@@ -29,12 +29,161 @@
 			 <slidingValue value="0.000500" />
 
 		 </fpsCameraSettings>
-		 
-		 <depthPassEnabled enabled="0" />
-		 <lightScaterringPassEnabled enabled="0" />
+
+		 <depthPassEnabled enabled="1" />
+		 <lightScaterringPassEnabled enabled="1" />
 		 <reflectionPassEnabled enabled="0" />
 
 		 <effect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/sepia_toon_shader.hlsl" />
+				 <ppeShader shader="//------------------------------ TEXTURE PROPERTIES ----------------------------
+// This is the texture that SpriteBatch will try to set before drawing
+texture ScreenTexture;
+ 
+// Our sampler for the texture, which is just going to be pretty simple
+sampler TextureSampler = sampler_state
+{
+    Texture = <ScreenTexture>;
+};
+ 
+//------------------------ PIXEL SHADER ----------------------------------------
+// This pixel shader will simply look up the color of the texture at the
+// requested point, and turns it into a sepia tone
+float4 pixelMain(float2 TextureCoordinate : TEXCOORD0) : COLOR0
+{
+    float4 color = tex2D(TextureSampler, TextureCoordinate);
+ 
+    float4 outputColor = color;
+    outputColor.r = (color.r * 0.393) + (color.g * 0.769) + (color.b * 0.189);
+    outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);    
+    outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
+ 
+    return outputColor;
+}
+ 
+//-------------------------- TECHNIQUES ----------------------------------------
+// This technique is pretty simple - only one pass, and only a pixel shader
+technique Sepia
+{
+    pass Pass1
+    {
+        PixelShader = compile ps_2_0 pixelMain();
+    }
+}
+" />
+				 <ppeCallback callback="" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/bloomp.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+sampler2D ScreenMapSampler : register(s1);
+
+float4 pixelMain(float2 TexCoords : TEXCOORD0) : COLOR0
+{		
+	float4 screenCol = tex2D(ScreenMapSampler, TexCoords);
+	float4 bloomCol = tex2D(ColorMapSampler, TexCoords);
+	
+	return(screenCol * 0.9 + bloomCol * 0.5);
+}
+" />
+				 <ppeCallback callback="filter:setPixelShaderConstantFloat(&quotDesaturation&quot, 0.4)
+" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/desaturate.hlsl" />
+				 <ppeShader shader="// nvidia shader library
+// http://developer.download.nvidia.com/shaderlibrary/webpages/shader_library.html
+
+uniform sampler2D SceneBuffer : register(s0);
+
+uniform float Desaturation;
+
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+{   
+	// digital ITU Recommendations
+	const float3 ITU_R_601 = float3(0.2990, 0.5870, 0.1140);
+	const float3 ITU_R_709 = float3(0.2126, 0.7152, 0.0722);
+
+    float4 texColor = tex2D(SceneBuffer, texCoord);
+	
+    float3 gray = dot(texColor.rgb, ITU_R_601);
+    float3 result = lerp(texColor, gray.xxx, Desaturation);
+    return float4(result, 1.0);
+}
+
+" />
+				 <ppeCallback callback="filter:setPixelShaderConstantFloat(&quotDesaturation&quot, 0.4)
+" />
+			 </postProcessingEffect>
+
+			 <postProcessingEffect>
+				 <ppeName name="/godrays.hlsl" />
+				 <ppeShader shader="sampler2D ColorMapSampler : register(s0);
+sampler2D LuminanceSampler : register(s1);
+sampler2D LensSampler : register(s2);
+sampler2D UserMapSampler : register(s3);
+
+float2 lightPositionOnScreen;
+		
+//float decay=0.96815;
+//float exposure=0.2;
+//float density=0.26;
+//float weight=0.58767;
+
+float4 pixelMain(float2 texCoord : TEXCOORD0) : COLOR0
+{
+	float decay=0.97815;
+	float exposure=0.92;
+	float density=0.966;
+	float weight=0.58767;
+
+	int NUM_SAMPLES = 50;
+	
+	float2 tc = texCoord;
+ 	float2 deltaTexCoord = (tc - lightPositionOnScreen.xy);  
+ 	deltaTexCoord *= 1.0f / NUM_SAMPLES * density;  
+ 	
+ 	float illuminationDecay = 1.0;
+
+	float4 color =tex2D(UserMapSampler, tc)*0.4;
+	
+ 	for(int i=0; i < NUM_SAMPLES ; i++)
+  	{
+		tc -= deltaTexCoord;
+		float4 sample = tex2D(UserMapSampler, tc)*0.4;
+		sample *= illuminationDecay * weight;  
+		color += sample;
+		illuminationDecay *= decay;  
+ 	}
+
+ 	float4 realColor = tex2D(ColorMapSampler, texCoord.xy);
+ 
+  float4 lensColor = tex2D(LensSampler, texCoord.xy);
+  lensColor.b = 0.0;
+  lensColor.g = lensColor.r / 2.0;
+  realColor += lensColor * color * 10.0;
+  
+  float4 lumColor = tex2D(LuminanceSampler, texCoord.xy);
+  realColor += lumColor * lensColor;
+  
+  color *= 0.5;
+
+	return ((float4((float3(color.r,color.g,color.b) * exposure),1))+(realColor*(1.5-0.4)));
+}
+" />
+				 <ppeCallback callback="driver:setRttTexture(&quotLightScatteringRTT&quot)
+
+position = utils:getScreenCoordinatesFrom3DPosition(driver:getLightPosition(0))
+position.y = 1-position.y
+
+filter:setRttTextureAtIndex(1, &quotLuminanceGeneratorStep0&quot)
+filter:setTextureAtIndex(2, &quotshaders/Textures/LF/lensdirt.png&quot)
+filter:setPixelShaderConstantVector2D(&quotlightPositionOnScreen&quot, position)" />
+			 </postProcessingEffect>
 
 
 		 </effect>
@@ -48,1390 +197,175 @@
 				 <name cname="normal_mapping_package.spkg" />
 				 <vertex shader=
 "float4x4 matWorldInverse; 
-
-
-
-
-
-
-
 float4x4 ModelViewMatrix;
-
-
-
-
-
-
-
 float4x4 ModelViewProjectionMatrix;
-
-
-
-
-
-
-
 float3 fvLightPosition1; 
-
-
-
-
-
-
-
 float3 fvLightPosition2; 
-
-
-
-
-
-
-
 float3 fvLightPosition3; 
-
-
-
-
-
-
-
 float3 fvLightPosition4; 
-
-
-
-
-
-
-
 float fLightStrength1; 
-
-
-
-
-
-
-
 float fLightStrength2; 
-
-
-
-
-
-
-
 float fLightStrength3; 
-
-
-
-
-
-
-
 float fLightStrength4; 
-
-
-
-
-
-
-
 struct VS_OUTPUT
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float4 Position            : POSITION0;
-
-
-
-
-
-
-
    float2 Texcoord            : TEXCOORD0;
-
-
-
-
-
-
-
    float3 ViewDirection      : TEXCOORD1; 
-
-
-
-
-
-
-
    float3 LightDirection1      : TEXCOORD2; 
-
-
-
-
-
-
-
    float3 LightDirection2      : TEXCOORD3; 
-
-
-
-
-
-
-
    float3 LightDirection3      : TEXCOORD4; 
-
-
-
-
-
-
-
    float3 LightDirection4      : TEXCOORD5; 
-
-
-
-
-
-
-
    float4 LightDistMultiplier  : TEXCOORD6;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 float getLengthSQR (float3 vec) 
-
-
-
-
-
-
-
 { 
-
-
-
-
-
-
-
    return(vec.x*vec.x+vec.y*vec.y+vec.z*vec.z); 
-
-
-
-
-
-
-
 }  
-
-
-
-
-
-
-
 struct VS_INPUT
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float3 Position         : POSITION0;
-
-
-
-
-
-
-
    float3 Normal           : NORMAL;
-
-
-
-
-
-
-
    float2 Texcoord         : TEXCOORD0;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 VS_OUTPUT vertexMain( in VS_INPUT IN ) 
-
-
-
-
-
-
-
 {    
-
-
-
-
-
-
-
    VS_OUTPUT OUT = (VS_OUTPUT)0;
-
-
-
-
-
-
-
    OUT.Position = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-
-
-
-
-
-
-
    OUT.Texcoord = IN.Texcoord;
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float4x4 LightTransform= ModelViewMatrix; 
-
-
-
-
-
-
-
    LightTransform= mul(matWorldInverse, LightTransform);
-
-
-
-
-
-
-
    float4 fvObjectPosition = mul(float4(IN.Position,1.0), ModelViewProjectionMatrix);
-
-
-
-
-
-
-
    float4 fvLightPos1 = mul(float4(fvLightPosition1,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos2 = mul(float4(fvLightPosition2,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos3 = mul(float4(fvLightPosition3,1.0), LightTransform); 
-
-
-
-
-
-
-
    float4 fvLightPos4 = mul(float4(fvLightPosition4,1.0), LightTransform); 
-
-
-
-
-
-
-
    float3 fvViewDirection  =  - fvObjectPosition.xyz; 
-
-
-
-
-
-
-
    float3 fvLightDirection1 = (fvLightPos1.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection2 = (fvLightPos2.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection3 = (fvLightPos3.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    float3 fvLightDirection4 = (fvLightPos4.xyz - fvObjectPosition.xyz); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[0]=1.0/(getLengthSQR (fvLightDirection1)/(fLightStrength1*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[1]=1.0/(getLengthSQR (fvLightDirection2)/(fLightStrength2*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[2]=1.0/(getLengthSQR (fvLightDirection3)/(fLightStrength3*10000.0)); 
-
-
-
-
-
-
-
    OUT.LightDistMultiplier[3]=1.0/(getLengthSQR (fvLightDirection4)/(fLightStrength4*10000.0)); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float3 fvTangent   = -float3(abs(IN.Normal.y) + abs(IN.Normal.z), abs(IN.Normal.x), 0); 
-
-
-
-
-
-
-
    float3 fvBinormal   = cross(fvTangent,IN.Normal);
-
-
-
-
-
-
-
    float3 fvNormal     = mul(IN.Normal, ModelViewMatrix); 
-
-
-
-
-
-
-
    fvTangent         = mul( cross(fvBinormal, IN.Normal), ModelViewMatrix ); 
-
-
-
-
-
-
-
    fvBinormal         = mul( fvBinormal, ModelViewMatrix ); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    OUT.ViewDirection.x  = dot( fvTangent, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.ViewDirection.y  = dot( fvBinormal, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.ViewDirection.z  = dot( fvNormal, fvViewDirection ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.x  = dot( fvTangent, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.y  = dot( fvBinormal, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection1.z  = dot( fvNormal, fvLightDirection1.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.x  = dot( fvTangent, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.y  = dot( fvBinormal, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection2.z  = dot( fvNormal, fvLightDirection2.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.x  = dot( fvTangent, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.y  = dot( fvBinormal, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection3.z  = dot( fvNormal, fvLightDirection3.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.x  = dot( fvTangent, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.y  = dot( fvBinormal, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    OUT.LightDirection4.z  = dot( fvNormal, fvLightDirection4.xyz ); 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    return OUT;
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 " />
 				 <pixel shader=
 "float4 fvAmbient;
-
-
-
-
-
-
-
 float4 fvLight1Color; 
-
-
-
-
-
-
-
 float4 fvLight2Color; 
-
-
-
-
-
-
-
 float4 fvLight3Color; 
-
-
-
-
-
-
-
 float4 fvLight4Color; 
-
-
-
-
-
-
-
 float fSpecularPower; 
-
-
-
-
-
-
-
 float fSpecularStrength; 
-
-
-
-
-
-
-
 float fBumpStrength; 
-
-
-
-
-
-
-
 sampler2D baseMap      : register(s0); 
-
-
-
-
-
-
-
 sampler2D bumpMap      : register(s1); 
-
-
-
-
-
-
-
 struct PS_INPUT
-
-
-
-
-
-
-
 {   
-
-
-
-
-
-
-
    float2 Texcoord            : TEXCOORD0;
-
-
-
-
-
-
-
    float3 ViewDirection      : TEXCOORD1; 
-
-
-
-
-
-
-
    float3 LightDirection1      : TEXCOORD2; 
-
-
-
-
-
-
-
    float3 LightDirection2      : TEXCOORD3;
-
-
-
-
-
-
-
    float3 LightDirection3      : TEXCOORD4; 
-
-
-
-
-
-
-
    float3 LightDirection4      : TEXCOORD5; 
-
-
-
-
-
-
-
    float4 LightDistMultiplier  : TEXCOORD6;
-
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
 float4 pixelMain( in PS_INPUT IN ) : COLOR
-
-
-
-
-
-
-
 {
-
-
-
-
-
-
-
    float4 color = float4(0,0,0,0);
-
-
-
-
-
-
-
    float3  fvLightDirection1 = normalize( IN.LightDirection1 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection2 = normalize( IN.LightDirection2 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection3 = normalize( IN.LightDirection3 ); 
-
-
-
-
-
-
-
    float3  fvLightDirection4 = normalize( IN.LightDirection4 ); 
-
-
-
-
-
-
-
    float3  fvNormal          = tex2D( bumpMap, IN.Texcoord ).yxz; 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    fvNormal.xy*=2.0; 
-
-
-
-
-
-
-
    fvNormal.xy-=1.0;
-
-
-
-
-
-
-
    fvNormal=(float3(0.0,0.0,1.0)-fvNormal)*fBumpStrength+fvNormal; 
-
-
-
-
-
-
-
    fvNormal=normalize(fvNormal);
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    float fNDotL1           = max(dot(fvNormal, fvLightDirection1),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL2           = max(dot(fvNormal, fvLightDirection2),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL3           = max(dot(fvNormal, fvLightDirection3),0.0)-0.1;  
-
-
-
-
-
-
-
    float fNDotL4           = max(dot(fvNormal, fvLightDirection4),0.0)-0.1;  
-
-
-
-
-
-
-
    float3  fvReflection1     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection1 );  
-
-
-
-
-
-
-
    float3  fvReflection2     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection2 );  
-
-
-
-
-
-
-
    float3  fvReflection3     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection3 );  
-
-
-
-
-
-
-
    float3  fvReflection4     = normalize( ( ( 2.0 * fvNormal )  ) - fvLightDirection4 );  
-
-
-
-
-
-
-
    float3  fvViewDirection  = normalize( IN.ViewDirection ); 
-
-
-
-
-
-
-
    float fRDotV1          = max( 0.0, dot( fvReflection1, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV2          = max( 0.0, dot( fvReflection2, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV3          = max( 0.0, dot( fvReflection3, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float fRDotV4          = max( 0.0, dot( fvReflection4, fvViewDirection ) ); 
-
-
-
-
-
-
-
    float4  fvBaseColor      = tex2D( baseMap, IN.Texcoord ); 
-
-
-
-
-
-
-
    float4  fvTotalAmbient   = fvAmbient * fvBaseColor;  
-
-
-
-
-
-
-
    float4  fvTotalDiffuse   = fvLight1Color * fNDotL1* fvBaseColor*IN.LightDistMultiplier[0];  
-
-
-
-
-
-
-
    float4  fvTotalSpecular  = fNDotL1*fvLight1Color * ( pow( fRDotV1, fSpecularPower ) )*IN.LightDistMultiplier[0]; 
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight2Color * fNDotL2* fvBaseColor*IN.LightDistMultiplier[1];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL2*fvLight2Color * ( pow( fRDotV2, fSpecularPower ) )*IN.LightDistMultiplier[1];   
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight3Color * fNDotL3* fvBaseColor*IN.LightDistMultiplier[2];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL3*fvLight3Color * ( pow( fRDotV3, fSpecularPower ) )*IN.LightDistMultiplier[2];   
-
-
-
-
-
-
-
    fvTotalDiffuse   += fvLight4Color * fNDotL4* fvBaseColor*IN.LightDistMultiplier[3];  
-
-
-
-
-
-
-
    fvTotalSpecular  += fNDotL4*fvLight4Color * ( pow( fRDotV4, fSpecularPower ) )*IN.LightDistMultiplier[3];   
-
-
-
-
-
-
-
    color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength)); 
-
-
-
-
-
-
-
    if(color.r>1.0){color.gb+=color.r-1.0;} 
-
-
-
-
-
-
-
    if(color.g>1.0){color.rb+=color.g-1.0;} 
-
-
-
-
-
-
-
    if(color.b>1.0){color.rg+=color.b-1.0;} 
-
-
-
-
-
-
-
    
-
-
-
-
-
-
-
    return color;
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 " />
 				 <constants value="vmatrix4 ModelViewProjectionMatrix proj[0] view[0] world[0] dontMakeInverse
-
-
-
-
-
-
-
-
-
 vmatrix4 ModelViewMatrix view[0] world[0] 0 dontMakeInverse
-
-
-
-
-
-
-
-
-
 vmatrix4 matWorldInverse world[0] 0 0 makeInverse
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 vfloat fLightStrength1 80
-
-
-
-
-
-
-
-
-
 vfloat fLightStrength2 80
-
-
-
-
-
-
-
-
-
 vfloat fLightStrength3 80
-
-
-
-
-
-
-
-
-
 vfloat fLightStrength4 80
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 vvector3df fvLightPosition1 150 240 -34
-
-
-
-
-
-
-
-
-
 vvector3df fvLightPosition2 150 240 -34
-
-
-
-
-
-
-
-
-
 vvector3df fvLightPosition3 150 240 -34
-
-
-
-
-
-
-
-
-
 vvector3df fvLightPosition4 150 240 -34
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 pSColor fvAmbient 1 0.7 0.7 0.7
-
-
-
-
-
-
-
-
-
 pSColor fvLight1Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
-
-
 pSColor fvLight2Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
-
-
 pSColor fvLight3Color 1 0.02 0.02 0.02
-
-
-
-
-
-
-
-
-
 pSColor fvLight4Color 1 0.02 0.02 0.02
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 pfloat fSpecularPower 20
-
-
-
-
-
-
-
-
-
 pfloat fSpecularStrength 0.9
-
-
-
-
-
-
-
-
-
-pfloat fBumpStrength 5
-
-
-
-
-
-
-
-
-
+pfloat fBumpStrength 10
 " />
 			 </materialType>
 
@@ -1443,6 +377,10 @@ pfloat fBumpStrength 5
 
 		 </scripts>
 
+		 <physics>
+			 <gravity X="0.000000" Y="-350.000000" Z="0.000000" />
+		 </physics>
+
 	</config>
 
 
@@ -1453,20 +391,30 @@ pfloat fBumpStrength 5
 
 			 <path file="data/nouveau dossier/4/ruins.3ds" />
 
-			 <type esnt="mesh" />
+			 <type esnt="mesh" tangents="1" />
 
 			 <factory> 
 
+				 <meshFactory>
+				 <tangents value="1" />
+				 <normals value="1" />
+				 <angleWeighted value="0" />
+				 <smooth value="1" />
+				 </meshFactory>
+				 <planarMapping>
+				 <planarMapped value="0" />
+				 <planarMappedValue value="0.000000" />
+				 </planarMapping>
 
 			 </factory> 
 
-			 <name c8name="#map:cod" />
+			 <name c8name="#map:cod_with_tangents" />
 
 			 <materials>
 			 	 <material id="0">
 					 <textures>
 						 <texture id="0" path="data/Nouveau dossier/4/PASDetai.jpg" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="data/Nouveau dossier/4/PASDetai.jpg._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1501,7 +449,7 @@ pfloat fBumpStrength 5
 			 	 <material id="1">
 					 <textures>
 						 <texture id="0" path="data/Nouveau dossier/4/PAS_Cret.jpg" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="data/Nouveau dossier/4/PAS_Cret.jpg._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1536,7 +484,7 @@ pfloat fBumpStrength 5
 			 	 <material id="2">
 					 <textures>
 						 <texture id="0" path="data/Nouveau dossier/4/pasbrick.jpg" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="data/Nouveau dossier/4/pasbrick.jpg._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1571,7 +519,7 @@ pfloat fBumpStrength 5
 			 	 <material id="3">
 					 <textures>
 						 <texture id="0" path="data/Nouveau dossier/4/PAS_Wood.jpg" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="data/Nouveau dossier/4/PAS_Wood.jpg._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1606,7 +554,7 @@ pfloat fBumpStrength 5
 			 	 <material id="4">
 					 <textures>
 						 <texture id="0" path="data/Nouveau dossier/4/PAS_Rust.jpg" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="data/Nouveau dossier/4/PAS_Rust.jpg._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1641,7 +589,7 @@ pfloat fBumpStrength 5
 			 	 <material id="5">
 					 <textures>
 						 <texture id="0" path="data/Nouveau dossier/4/PAS_Grou.jpg" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="data/Nouveau dossier/4/PAS_Grou.jpg._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1675,8 +623,8 @@ pfloat fBumpStrength 5
 			 	 </material>
 			 	 <material id="6">
 					 <textures>
-						 <texture id="0" path="grass.png" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="0" path="data/nouveau dossier/4/PSAWEED0.JPG" />
+						 <texture id="1" path="data/nouveau dossier/4/PSAWEED0.JPG._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1696,22 +644,22 @@ pfloat fBumpStrength 5
 
 					 <antiAliasing value="1" />
 					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
+					 <colorMask value="0" />
 					 <colorMaterial value="1" />
 					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
+					 <frontfaceCulling value="1" />
 					 <gouraudShading value="1" />
 					 <normalizeNormals value="0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="14" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="7">
 					 <textures>
-						 <texture id="0" path="grass.png" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="0" path="data/nouveau dossier/4/PSAWEED0.JPG" />
+						 <texture id="1" path="data/nouveau dossier/4/PSAWEED0.JPG._normal_mapped" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1731,22 +679,22 @@ pfloat fBumpStrength 5
 
 					 <antiAliasing value="1" />
 					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
+					 <colorMask value="0" />
 					 <colorMaterial value="1" />
 					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
+					 <frontfaceCulling value="1" />
 					 <gouraudShading value="1" />
 					 <normalizeNormals value="0" />
 					 <zBuffer value="1" />
 					 <zWriteEnable value="1" />
 
-					 <materianType value="14" />
+					 <materianType value="-1" />
 
 			 	 </material>
 			 	 <material id="8">
 					 <textures>
 						 <texture id="0" path="" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1781,7 +729,7 @@ pfloat fBumpStrength 5
 			 	 <material id="9">
 					 <textures>
 						 <texture id="0" path="" />
-						 <texture id="1" path="shaders/textures/predefined/normal.tga" />
+						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
 					 <textures>
@@ -1818,8 +766,16 @@ pfloat fBumpStrength 5
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="1.200000" Y="1.200000" Z="1.200000" />
 
+			<depthPassed value="0" />
+			<lightScatteringPassed value="1" />
+
 			 <visible bool="1" />
 			 <shadowMode mode="2" />
+			 <physics>
+			 	 <body type="0">
+			 	 </body>
+			 </physics>
+
 
 		 </terrain>
 
@@ -1828,7 +784,7 @@ pfloat fBumpStrength 5
 			 <name c8name="#light:1" />
 
 			 <position X="-524.293701" Y="516.000000" Z="-47.120728" />
-			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+			 <target X="51.574768" Y="84.554077" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
@@ -1841,9 +797,55 @@ pfloat fBumpStrength 5
 			 <shadows resol="4096" />
 
 			 <lensFlare>
+				 <mesh> 
+					 <scale X="0.000000" Y="0.000000" Z="0.000000" />
+					 <texture path="" />
+				 </mesh> 
+				 <bill> 
+					 <size Width="85.016670" Height="85.016670" />
+					 <texture path="shaders/textures/lf/sun.png" />
+				 </bill> 
+				 <lfsn> 
+					 <strength value="0.000000" />
+					 <texture path="" />
+					 <falseOcclusion value="0" />
+				 </lfsn> 
+				 <position X="0.000000" Y="0.000000" Z="0.000000" />
+ 			 </lensFlare>
+
+		 </light>
+
+		 <light>
+
+			 <name c8name="#light:new_light" />
+
+			 <position X="112.247650" Y="245.923355" Z="195.875580" />
+			 <target X="0.000000" Y="0.000000" Z="0.000000" />
+
+			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
+			 <specularColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
+
+			 <radius value="20000.000000" />
+			 <farValue value="0.000000" />
+			 <autoRecalculate value="0" />
+
+			 <shadows resol="1024" />
+
+			 <lensFlare>
 			 </lensFlare>
 
 		 </light>
+
+		 <skybox>
+
+			 <texture path="data/Lights/glacier_ft.png" />
+			 <texture path="data/Lights/glacier_lf.png" />
+			 <texture path="data/Lights/glacier_bk.png" />
+			 <texture path="data/Lights/glacier_rt.png" />
+			 <texture path="data/Lights/glacier_up.png" />
+			 <texture path="data/Lights/glacier_dn.png" />
+		 </skybox>
 
 
 	</scene>

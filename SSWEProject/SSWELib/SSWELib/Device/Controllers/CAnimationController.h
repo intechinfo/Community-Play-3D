@@ -25,15 +25,36 @@ public:
     CAnimationController(CDevices *_devices);
     ~CAnimationController();
 
-	virtual void applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber);
+	void applyAnimationToModel(irr::scene::ISceneNode *node, irr::u32 animationNumber);
 
-	virtual void applyAnimationFromNameToModel(irr::scene::ISceneNode *node, irr::core::stringc name);
+	void applyAnimationFromNameToModel(irr::scene::ISceneNode *node, irr::core::stringc name);
 
-	virtual irr::s32 getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node);
+	irr::s32 getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node);
+
+	void setCustomCallback(irr::scene::ISceneNode *node, std::function<void(irr::scene::IAnimatedMeshSceneNode *node)> callback);
     
 private:
 
 	CDevices *devices;
+
+	class CCustomAnimationCallback : public irr::scene::IAnimationEndCallBack {
+	public:
+		CCustomAnimationCallback(std::function<void(irr::scene::IAnimatedMeshSceneNode *node)> callback) {
+			Callback = callback;
+		}
+
+		~CCustomAnimationCallback() {
+			//delete &Callback;
+		}
+
+		void OnAnimationEnd(irr::scene::IAnimatedMeshSceneNode *node) {
+			node->setAnimationEndCallback(0);
+			Callback(node);
+			delete this;
+		}
+	private:
+		std::function<void(irr::scene::IAnimatedMeshSceneNode *node)> Callback;
+	};
 
 };
 

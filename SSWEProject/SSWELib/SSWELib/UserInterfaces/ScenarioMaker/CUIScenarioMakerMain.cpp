@@ -60,6 +60,7 @@ CUIScenarioMakerMain::CUIScenarioMakerMain(CDevices *_devices) {
     if (viewPort) {
 		viewPort->setScreenQuad(devices->getXEffect()->getScreenQuadPtr());
 		viewPort->setSceneManager(devices->getSceneManager());
+		viewPort->setSecondarySceneManager(devices->getSecondSceneManager());
 		viewPort->setRenderScreenQuad(true);
         viewPort->setOverrideColor(SColor(255, 0, 0, 0)); 
     }
@@ -72,6 +73,8 @@ CUIScenarioMakerMain::CUIScenarioMakerMain(CDevices *_devices) {
 
 	//maximize();
 	devices->getEventReceiver()->AddEventReceiver(this, window, this);
+	
+	this->maximize();
 }
 
 CUIScenarioMakerMain::~CUIScenarioMakerMain() {

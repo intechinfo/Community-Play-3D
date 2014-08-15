@@ -10,6 +10,7 @@
 #define __I_ANIMATION_CONTROLLER_H_INCLUDED__
 
 #include <irrlicht.h>
+#include <functional>
 
 namespace cp3d {
 namespace controllers {
@@ -30,6 +31,9 @@ public:
 	/// Returns the current animation number played by the node
 	/// Value from 0 to n, if unused, then returns -1
 	virtual irr::s32 getCurrentAnimationIndiceOf(irr::scene::ISceneNode *node) = 0;
+
+	/// Set a custom callback stored into a lambda function
+	virtual void setCustomCallback(irr::scene::ISceneNode *node, std::function<void(irr::scene::IAnimatedMeshSceneNode *node)> callback) = 0;
 
 };
 

@@ -21,8 +21,12 @@ public:
 			exit(0);
 
 		devices->getAnimationController()->applyAnimationFromNameToModel(node, "BOSS");
+		node->setLoopMode(false);
 
-		//devices->getXEffect()->setUseHDRPass(false);
+		devices->getAnimationController()->setCustomCallback(node, [=](irr::scene::IAnimatedMeshSceneNode *node) {
+			devices->getAnimationController()->applyAnimationFromNameToModel(node, "CRASH");
+		});
+
 		devices->getEventReceiver()->AddEventReceiver(this, 0, this);
 	}
 	~CDragonTest() { }

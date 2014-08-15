@@ -28,7 +28,7 @@ EffectHandler::EffectHandler(IrrlichtDevice* dev, const irr::core::dimension2du&
                              const bool useVSMShadows, const bool useRoundSpotLights, const bool use32BitDepthBuffers)
 : device(dev), smgr(dev->getSceneManager()), driver(dev->getVideoDriver()),
 ScreenRTTSize(screenRTTSize.getArea() == 0 ? dev->getVideoDriver()->getScreenSize() : screenRTTSize),
-ClearColour(0x0), shadowsUnsupported(false), DepthRTT(0), DepthPass(false), depthMC(0), shadowMC(0),
+ClearColour(0x0), shadowsUnsupported(false), DepthRTT(0), SSAORTT(0), DepthPass(false), depthMC(0), shadowMC(0),
 AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 {
 	bool tempTexFlagMipMaps = driver->getTextureCreationFlag(ETCF_CREATE_MIP_MAPS);
@@ -53,13 +53,13 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	amp = new Amplifier();
 	quad = new Graphics::CHDRScreenQuad();
 
-	psm = new PhongShaderManager(driver, device->getFileSystem()->getWorkingDirectory());
+	//psm = new PhongShaderManager(driver, device->getFileSystem()->getWorkingDirectory());
 	pp = new HDRPostProcess(ScreenRTTSize);
 	ppm->AddPostProcess(pp);
 	pp->GetBloomGenerator()->SetGaussianCoefficient(0.3f);
 
 	phong.Lighting = false;
-	phong.MaterialType = psm->getMaterialType();
+	//phong.MaterialType = psm->getMaterialType();
 	phong.Shininess = 1.0f;
 	phong.MaterialTypeParam = 200.0f;
 
@@ -68,7 +68,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	hdrManager = new CHDRManager(pp, &phong);
 
 	//BACK RENDER
-	backRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "BackRenderRTT");
+	backRenderRTT = driver->addRenderTargetTexture(dimension2du(512, 512), "BackRenderRTT");
 
 	//NORMAL PASS
 	normalRenderRTT = driver->addRenderTargetTexture(ScreenRTTSize, "NormalPassRTT");
@@ -96,15 +96,16 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		shadowMC = new ShadowShaderCB(this);
 		normalMC = new NormalShaderCB(this);
 
-		Depth = gpu->addHighLevelShaderMaterial(
-                                                sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
+		Depth = gpu->addHighLevelShaderMaterial(sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
                                                 sPP.ppShader(SHADOW_PASS_1P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
                                                 depthMC, video::EMT_SOLID);
-
 		DepthT = gpu->addHighLevelShaderMaterial(
                                                  sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
                                                  sPP.ppShader(SHADOW_PASS_1PT[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
                                                  depthMC, video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
+		Depth2T = gpu->addHighLevelShaderMaterial(sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
+												  sPP.ppShader(SHADOW_PASS_1P_2T[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
+                                                  depthMC, video::EMT_SOLID);
 
 		WhiteWash = gpu->addHighLevelShaderMaterial(
                                                     sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
@@ -184,8 +185,11 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		DepthOfField = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
 													   sPP.ppShader(DEPTH_OF_FIELD_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
 
-		NormalPass = gpu->addHighLevelShaderMaterial(sPP.ppShader(NORMAL_PASS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
-													 sPP.ppShader(NORMAL_PASS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, normalMC);
+		if (driver->getDriverType() == EDT_OPENGL)
+			NormalPass = EMT_SOLID;
+		else
+			NormalPass = gpu->addHighLevelShaderMaterial(sPP.ppShader(NORMAL_PASS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+														 sPP.ppShader(NORMAL_PASS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, normalMC);
 
 		// Drop the screen quad callback.
 		SQCB->drop();
@@ -217,9 +221,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
     //DEPTH OF FIELD
 	useDOF = false;
 
-	//HDR PIPELINE
-	//HDRModel = this->addPostProcessingEffectFromFile("shaders/HDR/Model.fx", 0, false);
-	//this->setPostProcessingRenderCallback(HDRModel, new CHDRCallback(this, HDRModel));
+	this->generateRandomVectorTexture(dimension2du(256, 256), "RandomVecTexture");
 }
 
 EffectHandler::~EffectHandler()
@@ -233,8 +235,8 @@ EffectHandler::~EffectHandler()
 	if(ScreenQuad.rt[1])
 		driver->removeTexture(ScreenQuad.rt[1]);
 
-	if(DepthRTT)
-		driver->removeTexture(DepthRTT);
+	if(DepthRTT.RenderTexture)
+		driver->removeTexture(DepthRTT.RenderTexture);
 }
 
 void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2du& resolution)
@@ -264,7 +266,7 @@ void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2d
 
 	if(DepthRTT != 0)
 	{
-		driver->removeTexture(DepthRTT);
+		driver->removeTexture(DepthRTT.RenderTexture);
 		DepthRTT = driver->addRenderTargetTexture(resolution, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
 	}
     
@@ -284,12 +286,20 @@ void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2d
 	ScreenRTTSize = resolution;
 }
 
-void EffectHandler::enableDepthPass(bool enableDepthPass)
+void EffectHandler::enableDepthPass(bool enableDepthPass, bool SSAODepthPass)
 {
 	DepthPass = enableDepthPass;
 
-	if(DepthPass && DepthRTT == 0)
-		DepthRTT = driver->addRenderTargetTexture(ScreenRTTSize, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
+	if(DepthPass && DepthRTT.RenderTexture == 0)
+		DepthRTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "DepthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
+	
+	if (SSAORTT.RenderTexture == 0)
+		SSAORTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "SSAODepthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
+
+	DepthTargets.clear();
+	DepthTargets.set_used(0);
+	DepthTargets.push_back(DepthRTT);
+	DepthTargets.push_back(SSAORTT);
 }
 
 void EffectHandler::addPostProcessingEffect(irr::s32 MaterialType, IPostProcessingRenderCallback* callback)
@@ -357,11 +367,13 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 	if(!ShadowNodeArray.empty() && !LightList.empty())
 	{
+		depthMC->MultiRenderTarget = false;
+
 		driver->setRenderTarget(ScreenQuad.rt[0], true, true, AmbientColour);
 
 		ICameraSceneNode* activeCam = smgr->getActiveCamera();
 		activeCam->OnAnimate(device->getTimer()->getTime());
-		//activeCam->OnRegisterSceneNode();
+		activeCam->OnRegisterSceneNode();
 		activeCam->render();
 
 		const u32 ShadowNodeArraySize = ShadowNodeArray.size();
@@ -406,6 +418,9 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 															? DepthT : Depth);
 						}
 
+						if (ShadowNodeArray[i].node->getParent() == activeCam)
+							activeCam->OnAnimate(device->getTimer()->getTime());
+
 						ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
 						ShadowNodeArray[i].node->render();
 
@@ -420,7 +435,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 					if(useVSM) {
 						ITexture *currentSecondaryShadowMap = getShadowMapTexture(LightList[l].getShadowLight(ll).getShadowMapResolution(), true, l);
 
-						driver->setRenderTarget(currentSecondaryShadowMap, true, true, SColor(0xffffffff));
+						driver->setRenderTarget(currentSecondaryShadowMap, true, false, SColor(0xffffffff));
 						ScreenQuad.getMaterial().setTexture(0, currentShadowMapTexture);
 						ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)VSMBlurH;
 
@@ -532,10 +547,12 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 			for(u32 m = 0;m < CurrentMaterialCount;++m)
 				ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
 		}
-		/*skyNode->setMaterialType((E_MATERIAL_TYPE)WhiteWash);
-		skyNode->OnAnimate(device->getTimer()->getTime());
-		skyNode->render();
-		skyNode->setMaterialType(EMT_SOLID);*/
+
+		/*driver->setRenderTarget(ScreenQuad.rt[0], false, false, SColor(0x0));
+		ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
+		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
+			
+		ScreenQuad.render(driver);*/
 	}
 	else
 	{
@@ -634,12 +651,12 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 		//Set position
 		core::vector3df position = currentCamera->getAbsolutePosition();
-		position.Y = -position.Y + 2 * 0; //position of the water
+		position.Y = -position.Y + 2 * position.Y; //position of the plan
 		cameraForPasses->setPosition(position);
 
 		//Set target
 		core::vector3df target = currentCamera->getTarget();
-		target.Y = -target.Y + 2 * 0;
+		target.Y = -target.Y + 2 * position.Y;
 		cameraForPasses->setTarget(target);
 
 		smgr->setActiveCamera(cameraForPasses);
@@ -717,8 +734,9 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 	// Perform depth pass after rendering, to ensure animations stay up to date.
 	if(DepthPass)
 	{
-		driver->setRenderTarget(DepthRTT, true, true, SColor(0xffffffff));
-        //driver->setRenderTarget(DepthRTT, true, true, SColor(255, 0, 0, 0));
+		depthMC->MultiRenderTarget = true;
+
+		driver->setRenderTarget(DepthTargets, true, true, SColor(0xffffffff));
 
 		// Set max distance constant for depth shader.
 		depthMC->FarLink = smgr->getActiveCamera()->getFarValue();
@@ -734,7 +752,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 			for(u32 g = 0;g < DepthPassArray[i]->getMaterialCount();++g)
 				BufferMaterialList.push_back(DepthPassArray[i]->getMaterial(g).MaterialType);
 
-            DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)Depth);
+            DepthPassArray[i]->setMaterialType((E_MATERIAL_TYPE)Depth2T);
             DepthPassArray[i]->OnAnimate(device->getTimer()->getTime());
             DepthPassArray[i]->render();
 
@@ -762,7 +780,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 	//RENDER OTHER POST PROCESSES
 	bool Alter = false;
 	ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
-	ScreenQuad.getMaterial().setTexture(2, DepthRTT);
+	ScreenQuad.getMaterial().setTexture(2, DepthRTT.RenderTexture);
 	if(PostProcessingRoutinesSize)
 	{
 
@@ -781,7 +799,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPostRender(this);
 
 			ScreenQuad.getMaterial().setTexture(1, ScreenRTT);
-			ScreenQuad.getMaterial().setTexture(2, DepthRTT);
+			ScreenQuad.getMaterial().setTexture(2, DepthRTT.RenderTexture);
 		}
 	}
 
@@ -966,6 +984,17 @@ void EffectHandler::setPostProcessingEffectConstant(const irr::s32 materialType,
 		PostProcessingRoutines[matIndex].callback->uniformDescriptors[name] = ScreenQuadCB::SUniformDescriptor(data, count);
 }
 
+s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& filename,
+												   std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback,
+												   std::function<void(ISSWERender *render, irr::s32 materialType)> postRenderCallback,
+												   bool pushFront)
+{
+	IPostProcessingRenderCallback *renderCallback = new CCustomFilterCallback(preRenderCallback, postRenderCallback);
+	s32 mat = addPostProcessingEffectFromFile(filename, renderCallback, pushFront);
+	((CCustomFilterCallback*)renderCallback)->MaterialType = mat;
+
+	return mat;
+}
 
 s32 EffectHandler::addPostProcessingEffectFromFile(const irr::core::stringc& filename,
                                                    IPostProcessingRenderCallback* callback,

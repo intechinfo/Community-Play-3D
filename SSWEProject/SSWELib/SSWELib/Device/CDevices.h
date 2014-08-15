@@ -15,13 +15,14 @@
 
 #include "../../../SSWECore/SSWECore/Core/CCore.h"
 #include "../../../SSWECore/SSWECore/Core/CCoreData.h"
+#include "../../../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
+#include "../../../SSWECore/SSWECore/ProgressiveMeshBuffer/CMeshSimplificator.h"
 
 #include "Core/CRenderCore.h"
 #include "Core/Scripting/CLuaBinds.h"
 
-#include "../../../SSWECore/SSWECore/Core/CCoreObjectPlacement.h"
-
 #include "../UserInterfaces/ProcessesLogger/CUIProcessesLogger.h"
+#include "../UserInterfaces/NodeFactory/CNodeFactory.h"
 
 #include "../../../SSWERenders/Renders/PostProcessor/CScreenSpaceAmbientOcclusion.h"
 
@@ -128,6 +129,10 @@ public:
 	irrBulletWorld *getBulletWorld() { return bulletWorld; }
 
 	cp3d::controllers::IAnimationController *getAnimationController() { return (cp3d::controllers::IAnimationController*)animationController; }
+
+	cp3d::scene::IFactory *getNodeFactory() { return nodeFactory; }
+
+	CMeshSimplificator *getMeshSimplificator() { return meshSimplificator; };
 	//-----------------------------------
 
 	//-----------------------------------
@@ -269,6 +274,8 @@ private:
 	irrBulletWorld *bulletWorld;
 
 	cp3d::controllers::CAnimationController *animationController;
+	CNodeFactory *nodeFactory;
+	CMeshSimplificator *meshSimplificator;
 	//-----------------------------------
 
 	//-----------------------------------

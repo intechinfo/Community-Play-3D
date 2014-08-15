@@ -11,8 +11,6 @@
 
 #include <ISSWECoreUserInterface.h>
 
-class CUpdate;
-
 class CExample4 : public irr::IEventReceiver, public cp3d::core::IUpdate {
 
 public:
@@ -46,9 +44,14 @@ private:
 	cp3d::ISSWECoreUserInterface *core;
 	cp3d::core::IDevices *devices;
 
-	CUpdate *updater;
+	irr::scene::IAnimatedMeshSceneNode *mp5Node;
 	//-----------------------------------
 
+	//-----------------------------------
+	//ANIMATIONS
+	bool reloading;
+	bool fireing;
+	//-----------------------------------
 };
 
 

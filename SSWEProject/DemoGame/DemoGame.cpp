@@ -10,16 +10,21 @@
 #include "DemoGame/Example2/CExample2.h"
 #include "DemoGame/Example3/CExample3.h"
 #include "DemoGame/Example4/CExample4.h"
+#include "DemoGame/Example5/CExample5.h"
+#include "DemoGame/Example6/CExample6.h"
 
 int exampleNumber = 4;
 
 int main(int argc, char *argv[])
 {
 
-	std::cout << "Choose your example : 1-2-3" << std::endl;
+	std::cout << "Choose your example :" << std::endl;
 	std::cout << "1 - Simple Example" << std::endl;
 	std::cout << "2 - Example with animated models + callbacks" << std::endl;
-	std::cout << "3 - FPS Gameplay example with animated weapon" << std::endl;
+	std::cout << "3 - FPS Gameplay example with animated weapon (classic animation callback)" << std::endl;
+	std::cout << "4 - FPS Gameplay example with animated weapon (advanced animation callback)" << std::endl;
+	std::cout << "5 - Playing with the node factory" << std::endl;
+	std::cout << "6 - Playing with Martin" << std::endl;
 	std::cin >> exampleNumber;
 
 	/// Create and configure our interface
@@ -27,15 +32,13 @@ int main(int argc, char *argv[])
 	coreInterface->setLogEventWindowVisible(false);
 	coreInterface->getIDevices()->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 
-	/// Get the main interface, working as a router;
-	cp3d::core::IDevices *devices = coreInterface->getIDevices();
-
 	/// Add our default monitor the examples
 	/// Just give the name of the .dll monitor located in ~Plugins/Monitors/
 	/// without the extension .dll, .so or .dylib for multiplateform support
 	coreInterface->addMonitor("SSWEGenericMonitor");
 
 	CExample1 *example = new CExample1(coreInterface);
+
 	if (exampleNumber == 1) {
 		/// Learn how to load a saved scene and configure default FPS camera
 		example->load("Example1.world");
@@ -56,10 +59,23 @@ int main(int argc, char *argv[])
 		example3->run();
 	} else
 	if (exampleNumber == 4) {
-		example->load("LChineseYard.world");
+		/// Learn how to use animations with lambda functions
+		example->load("Example4.world");
 		CExample4 *example4 = new CExample4(coreInterface);
 		example4->load();
 		example4->run();
+	} else
+	if (exampleNumber == 5) {
+		/// Learn how to use node factory
+		CExample5 *example5 = new CExample5(coreInterface);
+		example5->load();
+		example5->run();
+	} else
+	if (exampleNumber == 6) {
+		/// Learn something
+		CExample6 *example6 = new CExample6(coreInterface);
+		example6->load();
+		example6->run();
 	}
 
 	//devices->getCoreData()->clear();

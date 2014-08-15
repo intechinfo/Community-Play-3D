@@ -24,7 +24,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	pluginsManager = manager;
 
-	nodeFactory = new CNodeFactory(devices);
+	nodeFactory = (CNodeFactory*)devices->getNodeFactory();
 
 	//SETS GENERIC MONITOR AS DEFAULT
 	#ifdef _IRR_WINDOWS_API_
@@ -191,6 +191,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu->addItem(L"New Terrain... (WIP)", CXT_MENU_EVENTS_NODE_FACTORY_NEW_TERRAIN);
 	submenu->addItem(L"Mesh Factory...", CXT_MENU_EVENTS_MESH_FACTORY_EDIT);
 	submenu->addItem(L"Animated Mesh Viewer...", CXT_MENU_EVENTS_ANIMATED_MESH_TESTER);
+	submenu->addItem(L"Mesh Simplificator...", CXT_MENU_EVENTS_MESH_SIMPLIFICATOR);
 
 	//SCRIPTING
 	submenu = menu->getSubMenu(i++);
@@ -338,7 +339,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 			stringw scene_to_import = L"Test.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			impoterInstance->importScene(scene_to_import.c_str());
+			//impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -412,7 +413,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	}
 	devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getLightsData()->operator[](0).getLensFlareBillBoardSceneNode());
 	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
-
+	
 	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
 
     //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
@@ -421,9 +422,19 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
 
-	//nodeFactory->createLightSceneNode();
-	//nodeFactory->createPlaneMeshSceneNode();
-	//nodeFactory->createCubeSceneNode()->setPosition(vector3df(0, 25, 0));
+	#ifdef SSWE_RELEASE
+	nodeFactory->createLightSceneNode([](ISceneNode *node){
+		node->setPosition(vector3df(-141.f, 200.f, -127.f));
+		node->setRotation(vector3df(50.f, 46.f, 0.f));
+	});
+	nodeFactory->createPlaneMeshSceneNode([this](ISceneNode *node){
+		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/kitchen_tile.jpg");
+	});
+	nodeFactory->createCubeSceneNode([this](ISceneNode *node){
+		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg");
+		node->setPosition(vector3df(0.f, 25.f, 0.f));
+	});
+	#endif
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -782,6 +793,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					}
 				}
 					break;
+
+				case CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER: {
+					CUIScenarioMakerMain *scenarioMaker = new CUIScenarioMakerMain(devices);
+				}
+					break;
                 //-----------------------------------
 
                 //-----------------------------------
@@ -815,7 +831,6 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				case CXT_MENU_EVENTS_SCENE_ADD_3D_SOUND: {
 					CUIAddAudioElement *amgr = new CUIAddAudioElement(devices);
-					amgr->open();
 				}
 					break;
 
@@ -957,6 +972,11 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 
 				case CXT_MENU_EVENTS_ANIMATED_MESH_TESTER: {
 					CUIAnimatedMeshViewer *animatedMeshViewer = new CUIAnimatedMeshViewer(devices);
+				}
+					break;
+
+				case CXT_MENU_EVENTS_MESH_SIMPLIFICATOR: {
+					CUIMeshSimplificator *meshSimplificator = new CUIMeshSimplificator(devices);
 				}
 					break;
 

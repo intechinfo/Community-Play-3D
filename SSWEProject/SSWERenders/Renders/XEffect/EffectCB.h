@@ -59,7 +59,10 @@ public:
 
 class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack {
 public:
-	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn) {};
+	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn)
+	{
+		SSAOLink = 100.f;
+	}
 
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
 		IVideoDriver* driver = services->getVideoDriver();
@@ -69,54 +72,48 @@ public:
 		worldViewProj *= driver->getTransform(video::ETS_WORLD);
 
 		services->setVertexShaderConstant("mWorldViewProj", worldViewProj.pointer(), 16);
-
 		services->setVertexShaderConstant("MaxD", &FarLink, 1);
+
+		if (MultiRenderTarget) {
+			services->setPixelShaderConstant("maxSSAODepthPass", &SSAOLink, 1);
+		}
 	}
 
 	EffectHandler* effect;
-	f32 FarLink;
+	f32 FarLink, SSAOLink;
 	core::matrix4 worldViewProj;
+	bool MultiRenderTarget;
 };
 
-class CHDRCallback : public IPostProcessingRenderCallback {
+
+class CCustomFilterCallback : public IPostProcessingRenderCallback {
 
 public:
-	CHDRCallback(EffectHandler *effectIn, irr::s32 materialTypeIn) : effecti(effectIn), Material(materialTypeIn) {};
 
-	virtual void OnPostRender(ISSWERender* effect) {}
-
-	virtual void OnPreRender(ISSWERender* effect) {
-		//CAMERA
-		vector3df g_vCameraPositionWS = effecti->getActiveSceneManager()->getActiveCamera()->getPosition();
-		effecti->setPostProcessingEffectConstant(Material, "g_vCameraPositionWS", reinterpret_cast<f32*>(&g_vCameraPositionWS.X), 3);
-
-		//SUN
-		vector3df g_vSunlightDirectionWS(-0.7f, -1.0f, -1.0f);
-		effecti->setPostProcessingEffectConstant(Material, "g_vSunlightDirectionWS", reinterpret_cast<f32*>(&g_vSunlightDirectionWS.X), 3);
-		vector3df g_vSunlightColor(1.0f, 0.7f, 0.4f);
-		effecti->setPostProcessingEffectConstant(Material, "g_vSunlightColor", reinterpret_cast<f32*>(&g_vSunlightColor.X), 3);
-		f32 g_fSunlightBrightness = 3.f;
-		effecti->setPostProcessingEffectConstant(Material, "g_fSunlightBrightness", reinterpret_cast<f32*>(&g_fSunlightBrightness), 1);
-
-		//COLORS
-		vector3df g_vDiffuseAlbedo(1.0);
-		effecti->setPostProcessingEffectConstant(Material, "g_vDiffuseAlbedo", reinterpret_cast<f32*>(&g_vDiffuseAlbedo.X), 3);
-		vector3df g_vSpecularAlbedo(0.4f);
-		effecti->setPostProcessingEffectConstant(Material, "g_vSpecularAlbedo", reinterpret_cast<f32*>(&g_vSpecularAlbedo.X), 3);
-		f32 g_fSpecularPower = 32.f;
-		effecti->setPostProcessingEffectConstant(Material, "g_fSpecularPower", reinterpret_cast<f32*>(&g_fSpecularPower), 1);
-		f32 g_fReflectivity = 0.7f;
-		effecti->setPostProcessingEffectConstant(Material, "g_fReflectivity", reinterpret_cast<f32*>(&g_fReflectivity), 1);
-		f32 g_fReflectionBrightness;
-		effecti->setPostProcessingEffectConstant(Material, "g_fReflectionBrightness", reinterpret_cast<f32*>(&g_fReflectionBrightness), 1);
-
-		bool bEncodeLogLuv = false;
+	CCustomFilterCallback(std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback, 
+						  std::function<void(ISSWERender *render, irr::s32 materialType)> postRenderCallback,
+						  irr::s32 materialType=-1)
+	{
+		PreRenderCallback = preRenderCallback;
+		PostRenderCallback = postRenderCallback;
+		MaterialType = materialType;
 	}
+
+	void OnPostRender(ISSWERender* effect) {
+		PostRenderCallback(effect, MaterialType);
+	}
+
+	void OnPreRender(ISSWERender* effect) {
+		PreRenderCallback(effect, MaterialType);
+	}
+
+	irr::s32 MaterialType;
 
 private:
 
-	EffectHandler* effecti;
-	irr::s32 Material;
+	std::function<void(ISSWERender *render, irr::s32 materialType)> PreRenderCallback;
+	std::function<void(ISSWERender *render, irr::s32 materialType)> PostRenderCallback;
+
 };
 
 class SSWE_RENDERS_API ShadowShaderCB : public video::IShaderConstantSetCallBack {

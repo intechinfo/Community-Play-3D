@@ -45,6 +45,8 @@ CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
 
 	openLogger = gui->addButton(rect<s32>(490, 350, 590, 370), window, -1, L"Open Logs", L"Open Logs Window");
 
+	filterName = gui->addEditBox(L"", rect<s32>(600, 350, 800, 370), true, window, -1);
+
 	close = gui->addButton(rect<s32>(790, 380, 890, 410), window, -1, L"Close", L"Close this window");
 
 	//FILL FILTERS LIST
@@ -54,8 +56,10 @@ CUIWindowEditFilters::CUIWindowEditFilters(CDevices *_devices) {
 	}
 	if (filters->getItemCount() > 0) {
 		filters->setSelected(0);
+		filterName->setText(filters->getListItem(0));
 	} else {
 		filters->setSelected(-1);
+		filterName->setText(L"");
 	}
 
 	//MENU
@@ -196,6 +200,27 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 			}
 		}
 
+		//LIST SELECTION
+		if (event.GUIEvent.EventType == EGET_LISTBOX_CHANGED ||event.GUIEvent.EventType == EGET_LISTBOX_SELECTED_AGAIN) {
+			if (event.GUIEvent.Caller == filters) {
+				if (filters->getSelected() != -1) {
+					filterName->setText(filters->getListItem(filters->getSelected()));
+				} else {
+					filterName->setText(L"");
+				}
+			}
+		}
+
+		//FILTER NAME EDITBOX
+		if (event.GUIEvent.EventType == EGET_EDITBOX_CHANGED) {
+			if (event.GUIEvent.Caller == filterName) {
+				if (filters->getSelected() != -1) {
+					devices->getCoreData()->getEffectFilters()->operator[](filters->getSelected()).setName(filterName->getText());
+					filters->setItem(filters->getSelected(), filterName->getText(), -1);
+				}
+			}
+		}
+
 		//FILE SELECTION
 		if (event.GUIEvent.EventType == EGET_FILE_SELECTED) {
 			if (event.GUIEvent.Caller == openShader) {
@@ -244,12 +269,17 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 				SFilter f;
 				f.createLuaState();
 				fcallback->createLuaState(f.getLuaState());
+				f.setName(L"New filter");
 				CFilterCallback *cb = new CFilterCallback(f.getMaterial(), f.getLuaState(), f.getCallback());
 				f.setPostProcessingCallback(cb);
 				devices->getCoreData()->getEffectFilters()->push_back(f);
 				filters->addItem(stringw(f.getName()).c_str());
 				filters->setSelected(filters->getItemCount()-1);
+
+				if (filters->getSelected() != -1)
+					filterName->setText(filters->getListItem(filters->getSelected()));
 			}
+
 			if (event.GUIEvent.Caller == removeFilter) {
 				if (filters->getSelected() != -1) {
 					s32 selected = filters->getSelected();
@@ -257,8 +287,11 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 					devices->getXEffect()->removePostProcessingEffect(devices->getCoreData()->getEffectFilters()->operator[](selected).getMaterial());
 					devices->getCoreData()->getEffectFilters()->operator[](selected).destroyLuaState();
 					devices->getCoreData()->getEffectFilters()->erase(selected);
+
+					filterName->setText(L"");
 				}
 			}
+
 			if (event.GUIEvent.Caller == editFilter) {
 				s32 selected = filters->getSelected();
 				if (selected != -1) {
@@ -266,6 +299,7 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 					codeEditor->setAutoSave(true);
 				}
 			}
+
 			if (event.GUIEvent.Caller == editCallback) {
 				s32 selected = filters->getSelected();
 				if (selected != -1) {

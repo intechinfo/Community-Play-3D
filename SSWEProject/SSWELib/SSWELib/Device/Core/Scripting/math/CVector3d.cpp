@@ -421,11 +421,11 @@ int vector3dfPrint(lua_State *L) {
     return 1;
 }
 
-void bindVector3df(lua_State *L) {
+void bindVector3df(lua_State *L, bool allowConstructor) {
     
     luaL_Reg sVector3dfMeta[] =
     {
-        { "__gc", vector3dfDestructor },
+        //{ "__gc", vector3dfDestructor },
         {"__index", NULL},
         {"__newindex", NULL},
         { NULL, NULL }

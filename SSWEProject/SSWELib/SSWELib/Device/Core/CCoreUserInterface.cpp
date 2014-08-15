@@ -20,7 +20,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 
 	params.WindowSize = dimension2d<u32>(0, 0);
     #ifdef _IRR_WINDOWS_API_
-        params.DriverType=EDT_DIRECT3D9;
+		params.DriverType = EDT_DIRECT3D9;
         params.WindowSize = dimension2d<u32>(1680, 987);
     #else
         params.DriverType=irr::video::EDT_OPENGL;
@@ -36,15 +36,15 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 		if (!playOnly) {
 			params.Fullscreen = false;
 		} else {
-			params.WindowSize = dimension2d<u32>(1280, 800);
+			params.WindowSize = dimension2d<u32>(1650, 900);
 			params.Fullscreen = false;
 		}
     #endif
-	params.WithAlphaChannel = false;
+	params.WithAlphaChannel = true;
 	params.Stencilbuffer=false;
 	params.Vsync=false;
 	params.AntiAlias=true;
-    params.ZBufferBits = 16;
+    params.ZBufferBits = 32;
 	params.EventReceiver=0;
 	params.DriverMultithreaded = true;
     params.Doublebuffer = false;
@@ -67,7 +67,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
     windowSize = devices->getVideoDriver()->getScreenSize();
 
 	#ifdef SSWE_RELEASE
-		devices->getDevice()->getLogger()->setLogLevel(ELL_NONE);
+		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 	#else
 		devices->getDevice()->getLogger()->setLogLevel(ELL_INFORMATION);
 	#endif

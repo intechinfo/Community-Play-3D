@@ -14,20 +14,20 @@ class SSWE_RENDERS_API SSAORenderCallback : public SSWE_RENDERS_EXPORTS cp3d::vi
 
 public:
 
-	SSAORenderCallback(irr::s32 materialTypeIn);
+	SSAORenderCallback(irr::s32 materialTypeIn, irr::video::ITexture *depthTex);
 	~SSAORenderCallback();
 
 	void OnPreRender(cp3d::video::ISSWERender* effect);
 	void OnPostRender(cp3d::video::ISSWERender* effect);
 
-	void setTexture(irr::video::ITexture *tex) { this->tex = tex; }
-	irr::video::ITexture *getTexture() { return this->tex; }
+	void setTexture(irr::video::ITexture *tex) { this->noiseTex = tex; }
+	irr::video::ITexture *getTexture() { return this->noiseTex; }
 
 private:
 
 	irr::core::matrix4 viewProj;
 	irr::s32 materialType;
-	irr::video::ITexture *tex;
+	irr::video::ITexture *noiseTex, *depthTex;
 
 };
 

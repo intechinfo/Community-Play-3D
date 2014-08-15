@@ -17,6 +17,7 @@ namespace irr {
         CGUIViewport::CGUIViewport(irr::gui::IGUIEnvironment* environment, irr::gui::IGUIElement* parent, s32 id, irr::core::rect<s32> rectangle)
         : IGUIViewport(environment, parent, id, rectangle)
         , SceneManager(0)
+		, SecondarySceneManager(0)
         , OverrideColorEnabled(false)
         , OverrideColor(255, 0, 0, 0) {
 #ifdef _DEBUG
@@ -27,9 +28,8 @@ namespace irr {
         }
 
         CGUIViewport::~CGUIViewport() {
-            if (SceneManager) {
+            if (SceneManager)
                 SceneManager->drop();
-            }
         }
 
         bool CGUIViewport::OnEvent(const SEvent &event) {
@@ -112,6 +112,9 @@ namespace irr {
 							SceneManager->drawAll();
 						}
 
+						if (SecondarySceneManager)
+							SecondarySceneManager->drawAll();
+
                         cam->setFOV(oldFieldOfView);
 
                         cam->setAspectRatio(oldAspectRatio);
@@ -123,6 +126,10 @@ namespace irr {
 
             IGUIElement::draw();
         }
+
+		void CGUIViewport::setSecondarySceneManager(scene::ISceneManager *scene) {
+			SecondarySceneManager = scene;
+		}
 
         void CGUIViewport::setSceneManager(scene::ISceneManager* scene) {
             if (SceneManager)

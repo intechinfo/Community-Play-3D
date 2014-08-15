@@ -110,6 +110,40 @@ bool CAudioElement3D::play() {
 	return result == FMOD_OK;
 }
 
+irr::u32 CAudioElement3D::getCurrentTime() {
+	if (!channel) return 0;
+
+	irr::u32 time;
+	channel->getPosition(&time, FMOD_TIMEUNIT_MS);
+
+	return time;
+}
+
+irr::u32 CAudioElement3D::getDuration() {
+	if (!sound) return 0;
+
+	irr::u32 time;
+	sound->getLength(&time, FMOD_TIMEUNIT_MS);
+
+	return time;
+}
+
+void CAudioElement3D::setCurrentTime(irr::u32 time) {
+	if (!channel)
+		return;
+
+	channel->setPosition(time, FMOD_TIMEUNIT_MS);
+}
+
+void CAudioElement3D::setLoopMode(bool enable) {
+	if (enable)
+		channel->setMode(FMOD_LOOP_NORMAL);
+	else
+		channel->setMode(FMOD_LOOP_OFF);
+
+	IAudioElement3D::setLoopMode(enable);
+}
+
 void CAudioElement3D::close() {
 	result = sound->release();
 
