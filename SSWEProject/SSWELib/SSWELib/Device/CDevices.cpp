@@ -231,8 +231,11 @@ void CDevices::updateDevice() {
 
                         if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
                             monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
-
-						monitor->drawScene();
+                        
+                        if (gui->getFocus() == 0 || isOnlyForPlay)
+                            monitor->drawScene();
+                        else
+                            effect->getScreenQuadPtr()->render(driver);
                     }
 
                     if(renderFullPostTraitements && renderXEffect) {
@@ -276,8 +279,13 @@ void CDevices::updateDevice() {
 #else
 
     if (renderXEffect) {
+        
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-		effect->update(renderFullPostTraitements);
+        if (gui->getFocus() == 0 || isOnlyForPlay)
+            effect->update(renderFullPostTraitements);
+        else
+            effect->getScreenQuadPtr()->render(driver);
+        
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }
@@ -384,6 +392,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
     #endif
     Device->setWindowCaption(L"Community Play 3D : Editor");
 	Device->setResizable(true);
+    
+    #ifdef _IRR_OSX_PLATFORM_
+        #ifdef _DEBUG
+        Device->getFileSystem()->changeWorkingDirectoryTo("../../../../../../../SSWE/");
+        #endif
+    #endif
 
     driver = Device->getVideoDriver();
 
@@ -520,8 +534,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	renderCore = new CRenderCore(this);
 
-	if (!isOnlyForPlay)
-		effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
+	//if (!isOnlyForPlay)
+    //effect->addShadowToNode(objPlacement->getGridSceneNode(), filterType, ESM_NO_SHADOW);
 
 	//ADD EVENTS
 	Device->setEventReceiver(&receiver);

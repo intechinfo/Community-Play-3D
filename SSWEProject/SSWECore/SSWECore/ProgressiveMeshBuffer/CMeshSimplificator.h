@@ -20,22 +20,29 @@ public:
 	/// ctor & dtor
 	CMeshSimplificator(irr::scene::ISceneManager *smgr);
 	~CMeshSimplificator();
-
+    
+    
 	void addSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
 	void removeSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
-
+    
+    
 	void simplifyMeshBuffer(irr::scene::IMeshBuffer *buffer, irr::f32 percentage,
 		std::function<void(irr::scene::IMeshBuffer *buffer)> callback = [](irr::scene::IMeshBuffer *buffer){});
-
+    void simplifyMesh(irr::scene::IMesh *mesh, irr::f32 percentage,
+        std::function<void(irr::scene::IMeshBuffer *buffer, irr::s32 index)> callback = [](irr::scene::IMeshBuffer *buffer, irr::s32 index){},
+        std::function<void(irr::scene::IMesh *computedMesh)> endCallback = [](irr::scene::IMesh *mesh){});
+    
+    
 	irr::scene::IMeshBuffer *getSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer) { return 0; }
-
+    
 	void switchToSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
 	void switchToOriginalMeshBuffer(irr::scene::IMeshBuffer *buffer);
-
+    
+    
 	void clearAll();
-
+    
 private:
-
+    
 	struct SProgressiveBuffer {
 	public:
 		SProgressiveBuffer() {
@@ -49,16 +56,18 @@ private:
 		irr::u32 initialTriangleCount;
 		irr::scene::IMeshBuffer *originalBuffer; /// Copy of the mesh buffer
 	};
-
+    
 	irr::core::list<SProgressiveBuffer *> progressiveBuffers;
-
+    
 	irr::scene::ISceneManager *smgr;
-
+    
 	/// Private functions
 	void switchMeshBuffers(irr::scene::IMeshBuffer *buffer, irr::scene::IMeshBuffer *source);
-
+    
 	/// Threaded functions
 	void simplifyMeshBuffer_t(irr::scene::IMeshBuffer *buffer, irr::f32 percentage, std::function<void(irr::scene::IMeshBuffer *buffer)> callback);
+    void simplifyMesh_t(irr::scene::IMesh *mesh, irr::f32 percentage, std::function<void(irr::scene::IMeshBuffer *buffer, irr::s32 index)> callback,
+                        std::function<void(irr::scene::IMesh *computedMesh)> endCallback);
 
 };
 

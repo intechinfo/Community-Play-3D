@@ -28,8 +28,8 @@
 extern "C" SSWE_LIB_API cp3d::ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
 extern "C" SSWE_LIB_API void updateSSWEDevice(cp3d::ISSWECoreUserInterface *_coreUserInterface);
 #else
-ISSWECoreUserInterface* createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
-void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface);
+cp3d::ISSWECoreUserInterface* createSSWEDevice(bool playOnly = false, irr::core::stringc argPath = "");
+void updateSSWEDevice(cp3d::ISSWECoreUserInterface *_coreUserInterface);
 #endif
 
 #endif

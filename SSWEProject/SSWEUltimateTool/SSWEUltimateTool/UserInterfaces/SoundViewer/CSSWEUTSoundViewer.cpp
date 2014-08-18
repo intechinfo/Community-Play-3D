@@ -23,8 +23,8 @@ CSoundViewer::CSoundViewer(cp3d::core::IDevices *_devices, stringc _workingDirec
 	workingDirectory = _workingDirectory;
 
 	/// Audio manager
+    amgr = 0;
 	amgr = devices->getCoreData()->getAudioManager(0);
-	if (!amgr) exit(0);
 
 	audioElement = 0;
 

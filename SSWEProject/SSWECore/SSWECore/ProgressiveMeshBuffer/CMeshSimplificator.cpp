@@ -47,7 +47,7 @@ void CMeshSimplificator::addSimplifiedMeshBuffer(IMeshBuffer *buffer) {
 	progressiveBuffers.push_back(spb);
 }
 
-void CMeshSimplificator::removeSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer) {
+void CMeshSimplificator::removeSimplifiedMeshBuffer(IMeshBuffer *buffer) {
 	list<SProgressiveBuffer *>::Iterator it = progressiveBuffers.begin();
 	for (; it != progressiveBuffers.end(); ++it) {
 		if ((*it)->meshBuffer == buffer) {
@@ -60,7 +60,7 @@ void CMeshSimplificator::removeSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buf
 	}
 }
 
-void CMeshSimplificator::switchToSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer) {
+void CMeshSimplificator::switchToSimplifiedMeshBuffer(IMeshBuffer *buffer) {
 	std::lock_guard<std::mutex> lck(csswemeshsimplificator);
 	list<SProgressiveBuffer *>::ConstIterator it = progressiveBuffers.begin();
 	for (; it != progressiveBuffers.end(); ++it) {
@@ -71,7 +71,7 @@ void CMeshSimplificator::switchToSimplifiedMeshBuffer(irr::scene::IMeshBuffer *b
 	}
 }
 
-void CMeshSimplificator::switchToOriginalMeshBuffer(irr::scene::IMeshBuffer *buffer) {
+void CMeshSimplificator::switchToOriginalMeshBuffer(IMeshBuffer *buffer) {
 	std::lock_guard<std::mutex> lck(csswemeshsimplificator);
 	list<SProgressiveBuffer *>::ConstIterator it = progressiveBuffers.begin();
 	for (; it != progressiveBuffers.end(); ++it) {
@@ -82,16 +82,22 @@ void CMeshSimplificator::switchToOriginalMeshBuffer(irr::scene::IMeshBuffer *buf
 	}
 }
 
-void CMeshSimplificator::simplifyMeshBuffer(IMeshBuffer *buffer, irr::f32 percentage, std::function<void(irr::scene::IMeshBuffer *buffer)> callback) {
+void CMeshSimplificator::simplifyMeshBuffer(IMeshBuffer *buffer, irr::f32 percentage, std::function<void(IMeshBuffer *buffer)> callback) {
 	std::thread t(&CMeshSimplificator::simplifyMeshBuffer_t, *this, buffer, percentage, callback);
-	//t.join();
+	t.detach();
+}
+
+void CMeshSimplificator::simplifyMesh(IMesh *mesh, f32 percentage, std::function<void(IMeshBuffer *buffer, s32 index)> callback,
+                                      std::function<void(irr::scene::IMesh *computedMesh)> endCallback) {
+    std::thread t(&CMeshSimplificator::simplifyMesh_t, *this, mesh, percentage, callback, endCallback);
+    t.detach();
 }
 
 //---------------------------------------------------------------------------------------------
 //-----------------------------------PRIVATE---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-void CMeshSimplificator::switchMeshBuffers(irr::scene::IMeshBuffer *buffer, irr::scene::IMeshBuffer *source) {
+void CMeshSimplificator::switchMeshBuffers(IMeshBuffer *buffer, IMeshBuffer *source) {
 
 	video::S3DVertex *vertices = (video::S3DVertex *)source->getVertices();
 	video::S3DVertex2TCoords *vertices2tc = (video::S3DVertex2TCoords *)source->getVertices();
@@ -157,7 +163,7 @@ void CMeshSimplificator::switchMeshBuffers(irr::scene::IMeshBuffer *buffer, irr:
 //-----------------------------------THREADS---------------------------------------------------
 //---------------------------------------------------------------------------------------------
 
-void CMeshSimplificator::simplifyMeshBuffer_t(IMeshBuffer *buffer, irr::f32 percentage, std::function<void(irr::scene::IMeshBuffer *buffer)> callback) {
+void CMeshSimplificator::simplifyMeshBuffer_t(IMeshBuffer *buffer, f32 percentage, std::function<void(IMeshBuffer *buffer)> callback) {
 	list<SProgressiveBuffer *>::ConstIterator it = progressiveBuffers.begin();
 	for (; it != progressiveBuffers.end(); ++it) {
 		if ((*it)->meshBuffer == buffer) {
@@ -169,8 +175,24 @@ void CMeshSimplificator::simplifyMeshBuffer_t(IMeshBuffer *buffer, irr::f32 perc
 			(*it)->pmb->contractTillTriangleCount(triangleCount);
 
 			buffer->setDirty();
+            std::lock_guard<std::mutex> lck(csswemeshsimplificator);
 			callback(buffer);
 			break;
 		}
 	}
+}
+
+void CMeshSimplificator::simplifyMesh_t(irr::scene::IMesh *mesh, irr::f32 percentage, std::function<void(IMeshBuffer *buffer, s32 index)> callback,
+                                        std::function<void(irr::scene::IMesh *computedMesh)> endCallback) {
+    if (!mesh)
+        return;
+    
+    for (u32 i=0; i < mesh->getMeshBufferCount(); i++) {
+        simplifyMeshBuffer_t(mesh->getMeshBuffer(i), percentage, [=](IMeshBuffer *buffer){
+            callback(buffer, i);
+            std::chrono::milliseconds dura(300);
+            std::this_thread::sleep_for(dura);
+        });
+    }
+    endCallback(mesh);
 }

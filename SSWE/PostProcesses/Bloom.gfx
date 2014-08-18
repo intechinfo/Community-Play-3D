@@ -1,0 +1,16 @@
+uniform sampler2D source;
+uniform sampler2D bloom;
+
+uniform float bloomLimit;
+
+void main( in float2 t : TEXCOORD0 )
+{
+	vec4 bloomContribution = texture2D(bloom, gl_TexCoord[0].xy);
+
+	vec4 OUT = texture2D(source, gl_TexCoord[0].xy);
+	OUT.r += min(bloomContribution.r, bloomLimit);
+	OUT.g += min(bloomContribution.g, bloomLimit);
+	OUT.b += min(bloomContribution.b, bloomLimit);
+	
+	gl_FragColor = OUT;
+}

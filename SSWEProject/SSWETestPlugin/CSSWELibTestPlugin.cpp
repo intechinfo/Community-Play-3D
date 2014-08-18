@@ -9,12 +9,14 @@
 #include "stdafx.h"
 #include "CSSWELibTestPlugin.h"
 
+#include <DLLExport.h>
+
 using namespace irr;
 using namespace gui;
 using namespace core;
 
 cp3d::core::ISSWELibPlugin* createSSWELibPlugin() {
-	return (cp3d::core::ISSWELibPlugin*)new CSSWELibTestPlugin();
+	return new CSSWELibTestPlugin();
 }
 
 CSSWELibTestPlugin::CSSWELibTestPlugin() {

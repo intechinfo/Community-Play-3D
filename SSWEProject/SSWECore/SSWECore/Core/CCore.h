@@ -127,6 +127,7 @@ public:
 	void fillArrayOfGUIElementsFromArrayOfGUIElements(array<IGUIElement *> *toFill, array<IGUIElement *> source);
 	void maximizeWindow(IGUIWindow *window, rect<s32> minRelativePosition);
 	void centerWindow(IGUIWindow *window, dimension2du screenSize);
+    void centerWindow(IGUIWindow *window, dimension2di screenSize);
 	rect<s32> getScreenCenterRectFromRect(rect<s32> elementRect);
 
 	//VIDEO METHODS

@@ -16,15 +16,16 @@ static pthread_mutex_t cs_mutex =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #ifdef _IRR_WINDOWS_API_
 SSWE_LIB_API cp3d::ISSWECoreUserInterface* SSWELIBCALLCONV createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
 #else
-ISSWECoreUserInterface* createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
+cp3d::ISSWECoreUserInterface* createSSWEDevice(bool playOnly, irr::core::stringc argPath) {
 #endif
-	return (cp3d::ISSWECoreUserInterface*)(new CCoreUserInterface(playOnly, argPath));
+    CCoreUserInterface *coreUserInterface = new CCoreUserInterface(playOnly, argPath);
+	return (cp3d::ISSWECoreUserInterface*)(coreUserInterface);
 }
 
 #ifdef _IRR_WINDOWS_API_
 SSWE_LIB_API void SSWELIBCALLCONV updateSSWEDevice(cp3d::ISSWECoreUserInterface *_coreUserInterface) {
 #else
-void updateSSWEDevice(ISSWECoreUserInterface *_coreUserInterface) {
+void updateSSWEDevice(cp3d::ISSWECoreUserInterface *_coreUserInterface) {
 #endif
 
 	CCoreUserInterface *coreUserInterface = (CCoreUserInterface*)_coreUserInterface;

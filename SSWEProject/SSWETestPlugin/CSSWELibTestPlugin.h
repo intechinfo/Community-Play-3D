@@ -12,9 +12,8 @@
 #include <irrlicht.h>
 
 #include <ISSWELibPlugin.h>
-#include <DLLExport.h>
 
-class CSSWELibTestPlugin : cp3d::core::ISSWELibPlugin {
+class CSSWELibTestPlugin : public cp3d::core::ISSWELibPlugin {
 public:
 
 	CSSWELibTestPlugin();

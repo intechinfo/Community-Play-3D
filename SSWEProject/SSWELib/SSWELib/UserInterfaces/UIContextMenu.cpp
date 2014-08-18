@@ -11,6 +11,8 @@
 
 #include "../CharacterEdition/CUICharacterManager.h"
 
+#include "../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
+
 cp3d::audio::IAudioElement *element;
 
 CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
@@ -43,7 +45,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	#ifndef SSWE_RELEASE
 	pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager_d.dll");
 	#else
-	pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager.dll");
+    pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager.dll");
 	#endif
 
     //-----------------------------------
@@ -405,14 +407,6 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
 
     //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
-
-	//LIGHT SCATTERING
-	/*devices->getRenderCallbacks()->buildLightScattering();
-	for (u32 i=0; i < devices->getCoreData()->getObjectsData()->size(); i++) {
-		devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getObjectsData()->operator[](i).getNode());
-	}
-	devices->getXEffect()->addNodeToDepthPass(devices->getCoreData()->getLightsData()->operator[](0).getLensFlareBillBoardSceneNode());
-	devices->getCoreData()->getLightsData()->operator[](0).getLensFlareSceneNode()->setVisible(false);*/
 	
 	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
 
@@ -429,10 +423,12 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	});
 	nodeFactory->createPlaneMeshSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/kitchen_tile.jpg");
+        node->setMaterialType((E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid());
 	});
 	nodeFactory->createCubeSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg");
 		node->setPosition(vector3df(0.f, 25.f, 0.f));
+        node->setMaterialType((E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid());
 	});
 	#endif
 }
@@ -477,15 +473,23 @@ void CUIContextMenu::playExampleGame() {
 
 	bool isDrawingEffects = devices->isXEffectDrawable();
 	devices->setXEffectDrawable(false);
-
+    
 	CExporter *exporter = new CExporter(devices);
 	exporter->exportScene(stringc(devices->getProjectName() + "_test.world").c_str());
 
-	#ifndef SSWE_RELEASE
-	stringc path = devices->getWorkingDirectory() + "ExampleGame_d.exe -o ";
-	#else
-	stringc path = devices->getWorkingDirectory() + "ExampleGame.exe -o ";
-	#endif
+    #ifdef _IRR_OSX_PLATFORM_
+        #ifdef SSWE_RELEASE
+        stringc path = stringc("\"") + devices->getWorkingDirectory() + "ExampleGame.app/Contents/MacOS/ExampleGame\" -o ";
+        #else
+        stringc path = stringc("\"") + devices->getWorkingDirectory() + "ExampleGame_dbg.app/Contents/MacOS/ExampleGame_dbg\" -o ";
+        #endif
+    #else
+        #ifndef SSWE_RELEASE
+        stringc path = devices->getWorkingDirectory() + "ExampleGame_d.exe -o ";
+        #else
+        stringc path = devices->getWorkingDirectory() + "ExampleGame.exe -o ";
+        #endif
+    #endif
 	path += devices->getProjectName();
 	path += "_test.world";
 	system(path.c_str());

@@ -9,8 +9,6 @@
 #include "stdafx.h"
 #include "CNormalMappingMaterial.h"
 
-#ifndef _IRR_WINDOWS_API
-
 enum E_SHADER_EXTENSION
 {
 	ESE_GLSL=0,
@@ -71,8 +69,8 @@ void CNormalMappingMaterial::rebuildPositions() {
 void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererServices *services, irr::s32 userData) {
     rebuildCallbackParameters();
 
-    f32 baseMap = 0;
-    f32 bumpMap = 1;
+    s32 baseMap = 0;
+    s32 bumpMap = 1;
     services->setPixelShaderConstant(("baseMap"), &baseMap, 1);
     services->setPixelShaderConstant(("bumpMap"), &bumpMap, 1);
 
@@ -95,7 +93,7 @@ void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererService
     services->setVertexShaderConstant(("fvLightPosition"), fvLightPositionArray.pointer(), fvLightPositionArray.size());
     services->setVertexShaderConstant(("fLightStrength"), fLightStrengthArray.pointer(), fLightStrengthArray.size());
 
-    f32 fvAmbiant[4] = { 0.2f, 0.2f, 0.2f, 0.2f };
+    f32 fvAmbiant[4] = { 1.f, 1.f, 1.f, 1.f };
     services->setPixelShaderConstant(("fvAmbient"), fvAmbiant, 4);
     services->setPixelShaderConstant(("fvLightColor"), fvLightColorArray.pointer(), fvLightColorArray.size());
 
@@ -231,10 +229,10 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "    vec4 fvTotalDiffuse = vec4(0.0, 0.0, 0.0, 0.0);\n"
         "    vec4 fvTotalSpecular = vec4(0.0, 0.0, 0.0, 0.0);\n"
         "\n"
-        //"    for (int i=0; i < int(lightsCount); i++) {\n"
-        "         fvTotalDiffuse += fvLightColor[0] * fNDotL[0] * fvBaseColor * LightDistMultiplier[0];\n"
-        "         fvTotalSpecular  += fNDotL[0]*fvLightColor[0] * ( pow( fRDotV[0], fSpecularPower ) )*LightDistMultiplier[0];\n"
-        //"    }\n"
+        "    for (int i=0; i < int(lightsCount); i++) {\n"
+        "         fvTotalDiffuse += fvLightColor[0] * fNDotL[i] * fvBaseColor * LightDistMultiplier[i];\n"
+        "         fvTotalSpecular += fNDotL[i]*fvLightColor[i] * ( pow( fRDotV[i], fSpecularPower ) )*LightDistMultiplier[i];\n"
+        "    }\n"
         "\n"
         "    vec4 color=( fvTotalAmbient + fvTotalDiffuse+ (fvTotalSpecular*fSpecularStrength));\n"
         "    if(color.r>1.0){color.gb+=color.r-1.0;}\n"
@@ -242,7 +240,7 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
         "    if(color.b>1.0){color.rg+=color.b-1.0;}\n"
         "\n"
         "    gl_FragColor = color;\n"
-        "    gl_FragColor = texture2D(baseMap, Texcoord.xy);\n"
+        "    gl_FragColor += texture2D(baseMap, Texcoord.xy);\n"
         "\n"
         "}\n"
         ,
@@ -269,4 +267,4 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
 
 }
 
-#endif
+

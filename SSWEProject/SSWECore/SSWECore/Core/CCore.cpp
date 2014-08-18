@@ -36,6 +36,10 @@ void CCore::centerWindow(IGUIWindow *window, dimension2du screenSize) {
 										  screenSize.Height/2+window->getRelativePosition().getHeight()/2));
 }
 
+void CCore::centerWindow(IGUIWindow *window, dimension2di screenSize) {
+	centerWindow(window, dimension2du(screenSize.Width, screenSize.Height));
+}
+
 rect<s32> CCore::getScreenCenterRectFromRect(rect<s32> elementRect) {
 	dimension2du screenSize = device->getVideoDriver()->getScreenSize();
 	return rect<s32>(screenSize.Width/2-elementRect.getWidth()/2,

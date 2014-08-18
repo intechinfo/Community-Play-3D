@@ -10,6 +10,7 @@
 #include "stdafx.h"
 
 #include "CUIMeshSimplificator.h"
+#include "CMeshFactory.h"
 
 CUIMeshSimplificator::CUIMeshSimplificator(CDevices *_devices) {
 	devices = _devices;
@@ -33,8 +34,9 @@ CUIMeshSimplificator::CUIMeshSimplificator(CDevices *_devices) {
 
 	/// Console
 	ui->console->setEnabled(false);
-	ui->console->setBackgroundColor(SColor(255, 255, 255, 255));
-	ui->console->setOverrideColor(SColor(255, 0, 0, 0));
+    ui->console->setMultiLine(true);
+    ui->console->setOverrideColor(SColor(255, 0, 0, 0));
+    ui->console->setAutoScroll(true);
 	//-----------------------------------
 
 	devices->getEventReceiver()->AddEventReceiver(this, ui->window);
@@ -75,23 +77,29 @@ bool CUIMeshSimplificator::OnEvent(const SEvent &event) {
 					ui->compute->setEnabled(false);
 
 					f32 percentage = devices->getCore()->getF32(ui->percentageEditBox->getText());
-					consoleText = "Computing...\n";
-					for (u32 i=0; i < mesh->getMeshBufferCount(); i++) {
-						devices->getMeshSimplificator()->switchToOriginalMeshBuffer(mesh->getMeshBuffer(i));
-						consoleText += "Computing mesh buffer " + i;
-						consoleText += "\n";
-						devices->getMeshSimplificator()->simplifyMeshBuffer(mesh->getMeshBuffer(i), percentage,
-							[=](IMeshBuffer *buffer) {
-								devices->getMeshSimplificator()->switchToSimplifiedMeshBuffer(buffer);
-								mesh->setDirty();
-								consoleText += "Computed mesh buffer " + i;
-								ui->console->setText(consoleText.c_str());
-								if (buffer == mesh->getMeshBuffer(mesh->getMeshBufferCount()-1))
-									ui->compute->setEnabled(true);
-							}
-						);
-					}
-					ui->console->setText(consoleText.c_str());
+                    
+                    CMeshFactory *meshFactory = new CMeshFactory(devices);
+                    ISceneManager *oldSmgr = devices->getSceneManager();
+                    devices->setSceneManagerToDraw(smgr);
+                    meshFactory->reloadMesh(mesh, smgr->getMeshCache()->getMeshName(mesh));
+                    devices->setSceneManagerToDraw(oldSmgr);
+                    delete meshFactory;
+                    
+                    devices->getMeshSimplificator()->simplifyMesh(mesh, percentage,
+                        [=](IMeshBuffer *buffer, s32 index) {
+                            stringw consoleText = ui->console->getText();
+                            consoleText += "Finished mesh buffer n ";
+                            consoleText += index;
+                            consoleText += "\n";
+                            ui->console->setText(consoleText.c_str());
+                        },
+                        [this](IMesh *computedMesh) {
+                            for (u32 i=0; i < computedMesh->getMeshBufferCount(); i++) {
+                                devices->getMeshSimplificator()->switchToSimplifiedMeshBuffer(computedMesh->getMeshBuffer(i));
+                            }
+                            ui->compute->setEnabled(true);
+                        }
+                    );
 				}
 			}
 		}

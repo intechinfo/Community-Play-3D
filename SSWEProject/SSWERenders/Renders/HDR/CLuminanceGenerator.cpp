@@ -106,7 +106,11 @@ void LuminanceGenerator::LuminanceCallback::OnSetConstants(IMaterialRendererServ
     texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
 
-	services->setPixelShaderConstant("lumOffsets", reinterpret_cast<f32*>(lumOffsets), 8);
+    f32 lumOffsets2[8];
+    for (u32 i=0; i < 4; i++)
+        for (u32 j=0; j < 2; j++)
+            lumOffsets2[i * 2 + j] = lumOffsets[i][j];
+	services->setPixelShaderConstant("lumOffsets", reinterpret_cast<f32*>(&lumOffsets2), 8);
 }
 
 void LuminanceGenerator::LuminanceCallback::UpdateSourceDimensions(const dimension2d<u32>& sourceDims) {
@@ -131,7 +135,11 @@ void LuminanceGenerator::DownsampleCallback::OnSetConstants(IMaterialRendererSer
     texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
 
-	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(dsOffsets), 18);
+    f32 dsOffsets2[18];
+    for (u32 i=0; i < 9; i++)
+        for (u32 j=0; j < 2; j++)
+            dsOffsets2[i * 2 + j] = dsOffsets[i][j];
+	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets2), 18);
 	services->setPixelShaderConstant("halfDestPixelSize", &halfDestPixelSize, 1);
 }
 

@@ -76,7 +76,7 @@ irr::s32 CAnimationController::getCurrentAnimationIndiceOf(irr::scene::ISceneNod
 
 void CAnimationController::setCustomCallback(irr::scene::ISceneNode *node, std::function<void(irr::scene::IAnimatedMeshSceneNode *node)> callback) {
 	SObjectsData *sdatat = (SObjectsData*)devices->getCoreData()->getISDataOfSceneNode(node);
-	if (sdatat) {
+	if (sdatat && sdatat->getType() == ESNT_ANIMATED_MESH) {
 		((IAnimatedMeshSceneNode*)sdatat->getNode())->setAnimationEndCallback(new CCustomAnimationCallback(callback));
 	}
 }

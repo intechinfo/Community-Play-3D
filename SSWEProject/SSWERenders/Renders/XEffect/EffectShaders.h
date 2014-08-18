@@ -47,13 +47,14 @@ const char* SHADOW_PASS_1P[ESE_COUNT] = {"void main() "
 "}"};
 
 const char* SHADOW_PASS_1P_2T[ESE_COUNT] = {
-"uniform float maxSSAODepthPass\n"
+"uniform float maxSSAODepthPass;\n"
 "void main() "
 "{"
 "	vec4 vInfo = gl_TexCoord[0];\n"
 "	float depth = vInfo.z / vInfo.x;\n"
+"	float ssaoDepth = vInfo.z / maxSSAODepthPass;\n"
 "   gl_FragData[0] = vec4(depth, depth * depth, 0.0, 0.0);\n"
-"	gl_FragData[1] = vec4(depth, depth * depth, 0.0, 0.0);\n"
+"	gl_FragData[1] = vec4(ssaoDepth, ssaoDepth * ssaoDepth, 0.0, 0.0);\n"
 "}"
 ,
 "struct PixelOutput {\n"

@@ -37,10 +37,15 @@ BrightPassPostProcess::BrightPassPostProcess() : brightThreshold(0.8f)
 }
 
 void BrightPassPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+    f32 dsOffsets2[8];
+    for (u32 i=0; i < 4; i++)
+        for (u32 j=0; j < 2; j++)
+            dsOffsets2[i * 2 + j] = dsOffsets[i][j];
+    
     irr::s32 texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("brightThreshold", &brightThreshold, 1);
-	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(dsOffsets), 8);
+	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets2), 8);
 }
 
 void BrightPassPostProcess::Render(ITexture* __restrict source, ITexture* __restrict output) {

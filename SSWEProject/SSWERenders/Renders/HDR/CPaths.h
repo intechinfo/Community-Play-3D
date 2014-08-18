@@ -7,6 +7,7 @@ using namespace io;
 //Post processes
 namespace Paths {
 namespace PostProcesses {
+    
     #ifdef _IRR_WINDOWS_API_
 	const path PostProcessDir("PostProcesses\\");
 	#else

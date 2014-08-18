@@ -32,6 +32,8 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
         params.Bits=32;
     #ifdef _IRR_OSX_PLATFORM_
         params.Fullscreen = false;
+        if (playOnly)
+            params.WindowSize = dimension2d<u32>(1280, 800);
     #else
 		if (!playOnly) {
 			params.Fullscreen = false;
@@ -138,6 +140,7 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 		devices->getEventReceiver()->AddEventReceiver(rightSceneTreeViewInstance);
 		devices->getEventReceiver()->AddEventReceiver(windowsManagerInstance);
 	}
+    
 }
 
 CCoreUserInterface::~CCoreUserInterface() {

@@ -341,9 +341,8 @@ void CImporter::buildLight() {
 		ldata.setLensFlareSceneNode(lfNode);
 	}
 
-	#ifndef _IRR_WINDOWS_API_
-    devices->getNormalMappingMaterial()->addLight(node);
-	#endif
+	if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL)
+        devices->getNormalMappingMaterial()->addLight(node);
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);

@@ -5,10 +5,15 @@
 
 #pragma once
 
+#ifdef _IRR_WINDOW_API_
 #include "targetver.h"
+#endif
 
 #include <stdio.h>
+
+#ifdef _IRR_WINDOWS_API_
 #include <tchar.h>
+#endif
 
 #include <irrlicht.h>
 #include <SSWELib.h>

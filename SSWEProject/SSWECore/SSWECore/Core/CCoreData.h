@@ -41,7 +41,11 @@
 
 #include "CCorePhysics.h"
 
-class cp3d::core::ISSWELibPlugin;
+namespace cp3d {
+    namespace core {
+        class ISSWELibPlugin;
+    }
+}
 
 //---------------------------------------------------------------------------------------------
 //-----------------------------------HERITANCES------------------------------------------------

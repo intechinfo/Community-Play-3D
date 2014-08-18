@@ -298,6 +298,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			editMaterialWindow->addChild(codeEditor->getWindow());
 			codeEditor->setAutoSave(true);
 			codeEditor->setAlwaysBringToFront(true);
+            devices->getCore()->centerWindow((IGUIWindow*)codeEditor->getWindow(), editMaterialWindow->getRelativePosition().getSize());
 		}
 
 		if (element == pLoadFromFile) {
@@ -309,6 +310,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			editMaterialWindow->addChild(codeEditor->getWindow());
 			codeEditor->setAutoSave(true);
 			codeEditor->setAlwaysBringToFront(true);
+            devices->getCore()->centerWindow((IGUIWindow*)codeEditor->getWindow(), editMaterialWindow->getRelativePosition().getSize());
 		}
 
 		if (element == cLoadFromFile) {
@@ -320,6 +322,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 			editMaterialWindow->addChild(codeEditor->getWindow());
 			codeEditor->setAutoSave(true);
 			codeEditor->setAlwaysBringToFront(true);
+            devices->getCore()->centerWindow((IGUIWindow*)codeEditor->getWindow(), editMaterialWindow->getRelativePosition().getSize());
 		}
             
 		if (element == buildMaterial) {
