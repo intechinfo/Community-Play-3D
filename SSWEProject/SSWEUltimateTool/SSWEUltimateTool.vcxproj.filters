@@ -25,6 +25,9 @@
     <Filter Include="SSWEUltimateTools\UserInterfaces\SoundViewer">
       <UniqueIdentifier>{7bee6be8-70cd-4270-b012-91a34f1e2f7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWEUltimateTools\Utils">
+      <UniqueIdentifier>{3afb59fe-561d-4853-9a2a-6a1979a057ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -45,6 +48,9 @@
     <ClInclude Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CGUISpectrum.h">
       <Filter>SSWEUltimateTools\UserInterfaces\SoundViewer</Filter>
     </ClInclude>
+    <ClInclude Include="SSWEUltimateTool\Utils\CSSWEUTMeshSplitter.h">
+      <Filter>SSWEUltimateTools\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -61,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="SSWEUltimateTool\UserInterfaces\SoundViewer\CGUISpectrum.cpp">
       <Filter>SSWEUltimateTools\UserInterfaces\SoundViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWEUltimateTool\Utils\CSSWEUTMeshSplitter.cpp">
+      <Filter>SSWEUltimateTools\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

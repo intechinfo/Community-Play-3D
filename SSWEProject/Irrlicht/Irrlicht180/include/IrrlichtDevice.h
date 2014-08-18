@@ -142,6 +142,9 @@ namespace irr
 		call or upon device destruction. */
 		virtual void setRandomizer(IRandomizer* r) =0;
 
+		//! presents a surface in the client area
+		virtual bool present(video::IImage* surface, void* windowId=0, core::rect<s32>* src=0) = 0;
+
 		//! Creates a new default randomizer.
 		/** The default randomizer provides the random sequence known from previous
 		Irrlicht versions and is the initial randomizer set on device creation.

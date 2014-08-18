@@ -156,6 +156,7 @@
     <ClCompile Include="CImporterTests.cpp" />
     <ClCompile Include="SSWECore\CCoreDataTests.cpp" />
     <ClCompile Include="SSWECore\CCoreTests.cpp" />
+    <ClCompile Include="SSWEMesh\CSSWEMeshTests.cpp" />
     <ClCompile Include="SSWEScripts\CScriptingTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -362,6 +362,15 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
 				//devices->getEventReceiver()->RemoveMinimizedWindow(this);
 			}
 		}
+
+		if (event.UserEvent.UserData1 == ECUE_NODE_REMOVED) {
+			if ((ISceneNode*)event.UserEvent.UserData2 == nodeToEdit) {
+				editWindow->remove();
+				devices->getEventReceiver()->RemoveEventReceiver(this);
+				delete this;
+				return true;
+			}
+		}
 	}
 
 	if (event.EventType == EET_GUI_EVENT) {
@@ -554,9 +563,15 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                         }
                         devices->getVideoDriver()->addOcclusionQuery(meshNode, meshNode->getMesh());
                         
-                        devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+                        devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, meshNode);
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, bill);
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, lensFlareNode);
 
                     } else {
+						ISceneNode *bill = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode();
+						ISceneNode *mesh = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode();
+						ISceneNode *lensNode = devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode();
+
                         devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareBillBoardSceneNode());
                         devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareMeshSceneNode());
                         devices->getXEffect()->removeShadowFromNode(devices->getCoreData()->getLightsData()->operator[](index).getLensFlareSceneNode());
@@ -578,7 +593,9 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                             (*element)->setEnabled(false);
                         }
                         
-                        devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+                        devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, bill);
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, mesh);
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, lensNode);
                     }
                 }
             }

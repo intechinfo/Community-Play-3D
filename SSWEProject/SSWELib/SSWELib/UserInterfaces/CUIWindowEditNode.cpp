@@ -438,6 +438,24 @@ void CUIWindowEditNode::open(ISceneNode *node, stringw prefix) {
 			}
 		}
 
+		updateNormalsWhenAnimating = devices->getGUIEnvironment()->addCheckBox(false, rect<s32>(19, 106, 409, 126), animatedTab, -1,
+			L"Update normals when animated");
+
+		devices->getGUIEnvironment()->addStaticText(L"Interpolation Mode :", rect<s32>(19, 136, 149, 156), true, true, animatedTab, -1, true);
+		interpolationMode = devices->getGUIEnvironment()->addComboBox(rect<s32>(149, 136, 409, 156), animatedTab, -1);
+		interpolationMode->addItem(L"CONSTANT");
+		interpolationMode->addItem(L"LINEAR");
+
+		if (nodeToEdit->getType() == ESNT_ANIMATED_MESH && ((IAnimatedMeshSceneNode*)nodeToEdit)->getMesh()->getMeshType() == EAMT_SKINNED) {
+			ISkinnedMesh *mesh = (ISkinnedMesh*)((IAnimatedMeshSceneNode*)nodeToEdit)->getMesh();
+			updateNormalsWhenAnimating->setChecked(mesh->isUpdatingNormalsWhenAnimating());
+
+			interpolationMode->setSelected((s32)mesh->getInterpolationMode());
+		} else {
+			updateNormalsWhenAnimating->setEnabled(false);
+			interpolationMode->setEnabled(false);
+		}
+
 		if (nodeToEdit->getType() != ESNT_ANIMATED_MESH) {
 			core::list<IGUIElement *>::ConstIterator animatedElements = animatedTab->getChildren().begin();
 			for (; animatedElements != animatedTab->getChildren().end(); ++animatedElements) {
@@ -845,6 +863,16 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
             }
         }
     }
+
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_NODE_REMOVED) {
+			if ((ISceneNode*)event.UserEvent.UserData2 == nodeToEdit) {
+                editWindow->remove();
+                devices->getEventReceiver()->RemoveEventReceiver(this);
+                delete this;
+			}
+		}
+	}
     
     if (event.EventType == EET_GUI_EVENT) {
         
@@ -1306,6 +1334,13 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
 					animatedNode->setFrameLoop(0, 0);
 				}
 			}
+
+			if (event.GUIEvent.Caller == updateNormalsWhenAnimating) {
+				IAnimatedMeshSceneNode *animatedNode = (IAnimatedMeshSceneNode*)nodeToEdit;
+				if (animatedNode->getMesh()->getMeshType() == EAMT_SKINNED) {
+					((ISkinnedMesh*)animatedNode->getMesh())->updateNormalsWhenAnimating(updateNormalsWhenAnimating->isChecked());
+				}
+			}
             
             //GLOBAL FILTERS
             if (event.GUIEvent.Caller == gAnisotropicFilter) {
@@ -1473,18 +1508,22 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                         break;
                 }
             }
+
+			/// ANIMATED
 			if (event.GUIEvent.Caller == chooseSavedAnimation) {
 				if (drawAnimations->isChecked()) {
 					IAnimatedMeshSceneNode *animatedNode = (IAnimatedMeshSceneNode *)nodeToEdit;
 					u32 i = devices->getCoreData()->getObjectNodeIndice(nodeToEdit);
 					if (i != -1) {
-						/*animatedNode->setFrameLoop(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getStart(),
-												   devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getEnd());
-						animatedNode->setAnimationSpeed(devices->getCoreData()->getObjectsData()->operator[](i).getActions()->operator[](chooseSavedAnimation->getSelected())->getAnimSpeed());*/
 						devices->getAnimationController()->applyAnimationToModel(animatedNode, chooseSavedAnimation->getSelected());
 					}
 				}
 			}
+			if (event.GUIEvent.Caller == interpolationMode) {
+				ISkinnedMesh *mesh = (ISkinnedMesh*)((IAnimatedMeshSceneNode*)nodeToEdit)->getMesh();
+				mesh->setInterpolationMode((E_INTERPOLATION_MODE)interpolationMode->getSelected());
+			}
+
 			//PHYSICS
 			if (event.GUIEvent.Caller == pBodyType) {
 				pMasseb->setEnabled(true);

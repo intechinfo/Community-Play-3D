@@ -145,6 +145,7 @@ public:
 	virtual void destroySSWEPlugin(ISSWELibPlugin *plugin) = 0;
 
 	virtual cp3d::audio::IAudioManager *getAudioManager(irr::s32 index) = 0;
+	virtual irr::u32 getAudioManagerCount() = 0;
 	//-----------------------------------
     
 };

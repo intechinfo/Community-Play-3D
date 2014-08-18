@@ -291,7 +291,7 @@ bool CUICharacterManager::OnEvent(const SEvent &event) {
 					devices->getEventReceiver()->RemoveEventReceiver(this);
 					devices->setRenderScene(true);
 					delete this;
-					return false;
+					return true;
                     break;
 
 				case CXT_CHARACTER_MANAGER_MENU_SAVE:

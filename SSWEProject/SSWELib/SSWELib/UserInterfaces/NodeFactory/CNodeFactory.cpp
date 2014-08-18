@@ -31,7 +31,7 @@ ISceneNode *CNodeFactory::createCubeSceneNode(std::function<void(irr::scene::ISc
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(cube);
 
-	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, cube);
 
 	callback(cube);
 
@@ -47,7 +47,7 @@ ISceneNode *CNodeFactory::createSphereSceneNode(std::function<void(irr::scene::I
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(sphere);
 
-	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, sphere);
 
 	callback(sphere);
 
@@ -66,7 +66,7 @@ ISceneNode *CNodeFactory::createPlaneMeshSceneNode(std::function<void(irr::scene
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
 
-	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, planeNode);
 
 	callback(planeNode);
 
@@ -81,7 +81,7 @@ ISceneNode *CNodeFactory::createBillBoardSceneNode(std::function<void(irr::scene
 	SObjectsData odata(0, billboard, "billboard");
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 
-	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, billboard);
 
 	callback(billboard);
 
@@ -102,7 +102,7 @@ ISceneNode *CNodeFactory::createLightSceneNode(std::function<void(irr::scene::IS
 	if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL)
         devices->getNormalMappingMaterial()->addLight(light);
 
-	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, light);
 
 	callback(light);
 

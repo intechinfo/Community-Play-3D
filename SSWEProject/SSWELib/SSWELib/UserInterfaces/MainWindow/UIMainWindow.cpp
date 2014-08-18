@@ -379,7 +379,7 @@ void CUIMainWindow::cloneNode() {
 		if (!clonednode) {
 			devices->addErrorDialog(L"Error", L"Error when cloned the selected node", EMBF_OK);
 		} else {
-			devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+			devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, clonednode);
 			if (devices->getXEffect()->isNodeShadowed(getSelectedNode().getNode(), devices->getXEffectFilterType(), ESM_BOTH)) {
 				devices->getXEffect()->addShadowToNode(clonednode, devices->getXEffectFilterType(), ESM_BOTH);
             }
@@ -862,6 +862,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_OCTTREE:
                 if (terrainsListBox->getSelected() != -1) {
+					ISceneNode *node = getSelectedNode().getNode();
                     devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
@@ -873,7 +874,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     terrainsListBox->removeItem(terrainsListBox->getSelected());
 
-					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, node);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -887,6 +888,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_TREE:
                 if (treesListBox->getSelected() != -1) {
+					ISceneNode *node = getSelectedNode().getNode();
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
@@ -898,7 +900,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     treesListBox->removeItem(treesListBox->getSelected());
 
-					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, node);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -912,6 +914,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_OBJECT:
                 if (objectsListBox->getSelected() != -1) {
+					ISceneNode *node = getSelectedNode().getNode();
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
@@ -923,7 +926,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     devices->getObjectPlacement()->setNodeToPlace(0);
                     objectsListBox->removeItem(objectsListBox->getSelected());
 
-					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, node);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -937,6 +940,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_LIGHT:
                 if (lightsListBox->getSelected() != -1) {
+					ISceneNode *node = getSelectedNode().getNode();
                     devices->getXEffect()->removeShadowLight(lightsListBox->getSelected());
                     light_icon->setParent(devices->getSceneManager()->getRootSceneNode());
 
@@ -954,7 +958,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     lightsListBox->removeItem(lightsListBox->getSelected());
                     lightsListBox->setSelected(-1);
 
-					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, node);
                 } else {
                     devices->addInformationDialog(L"Error", L"Please select an item before", EMBF_OK);
                 }
@@ -968,6 +972,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                 
             case CXT_MAIN_WINDOW_EVENTS_DELETE_VOLUME_LIGHT:
                 if (volumeLightsListBox->getSelected() != -1) {
+					ISceneNode *node = getSelectedNode().getNode();
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
@@ -979,7 +984,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
                     volumeLightsListBox->removeItem(lightsListBox->getSelected());
                     volumeLightsListBox->setSelected(-1);
 
-					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, node);
                 } else {
                     devices->addInformationDialog(L"Information",
                                                   L"Please select a node before...", EMBF_OK);
@@ -995,6 +1000,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 				if(waterSurfacesListBox->getSelected() != -1) {
 					u32 waterSurfaceId = waterSurfacesListBox->getSelected();
 
+					ISceneNode *node = getSelectedNode().getNode();
 					devices->getXEffect()->removeShadowFromNode(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromDepthPass(getSelectedNode().getNode());
 					devices->getXEffect()->removeNodeFromLightScatteringPass(getSelectedNode().getNode());
@@ -1005,7 +1011,7 @@ bool CUIMainWindow::OnEvent(const SEvent &event) {
 					devices->getCoreData()->getWaterSurfaces()->operator[](waterSurfaceId).getWaterSurface()->remove();
 					devices->getCoreData()->getWaterSurfaces()->erase(waterSurfaceId);
 
-					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, node);
                 }
                 else
                 {

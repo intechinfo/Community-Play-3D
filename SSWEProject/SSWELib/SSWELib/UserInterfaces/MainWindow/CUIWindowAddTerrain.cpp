@@ -413,7 +413,7 @@ bool CUIWindowAddOctTree::OnEvent(const SEvent &event) {
 						addOctTreeWindow = 0;
 						devices->getEventReceiver()->RemoveEventReceiver(this);
 
-						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, octTreeNode);
                     } else {
                         devices->addWarningDialog(L"Warning", 
                                                   L"Error when loading the selected mesh \n\n"

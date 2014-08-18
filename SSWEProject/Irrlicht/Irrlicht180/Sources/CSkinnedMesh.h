@@ -101,8 +101,19 @@ namespace scene
 		//! True = Update normals, slower
 		virtual void updateNormalsWhenAnimating(bool on);
 
+		virtual bool isUpdatingNormalsWhenAnimating()
+		{
+			return AnimateNormals;
+		}
+
 		//! Sets Interpolation Mode
 		virtual void setInterpolationMode(E_INTERPOLATION_MODE mode);
+
+		//! Returns the Interpolation Mode
+		virtual E_INTERPOLATION_MODE getInterpolationMode()
+		{
+			return InterpolationMode;
+		}
 
 		//! Convertes the mesh to contain tangent information
 		virtual void convertMeshToTangents();

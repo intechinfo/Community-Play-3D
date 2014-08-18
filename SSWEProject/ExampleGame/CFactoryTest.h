@@ -13,10 +13,12 @@ public:
 		lastTime = 0;
 
 		irr::scene::IAnimatedMeshSceneNode *terro = (irr::scene::IAnimatedMeshSceneNode*)devices->getSceneManager()->getSceneNodeFromName("#object:terrorist");
+		((irr::scene::ISkinnedMesh*)terro->getMesh())->updateNormalsWhenAnimating(true);
 		devices->getAnimationController()->applyAnimationFromNameToModel(terro, "KILLED");
 		terro->setLoopMode(true);
 
 		node = (irr::scene::IAnimatedMeshSceneNode*)devices->getSceneManager()->getSceneNodeFromName("#object:chief");
+		((irr::scene::ISkinnedMesh*)node->getMesh())->updateNormalsWhenAnimating(true);
 		devices->getAnimationController()->applyAnimationFromNameToModel(node, "KILL");
 		node->setLoopMode(true);
 
@@ -32,7 +34,7 @@ public:
 		anim->drop();
 		camera->setFarValue(1000.f);
 
-		devices->getDevice()->getTimer()->setSpeed(0.03f);
+		devices->getDevice()->getTimer()->setSpeed(0.3f);
 		devices->getEventReceiver()->AddEventReceiver(this, 0, this);
 	}
 	~CFactoryTest() { }

@@ -23,6 +23,8 @@ namespace irr {
 			void setRenderScreenQuad(bool render) { renderScreenQuad = render; }
 			void setScreenQuad(CScreenQuad *quad) { ScreenQuadPtr = quad; }
 
+			bool isRenderingScreenQuad() { return renderScreenQuad; }
+
             scene::ISceneManager* getSceneManager() const;
 
             void setOverrideColor(video::SColor color);

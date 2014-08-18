@@ -167,10 +167,11 @@ public:
 
 	//--------------------------
 	//MULTIPLE EVENTS MANAGER
-	void sendUserEvent(E_CORE_USER_EVENTS event) {
+	void sendUserEvent(E_CORE_USER_EVENTS event, void *data = 0) {
 		SEvent ev;
 		ev.EventType = EET_USER_EVENT;
 		ev.UserEvent.UserData1 = event;
+		ev.UserEvent.UserData2 = (s32)data;
 		OnEvent(ev);
 	}
 
@@ -194,6 +195,7 @@ public:
 				}
 			}
         }
+
         return false;
     }
 

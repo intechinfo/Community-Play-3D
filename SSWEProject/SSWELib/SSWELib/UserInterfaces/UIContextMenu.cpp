@@ -110,13 +110,16 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 
 	//ANIMATORS
     submenu = menu->getSubMenu(i);
-	submenu->addItem(L"Automatic Animated Models Window Edition (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
+	submenu->addItem(L"Automatic Animated Models (CTRL+SHIFT+A)", CXT_MENU_EVENTS_ANIMATED_MODELS_WINDOW_EDITION);
 	submenu->addItem(L"Manual Animation", CXT_MENU_EVENTS_SIMPLE_EDITION);
 	submenu->addSeparator();
-	submenu->addItem(L"Scenario Maker...", CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER);
-	submenu->addSeparator();
 	submenu->addItem(L"Add Animator...", -1, true, true, false, false);
-	submenu = submenu->getSubMenu(3);
+	IGUIContextMenu *animatorsMenu = submenu->getSubMenu(3);
+	animatorsMenu->addItem(L"Fly Straight Animator...", CXT_MENU_EVENTS_ANIMATOR_CREATE_FLY_STRAGHT);
+	animatorsMenu->addItem(L"Fly Circle Animator...", CXT_MENU_EVENTS_ANIMATOR_CREATE_FLY_CIRCLE);
+	animatorsMenu->addItem(L"Follow Spline Animator...", CXT_MENU_EVENTS_ANIMATOR_CREATE_FOLLOW_SPLINE);
+	submenu->addSeparator();
+	submenu->addItem(L"Scenario Maker...", CXT_MENU_EVENTS_ANIMATOR_SCENARIO_MAKER);
 	i++;
 
 	//RENDERS
@@ -339,9 +342,9 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"Test.world";
+			stringw scene_to_import = L"LVolumeLightTest.world";
 			CImporter *impoterInstance = new CImporter(devices);
-			//impoterInstance->importScene(scene_to_import.c_str());
+			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
 			//std::thread importer_t(&CImporter::import_t, *impoterInstance);
 			//importer_t.detach();
@@ -417,18 +420,16 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//CUIAnimatedMeshFactory *mfactory = new CUIAnimatedMeshFactory(devices);
 
 	#ifdef SSWE_RELEASE
-	nodeFactory->createLightSceneNode([](ISceneNode *node){
+	nodeFactory->createLightSceneNode([=](ISceneNode *node){
 		node->setPosition(vector3df(-141.f, 200.f, -127.f));
 		node->setRotation(vector3df(50.f, 46.f, 0.f));
 	});
 	nodeFactory->createPlaneMeshSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/kitchen_tile.jpg");
-        node->setMaterialType((E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid());
 	});
 	nodeFactory->createCubeSceneNode([this](ISceneNode *node){
 		node->getMaterial(0).TextureLayer[0].Texture = devices->getVideoDriver()->getTexture("data/Lights/tech_texture.jpg");
 		node->setPosition(vector3df(0.f, 25.f, 0.f));
-        node->setMaterialType((E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid());
 	});
 	#endif
 }
@@ -465,6 +466,20 @@ void CUIContextMenu::update() {
 	postProcessesMenu->setItemChecked(postProcessesMenu->findItemWithCommandId(CXT_MENU_EVENTS_ALLOW_REFLECTION_PASS, 0), devices->getXEffect()->isReflectionPassEnabled());
 	postProcessesMenu->setItemChecked(postProcessesMenu->findItemWithCommandId(CXT_MENU_EVENTS_ALLOW_LIGHT_SCATTERING_PASS, 0), devices->getXEffect()->isLightScatteringPassEnabled());
 	postProcessesMenu->setItemChecked(postProcessesMenu->findItemWithCommandId(CXT_MENU_EVENTS_ALLOW_NORMAL_PASS, 0), devices->getXEffect()->isUsingNormalPass());
+
+	if (devices->getGUIEnvironment()->getFocus() == devices->getGUIEnvironment()->getRootGUIElement()) {
+		devices->getGUIEnvironment()->setFocus(0);
+	}
+	if (devices->getGUIEnvironment()->getFocus() != 0) {
+		devices->setRenderScene(false);
+		if (devices->getGUIEnvironment()->getFocus()->getType() == EGUIET_MESH_VIEWER) {
+			CGUIViewport *viewPort = (CGUIViewport*)devices->getGUIEnvironment()->getFocus();
+			if (viewPort->isRenderingScreenQuad())
+				devices->setRenderScene(true);
+		}
+	} else {
+		devices->setRenderScene(true);
+	}
 }
 
 void CUIContextMenu::playExampleGame() {
@@ -496,6 +511,8 @@ void CUIContextMenu::playExampleGame() {
 
 	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(currentPath);
 	devices->setXEffectDrawable(isDrawingEffects);
+
+	devices->getXEffect()->setAllShadowLightsRecalculate();
 }
 
 bool CUIContextMenu::OnEvent(const SEvent &event) {
@@ -529,6 +546,12 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 				}
 			}
 			devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(oldPath.c_str());
+		}
+	}
+
+	if (event.EventType == EET_USER_EVENT) {
+		if (event.UserEvent.UserData1 == ECUE_NODE_REMOVED || event.UserEvent.UserData1 == ECUE_NODE_ADDED) {
+			devices->getXEffect()->setAllShadowLightsRecalculate();
 		}
 	}
 

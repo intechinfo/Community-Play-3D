@@ -22,6 +22,9 @@
     <Filter Include="Fichiers sources\SSWEScripts">
       <UniqueIdentifier>{7060c1a4-2875-46fb-b335-d5b7c98f220a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\SSWEMesh">
+      <UniqueIdentifier>{c69967d4-1bd3-47b3-89a9-7d974c6529f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -46,6 +49,9 @@
     </ClCompile>
     <ClCompile Include="SSWEScripts\CScriptingTests.cpp">
       <Filter>Fichiers sources\SSWEScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWEMesh\CSSWEMeshTests.cpp">
+      <Filter>Fichiers sources\SSWEMesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

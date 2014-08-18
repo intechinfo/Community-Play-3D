@@ -184,6 +184,8 @@ private:
 	IGUIButton *browseSavedAnimations;
 	IGUIComboBox *chooseSavedAnimation;
 	IGUIFileOpenDialog *browseSavedAnimationDialog;
+	IGUICheckBox *updateNormalsWhenAnimating;
+	IGUIComboBox *interpolationMode;
 
     //-----------------------------------
     

@@ -83,7 +83,7 @@ bool CUIWindowAddObject::OnEvent(const SEvent &event) {
                         
                         addObjectWindow->remove();
 
-						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, objectNode);
                     } else {
                         devices->addWarningDialog(L"Warning", 
                                                   L"Error when loading the selected mesh \n"

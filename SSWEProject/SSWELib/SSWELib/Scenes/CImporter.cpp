@@ -728,8 +728,9 @@ void CImporter::readMaterials(ISceneNode *_node) {
 				if (ioTexturePath == "._normal_mapped") {
 					stringc originalTexture = stringc(xmlReader->getAttributeValue("path")).remove("._normal_mapped");
 					CMaterialEditorFactory *materialEditor = new CMaterialEditorFactory(devices);
-					//ITexture *tex = materialEditor->setTextureNormalMapped(texturePath, devices->getVideoDriver()->getTexture(originalTexture));
-					//_node->getMaterial(id).TextureLayer[i].Texture = tex;
+					ITexture *tex = materialEditor->setTextureNormalMapped(texturePath, devices->getVideoDriver()->getTexture(originalTexture));
+					_node->getMaterial(id).TextureLayer[i].Texture = tex;
+					delete materialEditor;
 				} else {
 					ITexture *tex = devices->getVideoDriver()->getTexture(stringc(xmlReader->getAttributeValue("path")).c_str());
 					_node->getMaterial(id).TextureLayer[i].Texture = tex;
@@ -788,7 +789,7 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		//MATERIAL TYPE
 		read("materianType");
 		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
-		if (matS32 == (s32)EMT_NORMAL_MAP_SOLID)
+		if (matS32 == (s32)EMT_NORMAL_MAP_SOLID && devices->getVideoDriver()->getDriverType() == EDT_OPENGL)
             _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid();
 		else
             _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;
@@ -1030,7 +1031,7 @@ void CImporter::newImportScene(stringc file_path) {
 	if (!devices->isOnlyForPlaying())
 		process->setHasFinished(true);
 
-	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+	devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, 0);
 }
 
 //---------------------------------------------------------------------------------------------

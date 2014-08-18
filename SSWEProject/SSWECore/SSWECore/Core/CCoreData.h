@@ -1083,6 +1083,7 @@ public:
     void destroySSWEPlugin(cp3d::core::ISSWELibPlugin *plugin);
 
 	cp3d::audio::IAudioManager *getAudioManager(irr::s32 index) { return audioPlugins[index].getAudioManager(); }
+	irr::u32 getAudioManagerCount() { return audioPlugins.size(); }
 	//-----------------------------------
 
 private:

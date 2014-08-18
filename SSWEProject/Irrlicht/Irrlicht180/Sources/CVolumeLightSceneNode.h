@@ -67,6 +67,14 @@ namespace scene
 		virtual video::SColor getFootColor() const { return FootColor; }
 		virtual video::SColor getTailColor() const { return TailColor; }
 
+		IMeshBuffer *getMeshBuffer() const
+		{
+			if (Mesh->getMeshBufferCount() == 1)
+				return Mesh->getMeshBuffer(0);
+			else
+				return 0;
+		}
+
 	private:
 		void constructLight();
 

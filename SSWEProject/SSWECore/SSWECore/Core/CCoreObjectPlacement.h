@@ -2,7 +2,7 @@
 //  CCoreObjectPlacement.h
 //  MacOSX
 //
-//  Created by Julien Moreau-Mathis on 05/10/12.
+//  Created by Arthur Caron on 05/10/12.
 //
 //
 

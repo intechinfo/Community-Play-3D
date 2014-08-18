@@ -397,7 +397,7 @@ bool CUIRightSceneTreeView::OnEvent(const SEvent &event) {
 								data = devices->getCoreData()->getISDataOfSceneNode((ISceneNode*)sceneView->getSelected()->getParent()->getParent()->getData());
 								data->removeClonedNode((ISceneNode *)sceneView->getSelected()->getData());
 							}
-                            devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED);
+							devices->getEventReceiver()->sendUserEvent(ECUE_NODE_REMOVED, sceneView->getSelected()->getData());
                         } else {
                             devices->addInformationDialog(L"Informations", L"Node not found", EMBF_OK, 0);
                         }

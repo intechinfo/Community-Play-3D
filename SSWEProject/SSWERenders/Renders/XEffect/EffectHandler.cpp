@@ -413,9 +413,8 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 						for(u32 m = 0;m < CurrentMaterialCount;++m) {
 							BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
-							ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)
-								(BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF
-															? DepthT : Depth);
+							ShadowNodeArray[i].node->getMaterial(m).MaterialType =
+								(E_MATERIAL_TYPE) (BufferMaterialList[m] == video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF ? DepthT : Depth);
 						}
 
 						if (ShadowNodeArray[i].node->getParent() == activeCam)
@@ -651,12 +650,12 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 		//Set position
 		core::vector3df position = currentCamera->getAbsolutePosition();
-		position.Y = -position.Y + 2 * position.Y; //position of the plan
+		position.Y = -position.Y + 2 * 1.0; //position of the plan
 		cameraForPasses->setPosition(position);
-
+		
 		//Set target
 		core::vector3df target = currentCamera->getTarget();
-		target.Y = -target.Y + 2 * position.Y;
+		target.Y = -target.Y + 2 * 1.0;
 		cameraForPasses->setTarget(target);
 
 		smgr->setActiveCamera(cameraForPasses);

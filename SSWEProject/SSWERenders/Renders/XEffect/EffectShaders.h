@@ -693,9 +693,9 @@ const char *DEPTH_OF_FIELD_P[ESE_COUNT] = {
 "    gl_FragColor = mix(sharp, blur, factor);\n"
 "}\n"
 ,
-"uniform sampler2D SceneBuffer : register(s1);\n"
-"uniform sampler2D BlurBuffer : register(s0);\n"
-"uniform sampler2D DistanceBuffer : register(s2);\n"
+"sampler2D SceneBuffer : register(s1);\n"
+"sampler2D BlurBuffer : register(s0);\n"
+"sampler2D DistanceBuffer : register(s2);\n"
 "\n"
 "float getDepth(float2 coords) {\n"
 "	float4 texDepth = tex2D(DistanceBuffer, coords);\n"
@@ -723,7 +723,8 @@ const char *DEPTH_OF_FIELD_P[ESE_COUNT] = {
 };
 
 const char *NORMAL_PASS_V[ESE_COUNT] = {
-"",
+""
+,
 "float4x4 cWorldViewProj;\n"
 "float4x4 cWorldView;\n"
 "\n"
@@ -759,7 +760,8 @@ const char *NORMAL_PASS_V[ESE_COUNT] = {
 };
 
 const char *NORMAL_PASS_P[ESE_COUNT] = {
-"",
+""
+,
 "sampler sNormalMap : register(s1);\n"
 "float cFarDistance;\n"
 "\n"

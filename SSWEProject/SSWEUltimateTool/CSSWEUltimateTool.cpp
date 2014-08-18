@@ -16,6 +16,7 @@
 
 #include "SSWEUltimateTool/UserInterfaces/OpenSCAD/CSSWEUTOpenSCADDocument.h"
 #include "SSWEUltimateTool/UserInterfaces/SoundViewer/CSSWEUTSoundViewer.h"
+#include "SSWEUltimateTool/Utils/CSSWEUTMeshSplitter.h"
 
 #include <thread>
 #include <mutex>
@@ -265,58 +266,12 @@ bool CSSWEUltimateTool::OnEvent(const SEvent &event) {
 
 			//PRIMITIVES
 			if (event.GUIEvent.Caller == splitSelectedNodeButton) {
-				/*cp3d::core::ISData *data = devices->getSelectedData();
-				if (data) {
-					ISceneNode *dataNode = data->getNode();
-					if (data->getType() == ESNT_OCTREE || data->getType() == ESNT_MESH) {
-						devices->getDevice()->getLogger()->log("it is a mesh or octtree");
-						for (u32 i=0; i < dataNode->getMaterialCount(); i++) {
-							/// Set up mesh
-							SMesh *mesh = new SMesh();
-							SMeshBuffer *meshBuffer = new SMeshBuffer();
-							IMeshBuffer *orBuffer = ((IMeshSceneNode*)dataNode)->getMesh()->getMeshBuffer(i);
-
-							meshBuffer->Vertices.set_used(orBuffer->getVertexCount());
-							/// Copy vertices here
-							for (u32 i=0; i < orBuffer->getVertexCount(); i++) {
-								if (meshBuffer->getVertexType() == EVT_2TCOORDS)
-									meshBuffer->getVertices[i] = ((S3DVertex2TCoords*)meshBuffer->getVertices())[i];
-								else if (meshBuffer->getVertexType() == EVT_STANDARD)
-									meshBuffer->getVertices[i] = ((S3DVertex*)meshBuffer->getVertices())[i];
-								else if (meshBuffer->getVertexType() == EVT_TANGENTS)
-									meshBuffer->getVertices[i] = ((S3DVertexTangents*)meshBuffer->getVertices())[i];
-							}
-							meshBuffer->Indices.set_used(orBuffer->getIndexCount());
-							/// Copy indices here
-
-							meshBuffer->Material = orBuffer->getMaterial();
-							meshBuffer->BoundingBox = orBuffer->getBoundingBox();
-							meshBuffer->MappingHint_Index = orBuffer->getHardwareMappingHint_Index();
-							meshBuffer->MappingHint_Vertex = orBuffer->getHardwareMappingHint_Vertex();
-
-							mesh->addMeshBuffer(meshBuffer);
-
-							/// Set up scene node
-							IMeshSceneNode *node = devices->getSceneManager()->addMeshSceneNode(mesh, dataNode->getParent(), -1);
-							if (!node)
-								continue;
-							node->setScale(dataNode->getScale());
-							node->setPosition(dataNode->getPosition());
-							node->setRotation(dataNode->getPosition());
-							node->setName(stringc(dataNode->getName()).c_str());
-							devices->getCoreData()->addTerrainNode(node, mesh, "");
-						}
-
-					} else {
-						devices->getDevice()->getLogger()->log("it is NOT a mesh or octtree");
-					}
-				} else {
-					devices->addErrorDialog(L"Error", L"cannot find the data", EMBF_OK);
-				}*/
+				CUIMeshSplitter *meshSplitter = new CUIMeshSplitter(devices, workingDirectory);
 			} else
 
 			if (event.GUIEvent.Caller == soundViewerButton) {
-				CSoundViewer *soundViewer = new CSoundViewer(devices, workingDirectory);
+				if (devices->getCoreData()->getAudioManagerCount() > 0)
+					CSoundViewer *soundViewer = new CSoundViewer(devices, workingDirectory);
 			} else
 
 			//QUIT BUTTON

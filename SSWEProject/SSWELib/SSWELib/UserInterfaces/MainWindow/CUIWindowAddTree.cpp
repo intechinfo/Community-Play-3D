@@ -79,7 +79,7 @@ bool CUIWindowAddTree::OnEvent(const SEvent &event) {
                         
                         addTreeWindow->remove();
 
-						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+						devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, treeNode);
                     } else {
                         devices->addWarningDialog(L"Warning", 
                                                   L"Error when loading the selected mesh \n"

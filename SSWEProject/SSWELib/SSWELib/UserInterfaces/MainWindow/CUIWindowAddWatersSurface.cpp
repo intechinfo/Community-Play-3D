@@ -72,7 +72,7 @@ bool CUIWindowAddWaterSurface::OnEvent(const SEvent &event)
                 
                 m_devices->getCoreData()->getWaterSurfaces()->push_back(SWaterSurfacesData(waterSurface, 0, ""));
                 m_waterSurfacesListBox->addItem(waterSurfaceName.c_str());
-                m_devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+				m_devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, waterSurface->getWaterSceneNode());
                 
             }
             

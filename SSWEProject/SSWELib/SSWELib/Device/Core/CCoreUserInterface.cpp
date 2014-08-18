@@ -21,7 +21,11 @@ CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath
 	params.WindowSize = dimension2d<u32>(0, 0);
     #ifdef _IRR_WINDOWS_API_
 		params.DriverType = EDT_DIRECT3D9;
-        params.WindowSize = dimension2d<u32>(1680, 987);
+		#ifdef SSWE_RELEASE
+        params.WindowSize = dimension2d<u32>(800, 600);
+		#else
+		params.WindowSize = dimension2d<u32>(1680, 987);
+		#endif
     #else
         params.DriverType=irr::video::EDT_OPENGL;
         //params.WindowSize = dimension2d<u32>(1920, 800); // For see The XCode Debug Window

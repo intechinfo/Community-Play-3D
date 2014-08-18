@@ -129,7 +129,7 @@ bool CUIAddAudioElement::OnEvent(const SEvent &event) {
 
 					devices->getCoreData()->getAudioData()->push_back(a);
 
-					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED);
+					devices->getEventReceiver()->sendUserEvent(ECUE_NODE_ADDED, a.getNode());
 
 					closeWindow();
 				}

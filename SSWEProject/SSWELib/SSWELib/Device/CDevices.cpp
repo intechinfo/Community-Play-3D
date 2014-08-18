@@ -223,24 +223,19 @@ void CDevices::updateDevice() {
                 //renderCore->update();
 
                 if(monitor->isEnabled()) {
-                    if(renderScene) {
-						monitor->setRenderRenderer(renderXEffect);
 
-                        if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
-                            monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
+					monitor->setRenderRenderer(renderXEffect);
 
-                        if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
-                            monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
+                    if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
+                        monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
+
+                    if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
+                        monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
                         
-                        if (gui->getFocus() == 0 || isOnlyForPlay)
-                            monitor->drawScene();
-                        else
-                            effect->getScreenQuadPtr()->render(driver);
-                    }
-
-                    if(renderFullPostTraitements && renderXEffect) {
-                        //monitor->renderXEffectFullPostTraitement(effect->getScreenQuad().rt[1]);
-                    }
+                    if (renderScene || isOnlyForPlay)
+                        monitor->drawScene();
+                    else
+                        effect->getScreenQuadPtr()->render(driver);
 
                     effectSmgr->drawAll();
 
@@ -281,7 +276,7 @@ void CDevices::updateDevice() {
     if (renderXEffect) {
         
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-        if (gui->getFocus() == 0 || isOnlyForPlay)
+        if (renderScene || isOnlyForPlay)
             effect->update(renderFullPostTraitements);
         else
             effect->getScreenQuadPtr()->render(driver);
@@ -417,12 +412,17 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	#endif
 
 	//DRAW SPLASH SCREEN
-	if (!isOnlyForPlay) {
+	/*if (!isOnlyForPlay) {
 		ITexture *splashScreen = driver->getTexture("GUI/scs/sc1.png");
 		driver->beginScene(true, true, SColor(0x0));
 		driver->draw2DImage(splashScreen, rect<s32>(0, 0, 800, 600), rect<s32>(0, 0, 800, 600));
 		driver->endScene();
 		driver->removeTexture(splashScreen);
+	}
+	*/
+	if (!isOnlyForPlay) {
+		IImage *present = driver->createImage(driver->getTexture("GUI/scs/sc1.png"), vector2di(0, 0), dimension2du(800, 600));
+		Device->present(present, parameters.WindowId);
 	}
 
     //-----------------------------------
