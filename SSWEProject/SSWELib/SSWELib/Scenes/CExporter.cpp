@@ -170,9 +170,15 @@ void CExporter::exportConfig() {
 		fprintf(export_file, "\t\t\t\t <vertexShaderType type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShaderType());
 		fprintf(export_file, "\t\t\t\t <baseMaterial type=\"%d\" /> \n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getBaseMaterial());
 		fprintf(export_file, "\t\t\t\t <name cname=\"%s\" />\n", devices->getCoreData()->getShaderCallbacks()->operator[](i)->getName().c_str());
-		fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader()).replace("\r", "\n").c_str());
+        #ifdef _IRR_OSX_PLATFORM_
+		fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader()).replace("\r", "").c_str());
+		fprintf(export_file, "\t\t\t\t <pixel shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader()).replace("\r", "").c_str());
+		fprintf(export_file, "\t\t\t\t <constants value=\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getConstants()).replace("\r", "").c_str());
+        #else
+        fprintf(export_file, "\t\t\t\t <vertex shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getVertexShader()).replace("\r", "\n").c_str());
 		fprintf(export_file, "\t\t\t\t <pixel shader=\n\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getPixelShader()).replace("\r", "\n").c_str());
 		fprintf(export_file, "\t\t\t\t <constants value=\"%s\" />\n", stringc(devices->getCoreData()->getShaderCallbacks()->operator[](i)->getConstants()).replace("\r", "\n").c_str());
+        #endif
         
 		fprintf(export_file, "\t\t\t </materialType>\n\n");
 	}
@@ -327,6 +333,7 @@ void CExporter::exportLights() {
         
         fprintf(export_file, "\t\t\t <radius value=\"%f\" />\n", ((ILightSceneNode *)node)->getRadius());
 		fprintf(export_file, "\t\t\t <farValue value=\"%f\" />\n", devices->getXEffect()->getShadowLight(i).getFarValue());
+        fprintf(export_file, "\t\t\t <fovValue value=\"%f\" />\n", devices->getXEffect()->getShadowLight(i).getFOV());
 		fprintf(export_file, "\t\t\t <autoRecalculate value=\"%u\" />\n", devices->getXEffect()->getShadowLight(i).isAutoRecalculate());
         
         fprintf(export_file, "\n\t\t\t <shadows resol=\"%u\" />\n\n", devices->getXEffect()->getShadowLight(i).getShadowMapResolution());

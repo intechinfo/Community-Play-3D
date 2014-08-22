@@ -78,7 +78,7 @@ SParticleSystem CParticleSystemsImporter::createParticleSystemFromFile(stringc f
 //---------------------------------------------------------------------------------------------
 
 SPK::Group *CParticleSystemsImporter::buildGroup() {
-	SPK::Group *group = SPK::Group::create();
+	SPK::Group *group = SPK::Group::create(0, 8000);
 
 	read("name");
 	group->setName(stringc(xmlReader->getAttributeValue("value")).c_str());

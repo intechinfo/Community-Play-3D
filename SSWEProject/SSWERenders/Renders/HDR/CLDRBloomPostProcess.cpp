@@ -13,10 +13,15 @@ LDRBloomPostProcess::LDRBloomPostProcess(const dimension2d<u32>& sourceSize)
 	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Bloom);
 	if(fh == NULL)
 		throw new Exception("Bloom shader file couldn't be opened", __FUNCTION__);
+    IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
+    IReadFile *fh2 = 0;
+    if (vd->getDriverType() == video::EDT_OPENGL)
+        fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
 
 	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->
-		addHighLevelShaderMaterialFromFiles(nullptr,
-		nullptr, video::EVST_VS_1_1,
+		addHighLevelShaderMaterialFromFiles(
+        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
+        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
 		fh, "PSBloom", video::EPST_PS_2_0,
 		this);
 
@@ -28,6 +33,7 @@ LDRBloomPostProcess::LDRBloomPostProcess(const dimension2d<u32>& sourceSize)
 	quad.SetMaterialType(mt);
 
 	fh->drop();
+    if (fh2) fh2->drop();
 
 	bloomGen = new DSBloomGenerator(sourceSize);
 	quad.SetTexture(bloomGen->GetOutput(), 1);

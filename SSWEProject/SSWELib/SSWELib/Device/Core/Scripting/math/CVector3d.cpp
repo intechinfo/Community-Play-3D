@@ -425,7 +425,7 @@ void bindVector3df(lua_State *L, bool allowConstructor) {
     
     luaL_Reg sVector3dfMeta[] =
     {
-        //{ "__gc", vector3dfDestructor },
+        { "__gc", allowConstructor ? vector3dfDestructor : NULL },
         {"__index", NULL},
         {"__newindex", NULL},
         { NULL, NULL }

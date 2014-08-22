@@ -113,6 +113,15 @@ bool CUICodeEditor::OnEvent(const SEvent &event) {
 				textData->operator=(newText);
 		}
 	}
+    
+    if (event.EventType == EET_USER_EVENT) {
+        if (event.UserEvent.UserData1 == ECUE_WINDOW_CLOSED) {
+			if ((IGUIWindow *)event.UserEvent.UserData2 == window->getParent()) {
+                this->close();
+                return true;
+            }
+        }
+    }
 
 	if (alwaysBringToFront && !single) {
 		devices->getGUIEnvironment()->getRootGUIElement()->bringToFront(window);

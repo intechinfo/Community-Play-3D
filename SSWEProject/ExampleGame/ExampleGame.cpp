@@ -2,6 +2,7 @@
 // Start coding your game here
 //
 #include "stdafx.h"
+#include "CGUIInformations.h"
 
 #include "COcclusionTest.h"
 #include "CWeaponTest.h"
@@ -21,7 +22,11 @@ int main(int argc, char *argv[]) {
 	devices->getDevice()->getLogger()->setLogLevel(irr::ELL_NONE);
 
 	/// Configure Monitor
+    #ifdef _IRR_OSX_PLATFORM_
+    coreUserInterface->addMonitor("libSSWEGenericMonitor");
+    #else
 	coreUserInterface->addMonitor("SSWEGenericMonitor");
+    #endif
 	devices->getXEffect()->getHDRManager()->setExposure(1.2f);
     if (devices->getVideoDriver()->getDriverType() == irr::video::EDT_DIRECT3D9)
         devices->getXEffect()->setUseNormalPass(true);
@@ -42,6 +47,11 @@ int main(int argc, char *argv[]) {
 
 	if (devices->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL)
 		devices->getXEffect()->setUseHDRPass(false);
+    
+    /// IMPORTANT:
+    /// Creates an instance of the CGUIInformations class.
+    /// It allows you to view informations about rendering (FPS, triangles, etc.)
+    CGUIInformations *guiInformations = new CGUIInformations(devices);
 
 	//devices->getXEffect()->setAmbientColor(irr::video::SColor(255, 0, 0, 0));
 

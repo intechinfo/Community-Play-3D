@@ -12,7 +12,7 @@
 #include <DLLExport.h>
 
 cp3d::audio::IAudioManager *createAudioManager() {
-	return (cp3d::audio::IAudioManager*)new cp3d::audio::CDefaultAudioManager();
+	return new cp3d::audio::CDefaultAudioManager();
 }
 
 namespace cp3d {

@@ -24,7 +24,7 @@ include DLLExport.h to precise how the createSSWELibPlugin will be compiled
 namespace cp3d {
 namespace audio {
 
-class CDefaultAudioManager : cp3d::audio::IAudioManager {
+class CDefaultAudioManager : public cp3d::audio::IAudioManager {
 
 public:
 

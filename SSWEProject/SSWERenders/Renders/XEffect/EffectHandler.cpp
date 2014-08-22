@@ -5,6 +5,8 @@
 #include "EffectShaders.h"
 
 ///HDR
+
+#include "../HDR/CHDRPostProcess.h"
 #include "../HDR/CHDRScreenQuad.h"
 #include "../HDR/CPhongShaderManager.h"
 #include "../HDR/CGlobalContext.h"
@@ -41,7 +43,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	DOFMapSampler = driver->addRenderTargetTexture(ScreenRTTSize, "DOFMapSampler");
 
 	//LIGHT SCATTERING PASS
-	LightScatteringRTT = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
+	LightScatteringRTT = driver->addRenderTargetTexture(dimension2du(512, 512), "LightScatteringRTT");
 	useLightScattering = false;
 
 	//HDR PIPELINE
@@ -151,10 +153,18 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		for(u32 i = 0;i < EFT_COUNT;i++)
 		{
 			sPP.addShaderDefine("SAMPLE_AMOUNT", core::stringc(sampleCounts[i]));
-			Shadow[i] = gpu->addHighLevelShaderMaterial(
-                                                        sPP.ppShader(SHADOW_PASS_2V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+			Shadow[i] = gpu->addHighLevelShaderMaterial(sPP.ppShader(SHADOW_PASS_2V[shaderExt]).c_str(), "vertexMain", vertexProfile,
                                                         sPP.ppShader(SHADOW_PASS_2P[shaderExt]).c_str(), "pixelMain", pixelProfile,
 														shadowMC, video::EMT_SOLID);
+		}
+
+		sPP.addShaderDefine("_CP3D_COMPUTE_FOG_");
+		for(u32 i = 0;i < EFT_COUNT;i++)
+		{
+			sPP.addShaderDefine("SAMPLE_AMOUNT", core::stringc(sampleCounts[i]));
+			ShadowFog[i] = gpu->addHighLevelShaderMaterial(sPP.ppShader(SHADOW_PASS_2V[shaderExt]).c_str(), "vertexMain", vertexProfile,
+														   sPP.ppShader(SHADOW_PASS_2P[shaderExt]).c_str(), "pixelMain", pixelProfile,
+													 	   shadowMC, video::EMT_SOLID);
 		}
 
 		// Set resolution preprocessor defines.
@@ -221,7 +231,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
     //DEPTH OF FIELD
 	useDOF = false;
 
-	this->generateRandomVectorTexture(dimension2du(256, 256), "RandomVecTexture");
+	RandomVecTexture = this->generateRandomVectorTexture(dimension2du(256, 256), "RandomVecTexture");
 }
 
 EffectHandler::~EffectHandler()
@@ -475,13 +485,20 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 					const u32 CurrentMaterialCount = ShadowNodeArray[i].node->getMaterialCount();
 					core::array<irr::s32> BufferMaterialList(CurrentMaterialCount);
 					core::array<irr::video::ITexture*> BufferTextureList(CurrentMaterialCount);
+					core::array<irr::video::ITexture*> BufferTextureList2(CurrentMaterialCount);
 
 					for(u32 m = 0;m < CurrentMaterialCount;++m)
 					{
 						BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(m).MaterialType);
 						BufferTextureList.push_back(ShadowNodeArray[i].node->getMaterial(m).getTexture(0));
 
-						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)Shadow[ShadowNodeArray[i].filterType];
+						if (LightList[l].getShadowLight(ll).isComputeVolumetricLight()) {
+							BufferTextureList2.push_back(ShadowNodeArray[i].node->getMaterial(m).getTexture(1));
+							ShadowNodeArray[i].node->getMaterial(m).setTexture(0, RandomVecTexture);
+							ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)ShadowFog[ShadowNodeArray[i].filterType];
+						} else {
+							ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)Shadow[ShadowNodeArray[i].filterType];
+						}
 						ShadowNodeArray[i].node->getMaterial(m).setTexture(0, currentShadowMapTexture);
 					}
 
@@ -492,6 +509,8 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 					{
 						ShadowNodeArray[i].node->getMaterial(m).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[m];
 						ShadowNodeArray[i].node->getMaterial(m).setTexture(0, BufferTextureList[m]);
+						if (LightList[l].getShadowLight(ll).isComputeVolumetricLight())
+							ShadowNodeArray[i].node->getMaterial(m).setTexture(1, BufferTextureList2[m]);
 					}
 				}
 

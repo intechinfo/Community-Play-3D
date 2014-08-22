@@ -52,6 +52,9 @@ namespace scene
 
 		//! Returns the color of the tip of the light
 		virtual video::SColor getTailColor() const =0;
+
+		//! Returns the volume light's mesh
+		virtual IMeshBuffer *getMeshBuffer() const = 0;
 	};
 
 } // end namespace scene

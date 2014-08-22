@@ -8,6 +8,7 @@ using namespace io;
 
 #include "CGlobalContext.h"
 #include "CResourceManager.h"
+#include "CPaths.h"
 
 namespace Graphics {
 
@@ -23,11 +24,17 @@ public:
             fh = GlobalContext::DeviceContext.GetFileSystem()->createAndOpenFile("Amplifier.gfx");
         else
             fh = GlobalContext::DeviceContext.GetFileSystem()->createAndOpenFile("Amplifier.fx");
+        
+        IReadFile *fh2 = 0;
+        if (vd->getDriverType() == video::EDT_OPENGL)
+            fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
 
 		if(fh == NULL)
 			throw new Exception("Amplifier shader file couldn't be opened", __FUNCTION__);
 
-		mt = (E_MATERIAL_TYPE)vd->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(nullptr, nullptr, video::EVST_VS_1_1, fh,
+		mt = (E_MATERIAL_TYPE)vd->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
+                                                                                                   vd->getDriverType() == EDT_OPENGL ? "main" : nullptr,
+                                                                                                   video::EVST_VS_1_1, fh,
 																								   "PSAmplifier", video::EPST_PS_2_0);
 
 		if(mt < 0) {
@@ -36,6 +43,7 @@ public:
 		}
 
 		fh->drop();
+        if (fh2) fh2->drop();
 	}
 
 	void OnSetConstants(IMaterialRendererServices* services, s32 userData) {

@@ -381,7 +381,7 @@ void bindMatrix4(lua_State *L, irr::video::IVideoDriver *driver, bool allowConst
     
     luaL_Reg sVector3dfMeta[] =
     {
-		//{ "__gc", matrix4Destructor },
+		{ "__gc", allowConstructor ? matrix4Destructor : NULL },
         {"__index", NULL},
         {"__newindex", NULL},
         { NULL, NULL }

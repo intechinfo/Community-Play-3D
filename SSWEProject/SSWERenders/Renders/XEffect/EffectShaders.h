@@ -217,7 +217,12 @@ const char* SHADOW_PASS_2P[ESE_COUNT] = {"uniform sampler2D ShadowMapSampler;\n"
 "	gl_FragColor = finalCol;\n"
 "}"
 ,
+"\n"
 "sampler2D ShadowMapSampler : register(s0);\n"
+"##ifdef _CP3D_COMPUTE_FOG_\n"
+"sampler2D FogMapSampler : register(s1);\n"
+"##endif\n"
+"\n"
 "float4 LightColour;\n"
 "\n"
 "##ifdef VSM\n"
@@ -723,7 +728,13 @@ const char *DEPTH_OF_FIELD_P[ESE_COUNT] = {
 };
 
 const char *NORMAL_PASS_V[ESE_COUNT] = {
-""
+"uniform mat4 cWorldView;\n"
+"	\n"
+"void main(void) {\n"
+"	gl_Position = ftransform();\n"
+"	gl_TexCoord[1] = cWorldView * vec4(gl_Normal.xyz, 0.0);\n"
+"	gl_TexCoord[2] = cWorldView * vec4(gl_MultiTexCoord1.xyz, 0.0);\n"
+"}\n"
 ,
 "float4x4 cWorldViewProj;\n"
 "float4x4 cWorldView;\n"
@@ -760,7 +771,11 @@ const char *NORMAL_PASS_V[ESE_COUNT] = {
 };
 
 const char *NORMAL_PASS_P[ESE_COUNT] = {
-""
+"uniform sampler2D sNormalMap;\n"
+"	\n"
+"void main(void) {\n"
+"	gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
+"}\n"
 ,
 "sampler sNormalMap : register(s1);\n"
 "float cFarDistance;\n"

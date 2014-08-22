@@ -74,7 +74,7 @@
       <AssemblyDebug>true</AssemblyDebug>
       <NoEntryPoint>false</NoEntryPoint>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\..\Irrlicht\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\..\Irrlicht\Irrlicht180\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutDir)SPARK_IRR_debug.dll" "$(SolutionDir)..\..\..\libs\" /y</Command>
@@ -106,7 +106,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <NoEntryPoint>false</NoEntryPoint>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>..\..\..\..\..\Irrlicht\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\..\..\Irrlicht\Irrlicht180\Output;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

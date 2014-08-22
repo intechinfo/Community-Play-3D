@@ -131,6 +131,9 @@ namespace irr
 		well as the virtual time, which also can be manipulated.
 		\return Pointer to the ITimer object. */
 		virtual ITimer* getTimer() = 0;
+        
+        //! presents a surface in the client area
+		virtual bool present(video::IImage* surface, void* windowId=0, core::rect<s32>* src=0) = 0;
 
 		//! Provides access to the engine's currently set randomizer.
 		/** \return Pointer to the IRandomizer object. */

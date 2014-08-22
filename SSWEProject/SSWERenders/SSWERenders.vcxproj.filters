@@ -245,6 +245,9 @@
     <ClInclude Include="Renders\PostProcessor\CScreenSpaceAmbientOcclusion.h">
       <Filter>Renders\PostProcessor</Filter>
     </ClInclude>
+    <ClInclude Include="Renders\XEffect\SShadowLight.h">
+      <Filter>Renders\XEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SSWERenders.def">

@@ -14,7 +14,7 @@
 #include <DLLExport.h>
 
 cp3d::video::IMonitor *createMonitor() {
-	return (cp3d::video::IMonitor*) new CGenericMonitor();
+	return new CGenericMonitor();
 }
 
 CGenericMonitor::CGenericMonitor() {

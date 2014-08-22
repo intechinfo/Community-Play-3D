@@ -62,8 +62,14 @@ namespace scene
 		animated meshes. */
 		virtual void updateNormalsWhenAnimating(bool on) = 0;
 
+		//! Returns if Update Normals when Animating
+		virtual bool isUpdatingNormalsWhenAnimating() = 0;
+
 		//! Sets Interpolation Mode
 		virtual void setInterpolationMode(E_INTERPOLATION_MODE mode) = 0;
+
+		//! Returns the Interpolation Mode
+		virtual E_INTERPOLATION_MODE getInterpolationMode() = 0;
 
 		//! Animates this mesh's joints based on frame input
 		virtual void animateMesh(f32 frame, f32 blend)=0;

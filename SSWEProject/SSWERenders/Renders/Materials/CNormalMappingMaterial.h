@@ -30,6 +30,8 @@ public:
     void removeLight(irr::u32 indice);
 
     void addLight(irr::scene::ILightSceneNode *node);
+    
+    void reset();
     //-----------------------------------
 
     //-----------------------------------

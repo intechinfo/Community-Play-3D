@@ -13,6 +13,9 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
 	dsCB = new DownsampleCallback;
 
 	IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
+    IReadFile *fh2 = 0;
+    if (vd->getDriverType() == video::EDT_OPENGL)
+        fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
 
 	IReadFile* fh;
 	if (vd->getDriverType() == video::EDT_OPENGL)
@@ -24,8 +27,9 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
 		throw new Exception("Luminance calculator shader file couldn't be opened", __FUNCTION__);
 
 	luminanceShader = (E_MATERIAL_TYPE)vd->getGPUProgrammingServices()->
-		addHighLevelShaderMaterialFromFiles(nullptr,
-		nullptr, video::EVST_VS_1_1,
+		addHighLevelShaderMaterialFromFiles(
+        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
+        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
 		fh, "PSLuminance", video::EPST_PS_2_0,
 		lumCB);
 
@@ -39,13 +43,18 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::LuminanceDownSampleGL);
     else
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Luminance);
+    
+    fh2 = 0;
+    if (vd->getDriverType() == video::EDT_OPENGL)
+        fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
 
 	if(fh == NULL)
 		throw new Exception("Luminance downsampler shader file couldn't be opened", __FUNCTION__);
 
 	downsampler = (E_MATERIAL_TYPE)vd->getGPUProgrammingServices()->
-		addHighLevelShaderMaterialFromFiles(nullptr,
-		nullptr, video::EVST_VS_1_1,
+		addHighLevelShaderMaterialFromFiles(
+        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
+        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
 		fh, "PSLuminanceDownsample", video::EPST_PS_2_0,
 		dsCB);
 
@@ -54,6 +63,8 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
 		throw new Exception("Luminance downsampler shader couldn't be loaded", __FUNCTION__);
 	}
 	fh->drop();
+    
+    if (fh2) fh2->drop();
 
 	//set up render targets
 	for(s32 c = 0; c < kNumLumSteps; c++) {

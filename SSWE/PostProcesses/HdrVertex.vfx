@@ -1,0 +1,12 @@
+uniform sampler2D tex0;
+uniform sampler2D tex1;
+
+void main()
+{
+	vec4 sum = texture2D(tex0, gl_TexCoord[0].xy) + texture2D(tex1, gl_TexCoord[0].xy);
+
+	//sum.a = saturate(sum.a);
+	sum.a = clamp(sum.a, 0.0, 1.0);
+
+	gl_FragColor = sum;
+}

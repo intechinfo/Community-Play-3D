@@ -269,6 +269,9 @@ copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)SSWETests\Output\$(Targ
     <ClInclude Include="Renders\XEffect\EffectCB.h" />
     <ClInclude Include="Renders\XEffect\EffectHandler.h" />
     <ClInclude Include="Renders\XEffect\EffectShaders.h" />
+    <ClInclude Include="Renders\XEffect\SShadowLight.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Renders\XEffect\XEffects.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SSWERenders.h" />

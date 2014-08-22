@@ -3,8 +3,6 @@
 
 #include <SSWERenders.h>
 
-#include "../HDR/CHDRPostProcess.h"
-
 #include "../../../SSWELib/include/ISSWEHDRManager.h"
 
 namespace Graphics {
@@ -52,13 +50,13 @@ public:
 
 	//-----------------------------------
 	/// Luminance Min
-	void setMinimumLuminance(f32 value);
+	void setMinimumLuminance(irr::f32 value);
 	irr::f32 getMinimumLuminance();
 	//-----------------------------------
 
 	//-----------------------------------
 	/// Luminance Max
-	void setMaximumLuminance(f32 value);
+	void setMaximumLuminance(irr::f32 value);
 	irr::f32 getMaximumLuminance();
 	//-----------------------------------
 
@@ -70,7 +68,7 @@ public:
 
 	//-----------------------------------
 	/// Luminance Increase Rate
-	void setLuminanceDecreaseRate(f32 value);
+	void setLuminanceDecreaseRate(irr::f32 value);
 	irr::f32 getLumnanceDecreaseRate();
 	//-----------------------------------
 

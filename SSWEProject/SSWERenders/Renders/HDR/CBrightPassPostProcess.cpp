@@ -17,12 +17,18 @@ BrightPassPostProcess::BrightPassPostProcess() : brightThreshold(0.8f)
         fh = ResourceManager::OpenResource(Paths::PostProcesses::BrightPassGL);
     else
         fh = ResourceManager::OpenResource(Paths::PostProcesses::BrightPass);
+    
+    IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
+    IReadFile *fh2 = 0;
+    if (vd->getDriverType() == video::EDT_OPENGL)
+        fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
 
 	if(fh == NULL)
 		throw new Exception("Bright Pass shader file couldn't be opened", __FUNCTION__);
 
-	mt = (E_MATERIAL_TYPE)DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(nullptr,
-		nullptr, video::EVST_VS_1_1,
+	mt = (E_MATERIAL_TYPE)DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
+        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
+        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
 		fh, "PSBrightPass", video::EPST_PS_2_0,
 		this);
 
@@ -34,6 +40,7 @@ BrightPassPostProcess::BrightPassPostProcess() : brightThreshold(0.8f)
 	quad.SetMaterialType(mt);
 
 	fh->drop();
+    if (fh2) fh2->drop();
 }
 
 void BrightPassPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
@@ -45,7 +52,7 @@ void BrightPassPostProcess::OnSetConstants(IMaterialRendererServices* services, 
     irr::s32 texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("brightThreshold", &brightThreshold, 1);
-	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets2), 8);
+	services->setPixelShaderConstant("dsOffsets", dsOffsets2, 8);
 }
 
 void BrightPassPostProcess::Render(ITexture* __restrict source, ITexture* __restrict output) {

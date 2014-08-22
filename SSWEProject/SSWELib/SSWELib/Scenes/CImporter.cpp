@@ -249,6 +249,7 @@ void CImporter::buildObject() {
 
 		devices->getCoreData()->getObjectsData()->push_back(odata);
 	}
+    
 }
 
 void CImporter::buildLight() {
@@ -280,6 +281,8 @@ void CImporter::buildLight() {
 	node->setRadius(xmlReader->getAttributeValueAsFloat("value"));
 	read("farValue");
 	shadowLight.setFarValue(xmlReader->getAttributeValueAsFloat("value"));
+    read("fovValue");
+    shadowLight.setFOV(xmlReader->getAttributeValueAsFloat("value"));
 	read("autoRecalculate");
 	shadowLight.setAutoRecalculate(xmlReader->getAttributeValueAsInt("value"));
 
@@ -594,20 +597,25 @@ void CImporter::readMaterialShaderCallbacks() {
 		name = xmlReader->getAttributeValue("cname");
 
         stringc vertex = "", pixel = "", constants = "";
+        
         #ifndef _IRR_OSX_PLATFORM_
+        
 		read("vertex");
-		vertex = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "");
+		vertex = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "\r");
 		read("pixel");
-		pixel = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "");
+		pixel = stringc(xmlReader->getAttributeValue("shader")).replace("\n", "\r");
 		read("constants");
-		constants = stringc(xmlReader->getAttributeValue("value")).replace("\n", "");
+		constants = stringc(xmlReader->getAttributeValue("value")).replace("\n", "\r");
+        
         #else
+        
 		read("vertex");
 		vertex = stringc(xmlReader->getAttributeValue("shader")).replace("\r", "");
 		read("pixel");
 		pixel = stringc(xmlReader->getAttributeValue("shader")).replace("\r", "");
 		read("constants");
 		constants = stringc(xmlReader->getAttributeValue("value")).replace("\r", "");
+        
         #endif
 
 		CShaderCallback *callback = new CShaderCallback(devices->getVideoDriver()->getDriverType());
@@ -666,8 +674,12 @@ SData CImporter::readFactory(ISceneNode *_node, IMesh *_mesh) {
 
 	/// Act
 	if (isTangents && (isNormal || isAngleWeighted || isSmooth)) {
-		devices->getSceneManager()->getMeshManipulator()->recalculateTangents(_mesh, isNormal, isSmooth, isAngleWeighted);
-	}
+        IMesh *mesh = devices->getSceneManager()->getMeshManipulator()->createMeshWithTangents(_mesh, isNormal, isSmooth, isAngleWeighted);
+        data.setMesh(mesh);
+		//devices->getSceneManager()->getMeshManipulator()->recalculateTangents(_mesh, isNormal, isSmooth, isAngleWeighted);
+	} else {
+        data.setMesh(_mesh);
+    }
 
 	/// Read
 	read("planarMapping");
@@ -678,14 +690,16 @@ SData CImporter::readFactory(ISceneNode *_node, IMesh *_mesh) {
 
 	/// Acts
 	if (isPlanarMapped)
-		devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(_mesh, isPlanarMappedValue);
+		devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(data.getMesh(), isPlanarMappedValue);
 
-	if (_mesh)
-		_mesh->setDirty();
-
-    if (_mesh) {
-        for (u32 i=0; i < _mesh->getMeshBufferCount(); i++)
-            _mesh->getMeshBuffer(i)->setDirty();
+	if (data.getMesh()) {
+        for (u32 i=0; i < data.getMesh()->getMeshBufferCount(); i++)
+            data.getMesh()->getMeshBuffer(i)->setDirty();
+		data.getMesh()->setDirty();
+    }
+    
+    if (_node->getType() == ESNT_OCTREE) {
+        ((IMeshSceneNode*)_node)->setMesh(data.getMesh());
     }
 
 	/// Configure

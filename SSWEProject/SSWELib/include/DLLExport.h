@@ -19,54 +19,44 @@ namespace cp3d {
 	}
 }
 
-//MONITOR EXPORTS
-#ifndef MONITOR_DLL_EXPORTS_H
-#define MONITOR_DLL_EXPORTS_H
-#ifdef __dll__
-#define MONITOR_EXPORT __declspec(dllexport)
+#ifdef _IRR_OSX_PLATFORM_
+
+    #define _CP3D_PLUGIN_EXPORT_ __attribute__((visibility("default")))
+
 #else
-#define MONITOR_EXPORT __declspec(dllimport)
+
+    #ifndef _CP3D_DLL_EXPORTS_H_
+        #define _CP3D_DLL_EXPORTS_H_
+        #ifdef __dll__
+            #define _CP3D_PLUGIN_EXPORT_ __declspec(dllexport)
+        #else
+            #define _CP3D_PLUGIN_EXPORT_ __declspec(dllimport)
+        #endif
+    #endif
+
 #endif
 
+//MONITOR EXPORTS
+
 #ifndef _IRR_LINUX_PLATFORM_
-extern "C" MONITOR_EXPORT cp3d::video::IMonitor* createMonitor();
+extern "C" _CP3D_PLUGIN_EXPORT_ cp3d::video::IMonitor* createMonitor();
 #else
 extern "C" cp3d::video::IMonitor* createMonitor();
 #endif
 
-#endif
-
 //SSWELIB EXPORTS
-#ifndef SSWELIB_DLL_EXPORTS_H
-#define SSWELIB_DLL_EXPORTS_H
-
-#ifdef __dll__
-#define SSWELIB_EXPORT __declspec(dllexport)
-#else
-#define SSWELIB_EXPORT __declspec(dllimport)
-#endif
 
 #ifndef _IRR_LINUX_PLATFORM_
-extern "C" SSWELIB_EXPORT cp3d::core::ISSWELibPlugin *createSSWELibPlugin();
+extern "C" _CP3D_PLUGIN_EXPORT_ cp3d::core::ISSWELibPlugin *createSSWELibPlugin();
 #else
 extern "C" cp3d::core::ISSWELibPlugin *createSSWELibPlugin();
 #endif
 
 //AUDIO EXPORTS
-#ifndef AUDIO_DLL_EXPORTS_H
-#define AUDIO_DLL_EXPORTS_H
-#ifdef __dll__
-#define AUDIO_EXPORT __declspec(dllexport)
-#else
-#define AUDIO_EXPORT __declspec(dllimport)
-#endif
 
 #ifndef _IRR_LINUX_PLATFORM_
-extern "C" AUDIO_EXPORT cp3d::audio::IAudioManager* createAudioManager();
+extern "C" _CP3D_PLUGIN_EXPORT_ cp3d::audio::IAudioManager* createAudioManager();
 #else
 extern "C" cp3d::audio::IAudioManager* createAudioManager();
 #endif
 
-#endif
-
-#endif

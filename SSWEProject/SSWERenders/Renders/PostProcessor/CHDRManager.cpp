@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CHDRManager.h"
 
+#include "../HDR/CHDRPostProcess.h"
 #include "../HDR/CHDRScreenQuad.h"
 #include "../HDR/CPhongShaderManager.h"
 #include "../HDR/CGlobalContext.h"

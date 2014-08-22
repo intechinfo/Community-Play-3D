@@ -286,7 +286,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		//EDIT MATERIAL WINDOW
 		if (element == editPreviewNode) {
 			CUIWindowEditNode *editNode = new CUIWindowEditNode(devices);
-			editNode->open(previewNode, "#object:", false);
+			editNode->open(previewNode, "#object:", true);
 		}
 
 		if (element == vLoadFromFile) {
@@ -336,6 +336,7 @@ bool CUIWindowEditMaterialsCallback::OnEvent(const SEvent &event) {
 		}
         
 		if (element == closeEditMaterialWindow) {
+			devices->getEventReceiver()->sendUserEvent(ECUE_WINDOW_CLOSED, editMaterialWindow);
 			smgr->clear();
 			editMaterialWindow->remove();
 			editMaterialWindow = 0;

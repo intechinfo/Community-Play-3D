@@ -41,6 +41,11 @@ void CNormalMappingMaterial::addLight(irr::scene::ILightSceneNode *node) {
     }
 }
 
+void CNormalMappingMaterial::reset() {
+    lights.clear();
+    rebuildCallbackParameters();
+}
+
 void CNormalMappingMaterial::rebuildCallbackParameters() {
     fvLightColorArray.clear();
     fLightStrengthArray.clear();

@@ -58,11 +58,18 @@ ISceneNode *CNodeFactory::createPlaneMeshSceneNode(std::function<void(irr::scene
 	IAnimatedMesh *planeMesh = devices->getSceneManager()->addHillPlaneMesh("#object:new_hille_plane_mesh",
 																			dimension2df(25, 25), dimension2du(25, 25),
 																			0, 0, dimension2df(0.f, 0.f), dimension2df(20.f, 20.f));
+    devices->getSceneManager()->getMeshManipulator()->makePlanarTextureMapping(planeMesh, 0.035f);
+    
 	IAnimatedMeshSceneNode *planeNode = devices->getSceneManager()->addAnimatedMeshSceneNode(planeMesh, 0, -1, vector3df(0));
 	planeNode->setName("#object:new_hille_plane_mesh");
 	planeNode->setMaterialFlag(EMF_LIGHTING, false);
+    
 	devices->getXEffect()->addShadowToNode(planeNode, devices->getXEffectFilterType(), ESM_RECEIVE);
+    
 	SObjectsData odata(planeMesh, planeNode, "hillPlaneMesh");
+    odata.setPlanarTextureMapped(true);
+    odata.setPlanarTextureMappedValue(0.035f);
+    
 	devices->getCoreData()->getObjectsData()->push_back(odata);
 	devices->getCollisionManager()->setCollisionFromBoundingBox(planeNode);
 

@@ -236,29 +236,44 @@ void CPluginsManager::loadAudioPlugin(stringc path) {
     #ifdef _IRR_WINDOWS_API_
 	hdll = LoadLibrary(stringw(path).c_str());
     #else
-    hdll = dlopen(stringc(path).c_str(), RTLD_LAZY);
+    stringc ppath = path;
+    hdll = dlopen(ppath.c_str(), RTLD_LAZY);
     #endif
 
 	if (hdll == NULL) {
+        
 		devices->addErrorDialog(L"Plugin Error", stringw(path + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
+		#ifndef _IRR_WINDOWS_API_
+		printf("\n%s\n", dlerror());
+        devices->getDevice()->getLogger()->log(stringc(dlerror()).c_str());
+		#endif
+        
 	} else {
+        
         #ifdef _IRR_WINDOWS_API_
 		createAudioManager = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createAudioManager"));
         #else
         createAudioManager = reinterpret_cast < pvFunctv > (dlsym(hdll, "createAudioManager"));
         #endif
+        
 		if (createAudioManager == NULL) {
+			#ifndef _IRR_WINDOWS_API_
+            printf("\n%s\n", dlerror());
+			#endif
 			devices->addErrorDialog(L"Plugin Error", stringw(path + L"\nAn error occured\nCannot find the process \"createSSWELibPlugin\" into the DLL").c_str(), EMBF_OK);
 		} else {
 			newPlugin = static_cast < cp3d::audio::IAudioManager* > (createAudioManager());
 
-			if (!newPlugin->initialize())
-				exit(0);
+			if (!newPlugin->initialize()) {
+				devices->addErrorDialog(L"Plugin Error", stringw(path + L"\nAn error occured\nLoaded but cannot initialize the audio plugin").c_str(), EMBF_OK);
+                return;
+            }
 
 			SAudioPlugin audioPlugin("testaudio", hdll);
 			audioPlugin.setAudioManager(newPlugin);
 
 			devices->getCoreData()->getAudioPlugins()->push_back(audioPlugin);
 		}
+        
 	}
 }

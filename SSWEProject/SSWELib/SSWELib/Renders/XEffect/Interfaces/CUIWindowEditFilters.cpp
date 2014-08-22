@@ -226,7 +226,11 @@ bool CUIWindowEditFilters::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == openShader) {
 				SFilter f;
 				f.createLuaState();
-				f.setPixelShader(devices->getCore()->getStringcFromFile(openShader->getFileName()).replace("\r", "\n"));
+                #ifdef _IRR_OSX_PLATFORM_
+                f.setPixelShader(devices->getCore()->getStringcFromFile(openShader->getFileName()).replace("\r", ""));
+                #else
+                f.setPixelShader(devices->getCore()->getStringcFromFile(openShader->getFileName()).replace("\r", "\n"));
+                #endif
 				f.setMaterial(devices->getXEffect()->addPostProcessingEffectFromString(f.getPixelShader().c_str()));
 				
 				stringw name = openShader->getFileName();

@@ -89,6 +89,11 @@
 			<key>orderHint</key>
 			<integer>18</integer>
 		</dict>
+		<key>DefaultAudioManager.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>32</integer>
+		</dict>
 		<key>Demo.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -132,7 +137,7 @@
 		<key>SSWEGenericMonitor.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>31</integer>
+			<integer>30</integer>
 		</dict>
 		<key>SSWELib.xcscheme</key>
 		<dict>
@@ -147,12 +152,12 @@
 		<key>SSWEUltimateTool.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>32</integer>
+			<integer>31</integer>
 		</dict>
 		<key>SSWEWebExportPlugin.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>30</integer>
+			<integer>29</integer>
 		</dict>
 		<key>SSWE_RELEASE.xcscheme</key>
 		<dict>
@@ -203,6 +208,11 @@
 			<true/>
 		</dict>
 		<key>2E01BC7A18985359001A93E3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2E057E2819A5715100C6AE46</key>
 		<dict>
 			<key>primary</key>
 			<true/>

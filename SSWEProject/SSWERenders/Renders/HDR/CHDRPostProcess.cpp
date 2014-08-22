@@ -31,15 +31,20 @@ HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfB
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRGL);
 	else
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDR);
+    
+    IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
+    IReadFile *fh2 = 0;
+    if (vd->getDriverType() == video::EDT_OPENGL)
+        fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
 
 	if(fh == NULL) {
 		throw new Exception("HDR shader file couldn't be opened", __FUNCTION__);
 		exit(0);
 	}
 
-	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->
-		addHighLevelShaderMaterialFromFiles(nullptr,
-		nullptr, video::EVST_VS_1_1,
+	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
+        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
+        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
 		fh, "PSHDR", video::EPST_PS_2_0,
 		this);
 
@@ -52,6 +57,7 @@ HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfB
 	quad.SetMaterialType(mt);
 
 	fh->drop();
+    if (fh2) fh2->drop();
 }
 
 HDRPostProcess::~HDRPostProcess() {
@@ -74,8 +80,8 @@ void HDRPostProcess::Render(ITexture* __restrict source, ITexture* __restrict ou
 		outputLuminance = currLuminance;
 	} else {
 		//Amount of seconds elapsed since the last check
-		f32 dt = (static_cast<f32>(lastLuminanceAdjustment)
-			- static_cast<f32>(GlobalContext::DeviceContext.GetTimer()->getTime())) / 1000.0f;
+		f32 dt = (f32(lastLuminanceAdjustment)
+			- f32(GlobalContext::DeviceContext.GetTimer()->getTime())) / 1000.0f;
 
 		if( currLuminance < outputLuminance + lumDecreaseRate * dt) {
 			outputLuminance += lumDecreaseRate * dt;

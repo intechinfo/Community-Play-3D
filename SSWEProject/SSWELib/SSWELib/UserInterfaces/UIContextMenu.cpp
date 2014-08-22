@@ -42,11 +42,15 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
         pluginsManager->loadSSWEPlugin("LIBSSWEULTIMATETOOL");
 	#endif
 
-	#ifndef SSWE_RELEASE
-	pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager_d.dll");
-	#else
-    pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager.dll");
-	#endif
+    #ifdef _IRR_WINDOWS_API_
+        #ifndef SSWE_RELEASE
+        pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager_d.dll");
+        #else
+        pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager.dll");
+        #endif
+    #else
+        pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/libDefaultAudioManager.dylib");
+    #endif
 
     //-----------------------------------
     //MENU
@@ -1058,6 +1062,8 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
                     devices->getCoreData()->clearAllTheArrays();
 					//Resetting XEffect Framework
 					devices->getXEffect()->clearAll();
+                    //Clear normal mapping
+                    devices->getNormalMappingMaterial()->reset();
                     //Resetting grid
                     devices->getObjectPlacement()->getGridSceneNode()->SetAccentlineOffset(8);
                     devices->getObjectPlacement()->getGridSceneNode()->SetSize(1024);

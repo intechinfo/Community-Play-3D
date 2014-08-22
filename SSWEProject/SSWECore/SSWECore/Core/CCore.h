@@ -35,6 +35,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 
 #include <memory>
 #include <thread>
@@ -68,7 +69,9 @@ enum E_CORE_USER_EVENTS {
 	ECUE_NODE_ADDED,
 	ECUE_NODE_REMOVED,
 
-	ECUE_TEXTURE_REMOVED
+	ECUE_TEXTURE_REMOVED,
+    
+    ECUE_WINDOW_CLOSED
 };
 
 //--------------------------
@@ -171,7 +174,13 @@ public:
 		SEvent ev;
 		ev.EventType = EET_USER_EVENT;
 		ev.UserEvent.UserData1 = event;
+        
+        #ifdef _IRR_WINDOWS_API_
 		ev.UserEvent.UserData2 = (s32)data;
+        #else
+        ev.UserEvent.UserData2 = (intptr_t)data;
+        #endif
+        
 		OnEvent(ev);
 	}
 

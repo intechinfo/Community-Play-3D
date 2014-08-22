@@ -30,6 +30,8 @@ namespace PostProcesses {
 	const path GaussianBlurVGL(PostProcessDir + "GaussianBlurV.gfx");
 	const path HDRGL(PostProcessDir + "HDR.gfx");
 	const path TextureAdderGL(PostProcessDir + "TextureAdder.gfx");
+    
+    const path HDRVertex(PostProcessDir + "HdrVertex.vfx");
 
 }
 } //end namespace Graphics

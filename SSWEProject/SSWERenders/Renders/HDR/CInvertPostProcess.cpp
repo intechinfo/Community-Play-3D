@@ -11,10 +11,16 @@ InvertPostProcess::InvertPostProcess() {
 	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Invert);
 	if(fh == NULL)
 		throw new Exception("Invert shader file couldn't be opened", __FUNCTION__);
+    
+    IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
+    IReadFile *fh2 = 0;
+    if (vd->getDriverType() == video::EDT_OPENGL)
+        fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
 
 	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->
-		addHighLevelShaderMaterialFromFiles(nullptr,
-		nullptr, video::EVST_VS_1_1,
+		addHighLevelShaderMaterialFromFiles(
+        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
+        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
 		fh, "PSInvert", video::EPST_PS_1_1);
 
 	if(mt < 0) {
@@ -25,6 +31,7 @@ InvertPostProcess::InvertPostProcess() {
 	quad.SetMaterialType(mt);
 
 	fh->drop();
+    if (fh2) fh2->drop();
 }
 
 void InvertPostProcess::Render(ITexture* __restrict source, ITexture* __restrict output) {
