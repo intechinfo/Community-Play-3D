@@ -4,7 +4,7 @@
 #include <irrlicht.h>
 
 class ISSWEImporter {
-public: 
+public:
 
 	virtual void importScene(irr::core::stringc file_path) = 0;
 

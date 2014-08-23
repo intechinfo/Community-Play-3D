@@ -36,7 +36,7 @@ vector3df *checkVector3df(lua_State *L, int n, bool error) {
 
 int vector3dfConstructor(lua_State *L) {
     vector3df ** udata = (vector3df **)lua_newuserdata(L, sizeof(vector3df *));
-    *udata = new vector3df(0);
+    *udata = new vector3df(0.f);
     
     luaL_getmetatable(L, "luaL_Vector3df");
     lua_setmetatable(L, -2);
@@ -107,6 +107,7 @@ int vector3dfsetXYZ(lua_State *L) {
 //---------------------------------------------------------------------------------------------
 int vector3dfGetX(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
+	exit(0);
 	VECTOR3DF_CHECK_VECTOR(v);
     lua_pushnumber(L, v->X);
     return 1;
@@ -425,7 +426,7 @@ void bindVector3df(lua_State *L, bool allowConstructor) {
     
     luaL_Reg sVector3dfMeta[] =
     {
-        { "__gc", allowConstructor ? vector3dfDestructor : NULL },
+        {"__gc", !allowConstructor ? vector3dfDestructor : NULL },
         {"__index", NULL},
         {"__newindex", NULL},
         { NULL, NULL }

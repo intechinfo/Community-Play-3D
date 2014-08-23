@@ -563,7 +563,7 @@ public:
         {
             //lNodes[i].node->setVisible(true);
             //driver->setRenderTarget(lNodes[i].dirMap, true, true, video::SColor(255,255,255,255));
-			effect->updateRadiosity(timeIn,true,lNodes[i]->dirMap,lNodes[i]->node,&lNodes[i]->buffers);
+			//effect->updateRadiosity(timeIn,true,lNodes[i]->dirMap,lNodes[i]->node,&lNodes[i]->buffers);
             driver->setRenderTarget(0);
             //lNodes[i].node->setVisible(false);
         }

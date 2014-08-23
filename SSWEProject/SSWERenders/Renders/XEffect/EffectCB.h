@@ -57,6 +57,60 @@ public:
 	core::matrix4 worldViewProj, worldView;
 };
 
+class SSWE_RENDERS_API DepthNormalLightCustomCB : public video::IShaderConstantSetCallBack {
+public:
+	DepthNormalLightCustomCB(EffectHandler* effectIn) : effect(effectIn)
+	{
+		RenderNormal = 1;
+	}
+
+	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
+		IVideoDriver* driver = services->getVideoDriver();
+
+		worldView = driver->getTransform(video::ETS_WORLD);
+		worldView *= driver->getTransform(video::ETS_VIEW);
+
+        if (driver->getDriverType() != EDT_OPENGL) {
+            worldViewProj = driver->getTransform(video::ETS_PROJECTION);
+            worldViewProj *= driver->getTransform(video::ETS_VIEW);
+            worldViewProj *= driver->getTransform(video::ETS_WORLD);
+            services->setVertexShaderConstant("mWorldViewProj", worldViewProj.pointer(), 16);
+        } else {
+            irr::s32 DiffuseTextureVar = 0;
+            services->setPixelShaderConstant("DiffuseMapSampler", &DiffuseTextureVar, 1);
+        }
+
+		if (RenderDepthPass) {
+			services->setVertexShaderConstant("CP3DDepthPassMaxD", &FarLink, 1);
+		}
+		if (RenderNormalPass) {
+			services->setPixelShaderConstant("CP3DNormalPassFarDistance", &FarLink, 1);
+			services->setVertexShaderConstant("mWorldView", worldView.pointer(), 16);
+            if (driver->getDriverType() == EDT_OPENGL) {
+                irr::s32 NormalMapTextureVar = 1;
+                services->setPixelShaderConstant("NormalMapSampler", &NormalMapTextureVar, 1);
+            }
+		}
+
+		if (RenderScatteringPass) {
+			services->setPixelShaderConstant("CP3DScatteringPassRenderNormal", &RenderNormal, 1);
+		}
+
+	}
+
+	EffectHandler* effect;
+
+	f32 FarLink;
+	s32 RenderNormal;
+
+	bool RenderScatteringPass;
+	bool RenderNormalPass;
+	bool RenderDepthPass;
+
+	core::matrix4 worldViewProj;
+	core::matrix4 worldView;
+};
+
 class SSWE_RENDERS_API DepthShaderCB : public video::IShaderConstantSetCallBack {
 public:
 	DepthShaderCB(EffectHandler* effectIn) : effect(effectIn)

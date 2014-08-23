@@ -30,6 +30,7 @@ class ScreenQuadCB;
 class LightShaftsCB;
 class CPSSMUtils;
 class NormalShaderCB;
+class DepthNormalLightCustomCB;
 
 namespace Graphics {
     class Amplifier;
@@ -38,6 +39,7 @@ namespace Graphics {
 	class CHDRScreenQuad;
 
 }
+
 class PhongShaderManager;
 
 /// Main effect handling class, use this to apply shadows and effects.
@@ -112,51 +114,55 @@ public:
 
 	/// Add node to the light scattering pass
 	void addNodeToLightScatteringPass(irr::scene::ISceneNode *node) {
-		bool founded = false;
-		irr::s32 i = 0;
-
-		while (!founded && i < (s32)LightScatteringPass.size()) {
-			if (LightScatteringPass[i] == node) {
-				founded = true;
+		for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+			if (ShadowNodeArray[i].node == node) {
+				if (ShadowNodeArray[i].renderScattering) {
+					printf("Node already scattering passed\n");
+				} else {
+					ShadowNodeArray[i].renderScattering = true;
+				}
+				break;
 			}
-			i++;
-		}
-
-		if (!founded) {
-			LightScatteringPass.push_back(node);
-		} else {
-			printf("Node already depth passed\n");
 		}
 	}
 
 	/// Remove node from the light scattering pass
 	void removeNodeFromLightScatteringPass(irr::scene::ISceneNode *node) {
-		s32 i = LightScatteringPass.binary_search(node);
-
-		if(i != -1)
-			LightScatteringPass.erase(i);
+		for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+			if (ShadowNodeArray[i].node == node) {
+				ShadowNodeArray[i].renderScattering = false;
+				break;
+			}
+		}
 	}
 
     /// Check is node is depth passed
     bool isLightScatteringPassed(irr::scene::ISceneNode *node) {
-        bool lspassed = false;
-        bool founded = false;
-        irr::s32 i = 0;
+		for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+			if (ShadowNodeArray[i].node == node) {
+				return ShadowNodeArray[i].renderScattering;
+			}
+		}
 
-        while (!founded && i < (s32)LightScatteringPass.size()) {
-            if (LightScatteringPass[i] == node) {
-                lspassed = true;
-                founded = true;
-            }
-            i++;
-        }
+		return false;
+    }
 
-        return lspassed;
+	//Check is node is depth passed
+    bool isDepthPassed(irr::scene::ISceneNode *node) {
+		for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+			if (ShadowNodeArray[i].node == node) {
+				return ShadowNodeArray[i].renderDepth;
+			}
+		}
+
+		return false;
     }
 
 	//Check if light scattering pass is enabled
 	bool isLightScatteringPassEnabled() { return useLightScattering; }
-	void enableLightScatteringPass(bool enable) { useLightScattering = enable; }
+	void enableLightScatteringPass(bool enable) {
+		useLightScattering = enable;
+	}
 
 	//Check if reflection pass is enabled
 	bool isReflectionPassEnabled() { return useReflectionPass; }
@@ -171,22 +177,14 @@ public:
 	void enableDepthPass(bool enableDepthPass, bool SSAODepthPass = false);
 
 	/// Get array of depth pass nodes
-	irr::core::array<irr::scene::ISceneNode *>& getDepthPassNodes() { return DepthPassArray; }
+	irr::core::array<irr::scene::ISceneNode *>& getDepthPassNodes() {
+		irr::core::array<irr::scene::ISceneNode *> DepthPassArray;
+		return DepthPassArray;
+	}
 
 	/// Removes shadows from a scene node.
 	void removeShadowFromNode(irr::scene::ISceneNode* node)
 	{
-        /*bool founded = false;
-        irr::s32 i = 0;
-
-        while (!founded && i < (s32)ShadowNodeArray.size()) {
-            if (ShadowNodeArray[i].node == node) {
-                ShadowNodeArray.erase(i);
-                founded = true;
-            }
-            i++;
-        }*/
-
 		for (u32 i=0; i < this->ShadowNodeArray.size(); i++) {
 			if (this->ShadowNodeArray[i].node == node) {
 				this->ShadowNodeArray.erase(i);
@@ -226,23 +224,6 @@ public:
 
 		return founded;
 	}
-
-    //Check is node is depth passed
-    bool isDepthPassed(irr::scene::ISceneNode *node) {
-        bool depthPasses = false;
-        bool founded = false;
-        irr::s32 i = 0;
-
-        while (!founded && i < (s32)DepthPassArray.size()) {
-            if (DepthPassArray[i] == node) {
-                depthPasses = true;
-                founded = true;
-            }
-            i++;
-        }
-
-        return depthPasses;
-    }
 
     //Check if node is excluded from lighting calculation
     bool isNodeExcludedFromLightingCalculations(irr::scene::ISceneNode *node) {
@@ -296,10 +277,6 @@ public:
 	void update(bool updateOcclusionQueries = false, irr::video::ITexture* outputTarget = 0);
 
 	void updateEffect();
-
-	///Special To Calculate Radiosity
-	void updateRadiosity(const irr::u32 time, const bool screenSpaceOnly,irr::video::ITexture* outputTarget = 0,
-				irr::scene::ISceneNode* node =0 , irr::core::array<irr::scene::IMeshBuffer*>* buffers= 0);
 
 	/// Adds a shadow to the scene node. The filter type specifies how many shadow map samples
 	/// to take, a higher value can produce a smoother or softer result. The shadow mode can
@@ -565,7 +542,6 @@ public:
 	void clearAll() {
 		ShadowNodeArray.clear();
 		LightList.clear();
-		DepthPassArray.clear();
 		PostProcessingRoutines.clear();
 		currentSecondaryShadowMap = 0;
 		currentShadowMapTexture = 0;
@@ -591,6 +567,7 @@ private:
 
 	struct SShadowNode
 	{
+
 		bool operator < (const SShadowNode& other) const
 		{
 			return node < other.node;
@@ -600,6 +577,10 @@ private:
 
 		E_SHADOW_MODE shadowMode;
 		E_FILTER_TYPE filterType;
+
+		bool renderDepth;
+		bool renderNormal;
+		bool renderScattering;
 	};
 
 	struct SPostProcessingPair
@@ -645,12 +626,15 @@ private:
 	irr::s32 DepthOfField;
 	irr::s32 NormalPass;
 
+	irr::core::array<irr::s32> RenderPasses;
+
 	#ifdef SSWE_EDITOR
 	irr::s32 SelectionMaterial;
 	irr::scene::ICameraSceneNode *FPSCamera;
 	#endif
 
 	//CALLBACKS
+	DepthNormalLightCustomCB *dnlcMC;
 	DepthShaderCB* depthMC;
 	ShadowShaderCB* shadowMC;
 	NormalShaderCB *normalMC;
@@ -660,14 +644,14 @@ private:
     irr::video::ITexture* currentSecondaryShadowMap;
 	irr::video::ITexture* ScreenRTT;
 
-	irr::core::array<irr::video::IRenderTarget> DepthTargets;
+	irr::core::array<irr::video::IRenderTarget> CP3DRenderTargets;
 	irr::video::IRenderTarget DepthRTT;
 	irr::video::IRenderTarget SSAORTT;
+	irr::video::IRenderTarget NormalRenderRTT;
+	irr::video::IRenderTarget LightScatteringRTT;
 
 	irr::video::ITexture *RandomVecTexture;
-	irr::video::ITexture *LightScatteringRTT;
 	irr::video::ITexture *ReflectionRTT;
-	irr::video::ITexture *normalRenderRTT;
 	irr::video::ITexture *backRenderRTT;
 	irr::video::ITexture *DOFMapSampler;
 
@@ -684,8 +668,6 @@ private:
 	irr::core::array<SPostProcessingPair> PostProcessingRoutines;
 	irr::core::array<SShadowLight> LightList;
 	irr::core::array<SShadowNode> ShadowNodeArray;
-	irr::core::array<irr::scene::ISceneNode*> DepthPassArray;
-	irr::core::array<irr::scene::ISceneNode*> LightScatteringPass;
 
 	//DATAS
 	irr::IrrlichtDevice* device;

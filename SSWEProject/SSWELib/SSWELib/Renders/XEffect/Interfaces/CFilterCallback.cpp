@@ -9,13 +9,17 @@
 #include "CFilterCallback.h"
 
 #include "../../../Device/CDevices.h"
+
+/// Maths
 #include "../../../Device/Core/Scripting/math/CVector3d.h"
 #include "../../../Device/Core/Scripting/math/CMatrix4.h"
+
+/// Scene
+#include "../../../Device/Core/Scripting/Scene/CCamera.h"
 
 //---------------------------------------------------------------------------------------------
 //--------------------------------------POST PROCESS METHODS-----------------------------------
 //---------------------------------------------------------------------------------------------
-
 
 EffectHandler *geffect;
 irr::s32 gmaterialType;
@@ -250,8 +254,9 @@ void CCoreFilterCallback::createLuaState(lua_State *L) {
     lua_setglobal(L, "Driver");
 
 	//OTHERS
-	cp3d::scripting::bindVector3df(L);
-	cp3d::scripting::bindMatrix4(L, devices->getVideoDriver());
+	cp3d::scripting::bindVector3df(L, true);
+	cp3d::scripting::bindMatrix4(L, devices->getVideoDriver(), true);
+	cp3d::scripting::bindCamera(L, devices->getSceneManager());
 
 	luaL_dostring(L, "filter = Core.new()\n"
 					 "utils = Utils.new()\n"
@@ -311,7 +316,7 @@ int core_setPixelShaderConstantFloat(lua_State *L) {
 
 	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), value, 1);
 
-	return 0;
+	return 1;
 }
 
 int core_setPixelShaderConstantVector2D(lua_State *L) {
@@ -335,7 +340,7 @@ int core_setPixelShaderConstantVector2D(lua_State *L) {
 
 	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), v, 2);
 
-	return 0;
+	return 1;
 }
 
 int core_setPixelShaderConstantVector3D(lua_State *L) {
@@ -348,7 +353,7 @@ int core_setPixelShaderConstantVector3D(lua_State *L) {
 	vector3df *v = cp3d::scripting::checkVector3df(L, 3);
 	VECTOR3DF_CHECK_VECTOR(v);
 
-	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (f32*)v, 3);
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (f32*)new vector3df(*v), 3);
 
 	/*luaL_checktype(L, 3, LUA_TTABLE);
 	lua_getfield(L, 3, "x");
@@ -367,7 +372,7 @@ int core_setPixelShaderConstantVector3D(lua_State *L) {
 
 	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), v, 3);*/
 
-	return 0;
+	return 1;
 }
 
 int core_setPixelShaderConstantMatrix4(lua_State *L) {
@@ -377,9 +382,9 @@ int core_setPixelShaderConstantMatrix4(lua_State *L) {
 	matrix4 *mat = cp3d::scripting::checkMatrix4(L, 3);
 	MATRIX4_CHECK_MATRIX(mat);
 
-	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), mat->pointer(), 16);
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (new matrix4(*mat))->pointer(), 16);
 
-	return 0;
+	return 1;
 }
 
 int core_setTextureAtIndex(lua_State *L) {

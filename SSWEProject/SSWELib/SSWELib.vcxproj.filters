@@ -181,6 +181,9 @@
     <Filter Include="SSWELib\GUIExtension\SoundViewer">
       <UniqueIdentifier>{dcf7ea66-528d-42ac-b89c-1034ffdc3d6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SSWELib\Device\Core\Scripting\Scene">
+      <UniqueIdentifier>{ce254776-3d1d-488e-a8f2-576f14534570}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SSWELib.cpp">
@@ -533,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.cpp">
       <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="SSWELib\Device\Core\Scripting\Scene\CCamera.cpp">
+      <Filter>SSWELib\Device\Core\Scripting\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -979,6 +985,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\UserInterfaces\MeshFactory\CUIMeshSimplificator.h">
       <Filter>SSWELib\UserInterfaces\MeshFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\Device\Core\Scripting\Scene\CCamera.h">
+      <Filter>SSWELib\Device\Core\Scripting\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

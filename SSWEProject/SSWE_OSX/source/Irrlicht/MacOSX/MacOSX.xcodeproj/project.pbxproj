@@ -709,6 +709,8 @@
 		2E932B26182E8311005FB341 /* CImageLoaderDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E5687431719AE69007C0D05 /* CImageLoaderDDS.cpp */; };
 		2E9398CC19A4066B00397B5F /* CSSWEUTMeshSplitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E9398CA19A4066B00397B5F /* CSSWEUTMeshSplitter.cpp */; };
 		2E9398CD19A4066B00397B5F /* CSSWEUTMeshSplitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9398CB19A4066B00397B5F /* CSSWEUTMeshSplitter.h */; };
+		2E9CA46919A8DF6000402A7C /* CCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E9CA46719A8DF6000402A7C /* CCamera.cpp */; };
+		2E9CA46A19A8DF6000402A7C /* CCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9CA46819A8DF6000402A7C /* CCamera.h */; };
 		2EA3BE19199E597E004F264C /* CEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE0F199E597E004F264C /* CEdge.cpp */; };
 		2EA3BE1A199E597E004F264C /* CEdge.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE10199E597E004F264C /* CEdge.h */; };
 		2EA3BE1B199E597E004F264C /* CMeshSimplificator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE11199E597E004F264C /* CMeshSimplificator.cpp */; };
@@ -2763,6 +2765,8 @@
 		2E9398CA19A4066B00397B5F /* CSSWEUTMeshSplitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSSWEUTMeshSplitter.cpp; sourceTree = "<group>"; };
 		2E9398CB19A4066B00397B5F /* CSSWEUTMeshSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSWEUTMeshSplitter.h; sourceTree = "<group>"; };
 		2E9398D019A40F0A00397B5F /* HdrVertex.vfx */ = {isa = PBXFileReference; lastKnownFileType = text; path = HdrVertex.vfx; sourceTree = "<group>"; };
+		2E9CA46719A8DF6000402A7C /* CCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCamera.cpp; sourceTree = "<group>"; };
+		2E9CA46819A8DF6000402A7C /* CCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCamera.h; sourceTree = "<group>"; };
 		2E9EB93F19A538ED00474499 /* CGUIInformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGUIInformations.h; path = ../../../../ExampleGame/CGUIInformations.h; sourceTree = "<group>"; };
 		2EA3BE0F199E597E004F264C /* CEdge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CEdge.cpp; sourceTree = "<group>"; };
 		2EA3BE10199E597E004F264C /* CEdge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEdge.h; sourceTree = "<group>"; };
@@ -5011,6 +5015,7 @@
 		2E6C611A182983A200FB1027 /* Scripting */ = {
 			isa = PBXGroup;
 			children = (
+				2E9CA46619A8DF6000402A7C /* Scene */,
 				2EDA915419072AC400D83D90 /* math */,
 				2E6C611B182983A200FB1027 /* CFileSystemScripting.cpp */,
 				2E6C611C182983A200FB1027 /* CFileSystemScripting.h */,
@@ -5884,6 +5889,15 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		2E9CA46619A8DF6000402A7C /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				2E9CA46719A8DF6000402A7C /* CCamera.cpp */,
+				2E9CA46819A8DF6000402A7C /* CCamera.h */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
 		2EA3BE0E199E597E004F264C /* ProgressiveMeshBuffer */ = {
 			isa = PBXGroup;
 			children = (
@@ -6600,6 +6614,7 @@
 				2EA3BE3E199E5A74004F264C /* CMatrix4.h in Headers */,
 				2E6E76AE18E9A3B100A1D14D /* ISSWERender.h in Headers */,
 				2E6E76DA18E9A6D900A1D14D /* CRadiosityGenerator.h in Headers */,
+				2E9CA46A19A8DF6000402A7C /* CCamera.h in Headers */,
 				2E6E76A318E9A3B100A1D14D /* IDevices.h in Headers */,
 				2EDE4F3F1918176B00C53ADD /* CUIScenarioMakerMain.h in Headers */,
 				2E3F4872192D0ACB008926A7 /* CUIMeshFactory.h in Headers */,
@@ -8052,6 +8067,7 @@
 				2E6C6294182983CD00FB1027 /* CRenderCore.cpp in Sources */,
 				2E6C6296182983CD00FB1027 /* CFileSystemScripting.cpp in Sources */,
 				2E3F48E7192D0D6A008926A7 /* CAnimationController.cpp in Sources */,
+				2E9CA46919A8DF6000402A7C /* CCamera.cpp in Sources */,
 				2E6C6298182983CD00FB1027 /* CLuaBinds.cpp in Sources */,
 				2E6C629A182983CD00FB1027 /* CSceneScripting.cpp in Sources */,
 				2E6C629C182983CD00FB1027 /* CUIScriptEditor.cpp in Sources */,

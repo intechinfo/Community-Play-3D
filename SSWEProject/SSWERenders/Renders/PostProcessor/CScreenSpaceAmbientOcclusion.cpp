@@ -7,7 +7,7 @@
 //---------------------------------------CALLBACKS---------------------------------------------
 //---------------------------------------------------------------------------------------------
 //SSAO
-SSAORenderCallback::SSAORenderCallback(irr::s32 materialTypeIn, irr::video::ITexture *depthTex) { 
+SSAORenderCallback::SSAORenderCallback(irr::s32 materialTypeIn, irr::video::ITexture *depthTex) {
 	materialType = materialTypeIn;
 	noiseTex = 0;
 	this->depthTex = depthTex;

@@ -116,6 +116,8 @@ void CImporter::buildTerrain() {
 	SData data = readFactory(node, mesh);
 
 	if (node) {
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_NO_SHADOW);
+
 		read("name");
 		stringc name = xmlReader->getAttributeValue("c8name");
 		node->setName(name.c_str());
@@ -151,6 +153,8 @@ void CImporter::buildTree() {
 	//node = smgr->addMeshSceneNode(mesh, 0, -1);
 
 	if (node) {
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_NO_SHADOW);
+
 		read("name");
 		stringc name = xmlReader->getAttributeValue("c8name");
 		node->setName(name.c_str());
@@ -197,6 +201,8 @@ void CImporter::buildObject() {
 	}
 
 	if (node) {
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_NO_SHADOW);
+
 		read("name");
 		stringc name = xmlReader->getAttributeValue("c8name");
 		node->setName(name.c_str());
@@ -310,6 +316,7 @@ void CImporter::buildLight() {
 		lfBillBoard->setSize(dimension2d<f32>(0, 0));
 		lfBillBoard->setParent(lfMeshNode);
 		lfBillBoard->setName(stringc(stringc(node->getName()) + stringc("_flare_bill")).c_str());
+		devices->getXEffect()->addShadowToNode(lfBillBoard, EFT_NONE, ESM_EXCLUDE);
 		devices->getXEffect()->addNodeToLightScatteringPass(lfBillBoard);
 
 		lfNode = new CLensFlareSceneNode(lfMeshNode, devices->getSceneManager());
@@ -335,7 +342,7 @@ void CImporter::buildLight() {
 		read("position");
 		lfNode->setPosition(buildVector3df());
 
-		//devices->getXEffect()->addShadowToNode(lfMeshNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
+		devices->getXEffect()->addShadowToNode(lfMeshNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
 		devices->getXEffect()->addShadowToNode(lfBillBoard, devices->getXEffectFilterType(), ESM_EXCLUDE);
 		devices->getXEffect()->addShadowToNode(lfNode, devices->getXEffectFilterType(), ESM_EXCLUDE);
 
@@ -368,6 +375,8 @@ void CImporter::buildVolumeLight() {
 
 	IVolumeLightSceneNode *node = smgr->addVolumeLightSceneNode(0, -1, subDivideU, subDivideV, footColor, tailColor);
 	if (node) {
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_NO_SHADOW);
+
 		node->setName(name.c_str());
 
 		readMaterials(node);
@@ -387,6 +396,8 @@ void CImporter::buildWaterSurface() {
 	ISceneNode *node = waterSurface;
 
 	if (node) {
+		devices->getXEffect()->addShadowToNode(node, devices->getXEffectFilterType(), ESM_NO_SHADOW);
+
 		read("name");
         waterSurface->setName(xmlReader->getAttributeValue("c8name"));
 		waterSurface->getWaterSceneNode()->setName(xmlReader->getAttributeValue("c8name"));
@@ -448,6 +459,9 @@ void CImporter::buildSkybox() {
 		readWithNextElement("texture", "skybox");
 		i++;
 	}
+
+	devices->getXEffect()->addShadowToNode(devices->getSkyBox(), devices->getXEffectFilterType(), ESM_NO_SHADOW);
+	devices->getXEffect()->addNodeToLightScatteringPass(devices->getSkyBox());
 }
 
 //---------------------------------------------------------------------------------------------
@@ -854,8 +868,7 @@ void CImporter::readViewModes(ISceneNode *_node) {
 	read("shadowMode");
 	E_SHADOW_MODE shadowMode = ESM_EXCLUDE;
 	shadowMode = (E_SHADOW_MODE)xmlReader->getAttributeValueAsInt("mode");
-	if (shadowMode != ESM_NO_SHADOW)
-		devices->getXEffect()->addShadowToNode(_node, devices->getXEffectFilterType(), shadowMode);
+	devices->getXEffect()->addShadowToNode(_node, devices->getXEffectFilterType(), shadowMode);
 
 }
 

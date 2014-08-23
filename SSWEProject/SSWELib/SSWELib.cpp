@@ -43,6 +43,7 @@ void updateSSWEDevice(cp3d::ISSWECoreUserInterface *_coreUserInterface) {
 	skydome->setName("editor:skydome");
 	coreUserInterface->getDevices()->setSkydome(skydome);
     skydome->setVisible(false);
+	coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skydome, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_NO_SHADOW);
 
 	if (!coreUserInterface->getDevices()->getSkyBox()) {
 		driver->setTextureCreationFlag(ETCF_CREATE_MIP_MAPS, false);
@@ -57,6 +58,8 @@ void updateSSWEDevice(cp3d::ISSWECoreUserInterface *_coreUserInterface) {
 		skyboxNode->setName("editor:skydome");
 		coreUserInterface->getDevices()->setSkyBox(skyboxNode);
 		skyboxNode->setVisible(true);
+		coreUserInterface->getDevices()->getXEffect()->addShadowToNode(skyboxNode, coreUserInterface->getDevices()->getXEffectFilterType(), ESM_NO_SHADOW);
+		coreUserInterface->getDevices()->getXEffect()->addNodeToLightScatteringPass(skyboxNode);
 	}
 
 	//ADD CLOUDS SYSTEM

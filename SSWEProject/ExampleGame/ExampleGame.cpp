@@ -28,8 +28,7 @@ int main(int argc, char *argv[]) {
 	coreUserInterface->addMonitor("SSWEGenericMonitor");
     #endif
 	devices->getXEffect()->getHDRManager()->setExposure(1.2f);
-    if (devices->getVideoDriver()->getDriverType() == irr::video::EDT_DIRECT3D9)
-        devices->getXEffect()->setUseNormalPass(true);
+    devices->getXEffect()->setUseNormalPass(true);
 
 	/// Import our scene
 	ISSWEImporter *importer = coreUserInterface->createImporter();
@@ -69,7 +68,6 @@ int main(int argc, char *argv[]) {
 
 	/// Update our device
 	/// Let CP3D updating the device, it will optimize everything for us :-)
-    devices->getXEffect()->getHDRManager()->setExposure(1.3f);
 	updateSSWEDevice(coreUserInterface);
 
 	/// Remove the scene if means it's for debogage

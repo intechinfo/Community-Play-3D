@@ -551,6 +551,8 @@ bool CUIWindowEditLight::OnEvent(const SEvent &event) {
                         bill->setSize(dimension2d<f32>(0, 0));
                         bill->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_bill")).c_str());
                         devices->getCoreData()->getLightsData()->operator[](index).setLensFlareBillboardSceneNode(bill);
+						devices->getXEffect()->addShadowToNode(bill, EFT_NONE, ESM_EXCLUDE);
+						devices->getXEffect()->addNodeToLightScatteringPass(bill);
 
                         CLensFlareSceneNode* lensFlareNode = new CLensFlareSceneNode(meshNode, devices->getSceneManager());
                         lensFlareNode->setName(stringc(stringc(nodeToEdit->getName()) + stringc("_flare_node")).c_str());
