@@ -139,7 +139,11 @@
     <script src="Core/BabylonEditorEvents.js"></script>
     <script src="Core/BabylonEditorCore.js"></script>
     <script src="Core/BabylonEditionTool.js"></script>
+    <script src="Core/BabylonGraphTool.js"></script>
     <script src="BabylonEditor.js"></script>
+
+    <!-- Tests -->
+    <script src="Tests/CommonTests.js"></script>
 
 </head>
 
@@ -156,9 +160,6 @@
 
         /// Create the editor (creates the GUI)
         var editor = new BabylonEditor(core);
-
-        /// add the editor to the core
-        core.customUpdates.push(editor);
         /// -----------------------------------------------------------------------
 
         /// Fill the render loop
@@ -166,7 +167,11 @@
             core.update();
         });
 
-        var t = new BABYLON.Mesh('test', s);
+        /// Tests
+        createTestScene(core.currentScene, core);
+
+        //var mesh = new BABYLON.Mesh('test', core.currentScene);
+        //var scene = core.currentScene;
 
     </script>
 

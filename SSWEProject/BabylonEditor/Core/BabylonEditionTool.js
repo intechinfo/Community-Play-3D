@@ -2,67 +2,121 @@
 function BabylonEditionTool(babylonEditorCore) {
     this._core = babylonEditorCore;
     this._core.eventReceivers.push(this);
+    this._core.customUpdates.push(this);
 
     this.mesh = null;
+
+    this._forms = [
+        'MainEditMeshTransform',
+        'MainEditMeshOptions'
+    ];
 };
 
 BabylonEditionTool.prototype.onEvent = function (event) {
 
     if (event.EventType == BabylonEditorEventType.SceneEvent) {
-        if (event.SceneEvent.Type == BabylonEditorEvents.ObjectPicked) {
+        if (event.SceneEvent.Type == BabylonEditorEvents.SceneEvents.ObjectPicked) {
+
+            if (this.mesh != null) {
+                this.mesh.showBoundingBox = false;
+                this.mesh.showSubMeshesBoundingBox = false;
+            }
+
             this.mesh = event.SceneEvent.UserData.mesh;
-            this._createUI();
+            if (this.mesh != null) {
+                this.mesh.showBoundingBox = true;
+                this.mesh.showSubMeshesBoundingBox = true;
+
+                this._clearUI();
+                this._createUI();
+            } else {
+                this._clearUI();
+            }
+
         }
     }
 
     console.log(event);
+}
 
+BabylonEditionTool.prototype.update = function () {
+    if (this.mesh != null) {
+
+    }
+}
+
+BabylonEditionTool.prototype._clearUI = function () {
+    for (var i = 0; i < this._forms.length; i++) {
+        var ui = w2ui[this._forms[i]];
+        if (ui)
+            w2ui[this._forms[i]].destroy();
+    }
 }
 
 BabylonEditionTool.prototype._createUI = function () {
 
-    $('#MainEditMesh').w2form({
-        name: 'myForm',
+    $('#MainEditMesh').empty();
+
+    $('#MainEditMesh').append('<div id="MainEditMeshTransform"></div>');
+    $('#MainEditMeshTransform').after('<div id="MainEditMeshOptions"></div>');
+
+    /// -----------------------------------------------------------------------------------------------------
+    /// Transforms
+    $('#MainEditMeshTransform').w2form({
+        name: 'MainEditMeshTransform',
+        header: 'Transforms',
         fields: [
             /// Position
             {
-                name: 'Position :', type: 'float',
+                name: 'MainEditMeshTransformPositionX', type: 'float',
                 html:
                     {
-                        text: '<img src="UI/position.png"></img>'
+                        text: '<img src="UI/position.png"></img>',
+                        caption: 'Position :'
                     }
             },
-            { name: '', type: 'float' },
-            { name: '', type: 'float' },
+            { name: 'MainEditMeshTransformPositionY', type: 'float', html: { caption: ' ' } },
+            { name: 'MainEditMeshTransformPositionZ', type: 'float', html: { caption: ' ' } },
             /// Rotation
             {
-                name: 'Rotation :', type: 'float',
+                name: 'MainEditMeshTransformRotationX', type: 'float',
                 html:
                     {
-                        text: '<img src="UI/rotation.png"></img>'
+                        text: '<img src="UI/rotation.png"></img>',
+                        caption: 'Rotation :'
                     }
             },
-            { name: '', type: 'float' },
-            { name: '', type: 'float' },
+            { name: 'MainEditMeshTransformRotationY', type: 'float', html: {caption:' '} },
+            { name: 'MainEditMeshTransformRotationZ', type: 'float', html: { caption: ' ' } },
             /// Scale
             {
-                name: 'Scale :', type: 'float',
+                name: 'MainEditMeshTransformScaleX', type: 'float',
                 html:
                     {
-                        text: '<img src="UI/scale.png"></img>'
+                        text: '<img src="UI/scale.png"></img>',
+                        caption: 'Scale :'
                     }
             },
-            { name: '', type: 'float' },
-            { name: '', type: 'float' },
+            { name: 'MainEditMeshTransformScaleY', type: 'float', html: { caption: ' ' } },
+            { name: 'MainEditMeshTransformScaleZ', type: 'float', html: { caption: ' ' } },
         ],
-        actions: {
-            reset: function () { /*this.reset();*/ },
-            apply: function () { /*this.apply();*/ }
-        }
     });
 
-    /*w2ui['Mainlayout'].content('left',
-        BabylonEditorUtils.createField('Transform', 'icon-position') +
-        BabylonEditionTool.createEditBox('Position')
-    );*/
+    /// -----------------------------------------------------------------------------------------------------
+
+    /// -----------------------------------------------------------------------------------------------------
+    /// Options
+    $('#MainEditMeshOptions').w2form({
+        name: 'MainEditMeshOptions',
+        header: 'Options',
+        fields: [
+            { name: 'MainEditMeshOptionsVisible', type: 'checkbox', html: { caption: 'Visible :' } },
+            { name: 'MainEditMeshOptionsInfiniteDistance', type: 'checkbox', html: { caption: 'Infinite Distance :' } },
+            { name: 'MainEditMeshOptionsCheckCollisions', type: 'checkbox', html: { caption: 'Check Collisions :' } },
+
+        ]
+    });
+    /// -----------------------------------------------------------------------------------------------------
+
+
 }

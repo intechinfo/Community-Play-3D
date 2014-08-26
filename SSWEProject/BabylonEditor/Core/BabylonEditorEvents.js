@@ -20,14 +20,24 @@ MyTool.prototype.onEvent = function(event) {
 
 */
 
+/// Global Events container
 var BabylonEditorEvents = BabylonEditorEvents || {}
-BabylonEditorEvents.ObjectPicked = 0;
-/// Add other events here...
 
+/// Scene Events
+BabylonEditorEvents.SceneEvents = BabylonEditorEvents.SceneEvents || {}
+BabylonEditorEvents.SceneEvents.ObjectPicked = 0;
+BabylonEditorEvents.SceneEvents.ObjectAdded = 1;
+BabylonEditorEvents.SceneEvents.ObjectRemoved = 2;
+
+/*
+/// Add other events here...
+*/
+
+/// Event type
 var BabylonEditorEventType = BabylonEditorEventType || {}
 BabylonEditorEventType.SceneEvent = 0;
 
-/// Event Structure
+/// Event Structures
 /// --------------------------------------------------------------------------------------------------
 var BabylonEditorEvent = BabylonEditorEvent || {}
 BabylonEditorEvent.EventType = null;

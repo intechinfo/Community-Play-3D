@@ -1,15 +1,18 @@
-﻿
+﻿/// <reference path="index.html" />
+
 function BabylonEditor(babylonEditorCore) {
     this.engine = null;
 
     /// An editor must manage multiple scenes. Then, you'll be able to mange different
     /// worlds in your video game
-    this.scenes = [];
-    this.canvases = [];
+    this.scenes = new Array();
+    this.canvases = new Array();
 
     this._core = babylonEditorCore;
+    this._core.customUpdates.push(this);
 
     this._EditionTool = null;
+    this._GraphTool = null;
 
     this._createUI();
 };
@@ -18,8 +21,9 @@ BabylonEditor.prototype.update = function () {
 
     for (var i = 0; i < this.scenes.length; i++) {
         if (this.scenes[i])
-        this.scenes[i].render();
+            this.scenes[i].render();
     }
+
 }
 
 BabylonEditor.prototype._createUI = function() {
@@ -42,7 +46,10 @@ BabylonEditor.prototype._createUI = function() {
                 tabs: [{ id: 'MainScenes', caption: 'Main Scene' }, { id: 'scene2', caption: 'Test Scene' }],
                 /// Create a default tab for the default scene
             },
-            { type: 'right', size: 200, resizable: true, style: pstyle },
+            {
+                type: 'right', size: 300, resizable: true, style: pstyle, minSize: 300,
+                content: '<div id="MainGraphTool"></div>'
+            },
             {
                 type: 'bottom', size: 50, resizable: true, style: pstyle,
                 content: '<div id="MainOptionsBar" style="height: 100%"></div>'
@@ -50,13 +57,19 @@ BabylonEditor.prototype._createUI = function() {
         ]
     });
 
-    /// Create Babylon's engine here. Then, we'll be able to manage events like onResizing, etc.
+    /// Create Babylon's engine here. Then, we'll be able to manage events like onClick, onResize, etc.
     var canvas = document.getElementById("renderCanvas");
     var scope = this;
-    canvas.addEventListener("click", function (evt) {
-        scope._core.getPickedMesh(evt, true);
+
+    canvas.ondblclick = function (event) {
+        scope._core.getPickedMesh(event, true);
+    };
+
+    w2ui['Mainlayout'].on('resize', function (target, eventData) {
+        scope.engine.resize();
     });
 
+    /// Configure this
     this.canvases.push(canvas);
     this.engine = new BABYLON.Engine(canvas, true);
 
@@ -67,29 +80,26 @@ BabylonEditor.prototype._createUI = function() {
     this._EditionTool = new BabylonEditionTool(this._core);
 
     /// Create Right Side bar (Scene Graph)
-    w2ui['Mainlayout'].content('right', $().w2sidebar({
-        name: 'MainGraph',
-        img: null,
-        nodes: [
-            {
-                id: 'MainGraphRoot', text: 'Root', expanded: true, group: true, nodes: []
-            },
-        ],
-    }));
+    this._GraphTool = new BabylonGraphTool(this._core);
+    this._GraphTool._createUI();
 
     /// Create bottom toolbar
     $('#MainOptionsBar').w2toolbar({
         name: 'MainOptionsBar',
-        items: [
-
-        ]
+        items: []
     });
 
-    /// Configure events...
-    w2ui['Mainlayout'].get('main', false).onResizing = this.engine.resize();
+    /// Finish configuration and create default camera
+    var scene = new BABYLON.Scene(this.engine);
 
-    /// To test canvases
-    this.scenes.push(this._core.createDefaultScene(canvas, this.engine));
+    this.scenes.push(scene);
+    this._core.currentScene = scene;
+
+    var camera = new BABYLON.FreeCamera("BabylonEditorCamera", new BABYLON.Vector3(0, 5, -10), scene);
+    camera.setTarget(new BABYLON.Vector3.Zero());
+    camera.attachControl(canvas, false);
+
+    this._GraphTool._fillGraph(null, null);
 };
 
 BabylonEditor.prototype.createMainToolBar = function () {
@@ -123,7 +133,7 @@ BabylonEditor.prototype.createMainToolBar = function () {
                     { text: 'Add Billboard', icon: 'icon-add-billboard' }
                 ]
             },
-            { type: 'button', id: 'MainToolBarAddMesh', caption: 'Add Mesh...', img: 'icon-add-mesh', checked: false },
+            { type: 'button', id: 'MainToolBarAddMesh', caption: 'Add Mesh...', img: 'icon-mesh', checked: false },
             { type: 'break' },
             { type: 'button', id: 'MainToolBarPosition', caption: '', img: 'icon-position', checked: false },
             { type: 'button', id: 'MainToolBarRotation', caption: '', img: 'icon-rotation', checked: false },
