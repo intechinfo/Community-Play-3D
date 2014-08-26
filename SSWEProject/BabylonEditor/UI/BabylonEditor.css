@@ -1,0 +1,50 @@
+﻿/* Style sheet for custom icons etc. for the Babylon Editor*/
+
+/* Edit */
+.w2ui-icon.icon-edit {
+    background: url("edit.png");
+}
+.w2ui-icon.icon-position {
+    background: url("position.png");
+}
+.w2ui-icon.icon-rotation {
+    background: url("rotation.png");
+}
+.w2ui-icon.icon-scale {
+    background: url("scale.png");
+}
+
+/* Lights */
+.w2ui-icon.icon-add-light {
+    background: url("light.png");
+}
+
+/* Primitives */
+.w2ui-icon.icon-primitives {
+    background: url("primitives.png");
+}
+
+.w2ui-icon.icon-add-ground {
+    background: url("hill_plane.png");
+}
+.w2ui-icon.icon-add-sphere {
+    background: url("sphere.png");
+}
+.w2ui-icon.icon-add-cube {
+    background: url("cube.png");
+}
+.w2ui-icon.icon-add-billboard {
+    background: url("billboard.png");
+}
+
+/* Mesh */
+.w2ui-icon.icon-add-mesh {
+    background: url("abstract_mesh.png");
+}
+
+/* CSS */
+.block {
+    padding-top: 20px; 
+    padding-bottom: 10px; 
+    color: #999;
+}
