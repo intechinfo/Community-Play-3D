@@ -8,28 +8,30 @@ function BabylonEditor(babylonEditorCore) {
     this.scenes = new Array();
     this.canvases = new Array();
 
+    this.transformer = null;
+
     this._core = babylonEditorCore;
     this._core.customUpdates.push(this);
 
-    this._EditionTool = null;
-    this._GraphTool = null;
+    this._mainToolbar = null;
+    this._mditionTool = null;
+    this._graphTool = null;
 
     this._createUI();
 };
 
 BabylonEditor.prototype.update = function () {
 
-    for (var i = 0; i < this.scenes.length; i++) {
-        if (this.scenes[i])
-            this.scenes[i].render();
-    }
+    this._core.currentScene.render();
 
 }
 
 BabylonEditor.prototype._createUI = function() {
 
     /// Create Layouts in one shot
+
     var pstyle = 'background-color: #F5F6F7; border: 1px solid #dfdfdf; padding: 5px;';
+
     $('#Mainlayout').w2layout({
         name: 'Mainlayout',
         panels: [
@@ -39,7 +41,7 @@ BabylonEditor.prototype._createUI = function() {
             },
             {
                 type: 'left', size: 350, resizable: true, style: pstyle, minSize: 350,
-                content: '<div id="MainEditMesh"></div>'
+                content: '<div id="MainEditorEditObject"></div>'
             },
             {
                 type: 'main', style: pstyle, content: '<canvas id="renderCanvas"></canvas>', // Canvas HTML content
@@ -74,14 +76,15 @@ BabylonEditor.prototype._createUI = function() {
     this.engine = new BABYLON.Engine(canvas, true);
 
     /// Create tool bar
-    this.createMainToolBar();
+    this._mainToolbar = new BabylonEditorMainToolbar(this._core);
+    this._mainToolbar._createUI();
 
     /// Create Left Side bar
-    this._EditionTool = new BabylonEditionTool(this._core);
+    this._editionTool = new BabylonEditorEditionTool(this._core);
 
     /// Create Right Side bar (Scene Graph)
-    this._GraphTool = new BabylonGraphTool(this._core);
-    this._GraphTool._createUI();
+    this._graphTool = new BabylonEditorGraphTool(this._core);
+    this._graphTool._createUI();
 
     /// Create bottom toolbar
     $('#MainOptionsBar').w2toolbar({
@@ -99,45 +102,7 @@ BabylonEditor.prototype._createUI = function() {
     camera.setTarget(new BABYLON.Vector3.Zero());
     camera.attachControl(canvas, false);
 
-    this._GraphTool._fillGraph(null, null);
-};
+    this.transformer = new BabylonEditorTransformer(this.engine, this._core);
 
-BabylonEditor.prototype.createMainToolBar = function () {
-    /// Create tool bar
-    $('#MainToolBar').w2toolbar({
-        name: 'MainToolBar',
-        items: [
-            {
-                type: 'menu', id: 'MainEdit', caption: 'Edit', img: 'icon-edit', checked: false,
-                items: [
-                    { text: 'Edit Materials...' },
-                    { text: 'Test' },
-                    { type: 'break' },
-                    { text: 'Test' },
-                ]
-            },
-            { type: 'break' },
-            {
-                type: 'menu', id: 'MainToolBarAddLight', caption: 'Add light', img: 'icon-add-light', checked: false,
-                items: [
-                    { text: 'Point Light', icon: 'icon-add-light' },
-                    { text: 'Spot Light', icon: 'icon-add-light' }
-                ]
-            },
-            {
-                type: 'menu', id: 'MainToolBarAddPrimitive', caption: 'Primitives', img: 'icon-primitives', checked: false,
-                items: [
-                    { text: 'Add Ground', icon: 'icon-add-ground' },
-                    { text: 'Add Sphere', icon: 'icon-add-sphere' },
-                    { text: 'Add Cube', icon: 'icon-add-cube' },
-                    { text: 'Add Billboard', icon: 'icon-add-billboard' }
-                ]
-            },
-            { type: 'button', id: 'MainToolBarAddMesh', caption: 'Add Mesh...', img: 'icon-mesh', checked: false },
-            { type: 'break' },
-            { type: 'button', id: 'MainToolBarPosition', caption: '', img: 'icon-position', checked: false },
-            { type: 'button', id: 'MainToolBarRotation', caption: '', img: 'icon-rotation', checked: false },
-            { type: 'button', id: 'MainToolBarScale', caption: '', img: 'icon-scale', checked: false }
-        ]
-    });
+    this._graphTool._fillGraph(null, null);
 };

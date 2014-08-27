@@ -1,14 +1,19 @@
-﻿/* 
+﻿/// <reference path="./../index.html" />
+
+/* 
 
 Core class that handles core functions,
 custom events management...
 
 */
 
-function BabylonEditorCore() {
+function BabylonEditorCore(engine) {
 
     /// Array that contains all the instances that need to be updated.
     /// Just declare "update" in your prototype
+    /// 
+    /// It also allows you to create elements with custom behaviors like the
+    /// BabylonEditorTransformer object that must draw its own scene
     this.customUpdates = new Array();
 
     /// Array that containts all the instances that need to receive
@@ -18,6 +23,7 @@ function BabylonEditorCore() {
     this.eventReceivers = new Array();
 
     this.currentScene = null;
+    this.transformer = null;
 }
 
 BabylonEditorCore.prototype.update = function () {

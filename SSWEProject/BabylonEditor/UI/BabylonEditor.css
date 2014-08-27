@@ -14,6 +14,14 @@
     background: url("scale.png");
 }
 
+/* Files */
+.w2ui-icon.icon-open-file {
+    background: url("open.png");
+}
+.w2ui-icon.icon-save-file {
+    background: url("save.png");
+}
+
 /* Lights */
 .w2ui-icon.icon-add-light {
     background: url("light.png");
@@ -48,3 +56,4 @@
     padding-bottom: 10px; 
     color: #999;
 }
+

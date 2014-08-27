@@ -130,6 +130,8 @@
 
     <link rel="stylesheet" type="text/css" href="UI/BabylonEditor.css" />
 
+    <script src="UI/BabylonEditorUICreator.js"></script>
+
     <!-- Hand & optional library for physics computation-->
     <script src="cannon.js"></script>
     <script src="hand.minified-1.2.js"></script>
@@ -138,8 +140,11 @@
     <script src="Core/BabylonEditorUtils.js"></script>
     <script src="Core/BabylonEditorEvents.js"></script>
     <script src="Core/BabylonEditorCore.js"></script>
-    <script src="Core/BabylonEditionTool.js"></script>
-    <script src="Core/BabylonGraphTool.js"></script>
+    <script src="Core/BabylonEditorEditionTool.js"></script>
+    <script src="Core/BabylonEditorGraphTool.js"></script>
+    <script src="Core/BabylonEditorMainToolbar.js"></script>
+
+    <script src="Core/BabylonEditorTransformer.js"></script>
     <script src="BabylonEditor.js"></script>
 
     <!-- Tests -->
@@ -160,6 +165,7 @@
 
         /// Create the editor (creates the GUI)
         var editor = new BabylonEditor(core);
+        core.transformer = editor.transformer;
         /// -----------------------------------------------------------------------
 
         /// Fill the render loop
@@ -169,9 +175,6 @@
 
         /// Tests
         createTestScene(core.currentScene, core);
-
-        //var mesh = new BABYLON.Mesh('test', core.currentScene);
-        //var scene = core.currentScene;
 
     </script>
 
