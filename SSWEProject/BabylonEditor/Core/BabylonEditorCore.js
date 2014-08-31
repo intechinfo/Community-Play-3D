@@ -16,12 +16,14 @@ function BabylonEditorCore(engine) {
     /// BabylonEditorTransformer object that must draw its own scene
     this.customUpdates = new Array();
 
-    /// Array that containts all the instances that need to receive
+    /// Array that contains all the instances that need to receive
     /// events from other classes and from other events.
     /// See example in getPickedMesh();
-    /// Each 
+    /// Each class you add to this array must implement
+    /// myClass.prototype.onEvent = function(event);
     this.eventReceivers = new Array();
 
+    this.engine = null;
     this.currentScene = null;
     this.transformer = null;
 }

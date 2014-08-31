@@ -33,6 +33,8 @@ BabylonEditorEvents.SceneEvents.ObjectChanged = 3;
 /// UI Events
 BabylonEditorEvents.UIEvents = BabylonEditorEvents.UIEvents || {}
 BabylonEditorEvents.UIEvents.GraphChanged = 0;
+BabylonEditorEvents.UIEvents.FormChanged = 1;
+BabylonEditorEvents.UIEvents.ToolbarSelected = 2;
 
 /*
 /// Add other events here...
@@ -56,5 +58,6 @@ BabylonEditorEvent.SceneEvent.UserData = BabylonEditorEvent.SceneEvent.UserData 
 /// UI Event
 BabylonEditorEvent.UIEvent = BabylonEditorEvent.UIEvent || {}
 BabylonEditorEvent.UIEvent.Type = null;
+BabylonEditorEvent.UIEvent.Caller = null;
 BabylonEditorEvent.UIEvent.UserData = BabylonEditorEvent.UIEvent.UserData || {};
 /// --------------------------------------------------------------------------------------------------

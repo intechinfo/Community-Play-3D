@@ -4,6 +4,8 @@ function BabylonEditorGraphTool(babylonEditorCore) {
     this._core = babylonEditorCore;
     this._core.eventReceivers.push(this);
 
+    this.sideBar = null;
+
     this._graphRootName = 'babylon_editor_root_0';
 };
 
@@ -21,6 +23,8 @@ BabylonEditorGraphTool.prototype.onEvent = function (event) {
                 if (event.SceneEvent.UserData.mesh != null)
                     this._modifyElement(event.SceneEvent.UserData.mesh, element, false);
             }
+            
+            else
 
             /// An object was removed
             if (event.SceneEvent.Type == BabylonEditorEvents.SceneEvents.ObjectRemoved) {
@@ -29,31 +33,26 @@ BabylonEditorGraphTool.prototype.onEvent = function (event) {
             }
         }
 
+        else
+
         /// An object was picked
         if (event.SceneEvent.Type == BabylonEditorEvents.SceneEvents.ObjectPicked) {
             var mesh = event.SceneEvent.UserData.mesh;
             if (mesh != null) {
-                w2ui['MainGraph'].select(mesh.id);
-                var element = w2ui['MainGraph'].get(mesh.id);
-                while (element.parent != null) {
-                    element.expanded = true;
-                    element = element.parent;
-                }
-                w2ui['MainGraph'].refresh();
-            } else {
-                w2ui['MainGraph'].select(this._graphRootName);
-            }
+                BabylonEditorUICreator.Sidebar.setSelected(this.sideBar, mesh.id);
+                BabylonEditorUICreator.Sidebar.update(this.sideBar);
+            } else
+                BabylonEditorUICreator.Sidebar.setSelected(this.sideBar, this._graphRootName);
         }
+
+        else
 
         /// An object changed
         if (event.SceneEvent.Type == BabylonEditorEvents.SceneEvents.ObjectChanged) {
             var object = event.SceneEvent.UserData.object;
             if (object != null) {
-                var element = w2ui['MainGraph'].get(object.id);
-                element.text = element.data.name;
-                if (object.parent != null)
-                    element.parent = w2ui['MainGraph'].get(object.parent.id);
-                w2ui['MainGraph'].refresh();
+                BabylonEditorUICreator.Sidebar.updateNodeFromObject(this.sideBar, object);
+                BabylonEditorUICreator.Sidebar.update(this.sideBar);
             }
         }
     }
@@ -75,8 +74,10 @@ BabylonEditorGraphTool.prototype._fillGraph = function (object, element) {
     /// Set root as the root node of the side bar
     /// if the element isn't specified
     if (element == null) {
-        BabylonEditorUtils.clearSideBar(w2ui['MainGraph']);
-        w2ui['MainGraph'].add([{ id: this._graphRootName, text: 'Root', img: 'icon-position', data: null }]);
+        BabylonEditorUtils.clearSideBar(this.sideBar);
+        BabylonEditorUICreator.Sidebar.addNodes(this.sideBar, [
+            BabylonEditorUICreator.Sidebar.createNode(this._graphRootName, 'Root', 'icon-position', null)
+        ]);
         root = this._graphRootName;
     }
 
@@ -88,7 +89,7 @@ BabylonEditorGraphTool.prototype._fillGraph = function (object, element) {
         children = object.getDescendants();
 
     if (root == this._graphRootName)
-        w2ui['MainGraph'].get(root).expanded = true;
+        BabylonEditorUICreator.Sidebar.setNodeExpanded(this.sideBar, root, true);
 
     /// If children then fill the side bar recursively
     if (children != null) {
@@ -97,11 +98,9 @@ BabylonEditorGraphTool.prototype._fillGraph = function (object, element) {
             var object = children[i];
             var icon = this._getObjectIcon(object);
 
-            w2ui['MainGraph'].add(root,
-                [
-                    { id: object.id, text: object.name, img: icon, data: object }
-                ]
-            );
+            BabylonEditorUICreator.Sidebar.addNodes(this.sideBar, [
+                BabylonEditorUICreator.Sidebar.createNode(object.id, object.name, icon, object)
+            ], root);
             this._fillGraph(object, 'test' + i);
 
         }
@@ -117,37 +116,27 @@ BabylonEditorGraphTool.prototype._modifyElement = function (object, element, rem
         element = this._graphRootName;
     }
 
-    var graph = w2ui['MainGraph'];
     if (!remove) {
         var icon = this._getObjectIcon(object);
-        graph.add(element, [{ id: object.id, text: object.name, img: icon, data: object }]);
-    } else {
-        element = graph.get(element);
-        graph.remove(element);
-    }
 
+        BabylonEditorUICreator.Sidebar.addNodes(this.sideBar, [
+            BabylonEditorUICreator.Sidebar.createNode(object.id, object.name, icon, object)
+        ], element);
+
+    } else
+        BabylonEditorUICreator.Sidebar.removeNode(this.sideBar, element);
+
+    BabylonEditorUICreator.Sidebar.update(this.sideBar);
 }
 
 BabylonEditorGraphTool.prototype._createUI = function () {
-    var scope = this;
 
-    w2ui['Mainlayout'].content('right', $().w2sidebar({
-        name: 'MainGraph',
-        img: null,
-        keyboard: false,
+    /// Create nodes
+    var nodes = new Array();
+    BabylonEditorUICreator.Sidebar.extendNodes(nodes, [
+        BabylonEditorUICreator.Sidebar.createNode(this._graphRootName, 'Root', 'icon-position', null)
+    ]);
 
-        nodes: [
-            { id: this._graphRootName, text: 'Root', img: 'icon-position', data: null }
-        ],
-
-        onClick: function (event) {
-            var ev = BabylonEditorEvent;
-            ev.EventType = BabylonEditorEventType.SceneEvent;
-            ev.SceneEvent.Type = BabylonEditorEvents.SceneEvents.ObjectPicked;
-            ev.SceneEvent.UserData = { mesh: event.object.data };
-            scope._core.sendEvent(ev);
-        }
-
-    }));
+    this.sideBar = BabylonEditorUICreator.Sidebar.createSideBar('MainGraphTool', nodes, this);
 
 }

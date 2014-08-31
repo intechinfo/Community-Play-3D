@@ -15,14 +15,6 @@ BabylonEditorUtils.clearSideBar = function (sideBar) {
     sideBar.remove.apply(sideBar, toRemove);
 }
 
-BabylonEditorUtils.fillFormsWithScope = function(forms, scope) {
-    for (var i = 0; i < forms.length; i++) {
-        var ui = w2ui[forms[i]];
-        if (ui != null)
-            ui.scope = scope;
-    }
-}
-
 /* Parsers */
 BabylonEditorUtils.toFloat = function (string) {
     return parseFloat(string.replace(',', '.'));

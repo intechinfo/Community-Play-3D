@@ -28,36 +28,22 @@ BabylonEditor.prototype.update = function () {
 
 BabylonEditor.prototype._createUI = function() {
 
-    /// Create Layouts in one shot
-
+    /// Global style
     var pstyle = 'background-color: #F5F6F7; border: 1px solid #dfdfdf; padding: 5px;';
 
-    $('#Mainlayout').w2layout({
-        name: 'Mainlayout',
-        panels: [
-            {
-                type: 'top', size: 50, resizable: true, style: pstyle,
-                content: '<div id="MainToolBar" style="height: 100%"></div>', // Tool bar HTML content
-            },
-            {
-                type: 'left', size: 350, resizable: true, style: pstyle, minSize: 350,
-                content: '<div id="MainEditorEditObject"></div>'
-            },
-            {
-                type: 'main', style: pstyle, content: '<canvas id="renderCanvas"></canvas>', // Canvas HTML content
-                tabs: [{ id: 'MainScenes', caption: 'Main Scene' }, { id: 'scene2', caption: 'Test Scene' }],
-                /// Create a default tab for the default scene
-            },
-            {
-                type: 'right', size: 300, resizable: true, style: pstyle, minSize: 300,
-                content: '<div id="MainGraphTool"></div>'
-            },
-            {
-                type: 'bottom', size: 50, resizable: true, style: pstyle,
-                content: '<div id="MainOptionsBar" style="height: 100%"></div>'
-            }
-        ]
-    });
+    /// Create Layouts in one shot
+    var panels = new Array();
+    BabylonEditorUICreator.Layout.extendPanels(panels, [
+        BabylonEditorUICreator.Layout.createPanel('top', 50, true, pstyle, '<div id="MainToolBar" style="height: 100%"></div>'),
+        BabylonEditorUICreator.Layout.createPanel('left', 350, true, pstyle, '<div id="MainEditorEditObject"></div>', 350),
+        BabylonEditorUICreator.Layout.createPanel('main', 350, true, pstyle, '<canvas id="renderCanvas"></canvas>', 350, [
+            BabylonEditorUICreator.Layout.createTab('MainScene', 'Main scene'),
+            BabylonEditorUICreator.Layout.createTab('scene2', 'Test Scene')
+        ]),
+        BabylonEditorUICreator.Layout.createPanel('right', 350, true, pstyle, '<div id="MainGraphTool" style="height: 100%"></div>', 300),
+        BabylonEditorUICreator.Layout.createPanel('bottom', 50, true, pstyle, '<div id="MainOptionsBar" style="height: 100%"></div>')
+    ]);
+    BabylonEditorUICreator.Layout.createLayout('Mainlayout', panels);
 
     /// Create Babylon's engine here. Then, we'll be able to manage events like onClick, onResize, etc.
     var canvas = document.getElementById("renderCanvas");
@@ -67,30 +53,28 @@ BabylonEditor.prototype._createUI = function() {
         scope._core.getPickedMesh(event, true);
     };
 
-    w2ui['Mainlayout'].on('resize', function (target, eventData) {
+    BabylonEditorUICreator.addEvent('Mainlayout', 'resize', function (target, eventData) {
         scope.engine.resize();
     });
 
-    /// Configure this
+    /// Configure "this"
     this.canvases.push(canvas);
     this.engine = new BABYLON.Engine(canvas, true);
+    this._core.engine = this.engine;
 
     /// Create tool bar
     this._mainToolbar = new BabylonEditorMainToolbar(this._core);
     this._mainToolbar._createUI();
 
-    /// Create Left Side bar
+    /// Create Left Sidebar
     this._editionTool = new BabylonEditorEditionTool(this._core);
 
-    /// Create Right Side bar (Scene Graph)
+    /// Create Right Sidebar (Scene Graph)
     this._graphTool = new BabylonEditorGraphTool(this._core);
     this._graphTool._createUI();
 
     /// Create bottom toolbar
-    $('#MainOptionsBar').w2toolbar({
-        name: 'MainOptionsBar',
-        items: []
-    });
+    BabylonEditorUICreator.Toolbar.createToolbar('MainOptionsToolbar', []);
 
     /// Finish configuration and create default camera
     var scene = new BABYLON.Scene(this.engine);

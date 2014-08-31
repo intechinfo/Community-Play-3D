@@ -28,10 +28,13 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Tests|Any CPU = Tests|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5EF37A19-D276-4D6E-B013-BA182BD63C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5EF37A19-D276-4D6E-B013-BA182BD63C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EF37A19-D276-4D6E-B013-BA182BD63C87}.Tests|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EF37A19-D276-4D6E-B013-BA182BD63C87}.Tests|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
