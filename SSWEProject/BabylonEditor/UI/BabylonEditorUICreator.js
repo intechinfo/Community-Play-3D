@@ -90,7 +90,7 @@ BabylonEditorUICreator.Toolbar.isItemChecked = function (menu, item) {
 /* Layouts */
 BabylonEditorUICreator.Layout = BabylonEditorUICreator.Layout || {};
 
-BabylonEditorUICreator.Layout.createLayout = function (name, panels) {
+BabylonEditorUICreator.Layout.createLayout = function (name, panels, scope) {
     var layouts = $('#' + name).w2layout({
         name: name,
         panels: panels
@@ -215,8 +215,8 @@ BabylonEditorUICreator.Sidebar.createSideBar = function (name, nodes, scope) {
 BabylonEditorUICreator.Sidebar.setSelected = function (sideBar, id) {
     var element = sideBar.get(id);
     while (element.parent != null) {
-        element.expanded = true;
         element = element.parent;
+        element.expanded = true;
     }
 
     sideBar.select(id);

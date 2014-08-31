@@ -32,6 +32,14 @@ BabylonEditorMainToolbar.prototype.onEvent = function (event) {
 /// Sets the appropriate transformer, identified by its id (string)
 BabylonEditorMainToolbar.prototype.setTransformer = function (id) {
     /// To fill
+    if (id == 'MainToolBarPosition')
+        this._core.transformer.setTransformerType(BabylonEditorTransformerType.Position);
+    else if (id == 'MainToolBarRotation')
+        this._core.transformer.setTransformerType(BabylonEditorTransformerType.Rotation);
+    else if (id == 'MainToolBarScale')
+        this._core.transformer.setTransformerType(BabylonEditorTransformerType.Scaling);
+    else
+        this._core.transformer.setTransformerType(BabylonEditorTransformerType.Nothing);
 }
 
 BabylonEditorMainToolbar.prototype._createUI = function () {
