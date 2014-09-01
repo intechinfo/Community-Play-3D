@@ -1,0 +1,3 @@
+[submodule "Demos"]
+	path = Demos
+	url = https://github.com/julien-moreau/Community-Play-3D-Demos.git

@@ -193,6 +193,8 @@ public:
 
     virtual bool OnEvent(const SEvent& mainEvent) {
         for (u32 i=0; i < mEventReceivers.size(); i++) {
+			if (!mEventReceivers[i]) continue;
+
             mEventReceivers[i]->OnEvent(mainEvent);
 			if (i < mGuiWindows.size()) {
 				if (mGuiWindows[i] && mainEvent.EventType == EET_GUI_EVENT) {
@@ -203,6 +205,7 @@ public:
 					}
 				}
 			}
+
         }
 
         return false;

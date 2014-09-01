@@ -176,6 +176,9 @@
     <ProjectReference Include="..\SSWELib\SSWELib.vcxproj">
       <Project>{76592bd3-c205-4941-8036-12bbdbd94454}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\SSWERenders\SSWERenders.vcxproj">
+      <Project>{b80d495c-f203-43a4-9ce2-a01481ba445d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

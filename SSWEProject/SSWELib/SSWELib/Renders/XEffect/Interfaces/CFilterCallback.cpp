@@ -15,7 +15,7 @@
 #include "../../../Device/Core/Scripting/math/CMatrix4.h"
 
 /// Scene
-#include "../../../Device/Core/Scripting/Scene/CCamera.h"
+//#include "../../../Device/Core/Scripting/Scene/CCamera.h"
 
 //---------------------------------------------------------------------------------------------
 //--------------------------------------POST PROCESS METHODS-----------------------------------
@@ -254,9 +254,9 @@ void CCoreFilterCallback::createLuaState(lua_State *L) {
     lua_setglobal(L, "Driver");
 
 	//OTHERS
-	cp3d::scripting::bindVector3df(L, true);
-	cp3d::scripting::bindMatrix4(L, devices->getVideoDriver(), true);
-	cp3d::scripting::bindCamera(L, devices->getSceneManager());
+	//cp3d::scripting::bindVector3df(L, false);
+	//cp3d::scripting::bindMatrix4(L, devices->getVideoDriver(), false);
+	//cp3d::scripting::bindCamera(L, devices->getSceneManager());
 
 	luaL_dostring(L, "filter = Core.new()\n"
 					 "utils = Utils.new()\n"
@@ -270,15 +270,15 @@ void CCoreFilterCallback::createLuaState(lua_State *L) {
 //CORE
 int core_gc(lua_State *L) {
 	//printf("## __core__gc\n");
-	return 0;
+	return 1;
 }
 int core_index(lua_State *L) {
 	//printf("## __index\n");
-    return 0;
+    return 1;
 }
 int core_newindex(lua_State *L) {
 	//printf("## __newindex\n");
-    return 0;
+    return 1;
 }
 
 int core_new(lua_State *L) {
@@ -301,7 +301,7 @@ int core_setPixelShaderConstantInteger(lua_State *L) {
 
 	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), reinterpret_cast<f32*>(&value), 1);
 
-	return 0;
+	return 1;
 }
 
 int core_setPixelShaderConstantFloat(lua_State *L) {
@@ -353,7 +353,7 @@ int core_setPixelShaderConstantVector3D(lua_State *L) {
 	vector3df *v = cp3d::scripting::checkVector3df(L, 3);
 	VECTOR3DF_CHECK_VECTOR(v);
 
-	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (f32*)new vector3df(*v), 3);
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (f32*)v, 3);
 
 	/*luaL_checktype(L, 3, LUA_TTABLE);
 	lua_getfield(L, 3, "x");
@@ -382,7 +382,7 @@ int core_setPixelShaderConstantMatrix4(lua_State *L) {
 	matrix4 *mat = cp3d::scripting::checkMatrix4(L, 3);
 	MATRIX4_CHECK_MATRIX(mat);
 
-	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), (new matrix4(*mat))->pointer(), 16);
+	geffect->setPostProcessingEffectConstant(gmaterialType, name.c_str(), mat->pointer(), 16);
 
 	return 1;
 }
@@ -399,7 +399,7 @@ int core_setTextureAtIndex(lua_State *L) {
 		geffect->getScreenQuadPtr()->getMaterial().setTexture(index, geffect->getIrrlichtDevice()->getVideoDriver()->getTexture(path.c_str()));
 	}
 
-	return 0;
+	return 1;
 }
 
 int core_setRttTextureAtIndex(lua_State *L) {
@@ -414,22 +414,22 @@ int core_setRttTextureAtIndex(lua_State *L) {
 		geffect->getScreenQuadPtr()->getMaterial().setTexture(index, geffect->getIrrlichtDevice()->getVideoDriver()->getTexture(path.c_str()));
 	}
 
-	return 0;
+	return 1;
 }
 
 //MATRIXES
 
 int mat4_gc(lua_State *L) {
 	//printf("## __mat4__gc\n");
-	return 0;
+	return 1;
 }
 int mat4_index(lua_State *L) {
 	//printf("## __index\n");
-    return 0;
+    return 1;
 }
 int mat4_newindex(lua_State *L) {
 	//printf("## __newindex\n");
-    return 0;
+    return 1;
 }
 
 int mat4_new(lua_State *L) {
@@ -448,25 +448,25 @@ int mat4_new(lua_State *L) {
 int mat4_multiplyMatrixes(lua_State *L) {
 
 
-	return 0;
+	return 1;
 }
 
 int mat4_getTransform(lua_State *L) {
-	return 0;
+	return 1;
 }
 
 //UTILS
 int utils_gc(lua_State *L) {
 	//printf("## __utils__gc\n");
-	return 0;
+	return 1;
 }
 int utils_index(lua_State *L) {
 	//printf("## __index\n");
-    return 0;
+    return 1;
 }
 int utils_newindex(lua_State *L) {
 	//printf("## __newindex\n");
-    return 0;
+    return 1;
 }
 
 int utils_new(lua_State *L) {
@@ -517,15 +517,15 @@ int utils_getScreenCoordinatesFrom3DPosition(lua_State *L) {
 //DRIVER
 int driver_gc(lua_State *L) {
 	//printf("## __driver__gc\n");
-	return 0;
+	return 1;
 }
 int driver_index(lua_State *L) {
 	//printf("## __index\n");
-    return 0;
+    return 1;
 }
 int driver_newindex(lua_State *L) {
 	//printf("## __newindex\n");
-    return 0;
+    return 1;
 }
 
 int driver_new(lua_State *L) {
@@ -546,7 +546,7 @@ int driver_setTexture(lua_State *L) {
 	stringc path = gWorkingPath + lua_tostring(L, 2);
 	geffect->setPostProcessingUserTexture(geffect->getIrrlichtDevice()->getVideoDriver()->getTexture(path));
 
-	return 0;
+	return 1;
 }
 
 int driver_setRttTexture(lua_State *L) {
@@ -557,7 +557,7 @@ int driver_setRttTexture(lua_State *L) {
 	stringc path = lua_tostring(L, 2);
 	geffect->setPostProcessingUserTexture(geffect->getIrrlichtDevice()->getVideoDriver()->getTexture(path));
 
-	return 0;
+	return 1;
 }
 
 int driver_getLightPosition(lua_State *L) {

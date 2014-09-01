@@ -48,7 +48,7 @@ int vector3dfDestructor(lua_State * L) {
     vector3df *v = checkVector3df(L, 1);
     delete v;
     
-    return 0;
+    return 1;
 }
 
 //---------------------------------------------------------------------------------------------
@@ -107,7 +107,6 @@ int vector3dfsetXYZ(lua_State *L) {
 //---------------------------------------------------------------------------------------------
 int vector3dfGetX(lua_State *L) {
     vector3df *v = checkVector3df(L, 1);
-	exit(0);
 	VECTOR3DF_CHECK_VECTOR(v);
     lua_pushnumber(L, v->X);
     return 1;

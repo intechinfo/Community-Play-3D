@@ -624,7 +624,6 @@ private:
 	irr::s32 VSMBlurH;
 	irr::s32 VSMBlurV;
 	irr::s32 DepthOfField;
-	irr::s32 NormalPass;
 
 	irr::core::array<irr::s32> RenderPasses;
 

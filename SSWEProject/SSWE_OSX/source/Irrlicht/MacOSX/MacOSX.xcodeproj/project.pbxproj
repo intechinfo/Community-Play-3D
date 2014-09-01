@@ -412,6 +412,8 @@
 		2E4CB02519483D3E00740D0D /* CUIAnimatedMeshViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4CB02319483D3E00740D0D /* CUIAnimatedMeshViewer.h */; };
 		2E56A2271828EF9500D63D65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E56A2281828EFA100D63D65 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
+		2E60C0FC19B3AF830070AF75 /* IGeometryCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E60C0FB19B3AF830070AF75 /* IGeometryCreator.h */; };
+		2E60C0FD19B3AF830070AF75 /* IGeometryCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E60C0FB19B3AF830070AF75 /* IGeometryCreator.h */; };
 		2E6C5F7C1829812E00FB1027 /* shadergroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F54182980F900FB1027 /* shadergroup.cpp */; };
 		2E6C5F7E1829812E00FB1027 /* shadermaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F56182980F900FB1027 /* shadermaterial.cpp */; };
 		2E6C5F841829812E00FB1027 /* CShaderPre.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C5F5E182980FA00FB1027 /* CShaderPre.cpp */; };
@@ -2380,6 +2382,7 @@
 		2E4CB01F19483C3400740D0D /* CEditorCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEditorCamera.h; sourceTree = "<group>"; };
 		2E4CB02219483D3E00740D0D /* CUIAnimatedMeshViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIAnimatedMeshViewer.cpp; sourceTree = "<group>"; };
 		2E4CB02319483D3E00740D0D /* CUIAnimatedMeshViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIAnimatedMeshViewer.h; sourceTree = "<group>"; };
+		2E60C0FB19B3AF830070AF75 /* IGeometryCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGeometryCreator.h; sourceTree = "<group>"; };
 		2E6B3D57182E7964006E12C6 /* libSSWEGenericMonitor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSWEGenericMonitor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F51182980CD00FB1027 /* libSSWERenders.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSWERenders.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C5F54182980F900FB1027 /* shadergroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shadergroup.cpp; sourceTree = "<group>"; };
@@ -3917,6 +3920,7 @@
 		0910BA500D1F660300D46B04 /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				2E60C0FB19B3AF830070AF75 /* IGeometryCreator.h */,
 				0910BA220D1F64B300D46B04 /* SSkinMeshBuffer.h */,
 				0910BA210D1F64B300D46B04 /* SSharedMeshBuffer.h */,
 				0910BA0A0D1F64B300D46B04 /* IBoneSceneNode.h */,
@@ -6927,6 +6931,7 @@
 				951547E8133CD9DA008D792F /* ITexture.h in Headers */,
 				951547E9133CD9DA008D792F /* ITimer.h in Headers */,
 				951547EA133CD9DA008D792F /* ITriangleSelector.h in Headers */,
+				2E60C0FC19B3AF830070AF75 /* IGeometryCreator.h in Headers */,
 				951547EB133CD9DA008D792F /* IVideoDriver.h in Headers */,
 				951547EC133CD9DA008D792F /* IVideoModeList.h in Headers */,
 				951547ED133CD9DA008D792F /* IWriteFile.h in Headers */,
@@ -7006,6 +7011,7 @@
 				0910BA250D1F64B300D46B04 /* coreutil.h in Headers */,
 				0910BA260D1F64B300D46B04 /* ECullingTypes.h in Headers */,
 				0910BA270D1F64B300D46B04 /* EDebugSceneTypes.h in Headers */,
+				2E60C0FD19B3AF830070AF75 /* IGeometryCreator.h in Headers */,
 				0910BA280D1F64B300D46B04 /* EDriverFeatures.h in Headers */,
 				0910BA290D1F64B300D46B04 /* EGUIAlignment.h in Headers */,
 				0910BA2A0D1F64B300D46B04 /* EHardwareBufferFlags.h in Headers */,

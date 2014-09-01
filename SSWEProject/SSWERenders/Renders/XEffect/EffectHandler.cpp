@@ -264,12 +264,6 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		DepthOfField = gpu->addHighLevelShaderMaterial(sPP.ppShader(SCREEN_QUAD_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
 													   sPP.ppShader(DEPTH_OF_FIELD_P[shaderExt]).c_str(), "pixelMain", pixelProfile, SQCB);
 
-		if (driver->getDriverType() == EDT_OPENGL)
-			NormalPass = EMT_SOLID;
-		else
-			NormalPass = gpu->addHighLevelShaderMaterial(sPP.ppShader(NORMAL_PASS_V[shaderExt]).c_str(), "vertexMain", vertexProfile,
-														 sPP.ppShader(NORMAL_PASS_P[shaderExt]).c_str(), "pixelMain", pixelProfile, normalMC);
-
 		// Drop the screen quad callback.
 		SQCB->drop();
 	}
@@ -819,11 +813,11 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 		{
 			ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)PostProcessingRoutines[i].materialType;
 
-			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
-
 			Alter = !Alter;
 			ScreenQuad.getMaterial().setTexture(0, i == 0 ? ScreenRTT : ScreenQuad.rt[int(!Alter)]);
 			driver->setRenderTarget(i >= PostProcessingRoutinesSize - 1 && !rtTest && !useHDR ? outputTarget : ScreenQuad.rt[int(Alter)], true, true, ClearColour);
+
+			if(PostProcessingRoutines[i].renderCallback) PostProcessingRoutines[i].renderCallback->OnPreRender(this);
 
 			ScreenQuad.render(driver);
 
