@@ -83,14 +83,22 @@ void CMeshSimplificator::switchToOriginalMeshBuffer(IMeshBuffer *buffer) {
 }
 
 void CMeshSimplificator::simplifyMeshBuffer(IMeshBuffer *buffer, irr::f32 percentage, std::function<void(IMeshBuffer *buffer)> callback) {
+    #ifndef _IRR_LINUX_PLATFORM_
 	std::thread t(&CMeshSimplificator::simplifyMeshBuffer_t, *this, buffer, percentage, callback);
 	t.detach();
+	#else
+    simplifyMeshBuffer_t(buffer, percentage, callback);
+	#endif
 }
 
 void CMeshSimplificator::simplifyMesh(IMesh *mesh, f32 percentage, std::function<void(IMeshBuffer *buffer, s32 index)> callback,
                                       std::function<void(irr::scene::IMesh *computedMesh)> endCallback) {
+    #ifndef _IRR_LINUX_PLATFORM_
     std::thread t(&CMeshSimplificator::simplifyMesh_t, *this, mesh, percentage, callback, endCallback);
     t.detach();
+    #else
+    simplifyMesh_t(mesh, percentage, callback, endCallback);
+    #endif
 }
 
 //---------------------------------------------------------------------------------------------
@@ -186,7 +194,7 @@ void CMeshSimplificator::simplifyMesh_t(irr::scene::IMesh *mesh, irr::f32 percen
                                         std::function<void(irr::scene::IMesh *computedMesh)> endCallback) {
     if (!mesh)
         return;
-    
+
     for (u32 i=0; i < mesh->getMeshBufferCount(); i++) {
         simplifyMeshBuffer_t(mesh->getMeshBuffer(i), percentage, [=](IMeshBuffer *buffer){
             callback(buffer, i);

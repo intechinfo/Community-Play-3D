@@ -113,6 +113,7 @@
 		<Unit filename="../Renders/XEffect/EffectHandler.cpp" />
 		<Unit filename="../Renders/XEffect/EffectHandler.h" />
 		<Unit filename="../Renders/XEffect/EffectShaders.h" />
+		<Unit filename="../Renders/XEffect/SShadowLight.h" />
 		<Unit filename="../Renders/XEffect/XEffects.h" />
 		<Unit filename="../SSWERenders.cpp" />
 		<Unit filename="../SSWERenders.h" />

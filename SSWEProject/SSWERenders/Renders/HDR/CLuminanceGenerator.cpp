@@ -43,7 +43,7 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::LuminanceDownSampleGL);
     else
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Luminance);
-    
+
     fh2 = 0;
     if (vd->getDriverType() == video::EDT_OPENGL)
         fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
@@ -63,7 +63,7 @@ LuminanceGenerator::LuminanceGenerator(ECOLOR_FORMAT bufferType) {
 		throw new Exception("Luminance downsampler shader couldn't be loaded", __FUNCTION__);
 	}
 	fh->drop();
-    
+
     if (fh2) fh2->drop();
 
 	//set up render targets
@@ -117,11 +117,7 @@ void LuminanceGenerator::LuminanceCallback::OnSetConstants(IMaterialRendererServ
     texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
 
-    f32 lumOffsets2[8];
-    for (u32 i=0; i < 4; i++)
-        for (u32 j=0; j < 2; j++)
-            lumOffsets2[i * 2 + j] = lumOffsets[i][j];
-	services->setPixelShaderConstant("lumOffsets", reinterpret_cast<f32*>(&lumOffsets2), 8);
+	services->setPixelShaderConstant("lumOffsets", reinterpret_cast<f32*>(&lumOffsets), 8);
 }
 
 void LuminanceGenerator::LuminanceCallback::UpdateSourceDimensions(const dimension2d<u32>& sourceDims) {
@@ -146,11 +142,7 @@ void LuminanceGenerator::DownsampleCallback::OnSetConstants(IMaterialRendererSer
     texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
 
-    f32 dsOffsets2[18];
-    for (u32 i=0; i < 9; i++)
-        for (u32 j=0; j < 2; j++)
-            dsOffsets2[i * 2 + j] = dsOffsets[i][j];
-	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets2), 18);
+	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets), 18);
 	services->setPixelShaderConstant("halfDestPixelSize", &halfDestPixelSize, 1);
 }
 

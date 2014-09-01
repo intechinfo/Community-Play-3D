@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "Stdafx.h"
 
 #include "CGUISpectrum.h"
 
@@ -15,7 +15,7 @@ CGUISpectrum::CGUISpectrum(cp3d::audio::IAudioElement *element, IrrlichtDevice *
 	setDebugName("CGUINodesEditor");
 	#endif
 	setNotClipped(noclip);
-    
+
     Clip = noclip;
     Device = device;
 
@@ -31,7 +31,7 @@ CGUISpectrum::CGUISpectrum(cp3d::audio::IAudioElement *element, IrrlichtDevice *
 CGUISpectrum::~CGUISpectrum() {
 	delete[] Spectrum;
 
-	IGUIElement::~IGUIElement();
+	//IGUIElement::~IGUIElement();
 }
 
 bool CGUISpectrum::OnEvent(const SEvent& event) {
@@ -46,19 +46,19 @@ void CGUISpectrum::draw() {
 
 	IGUISkin* skin = Environment->getSkin();
 	irr::video::IVideoDriver* driver = Environment->getVideoDriver();
-    
+
 	core::rect<s32>* clipRect = 0;
 	if (Clip)
 	{
 		clipRect = &AbsoluteClippingRect;
 	}
-    
+
 	// draw background
 	core::rect<s32> frameRect( AbsoluteRect );
-    
+
     driver->draw2DRectangle( skin->getColor( EGDC_3D_HIGH_LIGHT ), frameRect,
                             clipRect );
-    
+
 	// draw items
 	core::rect<s32> clientClip( AbsoluteRect );
 	clientClip.UpperLeftCorner.Y += 1;

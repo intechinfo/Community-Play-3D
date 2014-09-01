@@ -33,7 +33,8 @@ const char* LIGHT_MODULATE_P[ESE_COUNT] = {"uniform sampler2D ColorMapSampler;\n
 "	return finalCol * lightCol;\n"
 "}"};
 
-const char* SHADOW_PASS_1P[ESE_COUNT] = {"void main() "
+const char* SHADOW_PASS_1P[ESE_COUNT] = {
+"void main() "
 "{"
 "	vec4 vInfo = gl_TexCoord[0];\n"
 "	float depth = vInfo.z / vInfo.x;\n"
@@ -135,7 +136,8 @@ const char* SHADOW_PASS_1V[ESE_COUNT] = {"uniform mat4 mWorldViewProj;\n"
 "}"
 };
 
-const char* SHADOW_PASS_2P[ESE_COUNT] = {"uniform sampler2D ShadowMapSampler;\n"
+const char* SHADOW_PASS_2P[ESE_COUNT] = {
+"uniform sampler2D ShadowMapSampler;\n"
 "uniform vec4 LightColour;\n"
 "varying float lightVal;\n"
 ""
@@ -308,7 +310,8 @@ const char* SHADOW_PASS_2P[ESE_COUNT] = {"uniform sampler2D ShadowMapSampler;\n"
 "	return finalCol;\n"
 "}"};
 
-const char* SHADOW_PASS_2V[ESE_COUNT] = {"struct VS_OUTPUT "
+const char* SHADOW_PASS_2V[ESE_COUNT] = {
+"struct VS_OUTPUT "
 "{"
 "	vec4 Position;\n"
 "	vec4 ShadowMapSamplingPos;\n"

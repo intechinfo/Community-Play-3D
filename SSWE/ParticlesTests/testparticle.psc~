@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+
+<rootPS>
+
+	 <system>
+		 <aabbComputing value="1" />
+		 <enableAutoUpdate value="1" />
+		 <updateOnlyIfVisible value="1" />
+
+		 </group>
+			 <name value="Smoke Group" />
+			 <gravity X="0.000000" Y="0.400000" Z="0.000000" />
+			 <aabbComputing value="1" />
+			 <friction value="0.000000" />
+			 <enableSorting value="0" />
+			 <enableDistanceComputing value="0" />
+
+			 <renderer>
+				 <name value="Smoke Renderer" />
+				 <scale W="0.300000" H="0.300000" />
+				 <texturingMode value="1" />
+				 <blendingMode value="1" />
+				 <atlasDimension W="2" H="2" />
+				 <texture value="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/ParticlesTests/explosion.png" />
+				 <enableAlphaTest value="1" />
+				 <enableDepthTest value="1" />
+				 <enableDepthWrite value="0" />
+				 <setActive value="1" />
+				 <alphaTest value="1.000000" />
+			 </renderer>
+
+
+			 <model>
+				 <enabledParams> 
+					 <enabledparam value="1" birth="0.300000" death="0.200000" />
+					 <enabledparam value="2" birth="0.250000" death="0.200000" />
+					 <enabledparam value="4" death="0.200000" />
+					 <enabledparam value="8" />
+					 <enabledparam value="16" birth="5.000000" death="10.000000" />
+					 <enabledparam value="-1" />
+					 <enabledparam value="64" minBirth="0.000000" maxBirth="6.283185" minDeath="0.000000" maxDeath="6.283185" />
+					 <enabledparam value="128" rand0="0.000000" rand1="4.000000" />
+					 <enabledparam value="-1" />
+				 </enabledParams> 
+				 <name value="Smoke Model" />
+				 <lifeTime min="5.000000" max="5.000000" />
+				 <interpolators> 
+					 <interpolator value="3" x="0.000000" y0="0.000000" y1="0.000000" />
+					 <interpolator value="3" x="0.200000" y0="0.200000" y1="0.200000" />
+					 <interpolator value="3" x="1.000000" y0="0.000000" y1="0.000000" />
+				 </interpolators> 
+			 </model>
+
+
+			 <emitter value="2" >
+				 <name value="smoke Emitter" />
+				 <flow value="25.000000" />
+				 <force min="0.500000" max="1.000000" />
+				 <active value="1" />
+				 <tank value="-1" />
+
+				 <zone>
+					  <type value="6" />
+					  <position X="0.000000" Y="0.000000" Z="0.000000" />
+					  <radius value="1.200000" />
+				 </zone>
+
+			 </emitter>
+
+		 </group>
+
+
+		 </group>
+			 <name value="Fire Group" />
+			 <gravity X="0.000000" Y="3.000000" Z="0.000000" />
+			 <aabbComputing value="1" />
+			 <friction value="0.000000" />
+			 <enableSorting value="0" />
+			 <enableDistanceComputing value="0" />
+
+			 <renderer>
+				 <name value="Fire Renderer" />
+				 <scale W="0.300000" H="0.300000" />
+				 <texturingMode value="1" />
+				 <blendingMode value="1" />
+				 <atlasDimension W="2" H="2" />
+				 <texture value="C:/Users/julienmoreau-mathis/Desktop/Soganatsu/SSWE/ParticlesTests/fire2.bmp" />
+				 <enableAlphaTest value="1" />
+				 <enableDepthTest value="1" />
+				 <enableDepthWrite value="0" />
+				 <setActive value="1" />
+				 <alphaTest value="1.000000" />
+			 </renderer>
+
+
+			 <model>
+				 <enabledParams> 
+					 <enabledparam value="1" minBirth="0.800000" maxBirth="0.900000" minDeath="0.800000" maxDeath="0.900000" />
+					 <enabledparam value="2" minBirth="0.500000" maxBirth="0.600000" minDeath="0.500000" maxDeath="0.600000" />
+					 <enabledparam value="4" death="0.300000" />
+					 <enabledparam value="8" birth="0.400000" death="0.000000" />
+					 <enabledparam value="16" />
+					 <enabledparam value="-1" />
+					 <enabledparam value="64" minBirth="0.000000" maxBirth="6.283185" minDeath="0.000000" maxDeath="6.283185" />
+					 <enabledparam value="128" rand0="0.000000" rand1="4.000000" />
+					 <enabledparam value="-1" />
+				 </enabledParams> 
+				 <name value="Fire Model" />
+				 <lifeTime min="1.000000" max="1.500000" />
+				 <interpolators> 
+					 <interpolator value="4" x="0.500000" y0="2.000000" y1="5.000000" />
+					 <interpolator value="4" x="1.000000" y0="0.000000" y1="0.000000" />
+				 </interpolators> 
+			 </model>
+
+
+			 <emitter value="0" >
+				 <name value="Fire Emitter 1" />
+				 <flow value="40.000000" />
+				 <force min="1.000000" max="2.500000" />
+				 <active value="1" />
+				 <tank value="-1" />
+
+				 <zone>
+					  <type value="6" />
+					  <position X="0.000000" Y="-1.000000" Z="0.000000" />
+					  <radius value="0.500000" />
+				 </zone>
+
+			 </emitter>
+
+
+			 <emitter value="0" >
+				 <name value="Fire Emitter 2" />
+				 <flow value="15.000000" />
+				 <force min="0.500000" max="1.500000" />
+				 <active value="1" />
+				 <tank value="-1" />
+
+				 <zone>
+					  <type value="6" />
+					  <position X="0.150000" Y="-1.200000" Z="0.075000" />
+					  <radius value="0.100000" />
+				 </zone>
+
+			 </emitter>
+
+
+			 <emitter value="0" >
+				 <name value="Fire Emitter 3" />
+				 <flow value="15.000000" />
+				 <force min="0.500000" max="1.500000" />
+				 <active value="1" />
+				 <tank value="-1" />
+
+				 <zone>
+					  <type value="6" />
+					  <position X="-0.375000" Y="-1.150000" Z="-0.375000" />
+					  <radius value="0.300000" />
+				 </zone>
+
+			 </emitter>
+
+
+			 <emitter value="0" >
+				 <name value="Fire Emitter 4" />
+				 <flow value="10.000000" />
+				 <force min="0.500000" max="1.500000" />
+				 <active value="1" />
+				 <tank value="-1" />
+
+				 <zone>
+					  <type value="6" />
+					  <position X="-0.255000" Y="-1.200000" Z="0.225000" />
+					  <radius value="0.200000" />
+				 </zone>
+
+			 </emitter>
+
+
+			 <emitter value="0" >
+				 <name value="Fire Emitter 5" />
+				 <flow value="10.000000" />
+				 <force min="0.500000" max="1.500000" />
+				 <active value="1" />
+				 <tank value="-1" />
+
+				 <zone>
+					  <type value="6" />
+					  <position X="-0.075000" Y="-1.200000" Z="-0.300000" />
+					  <radius value="0.200000" />
+				 </zone>
+
+			 </emitter>
+
+		 </group>
+
+	 </system>
+
+</rootPS>

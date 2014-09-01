@@ -13,12 +13,12 @@ DownSampleX4PostProcess::DownSampleX4PostProcess() {
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::DownSampleX4GL);
 	else
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::DownSampleX4);
-    
+
     IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
     IReadFile *fh2 = 0;
     if (vd->getDriverType() == video::EDT_OPENGL)
         fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
-    
+
 	if(fh == NULL)
 		throw new Exception("Down-Sample shader file couldn't be opened", __FUNCTION__);
 
@@ -40,14 +40,10 @@ DownSampleX4PostProcess::DownSampleX4PostProcess() {
 }
 
 void DownSampleX4PostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
-    f32 dsOffsets2[32];
-    for (u32 i=0; i < 16; i++)
-        for (u32 j=0; j < 2; j++)
-            dsOffsets2[i * 2 + j] = dsOffsets[i][j];
-    
+
     irr::s32 texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
-	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets2), 32);
+	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets), 32);
 }
 
 void DownSampleX4PostProcess::Render(ITexture* __restrict source, ITexture* __restrict output) {

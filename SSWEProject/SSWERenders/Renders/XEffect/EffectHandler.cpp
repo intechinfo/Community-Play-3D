@@ -112,8 +112,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		Depth = gpu->addHighLevelShaderMaterial(sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
                                                 sPP.ppShader(SHADOW_PASS_1P[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
                                                 depthMC, video::EMT_SOLID);
-		DepthT = gpu->addHighLevelShaderMaterial(
-                                                 sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
+		DepthT = gpu->addHighLevelShaderMaterial(sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
                                                  sPP.ppShader(SHADOW_PASS_1PT[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
                                                  depthMC, video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
 		Depth2T = gpu->addHighLevelShaderMaterial(sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
@@ -133,7 +132,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		WhiteWashTAdd = gpu->addHighLevelShaderMaterial(
                                                         sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
                                                         sPP.ppShader(WHITE_WASH_P_ADD[shaderExt]).c_str(), "pixelMain", video::EPST_PS_2_0,
-                                                        depthMC, video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+                                                        depthMC, video::EMT_TRANSPARENT_ADD_COLOR);
 
 		WhiteWashTAlpha = gpu->addHighLevelShaderMaterial(
                                                           sPP.ppShader(SHADOW_PASS_1V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_2_0,
@@ -198,7 +197,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 				currentRenderPassP = sPP.ppShader(currentRenderPassP).replace("CP3DCOLOR1", RenderPassesColors[1]);
 				currentRenderPassP = sPP.ppShader(currentRenderPassP).replace("CP3DCOLOR2", RenderPassesColors[2]);
 			}
-            
+
 			irr::s32 currentPass = gpu->addHighLevelShaderMaterial(sPP.ppShader(DEPTH_NORMAL_SCATTERING_V[shaderExt]).c_str(), "vertexMain", video::EVST_VS_3_0,
 																   currentRenderPassP.c_str(), "pixelMain", video::EPST_PS_3_0,
 																   dnlcMC, video::EMT_SOLID);
@@ -275,7 +274,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 		WhiteWashTRef = EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
 		WhiteWashTAdd = EMT_TRANSPARENT_ADD_COLOR;
 		WhiteWashTAlpha = EMT_TRANSPARENT_ALPHA_CHANNEL;
-		Simple = EMT_SOLID;
+		Simple = EMT_TRANSPARENT_ADD_COLOR;
 
 		for(u32 i = 0;i < EFT_COUNT;++i)
 			Shadow[i] = EMT_SOLID;
@@ -342,7 +341,7 @@ void EffectHandler::setScreenRenderTargetResolution(const irr::core::dimension2d
 		driver->removeTexture(DepthRTT.RenderTexture);
 		DepthRTT = driver->addRenderTargetTexture(resolution, "depthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
 	}
-    
+
     if (DOFMapSampler) {
 		driver->removeTexture(DOFMapSampler);
         DOFMapSampler = driver->addRenderTargetTexture(resolution, "DOFMapSampler");
@@ -623,7 +622,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 		/*driver->setRenderTarget(ScreenQuad.rt[0], false, false, SColor(0x0));
 		ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
 		ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
-			
+
 		ScreenQuad.render(driver);*/
 	}
 	else
@@ -666,7 +665,7 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 		core::vector3df position = currentCamera->getAbsolutePosition();
 		position.Y = -position.Y + 2 * 1.0; //position of the plan
 		cameraForPasses->setPosition(position);
-		
+
 		//Set target
 		core::vector3df target = currentCamera->getTarget();
 		target.Y = -target.Y + 2 * 1.0;

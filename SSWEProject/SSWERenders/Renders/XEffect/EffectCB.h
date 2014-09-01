@@ -144,7 +144,7 @@ class CCustomFilterCallback : public IPostProcessingRenderCallback {
 
 public:
 
-	CCustomFilterCallback(std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback, 
+	CCustomFilterCallback(std::function<void(ISSWERender *render, irr::s32 materialType)> preRenderCallback,
 						  std::function<void(ISSWERender *render, irr::s32 materialType)> postRenderCallback,
 						  irr::s32 materialType=-1)
 	{
@@ -178,6 +178,11 @@ public:
 
 	virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData) {
 		IVideoDriver* driver = services->getVideoDriver();
+
+		if (driver->getDriverType() == video::EDT_OPENGL) {
+            s32 texVar = 0;
+            services->setPixelShaderConstant("ShadowMapSampler", &texVar, 0);
+		}
 
 		matrix4 worldViewProj = driver->getTransform(video::ETS_PROJECTION);
 		worldViewProj *= driver->getTransform(video::ETS_VIEW);

@@ -41,7 +41,7 @@ public:
 	/// Close the plugin (ISSWELibPlugin)
 	void close();
 	/// Open the plugin (ISSWELibPlugin)
-	void open();
+	virtual void open();
 
 	//-----------------------------------
 
