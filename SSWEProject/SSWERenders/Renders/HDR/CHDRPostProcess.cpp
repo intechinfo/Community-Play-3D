@@ -31,7 +31,7 @@ HDRPostProcess::HDRPostProcess(const dimension2d<u32>& sourceSize, bool useHalfB
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRGL);
 	else
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDR);
-    
+
     IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
     IReadFile *fh2 = 0;
     if (vd->getDriverType() == video::EDT_OPENGL)
@@ -71,7 +71,12 @@ void HDRPostProcess::Render(ITexture* __restrict source, ITexture* __restrict ou
 	ta->Render(source, bg->GetOutput());
 	lg->Render(ta->GetOutput());
 
+    #ifdef _IRR_WINDOWS_API
 	currLuminance = *static_cast<f32*>(lg->GetOutput()->lock());
+	#else
+	u8 *value = static_cast<u8*>(lg->GetOutput()->lock(ETLM_READ_ONLY));
+	currLuminance = value[1] == 0 ? 0.f : 1.f / value[1];
+	#endif
 	lg->GetOutput()->unlock();
 
 	//Ramp luminance according to set values

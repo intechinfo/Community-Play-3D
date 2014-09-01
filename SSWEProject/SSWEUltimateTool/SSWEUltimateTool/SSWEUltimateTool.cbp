@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/libSSWEUltimateTool" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../SSWE/Plugins/SSWE/LIBSSWEULTIMATETOOL" prefix_auto="0" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -15,10 +15,15 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-fexceptions" />
+					<Add option="-W" />
+					<Add option="-O0" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-fno-exceptions" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/libSSWEUltimateTool" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/SSWEUltimateTool" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -26,6 +31,11 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-fexceptions" />
+					<Add option="-W" />
+					<Add option="-O0" />
+					<Add option="-Wno-unused-parameter" />
+					<Add option="-fno-exceptions" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -33,10 +43,31 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-W" />
+			<Add option="-O0" />
+			<Add option="-Wno-unused-parameter" />
+			<Add option="-fno-exceptions" />
+			<Add option="-fPIC" />
+			<Add directory="../../../../irrlicht-1.8.1/include" />
+			<Add directory="../../SSWELib/include" />
+			<Add directory="../../SSWEUltimateTool" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="../CSSWEUltimateTool.cpp" />
+		<Unit filename="../CSSWEUltimateTool.h" />
+		<Unit filename="../Stdafx.cpp" />
+		<Unit filename="../Stdafx.h" />
+		<Unit filename="../resource.h" />
+		<Unit filename="UserInterfaces/OpenSCAD/CSSWEUTOpenSCADDocument.cpp" />
+		<Unit filename="UserInterfaces/OpenSCAD/CSSWEUTOpenSCADDocument.h" />
+		<Unit filename="UserInterfaces/SoundViewer/CGUISpectrum.cpp" />
+		<Unit filename="UserInterfaces/SoundViewer/CGUISpectrum.h" />
+		<Unit filename="UserInterfaces/SoundViewer/CSSWEUTSoundViewer.cpp" />
+		<Unit filename="UserInterfaces/SoundViewer/CSSWEUTSoundViewer.h" />
+		<Unit filename="Utils/CSSWEUTMeshSplitter.cpp" />
+		<Unit filename="Utils/CSSWEUTMeshSplitter.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

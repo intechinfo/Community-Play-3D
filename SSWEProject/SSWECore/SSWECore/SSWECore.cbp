@@ -26,8 +26,8 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -73,6 +73,16 @@
 		<Unit filename="DecaleSystem/DecalManager.h" />
 		<Unit filename="DecaleSystem/DecalSceneNode.cpp" />
 		<Unit filename="DecaleSystem/DecalSceneNode.h" />
+		<Unit filename="ProgressiveMeshBuffer/CEdge.cpp" />
+		<Unit filename="ProgressiveMeshBuffer/CEdge.h" />
+		<Unit filename="ProgressiveMeshBuffer/CMeshSimplificator.cpp" />
+		<Unit filename="ProgressiveMeshBuffer/CMeshSimplificator.h" />
+		<Unit filename="ProgressiveMeshBuffer/CProgressiveMeshBuffer.cpp" />
+		<Unit filename="ProgressiveMeshBuffer/CProgressiveMeshBuffer.h" />
+		<Unit filename="ProgressiveMeshBuffer/CTriangle.cpp" />
+		<Unit filename="ProgressiveMeshBuffer/CTriangle.h" />
+		<Unit filename="ProgressiveMeshBuffer/CVertex.cpp" />
+		<Unit filename="ProgressiveMeshBuffer/CVertex.h" />
 		<Unit filename="SceneNodes/CGridSceneNode.cpp" />
 		<Unit filename="SceneNodes/CGridSceneNode.h" />
 		<Extensions>

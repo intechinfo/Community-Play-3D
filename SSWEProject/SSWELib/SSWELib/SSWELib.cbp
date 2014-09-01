@@ -105,6 +105,10 @@
 		<Unit filename="Device/Core/Scripting/CSceneScripting.h" />
 		<Unit filename="Device/Core/Scripting/CUIScriptEditor.cpp" />
 		<Unit filename="Device/Core/Scripting/CUIScriptEditor.h" />
+		<Unit filename="Device/Core/Scripting/Scene/CCamera.cpp" />
+		<Unit filename="Device/Core/Scripting/Scene/CCamera.h" />
+		<Unit filename="Device/Core/Scripting/math/CMatrix4.cpp" />
+		<Unit filename="Device/Core/Scripting/math/CMatrix4.h" />
 		<Unit filename="Device/Core/Scripting/math/CVector3d.cpp" />
 		<Unit filename="Device/Core/Scripting/math/CVector3d.h" />
 		<Unit filename="Device/Monitor/MonitorRegister.cpp" />
@@ -123,6 +127,8 @@
 		<Unit filename="GUIExtension/NodesEditor/CGUINodesEditor.h" />
 		<Unit filename="GUIExtension/ProgressBar/ProgressBar.cpp" />
 		<Unit filename="GUIExtension/ProgressBar/ProgressBar.h" />
+		<Unit filename="GUIExtension/SoundViewer/CGUISoundViewer.cpp" />
+		<Unit filename="GUIExtension/SoundViewer/CGUISoundViewer.h" />
 		<Unit filename="GUIExtension/TimeLine/CGUITimeLine.cpp" />
 		<Unit filename="GUIExtension/TimeLine/CGUITimeLine.h" />
 		<Unit filename="GUIExtension/ViewPort/CGUIViewPort.cpp" />
@@ -176,6 +182,8 @@
 		<Unit filename="UserInterfaces/AnimatorsEditor/CUIWindowEditNodeAnimators.h" />
 		<Unit filename="UserInterfaces/AnimatorsEditor/CameraScenarioMaker/CUICameraScenerioMaker.cpp" />
 		<Unit filename="UserInterfaces/AnimatorsEditor/CameraScenarioMaker/CUICameraScenerioMaker.h" />
+		<Unit filename="UserInterfaces/Audio/CUIAddAudioElement.cpp" />
+		<Unit filename="UserInterfaces/Audio/CUIAddAudioElement.h" />
 		<Unit filename="UserInterfaces/CUILoadNodesGroup.cpp" />
 		<Unit filename="UserInterfaces/CUILoadNodesGroup.h" />
 		<Unit filename="UserInterfaces/CUIRenderingInfos.cpp" />
@@ -232,6 +240,8 @@
 		<Unit filename="UserInterfaces/MeshFactory/CUIAnimatedMeshViewer.h" />
 		<Unit filename="UserInterfaces/MeshFactory/CUIMeshFactory.cpp" />
 		<Unit filename="UserInterfaces/MeshFactory/CUIMeshFactory.h" />
+		<Unit filename="UserInterfaces/MeshFactory/CUIMeshSimplificator.cpp" />
+		<Unit filename="UserInterfaces/MeshFactory/CUIMeshSimplificator.h" />
 		<Unit filename="UserInterfaces/NodeFactory/CNodeFactory.cpp" />
 		<Unit filename="UserInterfaces/NodeFactory/CNodeFactory.h" />
 		<Unit filename="UserInterfaces/NodeFactory/CUINodeFactoryCreateMeshWithTangents.cpp" />

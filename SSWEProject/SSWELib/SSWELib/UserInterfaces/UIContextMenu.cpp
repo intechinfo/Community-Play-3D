@@ -49,7 +49,11 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
         pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/DefaultAudioManager.dll");
         #endif
     #else
+        #ifdef _IRR_LINUX_PLATFORM_
+
+        #else
         pluginsManager->loadAudioPlugin(devices->getWorkingDirectory() + "Plugins/Audio/libDefaultAudioManager.dylib");
+        #endif
     #endif
 
     //-----------------------------------
@@ -414,7 +418,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	//CUISSWEOptions *preferences = new CUISSWEOptions(devices);
 
     //CUIParticlesEditor *editor = new CUIParticlesEditor(devices);
-	
+
 	//CUIWindowEditFilters *f = new CUIWindowEditFilters(devices);
 
     //devices->createFileOpenDialog(L"Test...", CGUIFileSelector::EFST_OPEN_DIALOG, 0, false);
@@ -492,7 +496,7 @@ void CUIContextMenu::playExampleGame() {
 
 	bool isDrawingEffects = devices->isXEffectDrawable();
 	devices->setXEffectDrawable(false);
-    
+
 	CExporter *exporter = new CExporter(devices);
 	exporter->exportScene(stringc(devices->getProjectName() + "_test.world").c_str());
 
@@ -504,9 +508,17 @@ void CUIContextMenu::playExampleGame() {
         #endif
     #else
         #ifndef SSWE_RELEASE
-        stringc path = devices->getWorkingDirectory() + "ExampleGame_d.exe -o ";
+            #ifndef _IRR_LINUX_PLATFORM_
+            stringc path = devices->getWorkingDirectory() + "ExampleGame_d.exe -o ";
+            #else
+            stringc path = devices->getWorkingDirectory() + "ExampleGame_d -o ";
+            #endif
         #else
-        stringc path = devices->getWorkingDirectory() + "ExampleGame.exe -o ";
+            #ifndef _IRR_LINUX_PLATFORM_
+            stringc path = devices->getWorkingDirectory() + "ExampleGame_d.exe -o ";
+            #else
+            stringc path = devices->getWorkingDirectory() + "ExampleGame -o ";
+            #endif
         #endif
     #endif
 	path += devices->getProjectName();

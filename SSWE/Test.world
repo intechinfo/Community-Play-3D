@@ -4,7 +4,7 @@
 
 	<config>
 
-		 <numberOfObjects value="5" />
+		 <numberOfObjects value="3" />
 
 		 <grid>
 
@@ -16,8 +16,8 @@
 
 		 <camera>
 
-			 <position X="-108.939003" Y="272.761475" Z="-53.002419" />
-			 <rotation X="31.914782" Y="51.071274" Z="0.000000" />
+			 <position X="132.748245" Y="105.372269" Z="61.379646" />
+			 <rotation X="33.165779" Y="253.035767" Z="0.000000" />
 
 		 </camera>
 
@@ -30,7 +30,7 @@
 
 		 </fpsCameraSettings>
 
-		 <depthPassEnabled enabled="1" />
+		 <depthPassEnabled enabled="0" />
 		 <lightScaterringPassEnabled enabled="0" />
 		 <reflectionPassEnabled enabled="0" />
 
@@ -74,8 +74,8 @@
 				 <smooth value="0" />
 				 </meshFactory>
 				 <planarMapping>
-				 <planarMapped value="0" />
-				 <planarMappedValue value="0.000000" />
+				 <planarMapped value="1" />
+				 <planarMappedValue value="0.035000" />
 				 </planarMapping>
 
 			 </factory> 
@@ -83,7 +83,7 @@
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="" />
+						 <texture id="0" path="shaders/Textures/predefined/diffuse.tga" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -124,7 +124,7 @@
 			<depthPassed value="0" />
 			<lightScatteringPassed value="0" />
 
-			 <visible bool="0" />
+			 <visible bool="1" />
 			 <shadowMode mode="0" />
 			 <actions>
 			 </actions>
@@ -160,85 +160,7 @@
 			 <materials>
 			 	 <material id="0">
 					 <textures>
-						 <texture id="0" path="data/xeffects.png" />
-						 <texture id="1" path="" />
-						 <texture id="2" path="" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="0" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="14" />
-
-			 	 </material>
-			 </materials>
-			 <position X="-17.660545" Y="191.296783" Z="5.963043" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
-
-			<depthPassed value="1" />
-			<lightScatteringPassed value="0" />
-
-			 <visible bool="1" />
-			 <shadowMode mode="1" />
-			 <actions>
-			 </actions>
-
-			 <physics>
-			 	 <body type="1">
-			 		 <mass value="1.000000" />
-			 	 </body>
-			 </physics>
-
-		 </object>
-
-		 <object>
-
-			 <path file="cube" />
-
-			 <name c8name="#object:new_cube" />
-
-			 <factory> 
-
-				 <meshFactory>
-				 <tangents value="0" />
-				 <normals value="0" />
-				 <angleWeighted value="0" />
-				 <smooth value="0" />
-				 </meshFactory>
-				 <planarMapping>
-				 <planarMapped value="0" />
-				 <planarMappedValue value="0.000000" />
-				 </planarMapping>
-
-			 </factory> 
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="shaders/textures/predefined/diffuse.tga" />
+						 <texture id="0" path="data/Lights/skydome2.jpg" />
 						 <texture id="1" path="" />
 						 <texture id="2" path="" />
 						 <texture id="3" path="" />
@@ -272,7 +194,7 @@
 
 			 	 </material>
 			 </materials>
-			 <position X="27.462296" Y="291.478912" Z="0.000000" />
+			 <position X="0.000000" Y="25.000000" Z="0.000000" />
 			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
 			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
 
@@ -285,8 +207,7 @@
 			 </actions>
 
 			 <physics>
-			 	 <body type="1">
-			 		 <mass value="1.000000" />
+			 	 <body type="0">
 			 	 </body>
 			 </physics>
 
@@ -296,8 +217,8 @@
 
 			 <name c8name="#light:new_light" />
 
-			 <position X="0.000000" Y="454.888794" Z="-87.082458" />
-			 <target X="83.158905" Y="0.000000" Z="0.000000" />
+			 <position X="-118.957886" Y="200.000000" Z="-211.712738" />
+			 <target X="39.896851" Y="24.649933" Z="0.000000" />
 
 			 <diffuseColor r="1.000000" g="1.000000" b="1.000000" a="1.000000" />
 			 <ambiantColor r="0.000000" g="0.000000" b="0.000000" a="1.000000" />
@@ -305,87 +226,15 @@
 
 			 <radius value="100.000000" />
 			 <farValue value="1000.000000" />
-			 <autoRecalculate value="1" />
+			 <fovValue value="1.570622" />
+			 <autoRecalculate value="0" />
 
-			 <shadows resol="2048" />
+			 <shadows resol="1024" />
 
 			 <lensFlare>
-				 <mesh> 
-					 <scale X="0.000000" Y="0.000000" Z="0.000000" />
-					 <texture path="" />
-				 </mesh> 
-				 <bill> 
-					 <size Width="115.000000" Height="115.000000" />
-					 <texture path="shaders/textures/lf/sun.png" />
-				 </bill> 
-				 <lfsn> 
-					 <strength value="-107374176.000000" />
-					 <texture path="" />
-					 <falseOcclusion value="0" />
-				 </lfsn> 
-				 <position X="0.000000" Y="0.000000" Z="0.000000" />
- 			 </lensFlare>
+			 </lensFlare>
 
 		 </light>
-
-		 <waterSurface>
-
-			 <mesh path="" />
-			 <name c8name="#water:New Water Surface" />
-
-			 <position X="0.000000" Y="0.000000" Z="0.000000" />
-			 <rotation X="0.000000" Y="0.000000" Z="0.000000" />
-			 <scale X="1.000000" Y="1.000000" Z="1.000000" />
-
-			<depthPassed value="0" />
-			<lightScatteringPassed value="0" />
-
-			 <materials>
-			 	 <material id="0">
-					 <textures>
-						 <texture id="0" path="shaders/Materials/Water/data/waterbump.png" />
-						 <texture id="1" path="rt" />
-						 <texture id="2" path="rt" />
-						 <texture id="3" path="" />
-					 <textures>
-
-					 <diffuseColor r="255" g="255" b="255" a="255" />
-					 <ambiantColor r="255" g="255" b="255" a="255" />
-					 <specularColor r="255" g="255" b="255" a="255" />
-					 <emissiveColor r="0" g="0" b="0" a="0" />
-
-					 <lighting value="1" />
-
-					 <materialTypeParam1 value="0.000000" />
-					 <materialTypeParam2 value="0.000000" />
-
-					 <shininess value="0.000000" />
-					 <thickness value="1.000000" />
-
-					 <antiAliasing value="1" />
-					 <backfaceCulling value="1" />
-					 <colorMask value="15" />
-					 <colorMaterial value="1" />
-					 <fogEnable value="0" />
-					 <frontfaceCulling value="0" />
-					 <gouraudShading value="1" />
-					 <normalizeNormals value="0" />
-					 <zBuffer value="1" />
-					 <zWriteEnable value="1" />
-
-					 <materianType value="54" />
-
-			 	 </material>
-			 </materials>
-			 <visible bool="1" />
-			 <shadowMode mode="0" />
-			 <shaderPackagePath value="" />
-			 <physics>
-			 	 <body type="2">
-			 	 </body>
-			 </physics>
-
-		 </waterSurface>
 
 		 <skybox>
 

@@ -16,8 +16,10 @@
 			<Depends filename="SSWELib/SSWELib/SSWELib.cbp" />
 			<Depends filename="SSWEUltimateTool/SSWEUltimateTool/SSWEUltimateTool.cbp" />
 			<Depends filename="SSWEGenericMonitor/SSWEGenericMonitor/SSWEGenericMonitor.cbp" />
+			<Depends filename="ExampleGame/ExampleGame/ExampleGame.cbp" />
 		</Project>
 		<Project filename="SSWEUltimateTool/SSWEUltimateTool/SSWEUltimateTool.cbp" />
 		<Project filename="SSWEGenericMonitor/SSWEGenericMonitor/SSWEGenericMonitor.cbp" />
+		<Project filename="ExampleGame/ExampleGame/ExampleGame.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

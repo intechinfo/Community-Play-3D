@@ -22,13 +22,13 @@ int main(int argc, char *argv[]) {
 	devices->getDevice()->getLogger()->setLogLevel(irr::ELL_NONE);
 
 	/// Configure Monitor
-    #ifdef _IRR_OSX_PLATFORM_
+    #if defined(_IRR_OSX_PLATFORM_) || defined(_IRR_LINUX_PLATFORM_)
     coreUserInterface->addMonitor("libSSWEGenericMonitor");
     #else
 	coreUserInterface->addMonitor("SSWEGenericMonitor");
     #endif
-	devices->getXEffect()->getHDRManager()->setExposure(1.2f);
-    devices->getXEffect()->setUseNormalPass(true);
+	devices->getXEffect()->getHDRManager()->setExposure(1.f);
+    devices->getXEffect()->setUseNormalPass(false);
 
 	/// Import our scene
 	ISSWEImporter *importer = coreUserInterface->createImporter();
@@ -44,9 +44,6 @@ int main(int argc, char *argv[]) {
 		devices->getFPSCamera());
 	devices->getDevice()->getCursorControl()->setVisible(false);
 
-	if (devices->getVideoDriver()->getDriverType() == irr::video::EDT_OPENGL)
-		devices->getXEffect()->setUseHDRPass(false);
-    
     /// IMPORTANT:
     /// Creates an instance of the CGUIInformations class.
     /// It allows you to view informations about rendering (FPS, triangles, etc.)
@@ -62,7 +59,7 @@ int main(int argc, char *argv[]) {
 
 	/// Load our dragon test class
 	//CDragonTest *dragonTest = new CDragonTest(devices);
-	
+
 	/// Load our factory test
 	//CFactoryTest *factoryTest = new CFactoryTest(devices);
 
