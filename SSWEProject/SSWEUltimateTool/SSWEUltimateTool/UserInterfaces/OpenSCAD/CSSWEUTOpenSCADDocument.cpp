@@ -121,7 +121,9 @@ void COpenSCADDocument::buildObject() {
 
 	/// Add the object
 	/// Lock the main thread to add the object to the scene
+	#ifndef _IRR_LINUX_PLATFORM_
 	std::lock_guard<std::mutex> lck(cssweutopenscaddocumentm);
+	#endif
 	IMesh *openscadMesh = devices->getSceneManager()->getMesh(workingDirectory + "datas/SSWEUltimateTool/OpenSCAD/temp/test" + cur + ".stl");
 	if (openscadMesh) {
 		IMeshSceneNode *openscadNode = devices->getSceneManager()->addMeshSceneNode(openscadMesh, 0, -1, vector3df(0),

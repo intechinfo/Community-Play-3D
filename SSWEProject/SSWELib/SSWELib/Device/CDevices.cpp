@@ -231,7 +231,7 @@ void CDevices::updateDevice() {
 
                     if(monitor->getActiveCamera() != smgrs[sceneManagerToDrawIndice]->getActiveCamera())
                         monitor->setActiveCamera(smgrs[sceneManagerToDrawIndice]->getActiveCamera());
-                        
+
                     if (renderScene || isOnlyForPlay)
                         monitor->drawScene();
                     else
@@ -274,13 +274,13 @@ void CDevices::updateDevice() {
 #else
 
     if (renderXEffect) {
-        
+
 		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
         if (renderScene || isOnlyForPlay)
             effect->update(renderFullPostTraitements);
         else
             effect->getScreenQuadPtr()->render(driver);
-        
+
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
     }
@@ -379,15 +379,16 @@ void CDevices::drawGUI() {
 void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	//XBOX 360
 
+    Device = irr::createDevice(EDT_OPENGL, parameters.WindowSize, 32, false, false, false, 0);
     //DEVICE
     #ifndef _IRR_LINUX_PLATFORM_
 	Device = createDeviceEx(parameters);
     #else
-    Device = createDeviceEx(parameters);
+    //Device = createDeviceEx(parameters);
     #endif
     Device->setWindowCaption(L"Community Play 3D : Editor");
 	Device->setResizable(true);
-    
+
     #ifdef _IRR_OSX_PLATFORM_
         #ifdef _DEBUG
         Device->getFileSystem()->changeWorkingDirectoryTo("../../../../../../../SSWE/");
@@ -420,10 +421,12 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 		driver->removeTexture(splashScreen);
 	}
 	*/
+	#ifndef _IRR_LINUX_PLATFORM_
 	if (!isOnlyForPlay) {
 		IImage *present = driver->createImage(driver->getTexture("GUI/scs/sc1.png"), vector2di(0, 0), dimension2du(800, 600));
 		Device->present(present, parameters.WindowId);
 	}
+	#endif
 
     //-----------------------------------
     //CAMERAS
@@ -526,7 +529,7 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 	effect->setFPSCamera(camera_fps);
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
-	
+
 	if (driver->getDriverType() == EDT_OPENGL) {
 		normalMappingMaterial = new CNormalMappingMaterial();
 		normalMappingMaterial->build(driver);

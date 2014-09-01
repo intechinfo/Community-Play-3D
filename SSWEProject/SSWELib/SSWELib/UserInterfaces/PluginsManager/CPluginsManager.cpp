@@ -199,9 +199,10 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
     #else
     hdll = dlopen(stringc(ppath).c_str(), RTLD_LAZY);
     #endif
-	
+
 	if (hdll == NULL) {
 		devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
+		printf("\n%s\n", dlerror());
 	} else {
         #ifdef _IRR_WINDOWS_API_
 		createSSWELibPlugin = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createSSWELibPlugin"));
@@ -241,21 +242,21 @@ void CPluginsManager::loadAudioPlugin(stringc path) {
     #endif
 
 	if (hdll == NULL) {
-        
+
 		devices->addErrorDialog(L"Plugin Error", stringw(path + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
 		#ifndef _IRR_WINDOWS_API_
 		printf("\n%s\n", dlerror());
         devices->getDevice()->getLogger()->log(stringc(dlerror()).c_str());
 		#endif
-        
+
 	} else {
-        
+
         #ifdef _IRR_WINDOWS_API_
 		createAudioManager = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createAudioManager"));
         #else
         createAudioManager = reinterpret_cast < pvFunctv > (dlsym(hdll, "createAudioManager"));
         #endif
-        
+
 		if (createAudioManager == NULL) {
 			#ifndef _IRR_WINDOWS_API_
             printf("\n%s\n", dlerror());
@@ -274,6 +275,6 @@ void CPluginsManager::loadAudioPlugin(stringc path) {
 
 			devices->getCoreData()->getAudioPlugins()->push_back(audioPlugin);
 		}
-        
+
 	}
 }

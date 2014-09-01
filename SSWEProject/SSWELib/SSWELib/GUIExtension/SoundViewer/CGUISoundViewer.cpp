@@ -15,7 +15,7 @@ CGUISoundViewer::CGUISoundViewer(cp3d::audio::IAudioElement *element, IrrlichtDe
 	setDebugName("CGUINodesEditor");
 	#endif
 	setNotClipped(noclip);
-    
+
 	/// Configure class
     Clip = noclip;
     Device = device;
@@ -36,7 +36,7 @@ CGUISoundViewer::CGUISoundViewer(cp3d::audio::IAudioElement *element, IrrlichtDe
 CGUISoundViewer::~CGUISoundViewer() {
 	delete[] Spectrum;
 
-	IGUIElement::~IGUIElement();
+	//IGUIElement::~IGUIElement();
 }
 
 bool CGUISoundViewer::OnEvent(const SEvent& event) {
@@ -58,19 +58,19 @@ void CGUISoundViewer::draw() {
 
 	IGUISkin* skin = Environment->getSkin();
 	irr::video::IVideoDriver* driver = Environment->getVideoDriver();
-    
+
 	core::rect<s32>* clipRect = 0;
 	if (Clip)
 	{
 		clipRect = &AbsoluteClippingRect;
 	}
-    
+
 	// draw background
 	core::rect<s32> frameRect( AbsoluteRect );
-    
+
     driver->draw2DRectangle( skin->getColor( EGDC_3D_HIGH_LIGHT ), frameRect,
                             clipRect );
-    
+
 	// draw items
 	core::rect<s32> clientClip( AbsoluteRect );
 	clientClip.UpperLeftCorner.Y += 1;

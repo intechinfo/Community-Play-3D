@@ -995,19 +995,19 @@
 	"matrix4.h"
 	"IVideoDriver.h"
 
-1402229844 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib.h
 	<ISSWECoreUserInterface.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECoreUserInterface.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECoreUserInterface.h
 	<irrlicht.h>
 	<ISSWEImporter.h>
 	<IDevices.h>
 	<IMonitor.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEImporter.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEImporter.h
 	<irrlicht.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IDevices.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IDevices.h
 	"../SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h"
 	<ICollisionManager.h>
 	<ISSWECore.h>
@@ -1015,6 +1015,9 @@
 	<ISSWERender.h>
 	<IGUICodeEditor.h>
 	<IAnimationController.h>
+	<IMonitorRegisterer.h>
+	<IFactory.h>
+	<IMeshSimplificator.h>
 
 1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/SSWELib/GUIExtension/FileSelector/CGUIFileSelector.h
 	<windows.h>
@@ -1022,10 +1025,10 @@
 	<iostream>
 	<irrlicht.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ICollisionManager.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ICollisionManager.h
 	<irrlicht.h>
 
-1402245347 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECore.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECore.h
 	<iostream>
 	<irrlicht.h>
 	<ITool.h>
@@ -1557,38 +1560,41 @@
 	"LinearMath/btScalar.h"
 	"btRigidBody.h"
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECoreData.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWECoreData.h
 	<irrlicht.h>
+	<IAudioManager.h>
 	<ISSWECore.h>
 	<ISSWERender.h>
 	<ISSWEShaderCallback.h>
 
-1403704318 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWERender.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWERender.h
 	<irrlicht.h>
 	<ISSWEHDRManager.h>
+	<functional>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEShaderCallback.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEShaderCallback.h
 	<irrlicht.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IGUICodeEditor.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IGUICodeEditor.h
 	<irrlicht.h>
 	<ITool.h>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IAnimationController.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IAnimationController.h
 	<irrlicht.h>
+	<functional>
 
-1402163233 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IMonitor.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IMonitor.h
 	<irrlicht.h>
 	<ISSWERender.h>
 
 1402228813 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWECore/SSWECore.h
 
-1402230952 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWE/SSWE.cpp
+1409587634 source:/home/parallels/Desktop/Soganatsu/SSWEProject/SSWE/SSWE.cpp
 	"stdafx.h"
 	<Windows.h>
 	"../SSWELib/SSWELib.h"
 
-1352124854 /home/parallels/Desktop/irrlicht-1.8.1/include/irrlicht.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrlicht.h
 	"IrrCompileConfig.h"
 	"aabbox3d.h"
 	"CDynamicMeshBuffer.h"
@@ -1748,17 +1754,17 @@
 	"vector3d.h"
 	"SIrrCreationParameters.h"
 
-1383078898 /home/parallels/Desktop/irrlicht-1.8.1/include/IrrCompileConfig.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IrrCompileConfig.h
 	<stdio.h>
 	<xtl.h>
 	<tchar.h>
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/aabbox3d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/aabbox3d.h
 	"irrMath.h"
 	"plane3d.h"
 	"line3d.h"
 
-1377711730 /home/parallels/Desktop/irrlicht-1.8.1/include/irrMath.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrMath.h
 	"IrrCompileConfig.h"
 	"irrTypes.h"
 	<math.h>
@@ -1766,7 +1772,7 @@
 	<stdlib.h>
 	<limits.h>
 
-1353342040 /home/parallels/Desktop/irrlicht-1.8.1/include/irrTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrTypes.h
 	"IrrCompileConfig.h"
 	<wchar.h>
 	<crtdbg.h>
@@ -1774,28 +1780,28 @@
 	<stdlib.h>
 	<crtdbg.h>
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/plane3d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/plane3d.h
 	"irrMath.h"
 	"vector3d.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/vector3d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/vector3d.h
 	"irrMath.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/line3d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/line3d.h
 	"irrTypes.h"
 	"vector3d.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/CDynamicMeshBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/CDynamicMeshBuffer.h
 	"IDynamicMeshBuffer.h"
 	"CVertexBuffer.h"
 	"CIndexBuffer.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IDynamicMeshBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IDynamicMeshBuffer.h
 	"IMeshBuffer.h"
 	"IVertexBuffer.h"
 	"IIndexBuffer.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshBuffer.h
 	"IReferenceCounted.h"
 	"SMaterial.h"
 	"aabbox3d.h"
@@ -1804,10 +1810,10 @@
 	"EHardwareBufferFlags.h"
 	"EPrimitiveTypes.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IReferenceCounted.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IReferenceCounted.h
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/SMaterial.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SMaterial.h
 	"SColor.h"
 	"matrix4.h"
 	"irrArray.h"
@@ -1816,11 +1822,11 @@
 	"EMaterialFlags.h"
 	"SMaterialLayer.h"
 
-1352124854 /home/parallels/Desktop/irrlicht-1.8.1/include/SColor.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SColor.h
 	"irrTypes.h"
 	"irrMath.h"
 
-1352124854 /home/parallels/Desktop/irrlicht-1.8.1/include/matrix4.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/matrix4.h
 	"irrMath.h"
 	"vector3d.h"
 	"vector2d.h"
@@ -1829,23 +1835,23 @@
 	"rect.h"
 	"irrString.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/vector2d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/vector2d.h
 	"irrMath.h"
 	"dimension2d.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/dimension2d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/dimension2d.h
 	"irrTypes.h"
 	"irrMath.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/rect.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/rect.h
 	"irrTypes.h"
 	"dimension2d.h"
 	"position2d.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/position2d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/position2d.h
 	"vector2d.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/irrString.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrString.h
 	"irrTypes.h"
 	"irrAllocator.h"
 	"irrMath.h"
@@ -1853,133 +1859,133 @@
 	<string.h>
 	<stdlib.h>
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/irrAllocator.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrAllocator.h
 	"irrTypes.h"
 	<new>
 	<memory.h>
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/irrArray.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrArray.h
 	"irrTypes.h"
 	"heapsort.h"
 	"irrAllocator.h"
 	"irrMath.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/heapsort.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/heapsort.h
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/EMaterialTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EMaterialTypes.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EMaterialFlags.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EMaterialFlags.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SMaterialLayer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SMaterialLayer.h
 	"matrix4.h"
 	"irrAllocator.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/S3DVertex.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/S3DVertex.h
 	"vector3d.h"
 	"vector2d.h"
 	"SColor.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SVertexIndex.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SVertexIndex.h
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/EHardwareBufferFlags.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EHardwareBufferFlags.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EPrimitiveTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EPrimitiveTypes.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IVertexBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IVertexBuffer.h
 	"IReferenceCounted.h"
 	"irrArray.h"
 	"S3DVertex.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IIndexBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IIndexBuffer.h
 	"IReferenceCounted.h"
 	"irrArray.h"
 	"SVertexIndex.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/CVertexBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/CVertexBuffer.h
 	"IVertexBuffer.h"
 
-1352124854 /home/parallels/Desktop/irrlicht-1.8.1/include/CIndexBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/CIndexBuffer.h
 	"IIndexBuffer.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/CMeshBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/CMeshBuffer.h
 	"irrArray.h"
 	"IMeshBuffer.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/coreutil.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/coreutil.h
 	"irrString.h"
 	"path.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/path.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/path.h
 	"irrString.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ECullingTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ECullingTypes.h
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/EDebugSceneTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EDebugSceneTypes.h
 
-1352124854 /home/parallels/Desktop/irrlicht-1.8.1/include/EDriverFeatures.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EDriverFeatures.h
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/EDriverTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EDriverTypes.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EGUIAlignment.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EGUIAlignment.h
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/EGUIElementTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EGUIElementTypes.h
 	"irrTypes.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EMeshWriterEnums.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EMeshWriterEnums.h
 	"irrTypes.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EMessageBoxFlags.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EMessageBoxFlags.h
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ESceneNodeAnimatorTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ESceneNodeAnimatorTypes.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ESceneNodeTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ESceneNodeTypes.h
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ETerrainElements.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ETerrainElements.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/fast_atof.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/fast_atof.h
 	"irrMath.h"
 	"irrString.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMesh.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMesh.h
 	"aabbox3d.h"
 	"IMesh.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IMesh.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMesh.h
 	"IReferenceCounted.h"
 	"SMaterial.h"
 	"EHardwareBufferFlags.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMeshMD2.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMeshMD2.h
 	"IAnimatedMesh.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMeshMD3.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMeshMD3.h
 	"IAnimatedMesh.h"
 	"IQ3Shader.h"
 	"quaternion.h"
 	"irrpack.h"
 	"irrunpack.h"
 
-1354566106 /home/parallels/Desktop/irrlicht-1.8.1/include/IQ3Shader.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IQ3Shader.h
 	"irrArray.h"
 	"fast_atof.h"
 	"IFileSystem.h"
 	"IVideoDriver.h"
 	"coreutil.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IFileSystem.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IFileSystem.h
 	"IReferenceCounted.h"
 	"IXMLReader.h"
 	"IFileArchive.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IXMLReader.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IXMLReader.h
 	"IReferenceCounted.h"
 	"irrXML.h"
 
-1359464370 /home/parallels/Desktop/irrlicht-1.8.1/include/irrXML.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrXML.h
 	<stdio.h>
 	"IrrCompileConfig.h"
 	<irrXML.h>
@@ -1988,19 +1994,19 @@
 	<irrXML.h>
 	<irrXML.h>
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IFileArchive.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IFileArchive.h
 	"IReadFile.h"
 	"IFileList.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IReadFile.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IReadFile.h
 	"IReferenceCounted.h"
 	"coreutil.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IFileList.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IFileList.h
 	"IReferenceCounted.h"
 	"path.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IVideoDriver.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IVideoDriver.h
 	"rect.h"
 	"SColor.h"
 	"ITexture.h"
@@ -2016,7 +2022,7 @@
 	"EDriverFeatures.h"
 	"SExposedVideoData.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ITexture.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ITexture.h
 	"IReferenceCounted.h"
 	"IImage.h"
 	"dimension2d.h"
@@ -2024,37 +2030,37 @@
 	"path.h"
 	"matrix4.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IImage.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IImage.h
 	"IReferenceCounted.h"
 	"position2d.h"
 	"rect.h"
 	"SColor.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/triangle3d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/triangle3d.h
 	"vector3d.h"
 	"line3d.h"
 	"plane3d.h"
 	"aabbox3d.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SExposedVideoData.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SExposedVideoData.h
 
-1381238172 /home/parallels/Desktop/irrlicht-1.8.1/include/quaternion.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/quaternion.h
 	"irrTypes.h"
 	"irrMath.h"
 	"matrix4.h"
 	"vector3d.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/irrpack.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrpack.h
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/irrunpack.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrunpack.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMeshSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IAnimatedMeshSceneNode.h
 	"ISceneNode.h"
 	"IBoneSceneNode.h"
 	"IAnimatedMeshMD2.h"
 	"IAnimatedMeshMD3.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNode.h
 	"IAttributeExchangingObject.h"
 	"ESceneNodeTypes.h"
 	"ECullingTypes.h"
@@ -2068,39 +2074,39 @@
 	"irrList.h"
 	"IAttributes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IAttributeExchangingObject.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IAttributeExchangingObject.h
 	"IReferenceCounted.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimator.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimator.h
 	"IReferenceCounted.h"
 	"vector3d.h"
 	"ESceneNodeAnimatorTypes.h"
 	"IAttributeExchangingObject.h"
 	"IEventReceiver.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IEventReceiver.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IEventReceiver.h
 	"ILogger.h"
 	"Keycodes.h"
 	"irrString.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ILogger.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ILogger.h
 	"IReferenceCounted.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/Keycodes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/Keycodes.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ITriangleSelector.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ITriangleSelector.h
 	"IReferenceCounted.h"
 	"triangle3d.h"
 	"aabbox3d.h"
 	"matrix4.h"
 	"line3d.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/irrList.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrList.h
 	"irrTypes.h"
 	"irrAllocator.h"
 	"irrMath.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IAttributes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IAttributes.h
 	"IReferenceCounted.h"
 	"SColor.h"
 	"vector3d.h"
@@ -2123,51 +2129,51 @@
 	"EAttributes.h"
 	"path.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/line2d.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/line2d.h
 	"irrTypes.h"
 	"vector2d.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EAttributes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EAttributes.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IBoneSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IBoneSceneNode.h
 	"ISceneNode.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IBillboardSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IBillboardSceneNode.h
 	"ISceneNode.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IBillboardTextSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IBillboardTextSceneNode.h
 	"IBillboardSceneNode.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ICameraSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ICameraSceneNode.h
 	"ISceneNode.h"
 	"IEventReceiver.h"
 
-1359458706 /home/parallels/Desktop/irrlicht-1.8.1/include/ICursorControl.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ICursorControl.h
 	"IReferenceCounted.h"
 	"position2d.h"
 	"rect.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IDummyTransformationSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IDummyTransformationSceneNode.h
 	"ISceneNode.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGeometryCreator.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGeometryCreator.h
 	"IReferenceCounted.h"
 	"IMesh.h"
 	"IImage.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGPUProgrammingServices.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGPUProgrammingServices.h
 	"EShaderTypes.h"
 	"EMaterialTypes.h"
 	"EPrimitiveTypes.h"
 	"path.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EShaderTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EShaderTypes.h
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIButton.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIButton.h
 	"IGUIElement.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIElement.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIElement.h
 	"IAttributeExchangingObject.h"
 	"irrList.h"
 	"rect.h"
@@ -2177,27 +2183,27 @@
 	"EGUIAlignment.h"
 	"IAttributes.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUICheckBox.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUICheckBox.h
 	"IGUIElement.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIColorSelectDialog.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIColorSelectDialog.h
 	"IGUIElement.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIComboBox.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIComboBox.h
 	"IGUIElement.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIContextMenu.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIContextMenu.h
 	"IGUIElement.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIEditBox.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIEditBox.h
 	"IGUIElement.h"
 	"SColor.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIElementFactory.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIElementFactory.h
 	"IReferenceCounted.h"
 	"EGUIElementTypes.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIEnvironment.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIEnvironment.h
 	"IReferenceCounted.h"
 	"IGUISkin.h"
 	"rect.h"
@@ -2206,118 +2212,118 @@
 	"IXMLReader.h"
 	"path.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUISkin.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUISkin.h
 	"IAttributeExchangingObject.h"
 	"EGUIAlignment.h"
 	"SColor.h"
 	"rect.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIFileOpenDialog.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIFileOpenDialog.h
 	"IGUIElement.h"
 	"path.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIFont.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIFont.h
 	"IReferenceCounted.h"
 	"SColor.h"
 	"rect.h"
 	"irrString.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIFontBitmap.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIFontBitmap.h
 	"IGUIFont.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIImage.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIImage.h
 	"IGUIElement.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIInOutFader.h
-	"IGUIElement.h"
-	"SColor.h"
-
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIListBox.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIInOutFader.h
 	"IGUIElement.h"
 	"SColor.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIMeshViewer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIListBox.h
+	"IGUIElement.h"
+	"SColor.h"
+
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIMeshViewer.h
 	"IGUIElement.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIScrollBar.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIScrollBar.h
 	"IGUIElement.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUISpinBox.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUISpinBox.h
 	"IGUIElement.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUISpriteBank.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUISpriteBank.h
 	"IReferenceCounted.h"
 	"irrArray.h"
 	"SColor.h"
 	"rect.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIStaticText.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIStaticText.h
 	"IGUIElement.h"
 	"SColor.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUITabControl.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUITabControl.h
 	"IGUIElement.h"
 	"SColor.h"
 	"IGUISkin.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUITable.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUITable.h
 	"IGUIElement.h"
 	"irrTypes.h"
 	"SColor.h"
 	"IGUISkin.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIToolbar.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIToolbar.h
 	"IGUIElement.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIWindow.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIWindow.h
 	"IGUIElement.h"
 	"EMessageBoxFlags.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUITreeView.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUITreeView.h
 	"IGUIElement.h"
 	"IGUIImageList.h"
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIImageList.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IGUIImageList.h
 	"IGUIElement.h"
 	"rect.h"
 	"irrTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IImageLoader.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IImageLoader.h
 	"IReferenceCounted.h"
 	"IImage.h"
 	"path.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IImageWriter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IImageWriter.h
 	"IReferenceCounted.h"
 	"irrString.h"
 	"coreutil.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ILightSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ILightSceneNode.h
 	"ISceneNode.h"
 	"SLight.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SLight.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SLight.h
 	"SColor.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IMaterialRenderer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMaterialRenderer.h
 	"IReferenceCounted.h"
 	"SMaterial.h"
 	"S3DVertex.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IMaterialRendererServices.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMaterialRendererServices.h
 	"SMaterial.h"
 	"S3DVertex.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshCache.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshCache.h
 	"IReferenceCounted.h"
 	"path.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshLoader.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshLoader.h
 	"IReferenceCounted.h"
 	"path.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshManipulator.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshManipulator.h
 	"IReferenceCounted.h"
 	"vector3d.h"
 	"aabbox3d.h"
@@ -2326,31 +2332,31 @@
 	"IMeshBuffer.h"
 	"SVertexManipulator.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/SVertexManipulator.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SVertexManipulator.h
 	"S3DVertex.h"
 	"SColor.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshSceneNode.h
 	"ISceneNode.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshWriter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMeshWriter.h
 	"IReferenceCounted.h"
 	"EMeshWriterEnums.h"
 
-1354806368 /home/parallels/Desktop/irrlicht-1.8.1/include/IColladaMeshWriter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IColladaMeshWriter.h
 	"IMeshWriter.h"
 	"ISceneNode.h"
 	"IAnimatedMesh.h"
 	"SMaterial.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IMetaTriangleSelector.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IMetaTriangleSelector.h
 	"ITriangleSelector.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IOSOperator.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IOSOperator.h
 	"IReferenceCounted.h"
 	"irrString.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleSystemSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleSystemSceneNode.h
 	"ISceneNode.h"
 	"IParticleAnimatedMeshSceneNodeEmitter.h"
 	"IParticleBoxEmitter.h"
@@ -2364,60 +2370,60 @@
 	"IParticleRotationAffector.h"
 	"dimension2d.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleAnimatedMeshSceneNodeEmitter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleAnimatedMeshSceneNodeEmitter.h
 	"IParticleEmitter.h"
 	"IAnimatedMeshSceneNode.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleEmitter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleEmitter.h
 	"IAttributeExchangingObject.h"
 	"SParticle.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SParticle.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SParticle.h
 	"vector3d.h"
 	"dimension2d.h"
 	"SColor.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleBoxEmitter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleBoxEmitter.h
 	"IParticleEmitter.h"
 	"aabbox3d.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleCylinderEmitter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleCylinderEmitter.h
 	"IParticleEmitter.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleMeshEmitter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleMeshEmitter.h
 	"IParticleEmitter.h"
 	"IMesh.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleRingEmitter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleRingEmitter.h
 	"IParticleEmitter.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleSphereEmitter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleSphereEmitter.h
 	"IParticleEmitter.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleAttractionAffector.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleAttractionAffector.h
 	"IParticleAffector.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleAffector.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleAffector.h
 	"IAttributeExchangingObject.h"
 	"SParticle.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleFadeOutAffector.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleFadeOutAffector.h
 	"IParticleAffector.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleGravityAffector.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleGravityAffector.h
 	"IParticleAffector.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleRotationAffector.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IParticleRotationAffector.h
 	"IParticleAffector.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IQ3LevelMesh.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IQ3LevelMesh.h
 	"IAnimatedMesh.h"
 	"IQ3Shader.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IRandomizer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IRandomizer.h
 	"IReferenceCounted.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IrrlichtDevice.h
+1409587634 /home/parallels/Desktop/irrlicht-1.8.1/include/IrrlichtDevice.h
 	"IReferenceCounted.h"
 	"dimension2d.h"
 	"IVideoDriver.h"
@@ -2429,31 +2435,31 @@
 	"ITimer.h"
 	"IOSOperator.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/EDeviceTypes.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/EDeviceTypes.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IVideoModeList.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IVideoModeList.h
 	"IReferenceCounted.h"
 	"dimension2d.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ITimer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ITimer.h
 	"IReferenceCounted.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/irrMap.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/irrMap.h
 	"irrTypes.h"
 	"irrMath.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneCollisionManager.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneCollisionManager.h
 	"IReferenceCounted.h"
 	"vector3d.h"
 	"triangle3d.h"
 	"position2d.h"
 	"line3d.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneLoader.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneLoader.h
 	"IReferenceCounted.h"
 	"path.h"
 
-1371460160 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneManager.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneManager.h
 	"IReferenceCounted.h"
 	"irrArray.h"
 	"irrString.h"
@@ -2469,106 +2475,106 @@
 	"IGeometryCreator.h"
 	"ISkinnedMesh.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SceneParameters.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SceneParameters.h
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ISkinnedMesh.h
+1409587634 /home/parallels/Desktop/irrlicht-1.8.1/include/ISkinnedMesh.h
 	"irrArray.h"
 	"IBoneSceneNode.h"
 	"IAnimatedMesh.h"
 	"SSkinMeshBuffer.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/SSkinMeshBuffer.h
+1409587634 /home/parallels/Desktop/irrlicht-1.8.1/include/SSkinMeshBuffer.h
 	"IMeshBuffer.h"
 	"S3DVertex.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorCameraFPS.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorCameraFPS.h
 	"ISceneNodeAnimator.h"
 	"IEventReceiver.h"
 	"irrArray.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorCameraMaya.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorCameraMaya.h
 	"ISceneNodeAnimator.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorCollisionResponse.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorCollisionResponse.h
 	"ISceneNode.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorFactory.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeAnimatorFactory.h
 	"IReferenceCounted.h"
 	"ESceneNodeAnimatorTypes.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeFactory.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneNodeFactory.h
 	"IReferenceCounted.h"
 	"ESceneNodeTypes.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneUserDataSerializer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ISceneUserDataSerializer.h
 	"IReferenceCounted.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IShaderConstantSetCallBack.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IShaderConstantSetCallBack.h
 	"IReferenceCounted.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IShadowVolumeSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IShadowVolumeSceneNode.h
 	"ISceneNode.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ITerrainSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ITerrainSceneNode.h
 	"ETerrainElements.h"
 	"ISceneNode.h"
 	"IDynamicMeshBuffer.h"
 	"irrArray.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ITextSceneNode.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ITextSceneNode.h
 	"ISceneNode.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/IVolumeLightSceneNode.h
+1409587634 /home/parallels/Desktop/irrlicht-1.8.1/include/IVolumeLightSceneNode.h
 	"ISceneNode.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IWriteFile.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IWriteFile.h
 	"IReferenceCounted.h"
 	"path.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/IXMLWriter.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/IXMLWriter.h
 	"IReferenceCounted.h"
 	"irrArray.h"
 	"irrString.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/ILightManager.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/ILightManager.h
 	"IReferenceCounted.h"
 	"irrArray.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SAnimatedMesh.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SAnimatedMesh.h
 	"IAnimatedMesh.h"
 	"IMesh.h"
 	"aabbox3d.h"
 	"irrArray.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/SIrrCreationParameters.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SIrrCreationParameters.h
 	"EDriverTypes.h"
 	"EDeviceTypes.h"
 	"dimension2d.h"
 	"ILogger.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/SKeyMap.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SKeyMap.h
 	"Keycodes.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SMesh.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SMesh.h
 	"IMesh.h"
 	"IMeshBuffer.h"
 	"aabbox3d.h"
 	"irrArray.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SMeshBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SMeshBuffer.h
 	"CMeshBuffer.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SMeshBufferLightMap.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SMeshBufferLightMap.h
 	"CMeshBuffer.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/SMeshBufferTangents.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SMeshBufferTangents.h
 	"CMeshBuffer.h"
 
-1351962514 /home/parallels/Desktop/irrlicht-1.8.1/include/SSharedMeshBuffer.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SSharedMeshBuffer.h
 	"irrArray.h"
 	"IMeshBuffer.h"
 
-1351962512 /home/parallels/Desktop/irrlicht-1.8.1/include/SViewFrustum.h
+1402163222 /home/parallels/Desktop/irrlicht-1.8.1/include/SViewFrustum.h
 	"plane3d.h"
 	"vector3d.h"
 	"line3d.h"
@@ -2576,6 +2582,27 @@
 	"matrix4.h"
 	"IVideoDriver.h"
 
-1403704318 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEHDRManager.h
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/ISSWEHDRManager.h
 	<irrlicht.h>
+
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IAudioManager.h
+	<irrlicht.h>
+	"IAudioElement.h"
+	"IAudioElement3D.h"
+
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IAudioElement.h
+
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IAudioElement3D.h
+	"IAudioElement.h"
+
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IMonitorRegisterer.h
+	"IMonitor.h"
+
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IFactory.h
+	<irrlicht.h>
+	<functional>
+
+1409587634 /home/parallels/Desktop/Soganatsu/SSWEProject/SSWELib/include/IMeshSimplificator.h
+	<irrlicht.h>
+	<functional>
 
