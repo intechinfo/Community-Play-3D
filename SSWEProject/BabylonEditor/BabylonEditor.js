@@ -6,24 +6,26 @@ function BabylonEditor(babylonEditorCore) {
     /// An editor must manage multiple scenes. Then, you'll be able to mange different
     /// worlds in your video game
     this.scenes = new Array();
+    /// If multiple Canvas elements (view ports, etc.)
     this.canvases = new Array();
 
+    /// Core
     this.transformer = null;
 
     this._core = babylonEditorCore;
     this._core.customUpdates.push(this);
 
+    /// Gui elements
     this._mainToolbar = null;
-    this._mditionTool = null;
+    this._editionTool = null;
     this._graphTool = null;
 
+    /// Methods
     this._createUI();
 };
 
 BabylonEditor.prototype.update = function () {
-
     this._core.currentScene.render();
-
 }
 
 BabylonEditor.prototype._createUI = function() {
@@ -49,10 +51,12 @@ BabylonEditor.prototype._createUI = function() {
     var canvas = document.getElementById("renderCanvas");
     var scope = this;
 
+    /// FIXME: Must work on IE
     canvas.ondblclick = function (event) {
         scope._core.getPickedMesh(event, true);
     };
 
+    /// FIXME: events don't necessary call function(target, eventData);
     BabylonEditorUICreator.addEvent('Mainlayout', 'resize', function (target, eventData) {
         scope.engine.resize();
     });
@@ -66,14 +70,14 @@ BabylonEditor.prototype._createUI = function() {
     this._mainToolbar = new BabylonEditorMainToolbar(this._core);
     this._mainToolbar._createUI();
 
-    /// Create Left Sidebar
+    /// Create Left Edition Tool
     this._editionTool = new BabylonEditorEditionTool(this._core);
 
     /// Create Right Sidebar (Scene Graph)
     this._graphTool = new BabylonEditorGraphTool(this._core);
     this._graphTool._createUI();
 
-    /// Create bottom toolbar
+    /// Create bottom toolbar (empty for the moment)
     BabylonEditorUICreator.Toolbar.createToolbar('MainOptionsToolbar', []);
 
     /// Finish configuration and create default camera

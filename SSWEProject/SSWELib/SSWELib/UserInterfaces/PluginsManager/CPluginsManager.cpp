@@ -202,7 +202,6 @@ void CPluginsManager::loadSSWEPlugin(stringc path) {
 
 	if (hdll == NULL) {
 		devices->addErrorDialog(L"Plugin Error", stringw(ppath + L"\nAn error occured\nCannot load the SSWE plugin").c_str(), EMBF_OK);
-		printf("\n%s\n", dlerror());
 	} else {
         #ifdef _IRR_WINDOWS_API_
 		createSSWELibPlugin = reinterpret_cast < pvFunctv > (GetProcAddress(hdll, "createSSWELibPlugin"));

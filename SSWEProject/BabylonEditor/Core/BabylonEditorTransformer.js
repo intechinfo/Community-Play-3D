@@ -23,6 +23,7 @@ function BabylonEditorTransformer(engine, core) {
     this._transformerType = BabylonEditorTransformerType.Nothing;
 
     /// Configure
+    /// Transformer 
     this._scene = new BABYLON.Scene(engine);
     this._scene.autoClear = false;
 
@@ -51,21 +52,22 @@ BabylonEditorTransformer.prototype.update = function () {
 
     /// Update transformers scales
     var distance = BABYLON.Vector3.Distance(this._scene.activeCamera.position, this._positionTransformerX.position) * 0.03;
+    var transform = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
 
     /// Position
-    this._positionTransformerX.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
-    this._positionTransformerY.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
-    this._positionTransformerZ.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
+    this._positionTransformerX.scaling = transform;
+    this._positionTransformerY.scaling = transform;
+    this._positionTransformerZ.scaling = transform;
 
     /// Rotation
-    this._rotationTransformerX.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
-    this._rotationTransformerY.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
-    this._rotationTransformerZ.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
+    this._rotationTransformerX.scaling = transform;
+    this._rotationTransformerY.scaling = transform;
+    this._rotationTransformerZ.scaling = transform;
 
     /// Scaling
-    this._scalingTransformerX.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
-    this._scalingTransformerY.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
-    this._scalingTransformerZ.scaling = new BABYLON.Vector3(distance, distance, distance).divide(new BABYLON.Vector3(3, 3, 3));
+    this._scalingTransformerX.scaling = transform;
+    this._scalingTransformerY.scaling = transform;
+    this._scalingTransformerZ.scaling = transform;
 
     /// Update transformers
     this._positionTransformerX.position.y = distance * 1.3; /// Position

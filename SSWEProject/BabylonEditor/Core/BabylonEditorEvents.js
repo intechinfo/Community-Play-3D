@@ -13,7 +13,7 @@ Work the received event :
 MyTool.prototype.onEvent = function(event) {
     if (event.EventType == BabylonEditorEventType.SceneEvent) {
         if (event.SceneEvent.Type == BabylonEditorEvents.ObjectPicked) {
-            console.log('event successfuly analyzed')
+            console.log('event successfuly analyzed');
         }
     }
 }

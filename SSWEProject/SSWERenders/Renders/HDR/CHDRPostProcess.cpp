@@ -76,7 +76,7 @@ void HDRPostProcess::Render(ITexture* __restrict source, ITexture* __restrict ou
         currLuminance = *static_cast<f32*>(lg->GetOutput()->lock());
 	} else { /// OpenGL
         u8 *value = static_cast<u8*>(lg->GetOutput()->lock(ETLM_READ_ONLY));
-        currLuminance = (value[1] == 0 ? 0.f : 1.f / value[1] * 10.f);
+        currLuminance = 1.f + (value[1] == 0 ? 0.f : 1.f / value[1] * 10.f); /// fake floating point conversion
 	}
 	lg->GetOutput()->unlock();
 

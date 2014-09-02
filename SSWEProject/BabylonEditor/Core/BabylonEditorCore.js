@@ -34,6 +34,7 @@ BabylonEditorCore.prototype.update = function () {
     }
 }
 
+/// Sends the event "event" to all other event receivers
 BabylonEditorCore.prototype.sendEvent = function (event) {
     for (var i = 0; i < this.eventReceivers.length; i++) {
         this.eventReceivers[i].onEvent(event);
@@ -45,7 +46,7 @@ BabylonEditorCore.prototype.getPickedMesh = function (event, sendEvent) {
 
     var result = this.currentScene.pick(event.layerX, event.layerY);
 
-    if (sendEvent === undefined) {
+    if (sendEvent == false) {
         return result;
     } else {
         var event = BabylonEditorEvent;

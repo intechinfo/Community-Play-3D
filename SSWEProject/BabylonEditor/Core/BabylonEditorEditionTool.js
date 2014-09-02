@@ -67,15 +67,17 @@ BabylonEditorEditionTool.prototype.onEvent = function (event) {
 
 BabylonEditorEditionTool.prototype.update = function () {
     if (this.object != null) {
-
+        /// Update forms records here...
     }
 }
 
 BabylonEditorEditionTool.prototype._clearUI = function () {
     BabylonEditorUICreator.clearUI(this._forms);
+    /// Can clear other forms or UI elements
 }
 
 BabylonEditorEditionTool.prototype._onChange = function () {
+    /// Get elements of forms
     var general = BabylonEditorUICreator.Form.getElements('MainEditObjectGeneral');
     var transform = BabylonEditorUICreator.Form.getElements('MainEditObjectTransform');
     var options = BabylonEditorUICreator.Form.getElements('MainEditObjectOptions');
@@ -114,7 +116,7 @@ BabylonEditorEditionTool.prototype._onChange = function () {
         scope.object.checkCollisions = options.fields['MainEditMeshOptionsCheckCollisions'].checked;
     }
 
-    /// Reset focus
+    /// FIXME: Reset focus
     $(this).focus();
 
     /// Send event because object changed
@@ -127,10 +129,9 @@ BabylonEditorEditionTool.prototype._onChange = function () {
 
 BabylonEditorEditionTool.prototype._createUI = function () {
 
-    $('#MainEditorEditObject').empty();
-
     /// Create divs for forms
-    BabylonEditorUICreator.Form.createDivsForForms(this._forms, 'MainEditorEditObject');
+    /// We use forms because the editor can work as a collaborative edition, why not.
+    BabylonEditorUICreator.Form.createDivsForForms(this._forms, 'MainEditorEditObject', true);
 
     /// -----------------------------------------------------------------------------------------------------
     /// General
@@ -141,7 +142,7 @@ BabylonEditorEditionTool.prototype._createUI = function () {
         BabylonEditorUICreator.Form.createField('MainEditObjectEnabled', 'checkbox', 'Enabled :'),
     ]);
 
-    var MainEditObjectGeneral = BabylonEditorUICreator.Form.createForm('MainEditObjectGeneral', 'General', fields);
+    var MainEditObjectGeneral = BabylonEditorUICreator.Form.createForm('MainEditObjectGeneral', 'General', fields, this);
 
     /// Fill fields
     BabylonEditorUICreator.Form.extendRecord(MainEditObjectGeneral.name, {
@@ -177,7 +178,7 @@ BabylonEditorEditionTool.prototype._createUI = function () {
     }
 
     var MainEditObjectTransform = BabylonEditorUICreator.Form.createForm('MainEditObjectTransform',
-                                                                         'Transforms', fields);
+                                                                         'Transforms', fields, this);
 
     /// Fill fields
     BabylonEditorUICreator.Form.extendRecord(MainEditObjectTransform.name, {
@@ -212,7 +213,7 @@ BabylonEditorEditionTool.prototype._createUI = function () {
     }
 
     var MainEditObjectOptions = BabylonEditorUICreator.Form.createForm('MainEditObjectOptions',
-                                                                       'Options', fields);
+                                                                       'Options', fields, this);
 
     /// Configure fields
     if (this.object instanceof BABYLON.Mesh) {
@@ -224,6 +225,4 @@ BabylonEditorEditionTool.prototype._createUI = function () {
     }
     /// -----------------------------------------------------------------------------------------------------
 
-    /// Finish
-    BabylonEditorUICreator.Form.fillFormsWithScope(this._forms, this);
 }

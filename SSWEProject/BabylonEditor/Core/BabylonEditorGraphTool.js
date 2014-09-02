@@ -68,6 +68,7 @@ BabylonEditorGraphTool.prototype._getObjectIcon = function (object) {
     return icon;
 }
 
+/// Fills the graph
 BabylonEditorGraphTool.prototype._fillGraph = function (object, element) {
     var children = null;
 
@@ -101,13 +102,14 @@ BabylonEditorGraphTool.prototype._fillGraph = function (object, element) {
             BabylonEditorUICreator.Sidebar.addNodes(this.sideBar, [
                 BabylonEditorUICreator.Sidebar.createNode(object.id, object.name, icon, object)
             ], root);
-            this._fillGraph(object, 'test' + i);
+            this._fillGraph(object, object.id);
 
         }
     }
 
 }
 
+/// Adds or removes an element from the graph
 BabylonEditorGraphTool.prototype._modifyElement = function (object, element, remove) {
     if (object == null)
         return null;

@@ -7,7 +7,9 @@
 var BabylonEditorUtils = BabylonEditorUtils || {}
 
 /* UI utils */
+
 BabylonEditorUtils.clearSideBar = function (sideBar) {
+    /// Code taken from w2ui website (w2ui.com)
     var toRemove = [];
     for (var i=0; i < sideBar.nodes.length; i++) {
         toRemove.push(sideBar.nodes[i].id);
