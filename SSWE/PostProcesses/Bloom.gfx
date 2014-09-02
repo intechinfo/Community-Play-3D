@@ -3,7 +3,7 @@ uniform sampler2D bloom;
 
 uniform float bloomLimit;
 
-void main( in float2 t : TEXCOORD0 )
+void main()
 {
 	vec4 bloomContribution = texture2D(bloom, gl_TexCoord[0].xy);
 

@@ -8,6 +8,7 @@ namespace Graphics {
 
 class LuminanceGenerator;
 class DSBloomGenerator;
+class LDRBloomPostProcess;
 class TextureAdder;
 
 class SSWE_RENDERS_API HDRPostProcess : public IPostProcess, public IShaderConstantSetCallBack {

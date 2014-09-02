@@ -7,7 +7,7 @@
 
 namespace Graphics {
 
-GaussianBlurVPostProcess::GaussianBlurVPostProcess() {
+GaussianBlurVPostProcess::GaussianBlurVPostProcess() : GaussianBlurBase() {
 	IReadFile* fh;
 	if (GlobalContext::DeviceContext.GetVideoDriver()->getDriverType() == video::EDT_OPENGL)
         fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::GaussianBlurVGL);
@@ -24,7 +24,7 @@ GaussianBlurVPostProcess::GaussianBlurVPostProcess() {
 
 	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
         vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
-        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
+        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_2_0,
 		fh, "PSGaussianBlurV", video::EPST_PS_2_0,
 		this);
 
@@ -41,9 +41,17 @@ GaussianBlurVPostProcess::GaussianBlurVPostProcess() {
 
 void GaussianBlurVPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
     irr::s32 texVar = 0;
+    
+    #ifndef _IRR_OSX_PLATFORM_
     services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("blurOffsets", blurOffsets, 9);
 	services->setPixelShaderConstant("blurWeights", blurWeights, 9);
+    #else
+    services->setPixelShaderConstant(services->getPixelShaderConstantID("tex0"), &texVar, 1);
+    services->setPixelShaderConstant(services->getPixelShaderConstantID("blurOffsets[0]"), blurOffsets, 9);
+    services->setPixelShaderConstant(services->getPixelShaderConstantID("blurWeights[0]"), blurWeights, 9);
+    #endif
+    
 }
 
 void GaussianBlurVPostProcess::Render(ITexture* __restrict source, ITexture* __restrict output) {

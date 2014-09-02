@@ -19,6 +19,7 @@ public:
 	
 	void Render(ITexture* __restrict source);
 	ITexture* GetOutput() { return blurRT1; }
+    ITexture *GetOutput2() { return blurRT2; }
 
 	void SetBrightnessThreshold(f32 newThreshold) {
 		brightPass->SetBrightnessThreshold(newThreshold);

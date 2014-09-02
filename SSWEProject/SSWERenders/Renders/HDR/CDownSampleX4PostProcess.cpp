@@ -40,10 +40,14 @@ DownSampleX4PostProcess::DownSampleX4PostProcess() {
 }
 
 void DownSampleX4PostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
-
     irr::s32 texVar = 0;
+    #ifndef _IRR_OSX_PLATFORM_
     services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets), 32);
+    #else
+    services->setPixelShaderConstant(services->getPixelShaderConstantID("tex0"), &texVar, 1);
+	services->setPixelShaderConstant(services->getPixelShaderConstantID("dsOffsets[0]"), reinterpret_cast<f32*>(&dsOffsets), 32);
+    #endif
 }
 
 void DownSampleX4PostProcess::Render(ITexture* __restrict source, ITexture* __restrict output) {

@@ -44,11 +44,18 @@ BrightPassPostProcess::BrightPassPostProcess() : brightThreshold(0.8f)
 }
 
 void BrightPassPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
-
     irr::s32 texVar = 0;
+    
+    #ifndef _IRR_OSX_PLATFORM_
     services->setPixelShaderConstant("tex0", &texVar, 1);
 	services->setPixelShaderConstant("brightThreshold", &brightThreshold, 1);
 	services->setPixelShaderConstant("dsOffsets", reinterpret_cast<f32*>(&dsOffsets), 8);
+    #else
+    services->setPixelShaderConstant(services->getPixelShaderConstantID("tex0"), &texVar, 1);
+    services->setPixelShaderConstant(services->getPixelShaderConstantID("brightThreshold"), &brightThreshold, 1);
+	services->setPixelShaderConstant(services->getPixelShaderConstantID("dsOffsets[0]"), reinterpret_cast<f32*>(&dsOffsets), 32);
+    #endif
+
 }
 
 void BrightPassPostProcess::Render(ITexture* __restrict source, ITexture* __restrict output) {

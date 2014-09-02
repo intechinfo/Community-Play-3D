@@ -24,6 +24,7 @@ namespace PostProcesses {
 
     const path DownSampleX4GL(PostProcessDir + "DownSampleX4.gfx");
     const path BrightPassGL(PostProcessDir + "BrightPass.gfx");
+    const path BloomGL(PostProcessDir + "Bloom.gfx");
 	const path LuminanceGL(PostProcessDir + "Luminance.gfx");
 	const path LuminanceDownSampleGL(PostProcessDir + "LuminanceDownSample.gfx");
 	const path GaussianBlurHGL(PostProcessDir + "GaussianBlurH.gfx");

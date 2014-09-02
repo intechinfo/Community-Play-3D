@@ -3,7 +3,7 @@ uniform sampler2D tex0;
 uniform float blurOffsets[9];
 uniform float blurWeights[9];
 
-void main()
+void main(void)
 {
 
     vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
@@ -12,7 +12,8 @@ void main()
     {
         color += (texture2D( tex0, gl_TexCoord[0].xy + vec2( blurOffsets[i], 0.0 ) ) * blurWeights[i] );
     }
-        
-    gl_FragColor = vec4( color.rgb, 1.0 );
+    
+    color.a = 1.0;
+    gl_FragColor = color;
     
 }

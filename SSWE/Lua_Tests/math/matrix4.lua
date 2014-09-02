@@ -95,4 +95,3 @@ local finalMat = Matrix4.new()
 local finalVec = Vector3df.new()
 finalMat:multiply(finalMat:setWorld()):multiply(finalMat:setView()):multiply(finalMat:setProj()):setWorldViewProj():setRotationDegrees(finalVec):add(finalMat)
 finalMat:printMatrix()
-

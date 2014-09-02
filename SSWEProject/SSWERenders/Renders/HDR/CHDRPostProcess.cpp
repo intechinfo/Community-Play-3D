@@ -3,6 +3,7 @@
 #include "CHDRPostProcess.h"
 #include "CLuminanceGenerator.h"
 #include "CDSBloomGenerator.h"
+#include "CLDRBloomPostProcess.h"
 #include "CTextureAdder.h"
 #include "CGlobalContext.h"
 #include "CResourceManager.h"
@@ -71,12 +72,12 @@ void HDRPostProcess::Render(ITexture* __restrict source, ITexture* __restrict ou
 	ta->Render(source, bg->GetOutput());
 	lg->Render(ta->GetOutput());
 
-    #ifdef _IRR_WINDOWS_API
-	currLuminance = *static_cast<f32*>(lg->GetOutput()->lock());
-	#else
-	u8 *value = static_cast<u8*>(lg->GetOutput()->lock(ETLM_READ_ONLY));
-	currLuminance = value[1] == 0 ? 0.f : 1.f / value[1];
-	#endif
+    if (GlobalContext::DeviceContext.GetVideoDriver()->getDriverType() == EDT_DIRECT3D9) {
+        currLuminance = *static_cast<f32*>(lg->GetOutput()->lock());
+	} else { /// OpenGL
+        u8 *value = static_cast<u8*>(lg->GetOutput()->lock(ETLM_READ_ONLY));
+        currLuminance = (value[1] == 0 ? 0.f : 1.f / value[1] * 10.f);
+	}
 	lg->GetOutput()->unlock();
 
 	//Ramp luminance according to set values

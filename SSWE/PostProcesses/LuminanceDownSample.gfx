@@ -8,7 +8,8 @@ void main()
     
     // Compute the average of the 10 necessary samples
     vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
-    vec4 average = vec4(0.0, 0.0, 0.0, 0.0);
+    //vec4 average = vec4(0.0, 0.0, 0.0, 0.0);
+    float average = 0.0;
         
     for( int i = 0; i < 9;  i++ )
     {
@@ -23,5 +24,5 @@ void main()
     average /= 9.0;
         
     // Return the new average luminance
-    gl_FragColor = average;
+    gl_FragColor = vec4(average);
 }

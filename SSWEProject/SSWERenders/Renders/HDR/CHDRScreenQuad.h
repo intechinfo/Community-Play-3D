@@ -52,9 +52,9 @@ public:
 		mat.ZWriteEnable = false;
 		mat.Wireframe = false;
 		mat.AntiAliasing = true;
-		mat.setFlag(video::EMF_BILINEAR_FILTER, true);
-		mat.setFlag(video::EMF_TRILINEAR_FILTER, true);
-		mat.setFlag(video::EMF_ANISOTROPIC_FILTER, true);
+		//mat.setFlag(video::EMF_BILINEAR_FILTER, true);
+		//mat.setFlag(video::EMF_TRILINEAR_FILTER, true);
+		//mat.setFlag(video::EMF_ANISOTROPIC_FILTER, true);
 		mat.UseMipMaps=false;
 		for(u32 c = 0; c < MATERIAL_MAX_TEXTURES; c++) {
 			mat.TextureLayer[c].TextureWrapU = video::ETC_CLAMP;
@@ -79,13 +79,10 @@ public:
 			vd->setRenderTarget(video::ERT_FRAME_BUFFER);
 		vd->setMaterial(mat);
 
-        if (vd->getDriverType() == video::EDT_DIRECT3D9) {
-            vd->setTransform(ETS_WORLD, core::IdentityMatrix);
-            vd->setTransform(ETS_VIEW, core::IdentityMatrix);
-            vd->setTransform(ETS_PROJECTION, core::IdentityMatrix);
-        } else {
-            vd->setTransform(ETS_WORLD, matrix4());
-        }
+        vd->setTransform(ETS_WORLD, core::IdentityMatrix);
+        vd->setTransform(ETS_VIEW, core::IdentityMatrix);
+        vd->setTransform(ETS_PROJECTION, core::IdentityMatrix);
+        
 		vd->drawIndexedTriangleList(&vertices[0], 4, &indices[0], 2);
 	}
 
@@ -93,9 +90,11 @@ public:
 
 		vd->setRenderTarget(rt);
 		vd->setMaterial(mat);
-		vd->setTransform(ETS_WORLD, core::IdentityMatrix);
-		vd->setTransform(ETS_VIEW, core::IdentityMatrix);
-		vd->setTransform(ETS_PROJECTION, core::IdentityMatrix);
+
+        vd->setTransform(ETS_WORLD, core::IdentityMatrix);
+        vd->setTransform(ETS_VIEW, core::IdentityMatrix);
+        vd->setTransform(ETS_PROJECTION, core::IdentityMatrix);
+        
 		vd->drawIndexedTriangleList(&vertices[0], 4, &indices[0], 2);
 	}
 

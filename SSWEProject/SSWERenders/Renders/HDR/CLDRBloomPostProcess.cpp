@@ -10,7 +10,7 @@ namespace Graphics {
 LDRBloomPostProcess::LDRBloomPostProcess(const dimension2d<u32>& sourceSize)
 	: bloomLimit(0.3f)
 {
-	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::Bloom);
+	IReadFile* fh = Resources::ResourceManager::OpenResource(Paths::PostProcesses::BloomGL);
 	if(fh == NULL)
 		throw new Exception("Bloom shader file couldn't be opened", __FUNCTION__);
     IVideoDriver* vd = GlobalContext::DeviceContext.GetVideoDriver();
