@@ -21,11 +21,13 @@ TextureAdder::TextureAdder(const dimension2d<u32>& outputSize, ECOLOR_FORMAT buf
     IReadFile *fh2 = 0;
     if (vd->getDriverType() == video::EDT_OPENGL)
         fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
+	else
+		fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertexHLSL);
 
 	mt = (E_MATERIAL_TYPE)vd->getGPUProgrammingServices()->
 		addHighLevelShaderMaterialFromFiles(
-        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
-        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
+        fh2,
+        vd->getDriverType() == EDT_OPENGL ? "main" : "vertexMain", video::EVST_VS_1_1,
 		fh, "PSTextureAdder", video::EPST_PS_2_0, this);
 
 	if(mt < 0) {
@@ -42,6 +44,11 @@ TextureAdder::TextureAdder(const dimension2d<u32>& outputSize, ECOLOR_FORMAT buf
 }
 
 void TextureAdder::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+	const irr::core::dimension2du currentRTTSize = services->getVideoDriver()->getCurrentRenderTargetSize();
+	const irr::f32 screenX = (irr::f32)currentRTTSize.Width, screenY = (irr::f32)currentRTTSize.Height;
+	services->setVertexShaderConstant("screenX", &screenX, 1);
+	services->setVertexShaderConstant("screenY", &screenY, 1);
+
     irr::s32 texVar = 0;
     services->setPixelShaderConstant("tex0", &texVar, 1);
     irr::s32 texVar1 = 1;

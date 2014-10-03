@@ -44,7 +44,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	DOFMapSampler = driver->addRenderTargetTexture(ScreenRTTSize, "DOFMapSampler");
 
 	//LIGHT SCATTERING PASS
-	LightScatteringRTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT");
+	LightScatteringRTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "LightScatteringRTT", use32BitDepth ? ECF_A32B32G32R32F : ECF_A16B16G16R16F);
 	useLightScattering = false;
 
 	//HDR PIPELINE
@@ -66,7 +66,7 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	phong.Shininess = 1.0f;
 	phong.MaterialTypeParam = 200.0f;
 
-	HDRProcessedRT = driver->addRenderTargetTexture(ScreenRTTSize,"HDRProcessedRTT", video::ECF_A8R8G8B8);
+	HDRProcessedRT = driver->addRenderTargetTexture(ScreenRTTSize,"HDRProcessedRTT", use32BitDepth ? ECF_A32B32G32R32F : ECF_A16B16G16R16F);
 
 	hdrManager = new CHDRManager(pp, &phong);
 
@@ -74,17 +74,12 @@ AmbientColour(0x0), use32BitDepth(use32BitDepthBuffers), useVSM(useVSMShadows)
 	backRenderRTT = driver->addRenderTargetTexture(dimension2du(512, 512), "BackRenderRTT");
 
 	//NORMAL PASS
-	NormalRenderRTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "NormalPassRTT");
+	NormalRenderRTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "NormalPassRTT", use32BitDepth ? ECF_A32B32G32R32F : ECF_A16B16G16R16F);
 	renderNormalPass = false;
 
 	//MULTI RENDER TARGETS
 	DepthRTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "DepthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
 	SSAORTT.RenderTexture = driver->addRenderTargetTexture(ScreenRTTSize, "SSAODepthRTT", use32BitDepth ? ECF_G32R32F : ECF_G16R16F);
-
-	CP3DRenderTargets.clear();
-	/*CP3DRenderTargets.push_back(DepthRTT);
-	CP3DRenderTargets.push_back(NormalRenderRTT);
-	CP3DRenderTargets.push_back(LightScatteringRTT);*/
 
 	//REFLECTION PASS
 	useReflectionPass = false;
@@ -715,77 +710,76 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 	}*/
 
 	// Perform depth pass after rendering, to ensure animations stay up to date.
-	if (DepthPass || useLightScattering || renderNormalPass) {
+	irr::s32 matType = -1;
 
-		/// Select render targets and appropriate shader program
-		irr::s32 matType = -1;
+	driver->setRenderTarget(DepthRTT.RenderTexture, true, true, SColor(0xffffffff));
+	driver->setRenderTarget(LightScatteringRTT.RenderTexture, true, true, SColor(0x0));
+	driver->setRenderTarget(NormalRenderRTT.RenderTexture, true, true, SColor(0x0));
+
+	for(u32 i = 0;i < ShadowNodeArray.size();++i)
+	{
+		if (!ShadowNodeArray[i].node->isVisible())
+			continue;
+
+		dnlcMC->RenderDepthPass = ShadowNodeArray[i].renderDepth;
+		dnlcMC->RenderNormalPass = ShadowNodeArray[i].renderNormal;
+		dnlcMC->RenderScatteringPass = ShadowNodeArray[i].renderScattering;
+		dnlcMC->FarLink = smgr->getActiveCamera()->getFarValue();
+
 		CP3DRenderTargets.clear();
-		if (DepthPass) {
+		if (dnlcMC->RenderDepthPass && dnlcMC->RenderNormalPass && dnlcMC->RenderScatteringPass) {
+			CP3DRenderTargets.push_back(DepthRTT);
+			CP3DRenderTargets.push_back(NormalRenderRTT);
+			CP3DRenderTargets.push_back(LightScatteringRTT);
+			matType = RenderPasses[6];
+		} else if (dnlcMC->RenderNormalPass && dnlcMC->RenderScatteringPass && !dnlcMC->RenderDepthPass) {
+			CP3DRenderTargets.push_back(NormalRenderRTT);
+			CP3DRenderTargets.push_back(LightScatteringRTT);
+			matType = RenderPasses[5];
+		} else if (dnlcMC->RenderDepthPass && dnlcMC->RenderNormalPass && !dnlcMC->RenderScatteringPass) {
+			CP3DRenderTargets.push_back(DepthRTT);
+			CP3DRenderTargets.push_back(NormalRenderRTT);
+			matType = RenderPasses[3];
+		} else if (dnlcMC->RenderDepthPass && !dnlcMC->RenderNormalPass && dnlcMC->RenderScatteringPass) {
+			CP3DRenderTargets.push_back(DepthRTT);
+			CP3DRenderTargets.push_back(LightScatteringRTT);
+			matType = RenderPasses[4];
+		} else if (dnlcMC->RenderDepthPass && !dnlcMC->RenderNormalPass && !dnlcMC->RenderScatteringPass) {
 			CP3DRenderTargets.push_back(DepthRTT);
 			matType = RenderPasses[0];
-			if (renderNormalPass) {
-				matType = RenderPasses[3];
-				CP3DRenderTargets.push_back(NormalRenderRTT);
-			}
-			if (useLightScattering) {
-				if (renderNormalPass)
-					matType = RenderPasses[6];
-				else
-					matType = RenderPasses[4];
-				CP3DRenderTargets.push_back(LightScatteringRTT);
-			}
+		} else if (dnlcMC->RenderNormalPass && !dnlcMC->RenderDepthPass && !dnlcMC->RenderScatteringPass) {
+			CP3DRenderTargets.push_back(NormalRenderRTT);
+			matType = RenderPasses[1];
+		} else if (dnlcMC->RenderScatteringPass && !dnlcMC->RenderDepthPass && !dnlcMC->RenderNormalPass) {
+			CP3DRenderTargets.push_back(LightScatteringRTT);
+			matType = RenderPasses[2];
 		} else {
-			if (renderNormalPass) {
-				matType = RenderPasses[1];
-				CP3DRenderTargets.push_back(NormalRenderRTT);
-			}
-			if (useLightScattering) {
-				if (renderNormalPass)
-					matType = RenderPasses[5];
-				else
-					matType = RenderPasses[2];
-				CP3DRenderTargets.push_back(LightScatteringRTT);
-			}
+			continue;
+		}
+		driver->setRenderTarget(CP3DRenderTargets, false, false);
+
+		core::array<irr::s32> BufferMaterialList(ShadowNodeArray[i].node->getMaterialCount());
+		BufferMaterialList.set_used(0);
+
+		for(u32 g = 0;g < ShadowNodeArray[i].node->getMaterialCount();++g)
+			BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(g).MaterialType);
+
+		if (ShadowNodeArray[i].renderScattering) {
+			if (ShadowNodeArray[i].node->getType() == ESNT_BILLBOARD)
+				dnlcMC->RenderNormal = 1;
+			else
+				dnlcMC->RenderNormal = 0;
 		}
 
-		/// Configure Callback
-		dnlcMC->RenderNormalPass = renderNormalPass;
-		dnlcMC->RenderDepthPass = DepthPass;
-		dnlcMC->RenderScatteringPass = useLightScattering;
-		if (DepthPass || renderNormalPass)
-			dnlcMC->FarLink = smgr->getActiveCamera()->getFarValue();
+		ShadowNodeArray[i].node->setMaterialType((E_MATERIAL_TYPE)matType);
 
-		driver->setRenderTarget(CP3DRenderTargets, true, true, SColor(0xffffffff));
+		ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
+		ShadowNodeArray[i].node->render();
 
-		for(u32 i = 0;i < ShadowNodeArray.size();++i)
-		{
-			if (!ShadowNodeArray[i].node->isVisible())
-				continue;
-
-			core::array<irr::s32> BufferMaterialList(ShadowNodeArray[i].node->getMaterialCount());
-			BufferMaterialList.set_used(0);
-
-			for(u32 g = 0;g < ShadowNodeArray[i].node->getMaterialCount();++g)
-				BufferMaterialList.push_back(ShadowNodeArray[i].node->getMaterial(g).MaterialType);
-
-			if (ShadowNodeArray[i].renderScattering) {
-				if (ShadowNodeArray[i].node->getType() == ESNT_BILLBOARD)
-					dnlcMC->RenderNormal = 1;
-				else
-					dnlcMC->RenderNormal = 0;
-			}
-
-			ShadowNodeArray[i].node->setMaterialType((E_MATERIAL_TYPE)matType);
-
-			ShadowNodeArray[i].node->OnAnimate(device->getTimer()->getTime());
-			ShadowNodeArray[i].node->render();
-
-			for(u32 g = 0;g < ShadowNodeArray[i].node->getMaterialCount();++g)
-				ShadowNodeArray[i].node->getMaterial(g).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[g];
-		}
-
-		//driver->setRenderTarget(0, false, false);
+		for(u32 g = 0;g < ShadowNodeArray[i].node->getMaterialCount();++g)
+			ShadowNodeArray[i].node->getMaterial(g).MaterialType = (E_MATERIAL_TYPE)BufferMaterialList[g];
 	}
+
 
 	const u32 PostProcessingRoutinesSize = PostProcessingRoutines.size();
 	bool rtTest = (useDOF);

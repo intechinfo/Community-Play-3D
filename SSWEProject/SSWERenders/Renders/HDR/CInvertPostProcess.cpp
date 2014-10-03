@@ -16,11 +16,13 @@ InvertPostProcess::InvertPostProcess() {
     IReadFile *fh2 = 0;
     if (vd->getDriverType() == video::EDT_OPENGL)
         fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
+	else
+		fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertexHLSL);
 
 	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->
 		addHighLevelShaderMaterialFromFiles(
-        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
-        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
+        fh2,
+        vd->getDriverType() == EDT_OPENGL ? "main" : "vertexMain", video::EVST_VS_1_1,
 		fh, "PSInvert", video::EPST_PS_1_1);
 
 	if(mt < 0) {

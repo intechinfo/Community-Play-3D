@@ -17,11 +17,13 @@ LDRBloomPostProcess::LDRBloomPostProcess(const dimension2d<u32>& sourceSize)
     IReadFile *fh2 = 0;
     if (vd->getDriverType() == video::EDT_OPENGL)
         fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
+	else
+		fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertexHLSL);
 
 	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->
 		addHighLevelShaderMaterialFromFiles(
-        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
-        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_1_1,
+        fh2,
+        vd->getDriverType() == EDT_OPENGL ? "main" : "vertexMain", video::EVST_VS_1_1,
 		fh, "PSBloom", video::EPST_PS_2_0,
 		this);
 
@@ -44,6 +46,11 @@ LDRBloomPostProcess::~LDRBloomPostProcess() {
 }
 
 void LDRBloomPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
+	const irr::core::dimension2du currentRTTSize = services->getVideoDriver()->getCurrentRenderTargetSize();
+	const irr::f32 screenX = (irr::f32)currentRTTSize.Width, screenY = (irr::f32)currentRTTSize.Height;
+	services->setVertexShaderConstant("screenX", &screenX, 1);
+	services->setVertexShaderConstant("screenY", &screenY, 1);
+
 	services->setPixelShaderConstant("bloomLimit", &bloomLimit, 1);
 }
 

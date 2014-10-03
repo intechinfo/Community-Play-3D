@@ -19,13 +19,15 @@ GaussianBlurHPostProcess::GaussianBlurHPostProcess() : GaussianBlurBase() {
     IReadFile *fh2 = 0;
     if (vd->getDriverType() == video::EDT_OPENGL)
         fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertex);
+	else
+		fh2 = Resources::ResourceManager::OpenResource(Paths::PostProcesses::HDRVertexHLSL);
 
 	if(fh == NULL)
 		throw new Exception("Horizontal Gaussian Blur shader file couldn't be opened", __FUNCTION__);
 
 	mt = (E_MATERIAL_TYPE)GlobalContext::DeviceContext.GetVideoDriver()->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
-        vd->getDriverType() == EDT_OPENGL ? fh2 : nullptr,
-        vd->getDriverType() == EDT_OPENGL ? "main" : nullptr, video::EVST_VS_2_0,
+        fh2,
+        vd->getDriverType() == EDT_OPENGL ? "main" : "vertexMain", video::EVST_VS_2_0,
 		fh, "PSGaussianBlurH", video::EPST_PS_2_0,
 		this);
 
@@ -42,6 +44,11 @@ GaussianBlurHPostProcess::GaussianBlurHPostProcess() : GaussianBlurBase() {
 
 void GaussianBlurHPostProcess::OnSetConstants(IMaterialRendererServices* services, s32 userData) {
     irr::s32 texVar = 0;
+
+	const irr::core::dimension2du currentRTTSize = services->getVideoDriver()->getCurrentRenderTargetSize();
+	const irr::f32 screenX = (irr::f32)currentRTTSize.Width, screenY = (irr::f32)currentRTTSize.Height;
+	services->setVertexShaderConstant("screenX", &screenX, 1);
+	services->setVertexShaderConstant("screenY", &screenY, 1);
     
     #ifndef _IRR_OSX_PLATFORM_
     services->setPixelShaderConstant("tex0", &texVar, 1);

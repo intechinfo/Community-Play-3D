@@ -33,6 +33,7 @@ namespace PostProcesses {
 	const path TextureAdderGL(PostProcessDir + "TextureAdder.gfx");
     
     const path HDRVertex(PostProcessDir + "HdrVertex.vfx");
+	const path HDRVertexHLSL(PostProcessDir + "HdrVertexHLSL.vfx");
 
 }
 } //end namespace Graphics
