@@ -558,6 +558,9 @@ public:
 
 	void setFPSCamera(irr::scene::ICameraSceneNode *camera) { FPSCamera = camera; }
 	#endif
+    
+    /// Clone the current instance
+    EffectHandler *clone(irr::scene::ISceneManager *smgrToConfigure);
 	//---------------------------------------------------------------------------------------------
 
 	//---------------------------------------------------------------------------------------------

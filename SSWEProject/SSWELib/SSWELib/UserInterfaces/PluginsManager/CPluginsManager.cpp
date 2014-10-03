@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "CPluginsManager.h"
+#include "CDevelopmentInstance.h"
 
 CPluginsManager::CPluginsManager(CDevices *_devices) {
 	devices = _devices;
 
+    devInstanceManager = new CDevelopmentPluginManager(devices);
 }
 
 CPluginsManager::~CPluginsManager() {
@@ -276,4 +278,64 @@ void CPluginsManager::loadAudioPlugin(stringc path) {
 		}
 
 	}
+}
+
+void CPluginsManager::loadDevelopmentInstance(stringc path) {
+    cp3d::core::IDevelomentInstance *devInstance = 0;
+    typedef void *(*pvFunctv)(cp3d::core::IDevices *);
+    pvFunctv createDevelopmentInstance;
+    #ifdef _IRR_WINDOWS_API_
+    developmentInstance = LoadLibrary(stringw(path).c_str());
+    #else
+    developmentInstance = dlopen(path.c_str(), RTLD_LAZY);
+    #endif
+    
+    if (developmentInstance) {
+        
+        #ifdef _IRR_WINDOWS_API_
+        createDevelopmentInstance = reinterpret_cast< pvFunctv > (GetProcAdress(developmentInstance, "createDevelopmentInstance"));
+        #else
+        createDevelopmentInstance = reinterpret_cast< pvFunctv > (dlsym(developmentInstance, "createDevelopmentInstance"));
+        #endif
+        
+        if (createDevelopmentInstance) {
+            
+            devInstance = static_cast<cp3d::core::IDevelomentInstance*>(createDevelopmentInstance(this->devices));
+            if (!devInstance)
+                return;
+            else {
+                this->devClassInstance = devInstance;
+            }
+            
+            developmentInstancePath = path;
+            
+        } else {
+            devices->addErrorDialog("Development Instance Error", "Instance loaded but entry point cannot be found...", EMBF_OK);
+        }
+    } else {
+        devices->addErrorDialog("Development Instance Error", "Cannot load instance...", EMBF_OK);
+        printf("%s\n", dlerror());
+    }
+}
+
+void CPluginsManager::unloadDevelopmentInstance() {
+    if (developmentInstance) {
+        
+        if (devClassInstance)
+            delete devClassInstance;
+        
+        #ifdef _IRR_WINDOWS_API
+        FreeLibrary(developmentInstance);
+        #else
+        dlclose(developmentInstance);
+        #endif
+    }
+}
+
+void CPluginsManager::reloadDevelopmentInstance() {
+    if (!developmentInstance)
+        return;
+    
+    unloadDevelopmentInstance();
+    loadDevelopmentInstance(developmentInstancePath);
 }

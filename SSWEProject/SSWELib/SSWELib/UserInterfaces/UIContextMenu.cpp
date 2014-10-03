@@ -10,8 +10,8 @@
 #include "UIContextMenu.h"
 
 #include "../CharacterEdition/CUICharacterManager.h"
-
 #include "../../../SSWERenders/Renders/Materials/CNormalMappingMaterial.h"
+#include "../Device/Core/CCoreUserInterface.h"
 
 cp3d::audio::IAudioElement *element;
 
@@ -226,6 +226,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	submenu->addItem(L"Edit Plugins...", CXT_MENU_EVENTS_PLUGINS_EDIT);
 	devices->getDevice()->getFileSystem()->changeWorkingDirectoryTo(devices->getWorkingDirectory() + "Plugins/Monitors");
 	submenu->addItem(L"Monitors", -1, true, true);
+    submenu->addItem(L"Load Development Instance...", CXT_MENU_EVENTS_PLUGINS_LOAD_DEVELOPMENT_INSTANCE);
+    submenu->addItem(L"Play Game in current viewport (CTRL+SHIFT+Q to stop)", CXT_MENU_EVENTS_PLUGINS_RUN_DEVELOPMENT_INSTANCE);
 	monitorsMenu = submenu->getSubMenu(1);
 	submenu = monitorsMenu;
 	IFileList *fl = devices->getDevice()->getFileSystem()->createFileList();
@@ -440,6 +442,8 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 		node->setPosition(vector3df(0.f, 25.f, 0.f));
 	});
 	#endif
+    
+    CUIMeshSimplificator *meshSimplificator = new CUIMeshSimplificator(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {
@@ -1059,6 +1063,22 @@ bool CUIContextMenu::OnEvent(const SEvent &event) {
 					CUIPluginsManager *uiPluginsManager = new CUIPluginsManager(devices, pluginsManager);
 				}
 					break;
+                    
+                case CXT_MENU_EVENTS_PLUGINS_LOAD_DEVELOPMENT_INSTANCE: {
+                    pluginsManager->loadDevelopmentInstance(devices->getWorkingDirectory() + "Plugins/libGameDevelopmentExample.dylib");
+                }
+                    break;
+                    
+                case CXT_MENU_EVENTS_PLUGINS_RUN_DEVELOPMENT_INSTANCE: {
+                    if (!pluginsManager->getDevClassInstance()) {
+                        devices->addErrorDialog("Error", "Please load a development plugin before...", EMBF_OK);
+                    } else {
+                        pluginsManager->reloadDevelopmentInstance();
+                        devices->getCoreUserInterface()->playGameForDevelopment();
+                    }
+                }
+                    break;
+                    
                 default:
                     break;
             }

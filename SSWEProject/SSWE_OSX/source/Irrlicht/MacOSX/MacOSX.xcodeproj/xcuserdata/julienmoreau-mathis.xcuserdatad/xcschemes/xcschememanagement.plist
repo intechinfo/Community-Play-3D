@@ -109,6 +109,11 @@
 			<key>orderHint</key>
 			<integer>17</integer>
 		</dict>
+		<key>GameDevelopmentExample.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>34</integer>
+		</dict>
 		<key>IrrBullet.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -268,6 +273,16 @@
 			<true/>
 		</dict>
 		<key>2E92B6481849289E00D955F8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2ECA057919DEA811004F8A8C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2ECA05A419DEAA7A004F8A8C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

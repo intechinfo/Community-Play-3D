@@ -33,8 +33,12 @@ CUIMeshSimplificator::CUIMeshSimplificator(CDevices *_devices) {
     ui->viewPort->setOverrideColor(SColor(255, 0, 0, 0));
 
 	/// Console
-	ui->console->setEnabled(false);
-    ui->console->setMultiLine(true);
+    ui->console->setOverrideColor(SColor(255, 32, 32, 32));
+    ui->console->setBackgroundColor(SColor(255, 200, 200, 200));
+    ui->console->setLineCountColors(SColor(255, 32, 32, 32), SColor(200, 64, 120, 180), SColor(255, 200, 200, 224));
+    ui->console->setSelectionColors(SColor(180, 0, 96, 64), SColor(255, 255, 255, 255), SColor(180, 0, 128, 96));
+    ui->console->setWordWrap(false);
+	ui->console->setEnabled(true);
     ui->console->setOverrideColor(SColor(255, 0, 0, 0));
     ui->console->setAutoScroll(true);
 	//-----------------------------------
@@ -75,6 +79,7 @@ bool CUIMeshSimplificator::OnEvent(const SEvent &event) {
 			if (event.GUIEvent.Caller == ui->compute) {
 				if (node && mesh) {
 					ui->compute->setEnabled(false);
+                    ui->console->setText(L"");
 
 					f32 percentage = devices->getCore()->getF32(ui->percentageEditBox->getText());
                     
@@ -93,7 +98,7 @@ bool CUIMeshSimplificator::OnEvent(const SEvent &event) {
                             consoleText += "\n";
                             ui->console->setText(consoleText.c_str());
                         },
-                        [this](IMesh *computedMesh) {
+                        [=](IMesh *computedMesh) {
                             for (u32 i=0; i < computedMesh->getMeshBufferCount(); i++) {
                                 devices->getMeshSimplificator()->switchToSimplifiedMeshBuffer(computedMesh->getMeshBuffer(i));
                             }

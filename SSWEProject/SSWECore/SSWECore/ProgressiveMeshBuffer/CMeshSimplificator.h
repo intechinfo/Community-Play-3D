@@ -25,7 +25,6 @@ public:
 	void addSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
 	void removeSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
     
-    
 	void simplifyMeshBuffer(irr::scene::IMeshBuffer *buffer, irr::f32 percentage,
 		std::function<void(irr::scene::IMeshBuffer *buffer)> callback = [](irr::scene::IMeshBuffer *buffer){});
     void simplifyMesh(irr::scene::IMesh *mesh, irr::f32 percentage,
@@ -37,7 +36,6 @@ public:
     
 	void switchToSimplifiedMeshBuffer(irr::scene::IMeshBuffer *buffer);
 	void switchToOriginalMeshBuffer(irr::scene::IMeshBuffer *buffer);
-    
     
 	void clearAll();
     

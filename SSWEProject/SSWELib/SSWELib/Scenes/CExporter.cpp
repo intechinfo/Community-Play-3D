@@ -6,6 +6,8 @@
 //
 //
 #include "stdafx.h"
+
+#include "../Device/Core/CCoreUserInterface.h"
 #include "CExporter.h"
 
 #include "irrbullet.h"
@@ -204,6 +206,11 @@ void CExporter::exportConfig() {
 		devices->getBulletWorld()->getGravity().Y,
 		devices->getBulletWorld()->getGravity().Z);
 	fprintf(export_file, "\t\t </physics>\n\n");
+    
+    //DEVELOPMENT PLUGIN
+    fprintf(export_file, "\t\t <developmentPlugin>");
+    fprintf(export_file, "\t\t\t <library path=\"%s\" />\n", devices->getCoreUserInterface()->getPluginsManager()->getDevelopmentInstancePath().c_str());
+    fprintf(export_file, "\t\t </developmentPlugin>\n\n");
     
 	//END CONFIG
 	fprintf(export_file, "\t</config>\n\n\n\n");
