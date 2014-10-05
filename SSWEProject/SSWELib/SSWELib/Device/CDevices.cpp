@@ -68,6 +68,8 @@ CDevices::CDevices(CCoreUserInterface *_coreUserInterface, bool playOnly) {
 	skybox = 0;
 
 	sceneManagerToDrawIndice = 0;
+    
+    renderEffectForDevelopment = false;
 }
 
 CDevices::~CDevices() {
@@ -224,7 +226,10 @@ void CDevices::updateDevice() {
 
                 if(monitor->isEnabled()) {
 
-					monitor->setRenderRenderer(renderXEffect);
+                    if (renderEffectForDevelopment)
+                        monitor->setRenderRenderer(effectForDevelopment);
+                    else
+                        monitor->setRenderRenderer(renderXEffect);
 
                     if(monitor->getSceneManager() != smgrs[sceneManagerToDrawIndice])
                         monitor->setSceneManager(smgrs[sceneManagerToDrawIndice]);
@@ -275,11 +280,15 @@ void CDevices::updateDevice() {
 
     if (renderXEffect) {
 
-		effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
-        if (renderScene || isOnlyForPlay)
-            effect->update(renderFullPostTraitements);
-        else
-            effect->getScreenQuadPtr()->render(driver);
+        if (!renderEffectForDevelopment) {
+            effect->setActiveSceneManager(smgrs[sceneManagerToDrawIndice]);
+            if (renderScene || isOnlyForPlay)
+                effect->update(renderFullPostTraitements);
+            else
+                effect->getScreenQuadPtr()->render(driver);
+        } else {
+            effectForDevelopment->update(renderFullPostTraitements);
+        }
 
     } else {
         smgrs[sceneManagerToDrawIndice]->drawAll();
@@ -376,15 +385,23 @@ void CDevices::drawGUI() {
     }
 }
 
-void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
-	//XBOX 360
+void CDevices::setRenderEffectForDevelopment(EffectHandler *e) {
+    effectForDevelopment = e;
+    renderEffectForDevelopment = true;
+}
 
-    Device = irr::createDevice(EDT_OPENGL, parameters.WindowSize, 32, false, false, false, 0);
+void CDevices::setDontRenderEffectForDevelopment() {
+    renderEffectForDevelopment = false;
+}
+
+void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
+    
     //DEVICE
     #ifndef _IRR_LINUX_PLATFORM_
 	Device = createDeviceEx(parameters);
     #else
     //Device = createDeviceEx(parameters);
+    Device = irr::createDevice(EDT_OPENGL, parameters.WindowSize, 32, false, false, false, 0);
     #endif
     Device->setWindowCaption(L"Community Play 3D : Editor");
 	Device->setResizable(true);

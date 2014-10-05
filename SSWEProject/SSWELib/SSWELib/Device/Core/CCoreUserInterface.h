@@ -35,6 +35,7 @@ public:
 	IVideoDriver *getVideoDriver() { return driver; }
 	ISceneManager *getSceneManager() { return smgr; }
 	IGUIEnvironment *getGUIEnvironment() { return gui; }
+    CPluginsManager *getPluginsManager() { return pluginsManager; }
 	//-----------------------------------
 
 	//-----------------------------------
@@ -48,6 +49,8 @@ public:
 	bool isLogEventWindowVisible() { return logVisible; }
 
 	CUIMainWindow *getMainWindow() { return contextMenuInstance->getMainWindow(); }
+    
+    void playGameForDevelopment();
 	//-----------------------------------
 
 private:

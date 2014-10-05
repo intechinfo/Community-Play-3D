@@ -10,24 +10,36 @@
 	<string>MacOSX</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>70A649B54DE3A6329FF29F0978E750D6AFC5710D</key>
+		<string>https://github.com/intechinfo/Soganatsu.git</string>
 		<key>E4AFA1AA-A530-4F2D-9C9C-5FAC7CFE1899</key>
 		<string>https://github.com/intechinfo/Soganatsu.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>SSWEProject/SSWE_OSX/source/Irrlicht/MacOSX/MacOSX.xcodeproj/project.xcworkspace</string>
+	<string>SSWEProject/SSWE_OSX/source/Irrlicht/MacOSX/MacOSX.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E4AFA1AA-A530-4F2D-9C9C-5FAC7CFE1899</key>
+		<key>70A649B54DE3A6329FF29F0978E750D6AFC5710D</key>
 		<string>../../../../../../..</string>
+		<key>E4AFA1AA-A530-4F2D-9C9C-5FAC7CFE1899</key>
+		<string>../../../../../../../../SSWE</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/intechinfo/Soganatsu.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E4AFA1AA-A530-4F2D-9C9C-5FAC7CFE1899</string>
+	<string>70A649B54DE3A6329FF29F0978E750D6AFC5710D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>70A649B54DE3A6329FF29F0978E750D6AFC5710D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Nala%20Editor</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

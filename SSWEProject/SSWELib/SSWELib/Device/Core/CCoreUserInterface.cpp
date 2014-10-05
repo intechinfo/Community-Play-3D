@@ -13,6 +13,8 @@
 
 #include "ParticleSystems/CParticleSystemsImporter.h"
 
+#include "../../UserInterfaces/PluginsManager/CDevelopmentInstance.h"
+
 CCoreUserInterface::CCoreUserInterface(bool playOnly, irr::core::stringc argPath) {
 
     //-----------------------------------
@@ -171,7 +173,13 @@ void CCoreUserInterface::setLogEventWindowVisible(bool visible) {
 }
 
 void CCoreUserInterface::update() {
+    if (pluginsManager->getDevelopmentInstanceManager()->isPlayingForDevelopment()) {
+        pluginsManager->getDevelopmentInstanceManager()->update();
+    }
+}
 
+void CCoreUserInterface::playGameForDevelopment() {
+    pluginsManager->getDevelopmentInstanceManager()->run();
 }
 
 void CCoreUserInterface::updateInterface() {

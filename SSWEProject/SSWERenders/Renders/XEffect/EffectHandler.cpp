@@ -1079,3 +1079,64 @@ void EffectHandler::clearPostProcessEffectConstants(irr::s32 MaterialType) {
 		PostProcessingRoutines[i].callback->cleanUniformDescriptors();
 	}
 }
+
+EffectHandler *EffectHandler::clone(ISceneManager *smgrToConfigure) {
+    auto getShadowNodeIndice = [=](ISceneNode *node) -> s32 {
+        for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+            if (ShadowNodeArray[i].node == node)
+                return i;
+        }
+        return -1;
+    };
+    
+    auto isNodeShadowedLanmda = [=](ISceneNode *node) -> bool {
+        for (u32 i=0; i < ShadowNodeArray.size(); i++) {
+            if (ShadowNodeArray[i].node == node)
+                return true;
+        }
+        return false;
+    };
+    
+    array<ISceneNode *> smgrToConfigureNodes, smgrNodes;
+    smgrToConfigure->getSceneNodesFromType(ESNT_ANY, smgrToConfigureNodes);
+    smgr->getSceneNodesFromType(ESNT_ANY, smgrNodes);
+    
+    EffectHandler *e = new EffectHandler(device, ScreenRTTSize, useVSM, true, true);
+    
+    /// Copy nodes
+    for (u32 i=0; i < smgrNodes.size(); i++) {
+        ISceneNode *node1 = smgrToConfigureNodes[i];
+        ISceneNode *node2 = smgrNodes[i];
+        if (isNodeShadowedLanmda(smgrNodes[i])) {
+            s32 indice = getShadowNodeIndice(smgrNodes[i]);
+            if (indice == -1) continue;
+            SShadowNode s;
+            s.node = smgrToConfigureNodes[i];
+            s.shadowMode = ShadowNodeArray[indice].shadowMode;
+            s.filterType = ShadowNodeArray[indice].filterType;
+            s.renderDepth = ShadowNodeArray[indice].renderDepth;
+            s.renderNormal = ShadowNodeArray[indice].renderNormal;
+            s.renderScattering = ShadowNodeArray[indice].renderScattering;
+            e->ShadowNodeArray.push_back(s);
+        }
+    }
+
+    /// Copy lights
+    for (u32 i=0; i < LightList.size(); i++) {
+        SShadowLight l = LightList[i];
+        SShadowLight ll(l.getShadowMapResolution(), l.getPosition(), l.getTarget(), l.getLightColor(), l.getNearValue(), l.getFarValue(), l.getFOV(), false);
+        ll.setLightType(ll.getLightType());
+        ll.setAutoRecalculate(l.isAutoRecalculate());
+        ll.setTorchMode(l.isTorchMode());
+        e->LightList.push_back(ll);
+    }
+    
+    /// Parameters
+    e->setUseDepthOfField(useDOF);
+    e->setUseNormalPass(renderNormalPass);
+    e->setUseMotionBlur(useMotionBlur);
+    e->setUseHDRPass(useHDR);
+    e->enableLightScatteringPass(useLightScattering);
+    
+    return e;
+}

@@ -59,7 +59,8 @@ public:
 			-1); /// ID
 
 		viewPort = new CGUIViewport(gui, window, -1, rect<s32>(10, 30, 560, 370));
-        console = gui->addEditBox(L"", rect<s32>(10, 380, 560, 530), true, window, -1);
+        //console = gui->addEditBox(L"", rect<s32>(10, 380, 560, 530), true, window, -1);
+        console = new CGUIEditBoxIRB(L"", true, true, gui, window, -1, rect<s32>(10, 380, 560, 530), device);
 		addMesh = gui->addButton(rect<s32>(570, 30, 880, 50), window, -1, L"Open Mesh...", L"Open a new mesh");
 		meshName = gui->addStaticText(L"No mesh selected.", rect<s32>(570, 60, 880, 80), true, true, window, -1, true);
 		percentage = gui->addStaticText(L"Percentage :", rect<s32>(570, 100, 670, 120), true, true, window, -1, true);
@@ -85,7 +86,7 @@ public:
 private:
 	IGUIWindow *window;
 	CGUIViewport *viewPort;
-	IGUIEditBox *console;
+    CGUIEditBoxIRB *console;
 	IGUIButton *addMesh;
 	IGUIStaticText *meshName;
 	IGUIStaticText *percentage;

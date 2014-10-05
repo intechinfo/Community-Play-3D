@@ -13,6 +13,8 @@ namespace cp3d {
 	}
 	namespace core {
 		class ISSWELibPlugin;
+        class IDevelomentInstance;
+        class IDevices;
 	}
 	namespace video {
 		class IMonitor;
@@ -60,3 +62,9 @@ extern "C" _CP3D_PLUGIN_EXPORT_ cp3d::audio::IAudioManager* createAudioManager()
 extern "C" cp3d::audio::IAudioManager* createAudioManager();
 #endif
 
+//DEVELOPMENT INSTANCE EXPORTS
+#ifndef _IRR_LINUX_PLATFORM_
+extern "C" _CP3D_PLUGIN_EXPORT_ cp3d::core::IDevelomentInstance *createDevelopmentInstance(cp3d::core::IDevices *devices);
+#else
+extern "C" cp3d::core::IDevelomentInstance* createDevelopmentInstance(cp3d::core::IDevices *devices);
+#endif

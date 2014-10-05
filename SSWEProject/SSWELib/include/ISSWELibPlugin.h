@@ -17,8 +17,29 @@ The goal is to have the possibility of making tests in real-time with real-time 
 
 namespace cp3d {
 namespace core {
+    
+class IDevelomentInstance : public IUpdate {
+public:
+    IDevelomentInstance(IDevices *devices) {
+        this->devices = devices;
+    }
+    
+    virtual ~IDevelomentInstance() {
+        
+    }
+    
+    /// Run the development plugin in the editor
+    virtual void run(void) = 0;
+    
+    /// Stop the development plugin and return to the edition context
+    virtual void stop(void) = 0;
+    
+protected:
+    /// Main class that is a more advanced Irrlicht Device
+    IDevices *devices;
+};
 
-class ISSWELibPlugin : irr::IEventReceiver, cp3d::core::IUpdate {
+class ISSWELibPlugin : irr::IEventReceiver, IUpdate {
 public:
 	/// Sets the CP3D device that can acceed to the irrlicht device
 	/// Cf. IDevices.h

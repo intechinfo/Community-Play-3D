@@ -317,11 +317,8 @@
 		2E1E093C19656EEC000177C2 /* CScreenSpaceAmbientOcclusion.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E1E093919656EEC000177C2 /* CScreenSpaceAmbientOcclusion.h */; };
 		2E1E093E19656F28000177C2 /* ISSWEHDRManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E1E093D19656F28000177C2 /* ISSWEHDRManager.h */; };
 		2E1E0941196594B4000177C2 /* CUIHDRManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E1E093F196594B4000177C2 /* CUIHDRManager.cpp */; };
-		2E1E0942196594B4000177C2 /* CUIHDRManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E1E0940196594B4000177C2 /* CUIHDRManager.h */; };
 		2E202BE4187B55D000F44BB0 /* CUIWindowEditFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E202BE2187B55D000F44BB0 /* CUIWindowEditFilters.cpp */; };
 		2E247FD51905DB0500410104 /* CParticleSystemsImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E247FD21905DB0500410104 /* CParticleSystemsImporter.cpp */; };
-		2E247FD61905DB0500410104 /* CParticleSystemsImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E247FD31905DB0500410104 /* CParticleSystemsImporter.h */; };
-		2E247FD71905DB0500410104 /* CParticleSystemsTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E247FD41905DB0500410104 /* CParticleSystemsTypes.h */; };
 		2E2B176D186E26D6000E6DAF /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA927E9182FB9D8003470EB /* stdafx.cpp */; };
 		2E2CA48F182D6DD7000BA9DA /* CCollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C601D182981B700FB1027 /* CCollisionManager.h */; };
 		2E2CA491182D6DD7000BA9DA /* CCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C6020182981B700FB1027 /* CCore.h */; };
@@ -345,11 +342,8 @@
 		2E2CA4B4182D6DF8000BA9DA /* SSWERenders.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F66182980FA00FB1027 /* SSWERenders.h */; };
 		2E2CA4B6182D6DF8000BA9DA /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6C5F68182980FA00FB1027 /* stdafx.h */; };
 		2E360D3F1904B05300DF1C3E /* CUIParticleExport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E360D3D1904B05300DF1C3E /* CUIParticleExport.cpp */; };
-		2E360D401904B05300DF1C3E /* CUIParticleExport.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E360D3E1904B05300DF1C3E /* CUIParticleExport.h */; };
 		2E3F486F192D0ACB008926A7 /* CMeshFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3F486B192D0ACA008926A7 /* CMeshFactory.cpp */; };
-		2E3F4870192D0ACB008926A7 /* CMeshFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E3F486C192D0ACA008926A7 /* CMeshFactory.h */; };
 		2E3F4871192D0ACB008926A7 /* CUIMeshFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3F486D192D0ACB008926A7 /* CUIMeshFactory.cpp */; };
-		2E3F4872192D0ACB008926A7 /* CUIMeshFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E3F486E192D0ACB008926A7 /* CUIMeshFactory.h */; };
 		2E3F48AB192D0B16008926A7 /* boxshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3F4873192D0B15008926A7 /* boxshape.cpp */; };
 		2E3F48AC192D0B16008926A7 /* boxshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E3F4874192D0B15008926A7 /* boxshape.h */; };
 		2E3F48AD192D0B16008926A7 /* bulletworld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3F4875192D0B15008926A7 /* bulletworld.cpp */; };
@@ -396,20 +390,12 @@
 		2E3F48DB192D0B16008926A7 /* trianglemeshshape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3F48A9192D0B16008926A7 /* trianglemeshshape.cpp */; };
 		2E3F48DC192D0B16008926A7 /* trianglemeshshape.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E3F48AA192D0B16008926A7 /* trianglemeshshape.h */; };
 		2E3F48E0192D0C25008926A7 /* CUIScenarioObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3F48DE192D0C25008926A7 /* CUIScenarioObjects.cpp */; };
-		2E3F48E1192D0C25008926A7 /* CUIScenarioObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E3F48DF192D0C25008926A7 /* CUIScenarioObjects.h */; };
-		2E3F48E3192D0D21008926A7 /* IAnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E3F48E2192D0D21008926A7 /* IAnimationController.h */; };
 		2E3F48E7192D0D6A008926A7 /* CAnimationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3F48E5192D0D6A008926A7 /* CAnimationController.cpp */; };
-		2E3F48E8192D0D6A008926A7 /* CAnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E3F48E6192D0D6A008926A7 /* CAnimationController.h */; };
 		2E4129A218FC0D830086FD21 /* CUIAddEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E41299E18FC0D830086FD21 /* CUIAddEmitter.cpp */; };
-		2E4129A318FC0D830086FD21 /* CUIAddEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E41299F18FC0D830086FD21 /* CUIAddEmitter.h */; };
 		2E4129A418FC0D830086FD21 /* CUIAddModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4129A018FC0D830086FD21 /* CUIAddModifier.cpp */; };
-		2E4129A518FC0D830086FD21 /* CUIAddModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4129A118FC0D830086FD21 /* CUIAddModifier.h */; };
 		2E4129A818FC0D920086FD21 /* CUIWindowEditClouds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4129A618FC0D920086FD21 /* CUIWindowEditClouds.cpp */; };
-		2E4129A918FC0D930086FD21 /* CUIWindowEditClouds.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4129A718FC0D920086FD21 /* CUIWindowEditClouds.h */; };
 		2E4CB02019483C3400740D0D /* CEditorCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CB01E19483C3400740D0D /* CEditorCamera.cpp */; };
-		2E4CB02119483C3400740D0D /* CEditorCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4CB01F19483C3400740D0D /* CEditorCamera.h */; };
 		2E4CB02419483D3E00740D0D /* CUIAnimatedMeshViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CB02219483D3E00740D0D /* CUIAnimatedMeshViewer.cpp */; };
-		2E4CB02519483D3E00740D0D /* CUIAnimatedMeshViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4CB02319483D3E00740D0D /* CUIAnimatedMeshViewer.h */; };
 		2E56A2271828EF9500D63D65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8312C19A5C00BF73D3 /* OpenGL.framework */; };
 		2E56A2281828EFA100D63D65 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95972B8D12C19A7F00BF73D3 /* Carbon.framework */; };
 		2E60C0FC19B3AF830070AF75 /* IGeometryCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E60C0FB19B3AF830070AF75 /* IGeometryCreator.h */; };
@@ -516,40 +502,15 @@
 		2E6E673C182D909A00A79A68 /* CSSWELibTestPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E6738182D909A00A79A68 /* CSSWELibTestPlugin.cpp */; };
 		2E6E673D182D909A00A79A68 /* CSSWELibTestPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E6739182D909A00A79A68 /* CSSWELibTestPlugin.h */; };
 		2E6E766B18E9A07D00A1D14D /* libIrrlicht.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C53E24D0A4850120014E966 /* libIrrlicht.a */; };
-		2E6E76A118E9A3B100A1D14D /* DLLExport.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769118E9A3B100A1D14D /* DLLExport.h */; };
-		2E6E76A218E9A3B100A1D14D /* ICollisionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769218E9A3B100A1D14D /* ICollisionManager.h */; };
-		2E6E76A318E9A3B100A1D14D /* IDevices.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769318E9A3B100A1D14D /* IDevices.h */; };
-		2E6E76A418E9A3B100A1D14D /* IGraphicTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769418E9A3B100A1D14D /* IGraphicTool.h */; };
-		2E6E76A518E9A3B100A1D14D /* IGUICodeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769518E9A3B100A1D14D /* IGUICodeEditor.h */; };
-		2E6E76A618E9A3B100A1D14D /* IMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769618E9A3B100A1D14D /* IMonitor.h */; };
-		2E6E76A718E9A3B100A1D14D /* IMonitorRegisterer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769718E9A3B100A1D14D /* IMonitorRegisterer.h */; };
-		2E6E76A818E9A3B100A1D14D /* ISSWECore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769818E9A3B100A1D14D /* ISSWECore.h */; };
-		2E6E76A918E9A3B100A1D14D /* ISSWECoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769918E9A3B100A1D14D /* ISSWECoreData.h */; };
-		2E6E76AA18E9A3B100A1D14D /* ISSWECoreUserInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769A18E9A3B100A1D14D /* ISSWECoreUserInterface.h */; };
-		2E6E76AB18E9A3B100A1D14D /* ISSWEEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769B18E9A3B100A1D14D /* ISSWEEvents.h */; };
-		2E6E76AC18E9A3B100A1D14D /* ISSWEImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769C18E9A3B100A1D14D /* ISSWEImporter.h */; };
-		2E6E76AD18E9A3B100A1D14D /* ISSWELibPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769D18E9A3B100A1D14D /* ISSWELibPlugin.h */; };
-		2E6E76AE18E9A3B100A1D14D /* ISSWERender.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769E18E9A3B100A1D14D /* ISSWERender.h */; };
-		2E6E76AF18E9A3B100A1D14D /* ISSWEShaderCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E769F18E9A3B100A1D14D /* ISSWEShaderCallback.h */; };
-		2E6E76B018E9A3B100A1D14D /* ITool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76A018E9A3B100A1D14D /* ITool.h */; };
 		2E6E76B518E9A5C000A1D14D /* CUIEditParticleInterpolators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76B118E9A5C000A1D14D /* CUIEditParticleInterpolators.cpp */; };
-		2E6E76B618E9A5C000A1D14D /* CUIEditParticleInterpolators.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76B218E9A5C000A1D14D /* CUIEditParticleInterpolators.h */; };
 		2E6E76B718E9A5C000A1D14D /* CUIParticlesEditZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76B318E9A5C000A1D14D /* CUIParticlesEditZone.cpp */; };
-		2E6E76B818E9A5C000A1D14D /* CUIParticlesEditZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76B418E9A5C000A1D14D /* CUIParticlesEditZone.h */; };
 		2E6E76BB18E9A5E900A1D14D /* CPSSMUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76B918E9A5E900A1D14D /* CPSSMUtils.cpp */; };
 		2E6E76BC18E9A5E900A1D14D /* CPSSMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76BA18E9A5E900A1D14D /* CPSSMUtils.h */; };
 		2E6E76BF18E9A60700A1D14D /* CFilterCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76BD18E9A60700A1D14D /* CFilterCallback.cpp */; };
-		2E6E76C018E9A60700A1D14D /* CFilterCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76BE18E9A60700A1D14D /* CFilterCallback.h */; };
 		2E6E76CF18E9A6CB00A1D14D /* CUICharacterManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76CD18E9A6CB00A1D14D /* CUICharacterManager.cpp */; };
-		2E6E76D018E9A6CB00A1D14D /* CUICharacterManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76CE18E9A6CB00A1D14D /* CUICharacterManager.h */; };
-		2E6E76DA18E9A6D900A1D14D /* CRadiosityGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D218E9A6D900A1D14D /* CRadiosityGenerator.h */; };
 		2E6E76DB18E9A6D900A1D14D /* CUILightMapsCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76D318E9A6D900A1D14D /* CUILightMapsCreator.cpp */; };
-		2E6E76DC18E9A6D900A1D14D /* CUILightMapsCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D418E9A6D900A1D14D /* CUILightMapsCreator.h */; };
 		2E6E76DD18E9A6D900A1D14D /* CUVTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76D518E9A6D900A1D14D /* CUVTree.cpp */; };
-		2E6E76DE18E9A6D900A1D14D /* CUVTree.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D618E9A6D900A1D14D /* CUVTree.h */; };
 		2E6E76DF18E9A6D900A1D14D /* mtrand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E76D718E9A6D900A1D14D /* mtrand.cpp */; };
-		2E6E76E018E9A6D900A1D14D /* mtrand.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D818E9A6D900A1D14D /* mtrand.h */; };
-		2E6E76E118E9A6D900A1D14D /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E76D918E9A6D900A1D14D /* types.h */; };
 		2E6E76E218E9A82700A1D14D /* BulletCollision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634E1829874900FB1027 /* BulletCollision.framework */; };
 		2E6E76E318E9A82700A1D14D /* BulletDynamics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C634F1829874A00FB1027 /* BulletDynamics.framework */; };
 		2E6E76E418E9A82700A1D14D /* LinearMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6C63501829874A00FB1027 /* LinearMath.framework */; };
@@ -712,7 +673,7 @@
 		2E9398CC19A4066B00397B5F /* CSSWEUTMeshSplitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E9398CA19A4066B00397B5F /* CSSWEUTMeshSplitter.cpp */; };
 		2E9398CD19A4066B00397B5F /* CSSWEUTMeshSplitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9398CB19A4066B00397B5F /* CSSWEUTMeshSplitter.h */; };
 		2E9CA46919A8DF6000402A7C /* CCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E9CA46719A8DF6000402A7C /* CCamera.cpp */; };
-		2E9CA46A19A8DF6000402A7C /* CCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9CA46819A8DF6000402A7C /* CCamera.h */; };
+		2E9D3B4119E0792A007B4A1D /* CDevelopmentInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E9D3B3F19E0792A007B4A1D /* CDevelopmentInstance.cpp */; };
 		2EA3BE19199E597E004F264C /* CEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE0F199E597E004F264C /* CEdge.cpp */; };
 		2EA3BE1A199E597E004F264C /* CEdge.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE10199E597E004F264C /* CEdge.h */; };
 		2EA3BE1B199E597E004F264C /* CMeshSimplificator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE11199E597E004F264C /* CMeshSimplificator.cpp */; };
@@ -724,20 +685,10 @@
 		2EA3BE21199E597E004F264C /* CVertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE17199E597E004F264C /* CVertex.cpp */; };
 		2EA3BE22199E597E004F264C /* CVertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE18199E597E004F264C /* CVertex.h */; };
 		2EA3BE25199E59AD004F264C /* CUIMeshSimplificator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE23199E59AD004F264C /* CUIMeshSimplificator.cpp */; };
-		2EA3BE26199E59AD004F264C /* CUIMeshSimplificator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE24199E59AD004F264C /* CUIMeshSimplificator.h */; };
-		2EA3BE2A199E59DB004F264C /* IAudioElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE27199E59DB004F264C /* IAudioElement.h */; };
-		2EA3BE2B199E59DB004F264C /* IAudioElement3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE28199E59DB004F264C /* IAudioElement3D.h */; };
-		2EA3BE2C199E59DB004F264C /* IAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE29199E59DB004F264C /* IAudioManager.h */; };
-		2EA3BE2E199E59F9004F264C /* IFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE2D199E59F9004F264C /* IFactory.h */; };
-		2EA3BE30199E5A06004F264C /* IMeshSimplificator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE2F199E5A05004F264C /* IMeshSimplificator.h */; };
 		2EA3BE37199E5A3C004F264C /* CGUISoundViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE32199E5A3C004F264C /* CGUISoundViewer.cpp */; };
-		2EA3BE38199E5A3C004F264C /* CGUISoundViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE33199E5A3C004F264C /* CGUISoundViewer.h */; };
 		2EA3BE39199E5A3C004F264C /* CGUITimeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE35199E5A3C004F264C /* CGUITimeLine.cpp */; };
-		2EA3BE3A199E5A3C004F264C /* CGUITimeLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE36199E5A3C004F264C /* CGUITimeLine.h */; };
 		2EA3BE3D199E5A74004F264C /* CMatrix4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE3B199E5A74004F264C /* CMatrix4.cpp */; };
-		2EA3BE3E199E5A74004F264C /* CMatrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE3C199E5A74004F264C /* CMatrix4.h */; };
 		2EA3BE42199E5AA1004F264C /* CUIAddAudioElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE40199E5AA1004F264C /* CUIAddAudioElement.cpp */; };
-		2EA3BE43199E5AA1004F264C /* CUIAddAudioElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE41199E5AA1004F264C /* CUIAddAudioElement.h */; };
 		2EA3BE49199E5EC5004F264C /* CGUISpectrum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE45199E5EC4004F264C /* CGUISpectrum.cpp */; };
 		2EA3BE4A199E5EC5004F264C /* CGUISpectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE46199E5EC4004F264C /* CGUISpectrum.h */; };
 		2EA3BE4B199E5EC5004F264C /* CSSWEUTSoundViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BE47199E5EC4004F264C /* CSSWEUTSoundViewer.cpp */; };
@@ -746,10 +697,17 @@
 		2EB35EB6192D41AA00A543AF /* CNormalMappingMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EB35EB4192D41AA00A543AF /* CNormalMappingMaterial.cpp */; };
 		2EB35EB7192D41AA00A543AF /* CNormalMappingMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EB35EB5192D41AA00A543AF /* CNormalMappingMaterial.h */; };
 		2EBDA183188881680020D61A /* CUIEditParticleFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */; };
+		2ECA05B019DEAA7A004F8A8C /* CSSWEUltimateTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E770118E9B7C000A1D14D /* CSSWEUltimateTool.h */; };
+		2ECA05B119DEAA7A004F8A8C /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E770818E9B7C000A1D14D /* Stdafx.h */; };
+		2ECA05B219DEAA7A004F8A8C /* CSSWEUTOpenSCADDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E6E770618E9B7C000A1D14D /* CSSWEUTOpenSCADDocument.h */; };
+		2ECA05B319DEAA7A004F8A8C /* CSSWEUTSoundViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE48199E5EC4004F264C /* CSSWEUTSoundViewer.h */; };
+		2ECA05B419DEAA7A004F8A8C /* CGUISpectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA3BE46199E5EC4004F264C /* CGUISpectrum.h */; };
+		2ECA05B519DEAA7A004F8A8C /* CSSWEUTMeshSplitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9398CB19A4066B00397B5F /* CSSWEUTMeshSplitter.h */; };
+		2ECA05BA19DEAAD9004F8A8C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ECA05A119DEA9AB004F8A8C /* main.cpp */; };
+		2ECA05BB19DEAAD9004F8A8C /* main.h in Sources */ = {isa = PBXBuildFile; fileRef = 2ECA05A219DEA9AB004F8A8C /* main.h */; };
+		2ECA05BD19DED8FA004F8A8C /* SShadowLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 2ECA05BC19DED8FA004F8A8C /* SShadowLight.h */; };
 		2EDA915719072B6500D83D90 /* CVector3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDA915519072B6500D83D90 /* CVector3d.cpp */; };
-		2EDA915819072B6500D83D90 /* CVector3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDA915619072B6500D83D90 /* CVector3d.h */; };
 		2EDE4F3E1918176B00C53ADD /* CUIScenarioMakerMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDE4F391918176B00C53ADD /* CUIScenarioMakerMain.cpp */; };
-		2EDE4F3F1918176B00C53ADD /* CUIScenarioMakerMain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDE4F3A1918176B00C53ADD /* CUIScenarioMakerMain.h */; };
 		2EE402B5184947990058DD93 /* CGUINodesEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B3184947990058DD93 /* CGUINodesEditor.cpp */; };
 		2EE402B918494DD70058DD93 /* CGUINode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402B718494DD70058DD93 /* CGUINode.cpp */; };
 		2EE402BD18494F970058DD93 /* CUIParticleEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EE402BB18494F970058DD93 /* CUIParticleEditor.cpp */; };
@@ -1803,6 +1761,20 @@
 			remoteGlobalIDString = 2EFB887B19A2532C0094EAF6;
 			remoteInfo = ExampleGame;
 		};
+		2E9D3B3D19E07326007B4A1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2ECA05A419DEAA7A004F8A8C;
+			remoteInfo = GameDevelopmentExample;
+		};
+		2ECA05A619DEAA7A004F8A8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E6C60611829835E00FB1027;
+			remoteInfo = SSWELib;
+		};
 		2EFB887F19A2532C0094EAF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -2770,6 +2742,8 @@
 		2E9398D019A40F0A00397B5F /* HdrVertex.vfx */ = {isa = PBXFileReference; lastKnownFileType = text; path = HdrVertex.vfx; sourceTree = "<group>"; };
 		2E9CA46719A8DF6000402A7C /* CCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCamera.cpp; sourceTree = "<group>"; };
 		2E9CA46819A8DF6000402A7C /* CCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCamera.h; sourceTree = "<group>"; };
+		2E9D3B3F19E0792A007B4A1D /* CDevelopmentInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CDevelopmentInstance.cpp; sourceTree = "<group>"; };
+		2E9D3B4019E0792A007B4A1D /* CDevelopmentInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDevelopmentInstance.h; sourceTree = "<group>"; };
 		2E9EB93F19A538ED00474499 /* CGUIInformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGUIInformations.h; path = ../../../../ExampleGame/CGUIInformations.h; sourceTree = "<group>"; };
 		2EA3BE0F199E597E004F264C /* CEdge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CEdge.cpp; sourceTree = "<group>"; };
 		2EA3BE10199E597E004F264C /* CEdge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEdge.h; sourceTree = "<group>"; };
@@ -2808,6 +2782,11 @@
 		2EB35EB5192D41AA00A543AF /* CNormalMappingMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNormalMappingMaterial.h; sourceTree = "<group>"; };
 		2EBDA181188881680020D61A /* CUIEditParticleFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CUIEditParticleFlags.cpp; path = ParticlesEditor/CUIEditParticleFlags.cpp; sourceTree = "<group>"; };
 		2EBDA182188881680020D61A /* CUIEditParticleFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIEditParticleFlags.h; path = ParticlesEditor/CUIEditParticleFlags.h; sourceTree = "<group>"; };
+		2ECA059F19DEA814004F8A8C /* ExampleGame copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ExampleGame copy-Info.plist"; path = "/Users/julienmoreau-mathis/Desktop/Nala Editor/SSWEProject/SSWE_OSX/source/Irrlicht/MacOSX/ExampleGame copy-Info.plist"; sourceTree = "<absolute>"; };
+		2ECA05A119DEA9AB004F8A8C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../GameDevelopmentExample/main.cpp; sourceTree = "<group>"; };
+		2ECA05A219DEA9AB004F8A8C /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../../../../GameDevelopmentExample/main.h; sourceTree = "<group>"; };
+		2ECA05B919DEAA7A004F8A8C /* libGameDevelopmentExample.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libGameDevelopmentExample.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2ECA05BC19DED8FA004F8A8C /* SShadowLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SShadowLight.h; sourceTree = "<group>"; };
 		2EDA915519072B6500D83D90 /* CVector3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVector3d.cpp; sourceTree = "<group>"; };
 		2EDA915619072B6500D83D90 /* CVector3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVector3d.h; sourceTree = "<group>"; };
 		2EDE4F391918176B00C53ADD /* CUIScenarioMakerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIScenarioMakerMain.cpp; sourceTree = "<group>"; };
@@ -2820,6 +2799,8 @@
 		2EE402BC18494F970058DD93 /* CUIParticleEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUIParticleEditor.h; path = ParticlesEditor/CUIParticleEditor.h; sourceTree = "<group>"; };
 		2EE53DE2188232F800848E0E /* CUIFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CUIFileLoader.cpp; sourceTree = "<group>"; };
 		2EE53DE3188232F800848E0E /* CUIFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CUIFileLoader.h; sourceTree = "<group>"; };
+		2EF4DE3419E1CF7200FBAB40 /* NormalMapping.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = NormalMapping.frag; sourceTree = "<group>"; };
+		2EF4DE3519E1CF7200FBAB40 /* NormalMapping.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = NormalMapping.vert; sourceTree = "<group>"; };
 		2EFB88A219A2532C0094EAF6 /* ExampleGame_dbg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleGame_dbg.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EFB88A319A2532D0094EAF6 /* SSWE copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SSWE copy-Info.plist"; path = "/Users/julienmoreau-mathis/Desktop/Nala Editor/SSWEProject/SSWE_OSX/source/Irrlicht/MacOSX/SSWE copy-Info.plist"; sourceTree = "<absolute>"; };
 		2EFB88A519A253960094EAF6 /* CDragonTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDragonTest.h; path = ../../../../ExampleGame/CDragonTest.h; sourceTree = "<group>"; };
@@ -3560,6 +3541,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2ECA05AE19DEAA7A004F8A8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2EFB888F19A2532C0094EAF6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3771,10 +3759,10 @@
 		0867D691FE84028FC02AAC07 /* MacOSX */ = {
 			isa = PBXGroup;
 			children = (
-				2E6E55AF19A6320900CCF4DE /* libfmodex.dylib */,
 				2E6C5D971829801C00FB1027 /* SSWEProject */,
 				2E6C5D961829801100FB1027 /* Irrlicht */,
 				2EFB88A319A2532D0094EAF6 /* SSWE copy-Info.plist */,
+				2ECA059F19DEA814004F8A8C /* ExampleGame copy-Info.plist */,
 			);
 			name = MacOSX;
 			sourceTree = "<group>";
@@ -4600,6 +4588,7 @@
 		2E057E2719A5713200C6AE46 /* DefaultAudioManager */ = {
 			isa = PBXGroup;
 			children = (
+				2E6E55AF19A6320900CCF4DE /* libfmodex.dylib */,
 				2E057E3D19A5715100C6AE46 /* libDefaultAudioManager.dylib */,
 				2E057E3E19A5719700C6AE46 /* CAudioElement2D.cpp */,
 				2E057E3F19A5719700C6AE46 /* CAudioElement2D.h */,
@@ -4753,6 +4742,7 @@
 			children = (
 				2E057E5719A5816500C6AE46 /* Renders_prefix.pch */,
 				2E057E5819A5816500C6AE46 /* SSWE_Prefix.pch */,
+				2ECA05A019DEA938004F8A8C /* GameDevelopmentExample */,
 				2E057E2719A5713200C6AE46 /* DefaultAudioManager */,
 				2EFB88A419A2537C0094EAF6 /* ExampleGame */,
 				2E6E723118E99F2F00A1D14D /* IrrBullet */,
@@ -4776,6 +4766,7 @@
 				2E1E095419659E44000177C2 /* Amplifier.fx */,
 				2E1E095519659E44000177C2 /* Amplifier.gfx */,
 				2E1E0943196597CC000177C2 /* PostProcesses */,
+				2EF4DE2F19E1CE7000FBAB40 /* Materials */,
 				2E6C5F52182980F900FB1027 /* Renders */,
 				2E6C5F65182980FA00FB1027 /* SSWERenders.cpp */,
 				2E6C5F66182980FA00FB1027 /* SSWERenders.h */,
@@ -4824,6 +4815,7 @@
 		2E6C5F5C182980FA00FB1027 /* XEffect */ = {
 			isa = PBXGroup;
 			children = (
+				2ECA05BC19DED8FA004F8A8C /* SShadowLight.h */,
 				2E6E76B918E9A5E900A1D14D /* CPSSMUtils.cpp */,
 				2E6E76BA18E9A5E900A1D14D /* CPSSMUtils.h */,
 				2E6C5F5D182980FA00FB1027 /* CScreenQuad.h */,
@@ -5401,6 +5393,8 @@
 				2E6C61BA182983A500FB1027 /* CPluginsManager.h */,
 				2E6C61BB182983A500FB1027 /* CUIPluginsManager.cpp */,
 				2E6C61BC182983A500FB1027 /* CUIPluginsManager.h */,
+				2E9D3B3F19E0792A007B4A1D /* CDevelopmentInstance.cpp */,
+				2E9D3B4019E0792A007B4A1D /* CDevelopmentInstance.h */,
 			);
 			path = PluginsManager;
 			sourceTree = "<group>";
@@ -5966,6 +5960,16 @@
 			path = Materials;
 			sourceTree = "<group>";
 		};
+		2ECA05A019DEA938004F8A8C /* GameDevelopmentExample */ = {
+			isa = PBXGroup;
+			children = (
+				2ECA05A119DEA9AB004F8A8C /* main.cpp */,
+				2ECA05A219DEA9AB004F8A8C /* main.h */,
+				2ECA05B919DEAA7A004F8A8C /* libGameDevelopmentExample.dylib */,
+			);
+			name = GameDevelopmentExample;
+			sourceTree = "<group>";
+		};
 		2EDA915419072AC400D83D90 /* math */ = {
 			isa = PBXGroup;
 			children = (
@@ -6005,6 +6009,24 @@
 				2EE53DE3188232F800848E0E /* CUIFileLoader.h */,
 			);
 			path = FileLoader;
+			sourceTree = "<group>";
+		};
+		2EF4DE2F19E1CE7000FBAB40 /* Materials */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DE3319E1CF7200FBAB40 /* NormalMappingMultiLights */,
+			);
+			name = Materials;
+			sourceTree = "<group>";
+		};
+		2EF4DE3319E1CF7200FBAB40 /* NormalMappingMultiLights */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DE3419E1CF7200FBAB40 /* NormalMapping.frag */,
+				2EF4DE3519E1CF7200FBAB40 /* NormalMapping.vert */,
+			);
+			name = NormalMappingMultiLights;
+			path = ../../../../../SSWE/shaders/Materials/NormalMappingMultiLights;
 			sourceTree = "<group>";
 		};
 		2EFB88A419A2537C0094EAF6 /* ExampleGame */ = {
@@ -6563,6 +6585,7 @@
 				2E1E091B19656ED0000177C2 /* CGaussianBlurVPostProcess.h in Headers */,
 				2E1E092119656ED0000177C2 /* CHDRScreenQuad.h in Headers */,
 				2E2CA4AD182D6DF8000BA9DA /* CShaderPre.h in Headers */,
+				2ECA05BD19DED8FA004F8A8C /* SShadowLight.h in Headers */,
 				2E2CA4AE182D6DF8000BA9DA /* EffectCB.h in Headers */,
 				2E6E76BC18E9A5E900A1D14D /* CPSSMUtils.h in Headers */,
 				2E1E090A19656ED0000177C2 /* CAAPostProcessingManager.h in Headers */,
@@ -6615,58 +6638,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EA3BE3E199E5A74004F264C /* CMatrix4.h in Headers */,
-				2E6E76AE18E9A3B100A1D14D /* ISSWERender.h in Headers */,
-				2E6E76DA18E9A6D900A1D14D /* CRadiosityGenerator.h in Headers */,
-				2E9CA46A19A8DF6000402A7C /* CCamera.h in Headers */,
-				2E6E76A318E9A3B100A1D14D /* IDevices.h in Headers */,
-				2EDE4F3F1918176B00C53ADD /* CUIScenarioMakerMain.h in Headers */,
-				2E3F4872192D0ACB008926A7 /* CUIMeshFactory.h in Headers */,
-				2E6E76AD18E9A3B100A1D14D /* ISSWELibPlugin.h in Headers */,
-				2E6E76E018E9A6D900A1D14D /* mtrand.h in Headers */,
-				2EA3BE30199E5A06004F264C /* IMeshSimplificator.h in Headers */,
-				2EA3BE2E199E59F9004F264C /* IFactory.h in Headers */,
-				2EA3BE2B199E59DB004F264C /* IAudioElement3D.h in Headers */,
-				2EA3BE38199E5A3C004F264C /* CGUISoundViewer.h in Headers */,
-				2E6E76C018E9A60700A1D14D /* CFilterCallback.h in Headers */,
-				2E4CB02519483D3E00740D0D /* CUIAnimatedMeshViewer.h in Headers */,
-				2E4129A518FC0D830086FD21 /* CUIAddModifier.h in Headers */,
-				2E1E0942196594B4000177C2 /* CUIHDRManager.h in Headers */,
-				2EA3BE2C199E59DB004F264C /* IAudioManager.h in Headers */,
-				2E6E76DC18E9A6D900A1D14D /* CUILightMapsCreator.h in Headers */,
-				2E247FD71905DB0500410104 /* CParticleSystemsTypes.h in Headers */,
-				2E6E76A518E9A3B100A1D14D /* IGUICodeEditor.h in Headers */,
-				2E6E76E118E9A6D900A1D14D /* types.h in Headers */,
-				2E360D401904B05300DF1C3E /* CUIParticleExport.h in Headers */,
-				2E6E76B818E9A5C000A1D14D /* CUIParticlesEditZone.h in Headers */,
-				2E6E76DE18E9A6D900A1D14D /* CUVTree.h in Headers */,
-				2EDA915819072B6500D83D90 /* CVector3d.h in Headers */,
-				2E6E76B018E9A3B100A1D14D /* ITool.h in Headers */,
-				2E4CB02119483C3400740D0D /* CEditorCamera.h in Headers */,
-				2E6E76AA18E9A3B100A1D14D /* ISSWECoreUserInterface.h in Headers */,
-				2E6E76AF18E9A3B100A1D14D /* ISSWEShaderCallback.h in Headers */,
-				2E6E76A418E9A3B100A1D14D /* IGraphicTool.h in Headers */,
-				2E6E76B618E9A5C000A1D14D /* CUIEditParticleInterpolators.h in Headers */,
-				2E6E76A618E9A3B100A1D14D /* IMonitor.h in Headers */,
-				2E3F4870192D0ACB008926A7 /* CMeshFactory.h in Headers */,
-				2E6E76D018E9A6CB00A1D14D /* CUICharacterManager.h in Headers */,
-				2EA3BE26199E59AD004F264C /* CUIMeshSimplificator.h in Headers */,
-				2EA3BE43199E5AA1004F264C /* CUIAddAudioElement.h in Headers */,
-				2E3F48E8192D0D6A008926A7 /* CAnimationController.h in Headers */,
-				2E6E76A118E9A3B100A1D14D /* DLLExport.h in Headers */,
-				2E4129A918FC0D930086FD21 /* CUIWindowEditClouds.h in Headers */,
-				2E6E76A918E9A3B100A1D14D /* ISSWECoreData.h in Headers */,
-				2EA3BE3A199E5A3C004F264C /* CGUITimeLine.h in Headers */,
-				2E6E76A818E9A3B100A1D14D /* ISSWECore.h in Headers */,
-				2E4129A318FC0D830086FD21 /* CUIAddEmitter.h in Headers */,
-				2E6E76AB18E9A3B100A1D14D /* ISSWEEvents.h in Headers */,
-				2E6E76A718E9A3B100A1D14D /* IMonitorRegisterer.h in Headers */,
-				2E6E76AC18E9A3B100A1D14D /* ISSWEImporter.h in Headers */,
-				2E3F48E3192D0D21008926A7 /* IAnimationController.h in Headers */,
-				2E3F48E1192D0C25008926A7 /* CUIScenarioObjects.h in Headers */,
-				2E6E76A218E9A3B100A1D14D /* ICollisionManager.h in Headers */,
-				2E247FD61905DB0500410104 /* CParticleSystemsImporter.h in Headers */,
-				2EA3BE2A199E59DB004F264C /* IAudioElement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6805,6 +6776,19 @@
 				2E92B6571849289E00D955F8 /* stdafx.h in Headers */,
 				2E92B77F18492B9600D955F8 /* SPK_SFML_GLOBAL.h in Headers */,
 				2E92B75D18492B9600D955F8 /* SPK_Destroyer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2ECA05AF19DEAA7A004F8A8C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2ECA05B019DEAA7A004F8A8C /* CSSWEUltimateTool.h in Headers */,
+				2ECA05B119DEAA7A004F8A8C /* Stdafx.h in Headers */,
+				2ECA05B219DEAA7A004F8A8C /* CSSWEUTOpenSCADDocument.h in Headers */,
+				2ECA05B319DEAA7A004F8A8C /* CSSWEUTSoundViewer.h in Headers */,
+				2ECA05B419DEAA7A004F8A8C /* CGUISpectrum.h in Headers */,
+				2ECA05B519DEAA7A004F8A8C /* CSSWEUTMeshSplitter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7372,6 +7356,24 @@
 			productReference = 2E92B6751849289E00D955F8 /* libSPARK.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		2ECA05A419DEAA7A004F8A8C /* GameDevelopmentExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2ECA05B619DEAA7A004F8A8C /* Build configuration list for PBXNativeTarget "GameDevelopmentExample" */;
+			buildPhases = (
+				2ECA05A719DEAA7A004F8A8C /* Sources */,
+				2ECA05AE19DEAA7A004F8A8C /* Frameworks */,
+				2ECA05AF19DEAA7A004F8A8C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2ECA05A519DEAA7A004F8A8C /* PBXTargetDependency */,
+			);
+			name = GameDevelopmentExample;
+			productName = SSWEWebExportPlugin;
+			productReference = 2ECA05B919DEAA7A004F8A8C /* libGameDevelopmentExample.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		2EFB887B19A2532C0094EAF6 /* ExampleGame */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2EFB889F19A2532C0094EAF6 /* Build configuration list for PBXNativeTarget "ExampleGame" */;
@@ -7568,6 +7570,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E9D3B3E19E07326007B4A1D /* PBXTargetDependency */,
 				2E057E5519A5737300C6AE46 /* PBXTargetDependency */,
 				2E057E5319A5736D00C6AE46 /* PBXTargetDependency */,
 				2E9398CF19A4071800397B5F /* PBXTargetDependency */,
@@ -7729,6 +7732,7 @@
 				2E6B3D46182E7964006E12C6 /* SSWEGenericMonitor */,
 				2E6E76F418E9B77100A1D14D /* SSWEUltimateTool */,
 				2E057E2819A5715100C6AE46 /* DefaultAudioManager */,
+				2ECA05A419DEAA7A004F8A8C /* GameDevelopmentExample */,
 			);
 		};
 /* End PBXProject section */
@@ -8148,6 +8152,7 @@
 				2E6C6305182983CD00FB1027 /* CUIMaterialEditorTextures.cpp in Sources */,
 				2E6C6307182983CD00FB1027 /* CNodeFactory.cpp in Sources */,
 				2E6C6309182983CD00FB1027 /* CUINodeFactoryCreateMeshWithTangents.cpp in Sources */,
+				2E9D3B4119E0792A007B4A1D /* CDevelopmentInstance.cpp in Sources */,
 				2E6C630B182983CD00FB1027 /* CUINodeFactoryPlanarMapping.cpp in Sources */,
 				2E6C630D182983CD00FB1027 /* CUIWindowAddNewTerrain.cpp in Sources */,
 				2E6C630F182983CD00FB1027 /* CGrassPainter.cpp in Sources */,
@@ -8287,6 +8292,15 @@
 				2E92B6DB184928ED00D955F8 /* SPK_Sphere.cpp in Sources */,
 				2E92B6D2184928ED00D955F8 /* SPK_Vortex.cpp in Sources */,
 				2E92B6B9184928ED00D955F8 /* SPK_BufferHandler.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2ECA05A719DEAA7A004F8A8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2ECA05BA19DEAAD9004F8A8C /* main.cpp in Sources */,
+				2ECA05BB19DEAAD9004F8A8C /* main.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9205,6 +9219,16 @@
 			isa = PBXTargetDependency;
 			target = 2EFB887B19A2532C0094EAF6 /* ExampleGame */;
 			targetProxy = 2E9398CE19A4071800397B5F /* PBXContainerItemProxy */;
+		};
+		2E9D3B3E19E07326007B4A1D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2ECA05A419DEAA7A004F8A8C /* GameDevelopmentExample */;
+			targetProxy = 2E9D3B3D19E07326007B4A1D /* PBXContainerItemProxy */;
+		};
+		2ECA05A519DEAA7A004F8A8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E6C60611829835E00FB1027 /* SSWELib */;
+			targetProxy = 2ECA05A619DEAA7A004F8A8C /* PBXContainerItemProxy */;
 		};
 		2EFB887E19A2532C0094EAF6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -10909,6 +10933,170 @@
 			};
 			name = Release;
 		};
+		2ECA05B719DEAA7A004F8A8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = NO;
+				HEADER_SEARCH_PATHS = (
+					../../../include,
+					../../../../SSWERenders,
+					../../../../SSWELib/include,
+					"../../../../SSWELib/**",
+				);
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INSTALL_PATH = /usr/local/bin;
+				LD_NO_PIE = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala",
+					Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx,
+					"$(PROJECT_DIR)/build/Release",
+				);
+				LINKER_DISPLAYS_MANGLED_NAMES = NO;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-read_only_relocs",
+					suppress,
+				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				PRODUCT_NAME = GameDevelopmentExample;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
+				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
+				STRIP_STYLE = debugging;
+				VALIDATE_PRODUCT = NO;
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = "";
+			};
+			name = Debug;
+		};
+		2ECA05B819DEAA7A004F8A8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				ENABLE_NS_ASSERTIONS = NO;
+				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala\\ Editor/SSWEProject/Bullet/libs",
+				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = NO;
+				HEADER_SEARCH_PATHS = (
+					../../../include,
+					../../../../SSWERenders,
+					../../../../SSWELib/include,
+					"../../../../SSWELib/**",
+				);
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				INSTALL_PATH = /usr/local/bin;
+				LD_NO_PIE = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/julienmoreau-mathis/Desktop/Nala",
+					Editor/SSWEProject/OpenFrameworks/libs/openFrameworksCompiled/lib/osx,
+					"$(PROJECT_DIR)/build/Release",
+				);
+				LINKER_DISPLAYS_MANGLED_NAMES = NO;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-DMACOSX";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-read_only_relocs",
+					suppress,
+				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				PRODUCT_NAME = GameDevelopmentExample;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
+				SDKROOT = macosx10.9;
+				SHARED_PRECOMPS_DIR = "";
+				STRIP_STYLE = debugging;
+				VALIDATE_PRODUCT = NO;
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = "";
+			};
+			name = Release;
+		};
 		2EFB88A019A2532C0094EAF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -12101,6 +12289,15 @@
 			buildConfigurations = (
 				2E92B6731849289E00D955F8 /* Debug */,
 				2E92B6741849289E00D955F8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2ECA05B619DEAA7A004F8A8C /* Build configuration list for PBXNativeTarget "GameDevelopmentExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2ECA05B719DEAA7A004F8A8C /* Debug */,
+				2ECA05B819DEAA7A004F8A8C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

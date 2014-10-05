@@ -110,6 +110,9 @@ public:
 
 	void setRenderFullPostTraitements(bool _render) { renderFullPostTraitements = _render; }
 	bool isRenderingFullPostTraitements() { return renderFullPostTraitements; }
+    
+    void setRenderEffectForDevelopment(EffectHandler *e);
+    void setDontRenderEffectForDevelopment();
 	//-----------------------------------
 
 	//-----------------------------------
@@ -230,9 +233,10 @@ private:
 
 	//-----------------------------------
 	//RENDERS
-	EffectHandler *effect;
+	EffectHandler *effect, *effectForDevelopment;
 	E_FILTER_TYPE filterType;
 	stringc shaderExt;
+    bool renderEffectForDevelopment;
 
 	IPostProcessMotionBlur* motionBlur;
 	CRenderCallbacks *renderCallbacks;
