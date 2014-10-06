@@ -40,7 +40,7 @@ private:
     /// Development instances
     CDevelopmentPluginManager *devInstanceManager;
     cp3d::core::IDevelomentInstance *devClassInstance;
-    #ifdef _IRR_WINDOWS_API
+    #ifdef _IRR_WINDOWS_API_
     HINSTANCE developmentInstance;
     #else
     void *developmentInstance;

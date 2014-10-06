@@ -547,10 +547,8 @@ void CDevices::createDevice(SIrrlichtCreationParameters parameters) {
 
 	renderCallbacks = new CRenderCallbacks(effect, shaderExt, workingDirectory);
 
-	if (driver->getDriverType() == EDT_OPENGL) {
-		normalMappingMaterial = new CNormalMappingMaterial();
-		normalMappingMaterial->build(driver);
-	}
+	normalMappingMaterial = new CNormalMappingMaterial();
+	normalMappingMaterial->build(driver);
 
 	renderCore = new CRenderCore(this);
 

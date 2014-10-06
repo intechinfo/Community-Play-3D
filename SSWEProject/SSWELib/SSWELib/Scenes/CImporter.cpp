@@ -351,8 +351,7 @@ void CImporter::buildLight() {
 		ldata.setLensFlareSceneNode(lfNode);
 	}
 
-	if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL)
-        devices->getNormalMappingMaterial()->addLight(node);
+    devices->getNormalMappingMaterial()->addLight(node);
 
 	devices->getXEffect()->addShadowLight(shadowLight);
 	devices->getCoreData()->getLightsData()->push_back(ldata);
@@ -817,7 +816,7 @@ void CImporter::readMaterials(ISceneNode *_node) {
 		//MATERIAL TYPE
 		read("materianType");
 		s32 matS32 = xmlReader->getAttributeValueAsInt("value");
-		if (matS32 == (s32)EMT_NORMAL_MAP_SOLID && devices->getVideoDriver()->getDriverType() == EDT_OPENGL)
+		if (matS32 == (s32)EMT_NORMAL_MAP_SOLID)
             _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid();
 		else
             _node->getMaterial(id).MaterialType = (E_MATERIAL_TYPE)matS32;

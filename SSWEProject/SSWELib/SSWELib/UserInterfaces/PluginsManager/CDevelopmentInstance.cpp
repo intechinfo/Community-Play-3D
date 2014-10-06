@@ -6,12 +6,15 @@
 //
 //
 
+#include "stdafx.h"
 #include "CDevelopmentInstance.h"
+#include <irrbullet.h>
 
 CDevelopmentPluginManager::CDevelopmentPluginManager(CDevices *devices)
 : cp3d::core::IDevelomentInstance(devices)
 {
     this->devices = devices;
+	playingForDevelopment = false;
 }
 
 CDevelopmentPluginManager::~CDevelopmentPluginManager() {

@@ -293,7 +293,7 @@ void CPluginsManager::loadDevelopmentInstance(stringc path) {
     if (developmentInstance) {
         
         #ifdef _IRR_WINDOWS_API_
-        createDevelopmentInstance = reinterpret_cast< pvFunctv > (GetProcAdress(developmentInstance, "createDevelopmentInstance"));
+        createDevelopmentInstance = reinterpret_cast< pvFunctv > (GetProcAddress(developmentInstance, "createDevelopmentInstance"));
         #else
         createDevelopmentInstance = reinterpret_cast< pvFunctv > (dlsym(developmentInstance, "createDevelopmentInstance"));
         #endif
@@ -314,7 +314,6 @@ void CPluginsManager::loadDevelopmentInstance(stringc path) {
         }
     } else {
         devices->addErrorDialog("Development Instance Error", "Cannot load instance...", EMBF_OK);
-        printf("%s\n", dlerror());
     }
 }
 
@@ -324,7 +323,7 @@ void CPluginsManager::unloadDevelopmentInstance() {
         if (devClassInstance)
             delete devClassInstance;
         
-        #ifdef _IRR_WINDOWS_API
+        #ifdef _IRR_WINDOWS_API_
         FreeLibrary(developmentInstance);
         #else
         dlclose(developmentInstance);

@@ -68,8 +68,7 @@ bool CUIWindowOpenScene::OnEvent(const SEvent &event) {
 						devices->getCoreData()->clear();
 						devices->getCoreData()->clearAllTheArrays();
 						devices->getXEffect()->clearAll();
-                        if (devices->getVideoDriver()->getDriverType() == EDT_OPENGL)
-                            devices->getNormalMappingMaterial()->reset();
+                        devices->getNormalMappingMaterial()->reset();
 					}
 
                     IGUIWindow *window = devices->getGUIEnvironment()->addMessageBox(L"Loading", 

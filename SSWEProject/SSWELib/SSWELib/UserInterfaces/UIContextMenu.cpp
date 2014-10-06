@@ -352,7 +352,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 			//devices->getCoreData()->clearAllTheArrays();
 			//devices->getXEffect()->clearAll();
 
-			stringw scene_to_import = L"Test.world";
+			stringw scene_to_import = L"LNormalMappingTest.world";
 			CImporter *impoterInstance = new CImporter(devices);
 			impoterInstance->importScene(scene_to_import.c_str());
 			//impoterInstance->setPathOfFile_t(scene_to_import.c_str());
@@ -443,7 +443,7 @@ CUIContextMenu::CUIContextMenu(CDevices *_devices, CPluginsManager *manager) {
 	});
 	#endif
     
-    CUIMeshSimplificator *meshSimplificator = new CUIMeshSimplificator(devices);
+    //CUIMeshSimplificator *meshSimplificator = new CUIMeshSimplificator(devices);
 }
 
 CUIContextMenu::~CUIContextMenu() {

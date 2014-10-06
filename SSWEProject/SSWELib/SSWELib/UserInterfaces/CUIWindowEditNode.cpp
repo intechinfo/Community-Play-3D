@@ -1460,7 +1460,7 @@ bool CUIWindowEditNode::OnEvent(const SEvent &event) {
                         
                     case CXT_EDIT_WINDOW_EVENTS_GENERAL_MATERIAL_TYPE:
                         if (generalMaterialCB->getSelected() <= devices->getCore()->getNumberOfBuildInMaterialTypes()-1) {
-                            if (generalMaterialCB->getSelected() == EMT_NORMAL_MAP_SOLID && devices->getVideoDriver()->getDriverType() == EDT_OPENGL)
+                            if (generalMaterialCB->getSelected() == EMT_NORMAL_MAP_SOLID)
                                 nodeToEdit->setMaterialType((E_MATERIAL_TYPE)devices->getNormalMappingMaterial()->getMaterialSolid());
                             else
                                 nodeToEdit->setMaterialType(getMaterialType(generalMaterialCB->getSelected()));

@@ -564,9 +564,11 @@ void EffectHandler::update(bool updateOcclusionQueries, irr::video::ITexture* ou
 
 				driver->setRenderTarget(ScreenQuad.rt[0], false, false, SColor(0x0));
 				ScreenQuad.getMaterial().setTexture(0, ScreenQuad.rt[1]);
+				E_BLEND_OPERATION blendFunc = ScreenQuad.getMaterial().BlendOperation;
 				ScreenQuad.getMaterial().MaterialType = (E_MATERIAL_TYPE)Simple;
-
+				ScreenQuad.getMaterial().BlendOperation = EBO_ADD;
 				ScreenQuad.render(driver);
+				ScreenQuad.getMaterial().BlendOperation = blendFunc;
 			}
 
 			LightList[l].getNextPass();

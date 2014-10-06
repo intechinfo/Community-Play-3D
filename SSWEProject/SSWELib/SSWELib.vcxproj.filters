@@ -540,6 +540,9 @@
     <ClCompile Include="SSWELib\Device\Core\Scripting\Scene\CCamera.cpp">
       <Filter>SSWELib\Device\Core\Scripting\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="SSWELib\UserInterfaces\PluginsManager\CDevelopmentInstance.cpp">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SSWELib.h">
@@ -988,6 +991,9 @@
     </ClInclude>
     <ClInclude Include="SSWELib\Device\Core\Scripting\Scene\CCamera.h">
       <Filter>SSWELib\Device\Core\Scripting\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SSWELib\UserInterfaces\PluginsManager\CDevelopmentInstance.h">
+      <Filter>SSWELib\UserInterfaces\PluginsManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

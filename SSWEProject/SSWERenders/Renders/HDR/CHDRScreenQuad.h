@@ -52,9 +52,9 @@ public:
 		mat.ZWriteEnable = false;
 		mat.Wireframe = false;
 		mat.AntiAliasing = true;
-		//mat.setFlag(video::EMF_BILINEAR_FILTER, true);
-		//mat.setFlag(video::EMF_TRILINEAR_FILTER, true);
-		//mat.setFlag(video::EMF_ANISOTROPIC_FILTER, true);
+		mat.setFlag(video::EMF_BILINEAR_FILTER, true);
+		mat.setFlag(video::EMF_TRILINEAR_FILTER, true);
+		mat.setFlag(video::EMF_ANISOTROPIC_FILTER, true);
 		mat.UseMipMaps=false;
 		for(u32 c = 0; c < MATERIAL_MAX_TEXTURES; c++) {
 			mat.TextureLayer[c].TextureWrapU = video::ETC_CLAMP;
