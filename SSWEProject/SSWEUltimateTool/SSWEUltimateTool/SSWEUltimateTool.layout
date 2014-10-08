@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="../CSSWEUltimateTool.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="973" topLine="21" />
-		</Cursor>
-	</File>
-	<File name="../CSSWEUltimateTool.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="261" topLine="87" />
-		</Cursor>
-	</File>
-	<File name="UserInterfaces/OpenSCAD/CSSWEUTOpenSCADDocument.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5401" topLine="112" />
-		</Cursor>
-	</File>
 	<File name="UserInterfaces/SoundViewer/CGUISpectrum.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="308" topLine="0" />
@@ -24,6 +9,21 @@
 	<File name="../Stdafx.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="206" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="../CSSWEUltimateTool.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="973" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="UserInterfaces/OpenSCAD/CSSWEUTOpenSCADDocument.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5401" topLine="112" />
+		</Cursor>
+	</File>
+	<File name="../CSSWEUltimateTool.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="261" topLine="87" />
 		</Cursor>
 	</File>
 	<File name="UserInterfaces/SoundViewer/CGUISpectrum.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

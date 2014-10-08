@@ -100,11 +100,21 @@ void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererService
 		worldViewProj *= services->getVideoDriver()->getTransform(ETS_VIEW);
 		worldViewProj *= services->getVideoDriver()->getTransform(ETS_WORLD);
 		services->setVertexShaderConstant("ModelViewProjectionMatrix", worldViewProj.pointer(), 16);
+	} else {
+        matrix4 worldView;
+		worldView *= services->getVideoDriver()->getTransform(ETS_VIEW);
+		worldView *= services->getVideoDriver()->getTransform(ETS_WORLD);
+        services->setVertexShaderConstant("ModelViewMatrix", worldView.pointer(), 16);
 	}
 
 	if (services->getVideoDriver()->getDriverType() == EDT_OPENGL) {
+        #ifdef _IRR_OSX_PLATFORM_
 		services->setVertexShaderConstant("fvLightPosition[0]", fvLightPositionArray.pointer(), fvLightPositionArray.size());
 		services->setVertexShaderConstant("fLightStrength[0]", fLightStrengthArray.pointer(), fLightStrengthArray.size());
+		#else
+		services->setVertexShaderConstant("fvLightPosition", fvLightPositionArray.pointer(), fvLightPositionArray.size());
+		services->setVertexShaderConstant("fLightStrength", fLightStrengthArray.pointer(), fLightStrengthArray.size());
+		#endif
 	} else {
 		services->setPixelShaderConstant("fvLightPosition", fvLightPositionArray.pointer(), fvLightPositionArray.size());
 		services->setPixelShaderConstant("fLightStrength", fLightStrengthArray.pointer(), fLightStrengthArray.size());
@@ -123,7 +133,7 @@ void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererService
 
 	f32 fvAmbiant[4] = { 1.f, 1.f, 1.f, 1.f };
     services->setPixelShaderConstant(("fvAmbient"), fvAmbiant, 4);
-    
+
 	f32 fvLightColor[__CP3D__MAX_LIGHTS__ * 4];
     for (u32 i=0; i < lights.size(); i++) {
         fvLightColor[i + i*3] = lights[i]->getLightData().DiffuseColor.getRed();
@@ -132,9 +142,15 @@ void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererService
         fvLightColor[i+3 + i*3] = lights[i]->getLightData().DiffuseColor.getAlpha();
     }
 
+    #ifdef _IRR_OSX_PLATFORM_
     services->setPixelShaderConstant(services->getVideoDriver()->getDriverType() == EDT_OPENGL ? "fvLightColor[0]"
 																							   : "fvLightColor",
 									 fvLightColor, fvLightColorArray.size() * 4);
+    #else
+    services->setPixelShaderConstant(services->getVideoDriver()->getDriverType() == EDT_OPENGL ? "fvLightColor"
+																							   : "fvLightColor",
+									 fvLightColor, fvLightColorArray.size() * 4);
+    #endif
 
 	f32 fSpecularPower = 20.f;
     f32 fSpecularStrength = 0.9f;
@@ -151,7 +167,7 @@ void CNormalMappingMaterial::build(irr::video::IVideoDriver *driver) {
     E_SHADER_EXTENSION ext = (driver->getDriverType() == EDT_OPENGL) ? ESE_GLSL : ESE_HLSL;
 
     IGPUProgrammingServices *gpu = driver->getGPUProgrammingServices();
-    
+
 	const io::path vertexPath = driver->getDriverType() == EDT_OPENGL ? "shaders/Materials/NormalMappingMultiLights/NormalMapping.vert"
 																	  : "shaders/Materials/NormalMappingMultiLights/NormalMapping.vsh";
 	const io::path pixelPath  = driver->getDriverType() == EDT_OPENGL ? "shaders/Materials/NormalMappingMultiLights/NormalMapping.frag"

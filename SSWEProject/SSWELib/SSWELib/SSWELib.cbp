@@ -278,6 +278,8 @@
 		<Unit filename="UserInterfaces/ParticlesEditor/CUIParticlesEditZone.h" />
 		<Unit filename="UserInterfaces/ParticlesEditor/CUIParticlesEditor.cpp" />
 		<Unit filename="UserInterfaces/ParticlesEditor/CUIParticlesEditor.h" />
+		<Unit filename="UserInterfaces/PluginsManager/CDevelopmentInstance.cpp" />
+		<Unit filename="UserInterfaces/PluginsManager/CDevelopmentInstance.h" />
 		<Unit filename="UserInterfaces/PluginsManager/CPluginsManager.cpp" />
 		<Unit filename="UserInterfaces/PluginsManager/CPluginsManager.h" />
 		<Unit filename="UserInterfaces/PluginsManager/CUIPluginsManager.cpp" />

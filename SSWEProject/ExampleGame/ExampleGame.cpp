@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 	coreUserInterface->addMonitor("SSWEGenericMonitor");
     #endif
 	devices->getXEffect()->getHDRManager()->setExposure(1.f);
-    devices->getXEffect()->setUseNormalPass(false);
+    devices->getXEffect()->setUseNormalPass(true);
 
 	/// Import our scene
 	ISSWEImporter *importer = coreUserInterface->createImporter();

@@ -6,9 +6,9 @@
 			<Cursor1 position="23333" topLine="772" />
 		</Cursor>
 	</File>
-	<File name="Core/CCoreObjectPlacement.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="../SSWECore.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9620" topLine="270" />
+			<Cursor1 position="126" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="ProgressiveMeshBuffer/CMeshSimplificator.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -16,14 +16,14 @@
 			<Cursor1 position="2883" topLine="72" />
 		</Cursor>
 	</File>
+	<File name="Core/CCoreObjectPlacement.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9620" topLine="270" />
+		</Cursor>
+	</File>
 	<File name="CCollisionManager.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="118" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="../SSWECore.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="126" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Core/CCore.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
