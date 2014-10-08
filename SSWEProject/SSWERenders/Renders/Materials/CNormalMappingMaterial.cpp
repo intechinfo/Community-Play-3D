@@ -90,10 +90,7 @@ void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererService
 		matrix4 worldView;
 		worldView *= services->getVideoDriver()->getTransform(ETS_VIEW);
 		worldView *= services->getVideoDriver()->getTransform(ETS_WORLD);
-		if (services->getVideoDriver()->getDriverType() == EDT_OPENGL)
-			services->setVertexShaderConstant("ModelViewMatrix", worldView.pointer(), 16);
-		else
-			services->setPixelShaderConstant("ModelViewMatrix", worldView.pointer(), 16);
+		services->setPixelShaderConstant("ModelViewMatrix", worldView.pointer(), 16);
 
 		matrix4 worldViewProj;
 		worldViewProj *= services->getVideoDriver()->getTransform(ETS_PROJECTION);
@@ -143,13 +140,9 @@ void CNormalMappingMaterial::OnSetConstants(irr::video::IMaterialRendererService
     }
 
     #ifdef _IRR_OSX_PLATFORM_
-    services->setPixelShaderConstant(services->getVideoDriver()->getDriverType() == EDT_OPENGL ? "fvLightColor[0]"
-																							   : "fvLightColor",
-									 fvLightColor, fvLightColorArray.size() * 4);
+    services->setPixelShaderConstant("fvLightColor[0]", fvLightColor, fvLightColorArray.size() * 4);
     #else
-    services->setPixelShaderConstant(services->getVideoDriver()->getDriverType() == EDT_OPENGL ? "fvLightColor"
-																							   : "fvLightColor",
-									 fvLightColor, fvLightColorArray.size() * 4);
+    services->setPixelShaderConstant("fvLightColor", fvLightColor, fvLightColorArray.size() * 4);
     #endif
 
 	f32 fSpecularPower = 20.f;

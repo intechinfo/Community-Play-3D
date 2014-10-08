@@ -33,6 +33,5 @@ int main(int argc, char* argv[]) {
 
 	updateSSWEDevice(coreUserInterface);
 
-
 	return EXIT_SUCCESS;
 }
